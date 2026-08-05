@@ -837,9 +837,15 @@
   <div class="panel" id="tab-buscar">
     <div class="card">
       <h2>Buscar movimientos</h2>
-      <p class="card-note">Busca por texto (nombre, categoría, etc.) y/o filtrá por un rango de fechas. Podés usar solo el texto, solo las fechas, o ambos combinados. Incluye movimientos de la cuenta Agencia y de la cuenta Alquileres (escribí "alquileres" para ver todos los gastos de esa cuenta). Usa los movimientos de Agencia con el estado actual del toggle de sueldo, de arriba.</p>
+      <p class="card-note">Busca por texto (nombre, categoría, etc.), por cuenta, y/o filtrá por un rango de fechas — cualquier combinación de los tres. Elegí "Todas", "Agencia" o "Alquileres" para acotar la cuenta. Usa los movimientos de Agencia con el estado actual del toggle de sueldo, de arriba.</p>
       <input type="text" id="buscarInput" placeholder="Ej: Silmar, entradas QR, transferencia, alquileres..." style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;width:100%;">
-      <div style="display:flex;gap:10px;margin-top:10px;flex-wrap:wrap;">
+      <div class="range-label" style="margin-top:12px;">Cuenta</div>
+      <div class="toggle-row" id="buscarCuentaToggle" style="margin-bottom:0;">
+        <button type="button" class="toggle-btn active" data-cuenta="todas">Todas</button>
+        <button type="button" class="toggle-btn" data-cuenta="agencia">Agencia</button>
+        <button type="button" class="toggle-btn" data-cuenta="alquileres">Alquileres</button>
+      </div>
+      <div style="display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;">
         <div style="flex:1 1 140px;">
           <div class="card-note" style="margin-bottom:4px;">Desde</div>
           <input type="date" id="buscarDesde" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:9px 10px;border-radius:8px;font-size:13px;width:100%;color-scheme:dark;">
@@ -1056,8 +1062,11 @@
           <input type="number" id="cargarMonto" required min="0.01" step="0.01" placeholder="0" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:9px 10px;border-radius:8px;font-size:13px;width:100%;">
         </div>
         <div class="range-group">
-          <div class="range-label">Categoría (opcional)</div>
-          <input type="text" id="cargarCategoria" placeholder="Ej: Sueldo, Proveedor, Clarín..." style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:9px 10px;border-radius:8px;font-size:13px;width:100%;">
+          <div class="range-label">Categoría</div>
+          <select id="cargarCategoriaSelect" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:9px 10px;border-radius:8px;font-size:13px;width:100%;color-scheme:dark;">
+            <option value="">Sin categoría</option>
+          </select>
+          <input type="text" id="cargarCategoriaOtra" placeholder="Escribí el nombre de la nueva categoría" style="display:none;margin-top:8px;background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:9px 10px;border-radius:8px;font-size:13px;width:100%;">
         </div>
         <div class="range-group" id="cargarMedioGroup">
           <div class="range-label">Medio</div>
@@ -1247,6 +1256,17 @@ try {
   manualEntries = storedVal ? JSON.parse(storedVal) : [];
 } catch(e) { manualEntries = []; }
 mergeManualEntries(manualEntries);
+
+/* ---------------- CATEGORÍAS PRESTABLECIDAS PARA LA CARGA MANUAL ---------------- */
+// Lista fija de arranque + las que el usuario haya agregado a mano ("Otra
+// categoría…"), persistidas aparte para que sigan apareciendo en el desplegable
+// la próxima vez. Vale para ambas cuentas (Agencia y Alquileres).
+const CATEGORIAS_BASE = ['Sueldo','Varios','Chiara','Donato','Ahorro','Edificación','Servicios impuestos'];
+let categoriasCustom = [];
+try {
+  const storedCats = await storageGet('categorias-personalizadas');
+  categoriasCustom = storedCats ? JSON.parse(storedCats) : [];
+} catch(e) { categoriasCustom = []; }
 
 /* ---------------- TOGGLE: sueldo propio, ¿cuenta como gasto? ---------------- */
 // El sueldo que te pagás a vos mismo (categoría "Sueldo", egreso) es un gasto
@@ -4168,6 +4188,29 @@ document.querySelectorAll('#cargarCuentaToggle .toggle-btn').forEach(btn=>{
   });
 });
 
+/* ---------------- SELECT DE CATEGORÍA (preestablecidas + personalizadas) ---------------- */
+const catSelect = document.getElementById('cargarCategoriaSelect');
+const catOtraInput = document.getElementById('cargarCategoriaOtra');
+function poblarCategoriasSelect(){
+  const valPrevio = catSelect.value;
+  catSelect.innerHTML = '<option value="">Sin categoría</option>';
+  CATEGORIAS_BASE.concat(categoriasCustom).forEach(cat=>{
+    const opt = document.createElement('option');
+    opt.value = cat; opt.textContent = cat;
+    catSelect.appendChild(opt);
+  });
+  const optOtra = document.createElement('option');
+  optOtra.value = '__otra__'; optOtra.textContent = '+ Otra categoría…';
+  catSelect.appendChild(optOtra);
+  if (valPrevio && [...catSelect.options].some(o=>o.value===valPrevio)) catSelect.value = valPrevio;
+}
+poblarCategoriasSelect();
+catSelect.addEventListener('change', ()=>{
+  const esOtra = catSelect.value === '__otra__';
+  catOtraInput.style.display = esOtra ? 'block' : 'none';
+  if (esOtra) catOtraInput.focus();
+});
+
 let cargarTipo = 'ingreso';
 let cargarMedio = 'efectivo';
 function updateCargarTipoFields(){
@@ -4197,10 +4240,15 @@ document.getElementById('cargarForm').addEventListener('submit', async (e)=>{
   const date = document.getElementById('cargarFecha').value;
   const amountRaw = document.getElementById('cargarMonto').value;
   const amount = parseFloat(amountRaw);
-  const category = document.getElementById('cargarCategoria').value.trim();
+  const esOtraCategoria = catSelect.value === '__otra__';
+  const category = esOtraCategoria ? catOtraInput.value.trim() : catSelect.value;
   const detalle = document.getElementById('cargarDetalle').value.trim();
   if (!date || !amountRaw || isNaN(amount) || amount <= 0){
     msgEl.textContent = 'Completá una fecha y un monto válido (mayor a 0).';
+    return;
+  }
+  if (esOtraCategoria && !category){
+    msgEl.textContent = 'Escribí el nombre de la nueva categoría, o elegí una de la lista.';
     return;
   }
   const entry = {date, type: cargarTipo, amount, category, account: cargarCuenta};
@@ -4208,8 +4256,14 @@ document.getElementById('cargarForm').addEventListener('submit', async (e)=>{
   else entry.detalle = detalle;
   manualEntries.push(entry);
   msgEl.textContent = 'Guardando…';
+  const esCategoriaNueva = esOtraCategoria && category &&
+    !CATEGORIAS_BASE.includes(category) && !categoriasCustom.includes(category);
   const savedOk = await storageSet('manual-entries', JSON.stringify(manualEntries));
   if (savedOk){
+    if (esCategoriaNueva){
+      categoriasCustom.push(category);
+      try { await storageSet('categorias-personalizadas', JSON.stringify(categoriasCustom)); } catch(e) { /* no crítico */ }
+    }
     location.reload();
   } else {
     manualEntries.pop();
@@ -4488,6 +4542,7 @@ renderAutoConclusions();
   const input = document.getElementById('buscarInput');
   const desdeInput = document.getElementById('buscarDesde');
   const hastaInput = document.getElementById('buscarHasta');
+  const cuentaToggle = document.getElementById('buscarCuentaToggle');
   const limpiarFechasBtn = document.getElementById('buscarLimpiarFechas');
   const resumen = document.getElementById('buscarResumen');
   const statsCard = document.getElementById('buscarStatsCard');
@@ -4506,6 +4561,16 @@ renderAutoConclusions();
     const s = String(dInt);
     return s.slice(6,8) + '/' + s.slice(4,6) + '/' + s.slice(0,4);
   };
+
+  let buscarCuenta = 'todas';
+  cuentaToggle.querySelectorAll('.toggle-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      cuentaToggle.querySelectorAll('.toggle-btn').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      buscarCuenta = btn.dataset.cuenta;
+      ejecutarBusqueda();
+    });
+  });
 
   let debounceId = null;
   input.addEventListener('input', ()=>{
@@ -4542,8 +4607,9 @@ renderAutoConclusions();
     const desdeNum = desdeVal ? parseInt(desdeVal.replace(/-/g, ''), 10) : null;
     const hastaNum = hastaVal ? parseInt(hastaVal.replace(/-/g, ''), 10) : null;
     const tieneFechas = desdeNum !== null || hastaNum !== null;
+    const tieneCuenta = buscarCuenta !== 'todas';
 
-    if (!tieneTexto && !tieneFechas){
+    if (!tieneTexto && !tieneFechas && !tieneCuenta){
       ocultarTodo();
       resumen.textContent = '';
       return;
@@ -4560,14 +4626,14 @@ renderAutoConclusions();
     const offsetRent = CAT_LIST.length;
 
     const todos = [];
-    MOVES.forEach(r=>{
+    if (buscarCuenta !== 'alquileres') MOVES.forEach(r=>{
       const cat = CAT_ALL[r[1]];
       const detalle = r[3] || '';
       const coincideTexto = !tieneTexto || normalizar(detalle).includes(q) || normalizar(cat.category).includes(q);
       const coincideFecha = (desdeNum === null || r[0] >= desdeNum) && (hastaNum === null || r[0] <= hastaNum);
       if (coincideTexto && coincideFecha) todos.push([r[0], r[1], r[2], r[3], 'Agencia']);
     });
-    RENT_MOVES.forEach(r=>{
+    if (buscarCuenta !== 'agencia') RENT_MOVES.forEach(r=>{
       const catIdx = r[1] + offsetRent;
       const cat = CAT_ALL[catIdx];
       const detalle = r[3] || '';
@@ -4580,13 +4646,8 @@ renderAutoConclusions();
       ocultarTodo();
       const parteTexto = tieneTexto ? ' para "' + qRaw + '"' : '';
       const parteFecha = tieneFechas ? ' en el rango de fechas elegido' : '';
-      resumen.textContent = 'Sin resultados' + parteTexto + parteFecha + '.';
-      return;
-    }
-
-    if (todos.length === 0){
-      ocultarTodo();
-      resumen.textContent = 'Sin resultados para "' + qRaw + '".';
+      const parteCuenta = tieneCuenta ? ' en ' + (buscarCuenta === 'agencia' ? 'Agencia' : 'Alquileres') : '';
+      resumen.textContent = 'Sin resultados' + parteTexto + parteFecha + parteCuenta + '.';
       return;
     }
 
