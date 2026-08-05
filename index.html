@@ -489,84 +489,6 @@
       <div class="note-box" id="proj-scope-note" style="border-color:rgba(143,184,217,.35);background:rgba(143,184,217,.08);"></div>
       <div class="note-box">La proyección es una estimación estadística sobre movimientos pasados, no una garantía. La línea sólida es el promedio; la franja sombreada es el rango probable alrededor. Cuanto más lejos en el tiempo, más ancha la franja y menos confiable el número puntual.</div>
     </div>
-    <div class="card">
-      <h2>Análisis comparativo de ingresos · AGENCIA</h2>
-      <p class="card-note">Compará los ingresos de la agencia entre el mes actual y otro mes a tu elección.</p>
-      
-      <div class="range-group">
-        <div class="range-label">Período 1 (mes actual)</div>
-        <div class="range-inputs" style="flex-wrap:wrap;">
-          <input type="number" id="cmpIncomeStartDay1" min="1" max="31" value="1" placeholder="Día inicio" style="flex:0.5;min-width:70px;background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:8px 10px;border-radius:8px;font-size:13px;">
-          <input type="number" id="cmpIncomeEndDay1" min="1" max="31" value="5" placeholder="Día fin" style="flex:0.5;min-width:70px;background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:8px 10px;border-radius:8px;font-size:13px;">
-          <span style="color:var(--muted);font-size:12px;align-self:center;">de <span id="cmpIncomeMonth1Display">agosto 2026</span></span>
-        </div>
-      </div>
-
-      <div class="range-group">
-        <div class="range-label">Período 2 (mes a comparar)</div>
-        <div class="range-inputs" style="flex-wrap:wrap;">
-          <input type="month" id="cmpIncomeMonth2" style="flex:1;min-width:140px;background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:8px 10px;border-radius:8px;font-size:13px;color-scheme:dark;">
-          <input type="number" id="cmpIncomeStartDay2" min="1" max="31" value="1" placeholder="Día inicio" style="flex:0.5;min-width:70px;background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:8px 10px;border-radius:8px;font-size:13px;">
-          <input type="number" id="cmpIncomeEndDay2" min="1" max="31" value="5" placeholder="Día fin" style="flex:0.5;min-width:70px;background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:8px 10px;border-radius:8px;font-size:13px;">
-        </div>
-      </div>
-
-      <button class="toggle-btn" id="cmpIncomeCalcBtn" style="margin-top:10px;margin-bottom:14px;background:var(--gold);color:#1a2a1f;font-weight:700;border-color:var(--gold);">Comparar</button>
-
-      <div id="cmpIncomeResults" style="display:none;">
-        <div class="kpi-grid" style="margin-bottom:14px;">
-          <div class="kpi">
-            <div class="label">Total ingresos P1</div>
-            <div class="val pos" id="cmpIncomeTotal1">—</div>
-            <div class="card-note" style="margin:4px 0 0" id="cmpIncomeCount1">—</div>
-          </div>
-          <div class="kpi">
-            <div class="label">Total ingresos P2</div>
-            <div class="val pos" id="cmpIncomeTotal2">—</div>
-            <div class="card-note" style="margin:4px 0 0" id="cmpIncomeCount2">—</div>
-          </div>
-        </div>
-        
-        <div class="kpi-grid">
-          <div class="kpi">
-            <div class="label">Variación absoluta</div>
-            <div class="val" id="cmpIncomeVar">—</div>
-          </div>
-          <div class="kpi">
-            <div class="label">Variación %</div>
-            <div class="val" id="cmpIncomeVarPct">—</div>
-          </div>
-        </div>
-
-        <div class="kpi-grid" style="margin-top:14px;">
-          <div class="kpi">
-            <div class="label">Ingreso promedio/día P1</div>
-            <div class="val" id="cmpIncomeAvgDay1">—</div>
-          </div>
-          <div class="kpi">
-            <div class="label">Ingreso promedio/día P2</div>
-            <div class="val" id="cmpIncomeAvgDay2">—</div>
-          </div>
-        </div>
-
-        <div class="chartwrap" id="chartCmpIncomeDaily" style="margin-top:14px;"></div>
-        <div style="overflow-x:auto;margin-top:14px;">
-          <table id="cmpIncomeTable">
-            <thead>
-              <tr>
-                <th>Fecha P1</th>
-                <th style="text-align:right">Ingreso</th>
-                <th>Fecha P2</th>
-                <th style="text-align:right">Ingreso</th>
-                <th style="text-align:right">Diferencia</th>
-              </tr>
-            </thead>
-            <tbody></tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
     <div class="card" id="projIncomeAdvancedCard" style="display:none;">
       <h2>Modelo avanzado de ingresos</h2>
       <p class="card-note">Se aplica solo a la métrica <strong>Ingresos</strong>: bootstrap sobre días reales (percentiles P10/P50/P90 en vez de una campana normal), tendencia mensual, estacionalidad por mes del año, backtesting y escenarios manuales. Egresos y Neto siguen con el modelo original de arriba.</p>
@@ -607,32 +529,6 @@
       <h2>Patrón por momento del mes</h2>
       <p class="card-note" id="dom-note">Diferencia contra el promedio del mes (no un valor absoluto), sin contar el último día del mes (que se muestra aparte). Positivo = entra más plata de lo normal en ese bloque de días; negativo = menos.</p>
       <div class="chartwrap" id="chartDom"></div>
-    </div>
-    
-    <div class="card">
-      <h2>Ingreso diario estimado · por fecha</h2>
-      <p class="card-note">Proyección del ingreso diario esperado para cada día del mes, basada en patrones históricos de la agencia. Combina el promedio por día de semana + variación por momento del mes.</p>
-      <div class="toggle-row" id="estIncomeWindowToggle" style="margin-bottom:14px;">
-        <button class="toggle-btn" data-window="1">Último mes</button>
-        <button class="toggle-btn active" data-window="3">3 meses</button>
-        <button class="toggle-btn" data-window="6">6 meses</button>
-        <button class="toggle-btn" data-window="12">12 meses</button>
-      </div>
-      <div class="chartwrap" id="chartEstIncomeDaily"></div>
-      <div style="overflow-x:auto;margin-top:14px;">
-        <table id="estIncomeDailyTable">
-          <thead>
-            <tr>
-              <th>Día</th>
-              <th>Fecha</th>
-              <th style="text-align:right">Ingreso estimado</th>
-              <th style="text-align:right">Acumulado</th>
-              <th>Día semana</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-      </div>
     </div>
   </div>
 
@@ -1138,6 +1034,13 @@
       <p class="card-note">Se suma en el momento a todo el panel: balance, categorías, comparaciones y proyección.</p>
       <form id="cargarForm">
         <div class="range-group">
+          <div class="range-label">Cuenta</div>
+          <div class="toggle-row" id="cargarCuentaToggle">
+            <button type="button" class="toggle-btn active" data-cuenta="agencia">Agencia</button>
+            <button type="button" class="toggle-btn" data-cuenta="alquileres">Alquileres</button>
+          </div>
+        </div>
+        <div class="range-group">
           <div class="range-label">Tipo</div>
           <div class="toggle-row" id="cargarTipoToggle">
             <button type="button" class="toggle-btn active" data-tipo="ingreso">Ingreso</button>
@@ -1156,15 +1059,26 @@
           <div class="range-label">Categoría (opcional)</div>
           <input type="text" id="cargarCategoria" placeholder="Ej: Sueldo, Proveedor, Clarín..." style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:9px 10px;border-radius:8px;font-size:13px;width:100%;">
         </div>
+        <div class="range-group" id="cargarMedioGroup">
+          <div class="range-label">Medio</div>
+          <div class="toggle-row" id="cargarMedioToggle">
+            <button type="button" class="toggle-btn active" data-medio="efectivo">Efectivo</button>
+            <button type="button" class="toggle-btn" data-medio="transferencia">Transferencia</button>
+          </div>
+        </div>
+        <div class="range-group" id="cargarDetalleGroup" style="display:none;">
+          <div class="range-label">Detalle (opcional)</div>
+          <input type="text" id="cargarDetalle" placeholder="Detalle del gasto..." style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:9px 10px;border-radius:8px;font-size:13px;width:100%;">
+        </div>
         <button type="submit" class="tab-btn active" style="margin-top:8px;border-radius:8px;">Guardar movimiento</button>
         <p class="card-note" id="cargarMsg" style="color:var(--red-neg);margin-top:8px;min-height:14px;"></p>
       </form>
     </div>
     <div class="card">
       <h2>Movimientos cargados a mano</h2>
-      <p class="card-note">Los que agregaste vos manualmente (no vienen del export original). Se pueden borrar.</p>
+      <p class="card-note">Los que agregaste vos manualmente (no vienen del export original), de las dos cuentas por separado. Se pueden borrar.</p>
       <div style="overflow-x:auto;">
-      <table id="cargarTable"><thead><tr><th>Fecha</th><th>Tipo</th><th>Categoría</th><th style="text-align:right">Monto</th><th></th></tr></thead><tbody></tbody></table>
+      <table id="cargarTable"><thead><tr><th>Fecha</th><th>Cuenta</th><th>Tipo</th><th>Categoría</th><th style="text-align:right">Monto</th><th></th></tr></thead><tbody></tbody></table>
       </div>
       <p class="card-note" id="cargarEmpty" style="display:none;">Todavía no cargaste ningún movimiento manual.</p>
     </div>
@@ -1249,7 +1163,15 @@ async function storageSet(key, val){
 let manualEntries = [];
 
 function mergeManualEntries(entries){
+  // Cada entrada tiene su propia cuenta (agencia / alquileres) y los datos
+  // de cada una se suman SOLO a las estructuras de esa cuenta, para que no
+  // se mezclen entre sí. La cuenta Agencia sigue sumando a MOVES/MONTHLY/
+  // YEARLY/CATEGORIES/DAILY (balance general del negocio). La cuenta
+  // Alquileres suma a RENT_MOVES/RENT_MOVES_CATS/RENT_CATEGORIES/
+  // RENT_MONTHLY/RENT_YEARLY, que es donde vive el resto del panel para
+  // esa cuenta (algunas estadísticas puntuales, no el balance de Agencia).
   entries.forEach(en=>{
+    const account = en.account === 'alquileres' ? 'alquileres' : 'agencia';
     const ymd = en.date.replace(/-/g,'');
     const ym = ymd.slice(0,6);
     const year = ymd.slice(0,4);
@@ -1257,29 +1179,60 @@ function mergeManualEntries(entries){
     const isIncome = en.type === 'ingreso';
     const incomeDelta = isIncome ? amt : 0;
     const expenseDelta = isIncome ? 0 : amt;
+    const detailParts = [];
+    if (en.category && en.category.trim()) detailParts.push(en.category.trim());
+    if (isIncome && en.medio) detailParts.push(en.medio === 'transferencia' ? 'Transferencia' : 'Efectivo');
+    if (!isIncome && en.detalle && en.detalle.trim()) detailParts.push(en.detalle.trim());
+    const detailText = detailParts.join(' - ');
 
-    let m = MONTHLY.find(x=>x.ym===ym);
-    if (!m){ m = {ym, income:0, expense:0, net:0, cum:0}; MONTHLY.push(m); MONTHLY.sort((a,b)=>a.ym.localeCompare(b.ym)); }
-    m.income += incomeDelta; m.expense += expenseDelta;
+    if (account === 'agencia'){
+      let m = MONTHLY.find(x=>x.ym===ym);
+      if (!m){ m = {ym, income:0, expense:0, net:0, cum:0}; MONTHLY.push(m); MONTHLY.sort((a,b)=>a.ym.localeCompare(b.ym)); }
+      m.income += incomeDelta; m.expense += expenseDelta;
 
-    let y = YEARLY.find(x=>x.year===year);
-    if (!y){ y = {year, income:0, expense:0, net:0}; YEARLY.push(y); YEARLY.sort((a,b)=>a.year.localeCompare(b.year)); }
-    y.income += incomeDelta; y.expense += expenseDelta;
+      let y = YEARLY.find(x=>x.year===year);
+      if (!y){ y = {year, income:0, expense:0, net:0}; YEARLY.push(y); YEARLY.sort((a,b)=>a.year.localeCompare(b.year)); }
+      y.income += incomeDelta; y.expense += expenseDelta;
 
-    let d = DAILY.daily_last365.find(x=>x.d===ymd);
-    if (!d){ d = {d:ymd, net:0}; DAILY.daily_last365.push(d); DAILY.daily_last365.sort((a,b)=>a.d.localeCompare(b.d)); }
-    d.net += (incomeDelta - expenseDelta);
-    if (ymd > DAILY.last_date) DAILY.last_date = ymd;
+      let d = DAILY.daily_last365.find(x=>x.d===ymd);
+      if (!d){ d = {d:ymd, net:0}; DAILY.daily_last365.push(d); DAILY.daily_last365.sort((a,b)=>a.d.localeCompare(b.d)); }
+      d.net += (incomeDelta - expenseDelta);
+      if (ymd > DAILY.last_date) DAILY.last_date = ymd;
 
-    const catName = (en.category && en.category.trim()) || (isIncome ? 'Ingreso manual' : 'Egreso manual');
-    const sign = isIncome ? '+' : '-';
-    let c = CATEGORIES.find(x=>x.category===catName && x.sign===sign);
-    if (!c){ c = {category:catName, sign, total:0, count:0}; CATEGORIES.push(c); }
-    c.total += amt; c.count += 1;
+      const catName = (en.category && en.category.trim()) || (isIncome ? 'Ingreso manual' : 'Egreso manual');
+      const sign = isIncome ? '+' : '-';
+      let c = CATEGORIES.find(x=>x.category===catName && x.sign===sign);
+      if (!c){ c = {category:catName, sign, total:0, count:0}; CATEGORIES.push(c); }
+      c.total += amt; c.count += 1;
 
-    let ci = CAT_LIST.findIndex(x=>x.category===catName && x.sign===sign);
-    if (ci === -1){ CAT_LIST.push({category:catName, sign}); ci = CAT_LIST.length - 1; }
-    MOVES.push([parseInt(ymd, 10), ci, amt]);
+      let ci = CAT_LIST.findIndex(x=>x.category===catName && x.sign===sign);
+      if (ci === -1){ CAT_LIST.push({category:catName, sign}); ci = CAT_LIST.length - 1; }
+      MOVES.push([parseInt(ymd, 10), ci, amt, detailText]);
+    } else {
+      let rm = RENT_MONTHLY.find(x=>x.ym===ym);
+      if (!rm){ rm = {ym, income:0, expense:0}; RENT_MONTHLY.push(rm); RENT_MONTHLY.sort((a,b)=>a.ym.localeCompare(b.ym)); }
+      rm.income += incomeDelta; rm.expense += expenseDelta;
+
+      let ry = RENT_YEARLY.find(x=>x.year===year);
+      if (!ry){ ry = {year, income:0, expense:0}; RENT_YEARLY.push(ry); RENT_YEARLY.sort((a,b)=>a.year.localeCompare(b.year)); }
+      ry.income += incomeDelta; ry.expense += expenseDelta;
+
+      if (!isIncome){
+        let py = PERSONAL_YEARLY.find(x=>x.year===year);
+        if (!py){ py = {year, expense:0}; PERSONAL_YEARLY.push(py); PERSONAL_YEARLY.sort((a,b)=>a.year.localeCompare(b.year)); }
+        py.expense += amt;
+      }
+
+      const catName = (en.category && en.category.trim()) || (isIncome ? 'Ingreso manual' : 'Egreso manual');
+      const sign = isIncome ? '+' : '-';
+      let rc = RENT_CATEGORIES.find(x=>x.category===catName && x.sign===sign);
+      if (!rc){ rc = {category:catName, sign, total:0, count:0}; RENT_CATEGORIES.push(rc); }
+      rc.total += amt; rc.count += 1;
+
+      let rci = RENT_MOVES_CATS.findIndex(x=>x.category===catName && x.sign===sign);
+      if (rci === -1){ RENT_MOVES_CATS.push({category:catName, sign}); rci = RENT_MOVES_CATS.length - 1; }
+      RENT_MOVES.push([parseInt(ymd, 10), rci, amt, detailText]);
+    }
   });
 
   // Recalculo neto/acumulado en un solo pase, en orden, para que quede
@@ -2610,203 +2563,6 @@ function renderProjection(days, metric, windowMonths, targetDate) {
   barChart('chartDom', domLabels, pattern.domAdjustment, (v)=> v>=0?'#7fd4a0':'#e08b78', {height:200});
 }
 const projState = {days:30, metric:'neto', window:3};
-
-// ===== ANÁLISIS COMPARATIVO DE INGRESOS =====
-function renderComparativeIncomeAnalysis() {
-  const resultsDiv = document.getElementById('cmpIncomeResults');
-  const startDay1 = parseInt(document.getElementById('cmpIncomeStartDay1').value, 10) || 1;
-  const endDay1 = parseInt(document.getElementById('cmpIncomeEndDay1').value, 10) || 5;
-  const month2Val = document.getElementById('cmpIncomeMonth2').value;
-  const startDay2 = parseInt(document.getElementById('cmpIncomeStartDay2').value, 10) || 1;
-  const endDay2 = parseInt(document.getElementById('cmpIncomeEndDay2').value, 10) || 5;
-
-  if (!month2Val) {
-    alert('Por favor selecciona un mes para comparar');
-    return;
-  }
-
-  const [yearStr, monthStr] = month2Val.split('-');
-  const year2 = parseInt(yearStr, 10);
-  const month2 = parseInt(monthStr, 10);
-
-  // Obtener mes actual del último movimiento registrado
-  const nowYm = String(movesMaxDate).slice(0, 6);
-  const nowYear = parseInt(nowYm.slice(0, 4), 10);
-  const nowMonth = parseInt(nowYm.slice(4, 6), 10);
-
-  // Filtrar movimientos de AGENCIA (índice 0 en PROVEEDORES)
-  const agenciaIdx = PROVEEDORES[0].idx;
-  
-  // Período 1: rango del mes actual
-  const movesP1 = MOVES
-    .filter(m => {
-      const ym = String(m[0]).slice(0, 6);
-      const y = parseInt(ym.slice(0, 4), 10);
-      const mo = parseInt(ym.slice(4, 6), 10);
-      if (y !== nowYear || mo !== nowMonth) return false;
-      if (m[1] !== agenciaIdx) return false; // Solo AGENCIA (ingresos positivos)
-      const d = parseInt(String(m[0]).slice(6, 8), 10);
-      return d >= startDay1 && d <= endDay1 && m[2] > 0; // Solo ingresos
-    })
-    .sort((a, b) => a[0] - b[0]);
-
-  // Período 2: rango del mes seleccionado
-  const month2Str = String(year2).slice(0, 4) + String(month2).padStart(2, '0');
-  const movesP2 = MOVES
-    .filter(m => {
-      const ym = String(m[0]).slice(0, 6);
-      if (ym !== month2Str) return false;
-      if (m[1] !== agenciaIdx) return false;
-      const d = parseInt(String(m[0]).slice(6, 8), 10);
-      return d >= startDay2 && d <= endDay2 && m[2] > 0;
-    })
-    .sort((a, b) => a[0] - b[0]);
-
-  const totalP1 = movesP1.reduce((s, m) => s + m[2], 0);
-  const totalP2 = movesP2.reduce((s, m) => s + m[2], 0);
-  const countP1 = movesP1.length;
-  const countP2 = movesP2.length;
-  const avgDayP1 = countP1 > 0 ? totalP1 / (endDay1 - startDay1 + 1) : 0;
-  const avgDayP2 = countP2 > 0 ? totalP2 / (endDay2 - startDay2 + 1) : 0;
-  const varAbs = totalP2 - totalP1;
-  const varPct = totalP1 > 0 ? (varAbs / totalP1) * 100 : 0;
-
-  // Actualizar KPIs
-  document.getElementById('cmpIncomeTotal1').textContent = fmtARS(totalP1);
-  document.getElementById('cmpIncomeTotal1').className = 'val pos';
-  document.getElementById('cmpIncomeCount1').textContent = countP1 + (countP1 === 1 ? ' movimiento' : ' movimientos');
-
-  document.getElementById('cmpIncomeTotal2').textContent = fmtARS(totalP2);
-  document.getElementById('cmpIncomeTotal2').className = 'val pos';
-  document.getElementById('cmpIncomeCount2').textContent = countP2 + (countP2 === 1 ? ' movimiento' : ' movimientos');
-
-  document.getElementById('cmpIncomeVar').textContent = fmtARS(varAbs);
-  document.getElementById('cmpIncomeVar').className = 'val ' + (varAbs >= 0 ? 'pos' : 'neg');
-  
-  document.getElementById('cmpIncomeVarPct').textContent = (varPct >= 0 ? '+' : '') + varPct.toFixed(1) + '%';
-  document.getElementById('cmpIncomeVarPct').className = 'val ' + (varPct >= 0 ? 'pos' : 'neg');
-
-  document.getElementById('cmpIncomeAvgDay1').textContent = fmtARS(avgDayP1);
-  document.getElementById('cmpIncomeAvgDay2').textContent = fmtARS(avgDayP2);
-
-  // Tabla detallada por día
-  const maxDays = Math.max(endDay1 - startDay1 + 1, endDay2 - startDay2 + 1);
-  let tableHtml = '';
-  for (let i = 0; i < maxDays; i++) {
-    const d1 = startDay1 + i;
-    const d2 = startDay2 + i;
-    const m1 = movesP1.find(m => parseInt(String(m[0]).slice(6, 8), 10) === d1);
-    const m2 = movesP2.find(m => parseInt(String(m[0]).slice(6, 8), 10) === d2);
-    
-    const amt1 = m1 ? m1[2] : 0;
-    const amt2 = m2 ? m2[2] : 0;
-    const diff = amt2 - amt1;
-
-    const date1 = new Date(nowYear, nowMonth - 1, d1);
-    const date2 = new Date(year2, month2 - 1, d2);
-    const fmt1 = ('0' + d1).slice(-2) + '/' + ('0' + nowMonth).slice(-2);
-    const fmt2 = ('0' + d2).slice(-2) + '/' + ('0' + month2).slice(-2);
-
-    tableHtml += '<tr><td>' + fmt1 + '</td><td class="num pos">' + fmtARS(amt1) + '</td>' +
-                 '<td>' + fmt2 + '</td><td class="num pos">' + fmtARS(amt2) + '</td>' +
-                 '<td class="num ' + (diff >= 0 ? 'pos' : 'neg') + '">' + fmtARS(diff) + '</td></tr>';
-  }
-  document.querySelector('#cmpIncomeTable tbody').innerHTML = tableHtml;
-
-  // Gráfico de comparación diaria
-  const labels = [];
-  const data1 = [], data2 = [];
-  const maxDays2 = Math.max(endDay1 - startDay1 + 1, endDay2 - startDay2 + 1);
-  for (let i = 0; i < maxDays2; i++) {
-    const d1 = startDay1 + i;
-    const d2 = startDay2 + i;
-    const m1 = movesP1.find(m => parseInt(String(m[0]).slice(6, 8), 10) === d1);
-    const m2 = movesP2.find(m => parseInt(String(m[0]).slice(6, 8), 10) === d2);
-    labels.push(String(d1).padStart(2, '0'));
-    data1.push(m1 ? m1[2] : 0);
-    data2.push(m2 ? m2[2] : 0);
-  }
-
-  groupedBarChart('chartCmpIncomeDaily', labels, data1, data2, '#7fd4a0', '#8fb8d9', {height: 220});
-
-  resultsDiv.style.display = '';
-}
-
-document.getElementById('cmpIncomeCalcBtn').addEventListener('click', renderComparativeIncomeAnalysis);
-
-// Inicializar mes 2 al mes anterior
-(function() {
-  const nowYm = String(movesMaxDate).slice(0, 6);
-  const nowYear = parseInt(nowYm.slice(0, 4), 10);
-  const nowMonth = parseInt(nowYm.slice(4, 6), 10);
-  let prevYear = nowYear, prevMonth = nowMonth - 1;
-  if (prevMonth < 1) { prevMonth = 12; prevYear--; }
-  const prevMonthStr = prevYear + '-' + String(prevMonth).padStart(2, '0');
-  document.getElementById('cmpIncomeMonth1Display').textContent = fmtMonth(nowYm);
-  document.getElementById('cmpIncomeMonth2').value = prevMonthStr;
-})();
-
-// ===== INGRESO DIARIO ESTIMADO POR FECHA =====
-let estIncomeState = { window: 3 };
-
-function renderEstimatedDailyIncome(windowMonths) {
-  const stats = computeWindowStats(windowMonths);
-  const pattern = stats.ingresos;
-  
-  const today = parseYMD(lastDateStr);
-  const currentMonth = today.getMonth();
-  const currentYear = today.getFullYear();
-  const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-
-  const tableBody = document.querySelector('#estIncomeDailyTable tbody');
-  const labels = [], values = [];
-  let cumulative = 0;
-  let tableHtml = '';
-
-  for (let day = 1; day <= daysInMonth; day++) {
-    const d = new Date(currentYear, currentMonth, day);
-    const wd = (d.getDay() + 6) % 7;
-    const bucket = Math.min(5, Math.floor((day - 1) / 5));
-    
-    let dailyIncome;
-    if (day === daysInMonth) {
-      dailyIncome = pattern.monthEndAvg;
-    } else {
-      dailyIncome = (pattern.weekdayAvg[wd] || 0) + (pattern.domAdjustment[bucket] || 0);
-    }
-
-    cumulative += dailyIncome;
-    labels.push(String(day).padStart(2, '0'));
-    values.push(Math.max(0, dailyIncome));
-
-    const fecha = ('0' + day).slice(-2) + '/' + ('0' + (currentMonth + 1)).slice(-2);
-    const weekdayName = diasSemana[wd];
-    tableHtml += '<tr><td>' + day + '</td><td>' + fecha + '</td>' +
-                 '<td class="num pos">' + fmtARS(dailyIncome) + '</td>' +
-                 '<td class="num">' + fmtARS(cumulative) + '</td>' +
-                 '<td style="font-size:11px;color:var(--muted);">' + weekdayName.slice(0, 3) + '</td></tr>';
-  }
-
-  tableBody.innerHTML = tableHtml;
-  
-  barChart('chartEstIncomeDaily', labels, values, () => '#7fd4a0', { height: 240 });
-}
-
-document.querySelectorAll('#estIncomeWindowToggle .toggle-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const windowVal = parseInt(btn.dataset.window, 10);
-    document.querySelectorAll('#estIncomeWindowToggle .toggle-btn').forEach(b => 
-      b.classList.toggle('active', b === btn)
-    );
-    estIncomeState.window = windowVal;
-    renderEstimatedDailyIncome(windowVal);
-  });
-});
-
-// Renderizar ingreso diario estimado al cargar proyecciones
-function renderEstimatedDailyIncomeOnProjectionChange() {
-  renderEstimatedDailyIncome(estIncomeState.window);
-}
 
 function setDayButtonsActive(daysVal){
   document.querySelectorAll('#projDaysToggle .toggle-btn').forEach(b=>{
@@ -4384,7 +4140,11 @@ function renderManualList(){
     const tr = document.createElement('tr');
     const sign = en.type === 'ingreso' ? 'pos' : 'neg';
     const tipoTxt = en.type === 'ingreso' ? 'Ingreso' : 'Egreso';
-    tr.innerHTML = `<td>${en.date}</td><td>${tipoTxt}</td><td>${en.category ? en.category : '—'}</td><td class="num ${sign}">${fmtARS(parseFloat(en.amount))}</td><td><button type="button" class="link-btn" data-idx="${idx}">Borrar</button></td>`;
+    const cuentaTxt = en.account === 'alquileres' ? 'Alquileres' : 'Agencia';
+    let catTxt = en.category ? en.category : '—';
+    if (en.type === 'ingreso' && en.medio) catTxt += ' (' + (en.medio === 'transferencia' ? 'Transferencia' : 'Efectivo') + ')';
+    if (en.type !== 'ingreso' && en.detalle) catTxt += ' — ' + en.detalle;
+    tr.innerHTML = `<td>${en.date}</td><td>${cuentaTxt}</td><td>${tipoTxt}</td><td>${catTxt}</td><td class="num ${sign}">${fmtARS(parseFloat(en.amount))}</td><td><button type="button" class="link-btn" data-idx="${idx}">Borrar</button></td>`;
     tbody.appendChild(tr);
   });
   tbody.querySelectorAll('button[data-idx]').forEach(btn=>{
@@ -4399,14 +4159,37 @@ async function deleteManualEntry(idx){
   location.reload();
 }
 
+let cargarCuenta = 'agencia';
+document.querySelectorAll('#cargarCuentaToggle .toggle-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('#cargarCuentaToggle .toggle-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    cargarCuenta = btn.dataset.cuenta;
+  });
+});
+
 let cargarTipo = 'ingreso';
+let cargarMedio = 'efectivo';
+function updateCargarTipoFields(){
+  document.getElementById('cargarMedioGroup').style.display = cargarTipo === 'ingreso' ? 'block' : 'none';
+  document.getElementById('cargarDetalleGroup').style.display = cargarTipo === 'ingreso' ? 'none' : 'block';
+}
 document.querySelectorAll('#cargarTipoToggle .toggle-btn').forEach(btn=>{
   btn.addEventListener('click', ()=>{
     document.querySelectorAll('#cargarTipoToggle .toggle-btn').forEach(b=>b.classList.remove('active'));
     btn.classList.add('active');
     cargarTipo = btn.dataset.tipo;
+    updateCargarTipoFields();
   });
 });
+document.querySelectorAll('#cargarMedioToggle .toggle-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('#cargarMedioToggle .toggle-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    cargarMedio = btn.dataset.medio;
+  });
+});
+updateCargarTipoFields();
 
 document.getElementById('cargarForm').addEventListener('submit', async (e)=>{
   e.preventDefault();
@@ -4415,11 +4198,14 @@ document.getElementById('cargarForm').addEventListener('submit', async (e)=>{
   const amountRaw = document.getElementById('cargarMonto').value;
   const amount = parseFloat(amountRaw);
   const category = document.getElementById('cargarCategoria').value.trim();
+  const detalle = document.getElementById('cargarDetalle').value.trim();
   if (!date || !amountRaw || isNaN(amount) || amount <= 0){
     msgEl.textContent = 'Completá una fecha y un monto válido (mayor a 0).';
     return;
   }
-  const entry = {date, type: cargarTipo, amount, category};
+  const entry = {date, type: cargarTipo, amount, category, account: cargarCuenta};
+  if (cargarTipo === 'ingreso') entry.medio = cargarMedio;
+  else entry.detalle = detalle;
   manualEntries.push(entry);
   msgEl.textContent = 'Guardando…';
   const savedOk = await storageSet('manual-entries', JSON.stringify(manualEntries));
@@ -5579,11 +5365,6 @@ renderAutoConclusions();
 
   renderProveedores();
 })();
-
-// Inicializar ingreso diario estimado cuando se carga el page
-if (typeof renderEstimatedDailyIncome === 'function') {
-  renderEstimatedDailyIncome(3);
-}
 
 })();
 </script>
