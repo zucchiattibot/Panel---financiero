@@ -125,6 +125,7 @@
     <button class="tab-btn" data-tab="inflacion">Inflación</button>
     <button class="tab-btn" data-tab="mercados">Mercados</button>
     <button class="tab-btn" data-tab="buscar">Buscar</button>
+    <button class="tab-btn" data-tab="alqfecha">Alquileres x fecha</button>
     <button class="tab-btn" data-tab="estadisticas">Estadísticas</button>
     <button class="tab-btn" data-tab="cargar">Cargar datos</button>
   </div>
@@ -903,6 +904,51 @@
     </div>
   </div>
 
+  <div class="panel" id="tab-alqfecha">
+    <div class="card">
+      <h2>Alquileres — Reporte por fecha</h2>
+      <p class="card-note">Gastos y entradas de la cuenta <strong>Alquileres</strong> (casa/familia) en el rango de fechas que elijas. Incluye tanto los movimientos del export original como los que cargaste a mano en "Cargar datos" — nada de Agencia se mezcla acá.</p>
+      <div style="display:flex;gap:10px;margin-top:6px;flex-wrap:wrap;">
+        <div style="flex:1 1 140px;">
+          <div class="card-note" style="margin-bottom:4px;">Desde</div>
+          <input type="date" id="alqfDesde" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:9px 10px;border-radius:8px;font-size:13px;width:100%;color-scheme:dark;">
+        </div>
+        <div style="flex:1 1 140px;">
+          <div class="card-note" style="margin-bottom:4px;">Hasta</div>
+          <input type="date" id="alqfHasta" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:9px 10px;border-radius:8px;font-size:13px;width:100%;color-scheme:dark;">
+        </div>
+        <div style="flex:0 0 auto;display:flex;align-items:flex-end;">
+          <button class="link-btn" id="alqfLimpiar">Ver todo el historial</button>
+        </div>
+      </div>
+      <div class="toggle-row" id="alqfOrdenToggle" style="margin-top:14px;margin-bottom:0;">
+        <button type="button" class="toggle-btn active" data-orden="desc">Más recientes primero</button>
+        <button type="button" class="toggle-btn" data-orden="asc">Más antiguos primero</button>
+      </div>
+      <div class="kpi-grid" style="margin-top:14px;">
+        <div class="kpi"><div class="label">Movimientos</div><div class="val" id="alqfCount">…</div></div>
+        <div class="kpi"><div class="label">Neto</div><div class="val" id="alqfNeto">…</div></div>
+        <div class="kpi"><div class="label">Entradas (ingresos)</div><div class="val pos" id="alqfIngresos">…</div></div>
+        <div class="kpi"><div class="label">Gastos (egresos)</div><div class="val neg" id="alqfEgresos">…</div></div>
+      </div>
+      <p class="card-note" id="alqfResumen" style="margin-top:10px;"></p>
+    </div>
+    <div class="card" id="alqfCatCard" style="display:none;">
+      <h2>Por categoría</h2>
+      <p class="card-note">Desglose de los movimientos del rango elegido, agrupados por categoría.</p>
+      <div style="overflow-x:auto;">
+      <table id="alqfCatTable"><thead><tr><th>Categoría</th><th style="text-align:right">Movs.</th><th style="text-align:right">Total</th></tr></thead><tbody></tbody></table>
+      </div>
+    </div>
+    <div class="card" id="alqfResultCard" style="display:none;">
+      <h2>Detalle de movimientos</h2>
+      <p class="card-note" id="alqfDetalleNote">Mostrando como máximo los 500 del rango elegido.</p>
+      <div style="overflow-x:auto;">
+      <table id="alqfTable"><thead><tr><th>Fecha</th><th>Categoría</th><th>Detalle</th><th style="text-align:right">Monto</th></tr></thead><tbody></tbody></table>
+      </div>
+    </div>
+  </div>
+
   <div class="panel" id="tab-estadisticas">
     <div class="card">
       <h2>Elegí el período</h2>
@@ -1086,12 +1132,18 @@
     <div class="card">
       <h2>Movimientos cargados a mano</h2>
       <p class="card-note">Los que agregaste vos manualmente (no vienen del export original), de las dos cuentas por separado. Se pueden borrar.</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;">
+        <button type="button" id="btnExportarBackup" class="tab-btn" style="border-radius:8px;">⬇️ Exportar backup</button>
+        <label for="inputImportarBackup" class="tab-btn" style="border-radius:8px;cursor:pointer;margin:0;display:inline-flex;align-items:center;">⬆️ Importar backup</label>
+        <input type="file" id="inputImportarBackup" accept="application/json,.json" style="display:none;">
+      </div>
+      <p class="card-note" id="backupMsg" style="min-height:14px;"></p>
       <div style="overflow-x:auto;">
       <table id="cargarTable"><thead><tr><th>Fecha</th><th>Cuenta</th><th>Tipo</th><th>Categoría</th><th style="text-align:right">Monto</th><th></th></tr></thead><tbody></tbody></table>
       </div>
       <p class="card-note" id="cargarEmpty" style="display:none;">Todavía no cargaste ningún movimiento manual.</p>
     </div>
-    <div class="note-box">Esto se guarda asociado a vos en este panel — la próxima vez que lo abras (desde Claude), tus movimientos manuales van a seguir ahí, sumados a los del export original. Funciona mientras abras el panel dentro de Claude; si lo abrís como archivo suelto fuera de Claude, esta parte no va a guardar datos.</div>
+    <div class="note-box">Esto se guarda en este dispositivo/instalación (localStorage si abrís el panel como app o página suelta; window.storage si lo abrís dentro de Claude). No viaja solo a otros celulares ni sobrevive a un "borrar datos" o desinstalar la app — para eso está el botón de <strong>Exportar backup</strong> de arriba: te descarga un .json con todo lo cargado a mano, que después podés volver a subir con <strong>Importar backup</strong> (acá o en otra instalación) sin perder nada.</div>
   </div>
 
   <p class="foot">Datos: cuenta "Agencia" de tu export sqlite. Inflación: API pública ArgentinaDatos, fuente BCRA (<a href="https://argentinadatos.com/docs/" target="_blank">argentinadatos.com</a>). Gráficos dibujados con SVG nativo, sin librerías externas.</p>
@@ -4271,6 +4323,93 @@ document.getElementById('cargarForm').addEventListener('submit', async (e)=>{
   }
 });
 
+/* ---------------- BACKUP: EXPORTAR / IMPORTAR MOVIMIENTOS MANUALES ---------------- */
+// El guardado automático (storageGet/storageSet) vive adentro de esta
+// instalación puntual (localStorage del WebView de la APK, o window.storage
+// si corre dentro de Claude). Si se desinstala la app, se borra el celular,
+// o se abre el panel en otro dispositivo, esos datos NO viajan solos. Este
+// botón arma un archivo .json con todo lo cargado a mano para poder
+// guardarlo aparte (mail, Drive, etc.) y reincorporarlo después con
+// "Importar backup", sin perder nada.
+function backupEntryKey(en){
+  return [en.date, en.type, en.amount, en.category || '', en.account,
+    en.medio || en.detalle || ''].join('|');
+}
+
+function exportarBackup(){
+  const backup = {
+    tipo: 'panel-agencia-backup',
+    version: 1,
+    exportadoEl: new Date().toISOString(),
+    manualEntries: manualEntries,
+    categoriasCustom: categoriasCustom
+  };
+  const blob = new Blob([JSON.stringify(backup, null, 2)], {type: 'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const fecha = new Date().toISOString().slice(0, 10);
+  a.href = url;
+  a.download = `panel-backup-${fecha}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(()=> URL.revokeObjectURL(url), 1000);
+  const msgEl = document.getElementById('backupMsg');
+  if (msgEl) msgEl.textContent = `Descargado: panel-backup-${fecha}.json (${manualEntries.length} movimiento(s)).`;
+}
+
+async function importarBackupArchivo(file){
+  const msgEl = document.getElementById('backupMsg');
+  if (!file) return;
+  msgEl.textContent = 'Leyendo archivo…';
+  try {
+    const texto = await file.text();
+    const data = JSON.parse(texto);
+    if (!data || !Array.isArray(data.manualEntries)){
+      msgEl.textContent = 'Ese archivo no tiene el formato de un backup de este panel.';
+      return;
+    }
+    const clavesExistentes = new Set(manualEntries.map(backupEntryKey));
+    let agregados = 0, repetidos = 0;
+    data.manualEntries.forEach(en=>{
+      if (!en || !en.date || !en.type || typeof en.amount === 'undefined') return;
+      const clave = backupEntryKey(en);
+      if (clavesExistentes.has(clave)){ repetidos++; return; }
+      manualEntries.push(en);
+      clavesExistentes.add(clave);
+      agregados++;
+    });
+    if (Array.isArray(data.categoriasCustom)){
+      data.categoriasCustom.forEach(cat=>{
+        if (cat && !categoriasCustom.includes(cat)) categoriasCustom.push(cat);
+      });
+    }
+    if (agregados === 0){
+      msgEl.textContent = repetidos > 0
+        ? `Ese backup ya estaba cargado acá (${repetidos} repetido(s), 0 nuevos).`
+        : 'El backup no tenía movimientos válidos para agregar.';
+      return;
+    }
+    msgEl.textContent = `Importando ${agregados} movimiento(s) nuevo(s)${repetidos ? ` (${repetidos} ya estaban)` : ''}…`;
+    const okMov = await storageSet('manual-entries', JSON.stringify(manualEntries));
+    await storageSet('categorias-personalizadas', JSON.stringify(categoriasCustom));
+    if (okMov){
+      location.reload();
+    } else {
+      msgEl.textContent = 'No se pudo guardar lo importado. Probá de nuevo.';
+    }
+  } catch(e){
+    msgEl.textContent = 'No se pudo leer el archivo. ¿Es un backup válido de este panel?';
+  }
+}
+
+document.getElementById('btnExportarBackup').addEventListener('click', exportarBackup);
+document.getElementById('inputImportarBackup').addEventListener('change', (e)=>{
+  const file = e.target.files && e.target.files[0];
+  importarBackupArchivo(file);
+  e.target.value = '';
+});
+
 /* ---------------- EN CRIOLLO / INFORME EJECUTIVO / RATIO / ESTACIONALIDAD ---------------- */
 (function(){
   const catIncomeSorted = CATEGORIES.filter(c=>c.sign==='+').sort((a,b)=>b.total-a.total);
@@ -4769,6 +4908,133 @@ renderAutoConclusions();
     }).join('');
     resultCard.style.display = 'block';
   }
+})();
+
+/* ---------------- ALQUILERES: REPORTE POR FECHA (gastos y entradas) ---------------- */
+// Usa exclusivamente RENT_MOVES / RENT_MOVES_CATS, que ya incluyen tanto los
+// movimientos del export original como los que se hayan cargado a mano en
+// "Cargar datos" con cuenta "alquileres" (ver mergeManualEntries más arriba).
+// No toca ni mezcla nada de Agencia (MOVES/CAT_LIST).
+(function(){
+  const desdeInput = document.getElementById('alqfDesde');
+  const hastaInput = document.getElementById('alqfHasta');
+  const limpiarBtn = document.getElementById('alqfLimpiar');
+  const ordenToggle = document.getElementById('alqfOrdenToggle');
+  const resumen = document.getElementById('alqfResumen');
+  const catCard = document.getElementById('alqfCatCard');
+  const resultCard = document.getElementById('alqfResultCard');
+  const catTbody = document.querySelector('#alqfCatTable tbody');
+  const tbody = document.querySelector('#alqfTable tbody');
+  const detalleNote = document.getElementById('alqfDetalleNote');
+  if (!desdeInput) return;
+
+  const MAX_FILAS = 500;
+  let orden = 'desc';
+
+  const fmtFecha = (dInt) => {
+    const s = String(dInt);
+    return s.slice(6,8) + '/' + s.slice(4,6) + '/' + s.slice(0,4);
+  };
+
+  ordenToggle.querySelectorAll('.toggle-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      ordenToggle.querySelectorAll('.toggle-btn').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      orden = btn.dataset.orden;
+      renderAlqFecha();
+    });
+  });
+  desdeInput.addEventListener('change', renderAlqFecha);
+  hastaInput.addEventListener('change', renderAlqFecha);
+  limpiarBtn.addEventListener('click', ()=>{
+    desdeInput.value = '';
+    hastaInput.value = '';
+    renderAlqFecha();
+  });
+
+  function renderAlqFecha(){
+    const desdeVal = desdeInput.value; // 'YYYY-MM-DD' o ''
+    const hastaVal = hastaInput.value;
+    const desdeNum = desdeVal ? parseInt(desdeVal.replace(/-/g, ''), 10) : null;
+    const hastaNum = hastaVal ? parseInt(hastaVal.replace(/-/g, ''), 10) : null;
+
+    if (desdeNum !== null && hastaNum !== null && desdeNum > hastaNum){
+      catCard.style.display = 'none';
+      resultCard.style.display = 'none';
+      resumen.textContent = 'La fecha "Desde" es posterior a "Hasta".';
+      document.getElementById('alqfCount').textContent = '…';
+      document.getElementById('alqfNeto').textContent = '…';
+      document.getElementById('alqfIngresos').textContent = '…';
+      document.getElementById('alqfEgresos').textContent = '…';
+      return;
+    }
+
+    const enRango = [];
+    RENT_MOVES.forEach(r=>{
+      const coincideFecha = (desdeNum === null || r[0] >= desdeNum) && (hastaNum === null || r[0] <= hastaNum);
+      if (coincideFecha) enRango.push(r);
+    });
+
+    if (enRango.length === 0){
+      catCard.style.display = 'none';
+      resultCard.style.display = 'none';
+      document.getElementById('alqfCount').textContent = '0';
+      document.getElementById('alqfNeto').textContent = fmtARS(0);
+      document.getElementById('alqfIngresos').textContent = fmtARS(0);
+      document.getElementById('alqfEgresos').textContent = fmtARS(0);
+      resumen.textContent = 'Sin movimientos de Alquileres en el rango de fechas elegido.';
+      return;
+    }
+
+    let ingresos = 0, egresos = 0;
+    const catStats = {}; // catIdx -> {count, total}
+    enRango.forEach(r=>{
+      const cat = RENT_MOVES_CATS[r[1]];
+      const signed = cat.sign === '+' ? r[2] : -r[2];
+      if (cat.sign === '+') ingresos += r[2]; else egresos += r[2];
+      if (!catStats[r[1]]) catStats[r[1]] = {count:0, total:0};
+      catStats[r[1]].count++; catStats[r[1]].total += signed;
+    });
+    const neto = ingresos - egresos;
+
+    document.getElementById('alqfCount').textContent = enRango.length.toLocaleString('es-AR');
+    const netoEl = document.getElementById('alqfNeto');
+    netoEl.textContent = fmtARS(neto); netoEl.className = 'val ' + (neto<0?'neg':'pos');
+    document.getElementById('alqfIngresos').textContent = fmtARS(ingresos);
+    document.getElementById('alqfEgresos').textContent = fmtARS(egresos);
+
+    // --- Por categoría ---
+    const catRows = Object.keys(catStats).map(ci => ({
+      cat: RENT_MOVES_CATS[ci], count: catStats[ci].count, total: catStats[ci].total
+    })).sort((a,b) => Math.abs(b.total) - Math.abs(a.total));
+    catTbody.innerHTML = catRows.map(c=>{
+      const cls = c.total<0 ? 'neg' : 'pos';
+      return '<tr><td>' + c.cat.category + '</td><td class="num">' + c.count + '</td>' +
+        '<td class="num ' + cls + '">' + fmtARS(c.total) + '</td></tr>';
+    }).join('');
+    catCard.style.display = 'block';
+
+    // --- Resumen ---
+    resumen.innerHTML = enRango.length + ' movimiento' + (enRango.length===1?'':'s') + ' de Alquileres' +
+      ' · neto: <strong class="' + (neto<0?'neg':'pos') + '">' + fmtARS(neto) + '</strong>';
+
+    // --- Detalle ---
+    const ordenados = enRango.slice().sort((a,b) => orden === 'asc' ? a[0]-b[0] : b[0]-a[0]);
+    const paraTabla = ordenados.slice(0, MAX_FILAS);
+    detalleNote.textContent = enRango.length > MAX_FILAS
+      ? 'Mostrando ' + MAX_FILAS + ' de ' + enRango.length + ' movimientos del rango elegido.'
+      : 'Mostrando los ' + enRango.length + ' movimientos del rango elegido.';
+    tbody.innerHTML = paraTabla.map(r=>{
+      const cat = RENT_MOVES_CATS[r[1]];
+      const signClass = cat.sign === '+' ? 'pos' : 'neg';
+      const signedAmt = (cat.sign === '+' ? r[2] : -r[2]);
+      return '<tr><td>' + fmtFecha(r[0]) + '</td><td>' + cat.category + '</td><td>' + (r[3] || '—') + '</td>' +
+        '<td class="num ' + signClass + '">' + fmtARS(signedAmt) + '</td></tr>';
+    }).join('');
+    resultCard.style.display = 'block';
+  }
+
+  renderAlqFecha();
 })();
 
 /* ---------------- ESTADÍSTICAS (Agencia y Alquileres) ---------------- */
