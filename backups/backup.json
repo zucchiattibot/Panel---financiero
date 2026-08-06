@@ -1,0 +1,319 @@
+{
+  "tipo": "panel-agencia-backup",
+  "version": 2,
+  "exportadoEl": "2026-08-06T22:11:06.047Z",
+  "manualEntries": [
+    {
+      "date": "2026-08-03",
+      "type": "ingreso",
+      "amount": 37900,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "transferencia"
+    },
+    {
+      "date": "2026-08-03",
+      "type": "ingreso",
+      "amount": 148000,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "efectivo"
+    },
+    {
+      "date": "2026-08-03",
+      "type": "ingreso",
+      "amount": 373000,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "efectivo"
+    },
+    {
+      "date": "2026-08-03",
+      "type": "ingreso",
+      "amount": 150000,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "transferencia"
+    },
+    {
+      "date": "2026-08-04",
+      "type": "ingreso",
+      "amount": 199000,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "efectivo"
+    },
+    {
+      "date": "2026-08-04",
+      "type": "ingreso",
+      "amount": 26500,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "transferencia"
+    },
+    {
+      "date": "2026-08-05",
+      "type": "ingreso",
+      "amount": 30000,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "efectivo"
+    },
+    {
+      "date": "2026-08-04",
+      "type": "ingreso",
+      "amount": 100000,
+      "category": "Chacha tomasin",
+      "account": "agencia",
+      "medio": "transferencia"
+    },
+    {
+      "date": "2026-08-05",
+      "type": "ingreso",
+      "amount": 9100,
+      "category": "Pablo Benedicto",
+      "account": "agencia",
+      "medio": "transferencia"
+    },
+    {
+      "date": "2026-08-02",
+      "type": "egreso",
+      "amount": 4600,
+      "category": "Sueldo",
+      "account": "alquileres",
+      "detalle": ""
+    },
+    {
+      "date": "2026-08-03",
+      "type": "egreso",
+      "amount": 2000,
+      "category": "Chiara",
+      "account": "alquileres",
+      "detalle": ""
+    },
+    {
+      "date": "2026-08-03",
+      "type": "egreso",
+      "amount": 2000,
+      "category": "Donato",
+      "account": "alquileres",
+      "detalle": ""
+    },
+    {
+      "date": "2026-08-03",
+      "type": "egreso",
+      "amount": 20000,
+      "category": "Chiara",
+      "account": "alquileres",
+      "detalle": "Doctor"
+    },
+    {
+      "date": "2026-08-03",
+      "type": "egreso",
+      "amount": 9000,
+      "category": "Servicios",
+      "account": "alquileres",
+      "detalle": "Personal caro"
+    },
+    {
+      "date": "2026-08-03",
+      "type": "egreso",
+      "amount": 20400,
+      "category": "Varios",
+      "account": "alquileres",
+      "detalle": "Creatina"
+    },
+    {
+      "date": "2026-08-04",
+      "type": "egreso",
+      "amount": 6000,
+      "category": "Varios",
+      "account": "alquileres",
+      "detalle": "Farmacia ibuprofeno"
+    },
+    {
+      "date": "2026-08-04",
+      "type": "egreso",
+      "amount": 26000,
+      "category": "Sueldo",
+      "account": "alquileres",
+      "detalle": "Carniceria"
+    },
+    {
+      "date": "2026-08-04",
+      "type": "egreso",
+      "amount": 20000,
+      "category": "Varios",
+      "account": "alquileres",
+      "detalle": "Rifa jardin"
+    },
+    {
+      "date": "2026-08-04",
+      "type": "egreso",
+      "amount": 22400,
+      "category": "Sueldo",
+      "account": "alquileres",
+      "detalle": "Heladeria"
+    },
+    {
+      "date": "2026-08-05",
+      "type": "egreso",
+      "amount": 50000,
+      "category": "Nafta",
+      "account": "alquileres",
+      "detalle": ""
+    },
+    {
+      "date": "2026-08-05",
+      "type": "egreso",
+      "amount": 30000,
+      "category": "Donato",
+      "account": "alquileres",
+      "detalle": "Básquet"
+    },
+    {
+      "date": "2026-08-05",
+      "type": "egreso",
+      "amount": 3000,
+      "category": "Donato",
+      "account": "alquileres",
+      "detalle": "Masitas"
+    },
+    {
+      "date": "2026-08-05",
+      "type": "egreso",
+      "amount": 2700,
+      "category": "Sueldo",
+      "account": "alquileres",
+      "detalle": ""
+    },
+    {
+      "date": "2026-08-05",
+      "type": "ingreso",
+      "amount": 600000,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "efectivo"
+    },
+    {
+      "date": "2026-08-05",
+      "type": "ingreso",
+      "amount": 34000,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "transferencia"
+    },
+    {
+      "date": "2026-08-05",
+      "type": "egreso",
+      "amount": 189995.3,
+      "category": "Vehiculo",
+      "account": "alquileres",
+      "detalle": "Seguro"
+    },
+    {
+      "date": "2026-08-06",
+      "type": "egreso",
+      "amount": 44160,
+      "category": "Varios",
+      "account": "alquileres",
+      "detalle": "Cuotas river julio y agosto"
+    },
+    {
+      "date": "2026-08-06",
+      "type": "egreso",
+      "amount": 27484.5,
+      "category": "Impuestos",
+      "account": "alquileres",
+      "detalle": "Arba"
+    },
+    {
+      "date": "2026-08-06",
+      "type": "egreso",
+      "amount": 159627.71,
+      "category": "Servicios",
+      "account": "alquileres",
+      "detalle": "2 eden"
+    },
+    {
+      "date": "2026-08-06",
+      "type": "ingreso",
+      "amount": 152050,
+      "category": "Tomas hnos",
+      "account": "agencia",
+      "medio": "transferencia"
+    },
+    {
+      "date": "2026-08-03",
+      "type": "ingreso",
+      "amount": 152050,
+      "category": "Las lagunas",
+      "account": "agencia",
+      "medio": "transferencia"
+    },
+    {
+      "date": "2026-08-06",
+      "type": "egreso",
+      "amount": 25400,
+      "category": "Peña",
+      "account": "alquileres",
+      "detalle": "Miércoles"
+    },
+    {
+      "date": "2026-08-06",
+      "type": "ingreso",
+      "amount": 124000,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "efectivo"
+    },
+    {
+      "date": "2026-08-06",
+      "type": "ingreso",
+      "amount": 72900,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "transferencia"
+    },
+    {
+      "date": "2026-08-06",
+      "type": "egreso",
+      "amount": 3500,
+      "category": "Sueldo",
+      "account": "alquileres",
+      "detalle": ""
+    },
+    {
+      "date": "2026-08-06",
+      "type": "egreso",
+      "amount": 700000,
+      "category": "Clarin",
+      "account": "agencia",
+      "detalle": "Bco rio"
+    },
+    {
+      "date": "2026-08-06",
+      "type": "egreso",
+      "amount": 11000,
+      "category": "Sueldo",
+      "account": "alquileres",
+      "detalle": "Farmacia"
+    }
+  ],
+  "categoriasCustom": [
+    "Chacha tomasin",
+    "Pablo Benedicto",
+    "Servicios",
+    "Nafta",
+    "Vehiculo",
+    "Impuestos",
+    "Tomas hnos",
+    "Las lagunas",
+    "Peña",
+    "Clarin"
+  ],
+  "categoriasBaseEliminadas": [
+    "Servicios impuestos"
+  ],
+  "categoriasBaseRenombres": {}
+}
