@@ -27,6 +27,7 @@
   .tab-btn.active{background:var(--gold);color:#1a2a1f;border-color:var(--gold);font-weight:700;}
 
   .panel{display:none;} .panel.active{display:block;}
+  .alqsub-panel{display:none;} .alqsub-panel.active{display:block;}
   .card{background:linear-gradient(180deg, var(--bg-2), var(--bg-1));border:1px solid var(--line);border-radius:18px;padding:20px 18px;margin-bottom:14px;}
   h2{font-family:Georgia,serif;font-weight:700;font-size:18px;margin:0 0 2px 0;}
   .card-note{color:var(--muted);font-size:11.5px;margin:0 0 14px 0;}
@@ -126,6 +127,7 @@
     <button class="tab-btn" data-tab="mercados">Mercados</button>
     <button class="tab-btn" data-tab="buscar">Buscar</button>
     <button class="tab-btn" data-tab="estadisticas">Estadísticas</button>
+    <button class="tab-btn" data-tab="estadisticas-alquileres">Estadísticas Alquileres</button>
     <button class="tab-btn" data-tab="cargar">Cargar datos</button>
   </div>
 
@@ -1034,6 +1036,208 @@
     </div>
   </div>
 
+  <div class="panel" id="tab-estadisticas-alquileres">
+    <div class="tabs" style="margin-bottom:14px;">
+      <button class="tab-btn active" data-alqsub="cuenta">Cuenta Alquileres</button>
+      <button class="tab-btn" data-alqsub="combinado">Balance combinado</button>
+    </div>
+    <div class="alqsub-panel active" id="alqsub-cuenta">
+    <div class="card">
+      <h2>Elegí el período</h2>
+      <p class="card-note">Estas estadísticas se recalculan sobre el rango que elijas acá abajo, solo con datos de la cuenta Alquileres.</p>
+      <div class="range-group">
+        <div class="range-label">Entre</div>
+        <div class="range-inputs">
+          <span class="monthpick" id="alqStatsDesde"></span><span>y</span><span class="monthpick" id="alqStatsHasta"></span>
+        </div>
+      </div>
+      <button class="link-btn" id="alqStatsTodoBtn">Ver todo el historial</button>
+      <div style="display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;">
+        <div style="flex:1 1 140px;">
+          <div class="card-note" style="margin-bottom:4px;">O por fecha exacta — Desde</div>
+          <input type="date" id="alqStatsDesdeFecha" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:9px 10px;border-radius:8px;font-size:13px;width:100%;color-scheme:dark;">
+        </div>
+        <div style="flex:1 1 140px;">
+          <div class="card-note" style="margin-bottom:4px;">Hasta</div>
+          <input type="date" id="alqStatsHastaFecha" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:9px 10px;border-radius:8px;font-size:13px;width:100%;color-scheme:dark;">
+        </div>
+        <div style="flex:0 0 auto;display:flex;align-items:flex-end;">
+          <button class="link-btn" id="alqStatsLimpiarFechasBtn">Limpiar fechas exactas</button>
+        </div>
+      </div>
+      <p class="card-note" id="alqStatsPeriodoNote" style="margin-top:10px;"></p>
+      <div class="range-label" style="margin-top:16px;">Precios</div>
+      <div class="toggle-row" id="alqStatsAdjToggle" style="margin-bottom:4px;">
+        <button class="toggle-btn active" data-adj="nominal">Nominal (precio de cada momento)</button>
+        <button class="toggle-btn" data-adj="real">Ajustado por inflación (pesos de hoy)</button>
+      </div>
+      <p class="card-note" id="alqStatsIpcNote"></p>
+    </div>
+    <div class="card">
+      <h2>Balance — Alquileres (ingresos vs. gastos)</h2>
+      <p class="card-note">Ingresos menos gastos de la cuenta Alquileres, dentro del período elegido arriba. A diferencia de la tarjeta "Ingresos" de más abajo (que solo cuenta cargas manuales), acá los ingresos incluyen también los que ya venían en el export original de esta cuenta.</p>
+      <div class="kpi-grid" id="alqBalanceKpis"></div>
+    </div>
+    <div class="card">
+      <h2>Ingresos — Alquileres (solo cargas manuales)</h2>
+      <p class="card-note">A diferencia del resto del panel, esta tarjeta NO usa los ingresos que ya venían en el export original: solo cuenta los movimientos de tipo "Ingreso" que vos mismo cargaste a mano en la solapa "Cargar datos" para la cuenta Alquileres, dentro del período elegido arriba.</p>
+      <div class="kpi-grid" id="alqIngresosKpis"></div>
+      <p class="card-note" style="margin-top:14px;" id="alqIngresosPorCatNote">Por categoría:</p>
+      <div style="overflow-x:auto;">
+      <table id="alqIngresosPorCatTable"><thead><tr><th>Categoría</th><th style="text-align:right">Total</th><th style="text-align:right">Cant.</th><th style="text-align:right">Promedio</th></tr></thead><tbody></tbody></table>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Estadísticas — Alquileres (gasto personal)</h2>
+      <p class="card-note">Qué días de la semana se gasta más, rachas de gasto y récords, dentro del período elegido.</p>
+      <div class="kpi-grid" id="alqStatsKpis"></div>
+      <p class="card-note" style="margin-top:14px;" id="alqStatsWdNote">Total gastado por día de la semana (acumulado histórico):</p>
+      <div class="chartwrap" id="alqChartStatsWD"></div>
+      <p class="card-note" style="margin-top:14px;">Ranking de días de la semana, ordenados de mayor a menor gasto:</p>
+      <div style="overflow-x:auto;">
+      <table id="alqStatsWdRankingTable"><thead><tr><th>#</th><th>Día</th><th style="text-align:right">Gastado</th><th style="text-align:right">Cant.</th><th style="text-align:right">Promedio</th></tr></thead><tbody></tbody></table>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Top 10 gastos más altos — Alquileres</h2>
+      <p class="card-note" id="alqStatsTopGastosNote">Los 10 movimientos individuales de mayor monto en la cuenta personal Alquileres, dentro del período elegido.</p>
+      <div style="overflow-x:auto;">
+      <table id="alqStatsTopGastosTable"><thead><tr><th>#</th><th>Fecha</th><th>Descripción</th><th style="text-align:right">Monto</th></tr></thead><tbody></tbody></table>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Comparativa mensual — Alquileres</h2>
+      <p class="card-note">Elegí un mes y lo comparamos con el anterior (o con el mismo mes del año pasado).</p>
+      <div class="range-group">
+        <div class="range-label">Mes a analizar</div>
+        <div class="range-inputs"><span class="monthpick" id="alqCmpMes"></span></div>
+      </div>
+      <div class="toggle-row" id="alqCmpModoToggle" style="margin-top:10px;">
+        <button class="toggle-btn active" data-modo="anterior">Vs. mes anterior</button>
+        <button class="toggle-btn" data-modo="anioant">Vs. mismo mes, año pasado</button>
+      </div>
+      <div class="kpi-grid" id="alqCmpKpis" style="margin-top:12px;"></div>
+      <p class="card-note" id="alqCmpResumenPlain" style="margin-top:10px;"></p>
+      <p class="card-note" style="margin-top:14px;">Categorías ordenadas de mayor a menor incremento:</p>
+      <div style="overflow-x:auto;">
+      <table id="alqCmpTable"><thead><tr><th>Categoría</th><th style="text-align:right">Este mes</th><th style="text-align:right">Mes comparado</th><th style="text-align:right">Diferencia</th><th style="text-align:right">Var. %</th></tr></thead><tbody></tbody></table>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Comparativa mensual — Ingresos (Alquileres)</h2>
+      <p class="card-note">Mismo análisis, pero sobre los ingresos de la cuenta Alquileres (incluye los del export original más las cargas manuales).</p>
+      <div class="range-group">
+        <div class="range-label">Mes a analizar</div>
+        <div class="range-inputs"><span class="monthpick" id="alqCmpIngMes"></span></div>
+      </div>
+      <div class="toggle-row" id="alqCmpIngModoToggle" style="margin-top:10px;">
+        <button class="toggle-btn active" data-modo="anterior">Vs. mes anterior</button>
+        <button class="toggle-btn" data-modo="anioant">Vs. mismo mes, año pasado</button>
+      </div>
+      <div class="kpi-grid" id="alqCmpIngKpis" style="margin-top:12px;"></div>
+      <p class="card-note" id="alqCmpIngResumenPlain" style="margin-top:10px;"></p>
+      <p class="card-note" style="margin-top:14px;">Categorías ordenadas de mayor a menor incremento:</p>
+      <div style="overflow-x:auto;">
+      <table id="alqCmpIngTable"><thead><tr><th>Categoría</th><th style="text-align:right">Este mes</th><th style="text-align:right">Mes comparado</th><th style="text-align:right">Diferencia</th><th style="text-align:right">Var. %</th></tr></thead><tbody></tbody></table>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Comparativa anual — Alquileres</h2>
+      <p class="card-note">Elegí dos años completos y los comparamos. 2026 va parcial (cortado a la fecha de este export).</p>
+      <div class="range-group">
+        <div class="range-label">Año A</div>
+        <div class="range-inputs"><select id="alqCmpAnioA"></select></div>
+      </div>
+      <div class="range-group">
+        <div class="range-label">Año B (comparación)</div>
+        <div class="range-inputs"><select id="alqCmpAnioB"></select></div>
+      </div>
+      <div class="range-label" style="margin-top:4px;">Precios</div>
+      <div class="toggle-row" id="alqCmpAnioAdjToggle" style="margin-bottom:4px;">
+        <button class="toggle-btn active" data-adj="nominal">Nominal (precio de cada momento)</button>
+        <button class="toggle-btn" data-adj="real">Ajustado por inflación (pesos de hoy)</button>
+      </div>
+      <p class="card-note" id="alqCmpAnioIpcNote"></p>
+      <div class="kpi-grid" id="alqCmpAnioKpis" style="margin-top:12px;"></div>
+      <p class="card-note" id="alqCmpAnioResumenPlain" style="margin-top:10px;"></p>
+      <p class="card-note" style="margin-top:14px;">Categorías ordenadas de mayor a menor incremento:</p>
+      <div style="overflow-x:auto;">
+      <table id="alqCmpAnioTable"><thead><tr><th>Categoría</th><th style="text-align:right">Año A</th><th style="text-align:right">Año B</th><th style="text-align:right">Diferencia</th><th style="text-align:right">Var. %</th></tr></thead><tbody></tbody></table>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Comparativa anual — Ingresos (Alquileres)</h2>
+      <p class="card-note">Elegí dos años completos y comparamos los ingresos de la cuenta Alquileres. 2026 va parcial.</p>
+      <div class="range-group">
+        <div class="range-label">Año A</div>
+        <div class="range-inputs"><select id="alqCmpAnioIngA"></select></div>
+      </div>
+      <div class="range-group">
+        <div class="range-label">Año B (comparación)</div>
+        <div class="range-inputs"><select id="alqCmpAnioIngB"></select></div>
+      </div>
+      <div class="kpi-grid" id="alqCmpAnioIngKpis" style="margin-top:12px;"></div>
+      <p class="card-note" id="alqCmpAnioIngResumenPlain" style="margin-top:10px;"></p>
+      <p class="card-note" style="margin-top:14px;">Categorías ordenadas de mayor a menor incremento:</p>
+      <div style="overflow-x:auto;">
+      <table id="alqCmpAnioIngTable"><thead><tr><th>Categoría</th><th style="text-align:right">Año A</th><th style="text-align:right">Año B</th><th style="text-align:right">Diferencia</th><th style="text-align:right">Var. %</th></tr></thead><tbody></tbody></table>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Panorama anual — Alquileres</h2>
+      <p class="card-note">Gasto total por año completo (sin la categoría "Ahorro"). 2026 va parcial.</p>
+      <div class="chartwrap" id="alqChartCmpAnual"></div>
+      <div style="overflow-x:auto;margin-top:10px;">
+      <table id="alqCmpAnualTable"><thead><tr><th>Año</th><th style="text-align:right">Gasto total</th><th style="text-align:right">Var. vs año anterior</th></tr></thead><tbody></tbody></table>
+      </div>
+    </div>
+    </div>
+    <div class="alqsub-panel" id="alqsub-combinado">
+    <div class="card">
+      <h2>Elegí el período</h2>
+      <p class="card-note">Balance combinado de ingresos y gastos de las DOS cuentas (Agencia y Alquileres) juntas, sobre el rango que elijas: por mes o por fecha exacta. Esto solo aplica en esta subsolapa.</p>
+      <div class="range-group">
+        <div class="range-label">Entre</div>
+        <div class="range-inputs">
+          <span class="monthpick" id="balDesde"></span><span>y</span><span class="monthpick" id="balHasta"></span>
+        </div>
+      </div>
+      <button class="link-btn" id="balTodoBtn">Ver todo el historial</button>
+      <div style="display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;">
+        <div style="flex:1 1 140px;">
+          <div class="card-note" style="margin-bottom:4px;">O por fecha exacta — Desde</div>
+          <input type="date" id="balDesdeFecha" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:9px 10px;border-radius:8px;font-size:13px;width:100%;color-scheme:dark;">
+        </div>
+        <div style="flex:1 1 140px;">
+          <div class="card-note" style="margin-bottom:4px;">Hasta</div>
+          <input type="date" id="balHastaFecha" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:9px 10px;border-radius:8px;font-size:13px;width:100%;color-scheme:dark;">
+        </div>
+        <div style="flex:0 0 auto;display:flex;align-items:flex-end;">
+          <button class="link-btn" id="balLimpiarFechasBtn">Limpiar fechas exactas</button>
+        </div>
+      </div>
+      <p class="card-note" id="balPeriodoNote" style="margin-top:10px;"></p>
+    </div>
+    <div class="card">
+      <h2>Balance combinado — Agencia + Alquileres</h2>
+      <p class="card-note">Ingresos y gastos sumando las dos cuentas, en el período elegido arriba (valores nominales, precio de cada momento).</p>
+      <div class="kpi-grid" id="balCombinadoKpis"></div>
+    </div>
+    <div class="card">
+      <h2>Por cuenta</h2>
+      <p class="card-note">El mismo período, desglosado por cuenta.</p>
+      <div class="kpi-grid" id="balPorCuentaKpis"></div>
+    </div>
+    <div class="card">
+      <h2>Resumen por mes</h2>
+      <p class="card-note">Desglose mes a mes dentro del período elegido, con ingresos y gastos de cada cuenta y el balance combinado de ese mes.</p>
+      <div style="overflow-x:auto;">
+      <table id="balMensualTable"><thead><tr><th>Mes</th><th style="text-align:right">Ingresos Agencia</th><th style="text-align:right">Gastos Agencia</th><th style="text-align:right">Ingresos Alquileres</th><th style="text-align:right">Gastos Alquileres</th><th style="text-align:right">Balance</th></tr></thead><tbody></tbody></table>
+      </div>
+    </div>
+    </div>
+  </div>
+
   <div class="panel" id="tab-cargar">
     <div class="card">
       <h2>Agregar movimiento</h2>
@@ -1692,6 +1896,15 @@ document.querySelectorAll('.tab-btn[data-tab]').forEach(btn=>{
     document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
     btn.classList.add('active');
     document.getElementById('tab-'+btn.dataset.tab).classList.add('active');
+  });
+});
+
+document.querySelectorAll('.tab-btn[data-alqsub]').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.tab-btn[data-alqsub]').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.alqsub-panel').forEach(p=>p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('alqsub-'+btn.dataset.alqsub).classList.add('active');
   });
 });
 
@@ -5663,6 +5876,744 @@ renderAutoConclusions();
   }).join('');
 
 
+})();
+
+/* ---------------- ESTADÍSTICAS ALQUILERES (solapa dedicada, solo cuenta Alquileres) ---------------- */
+(function(){
+  const WD_NAMES = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+  const WD_SHORT = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
+  const ORDER = [1,2,3,4,5,6,0];
+
+  function fmtFechaCorta(dInt){
+    const s = String(dInt);
+    return s.slice(6,8) + '/' + s.slice(4,6) + '/' + s.slice(0,4);
+  }
+  function factorReal(dInt){
+    const ym = String(dInt).slice(0,6);
+    const idx = idxForYm(ym);
+    return (idx && IPC_LAST_IDX) ? (IPC_LAST_IDX / idx) : null;
+  }
+  function adjAmt(amt, dInt, adj){
+    if (adj !== 'real') return amt;
+    const f = factorReal(dInt);
+    return f !== null ? amt * f : amt;
+  }
+  function kpi(label, val, note, cls){
+    return '<div class="kpi"><div class="label">' + label + '</div><div class="val' + (cls?(' '+cls):'') + '">' + val + '</div>' +
+      (note ? '<div class="card-note" style="margin:4px 0 0">' + note + '</div>' : '') + '</div>';
+  }
+  function statsForAccount(moves, catList, filterSign, desdeInt, hastaInt, adj){
+    const wd = Array.from({length:7}, () => ({total:0, count:0}));
+    const dom = Array.from({length:32}, () => ({total:0, count:0}));
+    const dayAmt = Object.create(null);
+    const dayAny = new Set();
+    let totalMoves = 0, totalAmt = 0;
+
+    moves.forEach(m => {
+      const d = m[0], ci = m[1];
+      if (d < desdeInt || d > hastaInt) return;
+      const ds = String(d);
+      dayAny.add(ds);
+      const sign = catList[ci] ? catList[ci].sign : '-';
+      if (sign !== filterSign) return;
+      const amt = adjAmt(m[2], d, adj);
+      const y = +ds.slice(0,4), mo = +ds.slice(4,6), day = +ds.slice(6,8);
+      const dow = new Date(y, mo-1, day).getDay();
+      wd[dow].total += amt; wd[dow].count++;
+      dom[day].total += amt; dom[day].count++;
+      dayAmt[ds] = (dayAmt[ds] || 0) + amt;
+      totalMoves++; totalAmt += amt;
+    });
+
+    let bestDate = null, bestAmt = -Infinity;
+    Object.keys(dayAmt).forEach(ds => { if (dayAmt[ds] > bestAmt){ bestAmt = dayAmt[ds]; bestDate = ds; } });
+
+    const sortedDays = [...dayAny].sort();
+    let maxStreak = sortedDays.length ? 1 : 0, curStreak = 1, curStart = sortedDays[0], maxStart = sortedDays[0], maxEnd = sortedDays[0];
+    for (let i=1; i<sortedDays.length; i++){
+      const diff = Math.round((parseYMD(sortedDays[i]) - parseYMD(sortedDays[i-1])) / 86400000);
+      if (diff === 1){
+        curStreak++;
+        if (curStreak > maxStreak){ maxStreak = curStreak; maxStart = curStart; maxEnd = sortedDays[i]; }
+      } else {
+        curStreak = 1; curStart = sortedDays[i];
+      }
+    }
+
+    let domBestDay = null, domBestAvg = -Infinity;
+    for (let day=1; day<=31; day++){
+      const c = dom[day];
+      if (c.count > 0){
+        const avg = c.total / c.count;
+        if (avg > domBestAvg){ domBestAvg = avg; domBestDay = day; }
+      }
+    }
+
+    let wdBestIdx = 0, wdBestTotal = -Infinity;
+    wd.forEach((c,i) => { if (c.total > wdBestTotal){ wdBestTotal = c.total; wdBestIdx = i; } });
+
+    return { wd, bestDate, bestAmt, activeDaysAny: dayAny.size, maxStreak, maxStart, maxEnd, domBestDay, domBestAvg, wdBestIdx, wdBestTotal, totalMoves, totalAmt };
+  }
+
+  const rentMinDate = RENT_MOVES.reduce((m,r) => r[0] < m ? r[0] : m, RENT_MOVES[0][0]);
+  const rentMaxDate = RENT_MOVES.reduce((m,r) => r[0] > m ? r[0] : m, RENT_MOVES[0][0]);
+  const alqMinYm = String(rentMinDate).slice(0,6);
+  const alqMaxYm = String(rentMaxDate).slice(0,6);
+
+  initMonthPicker('alqStatsDesde', alqMinYm, alqMaxYm, alqMinYm);
+  initMonthPicker('alqStatsHasta', alqMinYm, alqMaxYm, alqMaxYm);
+
+  const alqStatsAdjState = {adj: 'nominal'};
+  document.querySelectorAll('#alqStatsAdjToggle .toggle-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      alqStatsAdjState.adj = btn.dataset.adj;
+      document.querySelectorAll('#alqStatsAdjToggle .toggle-btn').forEach(b => b.classList.toggle('active', b === btn));
+      renderAlqEstadisticas();
+    });
+  });
+
+  function renderAlqEstadisticas(){
+    const adj = alqStatsAdjState.adj;
+    const ipcNoteEl = document.getElementById('alqStatsIpcNote');
+    if (adj === 'real'){
+      ipcNoteEl.textContent = IPC_INDEX
+        ? `Montos llevados a pesos de ${fmtMonth(IPC_LAST_YM)} con el IPC del BCRA.`
+        : 'El ajuste por inflación todavía no cargó (o no se pudo consultar el IPC del BCRA). Mostrando valores nominales mientras tanto.';
+    } else {
+      ipcNoteEl.textContent = 'Precios nominales: cada movimiento vale lo que valía en el momento en que se hizo.';
+    }
+    const adjEff = (adj === 'real' && IPC_INDEX) ? 'real' : 'nominal';
+
+    const desdeVal = document.getElementById('alqStatsDesde').value;
+    const hastaVal = document.getElementById('alqStatsHasta').value;
+    const desdeFechaVal = document.getElementById('alqStatsDesdeFecha').value;
+    const hastaFechaVal = document.getElementById('alqStatsHastaFecha').value;
+    const usaFechaExacta = !!(desdeFechaVal || hastaFechaVal);
+
+    let desdeInt, hastaInt;
+    if (usaFechaExacta){
+      desdeInt = desdeFechaVal ? parseInt(desdeFechaVal.replace(/-/g,''),10) : rentMinDate;
+      hastaInt = hastaFechaVal ? parseInt(hastaFechaVal.replace(/-/g,''),10) : rentMaxDate;
+    } else {
+      desdeInt = desdeVal ? ymToRangeInt(desdeVal, false) : rentMinDate;
+      hastaInt = hastaVal ? ymToRangeInt(hastaVal, true) : rentMaxDate;
+    }
+
+    const esTodo = desdeInt <= rentMinDate && hastaInt >= rentMaxDate;
+    if (usaFechaExacta){
+      document.getElementById('alqStatsPeriodoNote').textContent = esTodo
+        ? 'Mostrando todo el historial disponible.'
+        : `Mostrando de ${fmtFechaCorta(desdeInt)} a ${fmtFechaCorta(hastaInt)}.`;
+    } else {
+      const desdeYm = desdeVal ? desdeVal.replace('-','') : alqMinYm;
+      const hastaYm = hastaVal ? hastaVal.replace('-','') : alqMaxYm;
+      document.getElementById('alqStatsPeriodoNote').textContent = esTodo
+        ? 'Mostrando todo el historial disponible.'
+        : (desdeYm===hastaYm ? `Mostrando solo ${fmtMonth(desdeYm)}.` : `Mostrando de ${fmtMonth(desdeYm)} a ${fmtMonth(hastaYm)}.`);
+    }
+
+    const wdNoteSuffix = adjEff === 'real' ? ' — ajustado a pesos de hoy' : ' (acumulado histórico)';
+    document.getElementById('alqStatsWdNote').textContent = 'Total gastado por día de la semana' + wdNoteSuffix + ':';
+    document.getElementById('alqStatsTopGastosNote').textContent = 'Los 10 movimientos individuales de mayor monto en la cuenta personal Alquileres, dentro del período elegido' + (adjEff==='real' ? ', en pesos de hoy.' : '.');
+
+    const al = statsForAccount(RENT_MOVES, RENT_MOVES_CATS, '-', desdeInt, hastaInt, adjEff);
+    const periodoTxt = esTodo ? 'acumulado histórico' : 'acumulado en el período';
+
+    // Balance — ingresos vs gastos de la cuenta Alquileres en el período elegido
+    let balIngresos = 0, balGastos = 0, balIngCount = 0, balGastCount = 0;
+    RENT_MOVES.forEach(m => {
+      if (m[0] < desdeInt || m[0] > hastaInt) return;
+      const cat = RENT_MOVES_CATS[m[1]];
+      if (!cat) return;
+      const amt = adjAmt(m[2], m[0], adjEff);
+      if (cat.sign === '+'){ balIngresos += amt; balIngCount++; } else { balGastos += amt; balGastCount++; }
+    });
+    const balNeto = balIngresos - balGastos;
+    document.getElementById('alqBalanceKpis').innerHTML =
+      kpi('Ingresos', fmtARS(balIngresos), balIngCount + (balIngCount===1?' movimiento':' movimientos'), 'pos') +
+      kpi('Gastos', fmtARS(balGastos), balGastCount + (balGastCount===1?' movimiento':' movimientos'), 'neg') +
+      kpi('Balance', (balNeto>=0?'+':'') + fmtARS(balNeto), balNeto>=0 ? 'A favor' : 'En contra', balNeto>=0?'pos':'neg');
+
+    document.getElementById('alqStatsKpis').innerHTML =
+      kpi('Día que más se gastó', al.bestDate ? fmtFechaCorta(parseInt(al.bestDate,10)) : '—', al.bestDate ? fmtARS(al.bestAmt) : '', 'neg') +
+      kpi('Día de la semana con más gasto', al.totalMoves ? WD_NAMES[al.wdBestIdx] : '—', al.totalMoves ? (fmtARS(al.wdBestTotal) + ' ' + periodoTxt) : '') +
+      kpi('Día del mes de mayor gasto (promedio)', al.domBestDay ? ('Día ' + al.domBestDay) : '—', al.domBestDay ? (fmtARS(al.domBestAvg) + ' por movimiento') : '') +
+      kpi('Racha más larga con gastos', al.maxStreak + (al.maxStreak===1?' día':' días'), al.maxStreak>1 ? (fmtFechaCorta(parseInt(al.maxStart,10)) + ' → ' + fmtFechaCorta(parseInt(al.maxEnd,10))) : '') +
+      kpi('Días con movimientos', al.activeDaysAny.toLocaleString('es-AR')) +
+      kpi('Gastos registrados', al.totalMoves.toLocaleString('es-AR'));
+    barChart('alqChartStatsWD', ORDER.map(i=>WD_SHORT[i]), ORDER.map(i=>al.wd[i].total), ()=>'#e08b78', {height:200});
+    document.querySelector('#alqStatsWdRankingTable tbody').innerHTML =
+      al.wd.map((c,i) => ({i, ...c})).sort((a,b) => b.total - a.total).map((c,rank) => {
+        const prom = c.count ? c.total / c.count : 0;
+        return '<tr><td>' + (rank+1) + '</td><td>' + WD_NAMES[c.i] + '</td>' +
+          '<td class="num neg">' + fmtARS(c.total) + '</td><td class="num">' + c.count + '</td><td class="num">' + fmtARS(prom) + '</td></tr>';
+      }).join('');
+
+    // Top 10 gastos individuales más altos (Alquileres), dentro del período elegido
+    const gastosAlq = RENT_MOVES
+      .filter(m => m[0] >= desdeInt && m[0] <= hastaInt)
+      .filter(m => { const cat = RENT_MOVES_CATS[m[1]]; return cat && cat.sign === '-'; })
+      .map(m => [m[0], m[1], adjAmt(m[2], m[0], adjEff), m[3]])
+      .sort((a,b) => b[2] - a[2])
+      .slice(0, 10);
+    document.querySelector('#alqStatsTopGastosTable tbody').innerHTML = gastosAlq.length
+      ? gastosAlq.map((m,i) => {
+          const cat = RENT_MOVES_CATS[m[1]];
+          const desc = m[3] ? m[3] : cat.category;
+          return '<tr><td>' + (i+1) + '</td><td>' + fmtFechaCorta(m[0]) + '</td><td>' + desc + '</td>' +
+            '<td class="num neg">' + fmtARS(m[2]) + '</td></tr>';
+        }).join('')
+      : '<tr><td colspan="4" class="card-note">Sin gastos en el período.</td></tr>';
+
+    // Ingresos — solo cargas manuales de la cuenta Alquileres
+    const ingresosManuales = manualEntries.filter(en => {
+      if (en.account !== 'alquileres' || en.type !== 'ingreso') return false;
+      const dInt = parseInt(en.date.replace(/-/g,''), 10);
+      return dInt >= desdeInt && dInt <= hastaInt;
+    }).map(en => ({
+      dInt: parseInt(en.date.replace(/-/g,''), 10),
+      amt: adjAmt(Math.abs(parseFloat(en.amount)) || 0, parseInt(en.date.replace(/-/g,''), 10), adjEff),
+      cat: (en.category && en.category.trim()) || 'Ingreso manual'
+    }));
+    const totalIngresos = ingresosManuales.reduce((s,e)=>s+e.amt, 0);
+    const countIngresos = ingresosManuales.length;
+    const promIngresos = countIngresos ? totalIngresos / countIngresos : 0;
+    let masAltoIngreso = null;
+    ingresosManuales.forEach(e => { if (!masAltoIngreso || e.amt > masAltoIngreso.amt) masAltoIngreso = e; });
+
+    document.getElementById('alqIngresosKpis').innerHTML = countIngresos
+      ? kpi('Total ingresado (cargas manuales)', fmtARS(totalIngresos), countIngresos + (countIngresos===1?' carga':' cargas'), 'pos') +
+        kpi('Ingreso promedio', fmtARS(promIngresos)) +
+        kpi('Ingreso más alto', masAltoIngreso ? fmtARS(masAltoIngreso.amt) : '—', masAltoIngreso ? fmtFechaCorta(masAltoIngreso.dInt) : '') +
+        kpi('Cantidad de cargas', countIngresos.toLocaleString('es-AR'))
+      : '<div class="kpi"><div class="label">Sin ingresos manuales</div><div class="val">—</div></div><div class="kpi"><div class="label">Tip</div><div class="val" style="font-size:12px;">Cargalos en "Cargar datos"</div></div>';
+
+    const porCat = Object.create(null);
+    ingresosManuales.forEach(e => {
+      if (!porCat[e.cat]) porCat[e.cat] = {total:0, count:0};
+      porCat[e.cat].total += e.amt; porCat[e.cat].count++;
+    });
+    const filasCat = Object.keys(porCat).map(nombre => ({nombre, ...porCat[nombre]})).sort((a,b)=>b.total-a.total);
+    document.querySelector('#alqIngresosPorCatTable tbody').innerHTML = filasCat.length
+      ? filasCat.map(f => '<tr><td>' + f.nombre + '</td><td class="num pos">' + fmtARS(f.total) + '</td><td class="num">' + f.count + '</td><td class="num">' + fmtARS(f.total/f.count) + '</td></tr>').join('')
+      : '<tr><td colspan="4" class="card-note">Sin ingresos manuales en el período.</td></tr>';
+  }
+
+  ['alqStatsDesde','alqStatsHasta'].forEach(id => {
+    document.getElementById(id).addEventListener('change', renderAlqEstadisticas);
+  });
+  ['alqStatsDesdeFecha','alqStatsHastaFecha'].forEach(id => {
+    document.getElementById(id).addEventListener('change', renderAlqEstadisticas);
+  });
+  document.getElementById('alqStatsLimpiarFechasBtn').addEventListener('click', () => {
+    document.getElementById('alqStatsDesdeFecha').value = '';
+    document.getElementById('alqStatsHastaFecha').value = '';
+    renderAlqEstadisticas();
+  });
+  document.getElementById('alqStatsTodoBtn').addEventListener('click', () => {
+    document.getElementById('alqStatsDesde').value = alqMinYm.slice(0,4) + '-' + alqMinYm.slice(4,6);
+    document.getElementById('alqStatsHasta').value = alqMaxYm.slice(0,4) + '-' + alqMaxYm.slice(4,6);
+    document.getElementById('alqStatsDesdeFecha').value = '';
+    document.getElementById('alqStatsHastaFecha').value = '';
+    renderAlqEstadisticas();
+  });
+
+  renderAlqEstadisticas();
+
+  /* ---------------- Comparativa mensual — Alquileres ---------------- */
+  initMonthPicker('alqCmpMes', alqMinYm, alqMaxYm, alqMaxYm);
+  const alqCmpState = { modo: 'anterior' };
+  document.querySelectorAll('#alqCmpModoToggle .toggle-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      alqCmpState.modo = btn.dataset.modo;
+      document.querySelectorAll('#alqCmpModoToggle .toggle-btn').forEach(b => b.classList.toggle('active', b === btn));
+      renderAlqComparativa();
+    });
+  });
+
+  function ymAdd(ym, monthsDelta){
+    let y = parseInt(ym.slice(0,4),10), m = parseInt(ym.slice(4,6),10);
+    m += monthsDelta;
+    while (m < 1){ m += 12; y -= 1; }
+    while (m > 12){ m -= 12; y += 1; }
+    return String(y) + String(m).padStart(2,'0');
+  }
+
+  function totalsPorCategoriaMes(ym){
+    const desdeInt = ymToRangeInt(ym.slice(0,4)+'-'+ym.slice(4,6), false);
+    const hastaInt = ymToRangeInt(ym.slice(0,4)+'-'+ym.slice(4,6), true);
+    const porCat = Object.create(null);
+    let total = 0, count = 0;
+    RENT_MOVES.forEach(m => {
+      if (m[0] < desdeInt || m[0] > hastaInt) return;
+      const cat = RENT_MOVES_CATS[m[1]];
+      if (!cat || cat.sign !== '-') return;
+      const amt = m[2];
+      const nombre = cat.category;
+      porCat[nombre] = (porCat[nombre] || 0) + amt;
+      total += amt; count += 1;
+    });
+    return { porCat, total, count };
+  }
+
+  function renderAlqComparativa(){
+    const mesVal = document.getElementById('alqCmpMes').value;
+    const parts = mesVal.split('-');
+    const ymActual = parts[0] + parts[1];
+    const ymComparado = alqCmpState.modo === 'anioant' ? ymAdd(ymActual, -12) : ymAdd(ymActual, -1);
+
+    const actual = totalsPorCategoriaMes(ymActual);
+    const comparado = totalsPorCategoriaMes(ymComparado);
+    const diff = actual.total - comparado.total;
+    const diffPct = comparado.total > 0 ? (diff / comparado.total) * 100 : null;
+    const cls = diff > 0 ? 'neg' : (diff < 0 ? 'pos' : '');
+    const compLabel = alqCmpState.modo === 'anioant' ? 'el mismo mes del año pasado' : 'el mes anterior';
+
+    document.getElementById('alqCmpKpis').innerHTML =
+      kpi('Gasto en ' + fmtMonth(ymActual), fmtARS(actual.total), actual.count + (actual.count===1?' movimiento':' movimientos'), 'neg') +
+      kpi('Gasto en ' + fmtMonth(ymComparado), fmtARS(comparado.total), comparado.count + (comparado.count===1?' movimiento':' movimientos')) +
+      kpi('Diferencia', (diff>=0?'+':'') + fmtARS(diff), diffPct !== null ? ((diffPct>=0?'+':'') + diffPct.toFixed(1) + '%') : 'sin base de comparación', cls);
+
+    if (actual.count === 0 && comparado.count === 0){
+      document.getElementById('alqCmpResumenPlain').textContent = 'No hay movimientos de Alquileres registrados en ninguno de los dos meses.';
+    } else if (diff === 0){
+      document.getElementById('alqCmpResumenPlain').textContent = 'Gastaste prácticamente lo mismo que en ' + compLabel + '.';
+    } else {
+      document.getElementById('alqCmpResumenPlain').textContent =
+        (diff > 0 ? 'Gastaste ' + fmtARS(diff) + ' más' : 'Gastaste ' + fmtARS(Math.abs(diff)) + ' menos') +
+        ' que en ' + compLabel + (diffPct !== null ? ' (' + (diffPct>=0?'+':'') + diffPct.toFixed(1) + '%)' : '') + '.';
+    }
+
+    const nombres = new Set([...Object.keys(actual.porCat), ...Object.keys(comparado.porCat)]);
+    const filas = [...nombres].map(nombre => {
+      const a = actual.porCat[nombre] || 0;
+      const c = comparado.porCat[nombre] || 0;
+      const d = a - c;
+      const pct = c > 0 ? (d / c) * 100 : null;
+      return { nombre, a, c, d, pct };
+    }).filter(f => f.a !== 0 || f.c !== 0)
+      .sort((f1,f2) => f2.d - f1.d);
+
+    document.querySelector('#alqCmpTable tbody').innerHTML = filas.length
+      ? filas.map(f => {
+          const dCls = f.d > 0 ? 'neg' : (f.d < 0 ? 'pos' : '');
+          const pctTxt = f.pct !== null ? ((f.pct>=0?'+':'') + f.pct.toFixed(0) + '%') : '—';
+          return '<tr><td>' + f.nombre + '</td>' +
+            '<td class="num">' + fmtARS(f.a) + '</td>' +
+            '<td class="num">' + fmtARS(f.c) + '</td>' +
+            '<td class="num ' + dCls + '">' + (f.d>=0?'+':'') + fmtARS(f.d) + '</td>' +
+            '<td class="num ' + dCls + '">' + pctTxt + '</td></tr>';
+        }).join('')
+      : '<tr><td colspan="5" class="card-note">Sin categorías con movimientos en ninguno de los dos meses.</td></tr>';
+  }
+
+  document.getElementById('alqCmpMes').addEventListener('change', renderAlqComparativa);
+  renderAlqComparativa();
+
+  /* ---------------- Comparativa mensual — Ingresos (Alquileres) ---------------- */
+  initMonthPicker('alqCmpIngMes', alqMinYm, alqMaxYm, alqMaxYm);
+  const alqCmpIngState = { modo: 'anterior' };
+  document.querySelectorAll('#alqCmpIngModoToggle .toggle-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      alqCmpIngState.modo = btn.dataset.modo;
+      document.querySelectorAll('#alqCmpIngModoToggle .toggle-btn').forEach(b => b.classList.toggle('active', b === btn));
+      renderAlqComparativaIngresos();
+    });
+  });
+
+  function ingresosPorCategoriaMes(ym){
+    const desdeInt = ymToRangeInt(ym.slice(0,4)+'-'+ym.slice(4,6), false);
+    const hastaInt = ymToRangeInt(ym.slice(0,4)+'-'+ym.slice(4,6), true);
+    const porCat = Object.create(null);
+    let total = 0, count = 0;
+    RENT_MOVES.forEach(m => {
+      if (m[0] < desdeInt || m[0] > hastaInt) return;
+      const cat = RENT_MOVES_CATS[m[1]];
+      if (!cat || cat.sign !== '+') return;
+      const amt = m[2];
+      const nombre = cat.category;
+      porCat[nombre] = (porCat[nombre] || 0) + amt;
+      total += amt; count += 1;
+    });
+    return { porCat, total, count };
+  }
+
+  function renderAlqComparativaIngresos(){
+    const mesVal = document.getElementById('alqCmpIngMes').value;
+    const parts = mesVal.split('-');
+    const ymActual = parts[0] + parts[1];
+    const ymComparado = alqCmpIngState.modo === 'anioant' ? ymAdd(ymActual, -12) : ymAdd(ymActual, -1);
+
+    const actual = ingresosPorCategoriaMes(ymActual);
+    const comparado = ingresosPorCategoriaMes(ymComparado);
+    const diff = actual.total - comparado.total;
+    const diffPct = comparado.total > 0 ? (diff / comparado.total) * 100 : null;
+    const cls = diff > 0 ? 'pos' : (diff < 0 ? 'neg' : '');
+    const compLabel = alqCmpIngState.modo === 'anioant' ? 'el mismo mes del año pasado' : 'el mes anterior';
+
+    document.getElementById('alqCmpIngKpis').innerHTML =
+      kpi('Ingresos en ' + fmtMonth(ymActual), fmtARS(actual.total), actual.count + (actual.count===1?' movimiento':' movimientos'), 'pos') +
+      kpi('Ingresos en ' + fmtMonth(ymComparado), fmtARS(comparado.total), comparado.count + (comparado.count===1?' movimiento':' movimientos')) +
+      kpi('Diferencia', (diff>=0?'+':'') + fmtARS(diff), diffPct !== null ? ((diffPct>=0?'+':'') + diffPct.toFixed(1) + '%') : 'sin base de comparación', cls);
+
+    if (actual.count === 0 && comparado.count === 0){
+      document.getElementById('alqCmpIngResumenPlain').textContent = 'No hay ingresos de Alquileres registrados en ninguno de los dos meses.';
+    } else if (diff === 0){
+      document.getElementById('alqCmpIngResumenPlain').textContent = 'Ingresaste prácticamente lo mismo que en ' + compLabel + '.';
+    } else {
+      document.getElementById('alqCmpIngResumenPlain').textContent =
+        (diff > 0 ? 'Ingresaste ' + fmtARS(diff) + ' más' : 'Ingresaste ' + fmtARS(Math.abs(diff)) + ' menos') +
+        ' que en ' + compLabel + (diffPct !== null ? ' (' + (diffPct>=0?'+':'') + diffPct.toFixed(1) + '%)' : '') + '.';
+    }
+
+    const nombres = new Set([...Object.keys(actual.porCat), ...Object.keys(comparado.porCat)]);
+    const filas = [...nombres].map(nombre => {
+      const a = actual.porCat[nombre] || 0;
+      const c = comparado.porCat[nombre] || 0;
+      const d = a - c;
+      const pct = c > 0 ? (d / c) * 100 : null;
+      return { nombre, a, c, d, pct };
+    }).filter(f => f.a !== 0 || f.c !== 0)
+      .sort((f1,f2) => f2.d - f1.d);
+
+    document.querySelector('#alqCmpIngTable tbody').innerHTML = filas.length
+      ? filas.map(f => {
+          const dCls = f.d > 0 ? 'pos' : (f.d < 0 ? 'neg' : '');
+          const pctTxt = f.pct !== null ? ((f.pct>=0?'+':'') + f.pct.toFixed(0) + '%') : '—';
+          return '<tr><td>' + f.nombre + '</td>' +
+            '<td class="num">' + fmtARS(f.a) + '</td>' +
+            '<td class="num">' + fmtARS(f.c) + '</td>' +
+            '<td class="num ' + dCls + '">' + (f.d>=0?'+':'') + fmtARS(f.d) + '</td>' +
+            '<td class="num ' + dCls + '">' + pctTxt + '</td></tr>';
+        }).join('')
+      : '<tr><td colspan="5" class="card-note">Sin categorías con ingresos en ninguno de los dos meses.</td></tr>';
+  }
+
+  document.getElementById('alqCmpIngMes').addEventListener('change', renderAlqComparativaIngresos);
+  renderAlqComparativaIngresos();
+
+  /* ---------------- Comparativa anual — Alquileres ---------------- */
+  const ALQ_ALL_YEARS = PERSONAL_YEARLY.map(y => y.year);
+
+  function fillYearSelect(id, selected){
+    document.getElementById(id).innerHTML = ALQ_ALL_YEARS.map(y =>
+      '<option value="' + y + '"' + (y === selected ? ' selected' : '') + '>' + y + (y === '2026' ? ' (parcial)' : '') + '</option>'
+    ).join('');
+  }
+  const alqDefaultAnioA = ALQ_ALL_YEARS[ALQ_ALL_YEARS.length - 1];
+  const alqDefaultAnioB = ALQ_ALL_YEARS[Math.max(0, ALQ_ALL_YEARS.length - 2)];
+  fillYearSelect('alqCmpAnioA', alqDefaultAnioA);
+  fillYearSelect('alqCmpAnioB', alqDefaultAnioB);
+
+  function totalsPorCategoriaAnio(year, adjEff){
+    const desdeInt = parseInt(year + '0101', 10);
+    const hastaInt = parseInt(year + '1231', 10);
+    const porCat = Object.create(null);
+    let total = 0, count = 0;
+    RENT_MOVES.forEach(m => {
+      if (m[0] < desdeInt || m[0] > hastaInt) return;
+      const cat = RENT_MOVES_CATS[m[1]];
+      if (!cat || cat.sign !== '-') return;
+      const amt = adjAmt(m[2], m[0], adjEff);
+      const nombre = cat.category;
+      porCat[nombre] = (porCat[nombre] || 0) + amt;
+      total += amt; count += 1;
+    });
+    return { porCat, total, count };
+  }
+
+  const alqCmpAnioAdjState = { adj: 'nominal' };
+  document.querySelectorAll('#alqCmpAnioAdjToggle .toggle-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      alqCmpAnioAdjState.adj = btn.dataset.adj;
+      document.querySelectorAll('#alqCmpAnioAdjToggle .toggle-btn').forEach(b => b.classList.toggle('active', b === btn));
+      renderAlqCmpAnio();
+    });
+  });
+
+  function renderAlqCmpAnio(){
+    const anioA = document.getElementById('alqCmpAnioA').value;
+    const anioB = document.getElementById('alqCmpAnioB').value;
+    const adj = alqCmpAnioAdjState.adj;
+
+    const ipcNoteEl = document.getElementById('alqCmpAnioIpcNote');
+    if (adj === 'real'){
+      ipcNoteEl.textContent = IPC_INDEX
+        ? `Montos llevados a pesos de ${fmtMonth(IPC_LAST_YM)} con el IPC del BCRA.`
+        : 'El ajuste por inflación todavía no cargó (o no se pudo consultar el IPC del BCRA). Mostrando valores nominales mientras tanto.';
+    } else {
+      ipcNoteEl.textContent = 'Precios nominales: cada año se suma con los pesos de cada momento, sin ajustar por inflación.';
+    }
+    const adjEff = (adj === 'real' && IPC_INDEX) ? 'real' : 'nominal';
+
+    const a = totalsPorCategoriaAnio(anioA, adjEff);
+    const b = totalsPorCategoriaAnio(anioB, adjEff);
+    const diff = a.total - b.total;
+    const diffPct = b.total > 0 ? (diff / b.total) * 100 : null;
+    const cls = diff > 0 ? 'neg' : (diff < 0 ? 'pos' : '');
+
+    document.getElementById('alqCmpAnioKpis').innerHTML =
+      kpi('Gasto en ' + anioA + (anioA === '2026' ? ' (parcial)' : ''), fmtARS(a.total), a.count + (a.count === 1 ? ' movimiento' : ' movimientos'), 'neg') +
+      kpi('Gasto en ' + anioB + (anioB === '2026' ? ' (parcial)' : ''), fmtARS(b.total), b.count + (b.count === 1 ? ' movimiento' : ' movimientos')) +
+      kpi('Diferencia', (diff >= 0 ? '+' : '') + fmtARS(diff), diffPct !== null ? ((diffPct >= 0 ? '+' : '') + diffPct.toFixed(1) + '%') : 'sin base de comparación', cls);
+
+    if (a.count === 0 && b.count === 0){
+      document.getElementById('alqCmpAnioResumenPlain').textContent = 'No hay movimientos de Alquileres registrados en ninguno de los dos años.';
+    } else if (diff === 0){
+      document.getElementById('alqCmpAnioResumenPlain').textContent = 'Gastaste prácticamente lo mismo en ' + anioA + ' que en ' + anioB + '.';
+    } else {
+      document.getElementById('alqCmpAnioResumenPlain').textContent =
+        (diff > 0 ? 'En ' + anioA + ' gastaste ' + fmtARS(diff) + ' más' : 'En ' + anioA + ' gastaste ' + fmtARS(Math.abs(diff)) + ' menos') +
+        ' que en ' + anioB + (diffPct !== null ? ' (' + (diffPct >= 0 ? '+' : '') + diffPct.toFixed(1) + '%)' : '') + '.';
+    }
+
+    const nombres = new Set([...Object.keys(a.porCat), ...Object.keys(b.porCat)]);
+    const filas = [...nombres].map(nombre => {
+      const va = a.porCat[nombre] || 0;
+      const vb = b.porCat[nombre] || 0;
+      const d = va - vb;
+      const pct = vb > 0 ? (d / vb) * 100 : null;
+      return { nombre, va, vb, d, pct };
+    }).filter(f => f.va !== 0 || f.vb !== 0)
+      .sort((f1, f2) => f2.d - f1.d);
+
+    document.querySelector('#alqCmpAnioTable tbody').innerHTML = filas.length
+      ? filas.map(f => {
+          const dCls = f.d > 0 ? 'neg' : (f.d < 0 ? 'pos' : '');
+          const pctTxt = f.pct !== null ? ((f.pct >= 0 ? '+' : '') + f.pct.toFixed(0) + '%') : '—';
+          return '<tr><td>' + f.nombre + '</td>' +
+            '<td class="num">' + fmtARS(f.va) + '</td>' +
+            '<td class="num">' + fmtARS(f.vb) + '</td>' +
+            '<td class="num ' + dCls + '">' + (f.d >= 0 ? '+' : '') + fmtARS(f.d) + '</td>' +
+            '<td class="num ' + dCls + '">' + pctTxt + '</td></tr>';
+        }).join('')
+      : '<tr><td colspan="5" class="card-note">Sin categorías con movimientos en ninguno de los dos años.</td></tr>';
+  }
+
+  document.getElementById('alqCmpAnioA').addEventListener('change', renderAlqCmpAnio);
+  document.getElementById('alqCmpAnioB').addEventListener('change', renderAlqCmpAnio);
+  renderAlqCmpAnio();
+
+  /* ---------------- Comparativa anual — Ingresos (Alquileres) ---------------- */
+  fillYearSelect('alqCmpAnioIngA', alqDefaultAnioA);
+  fillYearSelect('alqCmpAnioIngB', alqDefaultAnioB);
+
+  function ingresosPorCategoriaAnio(year){
+    const desdeInt = parseInt(year + '0101', 10);
+    const hastaInt = parseInt(year + '1231', 10);
+    const porCat = Object.create(null);
+    let total = 0, count = 0;
+    RENT_MOVES.forEach(m => {
+      if (m[0] < desdeInt || m[0] > hastaInt) return;
+      const cat = RENT_MOVES_CATS[m[1]];
+      if (!cat || cat.sign !== '+') return;
+      const amt = m[2];
+      const nombre = cat.category;
+      porCat[nombre] = (porCat[nombre] || 0) + amt;
+      total += amt; count += 1;
+    });
+    return { porCat, total, count };
+  }
+
+  function renderAlqCmpAnioIngresos(){
+    const anioA = document.getElementById('alqCmpAnioIngA').value;
+    const anioB = document.getElementById('alqCmpAnioIngB').value;
+
+    const a = ingresosPorCategoriaAnio(anioA);
+    const b = ingresosPorCategoriaAnio(anioB);
+    const diff = a.total - b.total;
+    const diffPct = b.total > 0 ? (diff / b.total) * 100 : null;
+    const cls = diff > 0 ? 'pos' : (diff < 0 ? 'neg' : '');
+
+    document.getElementById('alqCmpAnioIngKpis').innerHTML =
+      kpi('Ingresos en ' + anioA + (anioA === '2026' ? ' (parcial)' : ''), fmtARS(a.total), a.count + (a.count === 1 ? ' movimiento' : ' movimientos'), 'pos') +
+      kpi('Ingresos en ' + anioB + (anioB === '2026' ? ' (parcial)' : ''), fmtARS(b.total), b.count + (b.count === 1 ? ' movimiento' : ' movimientos')) +
+      kpi('Diferencia', (diff >= 0 ? '+' : '') + fmtARS(diff), diffPct !== null ? ((diffPct >= 0 ? '+' : '') + diffPct.toFixed(1) + '%') : 'sin base de comparación', cls);
+
+    if (a.count === 0 && b.count === 0){
+      document.getElementById('alqCmpAnioIngResumenPlain').textContent = 'No hay ingresos de Alquileres registrados en ninguno de los dos años.';
+    } else if (diff === 0){
+      document.getElementById('alqCmpAnioIngResumenPlain').textContent = 'Ingresaste prácticamente lo mismo en ' + anioA + ' que en ' + anioB + '.';
+    } else {
+      document.getElementById('alqCmpAnioIngResumenPlain').textContent =
+        (diff > 0 ? 'En ' + anioA + ' ingresaste ' + fmtARS(diff) + ' más' : 'En ' + anioA + ' ingresaste ' + fmtARS(Math.abs(diff)) + ' menos') +
+        ' que en ' + anioB + (diffPct !== null ? ' (' + (diffPct >= 0 ? '+' : '') + diffPct.toFixed(1) + '%)' : '') + '.';
+    }
+
+    const nombres = new Set([...Object.keys(a.porCat), ...Object.keys(b.porCat)]);
+    const filas = [...nombres].map(nombre => {
+      const va = a.porCat[nombre] || 0;
+      const vb = b.porCat[nombre] || 0;
+      const d = va - vb;
+      const pct = vb > 0 ? (d / vb) * 100 : null;
+      return { nombre, va, vb, d, pct };
+    }).filter(f => f.va !== 0 || f.vb !== 0)
+      .sort((f1, f2) => f2.d - f1.d);
+
+    document.querySelector('#alqCmpAnioIngTable tbody').innerHTML = filas.length
+      ? filas.map(f => {
+          const dCls = f.d > 0 ? 'pos' : (f.d < 0 ? 'neg' : '');
+          const pctTxt = f.pct !== null ? ((f.pct >= 0 ? '+' : '') + f.pct.toFixed(0) + '%') : '—';
+          return '<tr><td>' + f.nombre + '</td>' +
+            '<td class="num">' + fmtARS(f.va) + '</td>' +
+            '<td class="num">' + fmtARS(f.vb) + '</td>' +
+            '<td class="num ' + dCls + '">' + (f.d >= 0 ? '+' : '') + fmtARS(f.d) + '</td>' +
+            '<td class="num ' + dCls + '">' + pctTxt + '</td></tr>';
+        }).join('')
+      : '<tr><td colspan="5" class="card-note">Sin categorías con ingresos en ninguno de los dos años.</td></tr>';
+  }
+
+  document.getElementById('alqCmpAnioIngA').addEventListener('change', renderAlqCmpAnioIngresos);
+  document.getElementById('alqCmpAnioIngB').addEventListener('change', renderAlqCmpAnioIngresos);
+  renderAlqCmpAnioIngresos();
+
+  /* ---------------- Panorama anual — Alquileres ---------------- */
+  const alqAniosCmp = PERSONAL_YEARLY.map(y => y.year);
+  barChart('alqChartCmpAnual', alqAniosCmp, PERSONAL_YEARLY.map(y => y.expense), () => '#e08b78', {height:200});
+  document.querySelector('#alqCmpAnualTable tbody').innerHTML = PERSONAL_YEARLY.map((y,i) => {
+    const prev = i > 0 ? PERSONAL_YEARLY[i-1].expense : null;
+    const varPct = (prev && prev > 0) ? ((y.expense - prev) / prev) * 100 : null;
+    const cls = varPct === null ? '' : (varPct > 0 ? 'neg' : (varPct < 0 ? 'pos' : ''));
+    return '<tr><td>' + y.year + (y.year === '2026' ? ' (parcial)' : '') + '</td>' +
+      '<td class="num neg">' + fmtARS(y.expense) + '</td>' +
+      '<td class="num ' + cls + '">' + (varPct === null ? '—' : ((varPct>=0?'+':'') + varPct.toFixed(1) + '%')) + '</td></tr>';
+  }).join('');
+
+})();
+
+/* ---------------- BALANCE COMBINADO (Agencia + Alquileres), solo en la subsolapa dedicada ---------------- */
+(function(){
+  function kpi(label, val, note, cls){
+    return '<div class="kpi"><div class="label">' + label + '</div><div class="val' + (cls?(' '+cls):'') + '">' + val + '</div>' +
+      (note ? '<div class="card-note" style="margin:4px 0 0">' + note + '</div>' : '') + '</div>';
+  }
+  function fmtFechaCorta(dInt){
+    const s = String(dInt);
+    return s.slice(6,8) + '/' + s.slice(4,6) + '/' + s.slice(0,4);
+  }
+
+  const rentMinDateBal = RENT_MOVES.reduce((m,r) => r[0] < m ? r[0] : m, RENT_MOVES[0][0]);
+  const rentMaxDateBal = RENT_MOVES.reduce((m,r) => r[0] > m ? r[0] : m, RENT_MOVES[0][0]);
+  const balMinDate = Math.min(movesMinDate, rentMinDateBal);
+  const balMaxDate = Math.max(movesMaxDate, rentMaxDateBal);
+  const balMinYm = String(balMinDate).slice(0,6);
+  const balMaxYm = String(balMaxDate).slice(0,6);
+
+  initMonthPicker('balDesde', balMinYm, balMaxYm, balMinYm);
+  initMonthPicker('balHasta', balMinYm, balMaxYm, balMaxYm);
+
+  function sumCuenta(moves, catList, desdeInt, hastaInt){
+    let income = 0, expense = 0, incomeCount = 0, expenseCount = 0;
+    moves.forEach(m => {
+      if (m[0] < desdeInt || m[0] > hastaInt) return;
+      const cat = catList[m[1]];
+      if (!cat) return;
+      if (cat.sign === '+'){ income += m[2]; incomeCount++; } else { expense += m[2]; expenseCount++; }
+    });
+    return { income, expense, incomeCount, expenseCount };
+  }
+
+  function resumenMensual(desdeInt, hastaInt){
+    const map = Object.create(null);
+    MOVES.forEach(m => {
+      if (m[0] < desdeInt || m[0] > hastaInt) return;
+      const cat = CAT_LIST[m[1]];
+      if (!cat) return;
+      const ym = String(m[0]).slice(0,6);
+      if (!map[ym]) map[ym] = { agIncome:0, agExpense:0, alIncome:0, alExpense:0 };
+      if (cat.sign === '+') map[ym].agIncome += m[2]; else map[ym].agExpense += m[2];
+    });
+    RENT_MOVES.forEach(m => {
+      if (m[0] < desdeInt || m[0] > hastaInt) return;
+      const cat = RENT_MOVES_CATS[m[1]];
+      if (!cat) return;
+      const ym = String(m[0]).slice(0,6);
+      if (!map[ym]) map[ym] = { agIncome:0, agExpense:0, alIncome:0, alExpense:0 };
+      if (cat.sign === '+') map[ym].alIncome += m[2]; else map[ym].alExpense += m[2];
+    });
+    return Object.keys(map).sort().map(ym => ({ ym, ...map[ym] }));
+  }
+
+  function renderBalanceCombinado(){
+    const desdeVal = document.getElementById('balDesde').value;
+    const hastaVal = document.getElementById('balHasta').value;
+    const desdeFechaVal = document.getElementById('balDesdeFecha').value;
+    const hastaFechaVal = document.getElementById('balHastaFecha').value;
+    const usaFechaExacta = !!(desdeFechaVal || hastaFechaVal);
+
+    let desdeInt, hastaInt;
+    if (usaFechaExacta){
+      desdeInt = desdeFechaVal ? parseInt(desdeFechaVal.replace(/-/g,''),10) : balMinDate;
+      hastaInt = hastaFechaVal ? parseInt(hastaFechaVal.replace(/-/g,''),10) : balMaxDate;
+    } else {
+      desdeInt = desdeVal ? ymToRangeInt(desdeVal, false) : balMinDate;
+      hastaInt = hastaVal ? ymToRangeInt(hastaVal, true) : balMaxDate;
+    }
+
+    const esTodo = desdeInt <= balMinDate && hastaInt >= balMaxDate;
+    if (usaFechaExacta){
+      document.getElementById('balPeriodoNote').textContent = esTodo
+        ? 'Mostrando todo el historial disponible (las dos cuentas).'
+        : `Mostrando de ${fmtFechaCorta(desdeInt)} a ${fmtFechaCorta(hastaInt)}.`;
+    } else {
+      const desdeYm = desdeVal ? desdeVal.replace('-','') : balMinYm;
+      const hastaYm = hastaVal ? hastaVal.replace('-','') : balMaxYm;
+      document.getElementById('balPeriodoNote').textContent = esTodo
+        ? 'Mostrando todo el historial disponible (las dos cuentas).'
+        : (desdeYm===hastaYm ? `Mostrando solo ${fmtMonth(desdeYm)}.` : `Mostrando de ${fmtMonth(desdeYm)} a ${fmtMonth(hastaYm)}.`);
+    }
+
+    const ag = sumCuenta(MOVES, CAT_LIST, desdeInt, hastaInt);
+    const al = sumCuenta(RENT_MOVES, RENT_MOVES_CATS, desdeInt, hastaInt);
+    const totalIncome = ag.income + al.income;
+    const totalExpense = ag.expense + al.expense;
+    const balance = totalIncome - totalExpense;
+
+    document.getElementById('balCombinadoKpis').innerHTML =
+      kpi('Ingresos totales', fmtARS(totalIncome), (ag.incomeCount + al.incomeCount) + ' movimientos', 'pos') +
+      kpi('Gastos totales', fmtARS(totalExpense), (ag.expenseCount + al.expenseCount) + ' movimientos', 'neg') +
+      kpi('Balance combinado', (balance>=0?'+':'') + fmtARS(balance), balance>=0 ? 'A favor' : 'En contra', balance>=0?'pos':'neg');
+
+    document.getElementById('balPorCuentaKpis').innerHTML =
+      kpi('Agencia — Ingresos', fmtARS(ag.income), ag.incomeCount + ' movimientos', 'pos') +
+      kpi('Agencia — Gastos', fmtARS(ag.expense), ag.expenseCount + ' movimientos', 'neg') +
+      kpi('Agencia — Balance', (ag.income-ag.expense>=0?'+':'') + fmtARS(ag.income-ag.expense), '', (ag.income-ag.expense)>=0?'pos':'neg') +
+      kpi('Alquileres — Ingresos', fmtARS(al.income), al.incomeCount + ' movimientos', 'pos') +
+      kpi('Alquileres — Gastos', fmtARS(al.expense), al.expenseCount + ' movimientos', 'neg') +
+      kpi('Alquileres — Balance', (al.income-al.expense>=0?'+':'') + fmtARS(al.income-al.expense), '', (al.income-al.expense)>=0?'pos':'neg');
+
+    const filas = resumenMensual(desdeInt, hastaInt);
+    document.querySelector('#balMensualTable tbody').innerHTML = filas.length
+      ? filas.map(f => {
+          const balMes = (f.agIncome + f.alIncome) - (f.agExpense + f.alExpense);
+          const cls = balMes >= 0 ? 'pos' : 'neg';
+          return '<tr><td>' + fmtMonth(f.ym) + '</td>' +
+            '<td class="num pos">' + fmtARS(f.agIncome) + '</td>' +
+            '<td class="num neg">' + fmtARS(f.agExpense) + '</td>' +
+            '<td class="num pos">' + fmtARS(f.alIncome) + '</td>' +
+            '<td class="num neg">' + fmtARS(f.alExpense) + '</td>' +
+            '<td class="num ' + cls + '">' + (balMes>=0?'+':'') + fmtARS(balMes) + '</td></tr>';
+        }).join('')
+      : '<tr><td colspan="6" class="card-note">Sin movimientos en el período elegido.</td></tr>';
+  }
+
+  ['balDesde','balHasta','balDesdeFecha','balHastaFecha'].forEach(id => {
+    document.getElementById(id).addEventListener('change', renderBalanceCombinado);
+  });
+  document.getElementById('balLimpiarFechasBtn').addEventListener('click', () => {
+    document.getElementById('balDesdeFecha').value = '';
+    document.getElementById('balHastaFecha').value = '';
+    renderBalanceCombinado();
+  });
+  document.getElementById('balTodoBtn').addEventListener('click', () => {
+    document.getElementById('balDesde').value = balMinYm.slice(0,4) + '-' + balMinYm.slice(4,6);
+    document.getElementById('balHasta').value = balMaxYm.slice(0,4) + '-' + balMaxYm.slice(4,6);
+    document.getElementById('balDesdeFecha').value = '';
+    document.getElementById('balHastaFecha').value = '';
+    renderBalanceCombinado();
+  });
+
+  renderBalanceCombinado();
 })();
 
 /* ---------------- PROVEEDORES (pagos a distribuidores/medios) ---------------- */
