@@ -1084,6 +1084,12 @@
       </form>
     </div>
     <div class="card">
+      <h2>Gestionar categorías</h2>
+      <p class="card-note">Editá o eliminá las categorías predeterminadas y las que agregaste vos. Al eliminar una, no se borra ningún movimiento ya cargado: solo deja de aparecer en la lista para elegir en cargas nuevas.</p>
+      <div id="gestionCategoriasList" style="display:flex;flex-direction:column;gap:6px;margin-top:8px;"></div>
+      <p class="card-note" id="gestionCategoriasMsg" style="min-height:14px;margin-top:6px;"></p>
+    </div>
+    <div class="card">
       <h2>Movimientos cargados a mano</h2>
       <p class="card-note">Los que agregaste vos manualmente (no vienen del export original), de las dos cuentas por separado. Se pueden borrar.</p>
       <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;">
@@ -1291,6 +1297,27 @@ try {
   const storedCats = await storageGet('categorias-personalizadas');
   categoriasCustom = storedCats ? JSON.parse(storedCats) : [];
 } catch(e) { categoriasCustom = []; }
+
+// Las de CATEGORIAS_BASE son fijas en el código, así que para poder
+// "eliminarlas" o "renombrarlas" desde la pantalla se guarda acá una lista
+// de las que el usuario ocultó y un mapa de renombres, aparte. El nombre
+// que se ve en el desplegable y en la gestión sale de aplicar ese mapa +
+// filtro sobre CATEGORIAS_BASE. Las categorías personalizadas, en cambio,
+// se editan/eliminan directo sobre el array categoriasCustom.
+let categoriasBaseEliminadas = [];
+let categoriasBaseRenombres = {};
+try {
+  const storedElim = await storageGet('categorias-base-eliminadas');
+  categoriasBaseEliminadas = storedElim ? JSON.parse(storedElim) : [];
+} catch(e) { categoriasBaseEliminadas = []; }
+try {
+  const storedRenom = await storageGet('categorias-base-renombres');
+  categoriasBaseRenombres = storedRenom ? JSON.parse(storedRenom) : {};
+} catch(e) { categoriasBaseRenombres = {}; }
+function categoriasBaseVisibles(){
+  return CATEGORIAS_BASE.filter(c=>!categoriasBaseEliminadas.includes(c))
+    .map(c=>categoriasBaseRenombres[c] || c);
+}
 
 /* ---------------- TOGGLE: sueldo propio, ¿cuenta como gasto? ---------------- */
 // El sueldo que te pagás a vos mismo (categoría "Sueldo", egreso) es un gasto
@@ -4248,7 +4275,7 @@ const catOtraInput = document.getElementById('cargarCategoriaOtra');
 function poblarCategoriasSelect(){
   const valPrevio = catSelect.value;
   catSelect.innerHTML = '<option value="">Sin categoría</option>';
-  CATEGORIAS_BASE.concat(categoriasCustom).forEach(cat=>{
+  categoriasBaseVisibles().concat(categoriasCustom).forEach(cat=>{
     const opt = document.createElement('option');
     opt.value = cat; opt.textContent = cat;
     catSelect.appendChild(opt);
@@ -4264,6 +4291,133 @@ catSelect.addEventListener('change', ()=>{
   catOtraInput.style.display = esOtra ? 'block' : 'none';
   if (esOtra) catOtraInput.focus();
 });
+
+/* ---------------- GESTIONAR CATEGORÍAS (editar / eliminar) ---------------- */
+const gestionMsg = document.getElementById('gestionCategoriasMsg');
+
+function renderGestionCategorias(){
+  const cont = document.getElementById('gestionCategoriasList');
+  cont.innerHTML = '';
+  const filaStyle = 'display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--line);';
+  const btnStyle = 'border-radius:6px;';
+
+  function agregarFila(nombreMostrado, esBase, nombreOriginalBase){
+    const fila = document.createElement('div');
+    fila.style.cssText = filaStyle;
+
+    const span = document.createElement('span');
+    span.textContent = nombreMostrado;
+    span.style.cssText = 'flex:1;font-size:13px;';
+    fila.appendChild(span);
+
+    const tag = document.createElement('span');
+    tag.textContent = esBase ? 'predeterminada' : 'personalizada';
+    tag.style.cssText = 'font-size:10px;opacity:.6;';
+    fila.appendChild(tag);
+
+    const btnEditar = document.createElement('button');
+    btnEditar.type = 'button';
+    btnEditar.className = 'link-btn';
+    btnEditar.style.cssText = btnStyle;
+    btnEditar.textContent = 'Editar';
+    btnEditar.addEventListener('click', ()=> iniciarEdicion(fila, nombreMostrado, esBase, nombreOriginalBase));
+    fila.appendChild(btnEditar);
+
+    const btnEliminar = document.createElement('button');
+    btnEliminar.type = 'button';
+    btnEliminar.className = 'link-btn';
+    btnEliminar.style.cssText = btnStyle;
+    btnEliminar.textContent = 'Eliminar';
+    btnEliminar.addEventListener('click', ()=> eliminarCategoria(nombreMostrado, esBase, nombreOriginalBase));
+    fila.appendChild(btnEliminar);
+
+    cont.appendChild(fila);
+  }
+
+  categoriasBaseVisibles().forEach(nombreMostrado=>{
+    // El nombre original en CATEGORIAS_BASE puede diferir si ya se renombró antes.
+    const original = Object.keys(categoriasBaseRenombres).find(k=>categoriasBaseRenombres[k]===nombreMostrado)
+      || CATEGORIAS_BASE.find(c=>c===nombreMostrado);
+    agregarFila(nombreMostrado, true, original);
+  });
+  categoriasCustom.forEach(nombreMostrado=>{
+    agregarFila(nombreMostrado, false, null);
+  });
+
+  if (!categoriasBaseVisibles().length && !categoriasCustom.length){
+    cont.innerHTML = '<p class="card-note">No quedan categorías cargadas.</p>';
+  }
+}
+
+function iniciarEdicion(fila, nombreActual, esBase, nombreOriginalBase){
+  fila.innerHTML = '';
+  const input = document.createElement('input');
+  input.type = 'text';
+  input.value = nombreActual;
+  input.style.cssText = 'flex:1;background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:6px 8px;border-radius:6px;font-size:13px;';
+  fila.appendChild(input);
+
+  const btnGuardar = document.createElement('button');
+  btnGuardar.type = 'button';
+  btnGuardar.className = 'link-btn';
+  btnGuardar.textContent = 'Guardar';
+  btnGuardar.addEventListener('click', async ()=>{
+    const nuevo = input.value.trim();
+    if (!nuevo){ gestionMsg.textContent = 'El nombre no puede quedar vacío.'; return; }
+    if (nuevo === nombreActual){ renderGestionCategorias(); return; }
+    const yaExiste = categoriasBaseVisibles().includes(nuevo) || categoriasCustom.includes(nuevo);
+    if (yaExiste){ gestionMsg.textContent = 'Ya existe una categoría con ese nombre.'; return; }
+    gestionMsg.textContent = 'Guardando…';
+    let ok;
+    if (esBase){
+      const prevRenom = {...categoriasBaseRenombres};
+      categoriasBaseRenombres[nombreOriginalBase] = nuevo;
+      ok = await storageSet('categorias-base-renombres', JSON.stringify(categoriasBaseRenombres));
+      if (!ok) categoriasBaseRenombres = prevRenom;
+    } else {
+      const idx = categoriasCustom.indexOf(nombreActual);
+      const prevCustom = [...categoriasCustom];
+      if (idx !== -1) categoriasCustom[idx] = nuevo;
+      ok = await storageSet('categorias-personalizadas', JSON.stringify(categoriasCustom));
+      if (!ok) categoriasCustom = prevCustom;
+    }
+    gestionMsg.textContent = ok ? '' : 'No se pudo guardar. Probá de nuevo.';
+    poblarCategoriasSelect();
+    renderGestionCategorias();
+  });
+  fila.appendChild(btnGuardar);
+
+  const btnCancelar = document.createElement('button');
+  btnCancelar.type = 'button';
+  btnCancelar.className = 'link-btn';
+  btnCancelar.textContent = 'Cancelar';
+  btnCancelar.addEventListener('click', renderGestionCategorias);
+  fila.appendChild(btnCancelar);
+
+  input.focus();
+}
+
+async function eliminarCategoria(nombreMostrado, esBase, nombreOriginalBase){
+  if (!confirm(`¿Eliminar la categoría "${nombreMostrado}" de la lista para cargar movimientos? Los movimientos ya guardados con esta categoría no se modifican.`)) return;
+  gestionMsg.textContent = 'Eliminando…';
+  let ok;
+  if (esBase){
+    const prevElim = [...categoriasBaseEliminadas];
+    if (!categoriasBaseEliminadas.includes(nombreOriginalBase)) categoriasBaseEliminadas.push(nombreOriginalBase);
+    ok = await storageSet('categorias-base-eliminadas', JSON.stringify(categoriasBaseEliminadas));
+    if (!ok) categoriasBaseEliminadas = prevElim;
+  } else {
+    const prevCustom = [...categoriasCustom];
+    categoriasCustom = categoriasCustom.filter(c=>c!==nombreMostrado);
+    ok = await storageSet('categorias-personalizadas', JSON.stringify(categoriasCustom));
+    if (!ok) categoriasCustom = prevCustom;
+  }
+  gestionMsg.textContent = ok ? '' : 'No se pudo eliminar. Probá de nuevo.';
+  poblarCategoriasSelect();
+  renderGestionCategorias();
+}
+
+renderGestionCategorias();
 
 let cargarTipo = 'ingreso';
 let cargarMedio = 'efectivo';
@@ -4311,7 +4465,7 @@ document.getElementById('cargarForm').addEventListener('submit', async (e)=>{
   manualEntries.push(entry);
   msgEl.textContent = 'Guardando…';
   const esCategoriaNueva = esOtraCategoria && category &&
-    !CATEGORIAS_BASE.includes(category) && !categoriasCustom.includes(category);
+    !categoriasBaseVisibles().includes(category) && !categoriasCustom.includes(category);
   const savedOk = await storageSet('manual-entries', JSON.stringify(manualEntries));
   if (savedOk){
     if (esCategoriaNueva){
@@ -4351,10 +4505,12 @@ function backupEntryKey(en){
 function armarBackupTexto(){
   const backup = {
     tipo: 'panel-agencia-backup',
-    version: 1,
+    version: 2,
     exportadoEl: new Date().toISOString(),
     manualEntries: manualEntries,
-    categoriasCustom: categoriasCustom
+    categoriasCustom: categoriasCustom,
+    categoriasBaseEliminadas: categoriasBaseEliminadas,
+    categoriasBaseRenombres: categoriasBaseRenombres
   };
   return JSON.stringify(backup, null, 2);
 }
@@ -4447,6 +4603,14 @@ async function procesarBackupTexto(texto, msgEl){
         if (cat && !categoriasCustom.includes(cat)) categoriasCustom.push(cat);
       });
     }
+    if (Array.isArray(data.categoriasBaseEliminadas)){
+      data.categoriasBaseEliminadas.forEach(cat=>{
+        if (cat && !categoriasBaseEliminadas.includes(cat)) categoriasBaseEliminadas.push(cat);
+      });
+    }
+    if (data.categoriasBaseRenombres && typeof data.categoriasBaseRenombres === 'object'){
+      Object.assign(categoriasBaseRenombres, data.categoriasBaseRenombres);
+    }
     if (agregados === 0){
       msgEl.textContent = repetidos > 0
         ? `Ese backup ya estaba cargado acá (${repetidos} repetido(s), 0 nuevos).`
@@ -4456,6 +4620,8 @@ async function procesarBackupTexto(texto, msgEl){
     msgEl.textContent = `Importando ${agregados} movimiento(s) nuevo(s)${repetidos ? ` (${repetidos} ya estaban)` : ''}…`;
     const okMov = await storageSet('manual-entries', JSON.stringify(manualEntries));
     await storageSet('categorias-personalizadas', JSON.stringify(categoriasCustom));
+    await storageSet('categorias-base-eliminadas', JSON.stringify(categoriasBaseEliminadas));
+    await storageSet('categorias-base-renombres', JSON.stringify(categoriasBaseRenombres));
     if (okMov){
       location.reload();
     } else {
