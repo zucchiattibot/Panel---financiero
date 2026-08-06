@@ -1093,8 +1093,12 @@
         <input type="file" id="inputImportarBackup" accept="application/json,.json" style="display:none;">
       </div>
       <p class="card-note" id="backupMsg" style="min-height:14px;"></p>
-      <div style="overflow-x:auto;">
-      <table id="cargarTable"><thead><tr><th>Fecha</th><th>Cuenta</th><th>Tipo</th><th>Categoría</th><th style="text-align:right">Monto</th><th></th></tr></thead><tbody></tbody></table>
+      <p class="card-note" id="cargarCount" style="margin-bottom:6px;"></p>
+      <div style="overflow-x:auto;overflow-y:auto;max-height:340px;border:1px solid var(--line);border-radius:10px;">
+      <table id="cargarTable"><thead><tr><th style="position:sticky;top:0;background:var(--bg-2);">Fecha</th><th style="position:sticky;top:0;background:var(--bg-2);">Cuenta</th><th style="position:sticky;top:0;background:var(--bg-2);">Tipo</th><th style="position:sticky;top:0;background:var(--bg-2);">Categoría</th><th style="position:sticky;top:0;background:var(--bg-2);text-align:right">Monto</th><th style="position:sticky;top:0;background:var(--bg-2);"></th></tr></thead><tbody></tbody></table>
+      </div>
+      <div style="text-align:center;margin-top:8px;">
+        <button type="button" class="link-btn" id="cargarVerMasBtn" style="display:none;">Ver todos</button>
       </div>
       <p class="card-note" id="cargarEmpty" style="display:none;">Todavía no cargaste ningún movimiento manual.</p>
     </div>
@@ -4170,13 +4174,39 @@ document.querySelector('.tab-btn[data-tab="mercados"]').addEventListener('click'
 });
 
 /* ---------------- FORM DE CARGA MANUAL ---------------- */
+const CARGAR_LIMITE_INICIAL = 15;
+let cargarMostrarTodo = false;
+
 function renderManualList(){
   const tbody = document.querySelector('#cargarTable tbody');
   const emptyMsg = document.getElementById('cargarEmpty');
+  const countEl = document.getElementById('cargarCount');
+  const verMasBtn = document.getElementById('cargarVerMasBtn');
   tbody.innerHTML = '';
-  if (manualEntries.length === 0){ emptyMsg.style.display = 'block'; return; }
+  if (manualEntries.length === 0){
+    emptyMsg.style.display = 'block';
+    countEl.textContent = '';
+    verMasBtn.style.display = 'none';
+    return;
+  }
   emptyMsg.style.display = 'none';
-  manualEntries.forEach((en, idx)=>{
+
+  // Guardamos el índice original de cada entrada (el que usa deleteManualEntry)
+  // y mostramos primero las más recientes.
+  const conIndice = manualEntries.map((en, idx) => ({ en, idx }));
+  conIndice.sort((a, b) => (a.en.date < b.en.date ? 1 : a.en.date > b.en.date ? -1 : 0));
+
+  const total = conIndice.length;
+  const visibles = cargarMostrarTodo ? conIndice : conIndice.slice(0, CARGAR_LIMITE_INICIAL);
+
+  countEl.textContent = cargarMostrarTodo || total <= CARGAR_LIMITE_INICIAL
+    ? `${total} movimiento${total===1?'':'s'} cargado${total===1?'':'s'} a mano (más reciente primero).`
+    : `Mostrando los ${visibles.length} más recientes de ${total} (más reciente primero).`;
+
+  verMasBtn.style.display = total > CARGAR_LIMITE_INICIAL ? 'inline-block' : 'none';
+  verMasBtn.textContent = cargarMostrarTodo ? 'Ver menos' : `Ver todos (${total})`;
+
+  visibles.forEach(({ en, idx })=>{
     const tr = document.createElement('tr');
     const sign = en.type === 'ingreso' ? 'pos' : 'neg';
     const tipoTxt = en.type === 'ingreso' ? 'Ingreso' : 'Egreso';
@@ -4191,6 +4221,10 @@ function renderManualList(){
     btn.addEventListener('click', ()=> deleteManualEntry(parseInt(btn.dataset.idx, 10)));
   });
 }
+document.getElementById('cargarVerMasBtn').addEventListener('click', ()=>{
+  cargarMostrarTodo = !cargarMostrarTodo;
+  renderManualList();
+});
 renderManualList();
 
 async function deleteManualEntry(idx){
