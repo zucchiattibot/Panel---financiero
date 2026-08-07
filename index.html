@@ -25,6 +25,10 @@
   .tab-btn{flex:0 0 auto;background:var(--bg-2);border:1px solid var(--line);color:var(--cream-dim);
     padding:9px 16px;border-radius:999px;font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap;}
   .tab-btn.active{background:var(--gold);color:#1a2a1f;border-color:var(--gold);font-weight:700;}
+  .tab-btn[data-tab]{user-select:none;-webkit-user-select:none;}
+  .tab-btn[data-tab].tab-armed{box-shadow:0 0 0 2px var(--gold) inset;}
+  .tab-btn[data-tab].tab-dragging{opacity:.55;transform:scale(1.08);box-shadow:0 6px 18px rgba(0,0,0,.45);position:relative;z-index:5;cursor:grabbing;}
+  .tabs-hint{color:var(--muted);font-size:10.5px;margin:-12px 0 16px 3px;}
 
   .panel{display:none;} .panel.active{display:block;}
   .alqsub-panel{display:none;} .alqsub-panel.active{display:block;}
@@ -49,6 +53,40 @@
   .toggle-btn{background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream-dim);padding:6px 13px;border-radius:8px;font-size:12px;cursor:pointer;font-weight:500;}
   .toggle-btn.active{background:var(--gold);color:#1a2a1f;border-color:var(--gold);font-weight:700;}
   .toggle-btn:disabled{opacity:.35;cursor:default;}
+
+  /* ---- Cargar datos: tarjeta de carga grande y vistosa ---- */
+  .cargar-hero{border-width:1.5px;border-color:var(--line);padding:22px 18px 20px;position:relative;overflow:hidden;transition:border-color .25s;}
+  .cargar-hero::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--muted);transition:background .25s;}
+  .cargar-hero.tipo-ingreso{border-color:rgba(127,212,160,.45);}
+  .cargar-hero.tipo-ingreso::before{background:var(--green-pos);}
+  .cargar-hero.tipo-egreso{border-color:rgba(224,139,120,.45);}
+  .cargar-hero.tipo-egreso::before{background:var(--red-neg);}
+  .cargar-hero h2{font-size:22px;}
+  .cargar-tipo-big{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;}
+  .cargar-tipo-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:14px 8px;border-radius:14px;
+    border:1.5px solid var(--line);background:rgba(0,0,0,.18);color:var(--cream-dim);font-size:14px;font-weight:700;cursor:pointer;}
+  .cargar-tipo-btn .cargar-tipo-icon{font-size:19px;line-height:1;}
+  .cargar-tipo-btn[data-tipo="ingreso"].active{background:rgba(127,212,160,.16);border-color:var(--green-pos);color:var(--green-pos);}
+  .cargar-tipo-btn[data-tipo="egreso"].active{background:rgba(224,139,120,.16);border-color:var(--red-neg);color:var(--red-neg);}
+  .cargar-amount-wrap{display:flex;align-items:center;justify-content:center;gap:6px;background:rgba(0,0,0,.22);
+    border:1.5px solid var(--line);border-radius:16px;padding:16px 10px;margin-bottom:18px;}
+  .cargar-amount-currency{font-family:Georgia,serif;font-size:24px;color:var(--muted);}
+  .cargar-amount-input{font-family:Georgia,serif;font-size:38px;font-weight:700;background:none;border:none;color:var(--cream);
+    text-align:center;width:100%;max-width:260px;padding:0;}
+  .cargar-amount-input::-webkit-outer-spin-button, .cargar-amount-input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0;}
+  .cargar-amount-input:focus{outline:none;}
+  .cargar-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .cargar-grid-2 .range-group{margin-bottom:0;}
+  .cargar-submit-btn{width:100%;margin-top:8px;padding:16px;border-radius:12px;border:none;background:var(--gold);color:#1a2a1f;
+    font-size:15px;font-weight:700;cursor:pointer;letter-spacing:.02em;}
+  .cargar-submit-btn:active{transform:translateY(1px);}
+  details.cargar-advanced{margin-top:2px;}
+  details.cargar-advanced summary{cursor:pointer;list-style:none;color:var(--muted);font-size:12.5px;padding:12px 4px;
+    display:flex;align-items:center;gap:7px;user-select:none;}
+  details.cargar-advanced summary::-webkit-details-marker{display:none;}
+  details.cargar-advanced summary::before{content:'▸';display:inline-block;transition:transform .2s;}
+  details.cargar-advanced[open] summary::before{transform:rotate(90deg);}
+  details.cargar-advanced summary:hover{color:var(--cream-dim);}
 
   table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:4px;}
   th{text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:500;padding:0 6px 8px 0;border-bottom:1px solid var(--line);}
@@ -88,7 +126,7 @@
 
   @media print{
     body{background:#fff;color:#111;}
-    .tabs, .toggle-row, .print-btn, .status, #retryIpc, .link-btn, form, .foot, .card-note.hide-print{display:none !important;}
+    .tabs, .tabs-hint, .toggle-row, .print-btn, .status, #retryIpc, .link-btn, form, .foot, .card-note.hide-print{display:none !important;}
     .panel{display:none !important;}
     #tab-informe{display:block !important;}
     .card{background:#fff;border:1px solid #ccc;color:#111;box-shadow:none;break-inside:avoid;}
@@ -130,6 +168,7 @@
     <button class="tab-btn" data-tab="estadisticas-alquileres">Estadísticas Alquileres</button>
     <button class="tab-btn" data-tab="cargar">Cargar datos</button>
   </div>
+  <p class="tabs-hint">Mantené presionada una pestaña un instante y arrastrala para ubicarla donde quieras.</p>
 
   <div class="panel active" id="tab-resumen">
     <div class="card">
@@ -1239,10 +1278,19 @@
   </div>
 
   <div class="panel" id="tab-cargar">
-    <div class="card">
-      <h2>Agregar movimiento</h2>
-      <p class="card-note">Se suma en el momento a todo el panel: balance, categorías, comparaciones y proyección.</p>
+    <div class="card cargar-hero tipo-ingreso" id="cargarHero">
+      <p class="eyebrow">Carga rápida</p>
+      <h2>Cargar un movimiento</h2>
+      <p class="card-note">Sumá un ingreso o un gasto ahora. Se refleja al instante en el balance, categorías, comparaciones y proyección de todo el panel.</p>
       <form id="cargarForm">
+        <div class="cargar-tipo-big" id="cargarTipoToggle">
+          <button type="button" class="toggle-btn cargar-tipo-btn active" data-tipo="ingreso"><span class="cargar-tipo-icon">↓</span>Ingreso</button>
+          <button type="button" class="toggle-btn cargar-tipo-btn" data-tipo="egreso"><span class="cargar-tipo-icon">↑</span>Gasto</button>
+        </div>
+        <div class="cargar-amount-wrap">
+          <span class="cargar-amount-currency">$</span>
+          <input type="number" id="cargarMonto" required min="0.01" step="0.01" placeholder="0" inputmode="decimal" class="cargar-amount-input">
+        </div>
         <div class="range-group">
           <div class="range-label">Cuenta</div>
           <div class="toggle-row" id="cargarCuentaToggle">
@@ -1250,89 +1298,85 @@
             <button type="button" class="toggle-btn" data-cuenta="alquileres">Alquileres</button>
           </div>
         </div>
-        <div class="range-group">
-          <div class="range-label">Tipo</div>
-          <div class="toggle-row" id="cargarTipoToggle">
-            <button type="button" class="toggle-btn active" data-tipo="ingreso">Ingreso</button>
-            <button type="button" class="toggle-btn" data-tipo="egreso">Egreso</button>
+        <div class="cargar-grid-2">
+          <div class="range-group">
+            <div class="range-label">Fecha</div>
+            <input type="date" id="cargarFecha" required style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:11px 10px;border-radius:8px;font-size:14px;width:100%;color-scheme:dark;">
+          </div>
+          <div class="range-group">
+            <div class="range-label">Categoría</div>
+            <select id="cargarCategoriaSelect" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:11px 10px;border-radius:8px;font-size:14px;width:100%;color-scheme:dark;">
+              <option value="">Sin categoría</option>
+            </select>
           </div>
         </div>
-        <div class="range-group">
-          <div class="range-label">Fecha</div>
-          <input type="date" id="cargarFecha" required style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:9px 10px;border-radius:8px;font-size:13px;width:100%;color-scheme:dark;">
-        </div>
-        <div class="range-group">
-          <div class="range-label">Monto (ARS)</div>
-          <input type="number" id="cargarMonto" required min="0.01" step="0.01" placeholder="0" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:9px 10px;border-radius:8px;font-size:13px;width:100%;">
-        </div>
-        <div class="range-group">
-          <div class="range-label">Categoría</div>
-          <select id="cargarCategoriaSelect" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:9px 10px;border-radius:8px;font-size:13px;width:100%;color-scheme:dark;">
-            <option value="">Sin categoría</option>
-          </select>
-          <input type="text" id="cargarCategoriaOtra" placeholder="Escribí el nombre de la nueva categoría" style="display:none;margin-top:8px;background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:9px 10px;border-radius:8px;font-size:13px;width:100%;">
-        </div>
-        <div class="range-group" id="cargarMedioGroup">
+        <input type="text" id="cargarCategoriaOtra" placeholder="Escribí el nombre de la nueva categoría" style="display:none;margin-top:10px;background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:11px 10px;border-radius:8px;font-size:14px;width:100%;">
+        <div class="range-group" id="cargarMedioGroup" style="margin-top:14px;">
           <div class="range-label">Medio</div>
           <div class="toggle-row" id="cargarMedioToggle">
             <button type="button" class="toggle-btn active" data-medio="efectivo">Efectivo</button>
             <button type="button" class="toggle-btn" data-medio="transferencia">Transferencia</button>
           </div>
         </div>
-        <div class="range-group" id="cargarDetalleGroup" style="display:none;">
+        <div class="range-group" id="cargarDetalleGroup" style="display:none;margin-top:14px;">
           <div class="range-label">Detalle (opcional)</div>
-          <input type="text" id="cargarDetalle" placeholder="Detalle del gasto..." style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:9px 10px;border-radius:8px;font-size:13px;width:100%;">
+          <input type="text" id="cargarDetalle" placeholder="Detalle del gasto..." style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:11px 10px;border-radius:8px;font-size:14px;width:100%;">
         </div>
-        <button type="submit" class="tab-btn active" style="margin-top:8px;border-radius:8px;">Guardar movimiento</button>
-        <p class="card-note" id="cargarMsg" style="color:var(--red-neg);margin-top:8px;min-height:14px;"></p>
+        <button type="submit" class="cargar-submit-btn">Guardar movimiento</button>
+        <p class="card-note" id="cargarMsg" style="color:var(--red-neg);margin-top:10px;margin-bottom:0;min-height:14px;text-align:center;"></p>
       </form>
     </div>
-    <div class="card">
-      <h2>Gestionar categorías</h2>
-      <p class="card-note">Editá o eliminá las categorías predeterminadas y las que agregaste vos. Al eliminar una, no se borra ningún movimiento ya cargado: solo deja de aparecer en la lista para elegir en cargas nuevas.</p>
-      <div id="gestionCategoriasList" style="display:flex;flex-direction:column;gap:6px;margin-top:8px;"></div>
-      <p class="card-note" id="gestionCategoriasMsg" style="min-height:14px;margin-top:6px;"></p>
-    </div>
-    <div class="card">
-      <h2>Movimientos cargados a mano</h2>
-      <p class="card-note">Los que agregaste vos manualmente (no vienen del export original), de las dos cuentas por separado. Se pueden borrar.</p>
-      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;">
-        <button type="button" id="btnExportarBackup" class="tab-btn" style="border-radius:8px;">⬇️ Exportar backup</button>
-        <button type="button" id="btnPegarBackup" class="tab-btn" style="border-radius:8px;">📋 Pegar backup</button>
-        <label for="inputImportarBackup" class="tab-btn" style="border-radius:8px;cursor:pointer;margin:0;display:inline-flex;align-items:center;">⬆️ Importar backup (archivo)</label>
-        <input type="file" id="inputImportarBackup" accept="application/json,.json" style="display:none;">
-      </div>
-      <p class="card-note" id="backupMsg" style="min-height:14px;"></p>
-      <p class="card-note" id="cargarCount" style="margin-bottom:6px;"></p>
-      <div style="overflow-x:auto;overflow-y:auto;max-height:340px;border:1px solid var(--line);border-radius:10px;">
-      <table id="cargarTable"><thead><tr><th style="position:sticky;top:0;background:var(--bg-2);">Fecha</th><th style="position:sticky;top:0;background:var(--bg-2);">Cuenta</th><th style="position:sticky;top:0;background:var(--bg-2);">Tipo</th><th style="position:sticky;top:0;background:var(--bg-2);">Categoría</th><th style="position:sticky;top:0;background:var(--bg-2);text-align:right">Monto</th><th style="position:sticky;top:0;background:var(--bg-2);"></th></tr></thead><tbody></tbody></table>
-      </div>
-      <div style="text-align:center;margin-top:8px;">
-        <button type="button" class="link-btn" id="cargarVerMasBtn" style="display:none;">Ver todos</button>
-      </div>
-      <p class="card-note" id="cargarEmpty" style="display:none;">Todavía no cargaste ningún movimiento manual.</p>
-    </div>
-    <div class="note-box">Esto se guarda en este dispositivo/instalación (localStorage si abrís el panel como app o página suelta; window.storage si lo abrís dentro de Claude). No viaja solo a otros celulares ni sobrevive a un "borrar datos" o desinstalar la app. Por eso: <strong>Exportar backup</strong> intenta descargar un archivo .json Y además siempre te muestra el backup como texto en pantalla con un botón para copiarlo — usá ese texto (pegalo en Notas, WhatsApp a vos mismo, etc.) si la descarga de archivo no funciona dentro de la app. Para recuperarlo después: <strong>Pegar backup</strong> (pegando ese texto) o <strong>Importar backup (archivo)</strong> si tenés el .json guardado.</div>
 
-    <div class="card">
-      <h2>Backup automático a GitHub</h2>
-      <p class="card-note">Sube el backup (movimientos cargados a mano) directo a un archivo del repo del panel, sin copiar ni pegar nada. Necesita un token de acceso personal de GitHub con permiso sobre ese repo. El token queda guardado solo en este dispositivo, nunca en el código del panel.</p>
-      <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:12px;">
-        <input type="text" id="ghOwner" placeholder="Usuario/organización de GitHub (ej: zucchiattibot)" style="padding:10px 12px;border-radius:8px;border:1px solid var(--line);background:rgba(0,0,0,.18);color:var(--cream);font-size:14px;">
-        <input type="text" id="ghRepo" placeholder="Nombre del repo (ej: Panel---financiero)" style="padding:10px 12px;border-radius:8px;border:1px solid var(--line);background:rgba(0,0,0,.18);color:var(--cream);font-size:14px;">
-        <input type="text" id="ghPath" placeholder="Ruta del archivo (ej: backups/backup.json)" style="padding:10px 12px;border-radius:8px;border:1px solid var(--line);background:rgba(0,0,0,.18);color:var(--cream);font-size:14px;">
-        <input type="password" id="ghToken" placeholder="Token de GitHub (github_pat_...)" autocomplete="off" style="padding:10px 12px;border-radius:8px;border:1px solid var(--line);background:rgba(0,0,0,.18);color:var(--cream);font-size:14px;">
-        <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--cream-dim);">
-          <input type="checkbox" id="ghAuto"> Subir automático cada vez que cargo un movimiento nuevo a mano
-        </label>
+    <details class="cargar-advanced">
+      <summary>Categorías, historial y backup</summary>
+
+      <div class="card">
+        <h2>Gestionar categorías</h2>
+        <p class="card-note">Editá o eliminá las categorías predeterminadas y las que agregaste vos. Al eliminar una, no se borra ningún movimiento ya cargado: solo deja de aparecer en la lista para elegir en cargas nuevas.</p>
+        <div id="gestionCategoriasList" style="display:flex;flex-direction:column;gap:6px;margin-top:8px;"></div>
+        <p class="card-note" id="gestionCategoriasMsg" style="min-height:14px;margin-top:6px;"></p>
       </div>
-      <div style="display:flex;gap:10px;flex-wrap:wrap;">
-        <button type="button" id="btnGuardarGhConfig" class="tab-btn" style="border-radius:8px;">💾 Guardar configuración</button>
-        <button type="button" id="btnSubirGhAhora" class="tab-btn" style="border-radius:8px;">☁️ Subir backup ahora</button>
-        <button type="button" id="btnTraerGhAhora" class="tab-btn" style="border-radius:8px;">⬇️ Traer backup desde GitHub</button>
+      <div class="card">
+        <h2>Movimientos cargados a mano</h2>
+        <p class="card-note">Los que agregaste vos manualmente (no vienen del export original), de las dos cuentas por separado. Se pueden borrar.</p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;">
+          <button type="button" id="btnExportarBackup" class="tab-btn" style="border-radius:8px;">⬇️ Exportar backup</button>
+          <button type="button" id="btnPegarBackup" class="tab-btn" style="border-radius:8px;">📋 Pegar backup</button>
+          <label for="inputImportarBackup" class="tab-btn" style="border-radius:8px;cursor:pointer;margin:0;display:inline-flex;align-items:center;">⬆️ Importar backup (archivo)</label>
+          <input type="file" id="inputImportarBackup" accept="application/json,.json" style="display:none;">
+        </div>
+        <p class="card-note" id="backupMsg" style="min-height:14px;"></p>
+        <p class="card-note" id="cargarCount" style="margin-bottom:6px;"></p>
+        <div style="overflow-x:auto;overflow-y:auto;max-height:340px;border:1px solid var(--line);border-radius:10px;">
+        <table id="cargarTable"><thead><tr><th style="position:sticky;top:0;background:var(--bg-2);">Fecha</th><th style="position:sticky;top:0;background:var(--bg-2);">Cuenta</th><th style="position:sticky;top:0;background:var(--bg-2);">Tipo</th><th style="position:sticky;top:0;background:var(--bg-2);">Categoría</th><th style="position:sticky;top:0;background:var(--bg-2);text-align:right">Monto</th><th style="position:sticky;top:0;background:var(--bg-2);"></th></tr></thead><tbody></tbody></table>
+        </div>
+        <div style="text-align:center;margin-top:8px;">
+          <button type="button" class="link-btn" id="cargarVerMasBtn" style="display:none;">Ver todos</button>
+        </div>
+        <p class="card-note" id="cargarEmpty" style="display:none;">Todavía no cargaste ningún movimiento manual.</p>
       </div>
-      <p class="card-note" id="ghMsg" style="min-height:14px;margin-top:8px;"></p>
-    </div>
+      <div class="note-box">Esto se guarda en este dispositivo/instalación (localStorage si abrís el panel como app o página suelta; window.storage si lo abrís dentro de Claude). No viaja solo a otros celulares ni sobrevive a un "borrar datos" o desinstalar la app. Por eso: <strong>Exportar backup</strong> intenta descargar un archivo .json Y además siempre te muestra el backup como texto en pantalla con un botón para copiarlo — usá ese texto (pegalo en Notas, WhatsApp a vos mismo, etc.) si la descarga de archivo no funciona dentro de la app. Para recuperarlo después: <strong>Pegar backup</strong> (pegando ese texto) o <strong>Importar backup (archivo)</strong> si tenés el .json guardado.</div>
+
+      <div class="card">
+        <h2>Backup automático a GitHub</h2>
+        <p class="card-note">Sube el backup (movimientos cargados a mano) directo a un archivo del repo del panel, sin copiar ni pegar nada. Necesita un token de acceso personal de GitHub con permiso sobre ese repo. El token queda guardado solo en este dispositivo, nunca en el código del panel.</p>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:12px;">
+          <input type="text" id="ghOwner" placeholder="Usuario/organización de GitHub (ej: zucchiattibot)" style="padding:10px 12px;border-radius:8px;border:1px solid var(--line);background:rgba(0,0,0,.18);color:var(--cream);font-size:14px;">
+          <input type="text" id="ghRepo" placeholder="Nombre del repo (ej: Panel---financiero)" style="padding:10px 12px;border-radius:8px;border:1px solid var(--line);background:rgba(0,0,0,.18);color:var(--cream);font-size:14px;">
+          <input type="text" id="ghPath" placeholder="Ruta del archivo (ej: backups/backup.json)" style="padding:10px 12px;border-radius:8px;border:1px solid var(--line);background:rgba(0,0,0,.18);color:var(--cream);font-size:14px;">
+          <input type="password" id="ghToken" placeholder="Token de GitHub (github_pat_...)" autocomplete="off" style="padding:10px 12px;border-radius:8px;border:1px solid var(--line);background:rgba(0,0,0,.18);color:var(--cream);font-size:14px;">
+          <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--cream-dim);">
+            <input type="checkbox" id="ghAuto"> Subir automático cada vez que cargo un movimiento nuevo a mano
+          </label>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <button type="button" id="btnGuardarGhConfig" class="tab-btn" style="border-radius:8px;">💾 Guardar configuración</button>
+          <button type="button" id="btnSubirGhAhora" class="tab-btn" style="border-radius:8px;">☁️ Subir backup ahora</button>
+          <button type="button" id="btnTraerGhAhora" class="tab-btn" style="border-radius:8px;">⬇️ Traer backup desde GitHub</button>
+        </div>
+        <p class="card-note" id="ghMsg" style="min-height:14px;margin-top:8px;"></p>
+      </div>
+    </details>
   </div>
 
   <p class="foot">Datos: cuenta "Agencia" de tu export sqlite. Inflación: API pública ArgentinaDatos, fuente BCRA (<a href="https://argentinadatos.com/docs/" target="_blank">argentinadatos.com</a>). Gráficos dibujados con SVG nativo, sin librerías externas.</p>
@@ -1927,6 +1971,130 @@ document.querySelectorAll('.tab-btn[data-alqsub]').forEach(btn=>{
     document.getElementById('alqsub-'+btn.dataset.alqsub).classList.add('active');
   });
 });
+
+/* ---------------- TABS: reordenables (mantener presionada y arrastrar) ----------------
+   Mantenés presionada una pestaña ~1/3 de segundo y después la arrastrás a la
+   posición que quieras. Un toque normal (sin mantener presionado) sigue
+   cambiando de pestaña como siempre, y el scroll horizontal normal del
+   listado de pestañas no se ve afectado. El orden elegido se guarda
+   (storageGet/storageSet, definidos más abajo en este mismo script) y se
+   restaura la próxima vez que se abre el panel. */
+(function initDraggableTabs(){
+  const tabsWrap = document.querySelector('.tabs');
+  if (!tabsWrap) return;
+  const LONGPRESS_MS = 320;
+  const MOVE_CANCEL_PX = 10;
+  const TAB_ORDER_KEY = 'agencia-tab-order';
+
+  function getTabBtns(){ return Array.from(tabsWrap.querySelectorAll('.tab-btn[data-tab]')); }
+
+  async function saveTabOrder(){
+    const order = getTabBtns().map(b=>b.dataset.tab);
+    try { await storageSet(TAB_ORDER_KEY, JSON.stringify(order)); } catch(e){}
+  }
+  async function restoreTabOrder(){
+    let raw = null;
+    try { raw = await storageGet(TAB_ORDER_KEY); } catch(e){}
+    if (!raw) return;
+    try {
+      const order = JSON.parse(raw);
+      const byTab = {};
+      getTabBtns().forEach(b=>{ byTab[b.dataset.tab] = b; });
+      const seen = new Set();
+      order.forEach(t=>{
+        const b = byTab[t];
+        if (b){ tabsWrap.appendChild(b); seen.add(t); }
+      });
+      // Cualquier pestaña nueva que no estaba en el orden guardado va al final,
+      // en el orden en que aparece originalmente en el HTML.
+      getTabBtns().forEach(b=>{ if (!seen.has(b.dataset.tab)) tabsWrap.appendChild(b); });
+    } catch(e){ /* si el orden guardado está corrupto, dejamos el orden por defecto */ }
+  }
+
+  let pressBtn=null, timer=null, armed=false, dragging=false, startX=0, startY=0, pid=null;
+
+  function cleanup(){
+    if (timer){ clearTimeout(timer); timer=null; }
+    if (pressBtn){
+      pressBtn.classList.remove('tab-armed','tab-dragging');
+      try{ pressBtn.releasePointerCapture(pid); }catch(e){}
+    }
+    tabsWrap.removeEventListener('pointermove', onMove);
+    tabsWrap.removeEventListener('pointerup', onUp);
+    tabsWrap.removeEventListener('pointercancel', onUp);
+    pressBtn=null; armed=false; dragging=false; pid=null;
+  }
+
+  function onDown(e){
+    if (e.button === 2) return;
+    const btn = e.target.closest('.tab-btn[data-tab]');
+    if (!btn) return;
+    pressBtn = btn; pid = e.pointerId;
+    startX = e.clientX; startY = e.clientY;
+    armed = false; dragging = false;
+    timer = setTimeout(()=>{
+      armed = true;
+      btn.classList.add('tab-armed');
+      if (navigator.vibrate) { try{ navigator.vibrate(12); }catch(e){} }
+    }, LONGPRESS_MS);
+    tabsWrap.addEventListener('pointermove', onMove);
+    tabsWrap.addEventListener('pointerup', onUp);
+    tabsWrap.addEventListener('pointercancel', onUp);
+  }
+
+  function onMove(e){
+    if (!pressBtn) return;
+    const dx = e.clientX - startX, dy = e.clientY - startY;
+    if (!armed){
+      if (Math.abs(dx) > MOVE_CANCEL_PX || Math.abs(dy) > MOVE_CANCEL_PX){
+        // Movimiento antes de que se arme el modo arrastre: es un scroll
+        // normal del listado de pestañas, no tocamos nada más.
+        cleanup();
+      }
+      return;
+    }
+    if (!dragging){
+      dragging = true;
+      pressBtn.classList.remove('tab-armed');
+      pressBtn.classList.add('tab-dragging');
+      tabsWrap.classList.add('tabs-reordering');
+      try{ pressBtn.setPointerCapture(pid); }catch(err){}
+    }
+    e.preventDefault();
+    const x = e.clientX;
+    const others = getTabBtns().filter(b=>b!==pressBtn);
+    let target=null, before=true;
+    for (const b of others){
+      const r = b.getBoundingClientRect();
+      const mid = r.left + r.width/2;
+      if (x < mid){ target = b; before = true; break; }
+      target = b; before = false;
+    }
+    if (target){
+      if (before) tabsWrap.insertBefore(pressBtn, target);
+      else tabsWrap.insertBefore(pressBtn, target.nextSibling);
+      pressBtn.scrollIntoView({inline:'nearest', block:'nearest'});
+    }
+  }
+
+  function onUp(){
+    const wasDragging = dragging, btn = pressBtn;
+    tabsWrap.classList.remove('tabs-reordering');
+    cleanup();
+    if (wasDragging){
+      saveTabOrder();
+      // Evitamos que el "click" nativo que sigue al soltar cambie de pestaña
+      // sin querer, ya que la intención era reordenar, no navegar.
+      if (btn){
+        const suppress = (ev)=>{ ev.stopPropagation(); ev.preventDefault(); };
+        btn.addEventListener('click', suppress, {capture:true, once:true});
+      }
+    }
+  }
+
+  tabsWrap.addEventListener('pointerdown', onDown);
+  restoreTabOrder();
+})();
 
 /* ---------------- RESUMEN ---------------- */
 const last = MONTHLY[MONTHLY.length-1];
@@ -4657,6 +4825,11 @@ let cargarMedio = 'efectivo';
 function updateCargarTipoFields(){
   document.getElementById('cargarMedioGroup').style.display = cargarTipo === 'ingreso' ? 'block' : 'none';
   document.getElementById('cargarDetalleGroup').style.display = cargarTipo === 'ingreso' ? 'none' : 'block';
+  const hero = document.getElementById('cargarHero');
+  if (hero){
+    hero.classList.toggle('tipo-ingreso', cargarTipo === 'ingreso');
+    hero.classList.toggle('tipo-egreso', cargarTipo === 'egreso');
+  }
 }
 document.querySelectorAll('#cargarTipoToggle .toggle-btn').forEach(btn=>{
   btn.addEventListener('click', ()=>{
