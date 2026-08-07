@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 2,
-  "exportadoEl": "2026-08-07T10:42:25.920Z",
+  "exportadoEl": "2026-08-07T11:53:46.939Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -330,6 +330,22 @@
       "category": "Donato",
       "account": "alquileres",
       "detalle": "Personal prepago"
+    },
+    {
+      "date": "2026-08-07",
+      "type": "ingreso",
+      "amount": 51000,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "transferencia"
+    },
+    {
+      "date": "2026-08-07",
+      "type": "egreso",
+      "amount": 300000,
+      "category": "Silmar",
+      "account": "agencia",
+      "detalle": "Transferencia"
     }
   ],
   "categoriasCustom": [
@@ -342,7 +358,8 @@
     "Tomas hnos",
     "Las lagunas",
     "Peña",
-    "Clarin"
+    "Clarin",
+    "Silmar"
   ],
   "categoriasBaseEliminadas": [
     "Servicios impuestos"
