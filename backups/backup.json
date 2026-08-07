@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 2,
-  "exportadoEl": "2026-08-07T11:53:46.939Z",
+  "exportadoEl": "2026-08-07T19:07:45.602Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -346,6 +346,30 @@
       "category": "Silmar",
       "account": "agencia",
       "detalle": "Transferencia"
+    },
+    {
+      "date": "2026-08-07",
+      "type": "ingreso",
+      "amount": 9000,
+      "category": "Pablo Benedicto",
+      "account": "agencia",
+      "medio": "transferencia"
+    },
+    {
+      "date": "2026-08-07",
+      "type": "egreso",
+      "amount": 125000,
+      "category": "Silmar",
+      "account": "agencia",
+      "detalle": "Silmar efectivo"
+    },
+    {
+      "date": "2026-08-07",
+      "type": "ingreso",
+      "amount": 361464.6,
+      "category": "Viejo Adolfo cheque",
+      "account": "agencia",
+      "medio": "efectivo"
     }
   ],
   "categoriasCustom": [
@@ -359,7 +383,8 @@
     "Las lagunas",
     "Peña",
     "Clarin",
-    "Silmar"
+    "Silmar",
+    "Viejo Adolfo cheque"
   ],
   "categoriasBaseEliminadas": [
     "Servicios impuestos"
