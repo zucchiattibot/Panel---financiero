@@ -504,6 +504,56 @@
       <div class="chartwrap" id="chartRango" style="margin-top:14px;"></div>
       <div class="note-box" id="rango-note"></div>
     </div>
+
+    <div class="card">
+      <h2>Comparar por día del mes</h2>
+      <p class="card-note">Elegí dos meses y compará, día por día del mes, cómo vino cada uno — útil para ver si un mes arrancó más fuerte o más flojo que otro, más allá de cómo terminó cerrando el total.</p>
+
+      <div class="range-group">
+        <div class="range-label">Mes A</div>
+        <div class="range-inputs">
+          <span class="monthpick" id="diaA_mes"></span>
+        </div>
+      </div>
+      <div class="range-group">
+        <div class="range-label">Mes B</div>
+        <div class="range-inputs">
+          <span class="monthpick" id="diaB_mes"></span>
+        </div>
+        <button class="link-btn" id="diaMismoMesBtn">Usar el mismo mes del año anterior</button>
+      </div>
+
+      <div class="toggle-row" id="diaMetricToggle" style="margin-top:16px;">
+        <button class="toggle-btn active" data-metric="neto">Neto</button>
+        <button class="toggle-btn" data-metric="ingresos">Solo ingresos</button>
+        <button class="toggle-btn" data-metric="egresos">Solo egresos</button>
+      </div>
+      <div class="toggle-row" id="diaViewToggle">
+        <button class="toggle-btn active" data-view="acumulado">Acumulado en el mes</button>
+        <button class="toggle-btn" data-view="diario">Día a día</button>
+      </div>
+      <div class="toggle-row" id="diaAdjToggle">
+        <button class="toggle-btn active" data-adj="nominal">Pesos nominales</button>
+        <button class="toggle-btn" data-adj="real">Ajustado por inflación</button>
+        <button class="toggle-btn" data-adj="usd">En dólares</button>
+      </div>
+
+      <div class="kpi-grid" style="margin-top:6px;">
+        <div class="kpi"><div class="label" id="dia-labelA">Mes A</div><div class="val" id="dia-valA">…</div></div>
+        <div class="kpi"><div class="label" id="dia-labelB">Mes B</div><div class="val" id="dia-valB">…</div></div>
+      </div>
+      <div class="kpi-grid">
+        <div class="kpi"><div class="label">Variación total</div><div class="val" id="dia-var">…</div></div>
+        <div class="kpi"><div class="label">Días del mes</div><div class="val" id="dia-dias">…</div></div>
+      </div>
+
+      <div class="chartwrap" id="chartDia" style="margin-top:14px;"></div>
+      <div class="legend">
+        <span><i class="dot" style="background:var(--gold)"></i>Mes A</span>
+        <span><i class="dot" style="background:var(--blue)"></i>Mes B (línea punteada)</span>
+      </div>
+      <div class="note-box" id="dia-note"></div>
+    </div>
   </div>
 
   <div class="panel" id="tab-proyeccion">
@@ -3276,6 +3326,143 @@ document.getElementById('mismoPeriodoBtn').addEventListener('click', ()=>{
   renderRango();
 })();
 
+/* ---------------- COMPARAR POR DÍA DEL MES (día 1 de un mes vs día 1 de otro, etc.) ---------------- */
+const diaState = {metric:'neto', view:'acumulado', adj:'nominal'};
+
+function daysInMonthOf(ym){
+  const y = parseInt(ym.slice(0,4),10), m = parseInt(ym.slice(4,6),10);
+  return new Date(y, m, 0).getDate();
+}
+// Reconstruye, movimiento a movimiento, cuánto entró y salió cada día de un mes puntual.
+function dailySeriesForMonth(ym, adj){
+  const nDays = daysInMonthOf(ym);
+  const income = new Array(nDays).fill(0);
+  const expense = new Array(nDays).fill(0);
+  let factor = 1, missing = false;
+  if (adj === 'real'){
+    const idx = idxForYm(ym);
+    if (idx && IPC_LAST_IDX) factor = IPC_LAST_IDX/idx; else missing = true;
+  } else if (adj === 'usd'){
+    const rate = usdForYm(ym);
+    if (rate) factor = 1/rate; else missing = true;
+  }
+  MOVES.forEach(r=>{
+    const ds = String(r[0]);
+    if (ds.slice(0,6) !== ym) return;
+    const day = parseInt(ds.slice(6,8),10);
+    if (!day || day > nDays) return;
+    const amt = r[2] * factor;
+    if (CAT_LIST[r[1]].sign === '+') income[day-1] += amt; else expense[day-1] += amt;
+  });
+  const net = income.map((v,i)=>v-expense[i]);
+  const cum = (arr) => { let s=0; return arr.map(v=>s+=v); };
+  return {nDays, income, expense, net, cumIncome:cum(income), cumExpense:cum(expense), cumNet:cum(net), missing};
+}
+function seriesForDia(d, metric, view, maxDays){
+  const arr = view === 'acumulado'
+    ? (metric==='ingresos' ? d.cumIncome : metric==='egresos' ? d.cumExpense : d.cumNet)
+    : (metric==='ingresos' ? d.income : metric==='egresos' ? d.expense : d.net);
+  return Array.from({length:maxDays}, (_,i) => i < arr.length ? arr[i] : null);
+}
+
+function renderDia(){
+  const ymA = inputToYm(document.getElementById('diaA_mes').value);
+  const ymB = inputToYm(document.getElementById('diaB_mes').value);
+  if (!ymA || !ymB) return;
+
+  let adj = diaState.adj;
+  const noteEl = document.getElementById('dia-note');
+  const notes = [];
+  if (adj==='real' && !IPC_INDEX){
+    notes.push('El ajuste por inflación todavía no cargó (o no se pudo consultar). Mostrando valores nominales mientras tanto.');
+    adj = 'nominal';
+  } else if (adj==='real'){
+    notes.push(`Valores llevados a pesos de ${fmtMonth(IPC_LAST_YM)} usando el IPC del BCRA.`);
+  } else if (adj==='usd' && !USD_INDEX){
+    notes.push('La cotización del dólar todavía no cargó (o no se pudo consultar). Mostrando valores nominales mientras tanto.');
+    adj = 'nominal';
+  } else if (adj==='usd'){
+    notes.push(`Cada mes convertido a dólar oficial de ese mismo mes.`);
+  }
+
+  const dA = dailySeriesForMonth(ymA, adj);
+  const dB = dailySeriesForMonth(ymB, adj);
+  const metric = diaState.metric, view = diaState.view;
+  const fmtVal = adj==='usd' ? fmtUSD : fmtARS;
+  const totalOf = (d) => metric==='ingresos' ? d.cumIncome[d.nDays-1] : metric==='egresos' ? d.cumExpense[d.nDays-1] : d.cumNet[d.nDays-1];
+  const totalA = totalOf(dA), totalB = totalOf(dB);
+
+  if (dA.nDays !== dB.nDays){
+    notes.push(`Ojo: ${fmtMonth(ymA)} tiene ${dA.nDays} días y ${fmtMonth(ymB)} tiene ${dB.nDays} — a partir del día ${Math.min(dA.nDays,dB.nDays)+1} el mes más corto ya no suma más (la línea se corta ahí).`);
+  }
+  noteEl.textContent = notes.join(' ');
+
+  document.getElementById('dia-labelA').textContent = `Mes A · ${fmtMonth(ymA)}`;
+  document.getElementById('dia-labelB').textContent = `Mes B · ${fmtMonth(ymB)}`;
+  const valA = document.getElementById('dia-valA'), valB = document.getElementById('dia-valB');
+  valA.textContent = fmtVal(totalA); valA.className = 'val ' + (totalA<0?'neg':'pos');
+  valB.textContent = fmtVal(totalB); valB.className = 'val ' + (totalB<0?'neg':'pos');
+
+  const varPct = totalA!==0 ? ((totalB-totalA)/Math.abs(totalA)*100) : null;
+  const varEl = document.getElementById('dia-var');
+  varEl.textContent = varPct===null ? '—' : (varPct>=0?'+':'') + varPct.toFixed(1) + '%';
+  varEl.className = 'val ' + (varPct>=0?'pos':'neg');
+  document.getElementById('dia-dias').textContent = `${dA.nDays} vs ${dB.nDays} días`;
+
+  const maxDays = Math.max(dA.nDays, dB.nDays);
+  const labels = Array.from({length:maxDays}, (_,i)=>String(i+1));
+  const seriesA = seriesForDia(dA, metric, view, maxDays);
+  const seriesB = seriesForDia(dB, metric, view, maxDays);
+  lineChart('chartDia', labels, [
+    {data:seriesA, color:'#d3b56a', width:2},
+    {data:seriesB, color:'#8fb8d9', width:2, dash:true}
+  ], {height:220});
+}
+
+document.querySelectorAll('#diaMetricToggle .toggle-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('#diaMetricToggle .toggle-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    diaState.metric = btn.dataset.metric;
+    renderDia();
+  });
+});
+document.querySelectorAll('#diaViewToggle .toggle-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('#diaViewToggle .toggle-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    diaState.view = btn.dataset.view;
+    renderDia();
+  });
+});
+document.querySelectorAll('#diaAdjToggle .toggle-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('#diaAdjToggle .toggle-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    diaState.adj = btn.dataset.adj;
+    renderDia();
+  });
+});
+['diaA_mes','diaB_mes'].forEach(id=>{
+  document.getElementById(id).addEventListener('change', renderDia);
+});
+document.getElementById('diaMismoMesBtn').addEventListener('click', ()=>{
+  const vA = document.getElementById('diaA_mes').value;
+  if (!vA) return;
+  const [y,m] = vA.split('-');
+  document.getElementById('diaB_mes').value = (parseInt(y,10)-1)+'-'+m;
+  renderDia();
+});
+
+// Valores por defecto: último mes con datos vs. mismo mes del año anterior
+(function(){
+  const firstYm = MONTHLY[0].ym, lastYm3 = MONTHLY[MONTHLY.length-1].ym;
+  const curYear2 = parseInt(lastYm3.slice(0,4),10), curMonth2 = lastYm3.slice(4,6);
+  initMonthPicker('diaA_mes', firstYm, lastYm3, lastYm3);
+  initMonthPicker('diaB_mes', firstYm, lastYm3, (curYear2-1)+curMonth2);
+  renderDia();
+})();
+
 /* ---------------- INFLACION (live fetch) ---------------- */
 const statusEl = document.getElementById('ipc-status');
 const statusText = document.getElementById('ipc-status-text');
@@ -3573,6 +3760,7 @@ async function loadInflation() {
     const recentRows = ipc.slice(-3);
     IPC_RECENT_MONTHLY_RATE = recentRows.length ? recentRows.reduce((s,r)=>s+r.valor/100,0)/recentRows.length : null;
     renderRango();
+    if (typeof renderDia === 'function') renderDia();
     if (typeof renderAutoConclusions === 'function') renderAutoConclusions();
     if (typeof projState !== 'undefined' && projState.metric === 'ingresos'){
       renderProjection(projState.days, projState.metric, projState.window, projLastTargetDate);
@@ -3699,6 +3887,7 @@ async function loadUSD() {
     USD_LAST_YM = lastYm;
     USD_LAST_RATE = rateByYm[lastYm];
     renderRango();
+    if (typeof renderDia === 'function') renderDia();
 
     const curYear = last.ym.slice(0,4), curMonthNum = parseInt(last.ym.slice(4,6),10);
     USD_YEARLY = YEARLY.map(y=>{
