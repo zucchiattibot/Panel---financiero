@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 2,
-  "exportadoEl": "2026-08-07T19:07:45.602Z",
+  "exportadoEl": "2026-08-07T22:26:56.409Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -370,6 +370,30 @@
       "category": "Viejo Adolfo cheque",
       "account": "agencia",
       "medio": "efectivo"
+    },
+    {
+      "date": "2026-08-07",
+      "type": "ingreso",
+      "amount": 85000,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "transferencia"
+    },
+    {
+      "date": "2026-08-07",
+      "type": "ingreso",
+      "amount": 6000,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "efectivo"
+    },
+    {
+      "date": "2026-08-07",
+      "type": "egreso",
+      "amount": 6000,
+      "category": "Sueldo",
+      "account": "alquileres",
+      "detalle": "Sueldo"
     }
   ],
   "categoriasCustom": [
