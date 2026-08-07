@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 2,
-  "exportadoEl": "2026-08-06T22:11:06.047Z",
+  "exportadoEl": "2026-08-07T10:42:25.920Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -298,6 +298,38 @@
       "category": "Sueldo",
       "account": "alquileres",
       "detalle": "Farmacia"
+    },
+    {
+      "date": "2026-08-06",
+      "type": "ingreso",
+      "amount": 30000,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "efectivo"
+    },
+    {
+      "date": "2026-08-06",
+      "type": "egreso",
+      "amount": 30200,
+      "category": "Sueldo",
+      "account": "alquileres",
+      "detalle": ""
+    },
+    {
+      "date": "2026-08-06",
+      "type": "egreso",
+      "amount": 18000,
+      "category": "Peña",
+      "account": "alquileres",
+      "detalle": "Jueves"
+    },
+    {
+      "date": "2026-08-07",
+      "type": "egreso",
+      "amount": 9000,
+      "category": "Donato",
+      "account": "alquileres",
+      "detalle": "Personal prepago"
     }
   ],
   "categoriasCustom": [
