@@ -629,6 +629,10 @@
         <table id="projMtdTable"><thead><tr><th>Mes</th><th style="text-align:right">Acumulado a ese día</th><th style="text-align:right">Var. % vs. actual</th></tr></thead><tbody></tbody></table>
       </div>
 
+      <div class="range-label" style="margin:14px 0 6px;">Alerta de desvío en vivo</div>
+      <p class="card-note" style="margin-bottom:8px;">Compara lo que entró en lo que va del mes contra el rango P10–P90 que el modelo hubiera proyectado parado el primer día del mes, con los datos disponibles hasta ese momento (mismo motor que el backtesting de abajo).</p>
+      <div class="note-box" id="proj-deviation-alert" style="margin-top:0;"></div>
+
       <div class="range-label" style="margin:14px 0 6px;">Proyección en</div>
       <div class="toggle-row" id="projRealToggle">
         <button class="toggle-btn active" data-adj="nominal">Pesos nominales</button>
@@ -3089,6 +3093,7 @@ function renderProjectionIngresosAdvanced(days, windowMonths, targetDate, stats,
 
   renderScenarioList();
   renderIncomeMTDPace(windowMonths, adjMode);
+  renderIncomeDeviationAlert(windowMonths, adjMode);
 }
 
 // Ritmo del mes en curso: compara lo que entró en Ingresos en lo que va del
@@ -3153,6 +3158,66 @@ function renderIncomeMTDPace(windowMonths, adjMode){
         return '<tr><td>' + fmtMonth(r.ym) + (r.truncated?' *':'') + '</td><td class="num">' + fmtVal(r.cum) + '</td><td class="num ' + pctClass + '">' + pctStr + '</td></tr>';
       }).join('')
     : '<tr><td colspan="3" class="card-note">Todavía no hay meses anteriores en la ventana elegida.</td></tr>';
+}
+
+// Alerta de desvío en vivo: corre el MISMO motor que el backtesting (bootstrap
+// + tendencia + estacionalidad), pero parado el último día del mes ANTERIOR
+// al actual, usando solo datos disponibles hasta ahí — exactamente como si el
+// modelo hubiera hecho la proyección el día 1 del mes en curso. Simula hasta
+// el día que realmente llevamos cargado y compara el rango P10–P90 contra lo
+// que entró de verdad, para avisar temprano si el mes viene mejor o peor de
+// lo esperado (en vez de descubrirlo recién al cierre).
+function renderIncomeDeviationAlert(windowMonths, adjMode){
+  const box = document.getElementById('proj-deviation-alert');
+  if (!box) return;
+
+  const currentYm = last.ym;
+  const currentDay = actualDaysInMonth(currentYm);
+  const cutoff = new Date(parseInt(currentYm.slice(0,4),10), parseInt(currentYm.slice(4,6),10)-1, 0); // último día del mes anterior
+
+  if (currentDay < 5){
+    box.style.borderColor = 'rgba(127,156,141,.35)';
+    box.style.background = 'rgba(127,156,141,.08)';
+    box.innerHTML = 'Con solo ' + currentDay + ' día' + (currentDay===1?'':'s') + ' cargado' + (currentDay===1?'':'s') + ' este mes todavía no hay suficiente recorrido como para comparar contra una proyección — esperá unos días más.';
+    return;
+  }
+
+  const pattern = buildIncomePatternAt(cutoff, windowMonths);
+  const cutoffYm = cutoff.getFullYear()+String(cutoff.getMonth()+1).padStart(2,'0');
+  const monthsPoolAt = MONTHLY.filter(mm => mm.ym <= cutoffYm);
+  if (!pattern || monthsPoolAt.length < 6){
+    box.style.borderColor = 'rgba(127,156,141,.35)';
+    box.style.background = 'rgba(127,156,141,.08)';
+    box.innerHTML = 'Todavía no hay suficiente historial antes de este mes como para calcular una alerta de desvío confiable.';
+    return;
+  }
+
+  const trend = logLinearTrend(monthsPoolAt.slice(-6).map((mm,i)=>({x:i, y:mm.income})));
+  const seasonality = computeSeasonalityFromMonths(monthsPoolAt);
+  const nSim = currentDay<=30 ? 600 : 350;
+  const sim = simulateIncomeBootstrap(currentDay, cutoff, pattern, trend, seasonality, nSim);
+  const p10 = sim.p10[sim.p10.length-1], p50 = sim.p50[sim.p50.length-1], p90 = sim.p90[sim.p90.length-1];
+
+  const curSeries = dailySeriesForMonth(currentYm, adjMode);
+  const curCum = currentDay > 0 ? curSeries.cumIncome[currentDay-1] : 0;
+  const fmtVal = adjMode==='usd' ? fmtUSD : fmtARS;
+
+  let status, color, bg;
+  if (curCum < p10){
+    const gapPct = p50!==0 ? ((curCum-p50)/Math.abs(p50)*100) : null;
+    status = '⚠ Por debajo de lo esperado. Llevás ' + fmtVal(curCum) + ' hasta el día ' + currentDay + ', y el modelo (parado el 1° del mes) esperaba entre ' + fmtVal(p10) + ' y ' + fmtVal(p90) + ' (mediana ' + fmtVal(p50) + ')' + (gapPct!==null ? ', ' + gapPct.toFixed(0) + '% menos que la mediana proyectada' : '') + '.';
+    color = 'rgba(224,139,120,.4)'; bg = 'rgba(224,139,120,.1)';
+  } else if (curCum > p90){
+    const gapPct = p50!==0 ? ((curCum-p50)/Math.abs(p50)*100) : null;
+    status = '✓ Por encima de lo esperado. Llevás ' + fmtVal(curCum) + ' hasta el día ' + currentDay + ', y el modelo (parado el 1° del mes) esperaba entre ' + fmtVal(p10) + ' y ' + fmtVal(p90) + ' (mediana ' + fmtVal(p50) + ')' + (gapPct!==null ? ', ' + gapPct.toFixed(0) + '% más que la mediana proyectada' : '') + '.';
+    color = 'rgba(127,212,160,.4)'; bg = 'rgba(127,212,160,.1)';
+  } else {
+    status = '● Dentro de lo esperado. Llevás ' + fmtVal(curCum) + ' hasta el día ' + currentDay + ', dentro del rango P10–P90 que el modelo proyectaba (' + fmtVal(p10) + ' – ' + fmtVal(p90) + ', mediana ' + fmtVal(p50) + ').';
+    color = 'rgba(143,184,217,.4)'; bg = 'rgba(143,184,217,.1)';
+  }
+  box.style.borderColor = color;
+  box.style.background = bg;
+  box.innerHTML = status;
 }
 
 function renderProjection(days, metric, windowMonths, targetDate) {
