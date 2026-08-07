@@ -619,6 +619,16 @@
         <div class="kpi"><div class="label">Estacionalidad de este período</div><div class="val" id="proj-season-val">…</div><div class="card-note" style="margin:4px 0 0" id="proj-season-note"></div></div>
       </div>
 
+      <div class="range-label" style="margin:14px 0 6px;">Ritmo del mes en curso</div>
+      <p class="card-note" id="proj-mtd-note" style="margin-bottom:8px;"></p>
+      <div class="kpi-grid" style="margin-bottom:4px;">
+        <div class="kpi"><div class="label" id="proj-mtd-label">Ingreso acumulado</div><div class="val" id="proj-mtd-val">…</div></div>
+        <div class="kpi"><div class="label" id="proj-mtd-cmp-label">vs. mismo tramo, meses anteriores</div><div class="val" id="proj-mtd-cmp-val">…</div></div>
+      </div>
+      <div style="overflow-x:auto;">
+        <table id="projMtdTable"><thead><tr><th>Mes</th><th style="text-align:right">Acumulado a ese día</th><th style="text-align:right">Var. % vs. actual</th></tr></thead><tbody></tbody></table>
+      </div>
+
       <div class="range-label" style="margin:14px 0 6px;">Proyección en</div>
       <div class="toggle-row" id="projRealToggle">
         <button class="toggle-btn active" data-adj="nominal">Pesos nominales</button>
@@ -3078,6 +3088,71 @@ function renderProjectionIngresosAdvanced(days, windowMonths, targetDate, stats,
   }
 
   renderScenarioList();
+  renderIncomeMTDPace(windowMonths, adjMode);
+}
+
+// Ritmo del mes en curso: compara lo que entró en Ingresos en lo que va del
+// mes actual (hasta el último día realmente cargado) contra lo que había
+// entrado hasta ese MISMO día calendario en cada uno de los meses anteriores
+// que caen dentro de la ventana elegida arriba (Último mes/3/6/12 meses).
+// Si un mes de comparación tiene menos días que el actual (ej. febrero),
+// se lo corta en su último día disponible y se marca con *.
+function renderIncomeMTDPace(windowMonths, adjMode){
+  const labelEl = document.getElementById('proj-mtd-label');
+  const valEl = document.getElementById('proj-mtd-val');
+  const cmpLabelEl = document.getElementById('proj-mtd-cmp-label');
+  const cmpValEl = document.getElementById('proj-mtd-cmp-val');
+  const noteEl = document.getElementById('proj-mtd-note');
+  const tbody = document.querySelector('#projMtdTable tbody');
+  if (!labelEl || !valEl || !cmpLabelEl || !cmpValEl || !noteEl || !tbody) return;
+
+  const currentYm = last.ym;
+  const currentDay = actualDaysInMonth(currentYm); // días realmente cargados este mes
+  const fmtVal = adjMode==='usd' ? fmtUSD : fmtARS;
+
+  const curSeries = dailySeriesForMonth(currentYm, adjMode);
+  const curCum = currentDay > 0 ? curSeries.cumIncome[currentDay-1] : 0;
+
+  const prevMonths = MONTHLY.filter(m => m.ym < currentYm).slice(-windowMonths);
+  const rows = prevMonths.map(m => {
+    const nDaysMonth = daysInMonthOf(m.ym);
+    const dayCap = Math.min(currentDay, nDaysMonth);
+    const series = dailySeriesForMonth(m.ym, adjMode);
+    const cum = dayCap > 0 ? series.cumIncome[dayCap-1] : 0;
+    const pct = cum !== 0 ? ((curCum-cum)/Math.abs(cum)*100) : null;
+    return {ym:m.ym, cum, pct, truncated: dayCap < currentDay};
+  });
+
+  labelEl.textContent = 'Ingreso acumulado · día ' + currentDay + ' de ' + fmtMonth(currentYm);
+  valEl.textContent = fmtVal(curCum);
+  valEl.className = 'val ' + (curCum<0?'neg':'pos');
+
+  cmpLabelEl.textContent = 'vs. promedio mismos días, ' + (windowMonths===1?'último mes':'últimos '+windowMonths+' meses');
+  const avgCum = rows.length ? rows.reduce((s,r)=>s+r.cum,0)/rows.length : 0;
+  const avgPct = rows.length && avgCum !== 0 ? ((curCum-avgCum)/Math.abs(avgCum)*100) : null;
+  if (avgPct === null){
+    cmpValEl.textContent = '—';
+    cmpValEl.className = 'val';
+  } else {
+    cmpValEl.textContent = (avgPct>=0?'+':'') + avgPct.toFixed(1) + '%';
+    cmpValEl.className = 'val ' + (avgPct>=0?'pos':'neg');
+  }
+
+  if (!rows.length){
+    noteEl.textContent = 'Todavía no hay meses anteriores dentro de la ventana elegida arriba para comparar.';
+  } else if (currentDay < 5){
+    noteEl.textContent = 'Con solo ' + currentDay + ' día' + (currentDay===1?'':'s') + ' cargado' + (currentDay===1?'':'s') + ' este mes, la comparación todavía es poco confiable — un solo cobro grande puede mover mucho el %.';
+  } else {
+    noteEl.textContent = 'Compara lo que entró hasta el día ' + currentDay + ' de ' + fmtMonth(currentYm) + ' contra lo que había entrado hasta ese mismo día calendario en cada uno de los ' + rows.length + ' meses anteriores de la ventana elegida arriba (* = mes con menos días que el actual, cortado en su último día).';
+  }
+
+  tbody.innerHTML = rows.length
+    ? rows.slice().reverse().map(r => {
+        const pctStr = r.pct===null ? '—' : (r.pct>=0?'+':'') + r.pct.toFixed(1) + '%';
+        const pctClass = r.pct===null ? '' : (r.pct>=0?'pos':'neg');
+        return '<tr><td>' + fmtMonth(r.ym) + (r.truncated?' *':'') + '</td><td class="num">' + fmtVal(r.cum) + '</td><td class="num ' + pctClass + '">' + pctStr + '</td></tr>';
+      }).join('')
+    : '<tr><td colspan="3" class="card-note">Todavía no hay meses anteriores en la ventana elegida.</td></tr>';
 }
 
 function renderProjection(days, metric, windowMonths, targetDate) {
