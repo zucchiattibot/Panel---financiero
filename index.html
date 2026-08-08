@@ -1488,7 +1488,7 @@
     <div class="card">
       <p class="eyebrow">Preguntale a tus números</p>
       <h2>Asistente IA</h2>
-      <p class="card-note">Preguntas en lenguaje natural sobre Agencia y Alquileres: "¿cómo venimos este mes?", "¿en qué gasté más este año?", "compará este año con el pasado"... Usa Gemini (IA gratis de Google). La IA solo recibe resúmenes — totales por mes, por año y por categoría — nunca tus movimientos uno por uno.</p>
+      <p class="card-note">Preguntas en lenguaje natural sobre Agencia y Alquileres: "¿cómo venimos este mes?", "¿en qué gasté más este año?", "compará este año con el pasado"... Usa Gemini (IA gratis de Google). La IA solo recibe resúmenes — totales por mes, por año y por categoría — nunca tus movimientos uno por uno. También recibe cotizaciones en vivo (dólar, bitcoin/ethereum, riesgo país), así que podés preguntarle cosas como "¿a cuánto dólar blue equivale mi saldo?".</p>
 
       <details class="cargar-advanced" id="iaConfigDetails" style="margin:0 0 14px 0;">
         <summary>Configurar clave de API (gratis, una sola vez)</summary>
@@ -3546,6 +3546,11 @@ renderProjection(30, 'neto', 3);
 /* ---------------- RANGO DE FECHAS PERSONALIZADO ---------------- */
 let IPC_INDEX = null, IPC_LAST_YM = null, IPC_LAST_IDX = null;
 let USD_INDEX = null, USD_LAST_YM = null, USD_LAST_RATE = null;
+// Cache de datos de mercado en vivo, reutilizado por la solapa Mercados y por el Asistente IA
+// (para no disparar pedidos nuevos en cada pregunta si ya se consultaron hace poco).
+let LIVE_DOLARES = null, LIVE_DOLARES_TS = 0;
+let LIVE_CRIPTO = null, LIVE_CRIPTO_TS = 0;
+let LIVE_RIESGO_PAIS = null, LIVE_RIESGO_PAIS_TS = 0;
 const rangoState = {metric:'todo', adj:'nominal'};
 
 function idxForYm(ym){
@@ -4350,6 +4355,8 @@ async function loadDolares(){
       return '<tr><td>' + (r.nombre || r.casa) + '</td><td class="num">' + fmtARS(r.compra) + '</td><td class="num">' + fmtARS(r.venta) + '</td></tr>';
     }).join('');
     setStatus('dolar-status','dolar-status-text','live','En vivo (DolarAPI)');
+    LIVE_DOLARES = rows;
+    LIVE_DOLARES_TS = Date.now();
     return rows;
   } catch(err){
     setStatus('dolar-status','dolar-status-text','err','No se pudo consultar (' + err.message + '). Puede que este visor bloquee conexiones a internet.');
@@ -4374,6 +4381,8 @@ async function loadCripto(){
     chgEl2.textContent = (ethChg>=0?'+':'') + ethChg.toFixed(2) + '%';
     chgEl2.className = ethChg>=0?'pos':'neg';
     setStatus('cripto-status','cripto-status-text','live','En vivo (CoinGecko)');
+    LIVE_CRIPTO = data;
+    LIVE_CRIPTO_TS = Date.now();
   } catch(err){
     setStatus('cripto-status','cripto-status-text','err','No se pudo consultar (' + err.message + '). Puede que este visor bloquee conexiones a internet.');
   }
@@ -7931,6 +7940,54 @@ renderAutoConclusions();
     elKeyMsg.textContent = 'Clave borrada de este dispositivo.';
   });
 
+  // Ventana de "frescura" del caché: si un dato en vivo ya se consultó hace menos
+  // de esto, no se vuelve a pedir para no golpear las APIs gratis en cada pregunta.
+  const LIVE_CACHE_MS = 5 * 60 * 1000; // 5 minutos
+
+  async function obtenerRiesgoPaisLive(){
+    if (LIVE_RIESGO_PAIS !== null && (Date.now() - LIVE_RIESGO_PAIS_TS) < LIVE_CACHE_MS) return LIVE_RIESGO_PAIS;
+    try {
+      const res = await fetch('https://api.argentinadatos.com/v1/finanzas/indices/riesgo-pais/ultimo');
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const data = await res.json();
+      const valor = data.valor ?? data.riesgo_pais ?? null;
+      if (valor !== null){ LIVE_RIESGO_PAIS = valor; LIVE_RIESGO_PAIS_TS = Date.now(); }
+    } catch(e){ /* si falla, se usa lo último cacheado (o nada) */ }
+    return LIVE_RIESGO_PAIS;
+  }
+
+  // Se llama antes de cada pregunta: reutiliza datos recién consultados (por ejemplo si
+  // el usuario ya entró a la solapa Mercados) y solo pide de nuevo lo que esté vencido.
+  async function refrescarDatosVivo(){
+    const tareas = [obtenerRiesgoPaisLive()];
+    if (!LIVE_DOLARES || (Date.now() - LIVE_DOLARES_TS) > LIVE_CACHE_MS) tareas.push(loadDolares().catch(()=>{}));
+    if (!LIVE_CRIPTO || (Date.now() - LIVE_CRIPTO_TS) > LIVE_CACHE_MS) tareas.push(loadCripto().catch(()=>{}));
+    await Promise.all(tareas);
+  }
+
+  function bloqueDatosVivo(){
+    const lineas = ['=== DATOS DE MERCADO EN VIVO (Argentina) ==='];
+    if (LIVE_DOLARES && LIVE_DOLARES.length){
+      lineas.push('Cotizaciones del dólar (compra/venta, vía DolarAPI):');
+      LIVE_DOLARES.forEach(r=>{
+        lineas.push(`${r.nombre || r.casa}: compra ${fmtARS(r.compra)}, venta ${fmtARS(r.venta)}`);
+      });
+    } else {
+      lineas.push('Cotizaciones del dólar: no disponibles en este momento (puede que este visor bloquee conexiones a internet).');
+    }
+    if (LIVE_CRIPTO && LIVE_CRIPTO.bitcoin){
+      lineas.push(`Bitcoin: USD ${LIVE_CRIPTO.bitcoin.usd.toLocaleString('en-US')} (ARS ${fmtARS(LIVE_CRIPTO.bitcoin.ars)})`);
+    }
+    if (LIVE_CRIPTO && LIVE_CRIPTO.ethereum){
+      lineas.push(`Ethereum: USD ${LIVE_CRIPTO.ethereum.usd.toLocaleString('en-US')} (ARS ${fmtARS(LIVE_CRIPTO.ethereum.ars)})`);
+    }
+    if (LIVE_RIESGO_PAIS !== null){
+      lineas.push(`Riesgo país: ${LIVE_RIESGO_PAIS} pb`);
+    }
+    lineas.push('Estos valores pueden tener algunos minutos de atraso respecto al momento exacto de la pregunta; si el usuario necesita el valor exacto al segundo, aclaraselo.');
+    return lineas.join('\n');
+  }
+
   function construirContexto(){
     const hoy = new Date();
     const yActual = String(hoy.getFullYear());
@@ -7997,7 +8054,9 @@ renderAutoConclusions();
       'Gastos personales/familiares por año (subset de Alquileres, sin la categoría Ahorro):',
       personalAnios,
       '',
-      'Agencia y Alquileres son cuentas separadas: nunca sumes ni mezcles sus totales salvo que te lo pidan explícitamente.'
+      'Agencia y Alquileres son cuentas separadas: nunca sumes ni mezcles sus totales salvo que te lo pidan explícitamente.',
+      '',
+      bloqueDatosVivo()
     ].join('\n');
   }
 
@@ -8053,6 +8112,7 @@ renderAutoConclusions();
   }
 
   async function llamarGemini(pregunta){
+    await refrescarDatosVivo();
     const contexto = construirContexto();
     const contents = iaContents.slice();
     contents.push({ role: 'user', parts: [{ text: pregunta }] });
