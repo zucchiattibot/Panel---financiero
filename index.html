@@ -44,7 +44,7 @@
   h2{font-family:Georgia,serif;font-weight:700;font-size:18px;margin:0 0 2px 0;}
   .card-note{color:var(--muted);font-size:11.5px;margin:0 0 14px 0;}
   .big-number{font-family:Georgia,serif;font-size:32px;font-weight:700;margin:2px 0;}
-  .neg{color:var(--red-neg);} .pos{color:var(--green-pos);}
+  .neg{color:var(--red-neg);} .pos{color:var(--green-pos);} .blue{color:var(--blue);}
 
   .kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:4px;}
   .kpi{background:rgba(0,0,0,.18);border:1px solid var(--line);border-radius:12px;padding:12px 14px;}
@@ -6893,20 +6893,28 @@ renderAutoConclusions();
     const al = statsForAccount(RENT_MOVES, RENT_MOVES_CATS, '-', desdeInt, hastaInt, adjEff);
     const periodoTxt = esTodo ? 'acumulado histórico' : 'acumulado en el período';
 
-    // Balance — ingresos vs gastos de la cuenta Alquileres en el período elegido
+    // Balance — ingresos vs gastos de la cuenta Alquileres en el período elegido.
+    // La categoría "Ahorro" se sigue sumando dentro de Gastos (sale efectivamente
+    // de la cuenta), pero además se totaliza aparte para mostrarla discriminada:
+    // no es un gasto real, es plata que pasó a ahorro.
     let balIngresos = 0, balGastos = 0, balIngCount = 0, balGastCount = 0;
+    let balAhorro = 0, balAhorroCount = 0;
     RENT_MOVES.forEach(m => {
       if (m[0] < desdeInt || m[0] > hastaInt) return;
       const cat = RENT_MOVES_CATS[m[1]];
       if (!cat) return;
       const amt = adjAmt(m[2], m[0], adjEff);
-      if (cat.sign === '+'){ balIngresos += amt; balIngCount++; } else { balGastos += amt; balGastCount++; }
+      if (cat.sign === '+'){ balIngresos += amt; balIngCount++; } else {
+        balGastos += amt; balGastCount++;
+        if (cat.category === 'Ahorro'){ balAhorro += amt; balAhorroCount++; }
+      }
     });
     const balNeto = balIngresos - balGastos;
     document.getElementById('alqBalanceKpis').innerHTML =
       kpi('Ingresos', fmtARS(balIngresos), balIngCount + (balIngCount===1?' movimiento':' movimientos'), 'pos') +
       kpi('Gastos', fmtARS(balGastos), balGastCount + (balGastCount===1?' movimiento':' movimientos'), 'neg') +
-      kpi('Balance', (balNeto>=0?'+':'') + fmtARS(balNeto), balNeto>=0 ? 'A favor' : 'En contra', balNeto>=0?'pos':'neg');
+      kpi('Balance', (balNeto>=0?'+':'') + fmtARS(balNeto), balNeto>=0 ? 'A favor' : 'En contra', balNeto>=0?'pos':'neg') +
+      kpi('De eso, Ahorro', fmtARS(balAhorro), balAhorroCount ? (balAhorroCount + (balAhorroCount===1?' movimiento — incluido en Gastos, no es gasto real':' movimientos — incluido en Gastos, no es gasto real')) : 'Sin movimientos de ahorro en el período', 'blue');
 
     document.getElementById('alqStatsKpis').innerHTML =
       kpi('Día que más se gastó', al.bestDate ? fmtFechaCorta(parseInt(al.bestDate,10)) : '—', al.bestDate ? fmtARS(al.bestAmt) : '', 'neg') +
