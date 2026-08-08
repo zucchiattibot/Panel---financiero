@@ -7702,15 +7702,15 @@ renderAutoConclusions();
       name: 'consultar_movimientos',
       description: 'Busca y devuelve movimientos financieros reales (fecha, categoría, monto, descripción) de Agencia o Alquileres, filtrando por fecha, categoría, texto o signo. Devuelve el total exacto (suma_total) y la cantidad encontrada aunque no se listen todas las filas. Usala para CUALQUIER pregunta sobre un período, categoría, texto o total exacto que no esté ya en el resumen general del contexto: el resumen solo cubre los últimos meses/años, esta herramienta cubre TODO el historial.',
       parameters: {
-        type: 'object',
+        type: 'OBJECT',
         properties: {
-          cuenta: { type: 'string', enum: ['agencia','alquileres'], description: 'Qué cuenta/negocio consultar.' },
-          fecha_desde: { type: 'string', description: 'Fecha de inicio en formato AAAAMMDD, opcional.' },
-          fecha_hasta: { type: 'string', description: 'Fecha de fin en formato AAAAMMDD, opcional.' },
-          categoria: { type: 'string', description: 'Nombre (o parte del nombre) de categoría a filtrar, opcional.' },
-          texto: { type: 'string', description: 'Texto a buscar dentro de la descripción del movimiento, opcional.' },
-          signo: { type: 'string', enum: ['+','-'], description: 'Filtrar solo ingresos (+) o solo egresos (-), opcional.' },
-          agrupar_por: { type: 'string', enum: ['ninguno','categoria','mes','anio'], description: 'Si se especifica, además de listar movimientos devuelve totales YA SUMADOS agrupados por categoría, mes o año. Usalo siempre que la pregunta implique sumar muchos movimientos (en vez de sumarlos vos mismo).' }
+          cuenta: { type: 'STRING', enum: ['agencia','alquileres'], description: 'Qué cuenta/negocio consultar.' },
+          fecha_desde: { type: 'STRING', description: 'Fecha de inicio en formato AAAAMMDD, opcional.' },
+          fecha_hasta: { type: 'STRING', description: 'Fecha de fin en formato AAAAMMDD, opcional.' },
+          categoria: { type: 'STRING', description: 'Nombre (o parte del nombre) de categoría a filtrar, opcional.' },
+          texto: { type: 'STRING', description: 'Texto a buscar dentro de la descripción del movimiento, opcional.' },
+          signo: { type: 'STRING', enum: ['+','-'], description: 'Filtrar solo ingresos (+) o solo egresos (-), opcional.' },
+          agrupar_por: { type: 'STRING', enum: ['ninguno','categoria','mes','anio'], description: 'Si se especifica, además de listar movimientos devuelve totales YA SUMADOS agrupados por categoría, mes o año. Usalo siempre que la pregunta implique sumar muchos movimientos (en vez de sumarlos vos mismo).' }
         },
         required: ['cuenta']
       }
@@ -7924,9 +7924,12 @@ renderAutoConclusions();
     if (!resp.ok){
       let detalle = '';
       try { const j = await resp.json(); detalle = (j && j.error && j.error.message) || ''; } catch(e){}
-      if (resp.status === 400 || resp.status === 403) throw new Error('Clave de API inválida o sin permiso. Revisá que la hayas pegado bien en "Configurar clave".');
+      const detalleLower = detalle.toLowerCase();
+      const esProblemaDeClave = resp.status === 403 ||
+        (resp.status === 400 && (detalleLower.includes('api key') || detalleLower.includes('api_key') || detalleLower.includes('permission')));
+      if (esProblemaDeClave) throw new Error('Clave de API inválida o sin permiso. Revisá que la hayas pegado bien en "Configurar clave".');
       if (resp.status === 429) throw new Error('Se agotó la cuota gratuita por ahora. Esperá un minuto y probá de nuevo.');
-      throw new Error('Error de Gemini (' + resp.status + '). ' + detalle);
+      throw new Error('Error de Gemini (' + resp.status + '). ' + (detalle || 'Sin más detalle.'));
     }
     return resp.json();
   }
