@@ -1488,7 +1488,7 @@
     <div class="card">
       <p class="eyebrow">Preguntale a tus números</p>
       <h2>Asistente IA</h2>
-      <p class="card-note">Preguntas en lenguaje natural sobre Agencia y Alquileres: "¿cómo venimos este mes?", "¿en qué gasté más este año?", "compará este año con el pasado"... Usa Gemini (IA gratis de Google). La IA solo recibe resúmenes — totales por mes, por año y por categoría — nunca tus movimientos uno por uno. También recibe cotizaciones en vivo (dólar, bitcoin/ethereum, riesgo país), así que podés preguntarle cosas como "¿a cuánto dólar blue equivale mi saldo?".</p>
+      <p class="card-note">Preguntas en lenguaje natural sobre Agencia y Alquileres: "¿cómo venimos este mes?", "¿en qué gasté más este año?", "compará este año con el pasado"... Usa Gemini (IA gratis de Google). La IA solo recibe resúmenes — totales por mes, por año y por categoría — nunca tus movimientos uno por uno. También recibe cotizaciones en vivo (dólar, bitcoin/ethereum, riesgo país, soja, novillo, inflación, UVA, CER, tasas BCRA), así que podés preguntarle cosas como "¿a cuánto dólar blue equivale mi saldo?" o "¿cómo viene la inflación este mes?".</p>
 
       <details class="cargar-advanced" id="iaConfigDetails" style="margin:0 0 14px 0;">
         <summary>Configurar clave de API (gratis, una sola vez)</summary>
@@ -3551,6 +3551,10 @@ let USD_INDEX = null, USD_LAST_YM = null, USD_LAST_RATE = null;
 let LIVE_DOLARES = null, LIVE_DOLARES_TS = 0;
 let LIVE_CRIPTO = null, LIVE_CRIPTO_TS = 0;
 let LIVE_RIESGO_PAIS = null, LIVE_RIESGO_PAIS_TS = 0;
+let LIVE_SOJA = null, LIVE_SOJA_TS = 0;
+let LIVE_NOVILLO = null, LIVE_NOVILLO_TS = 0;
+let LIVE_MACRO = null, LIVE_MACRO_TS = 0;
+let LIVE_TASAS = null, LIVE_TASAS_TS = 0;
 const rangoState = {metric:'todo', adj:'nominal'};
 
 function idxForYm(ym){
@@ -4674,6 +4678,8 @@ async function loadAgro(){
     if (val === null || !isFinite(val)) throw new Error('no se encontró el precio en ninguna de las fuentes probadas');
     document.getElementById('soja-val').textContent = fmtARS(val) + '/tn';
     anyOk = true;
+    LIVE_SOJA = val;
+    LIVE_SOJA_TS = Date.now();
     try {
       const historiaSoja = await registrarSnapshotAgro('agroSojaHistoria7d', val);
       renderAgroHistoria('soja', historiaSoja, '/tn');
@@ -4691,6 +4697,8 @@ async function loadAgro(){
     if (val === null) throw new Error('formato inesperado (claves: ' + Object.keys(data||{}).join(',') + ')');
     document.getElementById('novillo-val').textContent = fmtARS(val) + '/kg';
     anyOk = true;
+    LIVE_NOVILLO = val;
+    LIVE_NOVILLO_TS = Date.now();
     try {
       const serieNovillo = extraerSerieAgro(data, 7);
       if (serieNovillo.length) renderAgroHistoria('novillo', serieNovillo, '/kg');
@@ -4943,6 +4951,7 @@ async function bcraVariableUltimo(regex){
 async function loadIndicadoresMacro(){
   let anyOk = false, anyFail = false;
   const errores = [];
+  const macro = {};
   try {
     const res = await fetch('https://api.argentinadatos.com/v1/finanzas/indices/inflacion');
     if (!res.ok) throw new Error('HTTP ' + res.status);
@@ -4950,6 +4959,7 @@ async function loadIndicadoresMacro(){
     rows.sort((a,b)=>a.fecha.localeCompare(b.fecha));
     const last = rows[rows.length - 1];
     document.getElementById('ipc-mensual-val').textContent = (last.valor>=0?'+':'') + last.valor.toFixed(1) + '% (' + last.fecha.slice(0,7) + ')';
+    macro.ipcMensual = last.valor; macro.ipcMensualFecha = last.fecha.slice(0,7);
     anyOk = true;
   } catch(err){
     document.getElementById('ipc-mensual-val').textContent = 'No disponible';
@@ -4962,6 +4972,7 @@ async function loadIndicadoresMacro(){
     rows.sort((a,b)=>a.fecha.localeCompare(b.fecha));
     const last = rows[rows.length - 1];
     document.getElementById('ipc-interanual-val').textContent = (last.valor>=0?'+':'') + last.valor.toFixed(1) + '% (' + last.fecha.slice(0,7) + ')';
+    macro.ipcInteranual = last.valor; macro.ipcInteranualFecha = last.fecha.slice(0,7);
     anyOk = true;
   } catch(err){
     document.getElementById('ipc-interanual-val').textContent = 'No disponible';
@@ -4974,6 +4985,7 @@ async function loadIndicadoresMacro(){
     rows.sort((a,b)=>a.fecha.localeCompare(b.fecha));
     const last = rows[rows.length - 1];
     document.getElementById('uva-val').textContent = fmtARS(last.valor) + ' (' + last.fecha.slice(0,10) + ')';
+    macro.uva = last.valor; macro.uvaFecha = last.fecha.slice(0,10);
     anyOk = true;
   } catch(err){
     document.getElementById('uva-val').textContent = 'No disponible';
@@ -4982,6 +4994,7 @@ async function loadIndicadoresMacro(){
   try {
     const cer = await bcraVariableUltimo(/^CER\b|coeficiente de estabilizaci/i);
     document.getElementById('cer-val').textContent = fmtARS(cer.valor) + ' (' + cer.fecha + ')';
+    macro.cer = cer.valor; macro.cerFecha = cer.fecha;
     anyOk = true;
   } catch(err){
     document.getElementById('cer-val').textContent = 'No disponible';
@@ -4991,15 +5004,18 @@ async function loadIndicadoresMacro(){
   if (anyOk && !anyFail) setStatus('macro-status','macro-status-text','live','En vivo');
   else if (anyOk) setStatus('macro-status','macro-status-text','live','Parcial — algunas fuentes no respondieron (detalle abajo)');
   else setStatus('macro-status','macro-status-text','err','No se pudo consultar ninguna fuente (detalle abajo).');
+  if (anyOk){ LIVE_MACRO = macro; LIVE_MACRO_TS = Date.now(); }
 }
 
 /* ---------------- Tasas BCRA: plazo fijo 30 días y pases ---------------- */
 async function loadTasasBcra(){
   let anyOk = false, anyFail = false;
   const errores = [];
+  const tasas = {};
   try {
     const pf = await bcraVariableUltimo(/dep.sitos.*30.*d.as|plazo fijo.*30/i);
     document.getElementById('tasa-pf-val').textContent = pf.valor.toFixed(1) + '% (' + pf.fecha + ')';
+    tasas.pf = pf.valor; tasas.pfFecha = pf.fecha;
     anyOk = true;
   } catch(err){
     document.getElementById('tasa-pf-val').textContent = 'No disponible';
@@ -5008,6 +5024,7 @@ async function loadTasasBcra(){
   try {
     const pases = await bcraVariableUltimo(/pases pasivos/i);
     document.getElementById('tasa-pases-val').textContent = pases.valor.toFixed(1) + '% (' + pases.fecha + ')';
+    tasas.pases = pases.valor; tasas.pasesFecha = pases.fecha;
     anyOk = true;
   } catch(err){
     document.getElementById('tasa-pases-val').textContent = 'No disponible';
@@ -5017,6 +5034,7 @@ async function loadTasasBcra(){
   if (anyOk && !anyFail) setStatus('tasas-status','tasas-status-text','live','En vivo (catálogo BCRA)');
   else if (anyOk) setStatus('tasas-status','tasas-status-text','live','Parcial — algunas fuentes no respondieron (detalle abajo)');
   else setStatus('tasas-status','tasas-status-text','err','No se pudo consultar ninguna fuente (detalle abajo).');
+  if (anyOk){ LIVE_TASAS = tasas; LIVE_TASAS_TS = Date.now(); }
 }
 
 /* ---------------- Volatilidad 30 días (desvío estándar anualizado) ---------------- */
@@ -7943,6 +7961,12 @@ renderAutoConclusions();
   // Ventana de "frescura" del caché: si un dato en vivo ya se consultó hace menos
   // de esto, no se vuelve a pedir para no golpear las APIs gratis en cada pregunta.
   const LIVE_CACHE_MS = 5 * 60 * 1000; // 5 minutos
+  // Soja/Novillo cambian menos seguido y su fuente es más lenta (pasa por proxies
+  // públicos que a veces tardan o fallan), así que se cachean por más tiempo.
+  const AGRO_CACHE_MS = 30 * 60 * 1000; // 30 minutos
+  // Inflación, UVA, CER y tasas BCRA se publican con frecuencia diaria o mensual,
+  // así que no hace falta pedirlas de nuevo tan seguido.
+  const MACRO_CACHE_MS = 60 * 60 * 1000; // 60 minutos
 
   async function obtenerRiesgoPaisLive(){
     if (LIVE_RIESGO_PAIS !== null && (Date.now() - LIVE_RIESGO_PAIS_TS) < LIVE_CACHE_MS) return LIVE_RIESGO_PAIS;
@@ -7957,11 +7981,16 @@ renderAutoConclusions();
   }
 
   // Se llama antes de cada pregunta: reutiliza datos recién consultados (por ejemplo si
-  // el usuario ya entró a la solapa Mercados) y solo pide de nuevo lo que esté vencido.
+  // el usuario ya entró a la solapa Mercados o Agro) y solo pide de nuevo lo que esté vencido.
   async function refrescarDatosVivo(){
     const tareas = [obtenerRiesgoPaisLive()];
     if (!LIVE_DOLARES || (Date.now() - LIVE_DOLARES_TS) > LIVE_CACHE_MS) tareas.push(loadDolares().catch(()=>{}));
     if (!LIVE_CRIPTO || (Date.now() - LIVE_CRIPTO_TS) > LIVE_CACHE_MS) tareas.push(loadCripto().catch(()=>{}));
+    const sojaVencida = !LIVE_SOJA || (Date.now() - LIVE_SOJA_TS) > AGRO_CACHE_MS;
+    const novilloVencido = !LIVE_NOVILLO || (Date.now() - LIVE_NOVILLO_TS) > AGRO_CACHE_MS;
+    if (sojaVencida || novilloVencido) tareas.push(loadAgro().catch(()=>{}));
+    if (!LIVE_MACRO || (Date.now() - LIVE_MACRO_TS) > MACRO_CACHE_MS) tareas.push(loadIndicadoresMacro().catch(()=>{}));
+    if (!LIVE_TASAS || (Date.now() - LIVE_TASAS_TS) > MACRO_CACHE_MS) tareas.push(loadTasasBcra().catch(()=>{}));
     await Promise.all(tareas);
   }
 
@@ -7983,6 +8012,30 @@ renderAutoConclusions();
     }
     if (LIVE_RIESGO_PAIS !== null){
       lineas.push(`Riesgo país: ${LIVE_RIESGO_PAIS} pb`);
+    }
+    if (LIVE_SOJA !== null){
+      lineas.push(`Soja Rosario (pizarra BCR): ${fmtARS(LIVE_SOJA)}/tn`);
+    } else {
+      lineas.push('Soja Rosario: no disponible en este momento.');
+    }
+    if (LIVE_NOVILLO !== null){
+      lineas.push(`Novillo arrendamiento (Índice INMAG): ${fmtARS(LIVE_NOVILLO)}/kg`);
+    } else {
+      lineas.push('Novillo arrendamiento: no disponible en este momento.');
+    }
+    if (LIVE_MACRO){
+      if (LIVE_MACRO.ipcMensual !== undefined) lineas.push(`Inflación mensual (IPC, último dato ${LIVE_MACRO.ipcMensualFecha}): ${(LIVE_MACRO.ipcMensual>=0?'+':'')}${LIVE_MACRO.ipcMensual.toFixed(1)}%`);
+      if (LIVE_MACRO.ipcInteranual !== undefined) lineas.push(`Inflación interanual (${LIVE_MACRO.ipcInteranualFecha}): ${(LIVE_MACRO.ipcInteranual>=0?'+':'')}${LIVE_MACRO.ipcInteranual.toFixed(1)}%`);
+      if (LIVE_MACRO.uva !== undefined) lineas.push(`UVA (${LIVE_MACRO.uvaFecha}): ${fmtARS(LIVE_MACRO.uva)}`);
+      if (LIVE_MACRO.cer !== undefined) lineas.push(`CER (${LIVE_MACRO.cerFecha}): ${fmtARS(LIVE_MACRO.cer)}`);
+    } else {
+      lineas.push('Inflación / UVA / CER: no disponibles en este momento.');
+    }
+    if (LIVE_TASAS){
+      if (LIVE_TASAS.pf !== undefined) lineas.push(`Tasa plazo fijo 30 días BCRA (${LIVE_TASAS.pfFecha}): ${LIVE_TASAS.pf.toFixed(1)}% TNA`);
+      if (LIVE_TASAS.pases !== undefined) lineas.push(`Tasa de Pases BCRA (${LIVE_TASAS.pasesFecha}): ${LIVE_TASAS.pases.toFixed(1)}% TNA`);
+    } else {
+      lineas.push('Tasas BCRA (plazo fijo, pases): no disponibles en este momento.');
     }
     lineas.push('Estos valores pueden tener algunos minutos de atraso respecto al momento exacto de la pregunta; si el usuario necesita el valor exacto al segundo, aclaraselo.');
     return lineas.join('\n');
