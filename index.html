@@ -171,6 +171,7 @@
     <button class="tab-btn" data-tab="estadisticas">Estadísticas</button>
     <button class="tab-btn" data-tab="estadisticas-alquileres">Estadísticas Alquileres</button>
     <button class="tab-btn" data-tab="cargar">Cargar datos</button>
+    <button class="tab-btn" data-tab="ia">🤖 Asistente IA</button>
   </div>
   <button type="button" class="tabs-reorder-toggle" id="tabsReorderToggle">↕ Reordenar pestañas</button>
   <div class="tabs-reorder-bar" id="tabsReorderBar">
@@ -1472,6 +1473,38 @@
         <p class="card-note" id="ghMsg" style="min-height:14px;margin-top:8px;"></p>
       </div>
     </details>
+  </div>
+
+  <div class="panel" id="tab-ia">
+    <div class="card">
+      <p class="eyebrow">Preguntale a tus números</p>
+      <h2>Asistente IA</h2>
+      <p class="card-note">Preguntas en lenguaje natural sobre Agencia y Alquileres: "¿cómo venimos este mes?", "¿en qué gasté más este año?", "compará este año con el pasado"... Usa Gemini (IA gratis de Google). La IA solo recibe resúmenes — totales por mes, por año y por categoría — nunca tus movimientos uno por uno.</p>
+
+      <details class="cargar-advanced" id="iaConfigDetails" style="margin:0 0 14px 0;">
+        <summary>Configurar clave de API (gratis, una sola vez)</summary>
+        <div style="padding-top:10px;">
+          <p class="card-note">Conseguí una clave gratis en <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">Google AI Studio</a> (cuenta de Google, sin tarjeta). Pegala acá: queda guardada solo en este dispositivo, nunca en el código del panel ni en GitHub.</p>
+          <input type="password" id="iaApiKey" placeholder="Pegá tu clave de Gemini (AIza...)" autocomplete="off" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:11px 10px;border-radius:8px;font-size:14px;width:100%;box-sizing:border-box;">
+          <button type="button" id="btnGuardarIaKey" class="tab-btn" style="border-radius:8px;margin-top:10px;">💾 Guardar clave</button>
+          <button type="button" id="btnBorrarIaKey" class="tab-btn" style="border-radius:8px;margin-top:10px;">🗑️ Borrar clave</button>
+          <p class="card-note" id="iaKeyMsg" style="min-height:14px;margin-top:8px;"></p>
+        </div>
+      </details>
+
+      <div class="toggle-row" id="iaSugerencias">
+        <button type="button" class="toggle-btn ia-sug-btn" data-q="¿Cómo venimos este mes en Agencia comparado con el mes pasado?">Este mes vs. anterior</button>
+        <button type="button" class="toggle-btn ia-sug-btn" data-q="¿En qué categorías gasté más este año en Agencia?">Top gastos del año</button>
+        <button type="button" class="toggle-btn ia-sug-btn" data-q="Compará este año contra el año pasado en Agencia: ingresos, gastos y neto.">Comparar años</button>
+        <button type="button" class="toggle-btn ia-sug-btn" data-q="¿Cómo viene Alquileres este año? Resumen de ingresos y gastos.">Resumen Alquileres</button>
+      </div>
+
+      <textarea id="iaPregunta" rows="3" placeholder="Escribí tu pregunta sobre las finanzas..." style="width:100%;box-sizing:border-box;margin-top:4px;background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:11px 10px;border-radius:8px;font-size:14px;resize:vertical;font-family:inherit;"></textarea>
+      <button type="button" id="iaPreguntar" class="cargar-submit-btn" style="margin-top:10px;">Preguntar</button>
+      <p class="card-note" id="iaEstado" style="min-height:14px;margin-top:8px;margin-bottom:0;"></p>
+
+      <div id="iaConversacion" style="display:flex;flex-direction:column;gap:10px;margin-top:14px;"></div>
+    </div>
   </div>
 
   <p class="foot">Datos: cuenta "Agencia" de tu export sqlite. Inflación: API pública ArgentinaDatos, fuente BCRA (<a href="https://argentinadatos.com/docs/" target="_blank">argentinadatos.com</a>). Gráficos dibujados con SVG nativo, sin librerías externas.</p>
@@ -7519,6 +7552,219 @@ renderAutoConclusions();
   }
 
   renderProveedores();
+})();
+
+/* ---------------- ASISTENTE IA (Gemini gratis) ---------------- */
+(function(){
+  const IA_KEY_STORAGE = 'ia-gemini-api-key';
+  const IA_MODEL = 'gemini-flash-latest'; // alias de Google: siempre apunta al Flash más nuevo
+  let iaApiKey = '';
+  let iaHistory = [];
+
+  const elPregunta = document.getElementById('iaPregunta');
+  const elPreguntar = document.getElementById('iaPreguntar');
+  const elConversacion = document.getElementById('iaConversacion');
+  const elApiKeyInput = document.getElementById('iaApiKey');
+  const elGuardarKey = document.getElementById('btnGuardarIaKey');
+  const elBorrarKey = document.getElementById('btnBorrarIaKey');
+  const elKeyMsg = document.getElementById('iaKeyMsg');
+  const elConfigDetails = document.getElementById('iaConfigDetails');
+  const elEstado = document.getElementById('iaEstado');
+
+  if (!elPreguntar || !elPregunta || !elConversacion) return;
+
+  async function cargarApiKey(){
+    try {
+      const v = await storageGet(IA_KEY_STORAGE);
+      if (v) {
+        iaApiKey = v;
+        if (elApiKeyInput) elApiKeyInput.value = v;
+        if (elConfigDetails) elConfigDetails.open = false;
+        if (elKeyMsg) elKeyMsg.textContent = 'Clave guardada en este dispositivo.';
+      } else if (elConfigDetails) {
+        elConfigDetails.open = true;
+      }
+    } catch(e){ if (elConfigDetails) elConfigDetails.open = true; }
+  }
+
+  if (elGuardarKey) elGuardarKey.addEventListener('click', async ()=>{
+    const v = (elApiKeyInput && elApiKeyInput.value || '').trim();
+    if (!v){ elKeyMsg.textContent = 'Pegá una clave válida.'; return; }
+    iaApiKey = v;
+    await storageSet(IA_KEY_STORAGE, v);
+    elKeyMsg.textContent = '✅ Clave guardada en este dispositivo.';
+    if (elConfigDetails) elConfigDetails.open = false;
+  });
+
+  if (elBorrarKey) elBorrarKey.addEventListener('click', async ()=>{
+    iaApiKey = '';
+    if (elApiKeyInput) elApiKeyInput.value = '';
+    await storageSet(IA_KEY_STORAGE, '');
+    elKeyMsg.textContent = 'Clave borrada de este dispositivo.';
+  });
+
+  function construirContexto(){
+    const hoy = new Date();
+    const yActual = String(hoy.getFullYear());
+    const yAnterior = String(hoy.getFullYear() - 1);
+
+    const lineasMeses = MONTHLY.slice(-13).map(m =>
+      `${m.ym}: ingresos ${fmtARS(m.income)}, gastos ${fmtARS(m.expense)}, neto ${fmtARS(m.net)}, saldo acumulado ${fmtARS(m.cum)}`
+    ).join('\n');
+    const lineaAnios = YEARLY.slice(-4).map(y =>
+      `${y.year}: ingresos ${fmtARS(y.income)}, gastos ${fmtARS(y.expense)}, neto ${fmtARS(y.net)}`
+    ).join('\n');
+    const gastosTop = CATEGORIES.filter(c=>c.sign==='-').sort((a,b)=>b.total-a.total).slice(0,10)
+      .map(c => `${c.category}: ${fmtARS(c.total)} (${c.count} mov., histórico)`).join('\n');
+    const ingresosTop = CATEGORIES.filter(c=>c.sign==='+').sort((a,b)=>b.total-a.total).slice(0,8)
+      .map(c => `${c.category}: ${fmtARS(c.total)} (${c.count} mov., histórico)`).join('\n');
+    const saldoActual = MONTHLY.length ? MONTHLY[MONTHLY.length-1].cum : 0;
+
+    const rentUltimosMeses = RENT_MONTHLY.slice(-13).map(m =>
+      `${m.ym}: ingresos ${fmtARS(m.income)}, gastos ${fmtARS(m.expense)}`
+    ).join('\n');
+    const rentAnios = RENT_YEARLY.slice(-4).map(y =>
+      `${y.year}: ingresos ${fmtARS(y.income)}, gastos ${fmtARS(y.expense)}`
+    ).join('\n');
+    const rentGastosTop = RENT_CATEGORIES.filter(c=>c.sign==='-').sort((a,b)=>b.total-a.total).slice(0,10)
+      .map(c => `${c.category}: ${fmtARS(c.total)} (${c.count} mov., histórico)`).join('\n');
+    const personalAnios = PERSONAL_YEARLY.slice(-4).map(y => `${y.year}: ${fmtARS(y.expense)}`).join('\n');
+
+    return [
+      'Sos un asistente financiero para un kiosco/agencia de lotería y un negocio de alquileres en Argentina. Respondé en español rioplatense, corto, directo y con los números concretos que te pidan. Todos los montos están en pesos argentinos (ARS). No inventes datos que no estén en este contexto; si algo no está disponible, decilo con claridad.',
+      '',
+      `Fecha de hoy: ${hoy.toLocaleDateString('es-AR')}. Año actual: ${yActual}. Año anterior: ${yAnterior}.`,
+      '',
+      '=== CUENTA AGENCIA (kiosco/lotería) ===',
+      `Saldo acumulado actual: ${fmtARS(saldoActual)}`,
+      '',
+      'Últimos meses (ingresos, gastos, neto, saldo acumulado):',
+      lineasMeses,
+      '',
+      'Totales por año (últimos años):',
+      lineaAnios,
+      '',
+      'Top categorías de gasto (histórico completo):',
+      gastosTop,
+      '',
+      'Top categorías de ingreso (histórico completo):',
+      ingresosTop,
+      '',
+      '=== CUENTA ALQUILERES (gastos e ingresos del hogar/propiedades, separada de Agencia) ===',
+      'Últimos meses (ingresos, gastos):',
+      rentUltimosMeses,
+      '',
+      'Totales por año (últimos años):',
+      rentAnios,
+      '',
+      'Top categorías de gasto (histórico completo):',
+      rentGastosTop,
+      '',
+      'Gastos personales/familiares por año (subset de Alquileres, sin la categoría Ahorro):',
+      personalAnios,
+      '',
+      'Agencia y Alquileres son cuentas separadas: nunca sumes ni mezcles sus totales salvo que te lo pidan explícitamente.'
+    ].join('\n');
+  }
+
+  function escapeHtml(s){
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+  function formatearRespuesta(texto){
+    let t = escapeHtml(texto);
+    t = t.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+    t = t.replace(/\n/g, '<br>');
+    return t;
+  }
+  function agregarBurbuja(rol, texto){
+    const div = document.createElement('div');
+    const esUsuario = rol === 'user';
+    div.style.cssText = 'padding:12px 14px;border-radius:12px;font-size:13.5px;line-height:1.55;max-width:92%;' +
+      (esUsuario
+        ? 'background:rgba(211,181,106,.14);border:1px solid rgba(211,181,106,.35);align-self:flex-end;color:var(--cream);'
+        : 'background:rgba(0,0,0,.22);border:1px solid var(--line);align-self:flex-start;color:var(--cream);');
+    div.innerHTML = esUsuario ? escapeHtml(texto) : formatearRespuesta(texto);
+    elConversacion.appendChild(div);
+    div.scrollIntoView({behavior:'smooth', block:'end'});
+  }
+
+  async function llamarGemini(pregunta){
+    const contexto = construirContexto();
+    const contents = iaHistory.map(h => ({ role: h.role, parts: [{text: h.text}] }));
+    contents.push({ role: 'user', parts: [{text: pregunta}] });
+
+    const body = {
+      system_instruction: { parts: [{ text: contexto }] },
+      contents: contents
+    };
+
+    const url = 'https://generativelanguage.googleapis.com/v1beta/models/' + IA_MODEL + ':generateContent?key=' + encodeURIComponent(iaApiKey);
+    let resp;
+    try {
+      resp = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      });
+    } catch(e){
+      throw new Error('No se pudo conectar. Revisá tu conexión a internet e intentá de nuevo.');
+    }
+
+    if (!resp.ok){
+      let detalle = '';
+      try { const j = await resp.json(); detalle = (j && j.error && j.error.message) || ''; } catch(e){}
+      if (resp.status === 400 || resp.status === 403) throw new Error('Clave de API inválida o sin permiso. Revisá que la hayas pegado bien en "Configurar clave".');
+      if (resp.status === 429) throw new Error('Se agotó la cuota gratuita por ahora. Esperá un minuto y probá de nuevo.');
+      throw new Error('Error de Gemini (' + resp.status + '). ' + detalle);
+    }
+
+    const data = await resp.json();
+    const texto = (data && data.candidates && data.candidates[0] && data.candidates[0].content
+      && data.candidates[0].content.parts
+      && data.candidates[0].content.parts.map(p=>p.text||'').join('')) || '';
+    if (!texto) throw new Error('Gemini no devolvió una respuesta. Probá reformular la pregunta.');
+    return texto;
+  }
+
+  async function preguntar(textoPregunta){
+    const pregunta = (textoPregunta || elPregunta.value).trim();
+    if (!pregunta) return;
+    if (!iaApiKey){
+      elEstado.textContent = 'Primero guardá tu clave de API (arriba).';
+      if (elConfigDetails) elConfigDetails.open = true;
+      return;
+    }
+    agregarBurbuja('user', pregunta);
+    elPregunta.value = '';
+    elEstado.textContent = 'Pensando...';
+    elPreguntar.disabled = true;
+    try {
+      const respuesta = await llamarGemini(pregunta);
+      iaHistory.push({role:'user', text: pregunta});
+      iaHistory.push({role:'model', text: respuesta});
+      if (iaHistory.length > 20) iaHistory = iaHistory.slice(-20);
+      agregarBurbuja('model', respuesta);
+      elEstado.textContent = '';
+    } catch(err){
+      agregarBurbuja('model', '⚠️ ' + (err && err.message ? err.message : 'Error al consultar la IA.'));
+      elEstado.textContent = '';
+    } finally {
+      elPreguntar.disabled = false;
+    }
+  }
+
+  elPreguntar.addEventListener('click', ()=> preguntar());
+  elPregunta.addEventListener('keydown', (e)=>{
+    if (e.key === 'Enter' && !e.shiftKey){
+      e.preventDefault();
+      preguntar();
+    }
+  });
+  document.querySelectorAll('.ia-sug-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=> preguntar(btn.getAttribute('data-q')));
+  });
+
+  cargarApiKey();
 })();
 
 })();
