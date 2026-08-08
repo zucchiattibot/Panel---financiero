@@ -7957,7 +7957,7 @@ renderAutoConclusions();
         } catch(e){
           resultado = { error: 'Error al ejecutar la consulta: ' + (e && e.message ? e.message : e) };
         }
-        contents.push({ role: 'function', parts: [{ functionResponse: { name: fc.name, response: resultado } }] });
+        contents.push({ role: 'user', parts: [{ functionResponse: { name: fc.name, response: resultado } }] });
         continue;
       }
 
