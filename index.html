@@ -35,6 +35,8 @@
   .tabs-reorder-bar .reorder-selected{flex:1;text-align:center;font-weight:700;color:var(--gold);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
   .tabs-reorder-bar .reorder-done{background:var(--gold);color:#1a2a1f;border:none;padding:9px 14px;border-radius:8px;font-weight:700;cursor:pointer;flex:0 0 auto;}
   .tab-btn[data-tab].tab-selected-reorder{box-shadow:0 0 0 2px var(--gold) inset;}
+  .tab-btn[data-tab].tab-btn-hidden{display:none !important;}
+  .tab-btn[data-tab].tab-hide-marked{opacity:.45;text-decoration:line-through;border-style:dashed;}
 
   .panel{display:none;} .panel.active{display:block;}
   .alqsub-panel{display:none;} .alqsub-panel.active{display:block;}
@@ -174,11 +176,16 @@
     <button class="tab-btn" data-tab="ia">🤖 Asistente IA</button>
   </div>
   <button type="button" class="tabs-reorder-toggle" id="tabsReorderToggle">↕ Reordenar pestañas</button>
+  <button type="button" class="tabs-reorder-toggle" id="tabsHideToggle">👁 Ocultar pestañas</button>
   <div class="tabs-reorder-bar" id="tabsReorderBar">
     <button type="button" class="reorder-arrow" id="tabsReorderLeft" disabled>◀</button>
     <span class="reorder-selected" id="tabsReorderSelected">Tocá una pestaña…</span>
     <button type="button" class="reorder-arrow" id="tabsReorderRight" disabled>▶</button>
     <button type="button" class="reorder-done" id="tabsReorderDone">✓ Listo</button>
+  </div>
+  <div class="tabs-reorder-bar" id="tabsHideBar">
+    <span class="reorder-selected" id="tabsHideHint">Tocá las que querés ocultar (tocá de nuevo para mostrarlas)</span>
+    <button type="button" class="reorder-done" id="tabsHideDone">✓ Listo</button>
   </div>
 
   <div class="panel active" id="tab-resumen">
@@ -2214,6 +2221,93 @@ document.querySelectorAll('.tab-btn[data-alqsub]').forEach(btn=>{
   }, true);
 
   restoreTabOrder();
+})();
+
+/* ---------------- TABS: ocultar/mostrar ----------------
+   Tocás "Ocultar pestañas" y entrás en un modo donde, en vez de cambiar de
+   panel, tocar una pestaña la marca (achurada) para ocultarla o la desmarca
+   si ya estaba oculta. "Listo" aplica los cambios: las marcadas desaparecen
+   de la barra de pestañas (pero siguen existiendo, se puede volver a
+   mostrarlas en cualquier momento desde este mismo modo). Se guarda con
+   storageGet/storageSet igual que el orden de pestañas. */
+(function initHideTabs(){
+  const tabsWrap = document.querySelector('.tabs');
+  const toggleBtn = document.getElementById('tabsHideToggle');
+  const reorderToggleBtn = document.getElementById('tabsReorderToggle');
+  const bar = document.getElementById('tabsHideBar');
+  const doneBtn = document.getElementById('tabsHideDone');
+  if (!tabsWrap || !toggleBtn || !bar || !doneBtn) return;
+
+  const TABS_HIDDEN_KEY = 'agencia-tabs-hidden';
+  function getTabBtns(){ return Array.from(tabsWrap.querySelectorAll('.tab-btn[data-tab]')); }
+
+  let hiddenSet = new Set();
+  let hideMode = false;
+
+  async function saveHidden(){
+    try { await storageSet(TABS_HIDDEN_KEY, JSON.stringify(Array.from(hiddenSet))); } catch(e){}
+  }
+  async function loadHidden(){
+    let raw = null;
+    try { raw = await storageGet(TABS_HIDDEN_KEY); } catch(e){}
+    if (!raw) return;
+    try { hiddenSet = new Set(JSON.parse(raw)); } catch(e){ hiddenSet = new Set(); }
+  }
+
+  function applyHidden(){
+    getTabBtns().forEach(b=>{
+      const isHidden = hiddenSet.has(b.dataset.tab);
+      b.classList.toggle('tab-btn-hidden', isHidden && !hideMode);
+    });
+    // Si la pestaña activa quedó oculta, saltamos a la primera que siga visible.
+    const activeBtn = tabsWrap.querySelector('.tab-btn.active');
+    if (!hideMode && activeBtn && hiddenSet.has(activeBtn.dataset.tab)){
+      const firstVisible = getTabBtns().find(b=>!hiddenSet.has(b.dataset.tab));
+      if (firstVisible) firstVisible.click();
+    }
+  }
+
+  function enterHideMode(){
+    hideMode = true;
+    applyHidden(); // muestra todas (saca el display:none) para poder tocarlas
+    getTabBtns().forEach(b=> b.classList.toggle('tab-hide-marked', hiddenSet.has(b.dataset.tab)));
+    bar.classList.add('active');
+    toggleBtn.style.display = 'none';
+    if (reorderToggleBtn) reorderToggleBtn.style.display = 'none';
+  }
+  function exitHideMode(){
+    hideMode = false;
+    getTabBtns().forEach(b=> b.classList.remove('tab-hide-marked'));
+    bar.classList.remove('active');
+    toggleBtn.style.display = '';
+    if (reorderToggleBtn) reorderToggleBtn.style.display = '';
+    // Nunca dejamos todas las pestañas ocultas: si pasó, destapamos la primera.
+    const allBtns = getTabBtns();
+    if (allBtns.length && allBtns.every(b=>hiddenSet.has(b.dataset.tab))){
+      hiddenSet.delete(allBtns[0].dataset.tab);
+    }
+    applyHidden();
+    saveHidden();
+  }
+
+  toggleBtn.addEventListener('click', enterHideMode);
+  doneBtn.addEventListener('click', exitHideMode);
+
+  tabsWrap.addEventListener('click', (e)=>{
+    if (!hideMode) return;
+    const btn = e.target.closest('.tab-btn[data-tab]');
+    if (!btn) return;
+    e.stopPropagation();
+    e.preventDefault();
+    const key = btn.dataset.tab;
+    if (hiddenSet.has(key)) hiddenSet.delete(key); else hiddenSet.add(key);
+    btn.classList.toggle('tab-hide-marked', hiddenSet.has(key));
+  }, true);
+
+  (async function init(){
+    await loadHidden();
+    applyHidden();
+  })();
 })();
 
 /* ---------------- RESUMEN ---------------- */
