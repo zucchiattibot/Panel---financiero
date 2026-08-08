@@ -1425,7 +1425,9 @@
           <div class="range-label">Detalle (opcional)</div>
           <input type="text" id="cargarDetalle" placeholder="Detalle del gasto..." style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:11px 10px;border-radius:8px;font-size:14px;width:100%;">
         </div>
-        <button type="submit" class="cargar-submit-btn">Guardar movimiento</button>
+        <p class="card-note" id="cargarEditandoAviso" style="display:none;color:var(--gold);margin-bottom:10px;">✎ Editando un movimiento — los cambios reemplazan al original.</p>
+        <button type="submit" class="cargar-submit-btn" id="cargarSubmitBtn">Guardar movimiento</button>
+        <button type="button" id="cargarCancelarEdicion" class="tab-btn" style="display:none;width:100%;margin-top:8px;border-radius:8px;">Cancelar edición</button>
         <p class="card-note" id="cargarMsg" style="color:var(--red-neg);margin-top:10px;margin-bottom:0;min-height:14px;text-align:center;"></p>
       </form>
     </div>
@@ -1496,6 +1498,12 @@
           <button type="button" id="btnGuardarIaKey" class="tab-btn" style="border-radius:8px;margin-top:10px;">💾 Guardar clave</button>
           <button type="button" id="btnBorrarIaKey" class="tab-btn" style="border-radius:8px;margin-top:10px;">🗑️ Borrar clave</button>
           <p class="card-note" id="iaKeyMsg" style="min-height:14px;margin-top:8px;"></p>
+          <p class="card-note" style="margin-top:14px;margin-bottom:6px;">Modelo:</p>
+          <div class="toggle-row" id="iaModelToggle">
+            <button type="button" class="toggle-btn" data-model="gemini-flash-lite-latest">⚡ Rápido (más preguntas/día)</button>
+            <button type="button" class="toggle-btn" data-model="gemini-flash-latest">🎯 Preciso (menos preguntas/día)</button>
+          </div>
+          <p class="card-note" style="margin-top:6px;">"Rápido" tiene bastante más cuota gratis por día; para preguntas sobre números y categorías anda igual de bien. Cambiá a "Preciso" si notás respuestas raras.</p>
         </div>
       </details>
 
@@ -5188,11 +5196,14 @@ function renderManualList(){
     let catTxt = en.category ? en.category : '—';
     if (en.type === 'ingreso' && en.medio) catTxt += ' (' + (en.medio === 'transferencia' ? 'Transferencia' : 'Efectivo') + ')';
     if (en.type !== 'ingreso' && en.detalle) catTxt += ' — ' + en.detalle;
-    tr.innerHTML = `<td>${en.date}</td><td>${cuentaTxt}</td><td>${tipoTxt}</td><td>${catTxt}</td><td class="num ${sign}">${fmtARS(parseFloat(en.amount))}</td><td><button type="button" class="link-btn" data-idx="${idx}">Borrar</button></td>`;
+    tr.innerHTML = `<td>${en.date}</td><td>${cuentaTxt}</td><td>${tipoTxt}</td><td>${catTxt}</td><td class="num ${sign}">${fmtARS(parseFloat(en.amount))}</td><td><button type="button" class="link-btn" data-edit-idx="${idx}">Editar</button> <button type="button" class="link-btn" data-idx="${idx}">Borrar</button></td>`;
     tbody.appendChild(tr);
   });
   tbody.querySelectorAll('button[data-idx]').forEach(btn=>{
     btn.addEventListener('click', ()=> deleteManualEntry(parseInt(btn.dataset.idx, 10)));
+  });
+  tbody.querySelectorAll('button[data-edit-idx]').forEach(btn=>{
+    btn.addEventListener('click', ()=> editManualEntry(parseInt(btn.dataset.editIdx, 10)));
   });
 }
 document.getElementById('cargarVerMasBtn').addEventListener('click', ()=>{
@@ -5206,6 +5217,8 @@ async function deleteManualEntry(idx){
   await storageSet('manual-entries', JSON.stringify(manualEntries));
   location.reload();
 }
+
+let cargarEditIndex = null; // null = cargando uno nuevo; si no, índice en manualEntries que se está editando
 
 let cargarCuenta = 'agencia';
 document.querySelectorAll('#cargarCuentaToggle .toggle-btn').forEach(btn=>{
@@ -5394,6 +5407,72 @@ document.querySelectorAll('#cargarMedioToggle .toggle-btn').forEach(btn=>{
 });
 updateCargarTipoFields();
 
+function setToggleActivo(containerId, attr, valor){
+  document.querySelectorAll('#' + containerId + ' .toggle-btn').forEach(b=>{
+    b.classList.toggle('active', b.dataset[attr] === valor);
+  });
+}
+
+function editManualEntry(idx){
+  const en = manualEntries[idx];
+  if (!en) return;
+  cargarEditIndex = idx;
+
+  cargarCuenta = en.account === 'alquileres' ? 'alquileres' : 'agencia';
+  setToggleActivo('cargarCuentaToggle', 'cuenta', cargarCuenta);
+
+  cargarTipo = en.type === 'egreso' ? 'egreso' : 'ingreso';
+  setToggleActivo('cargarTipoToggle', 'tipo', cargarTipo);
+  updateCargarTipoFields();
+
+  cargarMedio = en.medio === 'transferencia' ? 'transferencia' : 'efectivo';
+  setToggleActivo('cargarMedioToggle', 'medio', cargarMedio);
+
+  document.getElementById('cargarFecha').value = en.date;
+  document.getElementById('cargarMonto').value = en.amount;
+  document.getElementById('cargarDetalle').value = en.detalle || '';
+
+  const categoriaExiste = en.category && [...catSelect.options].some(o => o.value === en.category);
+  if (categoriaExiste){
+    catSelect.value = en.category;
+    catOtraInput.style.display = 'none';
+    catOtraInput.value = '';
+  } else if (en.category){
+    catSelect.value = '__otra__';
+    catOtraInput.style.display = 'block';
+    catOtraInput.value = en.category;
+  } else {
+    catSelect.value = '';
+    catOtraInput.style.display = 'none';
+    catOtraInput.value = '';
+  }
+
+  document.getElementById('cargarEditandoAviso').style.display = 'block';
+  document.getElementById('cargarSubmitBtn').textContent = 'Guardar cambios';
+  document.getElementById('cargarCancelarEdicion').style.display = 'block';
+  document.getElementById('cargarMsg').textContent = '';
+
+  document.getElementById('cargarHero').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function cancelarEdicionCarga(){
+  cargarEditIndex = null;
+  document.getElementById('cargarForm').reset();
+  cargarCuenta = 'agencia';
+  setToggleActivo('cargarCuentaToggle', 'cuenta', 'agencia');
+  cargarTipo = 'ingreso';
+  setToggleActivo('cargarTipoToggle', 'tipo', 'ingreso');
+  cargarMedio = 'efectivo';
+  setToggleActivo('cargarMedioToggle', 'medio', 'efectivo');
+  updateCargarTipoFields();
+  catOtraInput.style.display = 'none';
+  document.getElementById('cargarEditandoAviso').style.display = 'none';
+  document.getElementById('cargarSubmitBtn').textContent = 'Guardar movimiento';
+  document.getElementById('cargarCancelarEdicion').style.display = 'none';
+  document.getElementById('cargarMsg').textContent = '';
+}
+document.getElementById('cargarCancelarEdicion').addEventListener('click', cancelarEdicionCarga);
+
 document.getElementById('cargarForm').addEventListener('submit', async (e)=>{
   e.preventDefault();
   const msgEl = document.getElementById('cargarMsg');
@@ -5414,7 +5493,12 @@ document.getElementById('cargarForm').addEventListener('submit', async (e)=>{
   const entry = {date, type: cargarTipo, amount, category, account: cargarCuenta};
   if (cargarTipo === 'ingreso') entry.medio = cargarMedio;
   else entry.detalle = detalle;
-  manualEntries.push(entry);
+
+  const editandoIdx = cargarEditIndex;
+  const entradaPrevia = editandoIdx !== null ? manualEntries[editandoIdx] : null;
+  if (editandoIdx !== null) manualEntries[editandoIdx] = entry;
+  else manualEntries.push(entry);
+
   msgEl.textContent = 'Guardando…';
   const esCategoriaNueva = esOtraCategoria && category &&
     !categoriasBaseVisibles().includes(category) && !categoriasCustom.includes(category);
@@ -5428,9 +5512,11 @@ document.getElementById('cargarForm').addEventListener('submit', async (e)=>{
       const ghCfg = await cargarGhConfig();
       if (ghCfg && ghCfg.auto) await subirBackupAGithub(true);
     } catch(e) { /* si falla el auto-backup, igual seguimos: el movimiento ya quedó guardado local */ }
+    cargarEditIndex = null;
     location.reload();
   } else {
-    manualEntries.pop();
+    if (editandoIdx !== null) manualEntries[editandoIdx] = entradaPrevia;
+    else manualEntries.pop();
     msgEl.textContent = 'No se pudo guardar. Probá de nuevo.';
   }
 });
@@ -7659,7 +7745,8 @@ renderAutoConclusions();
 /* ---------------- ASISTENTE IA (Gemini gratis) ---------------- */
 (function(){
   const IA_KEY_STORAGE = 'ia-gemini-api-key';
-  const IA_MODEL = 'gemini-flash-latest'; // alias de Google: siempre apunta al Flash más nuevo
+  const IA_MODEL_STORAGE = 'ia-gemini-model';
+  let IA_MODEL = 'gemini-flash-lite-latest'; // alias de Google: por defecto el "Lite", con más cuota gratis por día
   let iaApiKey = '';
   let iaContents = []; // conversación completa (incluye turnos de herramientas); se resetea al recargar la página
 
@@ -7672,8 +7759,21 @@ renderAutoConclusions();
   const elKeyMsg = document.getElementById('iaKeyMsg');
   const elConfigDetails = document.getElementById('iaConfigDetails');
   const elEstado = document.getElementById('iaEstado');
+  const elModelBtns = document.querySelectorAll('#iaModelToggle .toggle-btn');
 
   if (!elPreguntar || !elPregunta || !elConversacion) return;
+
+  function marcarModeloActivo(){
+    elModelBtns.forEach(b=> b.classList.toggle('active', b.dataset.model === IA_MODEL));
+  }
+  elModelBtns.forEach(btn=>{
+    btn.addEventListener('click', async ()=>{
+      IA_MODEL = btn.dataset.model;
+      marcarModeloActivo();
+      try { await storageSet(IA_MODEL_STORAGE, IA_MODEL); } catch(e){}
+    });
+  });
+  marcarModeloActivo();
 
   // Estadísticas del historial completo (se calculan una sola vez al cargar,
   // no en cada pregunta) para que el contexto le diga a la IA cuántos
@@ -7700,26 +7800,23 @@ renderAutoConclusions();
   const IA_TOOLS = [{
     function_declarations: [{
       name: 'consultar_movimientos',
-      description: 'Busca y devuelve movimientos financieros reales (fecha, categoría, monto, descripción) de Agencia o Alquileres, filtrando por fecha, categoría, texto o signo. Devuelve el total exacto (suma_total) y la cantidad encontrada aunque no se listen todas las filas. Usala para CUALQUIER pregunta sobre un período, categoría, texto o total exacto que no esté ya en el resumen general del contexto: el resumen solo cubre los últimos meses/años, esta herramienta cubre TODO el historial.',
+      description: 'Busca y devuelve movimientos financieros reales (fecha, categoría, monto, descripción) de Agencia o Alquileres, filtrando por fecha, categoría, texto o signo. Devuelve el total exacto (suma_total) y la cantidad encontrada aunque no se listen todas las filas. Usala para CUALQUIER pregunta sobre un período, categoría, texto o total exacto que no esté ya en el resumen general del contexto: el resumen solo cubre los últimos meses/años, esta herramienta cubre TODO el historial. Si no sabés en qué cuenta está algo (ej: una categoría o proveedor que no aparece en el resumen), NO adivines: dejá "cuenta" sin especificar y la herramienta busca en Agencia y Alquileres a la vez.',
       parameters: {
         type: 'OBJECT',
         properties: {
-          cuenta: { type: 'STRING', enum: ['agencia','alquileres'], description: 'Qué cuenta/negocio consultar.' },
+          cuenta: { type: 'STRING', enum: ['agencia','alquileres'], description: 'Qué cuenta/negocio consultar. Si no la especificás, se busca en las dos.' },
           fecha_desde: { type: 'STRING', description: 'Fecha de inicio en formato AAAAMMDD, opcional.' },
           fecha_hasta: { type: 'STRING', description: 'Fecha de fin en formato AAAAMMDD, opcional.' },
           categoria: { type: 'STRING', description: 'Nombre (o parte del nombre) de categoría a filtrar, opcional.' },
           texto: { type: 'STRING', description: 'Texto a buscar dentro de la descripción del movimiento, opcional.' },
           signo: { type: 'STRING', enum: ['+','-'], description: 'Filtrar solo ingresos (+) o solo egresos (-), opcional.' },
           agrupar_por: { type: 'STRING', enum: ['ninguno','categoria','mes','anio'], description: 'Si se especifica, además de listar movimientos devuelve totales YA SUMADOS agrupados por categoría, mes o año. Usalo siempre que la pregunta implique sumar muchos movimientos (en vez de sumarlos vos mismo).' }
-        },
-        required: ['cuenta']
+        }
       }
     }]
   }];
 
-  function consultarMovimientosImpl(args){
-    args = args || {};
-    const cuenta = args.cuenta === 'alquileres' ? 'alquileres' : 'agencia';
+  function consultarUnaCuenta(cuenta, args){
     const moves = cuenta === 'alquileres' ? RENT_MOVES : MOVES;
     const catList = cuenta === 'alquileres' ? RENT_MOVES_CATS : CAT_LIST;
 
@@ -7783,6 +7880,20 @@ renderAutoConclusions();
     return resultado;
   }
 
+  function consultarMovimientosImpl(args){
+    args = args || {};
+    if (args.cuenta === 'agencia' || args.cuenta === 'alquileres'){
+      return consultarUnaCuenta(args.cuenta, args);
+    }
+    // No se especificó cuenta: buscamos en Agencia y en Alquileres por separado
+    // (son negocios distintos, nunca se suman entre sí).
+    return {
+      nota: 'No se especificó cuenta, así que se buscó por separado en Agencia y en Alquileres.',
+      agencia: consultarUnaCuenta('agencia', args),
+      alquileres: consultarUnaCuenta('alquileres', args)
+    };
+  }
+
   async function cargarApiKey(){
     try {
       const v = await storageGet(IA_KEY_STORAGE);
@@ -7795,6 +7906,13 @@ renderAutoConclusions();
         elConfigDetails.open = true;
       }
     } catch(e){ if (elConfigDetails) elConfigDetails.open = true; }
+    try {
+      const m = await storageGet(IA_MODEL_STORAGE);
+      if (m === 'gemini-flash-latest' || m === 'gemini-flash-lite-latest'){
+        IA_MODEL = m;
+        marcarModeloActivo();
+      }
+    } catch(e){}
   }
 
   if (elGuardarKey) elGuardarKey.addEventListener('click', async ()=>{
