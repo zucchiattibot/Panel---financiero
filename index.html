@@ -7559,7 +7559,7 @@ renderAutoConclusions();
   const IA_KEY_STORAGE = 'ia-gemini-api-key';
   const IA_MODEL = 'gemini-flash-latest'; // alias de Google: siempre apunta al Flash más nuevo
   let iaApiKey = '';
-  let iaHistory = [];
+  let iaContents = []; // conversación completa (incluye turnos de herramientas); se resetea al recargar la página
 
   const elPregunta = document.getElementById('iaPregunta');
   const elPreguntar = document.getElementById('iaPreguntar');
@@ -7572,6 +7572,114 @@ renderAutoConclusions();
   const elEstado = document.getElementById('iaEstado');
 
   if (!elPreguntar || !elPregunta || !elConversacion) return;
+
+  // Estadísticas del historial completo (se calculan una sola vez al cargar,
+  // no en cada pregunta) para que el contexto le diga a la IA cuántos
+  // movimientos y desde qué fecha tiene disponibles vía la herramienta.
+  function statsHistorial(moves){
+    if (!moves.length) return { count:0, minDate:null, maxDate:null };
+    let min = moves[0][0], max = moves[0][0];
+    for (let i=1;i<moves.length;i++){
+      const f = moves[i][0];
+      if (f < min) min = f;
+      if (f > max) max = f;
+    }
+    return { count: moves.length, minDate: min, maxDate: max };
+  }
+  const AGENCIA_STATS = statsHistorial(MOVES);
+  const ALQUILERES_STATS = statsHistorial(RENT_MOVES);
+  function fmtFechaInt(f){
+    const s = String(f);
+    return s.slice(6,8) + '/' + s.slice(4,6) + '/' + s.slice(0,4);
+  }
+
+  // Herramienta que la IA puede invocar para consultar movimientos reales
+  // (todos, no solo el resumen) de Agencia o Alquileres.
+  const IA_TOOLS = [{
+    function_declarations: [{
+      name: 'consultar_movimientos',
+      description: 'Busca y devuelve movimientos financieros reales (fecha, categoría, monto, descripción) de Agencia o Alquileres, filtrando por fecha, categoría, texto o signo. Devuelve el total exacto (suma_total) y la cantidad encontrada aunque no se listen todas las filas. Usala para CUALQUIER pregunta sobre un período, categoría, texto o total exacto que no esté ya en el resumen general del contexto: el resumen solo cubre los últimos meses/años, esta herramienta cubre TODO el historial.',
+      parameters: {
+        type: 'object',
+        properties: {
+          cuenta: { type: 'string', enum: ['agencia','alquileres'], description: 'Qué cuenta/negocio consultar.' },
+          fecha_desde: { type: 'string', description: 'Fecha de inicio en formato AAAAMMDD, opcional.' },
+          fecha_hasta: { type: 'string', description: 'Fecha de fin en formato AAAAMMDD, opcional.' },
+          categoria: { type: 'string', description: 'Nombre (o parte del nombre) de categoría a filtrar, opcional.' },
+          texto: { type: 'string', description: 'Texto a buscar dentro de la descripción del movimiento, opcional.' },
+          signo: { type: 'string', enum: ['+','-'], description: 'Filtrar solo ingresos (+) o solo egresos (-), opcional.' },
+          agrupar_por: { type: 'string', enum: ['ninguno','categoria','mes','anio'], description: 'Si se especifica, además de listar movimientos devuelve totales YA SUMADOS agrupados por categoría, mes o año. Usalo siempre que la pregunta implique sumar muchos movimientos (en vez de sumarlos vos mismo).' }
+        },
+        required: ['cuenta']
+      }
+    }]
+  }];
+
+  function consultarMovimientosImpl(args){
+    args = args || {};
+    const cuenta = args.cuenta === 'alquileres' ? 'alquileres' : 'agencia';
+    const moves = cuenta === 'alquileres' ? RENT_MOVES : MOVES;
+    const catList = cuenta === 'alquileres' ? RENT_MOVES_CATS : CAT_LIST;
+
+    const desde = args.fecha_desde ? parseInt(String(args.fecha_desde).replace(/-/g,''), 10) : null;
+    const hasta = args.fecha_hasta ? parseInt(String(args.fecha_hasta).replace(/-/g,''), 10) : null;
+    const catFiltro = args.categoria ? String(args.categoria).trim().toLowerCase() : null;
+    const textoFiltro = args.texto ? String(args.texto).trim().toLowerCase() : null;
+    const signoFiltro = (args.signo === '+' || args.signo === '-') ? args.signo : null;
+
+    const matches = [];
+    for (let i=0;i<moves.length;i++){
+      const fila = moves[i];
+      const fecha = fila[0], catIdx = fila[1], monto = fila[2], desc = fila[3] || '';
+      if (desde !== null && fecha < desde) continue;
+      if (hasta !== null && fecha > hasta) continue;
+      const cat = catList[catIdx] || { category:'(desconocida)', sign:'-' };
+      if (catFiltro && !cat.category.toLowerCase().includes(catFiltro)) continue;
+      if (signoFiltro && cat.sign !== signoFiltro) continue;
+      if (textoFiltro && !desc.toLowerCase().includes(textoFiltro)) continue;
+      matches.push({ fecha, categoria: cat.category, signo: cat.sign, monto, descripcion: desc });
+    }
+
+    const totalEncontrados = matches.length;
+    const sumaTotal = matches.reduce((s,m)=> s + (m.signo === '-' ? -m.monto : m.monto), 0);
+
+    let agrupado = null;
+    if (args.agrupar_por && args.agrupar_por !== 'ninguno'){
+      const grupos = {};
+      matches.forEach(m=>{
+        let key;
+        if (args.agrupar_por === 'categoria') key = m.categoria;
+        else if (args.agrupar_por === 'mes') key = String(m.fecha).slice(0,6);
+        else if (args.agrupar_por === 'anio') key = String(m.fecha).slice(0,4);
+        else key = 'total';
+        if (!grupos[key]) grupos[key] = { suma:0, cantidad:0 };
+        grupos[key].suma += (m.signo === '-' ? -m.monto : m.monto);
+        grupos[key].cantidad += 1;
+      });
+      agrupado = Object.keys(grupos).sort().map(k => ({
+        grupo: k, suma: Math.round(grupos[k].suma * 100) / 100, cantidad: grupos[k].cantidad
+      }));
+    }
+
+    const LIMITE_FILAS = 150;
+    const movimientos = matches.slice(0, LIMITE_FILAS).map(m => ({
+      fecha: m.fecha, categoria: m.categoria,
+      monto: Math.round((m.signo === '-' ? -m.monto : m.monto) * 100) / 100,
+      descripcion: m.descripcion
+    }));
+
+    const resultado = {
+      cuenta,
+      total_movimientos_encontrados: totalEncontrados,
+      suma_total: Math.round(sumaTotal * 100) / 100,
+      movimientos
+    };
+    if (totalEncontrados > LIMITE_FILAS){
+      resultado.nota = 'Se encontraron ' + totalEncontrados + ' movimientos; se listan los primeros ' + LIMITE_FILAS + '. suma_total ya es el total exacto de los ' + totalEncontrados + '. Para totales por subgrupo pedí agrupar_por.';
+    }
+    if (agrupado) resultado.agrupado = agrupado;
+    return resultado;
+  }
 
   async function cargarApiKey(){
     try {
@@ -7631,9 +7739,15 @@ renderAutoConclusions();
     const personalAnios = PERSONAL_YEARLY.slice(-4).map(y => `${y.year}: ${fmtARS(y.expense)}`).join('\n');
 
     return [
-      'Sos un asistente financiero para un kiosco/agencia de lotería y un negocio de alquileres en Argentina. Respondé en español rioplatense, corto, directo y con los números concretos que te pidan. Todos los montos están en pesos argentinos (ARS). No inventes datos que no estén en este contexto; si algo no está disponible, decilo con claridad.',
+      'Sos un asistente financiero para un kiosco/agencia de lotería y un negocio de alquileres en Argentina. Respondé en español rioplatense, corto, directo y con los números concretos que te pidan. Todos los montos están en pesos argentinos (ARS). No inventes datos: si necesitás un dato que no está en este resumen, usá la herramienta consultar_movimientos en vez de adivinar.',
       '',
       `Fecha de hoy: ${hoy.toLocaleDateString('es-AR')}. Año actual: ${yActual}. Año anterior: ${yAnterior}.`,
+      'IMPORTANTE sobre meses en curso: si te piden comparar el mes actual contra un mes anterior y el mes actual todavía no terminó, NO compares el mes completo anterior contra el mes actual incompleto (da una diferencia falsa). En ese caso comparalo por el mismo rango de días en ambos meses (ej: si hoy es el día 8, usá los días 1 al 8 de cada mes) y aclaralo en la respuesta.',
+      '',
+      'ACCESO A TODO EL HISTORIAL: además de este resumen, contás con la herramienta "consultar_movimientos" que consulta el historial COMPLETO real, movimiento por movimiento:',
+      AGENCIA_STATS.count ? `- Agencia: ${AGENCIA_STATS.count.toLocaleString('es-AR')} movimientos, desde ${fmtFechaInt(AGENCIA_STATS.minDate)} hasta ${fmtFechaInt(AGENCIA_STATS.maxDate)}.` : '- Agencia: sin movimientos cargados.',
+      ALQUILERES_STATS.count ? `- Alquileres: ${ALQUILERES_STATS.count.toLocaleString('es-AR')} movimientos, desde ${fmtFechaInt(ALQUILERES_STATS.minDate)} hasta ${fmtFechaInt(ALQUILERES_STATS.maxDate)}.` : '- Alquileres: sin movimientos cargados.',
+      'Usá esa herramienta para: cualquier fecha o período fuera de "últimos meses/años" de abajo, una categoría o texto puntual, un total exacto de un rango, o cuando pidan ver movimientos concretos. Si tenés que sumar muchos movimientos, pedile a la herramienta que agrupe (agrupar_por) en vez de sumarlos vos: con muchas filas los cálculos a mano fallan.',
       '',
       '=== CUENTA AGENCIA (kiosco/lotería) ===',
       `Saldo acumulado actual: ${fmtARS(saldoActual)}`,
@@ -7688,16 +7802,12 @@ renderAutoConclusions();
     div.scrollIntoView({behavior:'smooth', block:'end'});
   }
 
-  async function llamarGemini(pregunta){
-    const contexto = construirContexto();
-    const contents = iaHistory.map(h => ({ role: h.role, parts: [{text: h.text}] }));
-    contents.push({ role: 'user', parts: [{text: pregunta}] });
-
+  async function llamarGeminiRaw(contexto, contents){
     const body = {
       system_instruction: { parts: [{ text: contexto }] },
-      contents: contents
+      contents: contents,
+      tools: IA_TOOLS
     };
-
     const url = 'https://generativelanguage.googleapis.com/v1beta/models/' + IA_MODEL + ':generateContent?key=' + encodeURIComponent(iaApiKey);
     let resp;
     try {
@@ -7709,7 +7819,6 @@ renderAutoConclusions();
     } catch(e){
       throw new Error('No se pudo conectar. Revisá tu conexión a internet e intentá de nuevo.');
     }
-
     if (!resp.ok){
       let detalle = '';
       try { const j = await resp.json(); detalle = (j && j.error && j.error.message) || ''; } catch(e){}
@@ -7717,13 +7826,43 @@ renderAutoConclusions();
       if (resp.status === 429) throw new Error('Se agotó la cuota gratuita por ahora. Esperá un minuto y probá de nuevo.');
       throw new Error('Error de Gemini (' + resp.status + '). ' + detalle);
     }
+    return resp.json();
+  }
 
-    const data = await resp.json();
-    const texto = (data && data.candidates && data.candidates[0] && data.candidates[0].content
-      && data.candidates[0].content.parts
-      && data.candidates[0].content.parts.map(p=>p.text||'').join('')) || '';
-    if (!texto) throw new Error('Gemini no devolvió una respuesta. Probá reformular la pregunta.');
-    return texto;
+  async function llamarGemini(pregunta){
+    const contexto = construirContexto();
+    const contents = iaContents.slice();
+    contents.push({ role: 'user', parts: [{ text: pregunta }] });
+
+    let rondas = 0;
+    while (rondas < 6){
+      rondas++;
+      const data = await llamarGeminiRaw(contexto, contents);
+      const candidate = data && data.candidates && data.candidates[0];
+      const parts = (candidate && candidate.content && candidate.content.parts) || [];
+      const funcCallPart = parts.find(p => p.functionCall);
+
+      if (funcCallPart){
+        contents.push({ role: 'model', parts: parts });
+        const fc = funcCallPart.functionCall;
+        let resultado;
+        try {
+          if (fc.name === 'consultar_movimientos') resultado = consultarMovimientosImpl(fc.args || {});
+          else resultado = { error: 'Función desconocida: ' + fc.name };
+        } catch(e){
+          resultado = { error: 'Error al ejecutar la consulta: ' + (e && e.message ? e.message : e) };
+        }
+        contents.push({ role: 'function', parts: [{ functionResponse: { name: fc.name, response: resultado } }] });
+        continue;
+      }
+
+      const texto = parts.map(p => p.text || '').join('');
+      if (!texto) throw new Error('Gemini no devolvió una respuesta. Probá reformular la pregunta.');
+      contents.push({ role: 'model', parts: parts });
+      iaContents = contents.slice(-30); // recorto para no acumular sin límite en la sesión
+      return texto;
+    }
+    throw new Error('La IA encadenó demasiadas consultas sin responder. Probá con una pregunta más simple o más específica.');
   }
 
   async function preguntar(textoPregunta){
@@ -7740,9 +7879,6 @@ renderAutoConclusions();
     elPreguntar.disabled = true;
     try {
       const respuesta = await llamarGemini(pregunta);
-      iaHistory.push({role:'user', text: pregunta});
-      iaHistory.push({role:'model', text: respuesta});
-      if (iaHistory.length > 20) iaHistory = iaHistory.slice(-20);
       agregarBurbuja('model', respuesta);
       elEstado.textContent = '';
     } catch(err){
