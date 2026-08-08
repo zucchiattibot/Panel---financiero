@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 2,
-  "exportadoEl": "2026-08-07T22:26:56.409Z",
+  "exportadoEl": "2026-08-08T16:59:41.067Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -394,6 +394,118 @@
       "category": "Sueldo",
       "account": "alquileres",
       "detalle": "Sueldo"
+    },
+    {
+      "date": "2026-08-07",
+      "type": "ingreso",
+      "amount": 139000,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "efectivo"
+    },
+    {
+      "date": "2026-08-07",
+      "type": "egreso",
+      "amount": 30400,
+      "category": "Sueldo",
+      "account": "alquileres",
+      "detalle": "Empanadas"
+    },
+    {
+      "date": "2026-08-08",
+      "type": "egreso",
+      "amount": 40000,
+      "category": "Nafta",
+      "account": "alquileres",
+      "detalle": "Bragado"
+    },
+    {
+      "date": "2026-08-08",
+      "type": "ingreso",
+      "amount": 52000,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "transferencia"
+    },
+    {
+      "date": "2026-08-08",
+      "type": "egreso",
+      "amount": 16700,
+      "category": "Varios",
+      "account": "alquileres",
+      "detalle": "Bragado"
+    },
+    {
+      "date": "2025-10-29",
+      "type": "egreso",
+      "amount": 1395800,
+      "category": "Ahorro",
+      "account": "alquileres",
+      "detalle": "Ahorro anual"
+    },
+    {
+      "date": "2024-10-23",
+      "type": "egreso",
+      "amount": 3827980,
+      "category": "Ahorro",
+      "account": "alquileres",
+      "detalle": "Ahorro anual"
+    },
+    {
+      "date": "2023-10-17",
+      "type": "egreso",
+      "amount": 578445,
+      "category": "Ahorro",
+      "account": "alquileres",
+      "detalle": "Ahorro anual"
+    },
+    {
+      "date": "2022-08-08",
+      "type": "egreso",
+      "amount": 8776,
+      "category": "Ahorro",
+      "account": "alquileres",
+      "detalle": "Ahorro anual"
+    },
+    {
+      "date": "2021-08-08",
+      "type": "egreso",
+      "amount": 69000,
+      "category": "Ahorro",
+      "account": "alquileres",
+      "detalle": "Ahorro anual"
+    },
+    {
+      "date": "2020-08-08",
+      "type": "egreso",
+      "amount": 41844,
+      "category": "",
+      "account": "alquileres",
+      "detalle": ""
+    },
+    {
+      "date": "2019-08-08",
+      "type": "egreso",
+      "amount": 100085.6,
+      "category": "Ahorro",
+      "account": "alquileres",
+      "detalle": "Ahorro anual"
+    },
+    {
+      "date": "2018-08-08",
+      "type": "egreso",
+      "amount": 45500,
+      "category": "Ahorro",
+      "account": "alquileres",
+      "detalle": "Anual"
+    },
+    {
+      "date": "2026-02-03",
+      "type": "egreso",
+      "amount": 867000,
+      "category": "Ahorro",
+      "account": "alquileres",
+      "detalle": "Anual"
     }
   ],
   "categoriasCustom": [
