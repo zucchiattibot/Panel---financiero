@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 2,
-  "exportadoEl": "2026-08-08T16:59:41.067Z",
+  "exportadoEl": "2026-08-08T17:44:28.203Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -476,14 +476,6 @@
       "detalle": "Ahorro anual"
     },
     {
-      "date": "2020-08-08",
-      "type": "egreso",
-      "amount": 41844,
-      "category": "",
-      "account": "alquileres",
-      "detalle": ""
-    },
-    {
       "date": "2019-08-08",
       "type": "egreso",
       "amount": 100085.6,
@@ -506,6 +498,14 @@
       "category": "Ahorro",
       "account": "alquileres",
       "detalle": "Anual"
+    },
+    {
+      "date": "2020-08-08",
+      "type": "egreso",
+      "amount": 41844,
+      "category": "Ahorro",
+      "account": "alquileres",
+      "detalle": "Ahorro Anual"
     }
   ],
   "categoriasCustom": [
