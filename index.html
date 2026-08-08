@@ -7523,5 +7523,308 @@ renderAutoConclusions();
 
 })();
 </script>
+<script>
+(function(){
+  'use strict';
+
+  var K_TABNAMES = 'customTabNames';
+  var K_ACCOUNTNAMES = 'customAccountNames';
+  var K_PANELORDER = 'customPanelOrder';
+
+  var tabNames = {};
+  var accountNames = { agencia: 'Agencia', alquileres: 'Alquileres', agenciaTitulo: 'Agencia' };
+  var panelOrder = {};
+
+  async function loadAll(){
+    try { var t = await storageGet(K_TABNAMES); if (t) tabNames = JSON.parse(t) || {}; } catch(e){}
+    try { var a = await storageGet(K_ACCOUNTNAMES); if (a) accountNames = Object.assign(accountNames, JSON.parse(a) || {}); } catch(e){}
+    try { var p = await storageGet(K_PANELORDER); if (p) panelOrder = JSON.parse(p) || {}; } catch(e){}
+  }
+  function saveTabNames(){ storageSet(K_TABNAMES, JSON.stringify(tabNames)); }
+  function saveAccountNames(){ storageSet(K_ACCOUNTNAMES, JSON.stringify(accountNames)); }
+  function savePanelOrder(){ storageSet(K_PANELORDER, JSON.stringify(panelOrder)); }
+
+  /* ---------- Nombres de pestañas ---------- */
+  function applyTabNames(){
+    document.querySelectorAll('.tab-btn[data-tab]').forEach(function(btn){
+      var key = btn.dataset.tab;
+      if (tabNames[key]) btn.textContent = tabNames[key];
+    });
+  }
+
+  var renameMode = false;
+  function buildRenameButton(){
+    var refBtn = document.getElementById('tabsReorderToggle');
+    var tabsEl = document.querySelector('.tabs');
+    if (!refBtn && !tabsEl) return;
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.id = 'tabsRenameToggle';
+    btn.className = 'tabs-reorder-toggle';
+    btn.style.marginLeft = '10px';
+    btn.textContent = '✎ Renombrar pestañas';
+    if (refBtn && refBtn.parentNode) refBtn.insertAdjacentElement('afterend', btn);
+    else tabsEl.insertAdjacentElement('afterend', btn);
+    btn.addEventListener('click', function(){
+      renameMode = !renameMode;
+      btn.textContent = renameMode ? '✓ Listo (tocá una pestaña para renombrarla)' : '✎ Renombrar pestañas';
+      btn.style.color = renameMode ? 'var(--green-pos)' : 'var(--gold)';
+    });
+  }
+
+  document.addEventListener('click', function(e){
+    if (!renameMode) return;
+    var btn = e.target.closest('.tab-btn[data-tab]');
+    if (!btn) return;
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.stopImmediatePropagation) e.stopImmediatePropagation();
+    var actual = tabNames[btn.dataset.tab] || btn.textContent;
+    var nuevo = window.prompt('Nuevo nombre para esta pestaña:', actual);
+    if (nuevo && nuevo.trim()){
+      btn.textContent = nuevo.trim();
+      tabNames[btn.dataset.tab] = nuevo.trim();
+      saveTabNames();
+    }
+  }, true);
+
+  /* ---------- Mover paneles (cards) dentro de una pestaña ---------- */
+  function movableBlocks(panel){
+    return Array.prototype.filter.call(panel.children, function(el){
+      return el.nodeType === 1 && (el.classList.contains('card') || el.classList.contains('cargar-hero') || el.classList.contains('note-box'));
+    });
+  }
+  function assignBlockIds(panel){
+    var blocks = movableBlocks(panel);
+    blocks.forEach(function(el, i){ if (!el.dataset.blockId) el.dataset.blockId = panel.id + '-b' + i; });
+    return blocks;
+  }
+  function applyStoredOrder(panel){
+    var blocks = assignBlockIds(panel);
+    var order = panelOrder[panel.id];
+    if (!order || !order.length) return;
+    var byId = {};
+    blocks.forEach(function(b){ byId[b.dataset.blockId] = b; });
+    var seen = {};
+    order.forEach(function(id){
+      var el = byId[id];
+      if (el){ panel.appendChild(el); seen[id] = true; }
+    });
+    blocks.forEach(function(b){ if (!seen[b.dataset.blockId]) panel.appendChild(b); });
+  }
+  function initAllPanels(){
+    document.querySelectorAll('.panel[id^="tab-"]').forEach(applyStoredOrder);
+  }
+
+  var panelReorderMode = false;
+  function clearReorderControls(){
+    document.querySelectorAll('.panel-move-controls').forEach(function(el){ el.remove(); });
+  }
+  function buildPanelReorderControls(){
+    clearReorderControls();
+    if (!panelReorderMode) return;
+    var activePanel = document.querySelector('.panel.active[id^="tab-"]');
+    if (!activePanel) return;
+    var blocks = assignBlockIds(activePanel);
+    if (!blocks.length){
+      var msg = document.createElement('div');
+      msg.className = 'panel-move-controls card-note';
+      msg.style.cssText = 'margin:-6px 0 10px 3px;';
+      msg.textContent = 'Esta pestaña no tiene paneles reordenables directamente.';
+      activePanel.insertBefore(msg, activePanel.firstChild);
+      return;
+    }
+    blocks.forEach(function(el, idx){
+      var ctrl = document.createElement('div');
+      ctrl.className = 'panel-move-controls';
+      ctrl.style.cssText = 'display:flex;gap:6px;justify-content:flex-end;margin:-6px 0 6px 0;';
+      var up = document.createElement('button');
+      up.type = 'button'; up.textContent = '▲ Subir';
+      up.className = 'toggle-btn';
+      up.style.cssText = 'font-size:11px;padding:4px 9px;';
+      up.disabled = idx === 0;
+      up.addEventListener('click', function(){ moveBlock(activePanel, el, -1); });
+      var down = document.createElement('button');
+      down.type = 'button'; down.textContent = '▼ Bajar';
+      down.className = 'toggle-btn';
+      down.style.cssText = 'font-size:11px;padding:4px 9px;';
+      down.disabled = idx === blocks.length - 1;
+      down.addEventListener('click', function(){ moveBlock(activePanel, el, 1); });
+      ctrl.appendChild(up); ctrl.appendChild(down);
+      el.parentNode.insertBefore(ctrl, el);
+    });
+  }
+  function moveBlock(panel, el, dir){
+    var blocks = movableBlocks(panel);
+    var i = blocks.indexOf(el);
+    var j = i + dir;
+    if (j < 0 || j >= blocks.length) return;
+    if (dir < 0){
+      panel.insertBefore(el, blocks[j]);
+    } else {
+      var ref = blocks[j].nextSibling;
+      panel.insertBefore(el, ref);
+    }
+    panelOrder[panel.id] = movableBlocks(panel).map(function(b){ return b.dataset.blockId; });
+    savePanelOrder();
+    buildPanelReorderControls();
+  }
+  function buildPanelReorderToggle(){
+    var tabsEl = document.querySelector('.tabs');
+    if (!tabsEl) return;
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.id = 'panelReorderToggle';
+    btn.className = 'tabs-reorder-toggle';
+    btn.style.cssText = 'display:block;margin:-8px 0 16px 3px;';
+    btn.textContent = '↕ Mover paneles de esta pestaña';
+    tabsEl.insertAdjacentElement('afterend', btn);
+    btn.addEventListener('click', function(){
+      panelReorderMode = !panelReorderMode;
+      btn.textContent = panelReorderMode ? '✓ Listo (moviendo paneles)' : '↕ Mover paneles de esta pestaña';
+      btn.style.color = panelReorderMode ? 'var(--green-pos)' : 'var(--gold)';
+      buildPanelReorderControls();
+    });
+  }
+  document.addEventListener('click', function(e){
+    var btn = e.target.closest('.tab-btn[data-tab]');
+    if (!btn || renameMode) return;
+    setTimeout(function(){ if (panelReorderMode) buildPanelReorderControls(); }, 0);
+  }, false);
+
+  /* ---------- Nombres de cuentas y de la agencia ---------- */
+  function buildSettingsUI(){
+    var eyebrow = document.querySelector('.eyebrow');
+    var wrap = document.querySelector('.wrap');
+    if (!wrap) return;
+    var gear = document.createElement('button');
+    gear.type = 'button';
+    gear.id = 'openAccountSettings';
+    gear.textContent = '⚙ Nombres de cuentas y agencia';
+    gear.className = 'link-btn';
+    gear.style.cssText = 'display:block;margin:-10px 0 14px 0;font-size:12px;';
+    if (eyebrow && eyebrow.parentNode) eyebrow.insertAdjacentElement('afterend', gear);
+    else wrap.insertBefore(gear, wrap.firstChild);
+
+    var overlay = document.createElement('div');
+    overlay.id = 'accountSettingsOverlay';
+    overlay.setAttribute('data-no-relabel', '1');
+    overlay.style.cssText = 'display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:9999;align-items:center;justify-content:center;padding:20px;';
+    overlay.innerHTML =
+      '<div style="background:linear-gradient(180deg,var(--bg-2),var(--bg-1));border:1px solid var(--line);border-radius:18px;padding:22px 20px;max-width:420px;width:100%;max-height:90vh;overflow:auto;">' +
+        '<h2 style="margin:0 0 4px 0;">Personalizar nombres</h2>' +
+        '<p class="card-note" style="margin:0 0 14px 0;">Cambia cómo se muestran en toda la app (títulos, botones, tablas).</p>' +
+        '<div class="range-group">' +
+          '<div class="range-label">Nombre de la agencia (título)</div>' +
+          '<input type="text" id="inpAgenciaTitulo" style="width:100%;background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:9px 10px;border-radius:8px;font-size:14px;">' +
+        '</div>' +
+        '<div class="range-group">' +
+          '<div class="range-label">Nombre cuenta "Agencia"</div>' +
+          '<input type="text" id="inpAgencia" style="width:100%;background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:9px 10px;border-radius:8px;font-size:14px;">' +
+        '</div>' +
+        '<div class="range-group">' +
+          '<div class="range-label">Nombre cuenta "Alquileres"</div>' +
+          '<input type="text" id="inpAlquileres" style="width:100%;background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:9px 10px;border-radius:8px;font-size:14px;">' +
+        '</div>' +
+        '<div style="display:flex;gap:10px;margin-top:6px;">' +
+          '<button type="button" id="btnSaveAccountNames" class="cargar-submit-btn" style="margin-top:0;">Guardar</button>' +
+          '<button type="button" id="btnCancelAccountNames" class="toggle-btn" style="padding:12px 16px;">Cancelar</button>' +
+        '</div>' +
+      '</div>';
+    document.body.appendChild(overlay);
+
+    gear.addEventListener('click', function(){
+      overlay.querySelector('#inpAgenciaTitulo').value = accountNames.agenciaTitulo || accountNames.agencia || 'Agencia';
+      overlay.querySelector('#inpAgencia').value = accountNames.agencia || 'Agencia';
+      overlay.querySelector('#inpAlquileres').value = accountNames.alquileres || 'Alquileres';
+      overlay.style.display = 'flex';
+    });
+    overlay.addEventListener('click', function(e){ if (e.target === overlay) overlay.style.display = 'none'; });
+    overlay.querySelector('#btnCancelAccountNames').addEventListener('click', function(){ overlay.style.display = 'none'; });
+    overlay.querySelector('#btnSaveAccountNames').addEventListener('click', function(){
+      var nt = overlay.querySelector('#inpAgenciaTitulo').value.trim();
+      var na = overlay.querySelector('#inpAgencia').value.trim();
+      var nr = overlay.querySelector('#inpAlquileres').value.trim();
+      accountNames.agenciaTitulo = nt || 'Agencia';
+      accountNames.agencia = na || 'Agencia';
+      accountNames.alquileres = nr || 'Alquileres';
+      saveAccountNames();
+      applyAccountNames();
+      overlay.style.display = 'none';
+    });
+  }
+
+  function applyAccountNames(){
+    var h1 = document.querySelector('h1');
+    if (h1) h1.textContent = (accountNames.agenciaTitulo || accountNames.agencia) + ' · Panel financiero';
+    var eyebrow = document.querySelector('.eyebrow');
+    if (eyebrow) eyebrow.textContent = 'Solo cuenta ' + accountNames.agencia + ' · ARS';
+    document.title = (accountNames.agenciaTitulo || accountNames.agencia) + ' · Panel financiero';
+    relabelWholeDocument();
+  }
+
+  /* ---------- Motor genérico de reetiquetado (reemplaza "Agencia"/"Alquileres" en el texto visible) ---------- */
+  var relabeledNodes = new WeakSet();
+  function relabelTextNode(node){
+    if (relabeledNodes.has(node)) return;
+    relabeledNodes.add(node);
+    var txt = node.nodeValue;
+    if (!txt || (txt.indexOf('Agencia') === -1 && txt.indexOf('Alquileres') === -1)) return;
+    var nameA = accountNames.agencia || 'Agencia';
+    var nameR = accountNames.alquileres || 'Alquileres';
+    var out = txt;
+    if (nameA !== 'Agencia') out = out.replace(/\bAgencia\b/g, nameA);
+    if (nameR !== 'Alquileres') out = out.replace(/\bAlquileres\b/g, nameR);
+    if (out !== txt) node.nodeValue = out;
+  }
+  function shouldSkip(el){
+    if (!el) return false;
+    return !!el.closest('script, style, input, textarea, [data-no-relabel]');
+  }
+  function walkAndRelabel(root){
+    var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+      acceptNode: function(node){
+        if (shouldSkip(node.parentElement)) return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    });
+    var n;
+    while ((n = walker.nextNode())) relabelTextNode(n);
+  }
+  function relabelWholeDocument(){ walkAndRelabel(document.body); }
+
+  var relabelObserver = new MutationObserver(function(mutations){
+    mutations.forEach(function(m){
+      if (m.type === 'characterData'){
+        relabelTextNode(m.target);
+      } else if (m.type === 'childList'){
+        m.addedNodes.forEach(function(node){
+          if (node.nodeType === 3) relabelTextNode(node);
+          else if (node.nodeType === 1 && !shouldSkip(node)) walkAndRelabel(node);
+        });
+      }
+    });
+  });
+
+  /* ---------- Init ---------- */
+  async function initCustomization(){
+    await loadAll();
+    buildRenameButton();
+    applyTabNames();
+    buildPanelReorderToggle();
+    initAllPanels();
+    buildSettingsUI();
+    applyAccountNames();
+    relabelObserver.observe(document.body, { childList: true, subtree: true, characterData: true });
+  }
+
+  if (document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', initCustomization);
+  } else {
+    initCustomization();
+  }
+})();
+</script>
+
 </body>
 </html>
