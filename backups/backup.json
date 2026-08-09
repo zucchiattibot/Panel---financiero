@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 3,
-  "exportadoEl": "2026-08-09T13:36:52.405Z",
+  "exportadoEl": "2026-08-09T16:09:58.951Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -546,6 +546,22 @@
       "category": "Javier Juan",
       "account": "agencia",
       "detalle": "Día domingo"
+    },
+    {
+      "date": "2026-08-09",
+      "type": "ingreso",
+      "amount": 21900,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "transferencia"
+    },
+    {
+      "date": "2026-08-09",
+      "type": "ingreso",
+      "amount": 75700,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "transferencia"
     }
   ],
   "categoriasCustom": [
@@ -567,5 +583,252 @@
     "Servicios impuestos"
   ],
   "categoriasBaseRenombres": {},
-  "facturasProveedores": []
+  "facturasProveedores": [
+    {
+      "id": "f_1786288479789_g5a9h",
+      "proveedorKey": "silmar",
+      "tipo": "factura",
+      "numeroFactura": "00004-00016838",
+      "fecha": "2026-08-07",
+      "vencimiento": "2026-08-17",
+      "monto": 406163,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "AUDI QUATTRO (DGP)",
+          "edicion": "54",
+          "cantidad": 1,
+          "monto": 16800
+        },
+        {
+          "descripcion": "BIBLIOTECA CLASICA GRE",
+          "edicion": "34",
+          "cantidad": 1,
+          "monto": 21592
+        },
+        {
+          "descripcion": "DODGE CHARGER RYF (DGP",
+          "edicion": "15",
+          "cantidad": 2,
+          "monto": 44000
+        },
+        {
+          "descripcion": "LEYENDAS DEL MOTOR (DG",
+          "edicion": "1",
+          "cantidad": 2,
+          "monto": 15440
+        },
+        {
+          "descripcion": "AUDIOCUENTOS MAGICOS D",
+          "edicion": "8",
+          "cantidad": 1,
+          "monto": 18800
+        },
+        {
+          "descripcion": "AUDIOCUENTOS MAGICOS D",
+          "edicion": "17",
+          "cantidad": 3,
+          "monto": 56400
+        },
+        {
+          "descripcion": "AUDIOCUENTOS MAGICOS D",
+          "edicion": "16",
+          "cantidad": 3,
+          "monto": 56400
+        },
+        {
+          "descripcion": "QUIJOTE PLATINO EXTRA",
+          "edicion": "10075",
+          "cantidad": 1,
+          "monto": 7662
+        },
+        {
+          "descripcion": "33 CRUZADAS EXTRA (DGP",
+          "edicion": "464",
+          "cantidad": 1,
+          "monto": 2598
+        },
+        {
+          "descripcion": "QUIJOTE SOPAMANIA POCK",
+          "edicion": "11000",
+          "cantidad": 1,
+          "monto": 3600
+        },
+        {
+          "descripcion": "CONSTRUYE TU COMBI (DG",
+          "edicion": "65",
+          "cantidad": 3,
+          "monto": 49800
+        },
+        {
+          "descripcion": "PROTAGONISTAS 2 (DGP)",
+          "edicion": "58",
+          "cantidad": 1,
+          "monto": 11920
+        },
+        {
+          "descripcion": "MIS ANIMALES DEL ZOO (",
+          "edicion": "54",
+          "cantidad": 1,
+          "monto": 12792
+        },
+        {
+          "descripcion": "JUEGOS DE INGENIO (DGP",
+          "edicion": "40",
+          "cantidad": 2,
+          "monto": 30384
+        },
+        {
+          "descripcion": "CRUCIGRAMA (PERFIL INT",
+          "edicion": "1265",
+          "cantidad": 1,
+          "monto": 4875
+        },
+        {
+          "descripcion": "CRUCIGRAMA CLASICOS DE",
+          "edicion": "164",
+          "cantidad": 1,
+          "monto": 4785
+        },
+        {
+          "descripcion": "JOKER EXTRA (PERFIL IN",
+          "edicion": "282",
+          "cantidad": 2,
+          "monto": 14700
+        },
+        {
+          "descripcion": "JOKER SUDOKU POCKET (P",
+          "edicion": "110",
+          "cantidad": 1,
+          "monto": 3690
+        },
+        {
+          "descripcion": "CARAS (11)",
+          "edicion": "2324",
+          "cantidad": 1,
+          "monto": 8175
+        },
+        {
+          "descripcion": "SEMANARIO (PERFIL)",
+          "edicion": "2260",
+          "cantidad": 6,
+          "monto": 21750
+        }
+      ],
+      "cargadaEl": "2026-08-09T15:14:39.789Z"
+    },
+    {
+      "id": "f_1786291422569_2ll5f",
+      "proveedorKey": "silmar",
+      "tipo": "factura",
+      "numeroFactura": "00004-00016815",
+      "fecha": "2026-03-08",
+      "vencimiento": "2026-08-13",
+      "monto": 8925,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "Carga de revistas y otros\n1 NOTICIAS (11)",
+          "edicion": "2588",
+          "cantidad": null,
+          "monto": 8925
+        }
+      ],
+      "cargadaEl": "2026-08-09T16:03:42.569Z"
+    },
+    {
+      "id": "f_1786291734404_8rmno",
+      "proveedorKey": "silmar",
+      "tipo": "nota_credito",
+      "numeroFactura": "00004-00009607",
+      "fecha": "2026-08-03",
+      "vencimiento": null,
+      "monto": 77490.7,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "EL MUEBLE (BRI) (DGP)",
+          "edicion": "4",
+          "cantidad": 1,
+          "monto": 5080
+        },
+        {
+          "descripcion": "CLIP (DGP)",
+          "edicion": "905",
+          "cantidad": 1,
+          "monto": 3574
+        },
+        {
+          "descripcion": "CLIP EXTRA (DGP)",
+          "edicion": "368",
+          "cantidad": 1,
+          "monto": 4450
+        },
+        {
+          "descripcion": "QUIJOTE SOPAS (DGP)",
+          "edicion": "11026",
+          "cantidad": 1,
+          "monto": 5983
+        },
+        {
+          "descripcion": "QUIJOTE SOPITAS (DGP)",
+          "edicion": "10031",
+          "cantidad": 1,
+          "monto": 29827
+        },
+        {
+          "descripcion": "CAMPEONES (DGP)",
+          "edicion": "784",
+          "cantidad": 1,
+          "monto": 11020
+        },
+        {
+          "descripcion": "CRUCIGRAMA CLASICO ORO",
+          "edicion": "163",
+          "cantidad": 1,
+          "monto": 4785
+        },
+        {
+          "descripcion": "CRUCIGRAMA CLASICOS (P",
+          "edicion": "295",
+          "cantidad": 1,
+          "monto": 3900
+        },
+        {
+          "descripcion": "CRUCIGRAMA CLASICOS DE",
+          "edicion": "162",
+          "cantidad": 1,
+          "monto": 4785
+        },
+        {
+          "descripcion": "CARAS (11)",
+          "edicion": "2322",
+          "cantidad": 1,
+          "monto": 8175
+        },
+        {
+          "descripcion": "SEMANARIO (PERFIL)",
+          "edicion": "2256",
+          "cantidad": 1,
+          "monto": 3625
+        },
+        {
+          "descripcion": "SEMANARIO (PERFIL)",
+          "edicion": "2258",
+          "cantidad": 4,
+          "monto": 14500
+        },
+        {
+          "descripcion": "CRUCIGRAMA REVUELTOS O",
+          "edicion": "123",
+          "cantidad": 1,
+          "monto": 4631
+        }
+      ],
+      "cargadaEl": "2026-08-09T16:08:54.404Z"
+    }
+  ]
 }
