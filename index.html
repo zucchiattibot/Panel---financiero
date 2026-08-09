@@ -433,6 +433,13 @@
       <input type="file" id="facturaFileInput" accept="image/*,application/pdf" multiple style="margin:10px 0;color:var(--cream);">
       <p class="card-note" id="facturaEstado"></p>
       <div id="facturaRevision" style="display:flex;flex-direction:column;gap:12px;margin-top:8px;"></div>
+      <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--line);">
+        <p class="card-note" style="font-weight:600;color:var(--cream);margin-bottom:6px;">¿Muchas facturas? Subí el extracto de cuenta del proveedor</p>
+        <p class="card-note">Pedile a este proveedor un extracto o resumen de cuenta con todas las facturas de un período (entre dos fechas) y subilo acá — podés elegir varias fotos si el extracto tiene más de una página, o un solo PDF. La IA separa cada factura, nota de crédito o nota de débito que encuentre; el panel las va a seguir desglosando una por una, igual que si las hubieras cargado de a una. Vos elegís cuáles guardar antes de que queden guardadas.</p>
+        <input type="file" id="extractoFileInput" accept="image/*,application/pdf" multiple style="margin:10px 0;color:var(--cream);">
+        <p class="card-note" id="extractoEstado"></p>
+        <div id="extractoRevision"></div>
+      </div>
       <div class="kpi-grid" id="facturaKpis" style="margin-top:16px;"></div>
       <p class="card-note" style="margin-top:16px;">Historial — elegí una fecha "entre" y "entre" (por ej. del 1 al 8 de agosto) o un monto para ver los comprobantes de ese período y sus estadísticas: cuánto facturaste, cuánto queda pendiente y cuánto pagaste realmente según tus movimientos bancarios en esas mismas fechas (esto solo afecta esta sección, no los totales generales de arriba):</p>
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;">
@@ -7962,6 +7969,41 @@ renderAutoConclusions();
     });
   }
 
+  const elExtractoInput = document.getElementById('extractoFileInput');
+  const elExtractoEstado = document.getElementById('extractoEstado');
+  const elExtractoRevision = document.getElementById('extractoRevision');
+
+  if (elExtractoInput){
+    elExtractoInput.addEventListener('change', async () => {
+      const files = Array.from(elExtractoInput.files || []);
+      elExtractoInput.value = '';
+      if (!files.length) return;
+      if (typeof window.extraerExtractoConIA !== 'function'){
+        elExtractoEstado.textContent = 'El módulo de IA todavía no cargó. Recargá la página e intentá de nuevo.';
+        return;
+      }
+      const pesado = files.find(f => f.size > 15*1024*1024);
+      if (pesado){
+        elExtractoEstado.textContent = '"' + pesado.name + '" pesa demasiado (más de 15 MB). Probá con fotos más livianas o un PDF más chico.';
+        return;
+      }
+      elExtractoEstado.textContent = 'Analizando ' + files.length + (files.length===1?' archivo':' archivos') + ' con IA (puede tardar unos segundos si son varias páginas)...';
+      elExtractoRevision.innerHTML = '';
+      try {
+        const archivos = await Promise.all(files.map(async f => ({ base64: await fileToBase64Prov(f), mimeType: f.type || 'image/jpeg' })));
+        const lista = await window.extraerExtractoConIA(archivos);
+        elExtractoEstado.textContent = '';
+        if (!lista.length){
+          elExtractoEstado.textContent = 'No encontré facturas individuales en ese extracto. Probá con una foto o PDF más claro.';
+          return;
+        }
+        renderRevisionExtracto(lista, files.map(f => f.name).join(', '));
+      } catch(err){
+        elExtractoEstado.textContent = '⚠️ ' + (err && err.message ? err.message : 'No se pudo analizar el extracto.');
+      }
+    });
+  }
+
   function campoRevision(campo, label, valor){
     return '<div style="margin-bottom:6px;">' +
       '<label class="card-note" style="display:block;margin-bottom:3px;">' + label + '</label>' +
@@ -8023,6 +8065,85 @@ renderAutoConclusions();
       div.remove();
     });
     div.querySelector('[data-accion="descartar"]').addEventListener('click', () => div.remove());
+  }
+
+  // Revisión en lote de un extracto de cuenta: la IA devuelve varias facturas/notas
+  // de una vez y acá se arma una tabla editable para confirmarlas antes de guardarlas,
+  // una por una, en el mismo array "facturas" que usa la carga individual.
+  function filaRevisionExtracto(item, idx){
+    const tipo = ['factura','nota_credito','nota_debito'].includes(item.tipo_documento) ? item.tipo_documento : 'factura';
+    const monto = item.monto_total != null ? item.monto_total : '';
+    const inputCss = 'width:100%;box-sizing:border-box;background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:6px;border-radius:5px;font-size:12px;';
+    return '<tr data-idx="' + idx + '"' + (item.resumen_items ? ' title="' + escapeHtmlProv(item.resumen_items) + '"' : '') + '>' +
+      '<td style="padding:6px 4px 6px 0;"><input type="checkbox" data-campo="incluir" checked style="width:16px;height:16px;"></td>' +
+      '<td style="padding:6px 4px 6px 0;min-width:96px;"><select data-campo="tipo" style="' + inputCss + '">' +
+        '<option value="factura"' + (tipo==='factura'?' selected':'') + '>Factura</option>' +
+        '<option value="nota_credito"' + (tipo==='nota_credito'?' selected':'') + '>N. crédito</option>' +
+        '<option value="nota_debito"' + (tipo==='nota_debito'?' selected':'') + '>N. débito</option>' +
+      '</select></td>' +
+      '<td style="padding:6px 4px 6px 0;min-width:80px;"><input type="text" data-campo="numero" value="' + escapeHtmlProv(item.numero_factura||'') + '" style="' + inputCss + '"></td>' +
+      '<td style="padding:6px 4px 6px 0;min-width:96px;"><input type="text" data-campo="fecha" value="' + escapeHtmlProv(item.fecha_emision||'') + '" placeholder="AAAA-MM-DD" style="' + inputCss + '"></td>' +
+      '<td style="padding:6px 4px 6px 0;min-width:96px;"><input type="text" data-campo="vencimiento" value="' + escapeHtmlProv(item.fecha_vencimiento||'') + '" placeholder="AAAA-MM-DD" style="' + inputCss + '"></td>' +
+      '<td style="padding:6px 0 6px 0;min-width:90px;"><input type="text" data-campo="monto" value="' + escapeHtmlProv(monto) + '" style="' + inputCss + 'text-align:right;"></td>' +
+    '</tr>';
+  }
+
+  function renderRevisionExtracto(lista, nombreArchivos){
+    const prov = PROVEEDORES.find(p => p.key === provState.prov) || PROVEEDORES[0];
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'border:1px solid var(--line);border-radius:10px;padding:12px;background:rgba(0,0,0,.18);margin-top:10px;';
+    wrap.innerHTML =
+      '<div class="card-note" style="margin-bottom:8px;">La IA encontró ' + lista.length + (lista.length===1?' comprobante':' comprobantes') + ' en "' + escapeHtmlProv(nombreArchivos) + '" (proveedor: ' + prov.label + '). Revisá cada fila, corregí lo que haga falta y destildá lo que no quieras guardar — pasá el mouse sobre una fila para ver los items que detectó, si los hay:</div>' +
+      '<div style="overflow-x:auto;">' +
+      '<table style="width:100%;border-collapse:collapse;font-size:11px;"><thead><tr>' +
+        '<th style="text-align:left;padding:0 4px 6px 0;"></th>' +
+        '<th style="text-align:left;padding:0 4px 6px 0;">Tipo</th>' +
+        '<th style="text-align:left;padding:0 4px 6px 0;">N°</th>' +
+        '<th style="text-align:left;padding:0 4px 6px 0;">Fecha</th>' +
+        '<th style="text-align:left;padding:0 4px 6px 0;">Vence</th>' +
+        '<th style="text-align:right;padding:0 0 6px 0;">Monto</th>' +
+      '</tr></thead><tbody>' +
+      lista.map((item, idx) => filaRevisionExtracto(item, idx)).join('') +
+      '</tbody></table></div>' +
+      '<div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;">' +
+        '<button type="button" class="toggle-btn" data-accion="guardar-todas" style="flex:1;">Guardar seleccionadas</button>' +
+        '<button type="button" class="toggle-btn" data-accion="descartar-todas" style="flex:1;">Descartar todo</button>' +
+      '</div>';
+    elExtractoRevision.appendChild(wrap);
+
+    wrap.querySelector('[data-accion="descartar-todas"]').addEventListener('click', () => wrap.remove());
+    wrap.querySelector('[data-accion="guardar-todas"]').addEventListener('click', () => {
+      const filas = Array.from(wrap.querySelectorAll('tbody tr'));
+      let guardadas = 0;
+      filas.forEach((fila, i) => {
+        const incluir = fila.querySelector('[data-campo="incluir"]').checked;
+        if (!incluir) return;
+        const get = (campo) => fila.querySelector('[data-campo="' + campo + '"]').value.trim();
+        const montoTxt = get('monto');
+        const monto = Math.abs(parseFloat(montoTxt.replace(/\./g,'').replace(',', '.')) || parseFloat(montoTxt) || 0) || null;
+        const original = lista[i] || {};
+        facturas.push({
+          id: 'f_' + Date.now() + '_' + i + '_' + Math.random().toString(36).slice(2,7),
+          proveedorKey: provState.prov,
+          tipo: get('tipo') || 'factura',
+          numeroFactura: get('numero') || null,
+          fecha: get('fecha') || null,
+          vencimiento: get('vencimiento') || null,
+          monto: monto,
+          moneda: original.moneda || 'ARS',
+          estado: 'pendiente',
+          cargadaEl: new Date().toISOString()
+        });
+        guardadas++;
+      });
+      if (guardadas > 0){
+        saveFacturas();
+        renderFacturas();
+        renderResumenDeuda();
+      }
+      wrap.remove();
+      elExtractoEstado.textContent = guardadas + (guardadas===1 ? ' factura guardada.' : ' facturas guardadas.');
+    });
   }
 
   function renderFacturas(){
@@ -8614,6 +8735,49 @@ renderAutoConclusions();
     let parsed;
     try { parsed = JSON.parse(texto); } catch(e){ throw new Error('La IA no devolvió un JSON válido. Probá subir la foto de nuevo, más nítida o con mejor luz.'); }
     return parsed;
+  };
+
+  // Usada por la pestaña Proveedores para leer un EXTRACTO/RESUMEN DE CUENTA (una o
+  // varias imágenes/páginas del mismo documento) que trae varias facturas/notas juntas.
+  // Devuelve un array con un objeto por cada comprobante que encontró; el usuario
+  // revisa/corrige y elige cuáles guardar antes de que se guarde nada.
+  window.extraerExtractoConIA = async function(archivos){
+    if (!iaApiKey) throw new Error('Primero configurá tu clave de API de Gemini en la pestaña Asistente IA.');
+    if (!Array.isArray(archivos) || !archivos.length) throw new Error('No se recibió ningún archivo.');
+    const promptTexto = 'Sos un asistente que extrae datos de un EXTRACTO O RESUMEN DE CUENTA de un proveedor argentino: un documento (una o varias imágenes/páginas que juntas forman el mismo extracto) que lista VARIAS facturas, notas de crédito y/o notas de débito emitidas en un período — no es un comprobante individual. ' +
+      'Devolvé SOLO un ARRAY JSON (sin texto adicional, sin backticks de markdown), donde cada elemento del array sea UNA factura, nota de crédito o nota de débito individual del extracto, con estas claves exactas:\n' +
+      '[{"tipo_documento": "factura"|"nota_credito"|"nota_debito", "numero_factura": string|null, "fecha_emision": "YYYY-MM-DD"|null, "fecha_vencimiento": "YYYY-MM-DD"|null, "monto_total": number|null, "moneda": "ARS"|"USD"|null, "resumen_items": string|null}]\n' +
+      'Mismo criterio que con un comprobante individual para "tipo_documento": "Nota de Crédito"/"NC" baja la deuda, "Nota de Débito"/"ND" la sube, si no dice nada es "factura". "monto_total" siempre como número positivo (con punto decimal, sin separador de miles) — el signo lo determina "tipo_documento", no el número. ' +
+      'Incluí una fila del array por cada factura/nota individual que encuentres, en el orden que aparezcan. NO incluyas filas que sean saldo anterior, subtotales, totales acumulados o pagos/recibos recibidos — esas no son facturas individuales, son otra cosa. Si el extracto trae una columna de "saldo" corrido, ignorala por completo, no es el monto de ninguna factura. Si no encontrás ninguna factura individual, devolvé un array vacío [].';
+    const parts = [{ text: promptTexto }];
+    archivos.forEach(a => parts.push({ inline_data: { mime_type: a.mimeType, data: a.base64 } }));
+    const body = { contents: [{ role: 'user', parts: parts }] };
+    const url = 'https://generativelanguage.googleapis.com/v1beta/models/' + IA_MODEL + ':generateContent?key=' + encodeURIComponent(iaApiKey);
+    let resp;
+    try {
+      resp = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+    } catch(e){
+      throw new Error('No se pudo conectar con Gemini. Revisá tu conexión a internet.');
+    }
+    if (!resp.ok){
+      let detalle = '';
+      try { const j = await resp.json(); detalle = (j && j.error && j.error.message) || ''; } catch(e){}
+      throw new Error('Error de Gemini (' + resp.status + '). ' + (detalle || 'Sin más detalle.'));
+    }
+    const data = await resp.json();
+    const candidate = data && data.candidates && data.candidates[0];
+    const respParts = (candidate && candidate.content && candidate.content.parts) || [];
+    let texto = respParts.map(p => p.text || '').join('').trim();
+    texto = texto.replace(/^```json/i,'').replace(/^```/,'').replace(/```$/,'').trim();
+    let parsed;
+    try { parsed = JSON.parse(texto); } catch(e){ throw new Error('La IA no devolvió un JSON válido. Probá subir el extracto de nuevo, más nítido o en menos páginas por vez.'); }
+    let lista = Array.isArray(parsed) ? parsed : null;
+    if (!lista && parsed && typeof parsed === 'object'){
+      const clave = Object.keys(parsed).find(k => Array.isArray(parsed[k]));
+      if (clave) lista = parsed[clave];
+    }
+    if (!lista) throw new Error('La IA no devolvió una lista de facturas. Probá de nuevo.');
+    return lista;
   };
 
 
