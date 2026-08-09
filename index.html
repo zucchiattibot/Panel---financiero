@@ -459,7 +459,7 @@
     </div>
     <div class="card">
       <h2>Extracto de cuenta corriente — <span id="ccProvNombre"></span></h2>
-      <p class="card-note">Elegí un rango de fechas ("entre" y "entre") y te armo el extracto de ese proveedor en ese período: cada factura, nota de crédito y nota de débito cargada, más cada pago o depósito real que le hiciste según tus movimientos bancarios, en orden cronológico con saldo corriente — igual que un resumen de cuenta.</p>
+      <p class="card-note">Elegí un rango de fechas ("entre" y "entre") y te armo el extracto de ese proveedor <strong>solo con lo que pasó en ese rango</strong>: cada factura, nota de crédito y nota de débito cargada, más cada pago o depósito real que le hiciste según tus movimientos bancarios, en orden cronológico. El saldo arranca en $0 al principio del rango — no arrastra nada de fechas anteriores.</p>
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;">
         <input type="date" id="ccFiltroDesde" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:8px;border-radius:6px;font-size:13px;">
         <input type="date" id="ccFiltroHasta" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:8px;border-radius:6px;font-size:13px;">
@@ -8582,18 +8582,8 @@ renderAutoConclusions();
           : (hastaF ? 'Extracto hasta el ' + fmtFechaCorta(hastaInt) + ':' : 'Extracto de todo el historial disponible:'));
     }
 
-    // Saldo inicial: todo lo facturado y pagado ANTES del "desde" elegido.
-    let saldoInicial = 0;
-    if (desdeInt !== null){
-      facturas.forEach(f => {
-        if (f.proveedorKey !== prov.key || !f.fecha) return;
-        const fi = fechaAIntProv(f.fecha);
-        if (fi !== null && fi < desdeInt) saldoInicial += montoConSigno(f);
-      });
-      MOVES.forEach(m => { if (m[1] === prov.idx && m[0] < desdeInt) saldoInicial -= m[2]; });
-    }
-
-    // Movimientos dentro del rango: facturas/notas + pagos/depósitos reales, mezclados por fecha.
+    // El extracto arranca en $0: solo se tienen en cuenta los movimientos DENTRO
+    // del rango elegido, sin acumular nada de fechas anteriores.
     const items = [];
     facturas.forEach(f => {
       if (f.proveedorKey !== prov.key || !f.fecha) return;
@@ -8622,7 +8612,7 @@ renderAutoConclusions();
     });
     items.sort((a,b) => a.d - b.d);
 
-    let saldo = saldoInicial;
+    let saldo = 0;
     let totalDebe = 0, totalHaber = 0;
     const filas = items.map(it => {
       saldo += it.debe - it.haber;
@@ -8635,13 +8625,12 @@ renderAutoConclusions();
     });
 
     elKpis.innerHTML =
-      kpi('Saldo inicial', fmtARS(saldoInicial), desdeInt!==null ? 'Antes del ' + fmtFechaCorta(desdeInt) : 'Sin fecha "desde"', saldoInicial>0?'neg':(saldoInicial<0?'pos':'')) +
-      kpi('Facturado / notas débito', fmtARS(totalDebe), items.length + (items.length===1?' movimiento':' movimientos')) +
-      kpi('Pagado + notas de crédito', fmtARS(totalHaber)) +
-      kpi('Saldo final', fmtARS(saldo), saldo>0?'Le debés a ' + prov.label:(saldo<0?prov.label+' te debe / a favor':'Al día'), saldo>0?'neg':(saldo<0?'pos':''));
+      kpi('Facturado / notas débito (rango)', fmtARS(totalDebe), items.length + (items.length===1?' movimiento':' movimientos')) +
+      kpi('Pagado + notas de crédito (rango)', fmtARS(totalHaber)) +
+      kpi('Saldo del período', fmtARS(saldo), saldo>0?'Facturaste más de lo que pagaste en este rango':(saldo<0?'Pagaste más de lo facturado en este rango':'Coincide'), saldo>0?'neg':(saldo<0?'pos':''));
 
     elTbody.innerHTML = filas.length
-      ? (desdeInt !== null ? '<tr><td colspan="4" style="font-weight:600;">Saldo inicial</td><td class="num ' + (saldoInicial>0?'neg':(saldoInicial<0?'pos':'')) + '">' + fmtARS(saldoInicial) + '</td></tr>' : '') + filas.join('')
+      ? filas.join('')
       : '<tr><td colspan="5" class="card-note">Sin movimientos en el período elegido.</td></tr>';
   }
 
