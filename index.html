@@ -434,7 +434,7 @@
       <p class="card-note" id="facturaEstado"></p>
       <div id="facturaRevision" style="display:flex;flex-direction:column;gap:12px;margin-top:8px;"></div>
       <div class="kpi-grid" id="facturaKpis" style="margin-top:16px;"></div>
-      <p class="card-note" style="margin-top:16px;">Historial — elegí una fecha "entre" y "entre" (por ej. del 1 al 8 de agosto) o un monto para ver los comprobantes de un período puntual y sus estadísticas (esto solo afecta esta sección, no los totales generales de arriba):</p>
+      <p class="card-note" style="margin-top:16px;">Historial — elegí una fecha "entre" y "entre" (por ej. del 1 al 8 de agosto) o un monto para ver los comprobantes de ese período y sus estadísticas: cuánto facturaste, cuánto queda pendiente y cuánto pagaste realmente según tus movimientos bancarios en esas mismas fechas (esto solo afecta esta sección, no los totales generales de arriba):</p>
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;">
         <input type="date" id="facFiltroDesde" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:8px;border-radius:6px;font-size:13px;">
         <input type="date" id="facFiltroHasta" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:8px;border-radius:6px;font-size:13px;">
@@ -8089,11 +8089,26 @@ renderAutoConclusions();
         else rangoLabel = 'Estadísticas según el filtro de monto:';
         elRangoNota.textContent = rangoLabel;
 
+        // Pagos reales (movimientos bancarios) a este proveedor en el mismo rango de fechas,
+        // para comparar contra lo facturado/notas cargadas del rango.
+        const rangoDesdeInt = desdeFInt !== null ? desdeFInt : provMinDate;
+        const rangoHastaInt = hastaFInt !== null ? hastaFInt : provMaxDate;
+        const pagosRango = MOVES.filter(m => m[1] === prov.idx && m[0] >= rangoDesdeInt && m[0] <= rangoHastaInt);
+        const totalPagadoRango = pagosRango.reduce((s,m) => s + m[2], 0);
+        const diferenciaRango = totalPagadoRango - rangoTotal;
+        let notaDifRango, clsDifRango;
+        if (!propiasFiltradas.length){ notaDifRango = 'Sin comprobantes en este rango'; clsDifRango = ''; }
+        else if (Math.abs(diferenciaRango) < 1){ notaDifRango = 'Coincide con lo facturado'; clsDifRango = 'pos'; }
+        else if (diferenciaRango < 0){ notaDifRango = 'Pagaste menos de lo facturado'; clsDifRango = 'neg'; }
+        else { notaDifRango = 'Pagaste más de lo facturado'; clsDifRango = 'pos'; }
+
         elRangoKpis.innerHTML =
           kpi('Comprobantes', propiasFiltradas.length.toLocaleString('es-AR'), rangoPagadas + ' pagada(s) · ' + rangoPend.length + ' pendiente(s)') +
-          kpi('Total del período', fmtARS(rangoTotal)) +
+          kpi('Total facturado (rango)', fmtARS(rangoTotal)) +
           kpi('Deuda pendiente', fmtARS(rangoDeuda), rangoPend.length + (rangoPend.length===1?' comprobante':' comprobantes'), rangoDeuda>0?'neg':(rangoDeuda<0?'pos':'')) +
-          kpi('Vencidas', rangoVencidas.length.toLocaleString('es-AR'), rangoVencidas.length ? fmtARS(rangoVencidas.reduce((s,f)=>s+montoConSigno(f),0)) : '', rangoVencidas.length?'neg':'');
+          kpi('Vencidas', rangoVencidas.length.toLocaleString('es-AR'), rangoVencidas.length ? fmtARS(rangoVencidas.reduce((s,f)=>s+montoConSigno(f),0)) : '', rangoVencidas.length?'neg':'') +
+          kpi('Pagado según movimientos', fmtARS(totalPagadoRango), pagosRango.length + (pagosRango.length===1?' pago':' pagos')) +
+          kpi('Diferencia', fmtARS(diferenciaRango), notaDifRango, clsDifRango);
       }
 
       // Historial: por defecto solo los últimos 10 comprobantes (del resultado ya filtrado); "Ver todos" para el resto.
