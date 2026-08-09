@@ -423,13 +423,27 @@
       </div>
     </div>
     <div class="card">
+      <h2>Facturado vs. pagado — <span id="facVsPagNombre"></span></h2>
+      <p class="card-note">Compara, en el período elegido arriba ("Período y precios"), lo que sumaron las facturas/notas cargadas contra lo que efectivamente salió en tus movimientos bancarios a este proveedor.</p>
+      <div class="kpi-grid" id="facVsPagKpis"></div>
+    </div>
+    <div class="card">
       <h2>Facturas y deudas — <span id="facProvNombre"></span></h2>
       <p class="card-note">Subí una foto o un PDF de cada comprobante de este proveedor: factura, nota de crédito o nota de débito. La IA (la misma clave de Gemini configurada en Asistente IA) identifica el tipo de documento, el número, las fechas y el monto — las notas de crédito descuentan de la deuda en vez de sumar. Vos revisás y confirmás antes de que quede guardado.</p>
       <input type="file" id="facturaFileInput" accept="image/*,application/pdf" multiple style="margin:10px 0;color:var(--cream);">
       <p class="card-note" id="facturaEstado"></p>
       <div id="facturaRevision" style="display:flex;flex-direction:column;gap:12px;margin-top:8px;"></div>
       <div class="kpi-grid" id="facturaKpis" style="margin-top:16px;"></div>
-      <div style="overflow-x:auto;margin-top:14px;">
+      <p class="card-note" style="margin-top:16px;">Historial — filtrá por fecha o por monto para buscar un comprobante puntual (esto solo afecta la lista de abajo, no los totales de arriba):</p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;">
+        <input type="date" id="facFiltroDesde" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:8px;border-radius:6px;font-size:13px;">
+        <input type="date" id="facFiltroHasta" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:8px;border-radius:6px;font-size:13px;">
+        <input type="number" id="facFiltroMontoMin" placeholder="Monto mín." style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:8px;border-radius:6px;font-size:13px;width:110px;">
+        <input type="number" id="facFiltroMontoMax" placeholder="Monto máx." style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:8px;border-radius:6px;font-size:13px;width:110px;">
+        <button type="button" class="link-btn" id="facFiltroLimpiar">Limpiar filtro</button>
+      </div>
+      <p class="card-note" id="facFiltroNota" style="margin-top:6px;"></p>
+      <div style="overflow-x:auto;margin-top:10px;">
         <table id="facturaTable"><thead><tr><th>Fecha</th><th>Vence</th><th>Tipo / N°</th><th style="text-align:right">Monto</th><th>Estado</th><th></th></tr></thead><tbody></tbody></table>
       </div>
     </div>
@@ -441,6 +455,7 @@
       </div>
     </div>
   </div>
+
 
   <div class="panel" id="tab-comparar">
     <div class="note-box">Estos gráficos usan pesos nominales de cada momento. Para comparar años ajustando por inflación o por dólar, andá a la pestaña <strong>Inflación</strong> → "Comparar años".</div>
@@ -1478,7 +1493,7 @@
         </div>
         <p class="card-note" id="cargarEmpty" style="display:none;">Todavía no cargaste ningún movimiento manual.</p>
       </div>
-      <div class="note-box">Esto se guarda en este dispositivo/instalación (localStorage si abrís el panel como app o página suelta; window.storage si lo abrís dentro de Claude). No viaja solo a otros celulares ni sobrevive a un "borrar datos" o desinstalar la app. Por eso: <strong>Exportar backup</strong> intenta descargar un archivo .json Y además siempre te muestra el backup como texto en pantalla con un botón para copiarlo — usá ese texto (pegalo en Notas, WhatsApp a vos mismo, etc.) si la descarga de archivo no funciona dentro de la app. Para recuperarlo después: <strong>Pegar backup</strong> (pegando ese texto) o <strong>Importar backup (archivo)</strong> si tenés el .json guardado.</div>
+      <div class="note-box">Esto se guarda en este dispositivo/instalación (localStorage si abrís el panel como app o página suelta; window.storage si lo abrís dentro de Claude). No viaja solo a otros celulares ni sobrevive a un "borrar datos" o desinstalar la app. Por eso: <strong>Exportar backup</strong> intenta descargar un archivo .json Y además siempre te muestra el backup como texto en pantalla con un botón para copiarlo — usá ese texto (pegalo en Notas, WhatsApp a vos mismo, etc.) si la descarga de archivo no funciona dentro de la app. El backup incluye también las facturas/notas de crédito y débito cargadas en Proveedores. Para recuperarlo después: <strong>Pegar backup</strong> (pegando ese texto) o <strong>Importar backup (archivo)</strong> si tenés el .json guardado.</div>
 
       <div class="card">
         <h2>Backup automático a GitHub</h2>
@@ -5592,12 +5607,13 @@ function backupEntryKey(en){
 function armarBackupTexto(){
   const backup = {
     tipo: 'panel-agencia-backup',
-    version: 2,
+    version: 3,
     exportadoEl: new Date().toISOString(),
     manualEntries: manualEntries,
     categoriasCustom: categoriasCustom,
     categoriasBaseEliminadas: categoriasBaseEliminadas,
-    categoriasBaseRenombres: categoriasBaseRenombres
+    categoriasBaseRenombres: categoriasBaseRenombres,
+    facturasProveedores: (typeof window.getFacturasProveedores === 'function') ? window.getFacturasProveedores() : []
   };
   return JSON.stringify(backup, null, 2);
 }
@@ -5652,8 +5668,9 @@ function exportarBackup(){
   const texto = armarBackupTexto();
   const fecha = new Date().toISOString().slice(0, 10);
   intentarDescargaArchivo(texto, `panel-backup-${fecha}.json`);
+  const cantFacturas = (typeof window.getFacturasProveedores === 'function') ? window.getFacturasProveedores().length : 0;
   abrirModalBackup({
-    titulo: `Backup: ${manualEntries.length} movimiento(s)`,
+    titulo: `Backup: ${manualEntries.length} movimiento(s)` + (cantFacturas ? `, ${cantFacturas} comprobante(s) de proveedores` : ''),
     ayuda: 'Si no viste que se descargara ningún archivo (pasa seguido dentro de la app), copiá este texto con el botón de abajo y pegalo en Notas, WhatsApp a vos mismo, un mail, etc. Para recuperarlo después usá "📋 Pegar backup".',
     texto: texto,
     soloLectura: true,
@@ -5698,13 +5715,17 @@ async function procesarBackupTexto(texto, msgEl){
     if (data.categoriasBaseRenombres && typeof data.categoriasBaseRenombres === 'object'){
       Object.assign(categoriasBaseRenombres, data.categoriasBaseRenombres);
     }
-    if (agregados === 0){
+    let facturasAgregadas = 0;
+    if (Array.isArray(data.facturasProveedores) && typeof window.importarFacturasProveedores === 'function'){
+      facturasAgregadas = await window.importarFacturasProveedores(data.facturasProveedores);
+    }
+    if (agregados === 0 && facturasAgregadas === 0){
       msgEl.textContent = repetidos > 0
         ? `Ese backup ya estaba cargado acá (${repetidos} repetido(s), 0 nuevos).`
-        : 'El backup no tenía movimientos válidos para agregar.';
+        : 'El backup no tenía movimientos ni comprobantes nuevos para agregar.';
       return;
     }
-    msgEl.textContent = `Importando ${agregados} movimiento(s) nuevo(s)${repetidos ? ` (${repetidos} ya estaban)` : ''}…`;
+    msgEl.textContent = `Importando ${agregados} movimiento(s)${facturasAgregadas ? ` y ${facturasAgregadas} comprobante(s) de proveedores` : ''} nuevo(s)${repetidos ? ` (${repetidos} movimiento(s) ya estaban)` : ''}…`;
     const okMov = await storageSet('manual-entries', JSON.stringify(manualEntries));
     await storageSet('categorias-personalizadas', JSON.stringify(categoriasCustom));
     await storageSet('categorias-base-eliminadas', JSON.stringify(categoriasBaseEliminadas));
@@ -7783,8 +7804,32 @@ renderAutoConclusions();
       '<tr><td>' + c.label + '</td><td class="num">' + c.count + '</td><td class="num neg">' + fmtARS(c.total) + '</td></tr>'
     ).join('');
 
+    renderFacturadoVsPagado(prov, desdeInt, hastaInt, total);
     renderFacturas();
     renderResumenDeuda();
+  }
+
+  function renderFacturadoVsPagado(prov, desdeInt, hastaInt, totalPagadoPeriodo){
+    const nombreEl = document.getElementById('facVsPagNombre');
+    if (nombreEl) nombreEl.textContent = prov.label;
+    const el = document.getElementById('facVsPagKpis');
+    if (!el) return;
+    const facturasPeriodo = facturas.filter(f => {
+      if (f.proveedorKey !== prov.key || !f.fecha) return false;
+      const fInt = fechaAIntProv(f.fecha);
+      return fInt !== null && fInt >= desdeInt && fInt <= hastaInt;
+    });
+    const totalFacturado = facturasPeriodo.reduce((s,f)=> s + montoConSigno(f), 0);
+    const diferencia = totalPagadoPeriodo - totalFacturado;
+    let notaDif, clsDif;
+    if (!facturasPeriodo.length){ notaDif = 'Sin comprobantes cargados en este período'; clsDif = ''; }
+    else if (Math.abs(diferencia) < 1){ notaDif = 'Coincide'; clsDif = 'pos'; }
+    else if (diferencia < 0){ notaDif = 'Pagaste menos de lo facturado'; clsDif = 'neg'; }
+    else { notaDif = 'Pagaste más de lo facturado'; clsDif = 'pos'; }
+    el.innerHTML =
+      kpi('Facturado (período)', fmtARS(totalFacturado), facturasPeriodo.length + (facturasPeriodo.length===1?' comprobante':' comprobantes')) +
+      kpi('Pagado según movimientos', fmtARS(totalPagadoPeriodo)) +
+      kpi('Diferencia', fmtARS(diferencia), notaDif, clsDif);
   }
 
   /* ---- Facturas y deudas por proveedor (subida de facturas + lectura con IA) ---- */
@@ -7833,9 +7878,48 @@ renderAutoConclusions();
   }
   function saveFacturas(){ storageSet(K_FACTURAS, JSON.stringify(facturas)); }
 
+  // Expuestas para que el backup general del panel (Exportar/Importar backup)
+  // incluya también las facturas/notas cargadas acá.
+  window.getFacturasProveedores = function(){ return facturas; };
+  window.importarFacturasProveedores = async function(arr){
+    if (!Array.isArray(arr)) return 0;
+    const idsExistentes = new Set(facturas.map(f => f.id));
+    let agregadas = 0;
+    arr.forEach(f => {
+      if (!f || !f.id || idsExistentes.has(f.id)) return;
+      facturas.push(f);
+      idsExistentes.add(f.id);
+      agregadas++;
+    });
+    if (agregadas > 0){
+      await storageSet(K_FACTURAS, JSON.stringify(facturas));
+      renderFacturas();
+      renderResumenDeuda();
+    }
+    return agregadas;
+  };
+
   const elFacInput = document.getElementById('facturaFileInput');
   const elFacEstado = document.getElementById('facturaEstado');
   const elFacRevision = document.getElementById('facturaRevision');
+  const elFacFiltroDesde = document.getElementById('facFiltroDesde');
+  const elFacFiltroHasta = document.getElementById('facFiltroHasta');
+  const elFacFiltroMontoMin = document.getElementById('facFiltroMontoMin');
+  const elFacFiltroMontoMax = document.getElementById('facFiltroMontoMax');
+  const elFacFiltroLimpiar = document.getElementById('facFiltroLimpiar');
+
+  [elFacFiltroDesde, elFacFiltroHasta, elFacFiltroMontoMin, elFacFiltroMontoMax].forEach(el => {
+    if (el) el.addEventListener('input', renderFacturas);
+  });
+  if (elFacFiltroLimpiar){
+    elFacFiltroLimpiar.addEventListener('click', () => {
+      if (elFacFiltroDesde) elFacFiltroDesde.value = '';
+      if (elFacFiltroHasta) elFacFiltroHasta.value = '';
+      if (elFacFiltroMontoMin) elFacFiltroMontoMin.value = '';
+      if (elFacFiltroMontoMax) elFacFiltroMontoMax.value = '';
+      renderFacturas();
+    });
+  }
 
   if (elFacInput){
     elFacInput.addEventListener('change', async () => {
@@ -7953,8 +8037,28 @@ renderAutoConclusions();
 
     const elTbody = document.querySelector('#facturaTable tbody');
     if (elTbody){
-      elTbody.innerHTML = propias.length
-        ? propias.map(f => {
+      const desdeF = elFacFiltroDesde ? elFacFiltroDesde.value : '';
+      const hastaF = elFacFiltroHasta ? elFacFiltroHasta.value : '';
+      const minF = elFacFiltroMontoMin && elFacFiltroMontoMin.value !== '' ? parseFloat(elFacFiltroMontoMin.value) : null;
+      const maxF = elFacFiltroMontoMax && elFacFiltroMontoMax.value !== '' ? parseFloat(elFacFiltroMontoMax.value) : null;
+      const desdeFInt = desdeF ? fechaAIntProv(desdeF) : null;
+      const hastaFInt = hastaF ? fechaAIntProv(hastaF) : null;
+      const hayFiltro = !!(desdeF || hastaF || minF !== null || maxF !== null);
+
+      const propiasFiltradas = propias.filter(f => {
+        const fInt = fechaAIntProv(f.fecha);
+        if (desdeFInt !== null && (fInt === null || fInt < desdeFInt)) return false;
+        if (hastaFInt !== null && (fInt === null || fInt > hastaFInt)) return false;
+        if (minF !== null && (f.monto||0) < minF) return false;
+        if (maxF !== null && (f.monto||0) > maxF) return false;
+        return true;
+      });
+
+      const notaEl = document.getElementById('facFiltroNota');
+      if (notaEl) notaEl.textContent = hayFiltro ? `Mostrando ${propiasFiltradas.length} de ${propias.length} comprobante(s).` : '';
+
+      elTbody.innerHTML = propiasFiltradas.length
+        ? propiasFiltradas.map(f => {
             const vInt = fechaAIntProv(f.vencimiento);
             const vencidaCls = (f.estado==='pendiente' && vInt!==null && vInt<hoy) ? ' class="neg"' : '';
             const esCredito = f.tipo === 'nota_credito';
@@ -7968,7 +8072,7 @@ renderAutoConclusions();
               '<td><button type="button" class="link-btn" data-fac-del="' + f.id + '">Eliminar</button></td>' +
             '</tr>';
           }).join('')
-        : '<tr><td colspan="6" class="card-note">Todavía no cargaste comprobantes de ' + prov.label + '.</td></tr>';
+        : '<tr><td colspan="6" class="card-note">' + (hayFiltro ? 'Ningún comprobante coincide con el filtro.' : ('Todavía no cargaste comprobantes de ' + prov.label + '.')) + '</td></tr>';
 
       elTbody.querySelectorAll('[data-fac-toggle]').forEach(btn => {
         btn.addEventListener('click', () => {
