@@ -434,7 +434,7 @@
       <p class="card-note" id="facturaEstado"></p>
       <div id="facturaRevision" style="display:flex;flex-direction:column;gap:12px;margin-top:8px;"></div>
       <div class="kpi-grid" id="facturaKpis" style="margin-top:16px;"></div>
-      <p class="card-note" style="margin-top:16px;">Historial — filtrá por fecha o por monto para buscar un comprobante puntual (esto solo afecta la lista de abajo, no los totales de arriba):</p>
+      <p class="card-note" style="margin-top:16px;">Historial — elegí una fecha "entre" y "entre" (por ej. del 1 al 8 de agosto) o un monto para ver los comprobantes de un período puntual y sus estadísticas (esto solo afecta esta sección, no los totales generales de arriba):</p>
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;">
         <input type="date" id="facFiltroDesde" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:8px;border-radius:6px;font-size:13px;">
         <input type="date" id="facFiltroHasta" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:8px;border-radius:6px;font-size:13px;">
@@ -443,9 +443,12 @@
         <button type="button" class="link-btn" id="facFiltroLimpiar">Limpiar filtro</button>
       </div>
       <p class="card-note" id="facFiltroNota" style="margin-top:6px;"></p>
-      <div style="overflow-x:auto;margin-top:10px;">
+      <p class="card-note" id="facRangoNota" style="margin-top:14px;font-weight:600;"></p>
+      <div class="kpi-grid" id="facRangoKpis"></div>
+      <div style="overflow-x:auto;margin-top:14px;">
         <table id="facturaTable"><thead><tr><th>Fecha</th><th>Vence</th><th>Tipo / N°</th><th style="text-align:right">Monto</th><th>Estado</th><th></th></tr></thead><tbody></tbody></table>
       </div>
+      <button type="button" class="link-btn" id="facVerMasBtn" style="margin-top:10px;display:none;"></button>
     </div>
     <div class="card">
       <h2>Deuda total con proveedores</h2>
@@ -7709,6 +7712,7 @@ renderAutoConclusions();
       provTabsWrap.querySelectorAll('.toggle-btn').forEach(x=>x.classList.remove('active'));
       b.classList.add('active');
       provState.prov = p.key;
+      facMostrarTodos = false;
       renderProveedores();
     });
     provTabsWrap.appendChild(b);
@@ -7835,6 +7839,8 @@ renderAutoConclusions();
   /* ---- Facturas y deudas por proveedor (subida de facturas + lectura con IA) ---- */
   const K_FACTURAS = 'facturas-proveedores-v1';
   let facturas = [];
+  let facMostrarTodos = false; // false = mostrar solo los últimos 10 del historial filtrado
+  const FAC_LIMITE_HISTORIAL = 10;
 
   function fileToBase64Prov(file){
     return new Promise((resolve, reject) => {
@@ -7909,7 +7915,7 @@ renderAutoConclusions();
   const elFacFiltroLimpiar = document.getElementById('facFiltroLimpiar');
 
   [elFacFiltroDesde, elFacFiltroHasta, elFacFiltroMontoMin, elFacFiltroMontoMax].forEach(el => {
-    if (el) el.addEventListener('input', renderFacturas);
+    if (el) el.addEventListener('input', () => { facMostrarTodos = false; renderFacturas(); });
   });
   if (elFacFiltroLimpiar){
     elFacFiltroLimpiar.addEventListener('click', () => {
@@ -7917,6 +7923,14 @@ renderAutoConclusions();
       if (elFacFiltroHasta) elFacFiltroHasta.value = '';
       if (elFacFiltroMontoMin) elFacFiltroMontoMin.value = '';
       if (elFacFiltroMontoMax) elFacFiltroMontoMax.value = '';
+      facMostrarTodos = false;
+      renderFacturas();
+    });
+  }
+  const elFacVerMasBtn = document.getElementById('facVerMasBtn');
+  if (elFacVerMasBtn){
+    elFacVerMasBtn.addEventListener('click', () => {
+      facMostrarTodos = !facMostrarTodos;
       renderFacturas();
     });
   }
@@ -8055,10 +8069,39 @@ renderAutoConclusions();
       });
 
       const notaEl = document.getElementById('facFiltroNota');
-      if (notaEl) notaEl.textContent = hayFiltro ? `Mostrando ${propiasFiltradas.length} de ${propias.length} comprobante(s).` : '';
+      if (notaEl) notaEl.textContent = hayFiltro ? `Coinciden ${propiasFiltradas.length} de ${propias.length} comprobante(s).` : '';
 
-      elTbody.innerHTML = propiasFiltradas.length
-        ? propiasFiltradas.map(f => {
+      // Estadísticas del rango elegido (mismo filtro que la tabla de abajo: fecha y/o monto)
+      const elRangoNota = document.getElementById('facRangoNota');
+      const elRangoKpis = document.getElementById('facRangoKpis');
+      if (elRangoNota && elRangoKpis){
+        const rangoPend = propiasFiltradas.filter(f => f.estado === 'pendiente');
+        const rangoPagadas = propiasFiltradas.length - rangoPend.length;
+        const rangoTotal = propiasFiltradas.reduce((s,f)=> s + montoConSigno(f), 0);
+        const rangoDeuda = rangoPend.reduce((s,f)=> s + montoConSigno(f), 0);
+        const rangoVencidas = rangoPend.filter(f => { const v = fechaAIntProv(f.vencimiento); return v !== null && v < hoy; });
+
+        let rangoLabel;
+        if (!hayFiltro) rangoLabel = 'Estadísticas de todo el historial de ' + prov.label + ':';
+        else if (desdeF && hastaF) rangoLabel = 'Estadísticas entre el ' + fmtFechaCorta(desdeFInt) + ' y el ' + fmtFechaCorta(hastaFInt) + ':';
+        else if (desdeF) rangoLabel = 'Estadísticas desde el ' + fmtFechaCorta(desdeFInt) + ':';
+        else if (hastaF) rangoLabel = 'Estadísticas hasta el ' + fmtFechaCorta(hastaFInt) + ':';
+        else rangoLabel = 'Estadísticas según el filtro de monto:';
+        elRangoNota.textContent = rangoLabel;
+
+        elRangoKpis.innerHTML =
+          kpi('Comprobantes', propiasFiltradas.length.toLocaleString('es-AR'), rangoPagadas + ' pagada(s) · ' + rangoPend.length + ' pendiente(s)') +
+          kpi('Total del período', fmtARS(rangoTotal)) +
+          kpi('Deuda pendiente', fmtARS(rangoDeuda), rangoPend.length + (rangoPend.length===1?' comprobante':' comprobantes'), rangoDeuda>0?'neg':(rangoDeuda<0?'pos':'')) +
+          kpi('Vencidas', rangoVencidas.length.toLocaleString('es-AR'), rangoVencidas.length ? fmtARS(rangoVencidas.reduce((s,f)=>s+montoConSigno(f),0)) : '', rangoVencidas.length?'neg':'');
+      }
+
+      // Historial: por defecto solo los últimos 10 comprobantes (del resultado ya filtrado); "Ver todos" para el resto.
+      const totalFiltradas = propiasFiltradas.length;
+      const mostrar = facMostrarTodos ? propiasFiltradas : propiasFiltradas.slice(0, FAC_LIMITE_HISTORIAL);
+
+      elTbody.innerHTML = mostrar.length
+        ? mostrar.map(f => {
             const vInt = fechaAIntProv(f.vencimiento);
             const vencidaCls = (f.estado==='pendiente' && vInt!==null && vInt<hoy) ? ' class="neg"' : '';
             const esCredito = f.tipo === 'nota_credito';
@@ -8073,6 +8116,18 @@ renderAutoConclusions();
             '</tr>';
           }).join('')
         : '<tr><td colspan="6" class="card-note">' + (hayFiltro ? 'Ningún comprobante coincide con el filtro.' : ('Todavía no cargaste comprobantes de ' + prov.label + '.')) + '</td></tr>';
+
+      const elVerMasBtn = document.getElementById('facVerMasBtn');
+      if (elVerMasBtn){
+        if (totalFiltradas > FAC_LIMITE_HISTORIAL){
+          elVerMasBtn.style.display = '';
+          elVerMasBtn.textContent = facMostrarTodos
+            ? 'Ver solo los últimos ' + FAC_LIMITE_HISTORIAL
+            : 'Ver los ' + totalFiltradas + ' comprobantes';
+        } else {
+          elVerMasBtn.style.display = 'none';
+        }
+      }
 
       elTbody.querySelectorAll('[data-fac-toggle]').forEach(btn => {
         btn.addEventListener('click', () => {
