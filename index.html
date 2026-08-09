@@ -458,6 +458,20 @@
       <button type="button" class="link-btn" id="facVerMasBtn" style="margin-top:10px;display:none;"></button>
     </div>
     <div class="card">
+      <h2>Extracto de cuenta corriente — <span id="ccProvNombre"></span></h2>
+      <p class="card-note">Elegí un rango de fechas ("entre" y "entre") y te armo el extracto de ese proveedor en ese período: cada factura, nota de crédito y nota de débito cargada, más cada pago o depósito real que le hiciste según tus movimientos bancarios, en orden cronológico con saldo corriente — igual que un resumen de cuenta.</p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;">
+        <input type="date" id="ccFiltroDesde" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:8px;border-radius:6px;font-size:13px;">
+        <input type="date" id="ccFiltroHasta" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:8px;border-radius:6px;font-size:13px;">
+        <button type="button" class="link-btn" id="ccFiltroLimpiar">Limpiar filtro</button>
+      </div>
+      <p class="card-note" id="ccRangoNota" style="margin-top:10px;font-weight:600;"></p>
+      <div class="kpi-grid" id="ccKpis" style="margin-top:10px;"></div>
+      <div style="overflow-x:auto;margin-top:14px;">
+        <table id="ccTable"><thead><tr><th>Fecha</th><th>Movimiento</th><th style="text-align:right">Debe</th><th style="text-align:right">Haber</th><th style="text-align:right">Saldo</th></tr></thead><tbody></tbody></table>
+      </div>
+    </div>
+    <div class="card">
       <h2>Desglose de productos — <span id="itemsProvNombre"></span></h2>
       <p class="card-note">Cuando cargás una factura individual, la IA separa cada producto/servicio del detalle. Acá se suman por título entre las fechas que elijas, para este proveedor.</p>
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;">
@@ -7834,6 +7848,7 @@ renderAutoConclusions();
     renderFacturadoVsPagado(prov, desdeInt, hastaInt, total);
     renderFacturas();
     renderResumenDeuda();
+    renderCuentaCorriente();
   }
 
   function renderFacturadoVsPagado(prov, desdeInt, hastaInt, totalPagadoPeriodo){
@@ -7904,6 +7919,7 @@ renderAutoConclusions();
     try { const raw = await storageGet(K_FACTURAS); if (raw) facturas = JSON.parse(raw) || []; } catch(e){ facturas = []; }
     renderFacturas();
     renderResumenDeuda();
+    renderCuentaCorriente();
   }
   function saveFacturas(){ storageSet(K_FACTURAS, JSON.stringify(facturas)); }
 
@@ -7924,6 +7940,7 @@ renderAutoConclusions();
       await storageSet(K_FACTURAS, JSON.stringify(facturas));
       renderFacturas();
       renderResumenDeuda();
+      renderCuentaCorriente();
     }
     return agregadas;
   };
@@ -7955,6 +7972,20 @@ renderAutoConclusions();
     elFacVerMasBtn.addEventListener('click', () => {
       facMostrarTodos = !facMostrarTodos;
       renderFacturas();
+    });
+  }
+
+  const elCcFiltroDesde = document.getElementById('ccFiltroDesde');
+  const elCcFiltroHasta = document.getElementById('ccFiltroHasta');
+  const elCcFiltroLimpiar = document.getElementById('ccFiltroLimpiar');
+  [elCcFiltroDesde, elCcFiltroHasta].forEach(el => {
+    if (el) el.addEventListener('input', renderCuentaCorriente);
+  });
+  if (elCcFiltroLimpiar){
+    elCcFiltroLimpiar.addEventListener('click', () => {
+      if (elCcFiltroDesde) elCcFiltroDesde.value = '';
+      if (elCcFiltroHasta) elCcFiltroHasta.value = '';
+      renderCuentaCorriente();
     });
   }
 
@@ -8145,6 +8176,7 @@ renderAutoConclusions();
       saveFacturas();
       renderFacturas();
       renderResumenDeuda();
+      renderCuentaCorriente();
       div.remove();
     });
     div.querySelector('[data-accion="descartar"]').addEventListener('click', () => div.remove());
@@ -8223,6 +8255,7 @@ renderAutoConclusions();
         saveFacturas();
         renderFacturas();
         renderResumenDeuda();
+        renderCuentaCorriente();
       }
       wrap.remove();
       elExtractoEstado.textContent = guardadas + (guardadas===1 ? ' factura guardada.' : ' facturas guardadas.');
@@ -8351,13 +8384,13 @@ renderAutoConclusions();
       elTbody.querySelectorAll('[data-fac-toggle]').forEach(btn => {
         btn.addEventListener('click', () => {
           const f = facturas.find(x => x.id === btn.getAttribute('data-fac-toggle'));
-          if (f){ f.estado = f.estado === 'pendiente' ? 'pagada' : 'pendiente'; saveFacturas(); renderFacturas(); renderResumenDeuda(); }
+          if (f){ f.estado = f.estado === 'pendiente' ? 'pagada' : 'pendiente'; saveFacturas(); renderFacturas(); renderResumenDeuda(); renderCuentaCorriente(); }
         });
       });
       elTbody.querySelectorAll('[data-fac-del]').forEach(btn => {
         btn.addEventListener('click', () => {
           facturas = facturas.filter(x => x.id !== btn.getAttribute('data-fac-del'));
-          saveFacturas(); renderFacturas(); renderResumenDeuda();
+          saveFacturas(); renderFacturas(); renderResumenDeuda(); renderCuentaCorriente();
         });
       });
     }
@@ -8526,6 +8559,90 @@ renderAutoConclusions();
         elItemsVerMasBtn.style.display = 'none';
       }
     }
+  }
+
+  function renderCuentaCorriente(){
+    const prov = PROVEEDORES.find(p => p.key === provState.prov) || PROVEEDORES[0];
+    const nombreEl = document.getElementById('ccProvNombre');
+    if (nombreEl) nombreEl.textContent = prov.label;
+    const elTbody = document.querySelector('#ccTable tbody');
+    const elKpis = document.getElementById('ccKpis');
+    const elNota = document.getElementById('ccRangoNota');
+    if (!elTbody || !elKpis) return;
+
+    const desdeF = elCcFiltroDesde ? elCcFiltroDesde.value : '';
+    const hastaF = elCcFiltroHasta ? elCcFiltroHasta.value : '';
+    const desdeInt = desdeF ? fechaAIntProv(desdeF) : null;
+    const hastaInt = hastaF ? fechaAIntProv(hastaF) : null;
+
+    if (elNota){
+      elNota.textContent = (desdeF && hastaF)
+        ? 'Extracto entre el ' + fmtFechaCorta(desdeInt) + ' y el ' + fmtFechaCorta(hastaInt) + ':'
+        : (desdeF ? 'Extracto desde el ' + fmtFechaCorta(desdeInt) + ':'
+          : (hastaF ? 'Extracto hasta el ' + fmtFechaCorta(hastaInt) + ':' : 'Extracto de todo el historial disponible:'));
+    }
+
+    // Saldo inicial: todo lo facturado y pagado ANTES del "desde" elegido.
+    let saldoInicial = 0;
+    if (desdeInt !== null){
+      facturas.forEach(f => {
+        if (f.proveedorKey !== prov.key || !f.fecha) return;
+        const fi = fechaAIntProv(f.fecha);
+        if (fi !== null && fi < desdeInt) saldoInicial += montoConSigno(f);
+      });
+      MOVES.forEach(m => { if (m[1] === prov.idx && m[0] < desdeInt) saldoInicial -= m[2]; });
+    }
+
+    // Movimientos dentro del rango: facturas/notas + pagos/depósitos reales, mezclados por fecha.
+    const items = [];
+    facturas.forEach(f => {
+      if (f.proveedorKey !== prov.key || !f.fecha) return;
+      const fi = fechaAIntProv(f.fecha);
+      if (fi === null) return;
+      if (desdeInt !== null && fi < desdeInt) return;
+      if (hastaInt !== null && fi > hastaInt) return;
+      const esCredito = f.tipo === 'nota_credito';
+      items.push({
+        d: fi,
+        label: etiquetaTipo(f.tipo) + (f.numeroFactura ? ' · ' + escapeHtmlProv(f.numeroFactura) : ''),
+        debe: esCredito ? 0 : (f.monto || 0),
+        haber: esCredito ? (f.monto || 0) : 0
+      });
+    });
+    MOVES.forEach(m => {
+      if (m[1] !== prov.idx) return;
+      if (desdeInt !== null && m[0] < desdeInt) return;
+      if (hastaInt !== null && m[0] > hastaInt) return;
+      items.push({
+        d: m[0],
+        label: 'Pago / depósito' + (m[3] ? ' · ' + escapeHtmlProv(m[3]) : ''),
+        debe: 0,
+        haber: m[2]
+      });
+    });
+    items.sort((a,b) => a.d - b.d);
+
+    let saldo = saldoInicial;
+    let totalDebe = 0, totalHaber = 0;
+    const filas = items.map(it => {
+      saldo += it.debe - it.haber;
+      totalDebe += it.debe;
+      totalHaber += it.haber;
+      return '<tr><td>' + fmtFechaCorta(it.d) + '</td><td>' + it.label + '</td>' +
+        '<td class="num">' + (it.debe ? fmtARS(it.debe) : '') + '</td>' +
+        '<td class="num">' + (it.haber ? fmtARS(it.haber) : '') + '</td>' +
+        '<td class="num ' + (saldo>0?'neg':(saldo<0?'pos':'')) + '">' + fmtARS(saldo) + '</td></tr>';
+    });
+
+    elKpis.innerHTML =
+      kpi('Saldo inicial', fmtARS(saldoInicial), desdeInt!==null ? 'Antes del ' + fmtFechaCorta(desdeInt) : 'Sin fecha "desde"', saldoInicial>0?'neg':(saldoInicial<0?'pos':'')) +
+      kpi('Facturado / notas débito', fmtARS(totalDebe), items.length + (items.length===1?' movimiento':' movimientos')) +
+      kpi('Pagado + notas de crédito', fmtARS(totalHaber)) +
+      kpi('Saldo final', fmtARS(saldo), saldo>0?'Le debés a ' + prov.label:(saldo<0?prov.label+' te debe / a favor':'Al día'), saldo>0?'neg':(saldo<0?'pos':''));
+
+    elTbody.innerHTML = filas.length
+      ? (desdeInt !== null ? '<tr><td colspan="4" style="font-weight:600;">Saldo inicial</td><td class="num ' + (saldoInicial>0?'neg':(saldoInicial<0?'pos':'')) + '">' + fmtARS(saldoInicial) + '</td></tr>' : '') + filas.join('')
+      : '<tr><td colspan="5" class="card-note">Sin movimientos en el período elegido.</td></tr>';
   }
 
   function renderResumenDeuda(){
