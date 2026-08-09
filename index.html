@@ -1522,6 +1522,7 @@
           <button type="button" id="btnPegarBackup" class="tab-btn" style="border-radius:8px;">📋 Pegar backup</button>
           <label for="inputImportarBackup" class="tab-btn" style="border-radius:8px;cursor:pointer;margin:0;display:inline-flex;align-items:center;">⬆️ Importar backup (archivo)</label>
           <input type="file" id="inputImportarBackup" accept="application/json,.json" style="display:none;">
+          <button type="button" id="btnDeshacerImport" class="tab-btn" style="border-radius:8px;">↩️ Deshacer última importación</button>
         </div>
         <p class="card-note" id="backupMsg" style="min-height:14px;"></p>
         <p class="card-note" id="cargarCount" style="margin-bottom:6px;"></p>
@@ -1533,7 +1534,7 @@
         </div>
         <p class="card-note" id="cargarEmpty" style="display:none;">Todavía no cargaste ningún movimiento manual.</p>
       </div>
-      <div class="note-box">Esto se guarda en este dispositivo/instalación (localStorage si abrís el panel como app o página suelta; window.storage si lo abrís dentro de Claude). No viaja solo a otros celulares ni sobrevive a un "borrar datos" o desinstalar la app. Por eso: <strong>Exportar backup</strong> intenta descargar un archivo .json Y además siempre te muestra el backup como texto en pantalla con un botón para copiarlo — usá ese texto (pegalo en Notas, WhatsApp a vos mismo, etc.) si la descarga de archivo no funciona dentro de la app. El backup incluye también las facturas/notas de crédito y débito cargadas en Proveedores. Para recuperarlo después: <strong>Pegar backup</strong> (pegando ese texto) o <strong>Importar backup (archivo)</strong> si tenés el .json guardado.</div>
+      <div class="note-box">Esto se guarda en este dispositivo/instalación (localStorage si abrís el panel como app o página suelta; window.storage si lo abrís dentro de Claude). No viaja solo a otros celulares ni sobrevive a un "borrar datos" o desinstalar la app. Por eso: <strong>Exportar backup</strong> intenta descargar un archivo .json Y además siempre te muestra el backup como texto en pantalla con un botón para copiarlo — usá ese texto (pegalo en Notas, WhatsApp a vos mismo, etc.) si la descarga de archivo no funciona dentro de la app. El backup incluye también las facturas/notas de crédito y débito cargadas en Proveedores. Para recuperarlo después: <strong>Pegar backup</strong> (pegando ese texto) o <strong>Importar backup (archivo)</strong> si tenés el .json guardado. <strong>Importar nunca borra ni reemplaza lo que ya tenés cargado</strong> — solo agrega lo que falte, y siempre te muestra antes qué se va a agregar y te pide confirmar. Si igual te arrepentís de una importación, usá <strong>↩️ Deshacer última importación</strong> para volver a como estaba justo antes.</div>
 
       <div class="card">
         <h2>Backup automático a GitHub</h2>
@@ -5725,58 +5726,132 @@ function exportarBackup(){
   });
 }
 
-async function procesarBackupTexto(texto, msgEl){
+function guardarSnapshotPreImport(){
   try {
-    const data = JSON.parse(texto);
-    if (!data || !Array.isArray(data.manualEntries)){
-      msgEl.textContent = 'Ese texto/archivo no tiene el formato de un backup de este panel.';
-      return;
-    }
-    const clavesExistentes = new Set(manualEntries.map(backupEntryKey));
-    let agregados = 0, repetidos = 0;
-    data.manualEntries.forEach(en=>{
-      if (!en || !en.date || !en.type || typeof en.amount === 'undefined') return;
-      const clave = backupEntryKey(en);
-      if (clavesExistentes.has(clave)){ repetidos++; return; }
-      manualEntries.push(en);
-      clavesExistentes.add(clave);
-      agregados++;
-    });
-    if (Array.isArray(data.categoriasCustom)){
-      data.categoriasCustom.forEach(cat=>{
-        if (cat && !categoriasCustom.includes(cat)) categoriasCustom.push(cat);
-      });
-    }
-    if (Array.isArray(data.categoriasBaseEliminadas)){
-      data.categoriasBaseEliminadas.forEach(cat=>{
-        if (cat && !categoriasBaseEliminadas.includes(cat)) categoriasBaseEliminadas.push(cat);
-      });
-    }
+    const snap = armarBackupTexto();
+    // No usamos storageSet (async) para no demorar el flujo de confirmación:
+    // esto es una copia de seguridad de un solo nivel, se sobreescribe en cada importación.
+    return storageSet('snapshot-pre-import', snap);
+  } catch(e) { return Promise.resolve(false); }
+}
+
+async function deshacerUltimaImportacion(){
+  const msgEl = document.getElementById('backupMsg');
+  let raw;
+  try { raw = await storageGet('snapshot-pre-import'); } catch(e) { raw = null; }
+  if (!raw){
+    if (msgEl) msgEl.textContent = 'No hay ninguna importación reciente para deshacer.';
+    return;
+  }
+  if (!window.confirm('Esto va a volver tus datos exactamente a como estaban ANTES de la última importación (se pierde lo que se haya agregado desde entonces). ¿Confirmás?')) return;
+  try {
+    const data = JSON.parse(raw);
+    manualEntries = Array.isArray(data.manualEntries) ? data.manualEntries : [];
+    categoriasCustom = Array.isArray(data.categoriasCustom) ? data.categoriasCustom : [];
+    categoriasBaseEliminadas = Array.isArray(data.categoriasBaseEliminadas) ? data.categoriasBaseEliminadas : [];
+    for (const k in categoriasBaseRenombres) delete categoriasBaseRenombres[k];
     if (data.categoriasBaseRenombres && typeof data.categoriasBaseRenombres === 'object'){
       Object.assign(categoriasBaseRenombres, data.categoriasBaseRenombres);
     }
-    let facturasAgregadas = 0;
-    if (Array.isArray(data.facturasProveedores) && typeof window.importarFacturasProveedores === 'function'){
-      facturasAgregadas = await window.importarFacturasProveedores(data.facturasProveedores);
-    }
-    if (agregados === 0 && facturasAgregadas === 0){
-      msgEl.textContent = repetidos > 0
-        ? `Ese backup ya estaba cargado acá (${repetidos} repetido(s), 0 nuevos).`
-        : 'El backup no tenía movimientos ni comprobantes nuevos para agregar.';
-      return;
-    }
-    msgEl.textContent = `Importando ${agregados} movimiento(s)${facturasAgregadas ? ` y ${facturasAgregadas} comprobante(s) de proveedores` : ''} nuevo(s)${repetidos ? ` (${repetidos} movimiento(s) ya estaban)` : ''}…`;
-    const okMov = await storageSet('manual-entries', JSON.stringify(manualEntries));
+    await storageSet('manual-entries', JSON.stringify(manualEntries));
     await storageSet('categorias-personalizadas', JSON.stringify(categoriasCustom));
     await storageSet('categorias-base-eliminadas', JSON.stringify(categoriasBaseEliminadas));
     await storageSet('categorias-base-renombres', JSON.stringify(categoriasBaseRenombres));
-    if (okMov){
-      location.reload();
-    } else {
-      msgEl.textContent = 'No se pudo guardar lo importado. Probá de nuevo.';
+    if (Array.isArray(data.facturasProveedores) && typeof window.restaurarFacturasProveedores === 'function'){
+      await window.restaurarFacturasProveedores(data.facturasProveedores);
     }
+    await storageSet('snapshot-pre-import', ''); // se usa una sola vez
+    location.reload();
+  } catch(e){
+    if (msgEl) msgEl.textContent = 'No se pudo deshacer. El respaldo puede estar dañado.';
+  }
+}
+
+async function procesarBackupTexto(texto, msgEl){
+  let data;
+  try {
+    data = JSON.parse(texto);
   } catch(e){
     msgEl.textContent = 'No se pudo leer ese texto/archivo. ¿Es un backup válido de este panel?';
+    return;
+  }
+  if (!data || !Array.isArray(data.manualEntries)){
+    msgEl.textContent = 'Ese texto/archivo no tiene el formato de un backup de este panel.';
+    return;
+  }
+
+  // --- Vista previa: calculamos qué se agregaría, SIN tocar nada todavía. ---
+  const clavesExistentes = new Set(manualEntries.map(backupEntryKey));
+  let nuevosMov = 0, repetidosMov = 0;
+  data.manualEntries.forEach(en=>{
+    if (!en || !en.date || !en.type || typeof en.amount === 'undefined') return;
+    if (clavesExistentes.has(backupEntryKey(en))) repetidosMov++; else nuevosMov++;
+  });
+  let nuevasFacturas = 0;
+  if (Array.isArray(data.facturasProveedores) && typeof window.getFacturasProveedores === 'function'){
+    const idsExistentes = new Set(window.getFacturasProveedores().map(f=>f.id));
+    data.facturasProveedores.forEach(f=>{ if (f && f.id && !idsExistentes.has(f.id)) nuevasFacturas++; });
+  }
+
+  if (nuevosMov === 0 && nuevasFacturas === 0){
+    msgEl.textContent = repetidosMov > 0
+      ? `Ese backup ya estaba cargado acá (${repetidosMov} repetido(s), 0 nuevos). No se cambió nada.`
+      : 'El backup no tenía movimientos ni comprobantes nuevos para agregar. No se cambió nada.';
+    return;
+  }
+
+  // --- Confirmación explícita antes de cambiar cualquier dato. ---
+  const fechaBackup = data.exportadoEl ? new Date(data.exportadoEl) : null;
+  const fechaTxt = fechaBackup && !isNaN(fechaBackup) ? fechaBackup.toLocaleString('es-AR') : 'fecha desconocida';
+  const resumen = `Este backup es del ${fechaTxt}.\n\n` +
+    `Se van a AGREGAR:\n` +
+    `• ${nuevosMov} movimiento(s) nuevo(s)${repetidosMov ? ` (${repetidosMov} ya estaban y se van a ignorar)` : ''}\n` +
+    (nuevasFacturas ? `• ${nuevasFacturas} comprobante(s) de proveedores nuevo(s)\n` : '') +
+    `\nLa importación nunca borra ni modifica lo que ya tenés cargado, solo agrega lo que falte. ` +
+    `Igual, antes de aplicar, queda guardada una copia de cómo está todo ahora mismo por si querés deshacer esto después.\n\n` +
+    `¿Confirmás la importación?`;
+  if (!window.confirm(resumen)) {
+    msgEl.textContent = 'Importación cancelada. No se cambió nada.';
+    return;
+  }
+
+  // --- Copia de seguridad de un solo nivel, para poder deshacer esta importación. ---
+  await guardarSnapshotPreImport();
+
+  // --- Recién ahora se aplican los cambios. ---
+  data.manualEntries.forEach(en=>{
+    if (!en || !en.date || !en.type || typeof en.amount === 'undefined') return;
+    const clave = backupEntryKey(en);
+    if (clavesExistentes.has(clave)) return;
+    manualEntries.push(en);
+    clavesExistentes.add(clave);
+  });
+  if (Array.isArray(data.categoriasCustom)){
+    data.categoriasCustom.forEach(cat=>{
+      if (cat && !categoriasCustom.includes(cat)) categoriasCustom.push(cat);
+    });
+  }
+  if (Array.isArray(data.categoriasBaseEliminadas)){
+    data.categoriasBaseEliminadas.forEach(cat=>{
+      if (cat && !categoriasBaseEliminadas.includes(cat)) categoriasBaseEliminadas.push(cat);
+    });
+  }
+  if (data.categoriasBaseRenombres && typeof data.categoriasBaseRenombres === 'object'){
+    Object.assign(categoriasBaseRenombres, data.categoriasBaseRenombres);
+  }
+  let facturasAgregadas = 0;
+  if (Array.isArray(data.facturasProveedores) && typeof window.importarFacturasProveedores === 'function'){
+    facturasAgregadas = await window.importarFacturasProveedores(data.facturasProveedores);
+  }
+  msgEl.textContent = `Importando ${nuevosMov} movimiento(s)${facturasAgregadas ? ` y ${facturasAgregadas} comprobante(s) de proveedores` : ''} nuevo(s)${repetidosMov ? ` (${repetidosMov} movimiento(s) ya estaban)` : ''}…`;
+  const okMov = await storageSet('manual-entries', JSON.stringify(manualEntries));
+  await storageSet('categorias-personalizadas', JSON.stringify(categoriasCustom));
+  await storageSet('categorias-base-eliminadas', JSON.stringify(categoriasBaseEliminadas));
+  await storageSet('categorias-base-renombres', JSON.stringify(categoriasBaseRenombres));
+  if (okMov){
+    location.reload();
+  } else {
+    msgEl.textContent = 'No se pudo guardar lo importado. Probá de nuevo.';
   }
 }
 
@@ -5808,6 +5883,7 @@ function abrirModalPegarBackup(){
 
 document.getElementById('btnExportarBackup').addEventListener('click', exportarBackup);
 document.getElementById('btnPegarBackup').addEventListener('click', abrirModalPegarBackup);
+document.getElementById('btnDeshacerImport').addEventListener('click', deshacerUltimaImportacion);
 document.getElementById('backupModalCloseBtn').addEventListener('click', cerrarModalBackup);
 document.getElementById('inputImportarBackup').addEventListener('change', (e)=>{
   const file = e.target.files && e.target.files[0];
@@ -7944,6 +8020,16 @@ renderAutoConclusions();
     }
     return agregadas;
   };
+  // Distinta de importarFacturasProveedores: esta REEMPLAZA todo el array
+  // (se usa solo para "deshacer última importación", donde sí queremos
+  // volver exactamente al estado guardado antes de importar).
+  window.restaurarFacturasProveedores = async function(arr){
+    facturas = Array.isArray(arr) ? arr : [];
+    await storageSet(K_FACTURAS, JSON.stringify(facturas));
+    renderFacturas();
+    renderResumenDeuda();
+    renderCuentaCorriente();
+  };
 
   const elFacInput = document.getElementById('facturaFileInput');
   const elFacEstado = document.getElementById('facturaEstado');
@@ -9455,18 +9541,19 @@ renderAutoConclusions();
   }
 
   /* ---------- Motor genérico de reetiquetado (reemplaza "Agencia"/"Alquileres" en el texto visible) ---------- */
-  var relabeledNodes = new WeakSet();
+  // Importante: guardamos el texto ORIGINAL de cada nodo (no solo "ya lo vi"),
+  // para poder recalcular el reemplazo cada vez que cambian los nombres —
+  // incluso si el usuario los cambia varias veces o vuelve al nombre por defecto.
   function relabelTextNode(node){
-    if (relabeledNodes.has(node)) return;
-    relabeledNodes.add(node);
-    var txt = node.nodeValue;
-    if (!txt || (txt.indexOf('Agencia') === -1 && txt.indexOf('Alquileres') === -1)) return;
+    if (node.__origText === undefined) node.__origText = node.nodeValue;
+    var original = node.__origText;
+    if (!original || (original.indexOf('Agencia') === -1 && original.indexOf('Alquileres') === -1)) return;
     var nameA = accountNames.agencia || 'Agencia';
     var nameR = accountNames.alquileres || 'Alquileres';
-    var out = txt;
+    var out = original;
     if (nameA !== 'Agencia') out = out.replace(/\bAgencia\b/g, nameA);
     if (nameR !== 'Alquileres') out = out.replace(/\bAlquileres\b/g, nameR);
-    if (out !== txt) node.nodeValue = out;
+    if (node.nodeValue !== out) node.nodeValue = out;
   }
   function shouldSkip(el){
     if (!el) return false;
