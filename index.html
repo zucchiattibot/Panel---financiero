@@ -465,11 +465,13 @@
         <input type="date" id="itemsFiltroHasta" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:8px;border-radius:6px;font-size:13px;">
         <button type="button" class="link-btn" id="itemsFiltroLimpiar">Limpiar filtro</button>
       </div>
+      <input type="text" id="itemsBuscar" placeholder="Buscar por título, edición, o cualquier texto de la descripción…" style="width:100%;box-sizing:border-box;background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:9px 10px;border-radius:6px;font-size:13.5px;margin-top:8px;">
       <p class="card-note" id="itemsFiltroNota" style="margin-top:6px;"></p>
       <div class="kpi-grid" id="itemsKpis" style="margin-top:10px;"></div>
       <div style="overflow-x:auto;margin-top:14px;">
-        <table id="itemsTable"><thead><tr><th>Producto / concepto</th><th style="text-align:right">Cant.</th><th style="text-align:right">Monto</th><th style="text-align:right">Facturas</th><th style="text-align:right">%</th></tr></thead><tbody></tbody></table>
+        <table id="itemsTable"><thead><tr><th></th><th>Producto / concepto</th><th style="text-align:right">Cant.</th><th style="text-align:right">Monto</th><th style="text-align:right">Facturas</th><th style="text-align:right">%</th></tr></thead><tbody></tbody></table>
       </div>
+      <button type="button" class="link-btn" id="itemsVerMasBtn" style="margin-top:10px;display:none;"></button>
     </div>
     <div class="card">
       <h2>Deuda total con proveedores</h2>
@@ -8362,20 +8364,63 @@ renderAutoConclusions();
   const elItemsFiltroDesde = document.getElementById('itemsFiltroDesde');
   const elItemsFiltroHasta = document.getElementById('itemsFiltroHasta');
   const elItemsFiltroLimpiar = document.getElementById('itemsFiltroLimpiar');
+  const elItemsBuscar = document.getElementById('itemsBuscar');
+  const elItemsVerMasBtn = document.getElementById('itemsVerMasBtn');
+  const ITEMS_LIMITE = 15;
+  let itemsMostrarTodos = false;
+  let itemsFilasActuales = []; // referencia viva para los toggles de detalle por fila
+
   [elItemsFiltroDesde, elItemsFiltroHasta].forEach(el => {
-    if (el) el.addEventListener('input', renderDesgloseItems);
+    if (el) el.addEventListener('input', () => { itemsMostrarTodos = false; renderDesgloseItems(); });
   });
+  if (elItemsBuscar){
+    elItemsBuscar.addEventListener('input', () => { itemsMostrarTodos = false; renderDesgloseItems(); });
+  }
   if (elItemsFiltroLimpiar){
     elItemsFiltroLimpiar.addEventListener('click', () => {
       if (elItemsFiltroDesde) elItemsFiltroDesde.value = '';
       if (elItemsFiltroHasta) elItemsFiltroHasta.value = '';
+      if (elItemsBuscar) elItemsBuscar.value = '';
+      itemsMostrarTodos = false;
       renderDesgloseItems();
     });
+  }
+  if (elItemsVerMasBtn){
+    elItemsVerMasBtn.addEventListener('click', () => {
+      itemsMostrarTodos = !itemsMostrarTodos;
+      renderDesgloseItems();
+    });
+  }
+
+  // Chico formateador de fecha para las ocurrencias del detalle (reutiliza fechaAIntProv/fmtFechaCorta).
+  function fmtFechaItemProv(fecha){
+    const i = fechaAIntProv(fecha);
+    return i !== null ? fmtFechaCorta(i) : '—';
+  }
+
+  function filaDetalleOcurrencias(g, idx){
+    const ocs = g.ocurrencias.slice().sort((a,b) => (b.fecha||'').localeCompare(a.fecha||''));
+    const filasOc = ocs.map(o =>
+      '<tr><td>' + fmtFechaItemProv(o.fecha) + '</td>' +
+      '<td>' + (o.numero ? escapeHtmlProv(o.numero) : '—') + (o.tipo && o.tipo !== 'factura' ? ' · ' + etiquetaTipo(o.tipo) : '') + '</td>' +
+      '<td class="num">' + (o.cantidad != null ? o.cantidad.toLocaleString('es-AR', {maximumFractionDigits:2}) : '—') + '</td>' +
+      '<td class="num">' + fmtARS(o.monto||0) + '</td></tr>'
+    ).join('');
+    return '<tr data-item-detalle="' + idx + '" style="display:none;">' +
+      '<td colspan="6" style="padding:6px 0 10px 0;background:rgba(0,0,0,.12);">' +
+        '<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;font-size:11.5px;"><thead><tr>' +
+          '<th style="text-align:left;padding:4px;">Fecha</th><th style="text-align:left;padding:4px;">Comprobante</th>' +
+          '<th style="text-align:right;padding:4px;">Cant.</th><th style="text-align:right;padding:4px;">Monto</th>' +
+        '</tr></thead><tbody>' + filasOc + '</tbody></table></div>' +
+      '</td></tr>';
   }
 
   // Desglose de productos/conceptos: agrupa por título (descripción) todos los items
   // cargados en facturas individuales de este proveedor, sumando cantidad y monto,
   // dentro del rango de fechas elegido (por fecha de emisión de cada comprobante).
+  // Permite buscar por texto (título, edición, o cualquier palabra de la descripción)
+  // y ver el detalle de cada ocurrencia (fecha, N° de comprobante, cantidad, monto)
+  // tocando una fila. La lista se recorta a ITEMS_LIMITE filas con un botón "Ver más".
   function renderDesgloseItems(){
     const prov = PROVEEDORES.find(p => p.key === provState.prov) || PROVEEDORES[0];
     const nombreEl = document.getElementById('itemsProvNombre');
@@ -8385,6 +8430,7 @@ renderAutoConclusions();
     const hastaF = elItemsFiltroHasta ? elItemsFiltroHasta.value : '';
     const desdeInt = desdeF ? fechaAIntProv(desdeF) : null;
     const hastaInt = hastaF ? fechaAIntProv(hastaF) : null;
+    const buscarTxt = elItemsBuscar ? elItemsBuscar.value.trim().toLowerCase() : '';
 
     const conItems = facturas.filter(f => f.proveedorKey === prov.key && Array.isArray(f.items) && f.items.length);
     const enRango = conItems.filter(f => {
@@ -8394,13 +8440,6 @@ renderAutoConclusions();
       return true;
     });
 
-    const notaEl = document.getElementById('itemsFiltroNota');
-    if (notaEl){
-      if (!conItems.length) notaEl.textContent = 'Todavía no hay productos detectados en las facturas cargadas de ' + prov.label + ' (se completa al cargar comprobantes individuales con detalle de items).';
-      else if (desdeF || hastaF) notaEl.textContent = enRango.length + ' de ' + conItems.length + ' comprobante(s) con productos coinciden con el filtro.';
-      else notaEl.textContent = conItems.length + (conItems.length===1 ? ' comprobante con productos detectados.' : ' comprobantes con productos detectados.');
-    }
-
     const grupos = Object.create(null);
     let totalGeneral = 0;
     enRango.forEach(f => {
@@ -8408,39 +8447,78 @@ renderAutoConclusions();
       f.items.forEach(it => {
         const desc = (it.descripcion || 'Sin descripción').trim() || 'Sin descripción';
         const key = desc.toLowerCase();
-        if (!grupos[key]) grupos[key] = { label: desc, cantidad: 0, tieneCantidad: false, monto: 0, facturas: new Set() };
-        if (it.cantidad != null && !isNaN(it.cantidad)){
-          grupos[key].cantidad += Number(it.cantidad);
-          grupos[key].tieneCantidad = true;
-        }
+        if (!grupos[key]) grupos[key] = { label: desc, cantidad: 0, tieneCantidad: false, monto: 0, facturas: new Set(), ocurrencias: [] };
+        const cantNum = (it.cantidad != null && !isNaN(it.cantidad)) ? Number(it.cantidad) : null;
+        if (cantNum != null){ grupos[key].cantidad += cantNum; grupos[key].tieneCantidad = true; }
         const montoItem = (it.monto != null && !isNaN(it.monto)) ? Number(it.monto) * signo : 0;
         grupos[key].monto += montoItem;
         grupos[key].facturas.add(f.id);
+        grupos[key].ocurrencias.push({ fecha: f.fecha, numero: f.numeroFactura, cantidad: cantNum, monto: montoItem, tipo: f.tipo });
         totalGeneral += montoItem;
       });
     });
 
-    const filas = Object.values(grupos).sort((a,b) => Math.abs(b.monto) - Math.abs(a.monto));
+    let filas = Object.values(grupos).sort((a,b) => Math.abs(b.monto) - Math.abs(a.monto));
+    const totalGrupos = filas.length;
+    if (buscarTxt) filas = filas.filter(g => g.label.toLowerCase().includes(buscarTxt));
+
+    const notaEl = document.getElementById('itemsFiltroNota');
+    if (notaEl){
+      if (!conItems.length) notaEl.textContent = 'Todavía no hay productos detectados en las facturas cargadas de ' + prov.label + ' (se completa al cargar comprobantes individuales con detalle de items).';
+      else if (buscarTxt) notaEl.textContent = filas.length + ' de ' + totalGrupos + ' producto(s)/concepto(s) coinciden con "' + elItemsBuscar.value.trim() + '".' + ((desdeF||hastaF) ? ' (' + enRango.length + ' de ' + conItems.length + ' comprobante(s) en el rango de fechas)' : '');
+      else if (desdeF || hastaF) notaEl.textContent = enRango.length + ' de ' + conItems.length + ' comprobante(s) con productos coinciden con el filtro de fechas.';
+      else notaEl.textContent = conItems.length + (conItems.length===1 ? ' comprobante con productos detectados.' : ' comprobantes con productos detectados.');
+    }
 
     const elKpis = document.getElementById('itemsKpis');
     if (elKpis){
       elKpis.innerHTML =
         kpi('Total facturado (productos)', fmtARS(totalGeneral), enRango.length + (enRango.length===1?' comprobante':' comprobantes')) +
-        kpi('Productos/conceptos distintos', filas.length.toLocaleString('es-AR'));
+        kpi('Productos/conceptos distintos', totalGrupos.toLocaleString('es-AR'), buscarTxt ? (filas.length + ' coinciden con la búsqueda') : '');
     }
+
+    const totalFiltradas = filas.length;
+    const mostrar = itemsMostrarTodos ? filas : filas.slice(0, ITEMS_LIMITE);
+    itemsFilasActuales = mostrar;
 
     const elTbody = document.querySelector('#itemsTable tbody');
     if (elTbody){
-      elTbody.innerHTML = filas.length
-        ? filas.map(g => {
+      elTbody.innerHTML = mostrar.length
+        ? mostrar.map((g, idx) => {
             const pct = totalGeneral !== 0 ? (g.monto / totalGeneral * 100) : 0;
-            return '<tr><td>' + escapeHtmlProv(g.label) + '</td>' +
+            return '<tr data-item-toggle="' + idx + '" style="cursor:pointer;">' +
+              '<td class="card-note" style="padding-right:2px;">▸</td>' +
+              '<td>' + escapeHtmlProv(g.label) + '</td>' +
               '<td class="num">' + (g.tieneCantidad ? g.cantidad.toLocaleString('es-AR', {maximumFractionDigits:2}) : '—') + '</td>' +
               '<td class="num">' + fmtARS(g.monto) + '</td>' +
               '<td class="num">' + g.facturas.size + '</td>' +
-              '<td class="num">' + pct.toFixed(1) + '%</td></tr>';
+              '<td class="num">' + pct.toFixed(1) + '%</td></tr>' +
+              filaDetalleOcurrencias(g, idx);
           }).join('')
-        : '<tr><td colspan="5" class="card-note">Sin productos para mostrar en este rango.</td></tr>';
+        : '<tr><td colspan="6" class="card-note">' + (buscarTxt ? 'Ningún producto coincide con la búsqueda.' : 'Sin productos para mostrar en este rango.') + '</td></tr>';
+
+      elTbody.querySelectorAll('[data-item-toggle]').forEach(row => {
+        row.addEventListener('click', () => {
+          const idx = row.getAttribute('data-item-toggle');
+          const detalle = elTbody.querySelector('[data-item-detalle="' + idx + '"]');
+          if (!detalle) return;
+          const abierto = detalle.style.display !== 'none';
+          detalle.style.display = abierto ? 'none' : '';
+          const flecha = row.querySelector('td:first-child');
+          if (flecha) flecha.textContent = abierto ? '▸' : '▾';
+        });
+      });
+    }
+
+    if (elItemsVerMasBtn){
+      if (totalFiltradas > ITEMS_LIMITE){
+        elItemsVerMasBtn.style.display = '';
+        elItemsVerMasBtn.textContent = itemsMostrarTodos
+          ? 'Ver solo los primeros ' + ITEMS_LIMITE
+          : 'Ver los ' + totalFiltradas + ' productos/conceptos';
+      } else {
+        elItemsVerMasBtn.style.display = 'none';
+      }
     }
   }
 
