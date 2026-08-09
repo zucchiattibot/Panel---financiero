@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 3,
-  "exportadoEl": "2026-08-09T22:09:40.200Z",
+  "exportadoEl": "2026-08-09T22:16:07.177Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -562,6 +562,14 @@
       "category": "Sueldo",
       "account": "agencia",
       "medio": "transferencia"
+    },
+    {
+      "date": "2026-08-09",
+      "type": "egreso",
+      "amount": 5000,
+      "category": "Sueldo",
+      "account": "alquileres",
+      "detalle": "Panadería"
     }
   ],
   "categoriasCustom": [
