@@ -8402,6 +8402,7 @@ renderAutoConclusions();
     const ocs = g.ocurrencias.slice().sort((a,b) => (b.fecha||'').localeCompare(a.fecha||''));
     const filasOc = ocs.map(o =>
       '<tr><td>' + fmtFechaItemProv(o.fecha) + '</td>' +
+      '<td>' + (o.cargadaEl ? fmtFechaItemProv(o.cargadaEl) : '—') + '</td>' +
       '<td>' + (o.numero ? escapeHtmlProv(o.numero) : '—') + (o.tipo && o.tipo !== 'factura' ? ' · ' + etiquetaTipo(o.tipo) : '') + '</td>' +
       '<td class="num">' + (o.cantidad != null ? o.cantidad.toLocaleString('es-AR', {maximumFractionDigits:2}) : '—') + '</td>' +
       '<td class="num">' + fmtARS(o.monto||0) + '</td></tr>'
@@ -8409,7 +8410,7 @@ renderAutoConclusions();
     return '<tr data-item-detalle="' + idx + '" style="display:none;">' +
       '<td colspan="6" style="padding:6px 0 10px 0;background:rgba(0,0,0,.12);">' +
         '<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;font-size:11.5px;"><thead><tr>' +
-          '<th style="text-align:left;padding:4px;">Fecha</th><th style="text-align:left;padding:4px;">Comprobante</th>' +
+          '<th style="text-align:left;padding:4px;">Fecha emisión</th><th style="text-align:left;padding:4px;">Cargada el</th><th style="text-align:left;padding:4px;">Comprobante</th>' +
           '<th style="text-align:right;padding:4px;">Cant.</th><th style="text-align:right;padding:4px;">Monto</th>' +
         '</tr></thead><tbody>' + filasOc + '</tbody></table></div>' +
       '</td></tr>';
@@ -8453,7 +8454,7 @@ renderAutoConclusions();
         const montoItem = (it.monto != null && !isNaN(it.monto)) ? Number(it.monto) * signo : 0;
         grupos[key].monto += montoItem;
         grupos[key].facturas.add(f.id);
-        grupos[key].ocurrencias.push({ fecha: f.fecha, numero: f.numeroFactura, cantidad: cantNum, monto: montoItem, tipo: f.tipo });
+        grupos[key].ocurrencias.push({ fecha: f.fecha, cargadaEl: f.cargadaEl, numero: f.numeroFactura, cantidad: cantNum, monto: montoItem, tipo: f.tipo });
         totalGeneral += montoItem;
       });
     });
