@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
-  "version": 2,
-  "exportadoEl": "2026-08-08T17:44:28.203Z",
+  "version": 3,
+  "exportadoEl": "2026-08-09T13:36:52.405Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -506,6 +506,46 @@
       "category": "Ahorro",
       "account": "alquileres",
       "detalle": "Ahorro Anual"
+    },
+    {
+      "date": "2026-08-08",
+      "type": "egreso",
+      "amount": 2300,
+      "category": "Donato",
+      "account": "alquileres",
+      "detalle": "Bragado"
+    },
+    {
+      "date": "2026-08-08",
+      "type": "ingreso",
+      "amount": 215000,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "efectivo"
+    },
+    {
+      "date": "2026-08-08",
+      "type": "egreso",
+      "amount": 120000,
+      "category": "Varios",
+      "account": "alquileres",
+      "detalle": "Cena tarjeta jazmin"
+    },
+    {
+      "date": "2026-08-09",
+      "type": "egreso",
+      "amount": 20000,
+      "category": "Chiara",
+      "account": "alquileres",
+      "detalle": "Salida sabado"
+    },
+    {
+      "date": "2026-08-09",
+      "type": "egreso",
+      "amount": 20000,
+      "category": "Javier Juan",
+      "account": "agencia",
+      "detalle": "Día domingo"
     }
   ],
   "categoriasCustom": [
@@ -520,10 +560,12 @@
     "Peña",
     "Clarin",
     "Silmar",
-    "Viejo Adolfo cheque"
+    "Viejo Adolfo cheque",
+    "Javier Juan"
   ],
   "categoriasBaseEliminadas": [
     "Servicios impuestos"
   ],
-  "categoriasBaseRenombres": {}
+  "categoriasBaseRenombres": {},
+  "facturasProveedores": []
 }
