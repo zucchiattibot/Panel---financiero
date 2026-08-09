@@ -458,6 +458,20 @@
       <button type="button" class="link-btn" id="facVerMasBtn" style="margin-top:10px;display:none;"></button>
     </div>
     <div class="card">
+      <h2>Desglose de productos — <span id="itemsProvNombre"></span></h2>
+      <p class="card-note">Cuando cargás una factura individual, la IA separa cada producto/servicio del detalle. Acá se suman por título entre las fechas que elijas, para este proveedor.</p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;">
+        <input type="date" id="itemsFiltroDesde" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:8px;border-radius:6px;font-size:13px;">
+        <input type="date" id="itemsFiltroHasta" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:8px;border-radius:6px;font-size:13px;">
+        <button type="button" class="link-btn" id="itemsFiltroLimpiar">Limpiar filtro</button>
+      </div>
+      <p class="card-note" id="itemsFiltroNota" style="margin-top:6px;"></p>
+      <div class="kpi-grid" id="itemsKpis" style="margin-top:10px;"></div>
+      <div style="overflow-x:auto;margin-top:14px;">
+        <table id="itemsTable"><thead><tr><th>Producto / concepto</th><th style="text-align:right">Cant.</th><th style="text-align:right">Monto</th><th style="text-align:right">Facturas</th><th style="text-align:right">%</th></tr></thead><tbody></tbody></table>
+      </div>
+    </div>
+    <div class="card">
       <h2>Deuda total con proveedores</h2>
       <p class="card-note">Suma de las facturas cargadas y marcadas como pendientes, por proveedor — todas las categorías de esta pestaña.</p>
       <div style="overflow-x:auto;">
@@ -8026,8 +8040,24 @@ renderAutoConclusions();
       '</select></div>';
   }
 
+  function filaItemRevision(it, idx){
+    const inputCss = 'width:100%;box-sizing:border-box;background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:6px;border-radius:5px;font-size:12px;';
+    return '<tr data-item-idx="' + idx + '">' +
+      '<td style="padding:4px 4px 4px 0;"><input type="text" data-item-campo="descripcion" value="' + escapeHtmlProv(it.descripcion!=null?it.descripcion:'') + '" placeholder="Descripción del producto" style="' + inputCss + '"></td>' +
+      '<td style="padding:4px 4px 4px 0;width:64px;"><input type="text" data-item-campo="cantidad" value="' + escapeHtmlProv(it.cantidad!=null?it.cantidad:'') + '" style="' + inputCss + 'text-align:right;"></td>' +
+      '<td style="padding:4px 0;width:92px;"><input type="text" data-item-campo="monto" value="' + escapeHtmlProv(it.monto!=null?it.monto:'') + '" style="' + inputCss + 'text-align:right;"></td>' +
+      '<td style="padding:4px 0 4px 4px;width:22px;"><button type="button" class="link-btn" data-item-del="' + idx + '" title="Quitar">✕</button></td>' +
+    '</tr>';
+  }
+
   function agregarRevision(datos, nombreArchivo){
     const prov = PROVEEDORES.find(p => p.key === provState.prov) || PROVEEDORES[0];
+    let itemsLocal = Array.isArray(datos.items) ? datos.items.map(it => ({
+      descripcion: (it && it.descripcion != null) ? it.descripcion : '',
+      cantidad: (it && it.cantidad != null) ? it.cantidad : '',
+      monto: (it && it.monto != null) ? it.monto
+        : ((it && it.cantidad != null && it.precio_unitario != null) ? (Number(it.cantidad) * Number(it.precio_unitario)) : '')
+    })) : [];
     const div = document.createElement('div');
     div.style.cssText = 'border:1px solid var(--line);border-radius:10px;padding:12px;background:rgba(0,0,0,.18);';
     div.innerHTML =
@@ -8037,16 +8067,62 @@ renderAutoConclusions();
       campoRevision('fecha', 'Fecha de emisión (AAAA-MM-DD)', datos.fecha_emision) +
       campoRevision('vencimiento', 'Fecha de vencimiento (AAAA-MM-DD)', datos.fecha_vencimiento) +
       campoRevision('monto', 'Monto total (siempre positivo)', datos.monto_total != null ? datos.monto_total : '') +
-      (datos.resumen_items ? '<div class="card-note" style="margin-top:4px;">Items detectados: ' + escapeHtmlProv(datos.resumen_items) + '</div>' : '') +
+      '<div style="margin-top:8px;">' +
+        '<label class="card-note" style="display:block;margin-bottom:4px;">Productos/conceptos detectados (editá, agregá o quitá filas — esto alimenta el desglose por título de la pestaña):</label>' +
+        '<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;font-size:12px;"><thead><tr>' +
+          '<th style="text-align:left;padding:0 4px 4px 0;">Descripción</th><th style="text-align:right;padding:0 4px 4px 0;">Cant.</th><th style="text-align:right;padding:0 0 4px 0;">Monto</th><th></th>' +
+        '</tr></thead><tbody data-items-body></tbody></table></div>' +
+        '<button type="button" class="link-btn" data-accion="agregar-item" style="margin-top:4px;">+ Agregar producto</button>' +
+      '</div>' +
       '<div style="display:flex;gap:8px;margin-top:10px;">' +
         '<button type="button" class="toggle-btn" data-accion="guardar" style="flex:1;">Guardar</button>' +
         '<button type="button" class="toggle-btn" data-accion="descartar" style="flex:1;">Descartar</button>' +
       '</div>';
     elFacRevision.appendChild(div);
+
+    const itemsBody = div.querySelector('[data-items-body]');
+    function pintarItems(){
+      itemsBody.innerHTML = itemsLocal.length
+        ? itemsLocal.map((it,idx) => filaItemRevision(it, idx)).join('')
+        : '<tr><td colspan="4" class="card-note" style="padding:4px 0;">Sin productos detectados. Agregalos manualmente si querés que figuren en el desglose.</td></tr>';
+      itemsBody.querySelectorAll('[data-item-del]').forEach(b => {
+        b.addEventListener('click', () => {
+          const i = parseInt(b.getAttribute('data-item-del'),10);
+          itemsLocal.splice(i,1);
+          pintarItems();
+        });
+      });
+      itemsBody.querySelectorAll('[data-item-campo]').forEach(inp => {
+        inp.addEventListener('input', () => {
+          const tr = inp.closest('tr');
+          const idx = parseInt(tr.getAttribute('data-item-idx'),10);
+          const campo = inp.getAttribute('data-item-campo');
+          itemsLocal[idx][campo] = inp.value;
+        });
+      });
+    }
+    pintarItems();
+    div.querySelector('[data-accion="agregar-item"]').addEventListener('click', () => {
+      itemsLocal.push({ descripcion:'', cantidad:'', monto:'' });
+      pintarItems();
+    });
+
     div.querySelector('[data-accion="guardar"]').addEventListener('click', () => {
       const get = (campo) => div.querySelector('[data-campo="' + campo + '"]').value.trim();
       const montoTxt = get('monto');
       const monto = Math.abs(parseFloat(montoTxt.replace(/\./g,'').replace(',', '.')) || parseFloat(montoTxt) || 0) || null;
+      const itemsGuardar = itemsLocal.map(it => {
+        const descripcion = String(it.descripcion||'').trim();
+        const cantTxt = String(it.cantidad!=null?it.cantidad:'').trim();
+        const cantNum = cantTxt !== '' ? parseFloat(cantTxt.replace(',', '.')) : null;
+        const montoTxtIt = String(it.monto!=null?it.monto:'').trim();
+        const montoNum = montoTxtIt !== '' ? (Math.abs(parseFloat(montoTxtIt.replace(/\./g,'').replace(',', '.')) || parseFloat(montoTxtIt) || 0) || null) : null;
+        return {
+          descripcion,
+          cantidad: (cantNum != null && !isNaN(cantNum)) ? cantNum : null,
+          monto: (montoNum != null && !isNaN(montoNum)) ? montoNum : null
+        };
+      }).filter(it => it.descripcion);
       facturas.push({
         id: 'f_' + Date.now() + '_' + Math.random().toString(36).slice(2,7),
         proveedorKey: provState.prov,
@@ -8057,6 +8133,7 @@ renderAutoConclusions();
         monto: monto,
         moneda: datos.moneda || 'ARS',
         estado: 'pendiente',
+        items: itemsGuardar,
         cargadaEl: new Date().toISOString()
       });
       saveFacturas();
@@ -8277,6 +8354,93 @@ renderAutoConclusions();
           saveFacturas(); renderFacturas(); renderResumenDeuda();
         });
       });
+    }
+
+    renderDesgloseItems();
+  }
+
+  const elItemsFiltroDesde = document.getElementById('itemsFiltroDesde');
+  const elItemsFiltroHasta = document.getElementById('itemsFiltroHasta');
+  const elItemsFiltroLimpiar = document.getElementById('itemsFiltroLimpiar');
+  [elItemsFiltroDesde, elItemsFiltroHasta].forEach(el => {
+    if (el) el.addEventListener('input', renderDesgloseItems);
+  });
+  if (elItemsFiltroLimpiar){
+    elItemsFiltroLimpiar.addEventListener('click', () => {
+      if (elItemsFiltroDesde) elItemsFiltroDesde.value = '';
+      if (elItemsFiltroHasta) elItemsFiltroHasta.value = '';
+      renderDesgloseItems();
+    });
+  }
+
+  // Desglose de productos/conceptos: agrupa por título (descripción) todos los items
+  // cargados en facturas individuales de este proveedor, sumando cantidad y monto,
+  // dentro del rango de fechas elegido (por fecha de emisión de cada comprobante).
+  function renderDesgloseItems(){
+    const prov = PROVEEDORES.find(p => p.key === provState.prov) || PROVEEDORES[0];
+    const nombreEl = document.getElementById('itemsProvNombre');
+    if (nombreEl) nombreEl.textContent = prov.label;
+
+    const desdeF = elItemsFiltroDesde ? elItemsFiltroDesde.value : '';
+    const hastaF = elItemsFiltroHasta ? elItemsFiltroHasta.value : '';
+    const desdeInt = desdeF ? fechaAIntProv(desdeF) : null;
+    const hastaInt = hastaF ? fechaAIntProv(hastaF) : null;
+
+    const conItems = facturas.filter(f => f.proveedorKey === prov.key && Array.isArray(f.items) && f.items.length);
+    const enRango = conItems.filter(f => {
+      const fInt = fechaAIntProv(f.fecha);
+      if (desdeInt !== null && (fInt === null || fInt < desdeInt)) return false;
+      if (hastaInt !== null && (fInt === null || fInt > hastaInt)) return false;
+      return true;
+    });
+
+    const notaEl = document.getElementById('itemsFiltroNota');
+    if (notaEl){
+      if (!conItems.length) notaEl.textContent = 'Todavía no hay productos detectados en las facturas cargadas de ' + prov.label + ' (se completa al cargar comprobantes individuales con detalle de items).';
+      else if (desdeF || hastaF) notaEl.textContent = enRango.length + ' de ' + conItems.length + ' comprobante(s) con productos coinciden con el filtro.';
+      else notaEl.textContent = conItems.length + (conItems.length===1 ? ' comprobante con productos detectados.' : ' comprobantes con productos detectados.');
+    }
+
+    const grupos = Object.create(null);
+    let totalGeneral = 0;
+    enRango.forEach(f => {
+      const signo = f.tipo === 'nota_credito' ? -1 : 1;
+      f.items.forEach(it => {
+        const desc = (it.descripcion || 'Sin descripción').trim() || 'Sin descripción';
+        const key = desc.toLowerCase();
+        if (!grupos[key]) grupos[key] = { label: desc, cantidad: 0, tieneCantidad: false, monto: 0, facturas: new Set() };
+        if (it.cantidad != null && !isNaN(it.cantidad)){
+          grupos[key].cantidad += Number(it.cantidad);
+          grupos[key].tieneCantidad = true;
+        }
+        const montoItem = (it.monto != null && !isNaN(it.monto)) ? Number(it.monto) * signo : 0;
+        grupos[key].monto += montoItem;
+        grupos[key].facturas.add(f.id);
+        totalGeneral += montoItem;
+      });
+    });
+
+    const filas = Object.values(grupos).sort((a,b) => Math.abs(b.monto) - Math.abs(a.monto));
+
+    const elKpis = document.getElementById('itemsKpis');
+    if (elKpis){
+      elKpis.innerHTML =
+        kpi('Total facturado (productos)', fmtARS(totalGeneral), enRango.length + (enRango.length===1?' comprobante':' comprobantes')) +
+        kpi('Productos/conceptos distintos', filas.length.toLocaleString('es-AR'));
+    }
+
+    const elTbody = document.querySelector('#itemsTable tbody');
+    if (elTbody){
+      elTbody.innerHTML = filas.length
+        ? filas.map(g => {
+            const pct = totalGeneral !== 0 ? (g.monto / totalGeneral * 100) : 0;
+            return '<tr><td>' + escapeHtmlProv(g.label) + '</td>' +
+              '<td class="num">' + (g.tieneCantidad ? g.cantidad.toLocaleString('es-AR', {maximumFractionDigits:2}) : '—') + '</td>' +
+              '<td class="num">' + fmtARS(g.monto) + '</td>' +
+              '<td class="num">' + g.facturas.size + '</td>' +
+              '<td class="num">' + pct.toFixed(1) + '%</td></tr>';
+          }).join('')
+        : '<tr><td colspan="5" class="card-note">Sin productos para mostrar en este rango.</td></tr>';
     }
   }
 
@@ -8702,10 +8866,12 @@ renderAutoConclusions();
     const promptTexto = 'Sos un asistente que extrae datos de comprobantes argentinos de proveedores: pueden ser facturas, notas de crédito o notas de débito (imagen o PDF). ' +
       'Devolvé SOLO un objeto JSON, sin texto adicional, sin backticks de markdown, con estas claves exactas:\n' +
       '{"tipo_documento": "factura"|"nota_credito"|"nota_debito", "numero_factura": string|null, "fecha_emision": "YYYY-MM-DD"|null, "fecha_vencimiento": "YYYY-MM-DD"|null, ' +
-      '"monto_total": number|null, "moneda": "ARS"|"USD"|null, "proveedor_detectado": string|null, "resumen_items": string|null}\n' +
+      '"monto_total": number|null, "moneda": "ARS"|"USD"|null, "proveedor_detectado": string|null, "resumen_items": string|null, ' +
+      '"items": [{"descripcion": string, "cantidad": number|null, "precio_unitario": number|null, "monto": number|null}]|null}\n' +
       'Para "tipo_documento": fijate en el encabezado del comprobante — "Nota de Crédito" (o "NC") significa que el proveedor te está devolviendo o descontando plata (baja tu deuda); "Nota de Débito" (o "ND") significa que te suma un cargo (sube tu deuda); si no dice nada de eso, es una "factura" común. Si tenés dudas, usá "factura". ' +
       'Si un dato no aparece en el comprobante, usá null. "monto_total" siempre va como número positivo (con punto decimal, sin separador de miles), no un string — el signo (si suma o resta a la deuda) lo determina "tipo_documento", no el número. ' +
-      'Si hay varias fechas, "fecha_emision" es la fecha de emisión del comprobante y "fecha_vencimiento" es la fecha límite de pago si figura (las notas de crédito/débito normalmente no tienen vencimiento).';
+      'Si hay varias fechas, "fecha_emision" es la fecha de emisión del comprobante y "fecha_vencimiento" es la fecha límite de pago si figura (las notas de crédito/débito normalmente no tienen vencimiento). ' +
+      'Además, en "items" desglosá cada producto, servicio o concepto que figure en el detalle/cuerpo del comprobante, uno por línea, en el orden en que aparecen: "descripcion" es el texto tal cual figura (sin inventar ni resumir), "cantidad" y "precio_unitario" si están (si no, null), y "monto" el importe de esa línea siempre como número positivo (si no figura el importe de la línea pero sí cantidad y precio unitario, calculalo multiplicando). Si el comprobante no desglosa productos línea por línea (por ejemplo, es un servicio único sin detalle), devolvé "items" como un array vacío []. No inventes items que no estén escritos en el comprobante.';
     const body = {
       contents: [{
         role: 'user',
