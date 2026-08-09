@@ -1678,6 +1678,13 @@ async function storageSet(key, val){
   try { localStorage.setItem(key, val); ok = true; } catch(e) { /* nada más para intentar */ }
   return ok;
 }
+// Se exponen explícitamente en window: algunos empaquetadores de la app
+// (por ejemplo conversores de HTML a APK/WebView) no comparten el scope
+// entre bloques <script> como haría un navegador normal, y sin esto otras
+// partes del panel (como "Nombres de cuentas y agencia") fallan en
+// silencio con "storageGet/storageSet is not defined".
+window.storageGet = storageGet;
+window.storageSet = storageSet;
 
 /* ---------------- CARGA MANUAL DE MOVIMIENTOS ---------------- */
 // Los movimientos cargados a mano se guardan en window.storage y se mezclan
@@ -9304,6 +9311,15 @@ renderAutoConclusions();
 (function(){
   'use strict';
 
+  // Alias de seguridad: si este bloque <script> no comparte scope global con
+  // el anterior (pasa en algunos empaquetadores WebView/APK), usamos las
+  // funciones colgadas explícitamente de window en vez de las globales "sueltas".
+  var storageGet = null, storageSet = null;
+  try { if (typeof window.storageGet === 'function') storageGet = window.storageGet; } catch(e){}
+  try { if (typeof window.storageSet === 'function') storageSet = window.storageSet; } catch(e){}
+  if (!storageGet) storageGet = async function(){ return null; };
+  if (!storageSet) storageSet = async function(){ return false; };
+
   var K_TABNAMES = 'customTabNames';
   var K_ACCOUNTNAMES = 'customAccountNames';
   var K_PANELORDER = 'customPanelOrder';
@@ -9479,7 +9495,7 @@ renderAutoConclusions();
     gear.id = 'openAccountSettings';
     gear.textContent = '⚙ Nombres de cuentas y agencia';
     gear.className = 'link-btn';
-    gear.style.cssText = 'display:block;margin:-10px 0 14px 0;font-size:12px;';
+    gear.style.cssText = 'display:block;margin:2px 0 14px 0;font-size:12px;';
     if (eyebrow && eyebrow.parentNode) eyebrow.insertAdjacentElement('afterend', gear);
     else wrap.insertBefore(gear, wrap.firstChild);
 
@@ -9507,27 +9523,38 @@ renderAutoConclusions();
           '<button type="button" id="btnSaveAccountNames" class="cargar-submit-btn" style="margin-top:0;">Guardar</button>' +
           '<button type="button" id="btnCancelAccountNames" class="toggle-btn" style="padding:12px 16px;">Cancelar</button>' +
         '</div>' +
+        '<p class="card-note" id="accountSettingsMsg" style="min-height:16px;margin-top:10px;"></p>' +
       '</div>';
     document.body.appendChild(overlay);
 
     gear.addEventListener('click', function(){
-      overlay.querySelector('#inpAgenciaTitulo').value = accountNames.agenciaTitulo || accountNames.agencia || 'Agencia';
-      overlay.querySelector('#inpAgencia').value = accountNames.agencia || 'Agencia';
-      overlay.querySelector('#inpAlquileres').value = accountNames.alquileres || 'Alquileres';
-      overlay.style.display = 'flex';
+      try {
+        overlay.querySelector('#inpAgenciaTitulo').value = accountNames.agenciaTitulo || accountNames.agencia || 'Agencia';
+        overlay.querySelector('#inpAgencia').value = accountNames.agencia || 'Agencia';
+        overlay.querySelector('#inpAlquileres').value = accountNames.alquileres || 'Alquileres';
+        var msg = overlay.querySelector('#accountSettingsMsg');
+        if (msg) msg.textContent = '';
+        overlay.style.display = 'flex';
+      } catch(e){ window.alert('Error al abrir: ' + (e && e.message ? e.message : e)); }
     });
     overlay.addEventListener('click', function(e){ if (e.target === overlay) overlay.style.display = 'none'; });
     overlay.querySelector('#btnCancelAccountNames').addEventListener('click', function(){ overlay.style.display = 'none'; });
     overlay.querySelector('#btnSaveAccountNames').addEventListener('click', function(){
-      var nt = overlay.querySelector('#inpAgenciaTitulo').value.trim();
-      var na = overlay.querySelector('#inpAgencia').value.trim();
-      var nr = overlay.querySelector('#inpAlquileres').value.trim();
-      accountNames.agenciaTitulo = nt || 'Agencia';
-      accountNames.agencia = na || 'Agencia';
-      accountNames.alquileres = nr || 'Alquileres';
-      saveAccountNames();
-      applyAccountNames();
-      overlay.style.display = 'none';
+      var msg = overlay.querySelector('#accountSettingsMsg');
+      try {
+        var nt = overlay.querySelector('#inpAgenciaTitulo').value.trim();
+        var na = overlay.querySelector('#inpAgencia').value.trim();
+        var nr = overlay.querySelector('#inpAlquileres').value.trim();
+        accountNames.agenciaTitulo = nt || 'Agencia';
+        accountNames.agencia = na || 'Agencia';
+        accountNames.alquileres = nr || 'Alquileres';
+        saveAccountNames();
+        applyAccountNames();
+        if (msg) msg.textContent = 'Guardado ✔️ — título: "' + accountNames.agenciaTitulo + '", cuenta 1: "' + accountNames.agencia + '", cuenta 2: "' + accountNames.alquileres + '". Tocá afuera para cerrar y revisar arriba de todo.';
+      } catch(e){
+        if (msg) msg.textContent = 'No se pudo guardar: ' + (e && e.message ? e.message : e);
+        else window.alert('No se pudo guardar: ' + (e && e.message ? e.message : e));
+      }
     });
   }
 
@@ -9585,15 +9612,19 @@ renderAutoConclusions();
   });
 
   /* ---------- Init ---------- */
+  // Cada paso va aislado en su propio try/catch: si algo de pestañas o
+  // reordenar paneles falla, no debe impedir que el botón de "Nombres de
+  // cuentas y agencia" se cree y funcione. Por eso buildSettingsUI() va
+  // primero, antes que nada más pueda romper la cadena.
   async function initCustomization(){
-    await loadAll();
-    buildRenameButton();
-    applyTabNames();
-    buildPanelReorderToggle();
-    initAllPanels();
-    buildSettingsUI();
-    applyAccountNames();
-    relabelObserver.observe(document.body, { childList: true, subtree: true, characterData: true });
+    try { buildSettingsUI(); } catch(e){ console.error('buildSettingsUI', e); }
+    try { await loadAll(); } catch(e){ console.error('loadAll', e); }
+    try { applyAccountNames(); } catch(e){ console.error('applyAccountNames', e); }
+    try { buildRenameButton(); } catch(e){ console.error('buildRenameButton', e); }
+    try { applyTabNames(); } catch(e){ console.error('applyTabNames', e); }
+    try { buildPanelReorderToggle(); } catch(e){ console.error('buildPanelReorderToggle', e); }
+    try { initAllPanels(); } catch(e){ console.error('initAllPanels', e); }
+    try { relabelObserver.observe(document.body, { childList: true, subtree: true, characterData: true }); } catch(e){ console.error('relabelObserver', e); }
   }
 
   if (document.readyState === 'loading'){
