@@ -422,6 +422,24 @@
       <table id="provCompareTable"><thead><tr><th>Proveedor</th><th style="text-align:right">Pagos</th><th style="text-align:right">Total</th></tr></thead><tbody></tbody></table>
       </div>
     </div>
+    <div class="card">
+      <h2>Facturas y deudas — <span id="facProvNombre"></span></h2>
+      <p class="card-note">Subí una foto o un PDF de cada comprobante de este proveedor: factura, nota de crédito o nota de débito. La IA (la misma clave de Gemini configurada en Asistente IA) identifica el tipo de documento, el número, las fechas y el monto — las notas de crédito descuentan de la deuda en vez de sumar. Vos revisás y confirmás antes de que quede guardado.</p>
+      <input type="file" id="facturaFileInput" accept="image/*,application/pdf" multiple style="margin:10px 0;color:var(--cream);">
+      <p class="card-note" id="facturaEstado"></p>
+      <div id="facturaRevision" style="display:flex;flex-direction:column;gap:12px;margin-top:8px;"></div>
+      <div class="kpi-grid" id="facturaKpis" style="margin-top:16px;"></div>
+      <div style="overflow-x:auto;margin-top:14px;">
+        <table id="facturaTable"><thead><tr><th>Fecha</th><th>Vence</th><th>Tipo / N°</th><th style="text-align:right">Monto</th><th>Estado</th><th></th></tr></thead><tbody></tbody></table>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Deuda total con proveedores</h2>
+      <p class="card-note">Suma de las facturas cargadas y marcadas como pendientes, por proveedor — todas las categorías de esta pestaña.</p>
+      <div style="overflow-x:auto;">
+        <table id="facturaResumenTable"><thead><tr><th>Proveedor</th><th style="text-align:right">Deuda pendiente</th><th style="text-align:right">Vencidas</th></tr></thead><tbody></tbody></table>
+      </div>
+    </div>
   </div>
 
   <div class="panel" id="tab-comparar">
@@ -7764,9 +7782,226 @@ renderAutoConclusions();
     document.querySelector('#provCompareTable tbody').innerHTML = comparacion.map(c =>
       '<tr><td>' + c.label + '</td><td class="num">' + c.count + '</td><td class="num neg">' + fmtARS(c.total) + '</td></tr>'
     ).join('');
+
+    renderFacturas();
+    renderResumenDeuda();
+  }
+
+  /* ---- Facturas y deudas por proveedor (subida de facturas + lectura con IA) ---- */
+  const K_FACTURAS = 'facturas-proveedores-v1';
+  let facturas = [];
+
+  function fileToBase64Prov(file){
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const result = reader.result || '';
+        const comma = result.indexOf(',');
+        resolve(comma >= 0 ? result.slice(comma+1) : result);
+      };
+      reader.onerror = () => reject(new Error('No se pudo leer el archivo.'));
+      reader.readAsDataURL(file);
+    });
+  }
+  function hoyIntProv(){
+    const d = new Date();
+    return d.getFullYear()*10000 + (d.getMonth()+1)*100 + d.getDate();
+  }
+  function fechaAIntProv(f){
+    if (!f) return null;
+    const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(f);
+    return m ? (parseInt(m[1],10)*10000 + parseInt(m[2],10)*100 + parseInt(m[3],10)) : null;
+  }
+  // Las notas de crédito descuentan de la deuda; facturas y notas de débito suman.
+  function montoConSigno(f){
+    const m = f.monto || 0;
+    return f.tipo === 'nota_credito' ? -m : m;
+  }
+  function etiquetaTipo(tipo){
+    if (tipo === 'nota_credito') return 'Nota de crédito';
+    if (tipo === 'nota_debito') return 'Nota de débito';
+    return 'Factura';
+  }
+  function escapeHtmlProv(s){
+    return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  async function loadFacturas(){
+    try { const raw = await storageGet(K_FACTURAS); if (raw) facturas = JSON.parse(raw) || []; } catch(e){ facturas = []; }
+    renderFacturas();
+    renderResumenDeuda();
+  }
+  function saveFacturas(){ storageSet(K_FACTURAS, JSON.stringify(facturas)); }
+
+  const elFacInput = document.getElementById('facturaFileInput');
+  const elFacEstado = document.getElementById('facturaEstado');
+  const elFacRevision = document.getElementById('facturaRevision');
+
+  if (elFacInput){
+    elFacInput.addEventListener('change', async () => {
+      const files = Array.from(elFacInput.files || []);
+      elFacInput.value = '';
+      if (!files.length) return;
+      if (typeof window.extraerFacturaConIA !== 'function'){
+        elFacEstado.textContent = 'El módulo de IA todavía no cargó. Recargá la página e intentá de nuevo.';
+        return;
+      }
+      for (const file of files){
+        if (file.size > 15*1024*1024){
+          elFacEstado.textContent = '"' + file.name + '" pesa demasiado (más de 15 MB). Probá con una foto más liviana o un PDF más chico.';
+          continue;
+        }
+        elFacEstado.textContent = 'Analizando "' + file.name + '" con IA...';
+        try {
+          const base64 = await fileToBase64Prov(file);
+          const datos = await window.extraerFacturaConIA(base64, file.type || 'image/jpeg');
+          agregarRevision(datos, file.name);
+          elFacEstado.textContent = '';
+        } catch(err){
+          elFacEstado.textContent = '⚠️ "' + file.name + '": ' + (err && err.message ? err.message : 'no se pudo analizar.');
+        }
+      }
+    });
+  }
+
+  function campoRevision(campo, label, valor){
+    return '<div style="margin-bottom:6px;">' +
+      '<label class="card-note" style="display:block;margin-bottom:3px;">' + label + '</label>' +
+      '<input type="text" data-campo="' + campo + '" value="' + escapeHtmlProv(valor != null ? String(valor) : '') + '" ' +
+      'style="width:100%;box-sizing:border-box;background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:8px;border-radius:6px;font-size:13.5px;">' +
+      '</div>';
+  }
+
+  function campoTipoDocRevision(valorDetectado){
+    const tipo = ['factura','nota_credito','nota_debito'].includes(valorDetectado) ? valorDetectado : 'factura';
+    const opciones = [
+      {v:'factura', t:'Factura (suma a la deuda)'},
+      {v:'nota_credito', t:'Nota de crédito (resta a la deuda)'},
+      {v:'nota_debito', t:'Nota de débito (suma a la deuda)'}
+    ];
+    return '<div style="margin-bottom:6px;">' +
+      '<label class="card-note" style="display:block;margin-bottom:3px;">Tipo de comprobante</label>' +
+      '<select data-campo="tipo" style="width:100%;box-sizing:border-box;background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:8px;border-radius:6px;font-size:13.5px;">' +
+      opciones.map(o => '<option value="' + o.v + '"' + (o.v===tipo?' selected':'') + '>' + o.t + '</option>').join('') +
+      '</select></div>';
+  }
+
+  function agregarRevision(datos, nombreArchivo){
+    const prov = PROVEEDORES.find(p => p.key === provState.prov) || PROVEEDORES[0];
+    const div = document.createElement('div');
+    div.style.cssText = 'border:1px solid var(--line);border-radius:10px;padding:12px;background:rgba(0,0,0,.18);';
+    div.innerHTML =
+      '<div class="card-note" style="margin-bottom:8px;">Revisá los datos que leyó la IA de "' + escapeHtmlProv(nombreArchivo) + '" (proveedor: ' + prov.label + ') y corregí lo que haga falta antes de guardar:</div>' +
+      campoTipoDocRevision(datos.tipo_documento) +
+      campoRevision('numero', 'N° de comprobante', datos.numero_factura) +
+      campoRevision('fecha', 'Fecha de emisión (AAAA-MM-DD)', datos.fecha_emision) +
+      campoRevision('vencimiento', 'Fecha de vencimiento (AAAA-MM-DD)', datos.fecha_vencimiento) +
+      campoRevision('monto', 'Monto total (siempre positivo)', datos.monto_total != null ? datos.monto_total : '') +
+      (datos.resumen_items ? '<div class="card-note" style="margin-top:4px;">Items detectados: ' + escapeHtmlProv(datos.resumen_items) + '</div>' : '') +
+      '<div style="display:flex;gap:8px;margin-top:10px;">' +
+        '<button type="button" class="toggle-btn" data-accion="guardar" style="flex:1;">Guardar</button>' +
+        '<button type="button" class="toggle-btn" data-accion="descartar" style="flex:1;">Descartar</button>' +
+      '</div>';
+    elFacRevision.appendChild(div);
+    div.querySelector('[data-accion="guardar"]').addEventListener('click', () => {
+      const get = (campo) => div.querySelector('[data-campo="' + campo + '"]').value.trim();
+      const montoTxt = get('monto');
+      const monto = Math.abs(parseFloat(montoTxt.replace(/\./g,'').replace(',', '.')) || parseFloat(montoTxt) || 0) || null;
+      facturas.push({
+        id: 'f_' + Date.now() + '_' + Math.random().toString(36).slice(2,7),
+        proveedorKey: provState.prov,
+        tipo: get('tipo') || 'factura',
+        numeroFactura: get('numero') || null,
+        fecha: get('fecha') || null,
+        vencimiento: get('vencimiento') || null,
+        monto: monto,
+        moneda: datos.moneda || 'ARS',
+        estado: 'pendiente',
+        cargadaEl: new Date().toISOString()
+      });
+      saveFacturas();
+      renderFacturas();
+      renderResumenDeuda();
+      div.remove();
+    });
+    div.querySelector('[data-accion="descartar"]').addEventListener('click', () => div.remove());
+  }
+
+  function renderFacturas(){
+    const prov = PROVEEDORES.find(p => p.key === provState.prov) || PROVEEDORES[0];
+    const nombreEl = document.getElementById('facProvNombre');
+    if (nombreEl) nombreEl.textContent = prov.label;
+    const propias = facturas.filter(f => f.proveedorKey === prov.key)
+      .sort((a,b) => (b.fecha||'').localeCompare(a.fecha||''));
+
+    const hoy = hoyIntProv();
+    const pendientes = propias.filter(f => f.estado === 'pendiente');
+    const deudaTotal = pendientes.reduce((s,f)=> s + montoConSigno(f), 0);
+    const vencidas = pendientes.filter(f => { const v = fechaAIntProv(f.vencimiento); return v !== null && v < hoy; });
+    const proximaVencer = pendientes
+      .filter(f => { const v = fechaAIntProv(f.vencimiento); return v !== null && v >= hoy; })
+      .sort((a,b) => fechaAIntProv(a.vencimiento) - fechaAIntProv(b.vencimiento))[0];
+
+    const elKpis = document.getElementById('facturaKpis');
+    if (elKpis){
+      elKpis.innerHTML =
+        kpi('Deuda pendiente', fmtARS(deudaTotal), pendientes.length + (pendientes.length===1?' comprobante':' comprobantes'), deudaTotal>0?'neg':(deudaTotal<0?'pos':'')) +
+        kpi('Facturas vencidas', vencidas.length.toLocaleString('es-AR'), vencidas.length ? fmtARS(vencidas.reduce((s,f)=>s+montoConSigno(f),0)) : '', vencidas.length?'neg':'') +
+        kpi('Próxima a vencer', proximaVencer ? fmtFechaCorta(fechaAIntProv(proximaVencer.vencimiento)) : '—', proximaVencer ? fmtARS(proximaVencer.monto||0) : '') +
+        kpi('Comprobantes cargados', propias.length.toLocaleString('es-AR'));
+    }
+
+    const elTbody = document.querySelector('#facturaTable tbody');
+    if (elTbody){
+      elTbody.innerHTML = propias.length
+        ? propias.map(f => {
+            const vInt = fechaAIntProv(f.vencimiento);
+            const vencidaCls = (f.estado==='pendiente' && vInt!==null && vInt<hoy) ? ' class="neg"' : '';
+            const esCredito = f.tipo === 'nota_credito';
+            return '<tr>' +
+              '<td>' + (f.fecha ? fmtFechaCorta(fechaAIntProv(f.fecha)) : '—') + '</td>' +
+              '<td' + vencidaCls + '>' + (f.vencimiento ? fmtFechaCorta(vInt) : '—') + '</td>' +
+              '<td>' + etiquetaTipo(f.tipo) + (f.numeroFactura ? ' · ' + escapeHtmlProv(f.numeroFactura) : '') + '</td>' +
+              '<td class="num ' + (esCredito ? 'pos' : '') + '">' + (esCredito ? '−' : '') + fmtARS(f.monto||0) + '</td>' +
+              '<td>' + (f.estado==='pendiente' ? 'Pendiente' : 'Pagada') +
+                ' <button type="button" class="link-btn" data-fac-toggle="' + f.id + '">cambiar</button></td>' +
+              '<td><button type="button" class="link-btn" data-fac-del="' + f.id + '">Eliminar</button></td>' +
+            '</tr>';
+          }).join('')
+        : '<tr><td colspan="6" class="card-note">Todavía no cargaste comprobantes de ' + prov.label + '.</td></tr>';
+
+      elTbody.querySelectorAll('[data-fac-toggle]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const f = facturas.find(x => x.id === btn.getAttribute('data-fac-toggle'));
+          if (f){ f.estado = f.estado === 'pendiente' ? 'pagada' : 'pendiente'; saveFacturas(); renderFacturas(); renderResumenDeuda(); }
+        });
+      });
+      elTbody.querySelectorAll('[data-fac-del]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          facturas = facturas.filter(x => x.id !== btn.getAttribute('data-fac-del'));
+          saveFacturas(); renderFacturas(); renderResumenDeuda();
+        });
+      });
+    }
+  }
+
+  function renderResumenDeuda(){
+    const hoy = hoyIntProv();
+    const elTbody = document.querySelector('#facturaResumenTable tbody');
+    if (!elTbody) return;
+    const filas = PROVEEDORES.map(p => {
+      const pend = facturas.filter(f => f.proveedorKey === p.key && f.estado === 'pendiente');
+      const total = pend.reduce((s,f)=>s+montoConSigno(f),0);
+      const venc = pend.filter(f => { const v = fechaAIntProv(f.vencimiento); return v!==null && v<hoy; }).length;
+      return { label: p.label, total, venc };
+    }).sort((a,b)=>b.total-a.total);
+    elTbody.innerHTML = filas.map(f =>
+      '<tr><td>' + f.label + '</td><td class="num ' + (f.total>0?'neg':(f.total<0?'pos':'')) + '">' + fmtARS(f.total) + '</td><td class="num' + (f.venc?' neg':'') + '">' + f.venc + '</td></tr>'
+    ).join('');
   }
 
   renderProveedores();
+  loadFacturas();
 })();
 
 /* ---------------- ASISTENTE IA (Gemini gratis) ---------------- */
@@ -8163,6 +8398,50 @@ renderAutoConclusions();
     }
     return resp.json();
   }
+
+  // Usada por la pestaña Proveedores para leer facturas (foto o PDF) con la misma
+  // clave/modelo ya configurados acá. Devuelve un objeto con los campos detectados;
+  // el usuario siempre revisa/corrige antes de guardar nada.
+  window.extraerFacturaConIA = async function(base64Data, mimeType){
+    if (!iaApiKey) throw new Error('Primero configurá tu clave de API de Gemini en la pestaña Asistente IA.');
+    const promptTexto = 'Sos un asistente que extrae datos de comprobantes argentinos de proveedores: pueden ser facturas, notas de crédito o notas de débito (imagen o PDF). ' +
+      'Devolvé SOLO un objeto JSON, sin texto adicional, sin backticks de markdown, con estas claves exactas:\n' +
+      '{"tipo_documento": "factura"|"nota_credito"|"nota_debito", "numero_factura": string|null, "fecha_emision": "YYYY-MM-DD"|null, "fecha_vencimiento": "YYYY-MM-DD"|null, ' +
+      '"monto_total": number|null, "moneda": "ARS"|"USD"|null, "proveedor_detectado": string|null, "resumen_items": string|null}\n' +
+      'Para "tipo_documento": fijate en el encabezado del comprobante — "Nota de Crédito" (o "NC") significa que el proveedor te está devolviendo o descontando plata (baja tu deuda); "Nota de Débito" (o "ND") significa que te suma un cargo (sube tu deuda); si no dice nada de eso, es una "factura" común. Si tenés dudas, usá "factura". ' +
+      'Si un dato no aparece en el comprobante, usá null. "monto_total" siempre va como número positivo (con punto decimal, sin separador de miles), no un string — el signo (si suma o resta a la deuda) lo determina "tipo_documento", no el número. ' +
+      'Si hay varias fechas, "fecha_emision" es la fecha de emisión del comprobante y "fecha_vencimiento" es la fecha límite de pago si figura (las notas de crédito/débito normalmente no tienen vencimiento).';
+    const body = {
+      contents: [{
+        role: 'user',
+        parts: [
+          { text: promptTexto },
+          { inline_data: { mime_type: mimeType, data: base64Data } }
+        ]
+      }]
+    };
+    const url = 'https://generativelanguage.googleapis.com/v1beta/models/' + IA_MODEL + ':generateContent?key=' + encodeURIComponent(iaApiKey);
+    let resp;
+    try {
+      resp = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+    } catch(e){
+      throw new Error('No se pudo conectar con Gemini. Revisá tu conexión a internet.');
+    }
+    if (!resp.ok){
+      let detalle = '';
+      try { const j = await resp.json(); detalle = (j && j.error && j.error.message) || ''; } catch(e){}
+      throw new Error('Error de Gemini (' + resp.status + '). ' + (detalle || 'Sin más detalle.'));
+    }
+    const data = await resp.json();
+    const candidate = data && data.candidates && data.candidates[0];
+    const parts = (candidate && candidate.content && candidate.content.parts) || [];
+    let texto = parts.map(p => p.text || '').join('').trim();
+    texto = texto.replace(/^```json/i,'').replace(/^```/,'').replace(/```$/,'').trim();
+    let parsed;
+    try { parsed = JSON.parse(texto); } catch(e){ throw new Error('La IA no devolvió un JSON válido. Probá subir la foto de nuevo, más nítida o con mejor luz.'); }
+    return parsed;
+  };
+
 
   async function llamarGemini(pregunta){
     await refrescarDatosVivo();
