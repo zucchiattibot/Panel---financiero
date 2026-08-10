@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 3,
-  "exportadoEl": "2026-08-10T11:45:38.842Z",
+  "exportadoEl": "2026-08-10T12:10:50.415Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -570,6 +570,14 @@
       "category": "Sueldo",
       "account": "alquileres",
       "detalle": "Panadería"
+    },
+    {
+      "date": "2026-08-10",
+      "type": "ingreso",
+      "amount": 55800,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "transferencia"
     }
   ],
   "categoriasCustom": [
@@ -4965,6 +4973,150 @@
       "moneda": "ARS",
       "estado": "pendiente",
       "cargadaEl": "2026-08-10T11:36:22.441Z"
+    },
+    {
+      "id": "f_1786363537236_0_mnslc",
+      "proveedorKey": "silmar",
+      "tipo": "factura",
+      "numeroFactura": "00004-00016608",
+      "fecha": "2026-07-03",
+      "vencimiento": "2026-07-13",
+      "monto": 322657.1,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T12:05:37.236Z"
+    },
+    {
+      "id": "f_1786363537244_1_civy0",
+      "proveedorKey": "silmar",
+      "tipo": "nota_credito",
+      "numeroFactura": "00004-00009492",
+      "fecha": "2026-07-06",
+      "vencimiento": "2026-07-16",
+      "monto": 114417,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T12:05:37.244Z"
+    },
+    {
+      "id": "f_1786363537244_2_3x7fb",
+      "proveedorKey": "silmar",
+      "tipo": "factura",
+      "numeroFactura": "00004-00016633",
+      "fecha": "2026-07-06",
+      "vencimiento": "2026-07-16",
+      "monto": 250603,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T12:05:37.244Z"
+    },
+    {
+      "id": "f_1786363537244_3_ixces",
+      "proveedorKey": "silmar",
+      "tipo": "factura",
+      "numeroFactura": "00004-00016658",
+      "fecha": "2026-07-10",
+      "vencimiento": "2026-07-20",
+      "monto": 59060,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T12:05:37.244Z"
+    },
+    {
+      "id": "f_1786363537245_4_st0wi",
+      "proveedorKey": "silmar",
+      "tipo": "factura",
+      "numeroFactura": "00004-00016700",
+      "fecha": "2026-07-17",
+      "vencimiento": "2026-07-27",
+      "monto": 1261352.5,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T12:05:37.245Z"
+    },
+    {
+      "id": "f_1786363537245_5_k44lc",
+      "proveedorKey": "silmar",
+      "tipo": "nota_credito",
+      "numeroFactura": "00004-00009550",
+      "fecha": "2026-07-20",
+      "vencimiento": "2026-07-30",
+      "monto": 80244,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T12:05:37.245Z"
+    },
+    {
+      "id": "f_1786363537245_6_l96ui",
+      "proveedorKey": "silmar",
+      "tipo": "factura",
+      "numeroFactura": "00004-00016721",
+      "fecha": "2026-07-20",
+      "vencimiento": "2026-07-30",
+      "monto": 8925,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T12:05:37.245Z"
+    },
+    {
+      "id": "f_1786363537245_7_r5ipp",
+      "proveedorKey": "silmar",
+      "tipo": "factura",
+      "numeroFactura": "00004-00016745",
+      "fecha": "2026-07-24",
+      "vencimiento": "2026-08-03",
+      "monto": 924984.4,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T12:05:37.245Z"
+    },
+    {
+      "id": "f_1786363537245_8_3iguc",
+      "proveedorKey": "silmar",
+      "tipo": "nota_credito",
+      "numeroFactura": "00004-00009577",
+      "fecha": "2026-07-27",
+      "vencimiento": "2026-08-06",
+      "monto": 130529,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T12:05:37.245Z"
+    },
+    {
+      "id": "f_1786363537245_9_dz4j3",
+      "proveedorKey": "silmar",
+      "tipo": "factura",
+      "numeroFactura": "00004-00016770",
+      "fecha": "2026-07-27",
+      "vencimiento": "2026-08-06",
+      "monto": 48725,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T12:05:37.245Z"
+    },
+    {
+      "id": "f_1786363537245_10_zlhqw",
+      "proveedorKey": "silmar",
+      "tipo": "factura",
+      "numeroFactura": "00004-00016794",
+      "fecha": "2026-07-31",
+      "vencimiento": "2026-08-10",
+      "monto": 965926,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T12:05:37.245Z"
+    },
+    {
+      "id": "f_1786363537245_12_slbka",
+      "proveedorKey": "silmar",
+      "tipo": "factura",
+      "numeroFactura": "00004-00016815",
+      "fecha": "2026-08-03",
+      "vencimiento": "2026-08-13",
+      "monto": 8925,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T12:05:37.245Z"
     }
   ]
 }
