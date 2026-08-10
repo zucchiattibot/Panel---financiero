@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 3,
-  "exportadoEl": "2026-08-10T14:50:42.705Z",
+  "exportadoEl": "2026-08-10T18:58:58.531Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -602,6 +602,14 @@
       "category": "El oeste",
       "account": "agencia",
       "detalle": "El oeste"
+    },
+    {
+      "date": "2026-08-10",
+      "type": "egreso",
+      "amount": 28000,
+      "category": "Vehiculo",
+      "account": "alquileres",
+      "detalle": "Lavado auto"
     }
   ],
   "categoriasCustom": [
