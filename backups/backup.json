@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 3,
-  "exportadoEl": "2026-08-10T19:36:59.606Z",
+  "exportadoEl": "2026-08-10T19:37:32.704Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -618,6 +618,14 @@
       "category": "Edificación",
       "account": "alquileres",
       "detalle": "Pintura casa cuota 1"
+    },
+    {
+      "date": "2026-10-10",
+      "type": "egreso",
+      "amount": 62850,
+      "category": "Edificación",
+      "account": "alquileres",
+      "detalle": "Pintura casa cuota 2"
     }
   ],
   "categoriasCustom": [
