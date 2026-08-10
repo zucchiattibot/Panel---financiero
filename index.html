@@ -39,6 +39,15 @@
   .tab-btn[data-tab].tab-hide-marked{opacity:.45;text-decoration:line-through;border-style:dashed;}
 
   .panel{display:none;} .panel.active{display:block;}
+  .fc-view{display:none;} .fc-view.active{display:block;}
+  #fcFacturaContenido table{width:100%;border-collapse:collapse;font-size:13px;}
+  #fcFacturaContenido th{text-align:left;font-size:10px;text-transform:uppercase;color:#5c574a;padding:0 6px 7px 0;border-bottom:1px solid #1a2a1f;font-weight:700;}
+  #fcFacturaContenido td{padding:7px 6px;border-bottom:1px solid rgba(0,0,0,.08);}
+  #fcFacturaContenido td.num{text-align:right;font-variant-numeric:tabular-nums;}
+  #fcFacturaContenido .fc-totalrow td{border-top:2px solid #1a2a1f;border-bottom:none;font-weight:900;font-size:15px;padding-top:10px;}
+  #fcFacturaContenido .fc-ihead{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2px solid #1a2a1f;padding-bottom:10px;margin-bottom:12px;}
+  #fcFacturaContenido .fc-ihead h3{margin:0;font-size:19px;font-weight:900;}
+  #fcFacturaContenido .fc-iclient{font-size:13.5px;margin-bottom:12px;line-height:1.6;}
   .alqsub-panel{display:none;} .alqsub-panel.active{display:block;}
   .card{background:linear-gradient(180deg, var(--bg-2), var(--bg-1));border:1px solid var(--line);border-radius:18px;padding:20px 18px;margin-bottom:14px;}
   h2{font-family:Georgia,serif;font-weight:700;font-size:18px;margin:0 0 2px 0;}
@@ -174,6 +183,7 @@
     <button class="tab-btn" data-tab="estadisticas-alquileres">Estadísticas Alquileres</button>
     <button class="tab-btn" data-tab="cargar">Cargar datos</button>
     <button class="tab-btn" data-tab="ia">🤖 Asistente IA</button>
+    <button class="tab-btn" data-tab="clientes">📰 Clientes reparto</button>
   </div>
   <button type="button" class="tabs-reorder-toggle" id="tabsReorderToggle">↕ Reordenar pestañas</button>
   <button type="button" class="tabs-reorder-toggle" id="tabsHideToggle">👁 Ocultar pestañas</button>
@@ -1594,6 +1604,141 @@
       <p class="card-note" id="iaEstado" style="min-height:14px;margin-top:8px;margin-bottom:0;"></p>
 
       <div id="iaConversacion" style="display:flex;flex-direction:column;gap:10px;margin-top:14px;"></div>
+    </div>
+  </div>
+
+  <div class="panel" id="tab-clientes">
+    <div class="card">
+      <p class="eyebrow">Reparto de diarios y revistas</p>
+      <h2 id="fcNombreReparto">Clientes</h2>
+      <p class="card-note">Cargá clientes, lo que lleva cada uno, suspensiones y extras. Liquidá por período y generá una factura para mandar por WhatsApp. Todo separado de las cuentas Agencia / Alquileres — es su propio negocio.</p>
+      <div class="toggle-row" id="fcNav">
+        <button type="button" class="toggle-btn active" data-fcview="lista">Clientes</button>
+        <button type="button" class="toggle-btn" data-fcview="nuevo">+ Nuevo cliente</button>
+        <button type="button" class="toggle-btn" data-fcview="liquidacion">Liquidación &amp; Factura</button>
+        <button type="button" class="toggle-btn" data-fcview="config">Configuración</button>
+      </div>
+    </div>
+
+    <!-- LISTA DE CLIENTES -->
+    <div class="fc-view active" data-fcview="lista">
+      <div class="card">
+        <h2>Tus clientes</h2>
+        <input type="text" id="fcBuscar" placeholder="Buscar cliente..." style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;width:100%;box-sizing:border-box;margin-bottom:12px;">
+        <div id="fcListaClientes"></div>
+      </div>
+    </div>
+
+    <!-- NUEVO / EDITAR CLIENTE -->
+    <div class="fc-view" data-fcview="nuevo">
+      <div class="card">
+        <h2 id="fcFormTitulo">Nuevo cliente</h2>
+        <p class="card-note">Cargá qué lleva este cliente. Podés dejarlo simple (solo diario) o sumarle revistas.</p>
+        <input type="hidden" id="fcClienteId">
+        <div class="range-group">
+          <div class="range-label">Nombre</div>
+          <input type="text" id="fcNombre" placeholder="Ej: Kiosco Don Pedro" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;width:100%;box-sizing:border-box;">
+        </div>
+        <div class="cargar-grid-2">
+          <div class="range-group">
+            <div class="range-label">Teléfono (WhatsApp)</div>
+            <input type="tel" id="fcTelefono" placeholder="549..." style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;width:100%;box-sizing:border-box;">
+          </div>
+          <div class="range-group">
+            <div class="range-label">Dirección</div>
+            <input type="text" id="fcDireccion" placeholder="Opcional" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;width:100%;box-sizing:border-box;">
+          </div>
+        </div>
+
+        <div class="range-group">
+          <div class="range-label">¿Lleva el diario?</div>
+          <button type="button" class="toggle-btn" id="fcToggleDiario">Sí, lleva diario</button>
+        </div>
+        <div id="fcDiasDiarioWrap" style="display:none;" class="range-group">
+          <div class="range-label">Días que lleva el diario</div>
+          <div class="toggle-row" id="fcDiasDiarioChips"></div>
+        </div>
+
+        <div class="range-group">
+          <div class="range-label">Revistas / publicaciones periódicas</div>
+          <div id="fcRevistasList" style="display:flex;flex-direction:column;gap:6px;margin-bottom:8px;"></div>
+          <div class="cargar-grid-2">
+            <input type="text" id="fcRevNombre" placeholder="Nombre revista" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;">
+            <input type="number" id="fcRevPrecio" placeholder="Precio" min="0" step="0.01" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;">
+          </div>
+          <div class="cargar-grid-2" style="margin-top:8px;">
+            <select id="fcRevFrecuencia" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;color-scheme:dark;">
+              <option value="semanal">Semanal</option>
+              <option value="quincenal">Quincenal</option>
+              <option value="mensual">Mensual</option>
+            </select>
+            <select id="fcRevDia" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;color-scheme:dark;"></select>
+          </div>
+          <button type="button" class="tab-btn" id="fcBtnAgregarRevista" style="border-radius:8px;margin-top:10px;">+ Agregar revista</button>
+        </div>
+
+        <button type="button" class="cargar-submit-btn" id="fcBtnGuardarCliente">Guardar cliente</button>
+        <button type="button" class="tab-btn" id="fcBtnCancelarCliente" style="width:100%;margin-top:8px;border-radius:8px;">Cancelar</button>
+        <p class="card-note" id="fcClienteMsg" style="min-height:14px;margin-top:8px;"></p>
+      </div>
+    </div>
+
+    <!-- LIQUIDACION / FACTURA -->
+    <div class="fc-view" data-fcview="liquidacion">
+      <div class="card">
+        <h2>Liquidación</h2>
+        <p class="card-note">Elegí cliente y período. Se calcula solo según lo que lleva cada día, restando los días suspendidos, más extras del período.</p>
+        <div class="range-group">
+          <div class="range-label">Cliente</div>
+          <select id="fcLiqCliente" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;width:100%;color-scheme:dark;"></select>
+        </div>
+        <div class="range-group">
+          <div class="range-label">Período</div>
+          <input type="month" id="fcLiqPeriodo" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;width:100%;color-scheme:dark;">
+        </div>
+        <button type="button" class="cargar-submit-btn" id="fcBtnCalcular">Calcular liquidación</button>
+      </div>
+
+      <div class="card">
+        <h2>Agregar un extra</h2>
+        <p class="card-note">Para clientes que llevan algo aparte de lo mensual (un ejemplar suelto, un pedido puntual).</p>
+        <div class="cargar-grid-2">
+          <input type="date" id="fcExtraFecha" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;color-scheme:dark;">
+          <input type="number" id="fcExtraMonto" placeholder="Monto" min="0" step="0.01" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;">
+        </div>
+        <input type="text" id="fcExtraDesc" placeholder="Descripción (ej: Revista extra 15/08)" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;width:100%;box-sizing:border-box;margin-top:8px;">
+        <button type="button" class="tab-btn" id="fcBtnAgregarExtra" style="border-radius:8px;margin-top:10px;">+ Agregar extra al período</button>
+      </div>
+
+      <div class="card" id="fcResultadoCard" style="display:none;">
+        <h2>Detalle</h2>
+        <table id="fcTablaDetalle"><thead><tr><th>Concepto</th><th style="text-align:right">Cant.</th><th style="text-align:right">Subtotal</th></tr></thead><tbody></tbody></table>
+        <button type="button" class="cargar-submit-btn" id="fcBtnGenerarFactura" style="margin-top:14px;">Generar factura</button>
+      </div>
+
+      <div class="card" id="fcFacturaCard" style="display:none;">
+        <div id="fcFacturaContenido" style="background:var(--cream);color:#1a2a1f;border-radius:12px;padding:18px 16px;font-family:Georgia,serif;"></div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;">
+          <button type="button" class="cargar-submit-btn" id="fcBtnCompartirWA" style="background:var(--green-pos);width:auto;padding:12px 18px;">Compartir por WhatsApp</button>
+          <button type="button" class="tab-btn" id="fcBtnCopiarTexto" style="border-radius:8px;">Copiar texto</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONFIG -->
+    <div class="fc-view" data-fcview="config">
+      <div class="card">
+        <h2>Nombre del reparto</h2>
+        <input type="text" id="fcCfgNombre" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;width:100%;box-sizing:border-box;">
+        <button type="button" class="tab-btn" id="fcBtnGuardarNombre" style="border-radius:8px;margin-top:10px;">Guardar</button>
+      </div>
+      <div class="card">
+        <h2>Precio del diario por día</h2>
+        <p class="card-note">El diario suele tener precio distinto cada día (domingo más caro, etc). Se usa para todos los clientes que llevan diario.</p>
+        <div id="fcPreciosDiarios" style="display:flex;flex-direction:column;gap:8px;"></div>
+        <button type="button" class="tab-btn" id="fcBtnGuardarPrecios" style="border-radius:8px;margin-top:10px;">Guardar precios</button>
+        <p class="card-note" id="fcPreciosMsg" style="min-height:14px;margin-top:8px;"></p>
+      </div>
     </div>
   </div>
 
@@ -9793,6 +9938,434 @@ renderAutoConclusions();
   } else {
     initCustomization();
   }
+})();
+</script>
+
+<script>
+/* =================================================================
+   MÓDULO "CLIENTES REPARTO": facturación de diarios y revistas.
+   Vive en su propia pestaña, con su propia clave de storage
+   (fc_reparto_v1), separado de los datos de Agencia/Alquileres.
+   Reutiliza storageGet/storageSet ya definidos más arriba (window.*).
+   ================================================================= */
+(function(){
+"use strict";
+var DIAS = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+var DIAS_CORTO = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
+var FC_KEY = 'fc_reparto_v1';
+
+var fc = {
+  nombreReparto: 'Clientes',
+  preciosDiario: [800,700,700,700,700,700,900],
+  clientes: [],
+  extras: []
+};
+var fcEditingId = null;
+var fcUltimaLiquidacion = null;
+var fcLlevaDiario = false;
+var fcDiasDiario = [];
+var fcRevistas = [];
+
+function fcUid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,8); }
+function fcFmt(n){ return '$'+(Math.round(n*100)/100).toLocaleString('es-AR',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+function fcHoy(){ return new Date().toISOString().slice(0,10); }
+function fcEsc(s){ var d=document.createElement('div'); d.textContent = s==null?'':s; return d.innerHTML; }
+
+async function fcLoad(){
+  try{
+    var sg = window.storageGet;
+    if (typeof sg === 'function'){
+      var raw = await sg(FC_KEY);
+      if (raw) fc = Object.assign(fc, JSON.parse(raw));
+    }
+  }catch(e){ console.error('fcLoad', e); }
+}
+async function fcSave(){
+  try{
+    var ss = window.storageSet;
+    if (typeof ss === 'function') await ss(FC_KEY, JSON.stringify(fc));
+  }catch(e){ console.error('fcSave', e); }
+}
+
+/* ---------- Navegación interna de la pestaña ---------- */
+function fcIrAVista(v){
+  document.querySelectorAll('#fcNav .toggle-btn').forEach(function(b){ b.classList.toggle('active', b.dataset.fcview===v); });
+  document.querySelectorAll('.fc-view').forEach(function(vv){ vv.classList.toggle('active', vv.dataset.fcview===v); });
+}
+document.querySelectorAll('#fcNav .toggle-btn').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    fcIrAVista(btn.dataset.fcview);
+    if (btn.dataset.fcview==='lista') fcRenderLista();
+    if (btn.dataset.fcview==='liquidacion') fcRenderSelectLiq();
+    if (btn.dataset.fcview==='nuevo' && !fcEditingId) fcResetForm();
+  });
+});
+
+/* ---------- Formulario cliente ---------- */
+function fcBuildDiasChips(){
+  var wrap = document.getElementById('fcDiasDiarioChips');
+  wrap.innerHTML='';
+  for (var i=0;i<7;i++){
+    (function(idx){
+      var chip = document.createElement('button');
+      chip.type='button';
+      chip.className = 'toggle-btn'+(fcDiasDiario.indexOf(idx)>-1?' active':'');
+      chip.textContent = DIAS_CORTO[idx];
+      chip.addEventListener('click', function(){
+        var pos = fcDiasDiario.indexOf(idx);
+        if (pos>-1) fcDiasDiario.splice(pos,1); else fcDiasDiario.push(idx);
+        fcBuildDiasChips();
+      });
+      wrap.appendChild(chip);
+    })(i);
+  }
+}
+function fcBuildRevDiaSelect(){
+  var sel = document.getElementById('fcRevDia');
+  sel.innerHTML='';
+  DIAS.forEach(function(d,i){ var o=document.createElement('option'); o.value=i; o.textContent=d; sel.appendChild(o); });
+}
+fcBuildRevDiaSelect();
+
+document.getElementById('fcToggleDiario').addEventListener('click', function(){
+  fcLlevaDiario = !fcLlevaDiario;
+  this.classList.toggle('active', fcLlevaDiario);
+  this.textContent = fcLlevaDiario ? '✔ Lleva diario' : 'Sí, lleva diario';
+  document.getElementById('fcDiasDiarioWrap').style.display = fcLlevaDiario ? 'block' : 'none';
+  if (fcLlevaDiario && fcDiasDiario.length===0){ fcDiasDiario=[1,2,3,4,5,6,0]; fcBuildDiasChips(); }
+});
+
+function fcRenderRevistasForm(){
+  var wrap = document.getElementById('fcRevistasList');
+  if (fcRevistas.length===0){ wrap.innerHTML=''; return; }
+  wrap.innerHTML = fcRevistas.map(function(r,i){
+    return '<div style="display:flex;align-items:center;gap:8px;background:rgba(0,0,0,.18);border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:12.5px;">'+
+      '<div style="flex:1;"><b>'+fcEsc(r.nombre)+'</b> — '+fcFmt(r.precio)+' · '+r.frecuencia+' · '+DIAS[r.dia]+'</div>'+
+      '<button type="button" data-idx="'+i+'" class="fcQuitarRev" style="background:none;border:none;color:var(--red-neg);cursor:pointer;font-size:15px;font-weight:900;">✕</button></div>';
+  }).join('');
+  wrap.querySelectorAll('.fcQuitarRev').forEach(function(b){
+    b.addEventListener('click', function(){ fcRevistas.splice(parseInt(b.dataset.idx),1); fcRenderRevistasForm(); });
+  });
+}
+document.getElementById('fcBtnAgregarRevista').addEventListener('click', function(){
+  var nombre = document.getElementById('fcRevNombre').value.trim();
+  var precio = parseFloat(document.getElementById('fcRevPrecio').value);
+  var frecuencia = document.getElementById('fcRevFrecuencia').value;
+  var dia = parseInt(document.getElementById('fcRevDia').value);
+  if (!nombre || isNaN(precio)) return;
+  fcRevistas.push({id:fcUid(),nombre:nombre,precio:precio,frecuencia:frecuencia,dia:dia});
+  document.getElementById('fcRevNombre').value='';
+  document.getElementById('fcRevPrecio').value='';
+  fcRenderRevistasForm();
+});
+
+function fcResetForm(){
+  fcEditingId = null;
+  document.getElementById('fcFormTitulo').textContent = 'Nuevo cliente';
+  document.getElementById('fcClienteId').value='';
+  document.getElementById('fcNombre').value='';
+  document.getElementById('fcTelefono').value='';
+  document.getElementById('fcDireccion').value='';
+  fcLlevaDiario = false; fcDiasDiario = []; fcRevistas = [];
+  var tgl = document.getElementById('fcToggleDiario');
+  tgl.classList.remove('active'); tgl.textContent='Sí, lleva diario';
+  document.getElementById('fcDiasDiarioWrap').style.display='none';
+  fcRenderRevistasForm();
+  document.getElementById('fcClienteMsg').textContent='';
+}
+function fcCargarClienteEnForm(c){
+  fcEditingId = c.id;
+  document.getElementById('fcFormTitulo').textContent = 'Editar cliente';
+  document.getElementById('fcClienteId').value=c.id;
+  document.getElementById('fcNombre').value=c.nombre;
+  document.getElementById('fcTelefono').value=c.telefono||'';
+  document.getElementById('fcDireccion').value=c.direccion||'';
+  fcLlevaDiario = !!c.llevaDiario;
+  fcDiasDiario = (c.diasDiario||[]).slice();
+  fcRevistas = (c.revistas||[]).map(function(r){ return Object.assign({},r); });
+  var tgl = document.getElementById('fcToggleDiario');
+  tgl.classList.toggle('active', fcLlevaDiario);
+  tgl.textContent = fcLlevaDiario ? '✔ Lleva diario' : 'Sí, lleva diario';
+  document.getElementById('fcDiasDiarioWrap').style.display = fcLlevaDiario ? 'block':'none';
+  fcBuildDiasChips();
+  fcRenderRevistasForm();
+  fcIrAVista('nuevo');
+}
+document.getElementById('fcBtnGuardarCliente').addEventListener('click', async function(){
+  var nombre = document.getElementById('fcNombre').value.trim();
+  var msg = document.getElementById('fcClienteMsg');
+  if (!nombre){ msg.style.color='var(--red-neg)'; msg.textContent='Falta el nombre del cliente.'; return; }
+  var data = {
+    id: fcEditingId || fcUid(),
+    nombre: nombre,
+    telefono: document.getElementById('fcTelefono').value.trim(),
+    direccion: document.getElementById('fcDireccion').value.trim(),
+    llevaDiario: fcLlevaDiario,
+    diasDiario: fcDiasDiario.slice(),
+    revistas: fcRevistas.map(function(r){return Object.assign({},r);}),
+    suspensiones: []
+  };
+  if (fcEditingId){
+    var idx = fc.clientes.findIndex(function(c){return c.id===fcEditingId;});
+    data.suspensiones = fc.clientes[idx].suspensiones || [];
+    fc.clientes[idx] = data;
+  } else { fc.clientes.push(data); }
+  await fcSave();
+  msg.style.color='var(--green-pos)'; msg.textContent='Cliente guardado ✔️';
+  setTimeout(function(){ fcResetForm(); fcIrAVista('lista'); fcRenderLista(); }, 500);
+});
+document.getElementById('fcBtnCancelarCliente').addEventListener('click', function(){ fcResetForm(); fcIrAVista('lista'); fcRenderLista(); });
+
+/* ---------- Lista de clientes ---------- */
+function fcResumenCliente(c){
+  var partes = [];
+  if (c.llevaDiario) partes.push('Diario: '+(c.diasDiario||[]).slice().sort().map(function(i){return DIAS_CORTO[i];}).join(' '));
+  (c.revistas||[]).forEach(function(r){ partes.push(r.nombre+' ('+r.frecuencia+')'); });
+  return partes.length ? partes.join(' · ') : 'Sin productos cargados';
+}
+function fcSuspendidoHoy(c){
+  var hoy = fcHoy();
+  return (c.suspensiones||[]).some(function(s){ return hoy>=s.desde && hoy<=(s.hasta||'9999-12-31'); });
+}
+function fcRenderLista(){
+  var filtro = (document.getElementById('fcBuscar').value||'').toLowerCase();
+  var cont = document.getElementById('fcListaClientes');
+  var lista = fc.clientes.filter(function(c){ return c.nombre.toLowerCase().indexOf(filtro)>-1; });
+  if (lista.length===0){ cont.innerHTML = '<p class="card-note">Todavía no cargaste clientes. Andá a "+ Nuevo cliente".</p>'; return; }
+  cont.innerHTML = lista.map(function(c){
+    var susp = fcSuspendidoHoy(c);
+    return '<div style="border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin-bottom:9px;background:rgba(0,0,0,.14);">'+
+      '<div style="font-weight:700;font-size:15px;">'+fcEsc(c.nombre)+'</div>'+
+      '<div style="color:var(--cream-dim);font-size:11.5px;margin-top:2px;">'+(c.telefono?('📞 '+fcEsc(c.telefono)+' · '):'')+fcEsc(fcResumenCliente(c))+'</div>'+
+      (susp?'<div style="margin-top:6px;"><span style="font-size:10.5px;font-weight:700;padding:3px 8px;border-radius:6px;background:rgba(224,139,120,.18);color:var(--red-neg);">Suspendido hoy</span></div>':'')+
+      '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;">'+
+        '<button data-act="editar" data-id="'+c.id+'" class="tab-btn" style="border-radius:8px;padding:6px 10px;font-size:11.5px;">Editar</button>'+
+        '<button data-act="suspender" data-id="'+c.id+'" class="tab-btn" style="border-radius:8px;padding:6px 10px;font-size:11.5px;">Suspender</button>'+
+        '<button data-act="factura" data-id="'+c.id+'" class="tab-btn" style="border-radius:8px;padding:6px 10px;font-size:11.5px;">Liquidar / Factura</button>'+
+        '<button data-act="borrar" data-id="'+c.id+'" class="tab-btn" style="border-radius:8px;padding:6px 10px;font-size:11.5px;color:var(--red-neg);">Eliminar</button>'+
+      '</div>'+
+      '<div id="fc-susp-'+c.id+'" style="display:none;"></div>'+
+    '</div>';
+  }).join('');
+  cont.querySelectorAll('button[data-act]').forEach(function(b){
+    b.addEventListener('click', function(){ fcOnClienteAction(b.dataset.act, b.dataset.id); });
+  });
+}
+document.getElementById('fcBuscar').addEventListener('input', fcRenderLista);
+
+function fcOnClienteAction(act, id){
+  var c = fc.clientes.find(function(x){return x.id===id;});
+  if (!c) return;
+  if (act==='editar'){ fcCargarClienteEnForm(c); }
+  else if (act==='borrar'){
+    if (confirm('¿Eliminar a '+c.nombre+'? No se puede deshacer.')){
+      fc.clientes = fc.clientes.filter(function(x){return x.id!==id;});
+      fcSave().then(fcRenderLista);
+    }
+  } else if (act==='suspender'){ fcToggleSuspPanel(c); }
+  else if (act==='factura'){
+    document.getElementById('fcLiqCliente').value = id;
+    fcIrAVista('liquidacion');
+    fcRenderSelectLiq();
+    document.getElementById('fcLiqCliente').value = id;
+  }
+}
+function fcToggleSuspPanel(c){
+  var panel = document.getElementById('fc-susp-'+c.id);
+  if (panel.style.display==='block'){ panel.style.display='none'; return; }
+  panel.style.display='block';
+  panel.innerHTML = fcSuspPanelHTML(c);
+  fcWireSuspPanel(c, panel);
+}
+function fcSuspPanelHTML(c){
+  var lista = (c.suspensiones||[]).map(function(s){
+    return '<div style="display:flex;align-items:center;justify-content:space-between;background:rgba(0,0,0,.18);border:1px solid var(--line);border-radius:8px;padding:7px 10px;margin-bottom:6px;font-size:12px;">'+
+      '<span>'+s.desde+' → '+(s.hasta||'(sin fecha fin)')+(s.motivo?' · '+fcEsc(s.motivo):'')+'</span>'+
+      '<button data-sid="'+s.id+'" style="background:none;border:none;color:var(--red-neg);cursor:pointer;font-weight:900;">✕</button></div>';
+  }).join('');
+  return '<div style="border-top:1px solid var(--line);padding-top:10px;margin-top:10px;">'+
+    '<div class="range-label">Desde</div><input type="date" class="fcSuspDesde" value="'+fcHoy()+'" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:9px 10px;border-radius:8px;font-size:13px;width:100%;color-scheme:dark;margin-bottom:8px;">'+
+    '<div class="range-label">Hasta (opcional)</div><input type="date" class="fcSuspHasta" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:9px 10px;border-radius:8px;font-size:13px;width:100%;color-scheme:dark;margin-bottom:8px;">'+
+    '<div class="range-label">Motivo</div><input type="text" class="fcSuspMotivo" placeholder="Ej: viaje, vacaciones" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:9px 10px;border-radius:8px;font-size:13px;width:100%;color-scheme:dark;margin-bottom:8px;">'+
+    '<button type="button" class="tab-btn fcBtnAgregarSusp" style="border-radius:8px;">+ Agregar suspensión</button>'+
+    '<div style="margin-top:10px;">'+(lista||'<p class="card-note" style="margin:0;">Sin suspensiones cargadas.</p>')+'</div>'+
+  '</div>';
+}
+function fcWireSuspPanel(c, panel){
+  panel.querySelector('.fcBtnAgregarSusp').addEventListener('click', async function(){
+    var desde = panel.querySelector('.fcSuspDesde').value;
+    var hasta = panel.querySelector('.fcSuspHasta').value;
+    var motivo = panel.querySelector('.fcSuspMotivo').value.trim();
+    if (!desde) return;
+    c.suspensiones = c.suspensiones||[];
+    c.suspensiones.push({id:fcUid(), desde:desde, hasta:hasta||'', motivo:motivo});
+    await fcSave();
+    panel.innerHTML = fcSuspPanelHTML(c); fcWireSuspPanel(c, panel); fcRenderLista();
+  });
+  panel.querySelectorAll('button[data-sid]').forEach(function(b){
+    b.addEventListener('click', async function(){
+      c.suspensiones = (c.suspensiones||[]).filter(function(s){return s.id!==b.dataset.sid;});
+      await fcSave();
+      panel.innerHTML = fcSuspPanelHTML(c); fcWireSuspPanel(c, panel); fcRenderLista();
+    });
+  });
+}
+
+/* ---------- Liquidación ---------- */
+function fcRenderSelectLiq(){
+  var sel = document.getElementById('fcLiqCliente');
+  var actual = sel.value;
+  sel.innerHTML = fc.clientes.map(function(c){ return '<option value="'+c.id+'">'+fcEsc(c.nombre)+'</option>'; }).join('');
+  if (actual) sel.value = actual;
+  if (!document.getElementById('fcLiqPeriodo').value){
+    document.getElementById('fcLiqPeriodo').value = new Date().toISOString().slice(0,7);
+  }
+}
+function fcSuspendidoEn(c, iso){
+  return (c.suspensiones||[]).some(function(s){ return iso>=s.desde && iso<=(s.hasta||'9999-12-31'); });
+}
+function fcCalcularLiquidacion(c, year, month){
+  var items = [];
+  var diasEnMes = new Date(year, month, 0).getDate();
+  if (c.llevaDiario){
+    var conteo = [0,0,0,0,0,0,0];
+    for (var d=1; d<=diasEnMes; d++){
+      var dt = new Date(year, month-1, d);
+      var wd = dt.getDay();
+      var iso = dt.toISOString().slice(0,10);
+      if ((c.diasDiario||[]).indexOf(wd)>-1 && !fcSuspendidoEn(c, iso)) conteo[wd]++;
+    }
+    for (var wd2=0; wd2<7; wd2++){
+      if (conteo[wd2]>0){
+        var precio = fc.preciosDiario[wd2]||0;
+        items.push({concepto:'Diario · '+DIAS[wd2], cantidad:conteo[wd2], subtotal:conteo[wd2]*precio});
+      }
+    }
+  }
+  (c.revistas||[]).forEach(function(r){
+    var ocurrencias = [];
+    for (var d=1; d<=diasEnMes; d++){
+      var dt = new Date(year, month-1, d);
+      if (dt.getDay()===r.dia) ocurrencias.push(dt);
+    }
+    var validas = r.frecuencia==='semanal' ? ocurrencias
+      : r.frecuencia==='quincenal' ? ocurrencias.filter(function(_,i){return i%2===0;})
+      : ocurrencias.slice(0,1);
+    var cant = 0;
+    validas.forEach(function(dt){ var iso=dt.toISOString().slice(0,10); if (!fcSuspendidoEn(c, iso)) cant++; });
+    if (cant>0) items.push({concepto:r.nombre, cantidad:cant, subtotal:cant*r.precio});
+  });
+  var periodoStr = year+'-'+String(month).padStart(2,'0');
+  fc.extras.filter(function(e){return e.clienteId===c.id && e.fecha.slice(0,7)===periodoStr;}).forEach(function(e){
+    items.push({concepto:'Extra: '+e.descripcion, cantidad:1, subtotal:e.monto});
+  });
+  var total = items.reduce(function(a,i){return a+i.subtotal;},0);
+  return {items:items, total:total};
+}
+document.getElementById('fcBtnCalcular').addEventListener('click', function(){
+  var cid = document.getElementById('fcLiqCliente').value;
+  var periodo = document.getElementById('fcLiqPeriodo').value;
+  if (!cid || !periodo) return;
+  var c = fc.clientes.find(function(x){return x.id===cid;});
+  var parts = periodo.split('-'); var year=parseInt(parts[0]), month=parseInt(parts[1]);
+  var res = fcCalcularLiquidacion(c, year, month);
+  fcUltimaLiquidacion = {cliente:c, year:year, month:month, items:res.items, total:res.total};
+  var tbody = document.querySelector('#fcTablaDetalle tbody');
+  if (res.items.length===0){
+    tbody.innerHTML = '<tr><td colspan="3" style="text-align:center;color:var(--muted);">Sin movimientos para este período.</td></tr>';
+  } else {
+    tbody.innerHTML = res.items.map(function(i){
+      return '<tr><td>'+fcEsc(i.concepto)+'</td><td style="text-align:right">'+i.cantidad+'</td><td style="text-align:right">'+fcFmt(i.subtotal)+'</td></tr>';
+    }).join('') + '<tr style="font-weight:800;border-top:2px solid var(--line);"><td>Total</td><td></td><td style="text-align:right">'+fcFmt(res.total)+'</td></tr>';
+  }
+  document.getElementById('fcResultadoCard').style.display='block';
+  document.getElementById('fcFacturaCard').style.display='none';
+});
+document.getElementById('fcBtnAgregarExtra').addEventListener('click', async function(){
+  var cid = document.getElementById('fcLiqCliente').value;
+  if (!cid){ alert('Elegí primero un cliente arriba.'); return; }
+  var fecha = document.getElementById('fcExtraFecha').value || fcHoy();
+  var monto = parseFloat(document.getElementById('fcExtraMonto').value);
+  var desc = document.getElementById('fcExtraDesc').value.trim();
+  if (isNaN(monto) || !desc) return;
+  fc.extras.push({id:fcUid(), clienteId:cid, fecha:fecha, descripcion:desc, monto:monto});
+  await fcSave();
+  document.getElementById('fcExtraMonto').value='';
+  document.getElementById('fcExtraDesc').value='';
+  document.getElementById('fcBtnCalcular').click();
+});
+
+/* ---------- Factura ---------- */
+function fcMesNombre(m){ return ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'][m-1]; }
+function fcTextoFactura(l){
+  var lineas = [];
+  lineas.push('🧾 '+fc.nombreReparto);
+  lineas.push('Cliente: '+l.cliente.nombre);
+  lineas.push('Período: '+fcMesNombre(l.month)+' '+l.year);
+  lineas.push('');
+  l.items.forEach(function(i){ lineas.push('• '+i.concepto+' x'+i.cantidad+' = '+fcFmt(i.subtotal)); });
+  lineas.push('');
+  lineas.push('TOTAL: '+fcFmt(l.total));
+  return lineas.join('\n');
+}
+document.getElementById('fcBtnGenerarFactura').addEventListener('click', function(){
+  if (!fcUltimaLiquidacion) return;
+  var l = fcUltimaLiquidacion;
+  var html = '<div class="fc-ihead"><div><h3>'+fcEsc(fc.nombreReparto)+'</h3><div style="font-size:11px;color:#5c574a;text-transform:uppercase;">'+fcMesNombre(l.month)+' '+l.year+'</div></div><div style="font-size:11px;color:#5c574a;">'+fcHoy()+'</div></div>'+
+    '<div class="fc-iclient"><b>'+fcEsc(l.cliente.nombre)+'</b><br>'+(l.cliente.telefono?('📞 '+fcEsc(l.cliente.telefono)+'<br>'):'')+(l.cliente.direccion?fcEsc(l.cliente.direccion):'')+'</div>'+
+    '<table><thead><tr><th>Concepto</th><th class="num">Cant.</th><th class="num">Subtotal</th></tr></thead><tbody>'+
+    l.items.map(function(i){return '<tr><td>'+fcEsc(i.concepto)+'</td><td class="num">'+i.cantidad+'</td><td class="num">'+fcFmt(i.subtotal)+'</td></tr>';}).join('')+
+    '<tr class="fc-totalrow"><td>Total</td><td></td><td class="num">'+fcFmt(l.total)+'</td></tr></tbody></table>';
+  document.getElementById('fcFacturaContenido').innerHTML = html;
+  document.getElementById('fcFacturaCard').style.display='block';
+  document.getElementById('fcFacturaCard').scrollIntoView({behavior:'smooth'});
+});
+document.getElementById('fcBtnCompartirWA').addEventListener('click', function(){
+  if (!fcUltimaLiquidacion) return;
+  var texto = fcTextoFactura(fcUltimaLiquidacion);
+  var tel = (fcUltimaLiquidacion.cliente.telefono||'').replace(/[^0-9]/g,'');
+  window.open('https://wa.me/'+tel+'?text='+encodeURIComponent(texto), '_blank');
+});
+document.getElementById('fcBtnCopiarTexto').addEventListener('click', function(){
+  if (!fcUltimaLiquidacion) return;
+  navigator.clipboard.writeText(fcTextoFactura(fcUltimaLiquidacion)).then(function(){ alert('Texto de la factura copiado.'); }).catch(function(){ alert('No se pudo copiar. Copialo manualmente.'); });
+});
+
+/* ---------- Configuración ---------- */
+function fcRenderPrecios(){
+  var wrap = document.getElementById('fcPreciosDiarios');
+  wrap.innerHTML = DIAS.map(function(d,i){
+    return '<div class="cargar-grid-2" style="align-items:center;"><div class="range-label" style="margin:0;">'+d+'</div>'+
+      '<input type="number" min="0" step="0.01" class="fcPrecioDiaInput" data-idx="'+i+'" value="'+(fc.preciosDiario[i]||0)+'" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:9px 10px;border-radius:8px;font-size:14px;"></div>';
+  }).join('');
+}
+document.getElementById('fcBtnGuardarPrecios').addEventListener('click', async function(){
+  document.querySelectorAll('.fcPrecioDiaInput').forEach(function(inp){ fc.preciosDiario[parseInt(inp.dataset.idx)] = parseFloat(inp.value)||0; });
+  await fcSave();
+  var msg = document.getElementById('fcPreciosMsg');
+  msg.style.color='var(--green-pos)'; msg.textContent='Precios guardados ✔️';
+});
+document.getElementById('fcBtnGuardarNombre').addEventListener('click', async function(){
+  fc.nombreReparto = document.getElementById('fcCfgNombre').value.trim() || fc.nombreReparto;
+  await fcSave();
+  document.getElementById('fcNombreReparto').textContent = fc.nombreReparto;
+});
+
+/* ---------- Init ---------- */
+async function fcInit(){
+  await fcLoad();
+  document.getElementById('fcNombreReparto').textContent = fc.nombreReparto;
+  document.getElementById('fcCfgNombre').value = fc.nombreReparto;
+  fcRenderPrecios();
+  fcRenderLista();
+  fcRenderSelectLiq();
+  fcResetForm();
+}
+if (document.readyState === 'loading'){
+  document.addEventListener('DOMContentLoaded', fcInit);
+} else {
+  fcInit();
+}
 })();
 </script>
 
