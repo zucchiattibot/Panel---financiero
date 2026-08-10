@@ -163,6 +163,14 @@
     svg text{fill:#111 !important;}
     a{color:#111;}
   }
+  /* Al imprimir la factura (botón "Imprimir / Guardar como PDF" de Liquidación
+     & Factura), ocultamos todo el panel y mostramos solo el contenido de la
+     factura, para que el diálogo de impresión nativo de Android/iOS/Escritorio
+     (que sí permite elegir carpeta con "Guardar como PDF") imprima nada más
+     que el remito, no toda la app. */
+  body.printing-factura *{visibility:hidden !important;}
+  body.printing-factura #fcFacturaContenido, body.printing-factura #fcFacturaContenido *{visibility:visible !important;}
+  body.printing-factura #fcFacturaContenido{position:absolute;top:0;left:0;width:100%;}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
@@ -1731,6 +1739,7 @@
         <div id="fcFacturaContenido" style="background:var(--cream);color:#1a2a1f;border-radius:12px;padding:18px 16px;font-family:Georgia,serif;"></div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;">
           <button type="button" class="cargar-submit-btn" id="fcBtnDescargarPDF" style="background:var(--blue);color:#1a2a1f;width:auto;padding:12px 18px;">⬇ Descargar PDF</button>
+          <button type="button" class="cargar-submit-btn" id="fcBtnImprimirPDF" style="background:var(--gold);color:#1a2a1f;width:auto;padding:12px 18px;">🖨️ Imprimir / Guardar como PDF</button>
           <button type="button" class="cargar-submit-btn" id="fcBtnCompartirWA" style="background:var(--green-pos);width:auto;padding:12px 18px;">📱 Compartir PDF por WhatsApp</button>
           <button type="button" class="cargar-submit-btn" id="fcBtnCompartirEmail" style="background:var(--blue);color:#1a2a1f;width:auto;padding:12px 18px;">✉️ Enviar PDF por Email</button>
           <button type="button" class="tab-btn" id="fcBtnCopiarTexto" style="border-radius:8px;">Copiar texto</button>
@@ -10670,6 +10679,18 @@ async function fcCompartirPDF(destino){
     window.open('mailto:?subject='+encodeURIComponent(asunto)+'&body='+encodeURIComponent(cuerpo), '_blank');
   }
 }
+document.getElementById('fcBtnImprimirPDF').addEventListener('click', function(){
+  if (!fcUltimaLiquidacion) return;
+  document.body.classList.add('printing-factura');
+  // pequeño delay para que el navegador aplique el CSS antes de abrir el diálogo
+  setTimeout(function(){ window.print(); }, 80);
+  // el diálogo del sistema (sobre todo en Android/iOS) es asíncrono, así que NO
+  // sacamos la clase justo después de llamar a print(): 'afterprint' cubre el
+  // caso normal, y este timeout de respaldo cubre los navegadores donde ese
+  // evento no dispara, dándole tiempo de sobra a que el usuario termine.
+  setTimeout(function(){ document.body.classList.remove('printing-factura'); }, 15000);
+});
+window.addEventListener('afterprint', function(){ document.body.classList.remove('printing-factura'); });
 document.getElementById('fcBtnCompartirWA').addEventListener('click', function(){ fcCompartirPDF('whatsapp'); });
 document.getElementById('fcBtnCompartirEmail').addEventListener('click', function(){ fcCompartirPDF('email'); });
 document.getElementById('fcBtnCopiarTexto').addEventListener('click', function(){
