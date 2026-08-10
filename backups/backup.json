@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 3,
-  "exportadoEl": "2026-08-10T12:14:54.744Z",
+  "exportadoEl": "2026-08-10T12:33:46.148Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -586,6 +586,14 @@
       "category": "Sueldo",
       "account": "agencia",
       "medio": "efectivo"
+    },
+    {
+      "date": "2026-08-10",
+      "type": "egreso",
+      "amount": 320000,
+      "category": "La nación",
+      "account": "agencia",
+      "detalle": "La nación"
     }
   ],
   "categoriasCustom": [
@@ -601,7 +609,8 @@
     "Clarin",
     "Silmar",
     "Viejo Adolfo cheque",
-    "Javier Juan"
+    "Javier Juan",
+    "La nación"
   ],
   "categoriasBaseEliminadas": [
     "Servicios impuestos"
