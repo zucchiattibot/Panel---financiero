@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 3,
-  "exportadoEl": "2026-08-10T21:48:04.710Z",
+  "exportadoEl": "2026-08-10T22:51:19.115Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -639,6 +639,14 @@
       "date": "2026-08-10",
       "type": "ingreso",
       "amount": 2900,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "transferencia"
+    },
+    {
+      "date": "2026-08-10",
+      "type": "ingreso",
+      "amount": 76600,
       "category": "Sueldo",
       "account": "agencia",
       "medio": "transferencia"
