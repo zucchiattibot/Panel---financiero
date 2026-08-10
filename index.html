@@ -453,7 +453,8 @@
       <p class="card-note" id="facRangoNota" style="margin-top:14px;font-weight:600;"></p>
       <div class="kpi-grid" id="facRangoKpis"></div>
       <div style="overflow-x:auto;margin-top:14px;">
-        <table id="facturaTable"><thead><tr><th>Fecha</th><th>Vence</th><th>Tipo / N°</th><th style="text-align:right">Monto</th><th>Estado</th><th></th></tr></thead><tbody></tbody></table>
+        <table id="facturaTable"><thead><tr><th></th><th>Fecha</th><th>Vence</th><th>Tipo / N°</th><th style="text-align:right">Monto</th><th>Estado</th><th></th></tr></thead><tbody></tbody></table>
+        <p class="card-note" style="margin-top:6px;">Tocá una fila para ver el detalle del comprobante, incluidos los títulos/productos cargados.</p>
       </div>
       <button type="button" class="link-btn" id="facVerMasBtn" style="margin-top:10px;display:none;"></button>
     </div>
@@ -7790,6 +7791,9 @@ renderAutoConclusions();
 
   if (!PROVEEDORES.length) return;
 
+  // Expuesto para que el Asistente IA sepa qué proveedores existen (claves y nombres).
+  window.getProveedoresList = function(){ return PROVEEDORES.map(p => ({ key: p.key, label: p.label })); };
+
   function fmtFechaCorta(dInt){
     const s = String(dInt);
     return s.slice(6,8) + '/' + s.slice(4,6) + '/' + s.slice(0,4);
@@ -8367,6 +8371,36 @@ renderAutoConclusions();
     });
   }
 
+  // Fila de detalle expandible para cada comprobante: muestra los datos completos
+  // y, sobre todo, los títulos/productos cargados en el detalle de esa factura
+  // (o un aviso si ese comprobante no tiene items cargados).
+  function filaDetalleFactura(f){
+    const items = Array.isArray(f.items) ? f.items : [];
+    let itemsHtml;
+    if (items.length){
+      itemsHtml = '<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;font-size:11.5px;"><thead><tr>' +
+        '<th style="text-align:left;padding:4px;">Título / producto</th><th style="text-align:left;padding:4px;">Edición</th>' +
+        '<th style="text-align:right;padding:4px;">Cant.</th><th style="text-align:right;padding:4px;">Monto</th>' +
+        '</tr></thead><tbody>' +
+        items.map(it => '<tr>' +
+          '<td style="padding:4px;">' + escapeHtmlProv(it.descripcion || '—') + '</td>' +
+          '<td style="padding:4px;">' + (it.edicion ? escapeHtmlProv(it.edicion) : '—') + '</td>' +
+          '<td class="num" style="padding:4px;">' + (it.cantidad != null ? it.cantidad.toLocaleString('es-AR', {maximumFractionDigits:2}) : '—') + '</td>' +
+          '<td class="num" style="padding:4px;">' + (it.monto != null ? fmtARS(it.monto) : '—') + '</td>' +
+        '</tr>').join('') +
+        '</tbody></table></div>';
+    } else {
+      itemsHtml = '<p class="card-note" style="margin:0;">Este comprobante no tiene títulos/productos cargados en el detalle.</p>';
+    }
+    const moneda = f.moneda && f.moneda !== 'ARS' ? ' (' + escapeHtmlProv(f.moneda) + ')' : '';
+    const cargada = f.cargadaEl ? new Date(f.cargadaEl).toLocaleString('es-AR') : '—';
+    return '<tr data-fac-detalle="' + f.id + '" style="display:none;">' +
+      '<td colspan="7" style="padding:8px 4px 12px 4px;background:rgba(0,0,0,.12);">' +
+        '<div class="card-note" style="margin-bottom:6px;">N° ' + (f.numeroFactura ? escapeHtmlProv(f.numeroFactura) : '—') + moneda + ' · Cargada el ' + cargada + '</div>' +
+        itemsHtml +
+      '</td></tr>';
+  }
+
   function renderFacturas(){
     const prov = PROVEEDORES.find(p => p.key === provState.prov) || PROVEEDORES[0];
     const nombreEl = document.getElementById('facProvNombre');
@@ -8462,7 +8496,8 @@ renderAutoConclusions();
             const vInt = fechaAIntProv(f.vencimiento);
             const vencidaCls = (f.estado==='pendiente' && vInt!==null && vInt<hoy) ? ' class="neg"' : '';
             const esCredito = f.tipo === 'nota_credito';
-            return '<tr>' +
+            return '<tr data-fac-row="' + f.id + '" style="cursor:pointer;">' +
+              '<td class="card-note">▸</td>' +
               '<td>' + (f.fecha ? fmtFechaCorta(fechaAIntProv(f.fecha)) : '—') + '</td>' +
               '<td' + vencidaCls + '>' + (f.vencimiento ? fmtFechaCorta(vInt) : '—') + '</td>' +
               '<td>' + etiquetaTipo(f.tipo) + (f.numeroFactura ? ' · ' + escapeHtmlProv(f.numeroFactura) : '') + '</td>' +
@@ -8470,9 +8505,9 @@ renderAutoConclusions();
               '<td>' + (f.estado==='pendiente' ? 'Pendiente' : 'Pagada') +
                 ' <button type="button" class="link-btn" data-fac-toggle="' + f.id + '">cambiar</button></td>' +
               '<td><button type="button" class="link-btn" data-fac-del="' + f.id + '">Eliminar</button></td>' +
-            '</tr>';
+            '</tr>' + filaDetalleFactura(f);
           }).join('')
-        : '<tr><td colspan="6" class="card-note">' + (hayFiltro ? 'Ningún comprobante coincide con el filtro.' : ('Todavía no cargaste comprobantes de ' + prov.label + '.')) + '</td></tr>';
+        : '<tr><td colspan="7" class="card-note">' + (hayFiltro ? 'Ningún comprobante coincide con el filtro.' : ('Todavía no cargaste comprobantes de ' + prov.label + '.')) + '</td></tr>';
 
       const elVerMasBtn = document.getElementById('facVerMasBtn');
       if (elVerMasBtn){
@@ -8487,15 +8522,31 @@ renderAutoConclusions();
       }
 
       elTbody.querySelectorAll('[data-fac-toggle]').forEach(btn => {
-        btn.addEventListener('click', () => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
           const f = facturas.find(x => x.id === btn.getAttribute('data-fac-toggle'));
           if (f){ f.estado = f.estado === 'pendiente' ? 'pagada' : 'pendiente'; saveFacturas(); renderFacturas(); renderResumenDeuda(); renderCuentaCorriente(); }
         });
       });
       elTbody.querySelectorAll('[data-fac-del]').forEach(btn => {
-        btn.addEventListener('click', () => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
           facturas = facturas.filter(x => x.id !== btn.getAttribute('data-fac-del'));
           saveFacturas(); renderFacturas(); renderResumenDeuda(); renderCuentaCorriente();
+        });
+      });
+      // Tocar una fila (fuera de los botones de acción) abre/cierra el detalle del
+      // comprobante, mostrando sus títulos/productos cargados.
+      elTbody.querySelectorAll('[data-fac-row]').forEach(row => {
+        row.addEventListener('click', (e) => {
+          if (e.target.closest('button')) return;
+          const id = row.getAttribute('data-fac-row');
+          const detalle = elTbody.querySelector('[data-fac-detalle="' + id + '"]');
+          if (!detalle) return;
+          const abierto = detalle.style.display !== 'none';
+          detalle.style.display = abierto ? 'none' : '';
+          const flecha = row.querySelector('td:first-child');
+          if (flecha) flecha.textContent = abierto ? '▸' : '▾';
         });
       });
     }
@@ -8813,6 +8864,11 @@ renderAutoConclusions();
 
   // Herramienta que la IA puede invocar para consultar movimientos reales
   // (todos, no solo el resumen) de Agencia o Alquileres.
+  const PROVEEDORES_DISPONIBLES = (typeof window.getProveedoresList === 'function') ? window.getProveedoresList() : [];
+  const proveedoresClaveDesc = PROVEEDORES_DISPONIBLES.length
+    ? ' Proveedores disponibles (clave · nombre): ' + PROVEEDORES_DISPONIBLES.map(p => p.key + ' · ' + p.label).join(', ') + '.'
+    : '';
+
   const IA_TOOLS = [{
     function_declarations: [{
       name: 'consultar_movimientos',
@@ -8827,6 +8883,21 @@ renderAutoConclusions();
           texto: { type: 'STRING', description: 'Texto a buscar dentro de la descripción del movimiento, opcional.' },
           signo: { type: 'STRING', enum: ['+','-'], description: 'Filtrar solo ingresos (+) o solo egresos (-), opcional.' },
           agrupar_por: { type: 'STRING', enum: ['ninguno','categoria','mes','anio'], description: 'Si se especifica, además de listar movimientos devuelve totales YA SUMADOS agrupados por categoría, mes o año. Usalo siempre que la pregunta implique sumar muchos movimientos (en vez de sumarlos vos mismo).' }
+        }
+      }
+    }, {
+      name: 'consultar_facturas_proveedores',
+      description: 'Busca y devuelve facturas, notas de crédito y notas de débito cargadas en la pestaña Proveedores (número, fecha, vencimiento, monto, estado y los ítems/productos detallados de cada comprobante), filtrando por proveedor, fecha, tipo, estado, número de factura o texto libre (busca en el número y en la descripción/edición de los ítems). Usala para CUALQUIER pregunta sobre un comprobante puntual, un ítem, un total de facturas o el estado de la deuda con un proveedor.' + proveedoresClaveDesc,
+      parameters: {
+        type: 'OBJECT',
+        properties: {
+          proveedor: { type: 'STRING', description: 'Clave o nombre (o parte del nombre) del proveedor a filtrar, opcional. Si no se especifica, busca en todos los proveedores.' },
+          fecha_desde: { type: 'STRING', description: 'Fecha de emisión desde, formato AAAA-MM-DD, opcional.' },
+          fecha_hasta: { type: 'STRING', description: 'Fecha de emisión hasta, formato AAAA-MM-DD, opcional.' },
+          tipo: { type: 'STRING', enum: ['factura','nota_credito','nota_debito'], description: 'Filtrar solo por este tipo de comprobante, opcional.' },
+          estado: { type: 'STRING', enum: ['pendiente','pagada'], description: 'Filtrar solo por este estado, opcional.' },
+          numero_factura: { type: 'STRING', description: 'Número de factura/comprobante (o parte de él) a buscar, opcional.' },
+          texto: { type: 'STRING', description: 'Texto libre a buscar en el número de comprobante o en la descripción/edición de los ítems/productos facturados, opcional.' }
         }
       }
     }]
@@ -8893,6 +8964,81 @@ renderAutoConclusions();
       resultado.nota = 'Se encontraron ' + totalEncontrados + ' movimientos; se listan los primeros ' + LIMITE_FILAS + '. suma_total ya es el total exacto de los ' + totalEncontrados + '. Para totales por subgrupo pedí agrupar_por.';
     }
     if (agrupado) resultado.agrupado = agrupado;
+    return resultado;
+  }
+
+  function etiquetaTipoIA(tipo){
+    if (tipo === 'nota_credito') return 'Nota de crédito';
+    if (tipo === 'nota_debito') return 'Nota de débito';
+    return 'Factura';
+  }
+
+  function consultarFacturasProveedoresImpl(args){
+    args = args || {};
+    const todasFacturas = (typeof window.getFacturasProveedores === 'function') ? window.getFacturasProveedores() : [];
+    const listaProveedores = (typeof window.getProveedoresList === 'function') ? window.getProveedoresList() : [];
+    const provPorKey = {};
+    listaProveedores.forEach(p => { provPorKey[p.key] = p.label; });
+
+    const provFiltro = args.proveedor ? String(args.proveedor).trim().toLowerCase() : null;
+    const desde = args.fecha_desde ? String(args.fecha_desde).trim() : null;
+    const hasta = args.fecha_hasta ? String(args.fecha_hasta).trim() : null;
+    const tipoFiltro = (args.tipo && ['factura','nota_credito','nota_debito'].includes(args.tipo)) ? args.tipo : null;
+    const estadoFiltro = (args.estado && ['pendiente','pagada'].includes(args.estado)) ? args.estado : null;
+    const numeroFiltro = args.numero_factura ? String(args.numero_factura).trim().toLowerCase() : null;
+    const textoFiltro = args.texto ? String(args.texto).trim().toLowerCase() : null;
+
+    const matches = todasFacturas.filter(f => {
+      if (provFiltro){
+        const label = (provPorKey[f.proveedorKey] || f.proveedorKey || '').toLowerCase();
+        const key = String(f.proveedorKey || '').toLowerCase();
+        if (!label.includes(provFiltro) && key !== provFiltro) return false;
+      }
+      if (desde && (!f.fecha || f.fecha < desde)) return false;
+      if (hasta && (!f.fecha || f.fecha > hasta)) return false;
+      if (tipoFiltro && (f.tipo || 'factura') !== tipoFiltro) return false;
+      if (estadoFiltro && f.estado !== estadoFiltro) return false;
+      if (numeroFiltro && !String(f.numeroFactura || '').toLowerCase().includes(numeroFiltro)) return false;
+      if (textoFiltro){
+        const enNumero = String(f.numeroFactura || '').toLowerCase().includes(textoFiltro);
+        const enItems = Array.isArray(f.items) && f.items.some(it =>
+          String(it.descripcion || '').toLowerCase().includes(textoFiltro) ||
+          String(it.edicion || '').toLowerCase().includes(textoFiltro)
+        );
+        if (!enNumero && !enItems) return false;
+      }
+      return true;
+    });
+
+    const totalEncontradas = matches.length;
+    const sumaTotal = matches.reduce((s, f) => s + (f.tipo === 'nota_credito' ? -(f.monto || 0) : (f.monto || 0)), 0);
+
+    const LIMITE_FACTURAS = 100;
+    const facturasOut = matches.slice(0, LIMITE_FACTURAS).map(f => ({
+      proveedor: provPorKey[f.proveedorKey] || f.proveedorKey,
+      tipo: etiquetaTipoIA(f.tipo),
+      numero_factura: f.numeroFactura || null,
+      fecha: f.fecha || null,
+      vencimiento: f.vencimiento || null,
+      monto: f.monto,
+      moneda: f.moneda || 'ARS',
+      estado: f.estado,
+      items: Array.isArray(f.items) ? f.items.map(it => ({
+        descripcion: it.descripcion || null,
+        edicion: it.edicion || null,
+        cantidad: it.cantidad,
+        monto: it.monto
+      })) : []
+    }));
+
+    const resultado = {
+      total_encontradas: totalEncontradas,
+      suma_total: Math.round(sumaTotal * 100) / 100,
+      facturas: facturasOut
+    };
+    if (totalEncontradas > LIMITE_FACTURAS){
+      resultado.nota = 'Se encontraron ' + totalEncontradas + ' comprobantes; se listan los primeros ' + LIMITE_FACTURAS + '. suma_total ya es el total exacto de los ' + totalEncontradas + '.';
+    }
     return resultado;
   }
 
@@ -9067,6 +9213,8 @@ renderAutoConclusions();
       AGENCIA_STATS.count ? `- Agencia: ${AGENCIA_STATS.count.toLocaleString('es-AR')} movimientos, desde ${fmtFechaInt(AGENCIA_STATS.minDate)} hasta ${fmtFechaInt(AGENCIA_STATS.maxDate)}.` : '- Agencia: sin movimientos cargados.',
       ALQUILERES_STATS.count ? `- Alquileres: ${ALQUILERES_STATS.count.toLocaleString('es-AR')} movimientos, desde ${fmtFechaInt(ALQUILERES_STATS.minDate)} hasta ${fmtFechaInt(ALQUILERES_STATS.maxDate)}.` : '- Alquileres: sin movimientos cargados.',
       'Usá esa herramienta para: cualquier fecha o período fuera de "últimos meses/años" de abajo, una categoría o texto puntual, un total exacto de un rango, o cuando pidan ver movimientos concretos. Si tenés que sumar muchos movimientos, pedile a la herramienta que agrupe (agrupar_por) en vez de sumarlos vos: con muchas filas los cálculos a mano fallan.',
+      '',
+      'FACTURAS DE PROVEEDORES: contás además con la herramienta "consultar_facturas_proveedores" para buscar comprobantes cargados en la pestaña Proveedores (facturas, notas de crédito, notas de débito) por proveedor, fecha, tipo, estado, número o texto — incluye los ítems/productos detallados de cada comprobante y el monto/estado de cada uno. Usala para cualquier pregunta sobre un comprobante puntual, un ítem facturado o el estado de la deuda con un proveedor.' + (typeof window.getFacturasProveedores === 'function' ? ' Hay ' + window.getFacturasProveedores().length + ' comprobante(s) cargado(s) en total.' : ''),
       '',
       '=== CUENTA AGENCIA (kiosco/lotería) ===',
       `Saldo acumulado actual: ${fmtARS(saldoActual)}`,
@@ -9262,6 +9410,7 @@ renderAutoConclusions();
         let resultado;
         try {
           if (fc.name === 'consultar_movimientos') resultado = consultarMovimientosImpl(fc.args || {});
+          else if (fc.name === 'consultar_facturas_proveedores') resultado = consultarFacturasProveedoresImpl(fc.args || {});
           else resultado = { error: 'Función desconocida: ' + fc.name };
         } catch(e){
           resultado = { error: 'Error al ejecutar la consulta: ' + (e && e.message ? e.message : e) };
