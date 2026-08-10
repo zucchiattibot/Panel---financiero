@@ -10443,12 +10443,26 @@ function fcCalcularLiquidacion(c, year, month){
       var iso = dt.toISOString().slice(0,10);
       if ((dc.dias||[]).indexOf(wd)>-1 && !fcSuspendidoEn(c, iso)) conteo[wd]++;
     }
+    // Agrupar por precio: los días con el mismo precio para este mismo diario
+    // se facturan juntos en un solo ítem (ej: Clarín lunes + Clarín martes,
+    // si cuestan igual, salen como "Clarín" x10 en vez de dos renglones).
+    var porPrecio = {};
+    var ordenPrecios = [];
     for (var wd2=0; wd2<7; wd2++){
       if (conteo[wd2]>0){
         var precio = dia.precios[wd2]||0;
-        items.push({concepto:dia.nombre+' · '+DIAS[wd2], cantidad:conteo[wd2], precio:precio, subtotal:conteo[wd2]*precio});
+        var key = precio.toFixed(2);
+        if (!porPrecio[key]){ porPrecio[key] = {precio:precio, cantidad:0, dias:[]}; ordenPrecios.push(key); }
+        porPrecio[key].cantidad += conteo[wd2];
+        porPrecio[key].dias.push(DIAS[wd2]);
       }
     }
+    ordenPrecios.forEach(function(key){
+      var g = porPrecio[key];
+      var concepto = dia.nombre;
+      if (ordenPrecios.length > 1) concepto += ' (' + g.dias.join(', ') + ')';
+      items.push({concepto:concepto, cantidad:g.cantidad, precio:g.precio, subtotal:g.cantidad*g.precio});
+    });
   });
   (c.revistas||[]).forEach(function(r){
     var ocurrencias = [];
@@ -10578,14 +10592,46 @@ function fcGenerarPDFBlob(){
     jsPDF: {unit:'mm', format:'a5', orientation:'portrait'}
   }).from(el);
 }
-document.getElementById('fcBtnDescargarPDF').addEventListener('click', function(){
+// Si el navegador soporta elegir carpeta de guardado (File System Access API,
+// disponible en Chrome/Edge de escritorio y algunos Android), dejamos que el
+// usuario elija dónde guardar el PDF con un cuadro de diálogo nativo. Si no
+// está disponible (Safari, Firefox, o el WebView de la APK), seguimos con la
+// descarga automática de siempre a la carpeta de Descargas del dispositivo.
+async function fcGuardarPDFConDestino(blob, nombreArchivo, msg){
+  if (window.showSaveFilePicker){
+    try{
+      var handle = await window.showSaveFilePicker({
+        suggestedName: nombreArchivo,
+        types: [{description:'PDF', accept:{'application/pdf':['.pdf']}}]
+      });
+      var writable = await handle.createWritable();
+      await writable.write(blob);
+      await writable.close();
+      msg.style.color='var(--green-pos)'; msg.textContent='PDF guardado ✔️';
+      return;
+    }catch(e){
+      if (e && e.name==='AbortError'){ msg.textContent=''; return; } // el usuario canceló el diálogo
+      /* si falla el picker por algún motivo, seguimos con la descarga automática */
+    }
+  }
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url; a.download = nombreArchivo;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  setTimeout(function(){ URL.revokeObjectURL(url); }, 1000);
+  msg.style.color='var(--green-pos)'; msg.textContent='PDF descargado ✔️';
+}
+document.getElementById('fcBtnDescargarPDF').addEventListener('click', async function(){
   if (!fcUltimaLiquidacion) return;
   var msg = document.getElementById('fcFacturaMsg');
   if (typeof window.html2pdf !== 'function'){ msg.style.color='var(--red-neg)'; msg.textContent='No se pudo cargar el generador de PDF (revisá tu conexión).'; return; }
   msg.style.color='var(--muted)'; msg.textContent='Generando PDF…';
-  fcGenerarPDFBlob().set({filename: fcNombreArchivoFactura(fcUltimaLiquidacion)}).save().then(function(){
-    msg.style.color='var(--green-pos)'; msg.textContent='PDF descargado ✔️';
-  }).catch(function(){ msg.style.color='var(--red-neg)'; msg.textContent='Hubo un error generando el PDF.'; });
+  try{
+    var blob = await fcGenerarPDFBlob().outputPdf('blob');
+    await fcGuardarPDFConDestino(blob, fcNombreArchivoFactura(fcUltimaLiquidacion), msg);
+  }catch(e){
+    msg.style.color='var(--red-neg)'; msg.textContent='Hubo un error generando el PDF.';
+  }
 });
 async function fcCompartirPDF(destino){
   if (!fcUltimaLiquidacion) return;
