@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 3,
-  "exportadoEl": "2026-08-10T12:47:03.327Z",
+  "exportadoEl": "2026-08-10T14:49:03.338Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -594,6 +594,14 @@
       "category": "La nacion",
       "account": "agencia",
       "detalle": "La nación"
+    },
+    {
+      "date": "2026-08-10",
+      "type": "egreso",
+      "amount": 66000,
+      "category": "El oeste",
+      "account": "agencia",
+      "detalle": "El oeste"
     }
   ],
   "categoriasCustom": [
@@ -610,7 +618,8 @@
     "Silmar",
     "Viejo Adolfo cheque",
     "Javier Juan",
-    "La nacion"
+    "La nacion",
+    "El oeste"
   ],
   "categoriasBaseEliminadas": [
     "Servicios impuestos"
@@ -760,7 +769,7 @@
       "vencimiento": "2026-08-13",
       "monto": 8925,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "items": [
         {
           "descripcion": "Carga de revistas y otros\n1 NOTICIAS (11)",
@@ -5000,7 +5009,7 @@
       "vencimiento": "2026-07-13",
       "monto": 322657.1,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T12:05:37.236Z"
     },
     {
@@ -5012,7 +5021,7 @@
       "vencimiento": "2026-07-16",
       "monto": 114417,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T12:05:37.244Z"
     },
     {
@@ -5024,7 +5033,7 @@
       "vencimiento": "2026-07-16",
       "monto": 250603,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T12:05:37.244Z"
     },
     {
@@ -5036,7 +5045,7 @@
       "vencimiento": "2026-07-20",
       "monto": 59060,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T12:05:37.244Z"
     },
     {
@@ -5048,7 +5057,7 @@
       "vencimiento": "2026-07-27",
       "monto": 1261352.5,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T12:05:37.245Z"
     },
     {
@@ -5060,7 +5069,7 @@
       "vencimiento": "2026-07-30",
       "monto": 80244,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T12:05:37.245Z"
     },
     {
@@ -5072,7 +5081,7 @@
       "vencimiento": "2026-07-30",
       "monto": 8925,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T12:05:37.245Z"
     },
     {
@@ -5084,7 +5093,7 @@
       "vencimiento": "2026-08-03",
       "monto": 924984.4,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T12:05:37.245Z"
     },
     {
@@ -5096,7 +5105,7 @@
       "vencimiento": "2026-08-06",
       "monto": 130529,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T12:05:37.245Z"
     },
     {
@@ -5108,7 +5117,7 @@
       "vencimiento": "2026-08-06",
       "monto": 48725,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T12:05:37.245Z"
     },
     {
@@ -5120,7 +5129,7 @@
       "vencimiento": "2026-08-10",
       "monto": 965926,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T12:05:37.245Z"
     },
     {
@@ -5134,6 +5143,124 @@
       "moneda": "ARS",
       "estado": "pendiente",
       "cargadaEl": "2026-08-10T12:05:37.245Z"
+    },
+    {
+      "id": "f_1786370470737_xdtmz",
+      "proveedorKey": "silmar",
+      "tipo": "nota_credito",
+      "numeroFactura": "00004-00009637",
+      "fecha": "2026-08-10",
+      "vencimiento": null,
+      "monto": 129948,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "ARCHIVADOR AVIONES II",
+          "edicion": "201",
+          "cantidad": 1,
+          "monto": 10800
+        },
+        {
+          "descripcion": "BIBL OSPREY II (DGP) L",
+          "edicion": "1",
+          "cantidad": 1,
+          "monto": 7192
+        },
+        {
+          "descripcion": "CONSTRUYE LA PERLITA (",
+          "edicion": "8",
+          "cantidad": 1,
+          "monto": 18000
+        },
+        {
+          "descripcion": "COSAS DE CASA (BRI) (D",
+          "edicion": "342",
+          "cantidad": 1,
+          "monto": 3620
+        },
+        {
+          "descripcion": "EL MUEBLE MINI (BRI) (",
+          "edicion": "758",
+          "cantidad": 1,
+          "monto": 3620
+        },
+        {
+          "descripcion": "ESTRELLAS DEL FUTBOL (",
+          "edicion": "6",
+          "cantidad": 1,
+          "monto": 11720
+        },
+        {
+          "descripcion": "NATIONAL GEOGRA/MAG (D",
+          "edicion": "574",
+          "cantidad": 1,
+          "monto": 7562
+        },
+        {
+          "descripcion": "QUIJOTE SOPAS (DGP)",
+          "edicion": "10028",
+          "cantidad": 1,
+          "monto": 6567
+        },
+        {
+          "descripcion": "QUIJOTE SOPAMANIA POCK",
+          "edicion": "33",
+          "cantidad": 1,
+          "monto": 2550
+        },
+        {
+          "descripcion": "LEYENDAS DE LA MODA (D",
+          "edicion": "45",
+          "cantidad": 1,
+          "monto": 15992
+        },
+        {
+          "descripcion": "RACING CARS (DGP) McLa",
+          "edicion": "21",
+          "cantidad": 1,
+          "monto": 24200
+        },
+        {
+          "descripcion": "SEMANARIO (PERFIL)",
+          "edicion": "2258",
+          "cantidad": 1,
+          "monto": 3625
+        },
+        {
+          "descripcion": "SEMANARIO (PERFIL)",
+          "edicion": "2259",
+          "cantidad": 4,
+          "monto": 14500
+        }
+      ],
+      "cargadaEl": "2026-08-10T14:01:10.737Z"
+    },
+    {
+      "id": "f_1786370664388_j08hx",
+      "proveedorKey": "silmar",
+      "tipo": "factura",
+      "numeroFactura": "00004-00016861",
+      "fecha": "2026-08-10",
+      "vencimiento": "2026-08-20",
+      "monto": 13800,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "JOKER (PERFIL INT)",
+          "edicion": "1356",
+          "cantidad": 1,
+          "monto": 4875
+        },
+        {
+          "descripcion": "NOTICIAS (11)",
+          "edicion": "2589",
+          "cantidad": 1,
+          "monto": 8925
+        }
+      ],
+      "cargadaEl": "2026-08-10T14:04:24.388Z"
     }
   ]
 }
