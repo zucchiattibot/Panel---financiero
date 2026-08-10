@@ -171,6 +171,8 @@
   body.printing-factura *{visibility:hidden !important;}
   body.printing-factura #fcFacturaContenido, body.printing-factura #fcFacturaContenido *{visibility:visible !important;}
   body.printing-factura #fcFacturaContenido{position:absolute;top:0;left:0;width:100%;}
+  #fcCerrarPrintBtn{display:none;position:fixed;top:10px;right:10px;z-index:99999;background:#c0392b;color:#fff;border:none;border-radius:8px;padding:10px 14px;font-size:13px;font-weight:700;}
+  body.printing-factura #fcCerrarPrintBtn{display:block !important;visibility:visible !important;}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
@@ -1736,6 +1738,7 @@
       </div>
 
       <div class="card" id="fcFacturaCard" style="display:none;">
+        <button type="button" id="fcCerrarPrintBtn">✕ Volver</button>
         <div id="fcFacturaContenido" style="background:var(--cream);color:#1a2a1f;border-radius:12px;padding:18px 16px;font-family:Georgia,serif;"></div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;">
           <button type="button" class="cargar-submit-btn" id="fcBtnDescargarPDF" style="background:var(--blue);color:#1a2a1f;width:auto;padding:12px 18px;">⬇ Descargar PDF</button>
@@ -10679,23 +10682,42 @@ async function fcCompartirPDF(destino){
     window.open('mailto:?subject='+encodeURIComponent(asunto)+'&body='+encodeURIComponent(cuerpo), '_blank');
   }
 }
+document.getElementById('fcCerrarPrintBtn').addEventListener('click', function(){
+  document.body.classList.remove('printing-factura');
+});
 document.getElementById('fcBtnImprimirPDF').addEventListener('click', function(){
   if (!fcUltimaLiquidacion) return;
+  var msg = document.getElementById('fcFacturaMsg');
+  if (typeof window.print !== 'function'){
+    msg.style.color='var(--red-neg)'; msg.textContent='Esta app no permite imprimir. Usá "Copiar texto" y pegalo en WhatsApp o Notas.';
+    return;
+  }
   document.body.classList.add('printing-factura');
   // pequeño delay para que el navegador aplique el CSS antes de abrir el diálogo
   setTimeout(function(){ window.print(); }, 80);
   // el diálogo del sistema (sobre todo en Android/iOS) es asíncrono, así que NO
   // sacamos la clase justo después de llamar a print(): 'afterprint' cubre el
-  // caso normal, y este timeout de respaldo cubre los navegadores donde ese
-  // evento no dispara, dándole tiempo de sobra a que el usuario termine.
-  setTimeout(function(){ document.body.classList.remove('printing-factura'); }, 15000);
+  // caso normal. Si en unos segundos seguís viendo solo la factura, tocá "✕ Volver".
+  setTimeout(function(){ document.body.classList.remove('printing-factura'); }, 6000);
 });
 window.addEventListener('afterprint', function(){ document.body.classList.remove('printing-factura'); });
 document.getElementById('fcBtnCompartirWA').addEventListener('click', function(){ fcCompartirPDF('whatsapp'); });
 document.getElementById('fcBtnCompartirEmail').addEventListener('click', function(){ fcCompartirPDF('email'); });
 document.getElementById('fcBtnCopiarTexto').addEventListener('click', function(){
   if (!fcUltimaLiquidacion) return;
-  navigator.clipboard.writeText(fcTextoFactura(fcUltimaLiquidacion)).then(function(){ alert('Texto de la factura copiado.'); }).catch(function(){ alert('No se pudo copiar. Copialo manualmente.'); });
+  var texto = fcTextoFactura(fcUltimaLiquidacion);
+  abrirModalBackup({
+    titulo: 'Texto de la factura',
+    ayuda: 'Tocá "Copiar" para copiarlo, o seleccionalo a mano y copialo si el botón no funciona en esta app. Después pegalo en WhatsApp, Notas o donde lo necesites.',
+    texto: texto,
+    soloLectura: true,
+    etiquetaBoton: 'Copiar',
+    alAccionar: async function(){
+      var ta = document.getElementById('backupModalTextarea');
+      var ok = await copiarTexto(texto, ta);
+      document.getElementById('backupModalMsg').textContent = ok ? 'Copiado ✔️' : 'No se pudo copiar automático — seleccioná el texto de arriba y copialo a mano.';
+    }
+  });
 });
 
 /* ---------- Configuración ---------- */
