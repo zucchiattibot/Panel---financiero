@@ -1731,7 +1731,8 @@
         <div id="fcFacturaContenido" style="background:var(--cream);color:#1a2a1f;border-radius:12px;padding:18px 16px;font-family:Georgia,serif;"></div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;">
           <button type="button" class="cargar-submit-btn" id="fcBtnDescargarPDF" style="background:var(--blue);color:#1a2a1f;width:auto;padding:12px 18px;">⬇ Descargar PDF</button>
-          <button type="button" class="cargar-submit-btn" id="fcBtnCompartirWA" style="background:var(--green-pos);width:auto;padding:12px 18px;">Compartir por WhatsApp</button>
+          <button type="button" class="cargar-submit-btn" id="fcBtnCompartirWA" style="background:var(--green-pos);width:auto;padding:12px 18px;">📱 Compartir PDF por WhatsApp</button>
+          <button type="button" class="cargar-submit-btn" id="fcBtnCompartirEmail" style="background:var(--blue);color:#1a2a1f;width:auto;padding:12px 18px;">✉️ Enviar PDF por Email</button>
           <button type="button" class="tab-btn" id="fcBtnCopiarTexto" style="border-radius:8px;">Copiar texto</button>
         </div>
         <p class="card-note" id="fcFacturaMsg" style="min-height:14px;margin-top:8px;"></p>
@@ -10298,9 +10299,11 @@ function fcRenderLista(){
         '<button data-act="editar" data-id="'+c.id+'" class="tab-btn" style="border-radius:8px;padding:6px 10px;font-size:11.5px;">Editar</button>'+
         '<button data-act="suspender" data-id="'+c.id+'" class="tab-btn" style="border-radius:8px;padding:6px 10px;font-size:11.5px;">Suspender</button>'+
         '<button data-act="factura" data-id="'+c.id+'" class="tab-btn" style="border-radius:8px;padding:6px 10px;font-size:11.5px;">Liquidar / Factura</button>'+
+        '<button data-act="historial" data-id="'+c.id+'" class="tab-btn" style="border-radius:8px;padding:6px 10px;font-size:11.5px;">Historial ('+(c.facturas||[]).length+')</button>'+
         '<button data-act="borrar" data-id="'+c.id+'" class="tab-btn" style="border-radius:8px;padding:6px 10px;font-size:11.5px;color:var(--red-neg);">Eliminar</button>'+
       '</div>'+
       '<div id="fc-susp-'+c.id+'" style="display:none;"></div>'+
+      '<div id="fc-hist-'+c.id+'" style="display:none;"></div>'+
     '</div>';
   }).join('');
   cont.querySelectorAll('button[data-act]').forEach(function(b){
@@ -10319,6 +10322,7 @@ function fcOnClienteAction(act, id){
       fcSave().then(fcRenderLista);
     }
   } else if (act==='suspender'){ fcToggleSuspPanel(c); }
+  else if (act==='historial'){ fcToggleHistPanel(c); }
   else if (act==='factura'){
     document.getElementById('fcLiqCliente').value = id;
     fcIrAVista('liquidacion');
@@ -10363,6 +10367,52 @@ function fcWireSuspPanel(c, panel){
       c.suspensiones = (c.suspensiones||[]).filter(function(s){return s.id!==b.dataset.sid;});
       await fcSave();
       panel.innerHTML = fcSuspPanelHTML(c); fcWireSuspPanel(c, panel); fcRenderLista();
+    });
+  });
+}
+
+function fcToggleHistPanel(c){
+  var panel = document.getElementById('fc-hist-'+c.id);
+  if (panel.style.display==='block'){ panel.style.display='none'; return; }
+  panel.style.display='block';
+  panel.innerHTML = fcHistPanelHTML(c);
+  fcWireHistPanel(c, panel);
+}
+function fcHistPanelHTML(c){
+  var facturas = (c.facturas||[]).slice().sort(function(a,b){return (b.numero||0)-(a.numero||0);});
+  var lista = facturas.map(function(f){
+    return '<div style="display:flex;align-items:center;justify-content:space-between;background:rgba(0,0,0,.18);border:1px solid var(--line);border-radius:8px;padding:8px 10px;margin-bottom:6px;font-size:12px;gap:8px;">'+
+      '<span>N° '+fcNumFactura(f.numero)+' · '+fcMesNombre(f.month)+' '+f.year+' · '+fcFmt(f.total)+' · '+(f.fechaEmision||'')+'</span>'+
+      '<span style="display:flex;gap:6px;flex:0 0 auto;">'+
+        '<button data-fid="'+f.id+'" class="fcVerFactura" style="background:none;border:1px solid var(--line);color:var(--gold);border-radius:6px;padding:4px 8px;cursor:pointer;font-size:11px;">Ver</button>'+
+        '<button data-fid="'+f.id+'" class="fcBorrarFactura" style="background:none;border:none;color:var(--red-neg);cursor:pointer;font-weight:900;">✕</button>'+
+      '</span></div>';
+  }).join('');
+  return '<div style="border-top:1px solid var(--line);padding-top:10px;margin-top:10px;">'+
+    (lista||'<p class="card-note" style="margin:0;">Todavía no se generó ninguna factura para este cliente.</p>')+
+  '</div>';
+}
+function fcWireHistPanel(c, panel){
+  panel.querySelectorAll('.fcVerFactura').forEach(function(b){
+    b.addEventListener('click', function(){
+      var f = (c.facturas||[]).find(function(x){return x.id===b.dataset.fid;});
+      if (!f) return;
+      fcUltimaLiquidacion = {id:f.id, numero:f.numero, fechaEmision:f.fechaEmision, cliente:c, year:f.year, month:f.month, items:f.items, total:f.total};
+      fcIrAVista('liquidacion');
+      document.getElementById('fcLiqCliente').value = c.id;
+      document.getElementById('fcResultadoCard').style.display='none';
+      document.getElementById('fcFacturaContenido').innerHTML = fcFacturaHTML(fcUltimaLiquidacion);
+      document.getElementById('fcFacturaMsg').textContent='';
+      document.getElementById('fcFacturaCard').style.display='block';
+      document.getElementById('fcFacturaCard').scrollIntoView({behavior:'smooth'});
+    });
+  });
+  panel.querySelectorAll('.fcBorrarFactura').forEach(function(b){
+    b.addEventListener('click', async function(){
+      if (!confirm('¿Eliminar esta factura del historial? No se puede deshacer.')) return;
+      c.facturas = (c.facturas||[]).filter(function(x){return x.id!==b.dataset.fid;});
+      await fcSave();
+      panel.innerHTML = fcHistPanelHTML(c); fcWireHistPanel(c, panel); fcRenderLista();
     });
   });
 }
@@ -10496,12 +10546,21 @@ function fcFacturaHTML(l){
 document.getElementById('fcBtnGenerarFactura').addEventListener('click', async function(){
   if (!fcUltimaLiquidacion) return;
   var l = fcUltimaLiquidacion;
-  if (!l.numero){
+  var esNueva = !l.numero;
+  if (esNueva){
     l.numero = fc.nextFacturaNum;
     fc.nextFacturaNum++;
-    await fcSave();
+    l.id = fcUid();
   }
   l.fechaEmision = fcHoy();
+  if (esNueva){
+    var cli = fc.clientes.find(function(x){return x.id===l.cliente.id;});
+    if (cli){
+      cli.facturas = cli.facturas||[];
+      cli.facturas.push({id:l.id, numero:l.numero, fechaEmision:l.fechaEmision, year:l.year, month:l.month, items:l.items, total:l.total});
+    }
+  }
+  await fcSave();
   document.getElementById('fcFacturaContenido').innerHTML = fcFacturaHTML(l);
   document.getElementById('fcFacturaMsg').textContent = '';
   document.getElementById('fcFacturaCard').style.display='block';
@@ -10528,28 +10587,45 @@ document.getElementById('fcBtnDescargarPDF').addEventListener('click', function(
     msg.style.color='var(--green-pos)'; msg.textContent='PDF descargado ✔️';
   }).catch(function(){ msg.style.color='var(--red-neg)'; msg.textContent='Hubo un error generando el PDF.'; });
 });
-document.getElementById('fcBtnCompartirWA').addEventListener('click', async function(){
+async function fcCompartirPDF(destino){
   if (!fcUltimaLiquidacion) return;
   var l = fcUltimaLiquidacion;
   var msg = document.getElementById('fcFacturaMsg');
   var tel = (l.cliente.telefono||'').replace(/[^0-9]/g,'');
-  var texto = fcTextoFactura(l);
-  var puedeCompartirArchivos = navigator.canShare && typeof window.html2pdf === 'function';
-  if (puedeCompartirArchivos){
+  var nombreArchivo = fcNombreArchivoFactura(l);
+  var tituloShare = 'Factura '+fcNumFactura(l.numero)+' · '+l.cliente.nombre;
+  if (typeof window.html2pdf !== 'function'){ msg.style.color='var(--red-neg)'; msg.textContent='No se pudo cargar el generador de PDF (revisá tu conexión).'; return; }
+  msg.style.color='var(--muted)'; msg.textContent='Generando PDF para compartir…';
+  var blob;
+  try{ blob = await fcGenerarPDFBlob().outputPdf('blob'); }
+  catch(e){ msg.style.color='var(--red-neg)'; msg.textContent='Hubo un error generando el PDF.'; return; }
+  var file = new File([blob], nombreArchivo, {type:'application/pdf'});
+  if (navigator.canShare && navigator.canShare({files:[file]})){
     try{
-      msg.style.color='var(--muted)'; msg.textContent='Generando PDF para compartir…';
-      var blob = await fcGenerarPDFBlob().outputPdf('blob');
-      var file = new File([blob], fcNombreArchivoFactura(l), {type:'application/pdf'});
-      if (navigator.canShare({files:[file]})){
-        await navigator.share({files:[file], title:'Factura '+fcNumFactura(l.numero), text:texto});
-        msg.style.color='var(--green-pos)'; msg.textContent='Listo, elegí WhatsApp en el menú para enviarla ✔️';
-        return;
-      }
-    }catch(e){ /* si el usuario cancela el share o falla, seguimos con el fallback de texto */ }
+      await navigator.share({files:[file], title:tituloShare});
+      msg.style.color='var(--green-pos)'; msg.textContent = destino==='whatsapp' ? 'Listo, elegí WhatsApp en el menú para enviarla ✔️' : 'Listo, elegí tu app de mail en el menú para enviarla ✔️';
+      return;
+    }catch(e){
+      if (e && e.name==='AbortError') { msg.textContent=''; return; }
+      /* si falla el share nativo, seguimos con el fallback de descarga */
+    }
   }
-  msg.textContent='';
-  window.open('https://wa.me/'+tel+'?text='+encodeURIComponent(texto), '_blank');
-});
+  // Fallback: el navegador no puede adjuntar archivos directo a WhatsApp/Mail vía enlace,
+  // así que descargamos el PDF y guiamos al usuario para adjuntarlo a mano.
+  await fcGenerarPDFBlob().set({filename:nombreArchivo}).save();
+  if (destino==='whatsapp'){
+    var textoWA = 'Te descargué la factura en PDF ("'+nombreArchivo+'"). Abrí WhatsApp y adjuntala desde tus descargas para enviarla a '+l.cliente.nombre+'.';
+    msg.style.color='var(--muted)'; msg.textContent='PDF descargado. Adjuntalo manualmente en WhatsApp.';
+    window.open('https://wa.me/'+tel+'?text='+encodeURIComponent(textoWA), '_blank');
+  } else {
+    var asunto = 'Factura '+fcNumFactura(l.numero)+' - '+l.cliente.nombre;
+    var cuerpo = 'Hola '+l.cliente.nombre+', te adjunto la factura del período. (PDF descargado como "'+nombreArchivo+'", adjuntalo antes de enviar este mail).';
+    msg.style.color='var(--muted)'; msg.textContent='PDF descargado. Adjuntalo manualmente en el mail.';
+    window.open('mailto:?subject='+encodeURIComponent(asunto)+'&body='+encodeURIComponent(cuerpo), '_blank');
+  }
+}
+document.getElementById('fcBtnCompartirWA').addEventListener('click', function(){ fcCompartirPDF('whatsapp'); });
+document.getElementById('fcBtnCompartirEmail').addEventListener('click', function(){ fcCompartirPDF('email'); });
 document.getElementById('fcBtnCopiarTexto').addEventListener('click', function(){
   if (!fcUltimaLiquidacion) return;
   navigator.clipboard.writeText(fcTextoFactura(fcUltimaLiquidacion)).then(function(){ alert('Texto de la factura copiado.'); }).catch(function(){ alert('No se pudo copiar. Copialo manualmente.'); });
