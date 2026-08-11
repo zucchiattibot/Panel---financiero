@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 3,
-  "exportadoEl": "2026-08-11T14:16:30.220Z",
+  "exportadoEl": "2026-08-11T14:27:41.551Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -5374,6 +5374,198 @@
         }
       ],
       "cargadaEl": "2026-08-10T14:04:24.388Z"
+    },
+    {
+      "id": "f_1786458388929_2_q5nre",
+      "proveedorKey": "clarin",
+      "tipo": "factura",
+      "numeroFactura": "0132A01342596",
+      "fecha": "2026-08-07",
+      "vencimiento": "2026-09-11",
+      "monto": 74817.66,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-11T14:26:28.931Z"
+    },
+    {
+      "id": "f_1786458388933_3_fpx6o",
+      "proveedorKey": "clarin",
+      "tipo": "factura",
+      "numeroFactura": "0132A01342596",
+      "fecha": "2026-08-07",
+      "vencimiento": "2026-09-21",
+      "monto": 49878.44,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-11T14:26:28.933Z"
+    },
+    {
+      "id": "f_1786458388934_4_yl26s",
+      "proveedorKey": "clarin",
+      "tipo": "factura",
+      "numeroFactura": "0132A01342597",
+      "fecha": "2026-08-07",
+      "vencimiento": "2026-08-14",
+      "monto": 665136,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-11T14:26:28.934Z"
+    },
+    {
+      "id": "f_1786458388934_5_bz2kn",
+      "proveedorKey": "clarin",
+      "tipo": "factura",
+      "numeroFactura": "0132A01342598",
+      "fecha": "2026-08-07",
+      "vencimiento": "2026-08-17",
+      "monto": 24422.95,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-11T14:26:28.934Z"
+    },
+    {
+      "id": "f_1786458388934_6_mfsxq",
+      "proveedorKey": "clarin",
+      "tipo": "factura",
+      "numeroFactura": "0132A01342598",
+      "fecha": "2026-08-07",
+      "vencimiento": "2026-09-01",
+      "monto": 16281.97,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-11T14:26:28.934Z"
+    },
+    {
+      "id": "f_1786458388934_7_ld9rr",
+      "proveedorKey": "clarin",
+      "tipo": "factura",
+      "numeroFactura": "0132A01342599",
+      "fecha": "2026-08-07",
+      "vencimiento": "2026-08-27",
+      "monto": 67200.19,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-11T14:26:28.934Z"
+    },
+    {
+      "id": "f_1786458388934_8_9zlb8",
+      "proveedorKey": "clarin",
+      "tipo": "factura",
+      "numeroFactura": "0132A01342599",
+      "fecha": "2026-08-07",
+      "vencimiento": "2026-09-06",
+      "monto": 44800.13,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-11T14:26:28.934Z"
+    },
+    {
+      "id": "f_1786458388934_9_ggsy3",
+      "proveedorKey": "clarin",
+      "tipo": "factura",
+      "numeroFactura": "0132A01342600",
+      "fecha": "2026-08-07",
+      "vencimiento": "2026-09-03",
+      "monto": 49000.16,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-11T14:26:28.934Z"
+    },
+    {
+      "id": "f_1786458388934_10_44skl",
+      "proveedorKey": "clarin",
+      "tipo": "factura",
+      "numeroFactura": "0132A01342689",
+      "fecha": "2026-08-07",
+      "vencimiento": "2026-08-27",
+      "monto": 46172.09,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-11T14:26:28.934Z"
+    },
+    {
+      "id": "f_1786458388934_11_jfsyk",
+      "proveedorKey": "clarin",
+      "tipo": "nota_credito",
+      "numeroFactura": "0132A01362375",
+      "fecha": "2026-08-07",
+      "vencimiento": "2026-08-07",
+      "monto": 245854,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-11T14:26:28.934Z"
+    },
+    {
+      "id": "f_1786458388934_12_q93ze",
+      "proveedorKey": "clarin",
+      "tipo": "nota_credito",
+      "numeroFactura": "0132A01362376",
+      "fecha": "2026-08-07",
+      "vencimiento": "2026-08-10",
+      "monto": 20214.59,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-11T14:26:28.934Z"
+    },
+    {
+      "id": "f_1786458388934_13_h0yef",
+      "proveedorKey": "clarin",
+      "tipo": "nota_credito",
+      "numeroFactura": "0132A01362376",
+      "fecha": "2026-08-07",
+      "vencimiento": "2026-08-25",
+      "monto": 13476.39,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-11T14:26:28.934Z"
+    },
+    {
+      "id": "f_1786458388934_14_8n8yw",
+      "proveedorKey": "clarin",
+      "tipo": "nota_credito",
+      "numeroFactura": "0132A01362377",
+      "fecha": "2026-08-07",
+      "vencimiento": "2026-08-11",
+      "monto": 31563.66,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-11T14:26:28.934Z"
+    },
+    {
+      "id": "f_1786458388934_15_bjruc",
+      "proveedorKey": "clarin",
+      "tipo": "nota_credito",
+      "numeroFactura": "0132A01362377",
+      "fecha": "2026-08-07",
+      "vencimiento": "2026-08-21",
+      "monto": 21042.44,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-11T14:26:28.935Z"
+    },
+    {
+      "id": "f_1786458388935_16_vavju",
+      "proveedorKey": "clarin",
+      "tipo": "nota_credito",
+      "numeroFactura": "0132A01362378",
+      "fecha": "2026-08-07",
+      "vencimiento": "2026-08-17",
+      "monto": 29280.07,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-11T14:26:28.935Z"
+    },
+    {
+      "id": "f_1786458388935_17_hcvvj",
+      "proveedorKey": "clarin",
+      "tipo": "nota_credito",
+      "numeroFactura": "0132A01362378",
+      "fecha": "2026-08-07",
+      "vencimiento": "2026-09-01",
+      "monto": 19520.05,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-11T14:26:28.935Z"
     }
   ]
 }
