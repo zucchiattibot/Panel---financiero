@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 4,
-  "exportadoEl": "2026-08-11T22:11:47.689Z",
+  "exportadoEl": "2026-08-11T22:12:42.682Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -207,7 +207,7 @@
       "date": "2026-08-05",
       "type": "egreso",
       "amount": 189995.3,
-      "category": "Vehiculo",
+      "category": "Vehículo",
       "account": "alquileres",
       "detalle": "Seguro"
     },
