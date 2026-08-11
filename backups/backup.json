@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 4,
-  "exportadoEl": "2026-08-11T19:13:55.821Z",
+  "exportadoEl": "2026-08-11T19:20:24.728Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -5576,5 +5576,398 @@
       "cargadaEl": "2026-08-11T14:26:28.935Z"
     }
   ],
-  "clientesReparto": null
+  "clientesReparto": {
+    "nombreReparto": "Agencia Albor",
+    "datosNegocio": {
+      "direccion": "Maipú 175",
+      "telefono": "2395417834"
+    },
+    "diarios": [
+      {
+        "id": "msnrypbde41dta",
+        "nombre": "Clarin",
+        "precios": [
+          8000,
+          5100,
+          5100,
+          5100,
+          5100,
+          5100,
+          7200
+        ]
+      },
+      {
+        "id": "msnrzksq1xnw9w",
+        "nombre": "La nación",
+        "precios": [
+          5130,
+          5130,
+          5130,
+          5130,
+          5130,
+          5130,
+          7230
+        ]
+      },
+      {
+        "id": "msns0l33nw70t4",
+        "nombre": "Popular",
+        "precios": [
+          2500,
+          2300,
+          2300,
+          2300,
+          2300,
+          2300,
+          2300
+        ]
+      },
+      {
+        "id": "msnsksp57a8bns",
+        "nombre": "Diario ole",
+        "precios": [
+          2900,
+          2900,
+          2800,
+          2800,
+          2800,
+          2800,
+          2800
+        ]
+      }
+    ],
+    "nextFacturaNum": 21,
+    "clientes": [
+      {
+        "id": "msnrvzg8wadclt",
+        "nombre": "Puppies",
+        "telefono": "2395417834",
+        "direccion": "",
+        "fechaAlta": "2026-08-01",
+        "diariosCliente": [
+          {
+            "diarioId": "msnrypbde41dta",
+            "dias": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              0
+            ]
+          },
+          {
+            "diarioId": "msns0l33nw70t4",
+            "dias": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              0
+            ]
+          },
+          {
+            "diarioId": "msnsksp57a8bns",
+            "dias": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              0
+            ]
+          }
+        ],
+        "revistas": [
+          {
+            "id": "msnslgbw5uacdj",
+            "nombre": "El oeste",
+            "precio": 1500,
+            "frecuencia": "semanal",
+            "dia": 0
+          }
+        ],
+        "suspensiones": [],
+        "facturas": [],
+        "proximoDesde": "",
+        "pagos": []
+      },
+      {
+        "id": "msnxz83xwkwf50",
+        "nombre": "Morey",
+        "telefono": "",
+        "direccion": "",
+        "diariosCliente": [
+          {
+            "diarioId": "msnrypbde41dta",
+            "dias": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              0
+            ]
+          }
+        ],
+        "revistas": [],
+        "suspensiones": [],
+        "pagos": [],
+        "facturas": []
+      },
+      {
+        "id": "msnxzua28sqfsj",
+        "nombre": "Banco Creedicop",
+        "telefono": "",
+        "direccion": "",
+        "diariosCliente": [
+          {
+            "diarioId": "msnrypbde41dta",
+            "dias": [
+              1
+            ]
+          }
+        ],
+        "revistas": [],
+        "suspensiones": [],
+        "pagos": [],
+        "facturas": []
+      },
+      {
+        "id": "msny0ss1xyofv7",
+        "nombre": "Dr. Pinciaroli J. Luis",
+        "telefono": "",
+        "direccion": "",
+        "diariosCliente": [
+          {
+            "diarioId": "msnrypbde41dta",
+            "dias": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              0
+            ]
+          }
+        ],
+        "revistas": [
+          {
+            "id": "msny0x3kpkd2s4",
+            "nombre": "El oeste",
+            "precio": 1500,
+            "frecuencia": "semanal",
+            "dia": 6
+          }
+        ],
+        "suspensiones": [],
+        "pagos": [],
+        "facturas": []
+      },
+      {
+        "id": "msokpdwksc5o1a",
+        "nombre": "Ferrero",
+        "telefono": "",
+        "direccion": "",
+        "fechaAlta": "2026-06-01",
+        "diariosCliente": [
+          {
+            "diarioId": "msns0l33nw70t4",
+            "dias": [
+              1,
+              6,
+              0
+            ]
+          }
+        ],
+        "revistas": [],
+        "suspensiones": [],
+        "facturas": [],
+        "pagos": []
+      },
+      {
+        "id": "msopqyth7oj11q",
+        "nombre": "Las Lagunas",
+        "telefono": "",
+        "direccion": "",
+        "fechaAlta": "2026-08-01",
+        "diariosCliente": [
+          {
+            "diarioId": "msnrzksq1xnw9w",
+            "dias": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6
+            ]
+          }
+        ],
+        "revistas": [
+          {
+            "id": "msopqxq0ymhgpc",
+            "nombre": "El Oeste",
+            "precio": 1500,
+            "frecuencia": "semanal",
+            "dia": 6
+          }
+        ],
+        "suspensiones": [],
+        "pagos": []
+      },
+      {
+        "id": "msoprhsjs8e54i",
+        "nombre": "Gemelli emanuel",
+        "telefono": "",
+        "direccion": "",
+        "fechaAlta": "2026-08-01",
+        "diariosCliente": [
+          {
+            "diarioId": "msns0l33nw70t4",
+            "dias": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              0
+            ]
+          }
+        ],
+        "revistas": [],
+        "suspensiones": [],
+        "facturas": [],
+        "pagos": []
+      },
+      {
+        "id": "msops0emrd9cde",
+        "nombre": "Quiniela Sanchez",
+        "telefono": "",
+        "direccion": "",
+        "fechaAlta": "2026-08-01",
+        "diariosCliente": [
+          {
+            "diarioId": "msnrypbde41dta",
+            "dias": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6
+            ]
+          }
+        ],
+        "revistas": [],
+        "suspensiones": [],
+        "pagos": []
+      },
+      {
+        "id": "msopstv7i0xdvh",
+        "nombre": "Tomas Hnos",
+        "telefono": "",
+        "direccion": "",
+        "fechaAlta": "2026-08-01",
+        "diariosCliente": [
+          {
+            "diarioId": "msnrzksq1xnw9w",
+            "dias": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6
+            ]
+          }
+        ],
+        "revistas": [
+          {
+            "id": "msopstbgawhclt",
+            "nombre": "El Oeste",
+            "precio": 1500,
+            "frecuencia": "semanal",
+            "dia": 6
+          }
+        ],
+        "suspensiones": [],
+        "pagos": []
+      },
+      {
+        "id": "msoptbwrobqtiz",
+        "nombre": "Angelica Carlos Arroyo 131",
+        "telefono": "",
+        "direccion": "",
+        "fechaAlta": "2026-08-01",
+        "diariosCliente": [
+          {
+            "diarioId": "msnrypbde41dta",
+            "dias": [
+              0
+            ]
+          }
+        ],
+        "revistas": [],
+        "suspensiones": [],
+        "pagos": []
+      },
+      {
+        "id": "msoptqjurmo6rw",
+        "nombre": "Tauro",
+        "telefono": "",
+        "direccion": "",
+        "fechaAlta": "2026-08-01",
+        "diariosCliente": [
+          {
+            "diarioId": "msnrzksq1xnw9w",
+            "dias": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6
+            ]
+          }
+        ],
+        "revistas": [],
+        "suspensiones": [],
+        "pagos": []
+      },
+      {
+        "id": "msopum04yzba1w",
+        "nombre": "Cereales Casares",
+        "telefono": "",
+        "direccion": "",
+        "fechaAlta": "2026-08-01",
+        "diariosCliente": [
+          {
+            "diarioId": "msnrzksq1xnw9w",
+            "dias": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              0
+            ]
+          }
+        ],
+        "revistas": [],
+        "suspensiones": [],
+        "pagos": []
+      }
+    ],
+    "extras": [],
+    "ccInit": true
+  }
 }
