@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 4,
-  "exportadoEl": "2026-08-11T22:11:05.731Z",
+  "exportadoEl": "2026-08-11T22:11:47.689Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -711,7 +711,7 @@
       "date": "2026-08-11",
       "type": "egreso",
       "amount": 38012.7,
-      "category": "Vehiculo",
+      "category": "Vehículo",
       "account": "alquileres",
       "detalle": "Patente"
     },
