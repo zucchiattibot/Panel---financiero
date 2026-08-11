@@ -128,6 +128,17 @@
   #fcFacturaContenido .fc-iclient{background:#faf7ee;border-radius:8px;padding:11px 13px;}
   #fcFacturaContenido .fc-firma{display:flex;justify-content:space-between;margin-top:30px;padding-top:8px;}
   #fcFacturaContenido .fc-firma div{width:44%;border-top:1px solid #cfc7ab;text-align:center;font-size:10.5px;color:#8a8470;padding-top:6px;}
+  #fcExtPrintBox, #fcExtResumenPrintBox{background:var(--cream);color:#1a2a1f;border-radius:12px;padding:20px 18px;font-family:Georgia,serif;box-shadow:0 1px 3px rgba(0,0,0,.08);}
+  #fcExtPrintBox table, #fcExtResumenPrintBox table{width:100%;border-collapse:collapse;font-size:12.5px;}
+  #fcExtPrintBox th, #fcExtResumenPrintBox th{text-align:left;font-size:10px;text-transform:uppercase;color:#9a927a;letter-spacing:.05em;padding:0 6px 8px 0;border-bottom:1px solid #e4ddc8;font-weight:700;}
+  #fcExtPrintBox td, #fcExtResumenPrintBox td{padding:8px 6px;border-bottom:1px solid #efe9d8;font-size:12.5px;}
+  #fcExtPrintBox td.num, #fcExtResumenPrintBox td.num{text-align:right;font-variant-numeric:tabular-nums;}
+  #fcExtPrintBox .fc-remito-topline, #fcExtResumenPrintBox .fc-remito-topline{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:3px solid #d3b56a;padding-bottom:14px;margin-bottom:16px;}
+  #fcExtPrintBox .fc-brand, #fcExtResumenPrintBox .fc-brand{font-size:20px;font-weight:900;letter-spacing:-.01em;color:#1a2a1f;}
+  #fcExtPrintBox .fc-negocio, #fcExtResumenPrintBox .fc-negocio{font-size:12px;color:#8a8470;line-height:1.6;margin-top:4px;}
+  #fcExtPrintBox .fc-remito-tag, #fcExtResumenPrintBox .fc-remito-tag{font-size:10px;letter-spacing:.12em;text-transform:uppercase;font-weight:800;color:#a1885a;}
+  #fcExtPrintBox .fc-ext-saldo, #fcExtResumenPrintBox .fc-ext-saldo{font-size:15px;font-weight:900;text-align:right;}
+  #fcExtPrintBox .fc-totalrow td, #fcExtResumenPrintBox .fc-totalrow td{border-top:2px solid #1a2a1f;border-bottom:none;font-weight:900;font-size:15px;padding-top:12px;}
   .note-box{background:rgba(211,181,106,.08);border:1px solid rgba(211,181,106,.3);border-radius:10px;padding:10px 13px;font-size:12px;color:var(--cream-dim);margin-top:10px;line-height:1.5;}
   .range-group{margin-bottom:14px;}
   .range-label{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:6px;}
@@ -1638,6 +1649,7 @@
         <button type="button" class="toggle-btn active" data-fcview="lista">Clientes</button>
         <button type="button" class="toggle-btn" data-fcview="nuevo">+ Nuevo cliente</button>
         <button type="button" class="toggle-btn" data-fcview="liquidacion">Liquidación &amp; Factura</button>
+        <button type="button" class="toggle-btn" data-fcview="extracto">Cuenta corriente</button>
         <button type="button" class="toggle-btn" data-fcview="config">Configuración</button>
       </div>
     </div>
@@ -1670,6 +1682,12 @@
             <div class="range-label">Dirección</div>
             <input type="text" id="fcDireccion" placeholder="Opcional" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;width:100%;box-sizing:border-box;">
           </div>
+        </div>
+
+        <div class="range-group">
+          <div class="range-label">Fecha de alta (desde cuándo lleva)</div>
+          <input type="date" id="fcFechaAlta" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;width:100%;box-sizing:border-box;color-scheme:dark;">
+          <p class="card-note" style="margin:4px 0 0 0;">Se usa como punto de partida de la primera liquidación semanal/quincenal/por días.</p>
         </div>
 
         <div class="range-group">
@@ -1714,10 +1732,34 @@
           <div class="range-label">Cliente</div>
           <select id="fcLiqCliente" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;width:100%;color-scheme:dark;"></select>
         </div>
+        <p class="card-note" id="fcLiqSaldoInfo" style="font-weight:700;margin-top:-6px;"></p>
         <div class="range-group">
+          <div class="range-label">Tipo de período</div>
+          <select id="fcLiqTipo" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;width:100%;color-scheme:dark;">
+            <option value="mensual">Mensual (mes calendario)</option>
+            <option value="semanal">Semanal (7 días)</option>
+            <option value="quincenal">Quincenal (14 días)</option>
+            <option value="dias">Cantidad de días</option>
+            <option value="rango">Rango de fechas a mano</option>
+          </select>
+        </div>
+        <div class="range-group" id="fcLiqPeriodoMensualWrap">
           <div class="range-label">Período</div>
           <input type="month" id="fcLiqPeriodo" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;width:100%;color-scheme:dark;">
         </div>
+        <div class="range-group" id="fcLiqDesdeWrap" style="display:none;">
+          <div class="range-label">Desde</div>
+          <input type="date" id="fcLiqDesde" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;width:100%;color-scheme:dark;">
+        </div>
+        <div class="range-group" id="fcLiqDiasWrap" style="display:none;">
+          <div class="range-label">Cantidad de días</div>
+          <input type="number" id="fcLiqCantDias" min="1" value="7" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;width:100%;box-sizing:border-box;">
+        </div>
+        <div class="range-group" id="fcLiqHastaWrap" style="display:none;">
+          <div class="range-label">Hasta</div>
+          <input type="date" id="fcLiqHasta" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;width:100%;color-scheme:dark;">
+        </div>
+        <p class="card-note" id="fcLiqRangoPreview"></p>
         <button type="button" class="cargar-submit-btn" id="fcBtnCalcular">Calcular liquidación</button>
       </div>
 
@@ -1749,6 +1791,42 @@
           <button type="button" class="tab-btn" id="fcBtnCopiarTexto" style="border-radius:8px;">Copiar texto</button>
         </div>
         <p class="card-note" id="fcFacturaMsg" style="min-height:14px;margin-top:8px;"></p>
+      </div>
+    </div>
+
+    <!-- CUENTA CORRIENTE / EXTRACTO -->
+    <div class="fc-view" data-fcview="extracto">
+      <div class="card" id="fcExtResumenCard">
+        <h2>Cuenta corriente</h2>
+        <p class="card-note">Lo que te debe (o tiene a favor) cada cliente: total facturado menos pagos registrados. Tocá un cliente para ver el detalle y registrarle un pago.</p>
+        <p id="fcExtTotalResumen" style="font-weight:800;font-size:15px;margin:0 0 12px 0;"></p>
+        <div id="fcExtListaResumen"></div>
+        <div id="fcExtResumenPrintBox" style="display:none;"></div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;">
+          <button type="button" class="cargar-submit-btn" id="fcExtBtnDescargarResumenPDF" style="background:var(--blue);color:#1a2a1f;width:auto;padding:12px 18px;">⬇ Descargar PDF (todos)</button>
+          <button type="button" class="tab-btn" id="fcExtBtnCopiarResumen" style="border-radius:8px;">Copiar texto</button>
+        </div>
+        <p class="card-note" id="fcExtResumenMsg" style="min-height:14px;margin-top:8px;"></p>
+      </div>
+
+      <div class="card" id="fcExtDetalleCard" style="display:none;">
+        <button type="button" id="fcExtVolverBtn" style="background:none;border:none;color:var(--gold);cursor:pointer;font-size:12.5px;margin-bottom:10px;padding:0;">← Volver al resumen</button>
+        <div id="fcExtPrintBox"></div>
+        <div class="range-group" style="margin-top:16px;border-top:1px solid var(--line);padding-top:14px;">
+          <div class="range-label">Registrar pago</div>
+          <div class="cargar-grid-2">
+            <input type="date" id="fcExtPagoFecha" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;color-scheme:dark;">
+            <input type="number" id="fcExtPagoMonto" placeholder="Monto" min="0" step="0.01" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;">
+          </div>
+          <input type="text" id="fcExtPagoNota" placeholder="Nota (ej: efectivo, transferencia)" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;width:100%;box-sizing:border-box;margin-top:8px;">
+          <button type="button" class="tab-btn" id="fcExtBtnAgregarPago" style="border-radius:8px;margin-top:10px;">+ Registrar pago</button>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;">
+          <button type="button" class="cargar-submit-btn" id="fcExtBtnDescargarPDF" style="background:var(--blue);color:#1a2a1f;width:auto;padding:12px 18px;">⬇ Descargar PDF</button>
+          <button type="button" class="cargar-submit-btn" id="fcExtBtnCompartirWA" style="background:var(--green-pos);width:auto;padding:12px 18px;">📱 Enviar por WhatsApp</button>
+          <button type="button" class="tab-btn" id="fcExtBtnCopiarTexto" style="border-radius:8px;">Copiar texto</button>
+        </div>
+        <p class="card-note" id="fcExtMsg" style="min-height:14px;margin-top:8px;"></p>
       </div>
     </div>
 
@@ -10043,12 +10121,56 @@ function fcMigrar(){
     delete c.diasDiario;
   });
   delete fc.preciosDiario;
+
+  // Cuenta corriente: cada cliente suma un array de pagos (abonos) que se
+  // resta del total de sus facturas (cargos) para calcular el saldo. La
+  // primera vez que corre esto, las facturas ya generadas hasta ahora se dan
+  // por cobradas (se carga un pago de apertura que las cancela), así el
+  // saldo de cuenta corriente arranca en $0 y de acá en más solo suma lo
+  // nuevo que se facture y reste lo que se registre como pagado.
+  fc.clientes.forEach(function(c){ if (!c.pagos) c.pagos = []; });
+  if (!fc.ccInit){
+    fc.clientes.forEach(function(c){
+      var totalPrevio = (c.facturas||[]).reduce(function(a,f){return a+(f.total||0);},0);
+      if (totalPrevio > 0.005){
+        c.pagos.push({id:fcUid(), fecha:fcHoy(), monto:Math.round(totalPrevio*100)/100, nota:'Saldo inicial (facturas previas, ya cobradas)'});
+      }
+    });
+    fc.ccInit = true;
+  }
 }
 
 function fcUid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,8); }
 function fcFmt(n){ return '$'+(Math.round(n*100)/100).toLocaleString('es-AR',{minimumFractionDigits:2,maximumFractionDigits:2}); }
 function fcHoy(){ return new Date().toISOString().slice(0,10); }
 function fcEsc(s){ var d=document.createElement('div'); d.textContent = s==null?'':s; return d.innerHTML; }
+
+/* ---------- Cuenta corriente ---------- */
+// Saldo de un cliente: total facturado (cargos) menos total pagado (abonos).
+// Positivo = te debe. Negativo = tiene a favor.
+function fcSaldoCliente(c){
+  var cargos = (c.facturas||[]).reduce(function(a,f){return a+(f.total||0);},0);
+  var abonos = (c.pagos||[]).reduce(function(a,p){return a+(p.monto||0);},0);
+  return Math.round((cargos-abonos)*100)/100;
+}
+// Movimientos de la cuenta corriente de un cliente, ordenados por fecha, con
+// saldo acumulado a lo largo del tiempo (para el extracto).
+function fcMovimientosCliente(c){
+  var movs = [];
+  (c.facturas||[]).forEach(function(f){
+    movs.push({fecha: f.fechaEmision||'', tipo:'cargo', detalle:'Factura N° '+fcNumFactura(f.numero)+' · '+fcPeriodoLabel(f), monto: (f.total||0)});
+  });
+  (c.pagos||[]).forEach(function(p){
+    movs.push({fecha: p.fecha||'', tipo:'pago', detalle: p.nota ? ('Pago · '+p.nota) : 'Pago', monto: -(p.monto||0)});
+  });
+  movs.sort(function(a,b){ return (a.fecha||'').localeCompare(b.fecha||''); });
+  var saldo = 0;
+  movs.forEach(function(m){ saldo += m.monto; m.saldo = Math.round(saldo*100)/100; });
+  return movs;
+}
+function fcSaldoTotalClientes(){
+  return fc.clientes.reduce(function(a,c){ return a+fcSaldoCliente(c); }, 0);
+}
 
 async function fcLoad(){
   try{
@@ -10078,6 +10200,7 @@ document.querySelectorAll('#fcNav .toggle-btn').forEach(function(btn){
     if (btn.dataset.fcview==='lista') fcRenderLista();
     if (btn.dataset.fcview==='liquidacion') fcRenderSelectLiq();
     if (btn.dataset.fcview==='nuevo' && !fcEditingId) fcResetForm();
+    if (btn.dataset.fcview==='extracto') fcRenderExtracto();
   });
 });
 
@@ -10238,6 +10361,7 @@ function fcResetForm(){
   document.getElementById('fcNombre').value='';
   document.getElementById('fcTelefono').value='';
   document.getElementById('fcDireccion').value='';
+  document.getElementById('fcFechaAlta').value=fcHoy();
   fcDiasDiario = [1,2,3,4,5,6,0]; fcDiariosCliente = []; fcRevistas = [];
   fcRenderSelDiarioAgregar();
   fcBuildDiasChips();
@@ -10252,6 +10376,7 @@ function fcCargarClienteEnForm(c){
   document.getElementById('fcNombre').value=c.nombre;
   document.getElementById('fcTelefono').value=c.telefono||'';
   document.getElementById('fcDireccion').value=c.direccion||'';
+  document.getElementById('fcFechaAlta').value=c.fechaAlta||'';
   fcDiasDiario = [1,2,3,4,5,6,0];
   fcDiariosCliente = (c.diariosCliente||[]).map(function(dc){ return {diarioId:dc.diarioId, dias:(dc.dias||[]).slice()}; });
   fcRevistas = (c.revistas||[]).map(function(r){ return Object.assign({},r); });
@@ -10270,6 +10395,7 @@ document.getElementById('fcBtnGuardarCliente').addEventListener('click', async f
     nombre: nombre,
     telefono: document.getElementById('fcTelefono').value.trim(),
     direccion: document.getElementById('fcDireccion').value.trim(),
+    fechaAlta: document.getElementById('fcFechaAlta').value || '',
     diariosCliente: fcDiariosCliente.map(function(dc){ return {diarioId:dc.diarioId, dias:dc.dias.slice()}; }),
     revistas: fcRevistas.map(function(r){return Object.assign({},r);}),
     suspensiones: []
@@ -10277,6 +10403,8 @@ document.getElementById('fcBtnGuardarCliente').addEventListener('click', async f
   if (fcEditingId){
     var idx = fc.clientes.findIndex(function(c){return c.id===fcEditingId;});
     data.suspensiones = fc.clientes[idx].suspensiones || [];
+    data.facturas = fc.clientes[idx].facturas || [];
+    data.proximoDesde = fc.clientes[idx].proximoDesde || '';
     fc.clientes[idx] = data;
   } else { fc.clientes.push(data); }
   await fcSave();
@@ -10307,19 +10435,28 @@ function fcRenderLista(){
   if (lista.length===0){ cont.innerHTML = '<p class="card-note">Todavía no cargaste clientes. Andá a "+ Nuevo cliente".</p>'; return; }
   cont.innerHTML = lista.map(function(c){
     var susp = fcSuspendidoHoy(c);
+    var saldo = fcSaldoCliente(c);
+    var saldoHTML = saldo>0.005
+      ? '<span style="font-size:10.5px;font-weight:700;padding:3px 8px;border-radius:6px;background:rgba(224,139,120,.18);color:var(--red-neg);">Debe '+fcFmt(saldo)+'</span>'
+      : saldo<-0.005
+        ? '<span style="font-size:10.5px;font-weight:700;padding:3px 8px;border-radius:6px;background:rgba(127,212,160,.18);color:var(--green-pos);">A favor '+fcFmt(-saldo)+'</span>'
+        : '<span style="font-size:10.5px;font-weight:700;padding:3px 8px;border-radius:6px;background:rgba(0,0,0,.18);color:var(--muted);">Al día</span>';
     return '<div style="border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin-bottom:9px;background:rgba(0,0,0,.14);">'+
       '<div style="font-weight:700;font-size:15px;">'+fcEsc(c.nombre)+'</div>'+
       '<div style="color:var(--cream-dim);font-size:11.5px;margin-top:2px;">'+(c.telefono?('📞 '+fcEsc(c.telefono)+' · '):'')+fcEsc(fcResumenCliente(c))+'</div>'+
-      (susp?'<div style="margin-top:6px;"><span style="font-size:10.5px;font-weight:700;padding:3px 8px;border-radius:6px;background:rgba(224,139,120,.18);color:var(--red-neg);">Suspendido hoy</span></div>':'')+
+      '<div style="margin-top:7px;display:flex;gap:6px;flex-wrap:wrap;align-items:center;">'+saldoHTML+(susp?'<span style="font-size:10.5px;font-weight:700;padding:3px 8px;border-radius:6px;background:rgba(224,139,120,.18);color:var(--red-neg);">Suspendido hoy</span>':'')+'</div>'+
+      (c.proximoDesde?'<div style="color:var(--cream-dim);font-size:11px;margin-top:4px;">🗓️ Próxima liquidación desde '+fcFechaDDMMYYYY(c.proximoDesde)+'</div>':'')+
       '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;">'+
         '<button data-act="editar" data-id="'+c.id+'" class="tab-btn" style="border-radius:8px;padding:6px 10px;font-size:11.5px;">Editar</button>'+
         '<button data-act="suspender" data-id="'+c.id+'" class="tab-btn" style="border-radius:8px;padding:6px 10px;font-size:11.5px;">Suspender</button>'+
         '<button data-act="factura" data-id="'+c.id+'" class="tab-btn" style="border-radius:8px;padding:6px 10px;font-size:11.5px;">Liquidar / Factura</button>'+
+        '<button data-act="pagos" data-id="'+c.id+'" class="tab-btn" style="border-radius:8px;padding:6px 10px;font-size:11.5px;">Pagos</button>'+
         '<button data-act="historial" data-id="'+c.id+'" class="tab-btn" style="border-radius:8px;padding:6px 10px;font-size:11.5px;">Historial ('+(c.facturas||[]).length+')</button>'+
         '<button data-act="borrar" data-id="'+c.id+'" class="tab-btn" style="border-radius:8px;padding:6px 10px;font-size:11.5px;color:var(--red-neg);">Eliminar</button>'+
       '</div>'+
       '<div id="fc-susp-'+c.id+'" style="display:none;"></div>'+
       '<div id="fc-hist-'+c.id+'" style="display:none;"></div>'+
+      '<div id="fc-pagos-'+c.id+'" style="display:none;"></div>'+
     '</div>';
   }).join('');
   cont.querySelectorAll('button[data-act]').forEach(function(b){
@@ -10338,6 +10475,7 @@ function fcOnClienteAction(act, id){
       fcSave().then(fcRenderLista);
     }
   } else if (act==='suspender'){ fcToggleSuspPanel(c); }
+  else if (act==='pagos'){ fcTogglePagoPanel(c); }
   else if (act==='historial'){ fcToggleHistPanel(c); }
   else if (act==='factura'){
     document.getElementById('fcLiqCliente').value = id;
@@ -10387,6 +10525,50 @@ function fcWireSuspPanel(c, panel){
   });
 }
 
+function fcTogglePagoPanel(c){
+  var panel = document.getElementById('fc-pagos-'+c.id);
+  if (panel.style.display==='block'){ panel.style.display='none'; return; }
+  panel.style.display='block';
+  panel.innerHTML = fcPagoPanelHTML(c);
+  fcWirePagoPanel(c, panel);
+}
+function fcPagoPanelHTML(c){
+  var saldo = fcSaldoCliente(c);
+  var saldoTxt = saldo>0.005 ? ('Debe '+fcFmt(saldo)) : saldo<-0.005 ? ('Tiene a favor '+fcFmt(-saldo)) : 'Al día ($0,00)';
+  var lista = (c.pagos||[]).slice().sort(function(a,b){return (b.fecha||'').localeCompare(a.fecha||'');}).map(function(p){
+    return '<div style="display:flex;align-items:center;justify-content:space-between;background:rgba(0,0,0,.18);border:1px solid var(--line);border-radius:8px;padding:7px 10px;margin-bottom:6px;font-size:12px;">'+
+      '<span>'+fcFechaDDMMYYYY(p.fecha)+' · '+fcFmt(p.monto)+(p.nota?' · '+fcEsc(p.nota):'')+'</span>'+
+      '<button data-pid="'+p.id+'" style="background:none;border:none;color:var(--red-neg);cursor:pointer;font-weight:900;">✕</button></div>';
+  }).join('');
+  return '<div style="border-top:1px solid var(--line);padding-top:10px;margin-top:10px;">'+
+    '<p class="card-note" style="margin:0 0 10px 0;font-weight:700;color:'+(saldo>0.005?'var(--red-neg)':saldo<-0.005?'var(--green-pos)':'var(--muted)')+';">'+saldoTxt+'</p>'+
+    '<div class="range-label">Fecha</div><input type="date" class="fcPagoFecha" value="'+fcHoy()+'" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:9px 10px;border-radius:8px;font-size:13px;width:100%;color-scheme:dark;margin-bottom:8px;">'+
+    '<div class="range-label">Monto</div><input type="number" class="fcPagoMonto" placeholder="Monto" min="0" step="0.01" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:9px 10px;border-radius:8px;font-size:13px;width:100%;box-sizing:border-box;margin-bottom:8px;">'+
+    '<div class="range-label">Nota (opcional)</div><input type="text" class="fcPagoNota" placeholder="Ej: Efectivo, Transferencia" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:9px 10px;border-radius:8px;font-size:13px;width:100%;box-sizing:border-box;margin-bottom:8px;">'+
+    '<button type="button" class="tab-btn fcBtnAgregarPago" style="border-radius:8px;">+ Registrar pago</button>'+
+    '<div style="margin-top:10px;">'+(lista||'<p class="card-note" style="margin:0;">Sin pagos registrados.</p>')+'</div>'+
+  '</div>';
+}
+function fcWirePagoPanel(c, panel){
+  panel.querySelector('.fcBtnAgregarPago').addEventListener('click', async function(){
+    var fecha = panel.querySelector('.fcPagoFecha').value || fcHoy();
+    var monto = parseFloat(panel.querySelector('.fcPagoMonto').value);
+    var nota = panel.querySelector('.fcPagoNota').value.trim();
+    if (isNaN(monto) || monto<=0) return;
+    c.pagos = c.pagos||[];
+    c.pagos.push({id:fcUid(), fecha:fecha, monto:monto, nota:nota});
+    await fcSave();
+    panel.innerHTML = fcPagoPanelHTML(c); fcWirePagoPanel(c, panel); fcRenderLista();
+  });
+  panel.querySelectorAll('button[data-pid]').forEach(function(b){
+    b.addEventListener('click', async function(){
+      c.pagos = (c.pagos||[]).filter(function(p){return p.id!==b.dataset.pid;});
+      await fcSave();
+      panel.innerHTML = fcPagoPanelHTML(c); fcWirePagoPanel(c, panel); fcRenderLista();
+    });
+  });
+}
+
 function fcToggleHistPanel(c){
   var panel = document.getElementById('fc-hist-'+c.id);
   if (panel.style.display==='block'){ panel.style.display='none'; return; }
@@ -10398,7 +10580,7 @@ function fcHistPanelHTML(c){
   var facturas = (c.facturas||[]).slice().sort(function(a,b){return (b.numero||0)-(a.numero||0);});
   var lista = facturas.map(function(f){
     return '<div style="display:flex;align-items:center;justify-content:space-between;background:rgba(0,0,0,.18);border:1px solid var(--line);border-radius:8px;padding:8px 10px;margin-bottom:6px;font-size:12px;gap:8px;">'+
-      '<span>N° '+fcNumFactura(f.numero)+' · '+fcMesNombre(f.month)+' '+f.year+' · '+fcFmt(f.total)+' · '+(f.fechaEmision||'')+'</span>'+
+      '<span>N° '+fcNumFactura(f.numero)+' · '+fcPeriodoLabel(f)+' · '+fcFmt(f.total)+' · '+(f.fechaEmision||'')+'</span>'+
       '<span style="display:flex;gap:6px;flex:0 0 auto;">'+
         '<button data-fid="'+f.id+'" class="fcVerFactura" style="background:none;border:1px solid var(--line);color:var(--gold);border-radius:6px;padding:4px 8px;cursor:pointer;font-size:11px;">Ver</button>'+
         '<button data-fid="'+f.id+'" class="fcBorrarFactura" style="background:none;border:none;color:var(--red-neg);cursor:pointer;font-weight:900;">✕</button>'+
@@ -10413,7 +10595,7 @@ function fcWireHistPanel(c, panel){
     b.addEventListener('click', function(){
       var f = (c.facturas||[]).find(function(x){return x.id===b.dataset.fid;});
       if (!f) return;
-      fcUltimaLiquidacion = {id:f.id, numero:f.numero, fechaEmision:f.fechaEmision, cliente:c, year:f.year, month:f.month, items:f.items, total:f.total};
+      fcUltimaLiquidacion = {id:f.id, numero:f.numero, fechaEmision:f.fechaEmision, cliente:c, tipo:f.tipo, year:f.year, month:f.month, desde:f.desde, hasta:f.hasta, items:f.items, total:f.total};
       fcIrAVista('liquidacion');
       document.getElementById('fcLiqCliente').value = c.id;
       document.getElementById('fcResultadoCard').style.display='none';
@@ -10434,6 +10616,24 @@ function fcWireHistPanel(c, panel){
 }
 
 /* ---------- Liquidación ---------- */
+function fcSumarDias(iso, n){
+  var dt = new Date(iso+'T00:00:00');
+  dt.setDate(dt.getDate()+n);
+  return dt.toISOString().slice(0,10);
+}
+function fcFechaDDMMYYYY(iso){
+  if (!iso) return '';
+  var p = iso.split('-');
+  return p[2]+'/'+p[1]+'/'+p[0];
+}
+// Fecha "desde" sugerida para la próxima liquidación de un cliente: el día
+// siguiente al "hasta" de su última factura no-mensual, o su fecha de alta
+// si todavía no se le facturó nada, o hoy si no hay ningún dato cargado.
+function fcProximaFechaDesde(c){
+  if (c.proximoDesde) return c.proximoDesde;
+  if (c.fechaAlta) return c.fechaAlta;
+  return fcHoy();
+}
 function fcRenderSelectLiq(){
   var sel = document.getElementById('fcLiqCliente');
   var actual = sel.value;
@@ -10442,19 +10642,86 @@ function fcRenderSelectLiq(){
   if (!document.getElementById('fcLiqPeriodo').value){
     document.getElementById('fcLiqPeriodo').value = new Date().toISOString().slice(0,7);
   }
+  var c = fc.clientes.find(function(x){return x.id===sel.value;});
+  var desdeInput = document.getElementById('fcLiqDesde');
+  if (c && !desdeInput.value) desdeInput.value = fcProximaFechaDesde(c);
+  fcOnLiqTipoChange();
+  fcActualizarSaldoInfo();
 }
+// Muestra, antes de calcular una nueva liquidación, cuánto debe (o tiene a
+// favor) el cliente elegido según lo ya facturado y pagado hasta ahora.
+function fcActualizarSaldoInfo(){
+  var info = document.getElementById('fcLiqSaldoInfo');
+  var cid = document.getElementById('fcLiqCliente').value;
+  var c = fc.clientes.find(function(x){return x.id===cid;});
+  if (!c){ info.textContent=''; return; }
+  var saldo = fcSaldoCliente(c);
+  if (saldo>0.005){ info.style.color='var(--red-neg)'; info.textContent = 'Saldo actual de '+c.nombre+': debe '+fcFmt(saldo)+' (antes de esta liquidación).'; }
+  else if (saldo<-0.005){ info.style.color='var(--green-pos)'; info.textContent = 'Saldo actual de '+c.nombre+': tiene '+fcFmt(-saldo)+' a favor.'; }
+  else { info.style.color='var(--muted)'; info.textContent = c.nombre+' está al día (sin saldo pendiente).'; }
+}
+function fcOnLiqTipoChange(){
+  var tipo = document.getElementById('fcLiqTipo').value;
+  document.getElementById('fcLiqPeriodoMensualWrap').style.display = tipo==='mensual' ? '' : 'none';
+  document.getElementById('fcLiqDesdeWrap').style.display = tipo==='mensual' ? 'none' : '';
+  document.getElementById('fcLiqDiasWrap').style.display = tipo==='dias' ? '' : 'none';
+  document.getElementById('fcLiqHastaWrap').style.display = tipo==='mensual' ? 'none' : '';
+  var hastaInput = document.getElementById('fcLiqHasta');
+  hastaInput.readOnly = (tipo!=='rango');
+  hastaInput.style.opacity = (tipo!=='rango' && tipo!=='mensual') ? '0.65' : '1';
+  if (tipo!=='mensual'){
+    var desdeInput = document.getElementById('fcLiqDesde');
+    if (!desdeInput.value){
+      var cid = document.getElementById('fcLiqCliente').value;
+      var c = fc.clientes.find(function(x){return x.id===cid;});
+      desdeInput.value = c ? fcProximaFechaDesde(c) : fcHoy();
+    }
+  }
+  fcRecalcularHasta();
+}
+function fcRecalcularHasta(){
+  var tipo = document.getElementById('fcLiqTipo').value;
+  var preview = document.getElementById('fcLiqRangoPreview');
+  if (tipo==='mensual'){ preview.textContent=''; return; }
+  var desde = document.getElementById('fcLiqDesde').value;
+  if (tipo!=='rango'){
+    if (!desde){ preview.textContent=''; return; }
+    var dias = tipo==='semanal' ? 7 : tipo==='quincenal' ? 14 : (parseInt(document.getElementById('fcLiqCantDias').value)||1);
+    document.getElementById('fcLiqHasta').value = fcSumarDias(desde, dias-1);
+  }
+  var hasta = document.getElementById('fcLiqHasta').value;
+  preview.textContent = (desde && hasta) ? ('Período a facturar: '+fcFechaDDMMYYYY(desde)+' al '+fcFechaDDMMYYYY(hasta)) : '';
+}
+document.getElementById('fcLiqTipo').addEventListener('change', fcOnLiqTipoChange);
+document.getElementById('fcLiqDesde').addEventListener('change', fcRecalcularHasta);
+document.getElementById('fcLiqCantDias').addEventListener('input', fcRecalcularHasta);
+document.getElementById('fcLiqHasta').addEventListener('change', fcRecalcularHasta);
+document.getElementById('fcLiqCliente').addEventListener('change', function(){
+  var tipo = document.getElementById('fcLiqTipo').value;
+  if (tipo!=='mensual'){
+    var cid = this.value;
+    var c = fc.clientes.find(function(x){return x.id===cid;});
+    document.getElementById('fcLiqDesde').value = c ? fcProximaFechaDesde(c) : fcHoy();
+    fcRecalcularHasta();
+  }
+  fcActualizarSaldoInfo();
+});
 function fcSuspendidoEn(c, iso){
   return (c.suspensiones||[]).some(function(s){ return iso>=s.desde && iso<=(s.hasta||'9999-12-31'); });
 }
-function fcCalcularLiquidacion(c, year, month){
+// Núcleo del cálculo: recibe cualquier rango de fechas [desdeISO, hastaISO]
+// (inclusive) y suma diarios, revistas y extras que caigan dentro. La
+// liquidación mensual es simplemente este mismo cálculo con el 1° y el
+// último día del mes como rango.
+function fcCalcularLiquidacionRango(c, desdeISO, hastaISO){
   var items = [];
-  var diasEnMes = new Date(year, month, 0).getDate();
+  var inicio = new Date(desdeISO+'T00:00:00');
+  var fin = new Date(hastaISO+'T00:00:00');
   (c.diariosCliente||[]).forEach(function(dc){
     var dia = fc.diarios.find(function(x){return x.id===dc.diarioId;});
     if (!dia) return;
     var conteo = [0,0,0,0,0,0,0];
-    for (var d=1; d<=diasEnMes; d++){
-      var dt = new Date(year, month-1, d);
+    for (var dt=new Date(inicio); dt<=fin; dt.setDate(dt.getDate()+1)){
       var wd = dt.getDay();
       var iso = dt.toISOString().slice(0,10);
       if ((dc.dias||[]).indexOf(wd)>-1 && !fcSuspendidoEn(c, iso)) conteo[wd]++;
@@ -10482,9 +10749,8 @@ function fcCalcularLiquidacion(c, year, month){
   });
   (c.revistas||[]).forEach(function(r){
     var ocurrencias = [];
-    for (var d=1; d<=diasEnMes; d++){
-      var dt = new Date(year, month-1, d);
-      if (dt.getDay()===r.dia) ocurrencias.push(dt);
+    for (var dt=new Date(inicio); dt<=fin; dt.setDate(dt.getDate()+1)){
+      if (dt.getDay()===r.dia) ocurrencias.push(new Date(dt));
     }
     var validas = r.frecuencia==='semanal' ? ocurrencias
       : r.frecuencia==='quincenal' ? ocurrencias.filter(function(_,i){return i%2===0;})
@@ -10493,21 +10759,39 @@ function fcCalcularLiquidacion(c, year, month){
     validas.forEach(function(dt){ var iso=dt.toISOString().slice(0,10); if (!fcSuspendidoEn(c, iso)) cant++; });
     if (cant>0) items.push({concepto:r.nombre, cantidad:cant, precio:r.precio, subtotal:cant*r.precio});
   });
-  var periodoStr = year+'-'+String(month).padStart(2,'0');
-  fc.extras.filter(function(e){return e.clienteId===c.id && e.fecha.slice(0,7)===periodoStr;}).forEach(function(e){
+  fc.extras.filter(function(e){return e.clienteId===c.id && e.fecha>=desdeISO && e.fecha<=hastaISO;}).forEach(function(e){
     items.push({concepto:'Extra: '+e.descripcion, cantidad:1, precio:e.monto, subtotal:e.monto});
   });
   var total = items.reduce(function(a,i){return a+i.subtotal;},0);
   return {items:items, total:total};
 }
+function fcCalcularLiquidacion(c, year, month){
+  var diasEnMes = new Date(year, month, 0).getDate();
+  var desdeISO = year+'-'+String(month).padStart(2,'0')+'-01';
+  var hastaISO = year+'-'+String(month).padStart(2,'0')+'-'+String(diasEnMes).padStart(2,'0');
+  return fcCalcularLiquidacionRango(c, desdeISO, hastaISO);
+}
 document.getElementById('fcBtnCalcular').addEventListener('click', function(){
   var cid = document.getElementById('fcLiqCliente').value;
-  var periodo = document.getElementById('fcLiqPeriodo').value;
-  if (!cid || !periodo) return;
+  if (!cid) return;
   var c = fc.clientes.find(function(x){return x.id===cid;});
-  var parts = periodo.split('-'); var year=parseInt(parts[0]), month=parseInt(parts[1]);
-  var res = fcCalcularLiquidacion(c, year, month);
-  fcUltimaLiquidacion = {cliente:c, year:year, month:month, items:res.items, total:res.total};
+  var tipo = document.getElementById('fcLiqTipo').value;
+  var res, liq;
+  if (tipo==='mensual'){
+    var periodo = document.getElementById('fcLiqPeriodo').value;
+    if (!periodo) return;
+    var parts = periodo.split('-'); var year=parseInt(parts[0]), month=parseInt(parts[1]);
+    res = fcCalcularLiquidacion(c, year, month);
+    liq = {cliente:c, tipo:'mensual', year:year, month:month, items:res.items, total:res.total};
+  } else {
+    var desde = document.getElementById('fcLiqDesde').value;
+    var hasta = document.getElementById('fcLiqHasta').value;
+    if (!desde || !hasta){ alert('Falta la fecha desde o hasta.'); return; }
+    if (hasta<desde){ alert('La fecha "hasta" no puede ser anterior a "desde".'); return; }
+    res = fcCalcularLiquidacionRango(c, desde, hasta);
+    liq = {cliente:c, tipo:tipo, desde:desde, hasta:hasta, items:res.items, total:res.total};
+  }
+  fcUltimaLiquidacion = liq;
   var tbody = document.querySelector('#fcTablaDetalle tbody');
   if (res.items.length===0){
     tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--muted);">Sin movimientos para este período.</td></tr>';
@@ -10536,6 +10820,13 @@ document.getElementById('fcBtnAgregarExtra').addEventListener('click', async fun
 /* ---------- Factura (estilo remito) ---------- */
 function fcMesNombre(m){ return ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'][m-1]; }
 function fcNumFactura(n){ return String(n).padStart(8,'0').replace(/(\d{4})(\d{4})/, '0001-$2'); }
+// Etiqueta de período para mostrar en la factura/historial: "Agosto 2026"
+// para las mensuales, o "06/08/2026 al 28/08/2026" para semanal/quincenal/
+// días/rango. l.tipo puede faltar en facturas viejas (siempre eran mensuales).
+function fcPeriodoLabel(l){
+  if (!l.tipo || l.tipo==='mensual') return fcMesNombre(l.month)+' '+l.year;
+  return fcFechaDDMMYYYY(l.desde)+' al '+fcFechaDDMMYYYY(l.hasta);
+}
 function fcTextoFactura(l){
   var lineas = [];
   lineas.push('🧾 '+fc.nombreReparto);
@@ -10544,7 +10835,7 @@ function fcTextoFactura(l){
   lineas.push('Factura/Remito Nº '+fcNumFactura(l.numero));
   lineas.push('Fecha: '+l.fechaEmision);
   lineas.push('Cliente: '+l.cliente.nombre);
-  lineas.push('Período: '+fcMesNombre(l.month)+' '+l.year);
+  lineas.push('Período: '+fcPeriodoLabel(l));
   lineas.push('');
   l.items.forEach(function(i){ lineas.push('• '+i.concepto+' — '+i.cantidad+' x '+fcFmt(i.precio||0)+' = '+fcFmt(i.subtotal)); });
   lineas.push('');
@@ -10565,7 +10856,7 @@ function fcFacturaHTML(l){
     '<div class="fc-iclient" style="margin-bottom:14px;">'+
       '<div style="font-size:10px;text-transform:uppercase;color:#a1885a;letter-spacing:.06em;margin-bottom:3px;">Cliente</div>'+
       '<b>'+fcEsc(l.cliente.nombre)+'</b><br>'+(l.cliente.telefono?('📞 '+fcEsc(l.cliente.telefono)+'<br>'):'')+(l.cliente.direccion?fcEsc(l.cliente.direccion)+'<br>':'')+
-      'Período facturado: '+fcMesNombre(l.month)+' '+l.year+
+      'Período facturado: '+fcPeriodoLabel(l)+
     '</div>'+
     '<table><thead><tr><th>Concepto</th><th class="num">Cant.</th><th class="num">P. Unit.</th><th class="num">Subtotal</th></tr></thead><tbody>'+
     l.items.map(function(i){return '<tr><td>'+fcEsc(i.concepto)+'</td><td class="num">'+i.cantidad+'</td><td class="num">'+fcFmt(i.precio||0)+'</td><td class="num">'+fcFmt(i.subtotal)+'</td></tr>';}).join('')+
@@ -10587,7 +10878,14 @@ document.getElementById('fcBtnGenerarFactura').addEventListener('click', async f
     var cli = fc.clientes.find(function(x){return x.id===l.cliente.id;});
     if (cli){
       cli.facturas = cli.facturas||[];
-      cli.facturas.push({id:l.id, numero:l.numero, fechaEmision:l.fechaEmision, year:l.year, month:l.month, items:l.items, total:l.total});
+      cli.facturas.push({id:l.id, numero:l.numero, fechaEmision:l.fechaEmision, tipo:l.tipo, year:l.year, month:l.month, desde:l.desde, hasta:l.hasta, items:l.items, total:l.total});
+      // Si fue una liquidación semanal/quincenal/por días/rango, la próxima
+      // vez que se abra "Liquidar" para este cliente arranca el día siguiente
+      // al último día ya facturado (así se pueden encadenar períodos
+      // irregulares: 6→28 ago, después 29 ago→8 sep, etc.).
+      if (l.tipo && l.tipo!=='mensual' && l.hasta){
+        cli.proximoDesde = fcSumarDias(l.hasta, 1);
+      }
     }
   }
   await fcSave();
@@ -10595,6 +10893,7 @@ document.getElementById('fcBtnGenerarFactura').addEventListener('click', async f
   document.getElementById('fcFacturaMsg').textContent = '';
   document.getElementById('fcFacturaCard').style.display='block';
   document.getElementById('fcFacturaCard').scrollIntoView({behavior:'smooth'});
+  fcActualizarSaldoInfo();
 });
 function fcNombreArchivoFactura(l){
   return 'Factura_'+fcNumFactura(l.numero)+'_'+l.cliente.nombre.replace(/[^a-z0-9]+/gi,'_')+'.pdf';
@@ -10712,6 +11011,204 @@ document.getElementById('fcBtnCopiarTexto').addEventListener('click', function()
   var texto = fcTextoFactura(fcUltimaLiquidacion);
   abrirModalBackup({
     titulo: 'Texto de la factura',
+    ayuda: 'Tocá "Copiar" para copiarlo, o seleccionalo a mano y copialo si el botón no funciona en esta app. Después pegalo en WhatsApp, Notas o donde lo necesites.',
+    texto: texto,
+    soloLectura: true,
+    etiquetaBoton: 'Copiar',
+    alAccionar: async function(){
+      var ta = document.getElementById('backupModalTextarea');
+      var ok = await copiarTexto(texto, ta);
+      document.getElementById('backupModalMsg').textContent = ok ? 'Copiado ✔️' : 'No se pudo copiar automático — seleccioná el texto de arriba y copialo a mano.';
+    }
+  });
+});
+
+/* ---------- Cuenta corriente / Extracto ---------- */
+var fcExtClienteActual = null;
+
+function fcExtGenerarPDFBlob(elId, formato){
+  var el = document.getElementById(elId);
+  return window.html2pdf().set({
+    margin: 6,
+    image: {type:'jpeg', quality:0.98},
+    html2canvas: {scale:2, backgroundColor:'#f2ecd9'},
+    jsPDF: {unit:'mm', format: formato||'a5', orientation:'portrait'}
+  }).from(el);
+}
+
+function fcRenderExtracto(){
+  document.getElementById('fcExtDetalleCard').style.display='none';
+  document.getElementById('fcExtResumenCard').style.display='block';
+  var ordenados = fc.clientes.slice().sort(function(a,b){ return fcSaldoCliente(b)-fcSaldoCliente(a); });
+  var total = fcSaldoTotalClientes();
+  var totalInfo = document.getElementById('fcExtTotalResumen');
+  if (total>0.005){ totalInfo.style.color='var(--red-neg)'; totalInfo.textContent = 'Total a cobrar entre todos los clientes: '+fcFmt(total); }
+  else if (total<-0.005){ totalInfo.style.color='var(--green-pos)'; totalInfo.textContent = 'Saldo a favor de tus clientes (en conjunto): '+fcFmt(-total); }
+  else { totalInfo.style.color='var(--muted)'; totalInfo.textContent = 'Todos los clientes están al día.'; }
+
+  var cont = document.getElementById('fcExtListaResumen');
+  if (ordenados.length===0){
+    cont.innerHTML = '<p class="card-note">Todavía no cargaste clientes.</p>';
+  } else {
+    cont.innerHTML = ordenados.map(function(c){
+      var saldo = fcSaldoCliente(c);
+      var saldoHTML = saldo>0.005
+        ? '<span style="color:var(--red-neg);font-weight:800;">Debe '+fcFmt(saldo)+'</span>'
+        : saldo<-0.005
+          ? '<span style="color:var(--green-pos);font-weight:800;">A favor '+fcFmt(-saldo)+'</span>'
+          : '<span style="color:var(--muted);font-weight:700;">Al día</span>';
+      return '<button type="button" data-id="'+c.id+'" class="fcExtRow" style="width:100%;text-align:left;background:rgba(0,0,0,.14);border:1px solid var(--line);border-radius:10px;padding:11px 13px;margin-bottom:8px;color:var(--cream);cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:10px;">'+
+        '<span style="font-weight:700;font-size:14px;">'+fcEsc(c.nombre)+'</span>'+
+        '<span style="font-size:13px;">'+saldoHTML+'</span>'+
+      '</button>';
+    }).join('');
+    cont.querySelectorAll('.fcExtRow').forEach(function(b){
+      b.addEventListener('click', function(){ fcExtVerCliente(b.dataset.id); });
+    });
+  }
+
+  // Caja imprimible con el resumen de todos los clientes (para descargar/copiar).
+  var box = document.getElementById('fcExtResumenPrintBox');
+  box.innerHTML = '<div class="fc-remito-topline">'+
+      '<div><div class="fc-brand">'+fcEsc(fc.nombreReparto)+'</div>'+
+        '<div class="fc-negocio">'+(fc.datosNegocio.direccion?fcEsc(fc.datosNegocio.direccion):'')+(fc.datosNegocio.direccion&&fc.datosNegocio.telefono?' · ':'')+(fc.datosNegocio.telefono?'WhatsApp '+fcEsc(fc.datosNegocio.telefono):'')+'</div></div>'+
+      '<div style="text-align:right;"><div class="fc-remito-tag">Cuenta corriente</div><div style="font-size:11px;color:#8a8470;margin-top:2px;">'+fcFechaDDMMYYYY(fcHoy())+'</div></div>'+
+    '</div>'+
+    '<table><thead><tr><th>Cliente</th><th class="num">Saldo</th></tr></thead><tbody>'+
+    ordenados.map(function(c){
+      var saldo = fcSaldoCliente(c);
+      var txt = saldo>0.005 ? ('Debe '+fcFmt(saldo)) : saldo<-0.005 ? ('A favor '+fcFmt(-saldo)) : 'Al día';
+      return '<tr><td>'+fcEsc(c.nombre)+'</td><td class="num">'+txt+'</td></tr>';
+    }).join('')+
+    '<tr class="fc-totalrow"><td>Total</td><td class="num">'+fcFmt(total)+'</td></tr></tbody></table>';
+}
+document.getElementById('fcExtBtnDescargarResumenPDF').addEventListener('click', async function(){
+  var msg = document.getElementById('fcExtResumenMsg');
+  if (typeof window.html2pdf !== 'function'){ msg.style.color='var(--red-neg)'; msg.textContent='No se pudo cargar el generador de PDF (revisá tu conexión).'; return; }
+  var box = document.getElementById('fcExtResumenPrintBox');
+  box.style.display='block';
+  msg.style.color='var(--muted)'; msg.textContent='Generando PDF…';
+  try{
+    var blob = await fcExtGenerarPDFBlob('fcExtResumenPrintBox','a4').outputPdf('blob');
+    await fcGuardarPDFConDestino(blob, 'Cuenta_corriente_general.pdf', msg);
+  }catch(e){ msg.style.color='var(--red-neg)'; msg.textContent='Hubo un error generando el PDF.'; }
+  finally{ box.style.display='none'; }
+});
+function fcExtTextoResumen(){
+  var ordenados = fc.clientes.slice().sort(function(a,b){ return fcSaldoCliente(b)-fcSaldoCliente(a); });
+  var lineas = ['📒 Cuenta corriente · '+fc.nombreReparto, 'Fecha: '+fcFechaDDMMYYYY(fcHoy()), ''];
+  ordenados.forEach(function(c){
+    var saldo = fcSaldoCliente(c);
+    var txt = saldo>0.005 ? ('Debe '+fcFmt(saldo)) : saldo<-0.005 ? ('A favor '+fcFmt(-saldo)) : 'Al día';
+    lineas.push('• '+c.nombre+' — '+txt);
+  });
+  lineas.push('');
+  lineas.push('TOTAL: '+fcFmt(fcSaldoTotalClientes()));
+  return lineas.join('\n');
+}
+document.getElementById('fcExtBtnCopiarResumen').addEventListener('click', function(){
+  var texto = fcExtTextoResumen();
+  abrirModalBackup({
+    titulo: 'Texto de la cuenta corriente',
+    ayuda: 'Tocá "Copiar" para copiarlo, o seleccionalo a mano y copialo si el botón no funciona en esta app. Después pegalo en WhatsApp, Notas o donde lo necesites.',
+    texto: texto,
+    soloLectura: true,
+    etiquetaBoton: 'Copiar',
+    alAccionar: async function(){
+      var ta = document.getElementById('backupModalTextarea');
+      var ok = await copiarTexto(texto, ta);
+      document.getElementById('backupModalMsg').textContent = ok ? 'Copiado ✔️' : 'No se pudo copiar automático — seleccioná el texto de arriba y copialo a mano.';
+    }
+  });
+});
+
+function fcExtVerCliente(id){
+  var c = fc.clientes.find(function(x){return x.id===id;});
+  if (!c) return;
+  fcExtClienteActual = c;
+  document.getElementById('fcExtResumenCard').style.display='none';
+  document.getElementById('fcExtDetalleCard').style.display='block';
+  document.getElementById('fcExtPagoFecha').value = fcHoy();
+  document.getElementById('fcExtPagoMonto').value = '';
+  document.getElementById('fcExtPagoNota').value = '';
+  document.getElementById('fcExtMsg').textContent = '';
+  fcExtRenderDetalle(c);
+  document.getElementById('fcExtDetalleCard').scrollIntoView({behavior:'smooth'});
+}
+document.getElementById('fcExtVolverBtn').addEventListener('click', function(){
+  fcExtClienteActual = null;
+  fcRenderExtracto();
+});
+function fcExtRenderDetalle(c){
+  var movs = fcMovimientosCliente(c);
+  var saldo = fcSaldoCliente(c);
+  var saldoTxt = saldo>0.005 ? ('Debe '+fcFmt(saldo)) : saldo<-0.005 ? ('A favor '+fcFmt(-saldo)) : 'Al día ($0,00)';
+  var saldoColor = saldo>0.005 ? '#b3311c' : saldo<-0.005 ? '#0a7a3d' : '#5c574a';
+  var box = document.getElementById('fcExtPrintBox');
+  box.innerHTML = '<div class="fc-remito-topline">'+
+      '<div><div class="fc-brand">'+fcEsc(fc.nombreReparto)+'</div>'+
+        '<div class="fc-negocio">'+(fc.datosNegocio.direccion?fcEsc(fc.datosNegocio.direccion):'')+(fc.datosNegocio.direccion&&fc.datosNegocio.telefono?' · ':'')+(fc.datosNegocio.telefono?'WhatsApp '+fcEsc(fc.datosNegocio.telefono):'')+'</div></div>'+
+      '<div style="text-align:right;"><div class="fc-remito-tag">Cuenta corriente</div><div style="font-size:11px;color:#8a8470;margin-top:2px;">'+fcFechaDDMMYYYY(fcHoy())+'</div></div>'+
+    '</div>'+
+    '<div style="margin-bottom:12px;"><b style="font-size:15px;">'+fcEsc(c.nombre)+'</b>'+(c.telefono?(' · 📞 '+fcEsc(c.telefono)):'')+
+      '<div class="fc-ext-saldo" style="color:'+saldoColor+';margin-top:4px;">'+saldoTxt+'</div></div>'+
+    '<table><thead><tr><th>Fecha</th><th>Detalle</th><th class="num">Monto</th><th class="num">Saldo</th></tr></thead><tbody>'+
+    (movs.length===0
+      ? '<tr><td colspan="4" style="text-align:center;color:#9a927a;">Sin movimientos todavía.</td></tr>'
+      : movs.map(function(m){
+          var signo = m.monto>=0?'+':'-';
+          return '<tr><td>'+fcFechaDDMMYYYY(m.fecha)+'</td><td>'+fcEsc(m.detalle)+'</td><td class="num">'+signo+fcFmt(Math.abs(m.monto))+'</td><td class="num">'+fcFmt(m.saldo)+'</td></tr>';
+        }).join(''))+
+    '</tbody></table>';
+}
+document.getElementById('fcExtBtnAgregarPago').addEventListener('click', async function(){
+  if (!fcExtClienteActual) return;
+  var fecha = document.getElementById('fcExtPagoFecha').value || fcHoy();
+  var monto = parseFloat(document.getElementById('fcExtPagoMonto').value);
+  var nota = document.getElementById('fcExtPagoNota').value.trim();
+  if (isNaN(monto) || monto<=0) return;
+  fcExtClienteActual.pagos = fcExtClienteActual.pagos||[];
+  fcExtClienteActual.pagos.push({id:fcUid(), fecha:fecha, monto:monto, nota:nota});
+  await fcSave();
+  document.getElementById('fcExtPagoMonto').value = '';
+  document.getElementById('fcExtPagoNota').value = '';
+  fcExtRenderDetalle(fcExtClienteActual);
+  fcActualizarSaldoInfo();
+});
+function fcExtTextoCliente(c){
+  var movs = fcMovimientosCliente(c);
+  var lineas = ['📒 Cuenta corriente · '+fc.nombreReparto, 'Cliente: '+c.nombre, 'Fecha: '+fcFechaDDMMYYYY(fcHoy()), ''];
+  movs.forEach(function(m){
+    var signo = m.monto>=0?'+':'-';
+    lineas.push(fcFechaDDMMYYYY(m.fecha)+' · '+m.detalle+' · '+signo+fcFmt(Math.abs(m.monto))+' · Saldo: '+fcFmt(m.saldo));
+  });
+  lineas.push('');
+  var saldo = fcSaldoCliente(c);
+  lineas.push(saldo>0.005 ? ('SALDO: DEBE '+fcFmt(saldo)) : saldo<-0.005 ? ('SALDO A FAVOR: '+fcFmt(-saldo)) : 'SALDO: $0,00 (al día)');
+  return lineas.join('\n');
+}
+document.getElementById('fcExtBtnDescargarPDF').addEventListener('click', async function(){
+  if (!fcExtClienteActual) return;
+  var msg = document.getElementById('fcExtMsg');
+  if (typeof window.html2pdf !== 'function'){ msg.style.color='var(--red-neg)'; msg.textContent='No se pudo cargar el generador de PDF (revisá tu conexión).'; return; }
+  msg.style.color='var(--muted)'; msg.textContent='Generando PDF…';
+  try{
+    var blob = await fcExtGenerarPDFBlob('fcExtPrintBox','a5').outputPdf('blob');
+    var nombre = 'Cuenta_corriente_'+fcExtClienteActual.nombre.replace(/[^a-z0-9]+/gi,'_')+'.pdf';
+    await fcGuardarPDFConDestino(blob, nombre, msg);
+  }catch(e){ msg.style.color='var(--red-neg)'; msg.textContent='Hubo un error generando el PDF.'; }
+});
+document.getElementById('fcExtBtnCompartirWA').addEventListener('click', function(){
+  if (!fcExtClienteActual) return;
+  var tel = (fcExtClienteActual.telefono||'').replace(/[^0-9]/g,'');
+  var texto = fcExtTextoCliente(fcExtClienteActual);
+  window.open('https://wa.me/'+tel+'?text='+encodeURIComponent(texto), '_blank');
+});
+document.getElementById('fcExtBtnCopiarTexto').addEventListener('click', function(){
+  if (!fcExtClienteActual) return;
+  var texto = fcExtTextoCliente(fcExtClienteActual);
+  abrirModalBackup({
+    titulo: 'Texto del extracto',
     ayuda: 'Tocá "Copiar" para copiarlo, o seleccionalo a mano y copialo si el botón no funciona en esta app. Después pegalo en WhatsApp, Notas o donde lo necesites.',
     texto: texto,
     soloLectura: true,
