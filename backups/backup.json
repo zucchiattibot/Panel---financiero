@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 3,
-  "exportadoEl": "2026-08-11T10:04:54.212Z",
+  "exportadoEl": "2026-08-11T10:06:34.938Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -658,6 +658,14 @@
       "category": "Servicios",
       "account": "alquileres",
       "detalle": "Internet personal"
+    },
+    {
+      "date": "2026-08-11",
+      "type": "egreso",
+      "amount": 4000,
+      "category": "Sueldo",
+      "account": "alquileres",
+      "detalle": "Kiosco"
     }
   ],
   "categoriasCustom": [
