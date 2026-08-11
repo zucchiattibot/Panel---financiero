@@ -1811,6 +1811,7 @@
         <div id="fcExtResumenPrintBox" style="display:none;"></div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;">
           <button type="button" class="cargar-submit-btn" id="fcExtBtnDescargarResumenPDF" style="background:var(--blue);color:#1a2a1f;width:auto;padding:12px 18px;">⬇ Descargar PDF (todos)</button>
+          <button type="button" class="cargar-submit-btn" id="fcBtnDescargarCSV" style="background:var(--green-pos);width:auto;padding:12px 18px;">⬇ Descargar Excel/CSV (todos)</button>
           <button type="button" class="tab-btn" id="fcExtBtnCopiarResumen" style="border-radius:8px;">Copiar texto</button>
         </div>
         <p class="card-note" id="fcExtResumenMsg" style="min-height:14px;margin-top:8px;"></p>
@@ -1830,6 +1831,7 @@
         </div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;">
           <button type="button" class="cargar-submit-btn" id="fcExtBtnDescargarPDF" style="background:var(--blue);color:#1a2a1f;width:auto;padding:12px 18px;">⬇ Descargar PDF</button>
+          <button type="button" class="cargar-submit-btn" id="fcExtBtnDescargarCSV" style="background:var(--green-pos);width:auto;padding:12px 18px;">⬇ Descargar Excel/CSV</button>
           <button type="button" class="cargar-submit-btn" id="fcExtBtnCompartirWA" style="background:var(--green-pos);width:auto;padding:12px 18px;">📱 Enviar por WhatsApp</button>
           <button type="button" class="tab-btn" id="fcExtBtnCopiarTexto" style="border-radius:8px;">Copiar texto</button>
         </div>
@@ -11303,6 +11305,71 @@ document.getElementById('fcExtBtnCopiarResumen').addEventListener('click', funct
   });
 });
 
+/* ---------- Exportar Excel/CSV (detalle y liquidación de todos los clientes) ----------
+   El PDF depende de una librería que se baja de internet (html2pdf) y de que la
+   APK sepa manejar la descarga del archivo — dentro de algunas APKs "envoltorio"
+   bajadas de Play Store eso no funciona. El CSV es un archivo de texto plano
+   (sin librerías externas) que Excel/Sheets abren directo, así que tiene más
+   chances de descargarse bien en esa APK. Igual, por si la descarga automática
+   no funciona ahí adentro, siempre mostramos el texto en pantalla con un botón
+   para copiarlo (mismo mecanismo que "Exportar backup"). */
+function fcCsvNum(n){ return (Math.round((n||0)*100)/100).toFixed(2).replace('.', ','); }
+function fcCsvCampo(v){
+  var s = (v==null?'':String(v));
+  if (/[;"\n]/.test(s)) s = '"'+s.replace(/"/g,'""')+'"';
+  return s;
+}
+function fcArmarCSVClientes(lista){
+  var filas = [];
+  filas.push(['Cliente','Teléfono','Fecha','Tipo','Detalle','Monto','Saldo acumulado'].map(fcCsvCampo).join(';'));
+  var ordenados = (lista || fc.clientes).slice().sort(function(a,b){ return (a.nombre||'').localeCompare(b.nombre||''); });
+  ordenados.forEach(function(c){
+    var movs = fcMovimientosCliente(c);
+    if (movs.length===0){
+      filas.push([c.nombre, c.telefono||'', '', 'Sin movimientos', '', '', ''].map(fcCsvCampo).join(';'));
+      return;
+    }
+    movs.forEach(function(m){
+      filas.push([
+        c.nombre, c.telefono||'', fcFechaDDMMYYYY(m.fecha), m.tipo==='cargo'?'Factura (liquidación)':'Pago',
+        m.detalle, fcCsvNum(m.monto), fcCsvNum(m.saldo)
+      ].map(fcCsvCampo).join(';'));
+    });
+    filas.push([c.nombre, '', '', 'SALDO ACTUAL', '', '', fcCsvNum(fcSaldoCliente(c))].map(fcCsvCampo).join(';'));
+    filas.push([]); // fila en blanco entre clientes, más fácil de leer en Excel
+  });
+  return filas.join('\n');
+}
+function fcDescargarCSVArchivo(texto, nombre){
+  try{
+    var BOM = '\uFEFF'; // para que Excel muestre bien las tildes/ñ
+    var blob = new Blob([BOM+texto], {type:'text/csv;charset=utf-8;'});
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url; a.download = nombre;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(function(){ URL.revokeObjectURL(url); }, 1000);
+    return true;
+  }catch(e){ return false; }
+}
+document.getElementById('fcBtnDescargarCSV').addEventListener('click', function(){
+  var csv = fcArmarCSVClientes();
+  var fecha = fcHoy();
+  fcDescargarCSVArchivo(csv, 'Clientes_detalle_liquidacion_'+fecha+'.csv');
+  abrirModalBackup({
+    titulo: 'Detalle y liquidación de todos los clientes (CSV)',
+    ayuda: 'Si no viste que se descargara ningún archivo (pasa seguido dentro de esta APK), copiá este texto con el botón de abajo, pegalo en un mail o WhatsApp a vos mismo, y después abrilo/guardalo como .csv desde una compu o desde Google Sheets/Excel en el celular. Cada fila es un movimiento (factura o pago) de un cliente; están separados por punto y coma (;) para que Excel los reconozca como columnas.',
+    texto: csv,
+    soloLectura: true,
+    etiquetaBoton: '📋 Copiar todo',
+    alAccionar: async function(){
+      var ta = document.getElementById('backupModalTextarea');
+      var ok = await copiarTexto(csv, ta);
+      document.getElementById('backupModalMsg').textContent = ok ? 'Copiado ✔️' : 'No se pudo copiar automático — seleccioná el texto de arriba y copialo a mano.';
+    }
+  });
+});
+
 function fcExtVerCliente(id){
   var c = fc.clientes.find(function(x){return x.id===id;});
   if (!c) return;
@@ -11378,6 +11445,25 @@ document.getElementById('fcExtBtnDescargarPDF').addEventListener('click', async 
     var nombre = 'Cuenta_corriente_'+fcExtClienteActual.nombre.replace(/[^a-z0-9]+/gi,'_')+'.pdf';
     await fcGuardarPDFConDestino(blob, nombre, msg);
   }catch(e){ msg.style.color='var(--red-neg)'; msg.textContent='Hubo un error generando el PDF.'; }
+});
+document.getElementById('fcExtBtnDescargarCSV').addEventListener('click', function(){
+  if (!fcExtClienteActual) return;
+  var c = fcExtClienteActual;
+  var csv = fcArmarCSVClientes([c]);
+  var nombre = 'Cuenta_corriente_'+c.nombre.replace(/[^a-z0-9]+/gi,'_')+'.csv';
+  fcDescargarCSVArchivo(csv, nombre);
+  abrirModalBackup({
+    titulo: 'Detalle de '+c.nombre+' (CSV)',
+    ayuda: 'Si no viste que se descargara ningún archivo (pasa seguido dentro de esta APK), copiá este texto con el botón de abajo, pegalo en un mail o WhatsApp a vos mismo, y después abrilo/guardalo como .csv desde una compu o desde Google Sheets/Excel en el celular.',
+    texto: csv,
+    soloLectura: true,
+    etiquetaBoton: '📋 Copiar todo',
+    alAccionar: async function(){
+      var ta = document.getElementById('backupModalTextarea');
+      var ok = await copiarTexto(csv, ta);
+      document.getElementById('backupModalMsg').textContent = ok ? 'Copiado ✔️' : 'No se pudo copiar automático — seleccioná el texto de arriba y copialo a mano.';
+    }
+  });
 });
 document.getElementById('fcExtBtnCompartirWA').addEventListener('click', function(){
   if (!fcExtClienteActual) return;
