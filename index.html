@@ -1777,6 +1777,7 @@
       <div class="card" id="fcResultadoCard" style="display:none;">
         <h2>Detalle</h2>
         <table id="fcTablaDetalle"><thead><tr><th>Concepto</th><th style="text-align:right">Cant.</th><th style="text-align:right">P. Unit.</th><th style="text-align:right">Subtotal</th></tr></thead><tbody></tbody></table>
+        <div id="fcResumenDeuda" style="margin-top:14px;border:1px solid var(--line);border-radius:10px;padding:12px 14px;background:rgba(0,0,0,.14);"></div>
         <button type="button" class="cargar-submit-btn" id="fcBtnGenerarFactura" style="margin-top:14px;">Generar factura</button>
       </div>
 
@@ -10791,6 +10792,11 @@ document.getElementById('fcBtnCalcular').addEventListener('click', function(){
     res = fcCalcularLiquidacionRango(c, desde, hasta);
     liq = {cliente:c, tipo:tipo, desde:desde, hasta:hasta, items:res.items, total:res.total};
   }
+  // Saldo que el cliente ya arrastraba ANTES de sumar esta liquidación
+  // (no incluye el total que se está por facturar ahora).
+  var saldoAnterior = fcSaldoCliente(c);
+  liq.saldoAnterior = saldoAnterior;
+  liq.totalConDeuda = Math.round((saldoAnterior + res.total)*100)/100;
   fcUltimaLiquidacion = liq;
   var tbody = document.querySelector('#fcTablaDetalle tbody');
   if (res.items.length===0){
@@ -10800,9 +10806,28 @@ document.getElementById('fcBtnCalcular').addEventListener('click', function(){
       return '<tr><td>'+fcEsc(i.concepto)+'</td><td style="text-align:right">'+i.cantidad+'</td><td style="text-align:right">'+fcFmt(i.precio||0)+'</td><td style="text-align:right">'+fcFmt(i.subtotal)+'</td></tr>';
     }).join('') + '<tr style="font-weight:800;border-top:2px solid var(--line);"><td>Total</td><td></td><td></td><td style="text-align:right">'+fcFmt(res.total)+'</td></tr>';
   }
+  fcRenderResumenDeuda(liq);
   document.getElementById('fcResultadoCard').style.display='block';
   document.getElementById('fcFacturaCard').style.display='none';
 });
+// Resumen de deuda que se muestra ANTES de generar la factura: cuánto
+// arrastraba el cliente, cuánto se le va a facturar ahora, y el total
+// que queda pendiente si no paga nada de esto todavía.
+function fcRenderResumenDeuda(liq){
+  var cont = document.getElementById('fcResumenDeuda');
+  var sa = liq.saldoAnterior||0;
+  var filas = '';
+  if (sa>0.005){
+    filas += '<div style="display:flex;justify-content:space-between;font-size:13px;color:var(--red-neg);"><span>Deuda anterior</span><span>'+fcFmt(sa)+'</span></div>';
+  } else if (sa<-0.005){
+    filas += '<div style="display:flex;justify-content:space-between;font-size:13px;color:var(--green-pos);"><span>A favor del cliente</span><span>-'+fcFmt(-sa)+'</span></div>';
+  } else {
+    filas += '<div style="display:flex;justify-content:space-between;font-size:13px;color:var(--muted);"><span>Deuda anterior</span><span>'+fcFmt(0)+'</span></div>';
+  }
+  filas += '<div style="display:flex;justify-content:space-between;font-size:13px;color:var(--cream-dim);margin-top:4px;"><span>Este período (a facturar)</span><span>'+fcFmt(liq.total)+'</span></div>';
+  filas += '<div style="display:flex;justify-content:space-between;font-size:15px;font-weight:800;color:var(--gold);margin-top:8px;padding-top:8px;border-top:1px solid var(--line);"><span>Total que deberá el cliente</span><span>'+fcFmt(liq.totalConDeuda)+'</span></div>';
+  cont.innerHTML = filas;
+}
 document.getElementById('fcBtnAgregarExtra').addEventListener('click', async function(){
   var cid = document.getElementById('fcLiqCliente').value;
   if (!cid){ alert('Elegí primero un cliente arriba.'); return; }
@@ -10839,7 +10864,14 @@ function fcTextoFactura(l){
   lineas.push('');
   l.items.forEach(function(i){ lineas.push('• '+i.concepto+' — '+i.cantidad+' x '+fcFmt(i.precio||0)+' = '+fcFmt(i.subtotal)); });
   lineas.push('');
-  lineas.push('TOTAL: '+fcFmt(l.total));
+  lineas.push('TOTAL DEL PERÍODO: '+fcFmt(l.total));
+  if (l.saldoAnterior>0.005){
+    lineas.push('Deuda anterior: '+fcFmt(l.saldoAnterior));
+    lineas.push('TOTAL A PAGAR: '+fcFmt(l.totalConDeuda));
+  } else if (l.saldoAnterior<-0.005){
+    lineas.push('A favor: '+fcFmt(-l.saldoAnterior));
+    lineas.push('TOTAL A PAGAR: '+fcFmt(l.totalConDeuda));
+  }
   return lineas.join('\n');
 }
 function fcFacturaHTML(l){
@@ -10860,7 +10892,12 @@ function fcFacturaHTML(l){
     '</div>'+
     '<table><thead><tr><th>Concepto</th><th class="num">Cant.</th><th class="num">P. Unit.</th><th class="num">Subtotal</th></tr></thead><tbody>'+
     l.items.map(function(i){return '<tr><td>'+fcEsc(i.concepto)+'</td><td class="num">'+i.cantidad+'</td><td class="num">'+fcFmt(i.precio||0)+'</td><td class="num">'+fcFmt(i.subtotal)+'</td></tr>';}).join('')+
-    '<tr class="fc-totalrow"><td>Total</td><td></td><td></td><td class="num">'+fcFmt(l.total)+'</td></tr></tbody></table>'+
+    '<tr class="fc-totalrow"><td>Total del período</td><td></td><td></td><td class="num">'+fcFmt(l.total)+'</td></tr>'+
+    (Math.abs(l.saldoAnterior||0)>0.005 ? (
+      '<tr><td>'+(l.saldoAnterior>0?'Deuda anterior':'A favor del cliente')+'</td><td></td><td></td><td class="num">'+(l.saldoAnterior>0?fcFmt(l.saldoAnterior):'-'+fcFmt(-l.saldoAnterior))+'</td></tr>'+
+      '<tr class="fc-totalrow"><td>Total a pagar</td><td></td><td></td><td class="num">'+fcFmt(l.totalConDeuda)+'</td></tr>'
+    ) : '')+
+    '</tbody></table>'+
     '<div class="fc-firma"><div>Firma reparto</div><div>Recibí conforme</div></div>'+
   '</div>';
 }
