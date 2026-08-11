@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 4,
-  "exportadoEl": "2026-08-11T19:43:43.887Z",
+  "exportadoEl": "2026-08-11T22:11:05.731Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -607,7 +607,7 @@
       "date": "2026-08-10",
       "type": "egreso",
       "amount": 28000,
-      "category": "Vehiculo",
+      "category": "Vehículo",
       "account": "alquileres",
       "detalle": "Lavado auto"
     },
@@ -737,7 +737,7 @@
     "Pablo Benedicto",
     "Servicios",
     "Nafta",
-    "Vehiculo",
+    "Vehículo",
     "Impuestos",
     "Tomas hnos",
     "Las lagunas",
