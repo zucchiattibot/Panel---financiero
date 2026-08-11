@@ -1793,6 +1793,8 @@
           <button type="button" class="cargar-submit-btn" id="fcBtnImprimirPDF" style="background:var(--gold);color:#1a2a1f;width:auto;padding:12px 18px;">🖨️ Imprimir / Guardar como PDF</button>
           <button type="button" class="cargar-submit-btn" id="fcBtnCompartirWA" style="background:var(--green-pos);width:auto;padding:12px 18px;">📱 Compartir PDF por WhatsApp</button>
           <button type="button" class="cargar-submit-btn" id="fcBtnCompartirEmail" style="background:var(--blue);color:#1a2a1f;width:auto;padding:12px 18px;">✉️ Enviar PDF por Email</button>
+          <button type="button" class="cargar-submit-btn" id="fcBtnCompartirWATexto" style="background:var(--green-pos);width:auto;padding:12px 18px;">📱 Enviar por WhatsApp (sin PDF)</button>
+          <button type="button" class="cargar-submit-btn" id="fcBtnCompartirEmailTexto" style="background:var(--blue);color:#1a2a1f;width:auto;padding:12px 18px;">✉️ Enviar por Email (sin PDF)</button>
           <button type="button" class="tab-btn" id="fcBtnCopiarTexto" style="border-radius:8px;">Copiar texto</button>
         </div>
         <p class="card-note" id="fcFacturaMsg" style="min-height:14px;margin-top:8px;"></p>
@@ -10942,6 +10944,55 @@ function fcTextoFactura(l){
   }
   return lineas.join('\n');
 }
+// Versión "prolija" del texto, pensada para el cuerpo de un email (con saludo,
+// separadores y montos alineados) en vez del formato tipo chat de WhatsApp.
+function fcPadPuntos(izq, der, ancho){
+  izq = String(izq); der = String(der);
+  var espacio = ancho - izq.length - der.length;
+  if (espacio < 2) espacio = 2;
+  return izq + ' ' + new Array(espacio).join('.') + ' ' + der;
+}
+function fcTextoFacturaEmail(l){
+  var SEP = '───────────────────────────────';
+  var ANCHO = 42;
+  var lineas = [];
+  lineas.push('Hola '+l.cliente.nombre+',');
+  lineas.push('');
+  lineas.push('Te enviamos el detalle de tu factura correspondiente a '+fcPeriodoLabel(l)+'.');
+  lineas.push('');
+  lineas.push(SEP);
+  lineas.push(fc.nombreReparto);
+  if (fc.datosNegocio.direccion) lineas.push(fc.datosNegocio.direccion);
+  if (fc.datosNegocio.telefono) lineas.push('WhatsApp: '+fc.datosNegocio.telefono);
+  lineas.push(SEP);
+  lineas.push('');
+  lineas.push('Factura/Remito N°:  '+fcNumFactura(l.numero));
+  lineas.push('Fecha de emisión:   '+l.fechaEmision);
+  lineas.push('Cliente:            '+l.cliente.nombre);
+  lineas.push('Período:            '+fcPeriodoLabel(l));
+  lineas.push('');
+  lineas.push('DETALLE');
+  lineas.push(SEP);
+  l.items.forEach(function(i){
+    var izq = l.detallado && i.fecha ? (fcFechaDDMMYYYY(i.fecha)+' — '+i.concepto) : (i.concepto+' ('+i.cantidad+' x '+fcFmt(i.precio||0)+')');
+    lineas.push(fcPadPuntos(izq, fcFmt(i.subtotal), ANCHO));
+  });
+  lineas.push(SEP);
+  lineas.push(fcPadPuntos('TOTAL DEL PERÍODO', fcFmt(l.total), ANCHO));
+  if (l.saldoAnterior>0.005){
+    lineas.push(fcPadPuntos('Deuda anterior', fcFmt(l.saldoAnterior), ANCHO));
+    lineas.push(fcPadPuntos('TOTAL A PAGAR', fcFmt(l.totalConDeuda), ANCHO));
+  } else if (l.saldoAnterior<-0.005){
+    lineas.push(fcPadPuntos('A favor', fcFmt(-l.saldoAnterior), ANCHO));
+    lineas.push(fcPadPuntos('TOTAL A PAGAR', fcFmt(l.totalConDeuda), ANCHO));
+  }
+  lineas.push('');
+  lineas.push('Ante cualquier consulta, no dudes en escribirnos.');
+  lineas.push('');
+  lineas.push('Saludos,');
+  lineas.push(fc.nombreReparto);
+  return lineas.join('\n');
+}
 function fcFacturaHTML(l){
   return '<div class="fc-remito-box">'+
     '<div class="fc-remito-topline">'+
@@ -11120,6 +11171,22 @@ document.getElementById('fcBtnImprimirPDF').addEventListener('click', function()
 window.addEventListener('afterprint', function(){ document.body.classList.remove('printing-factura'); });
 document.getElementById('fcBtnCompartirWA').addEventListener('click', function(){ fcCompartirPDF('whatsapp'); });
 document.getElementById('fcBtnCompartirEmail').addEventListener('click', function(){ fcCompartirPDF('email'); });
+// Envío directo como texto (sin generar PDF), para cuando html2pdf no
+// funciona dentro del WebView de la APK. Usa el mismo texto de "Copiar texto".
+document.getElementById('fcBtnCompartirWATexto').addEventListener('click', function(){
+  if (!fcUltimaLiquidacion) return;
+  var l = fcUltimaLiquidacion;
+  var tel = (l.cliente.telefono||'').replace(/[^0-9]/g,'');
+  var texto = fcTextoFactura(l);
+  window.open('https://wa.me/'+tel+'?text='+encodeURIComponent(texto), '_blank');
+});
+document.getElementById('fcBtnCompartirEmailTexto').addEventListener('click', function(){
+  if (!fcUltimaLiquidacion) return;
+  var l = fcUltimaLiquidacion;
+  var asunto = 'Factura '+fcNumFactura(l.numero)+' - '+l.cliente.nombre;
+  var cuerpo = fcTextoFacturaEmail(l);
+  window.open('mailto:?subject='+encodeURIComponent(asunto)+'&body='+encodeURIComponent(cuerpo), '_blank');
+});
 document.getElementById('fcBtnCopiarTexto').addEventListener('click', function(){
   if (!fcUltimaLiquidacion) return;
   var texto = fcTextoFactura(fcUltimaLiquidacion);
