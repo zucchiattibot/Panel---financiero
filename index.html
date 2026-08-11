@@ -10450,7 +10450,8 @@ function fcRenderLista(){
       '<div style="font-weight:700;font-size:15px;">'+fcEsc(c.nombre)+'</div>'+
       '<div style="color:var(--cream-dim);font-size:11.5px;margin-top:2px;">'+(c.telefono?('📞 '+fcEsc(c.telefono)+' · '):'')+fcEsc(fcResumenCliente(c))+'</div>'+
       '<div style="margin-top:7px;display:flex;gap:6px;flex-wrap:wrap;align-items:center;">'+saldoHTML+(susp?'<span style="font-size:10.5px;font-weight:700;padding:3px 8px;border-radius:6px;background:rgba(224,139,120,.18);color:var(--red-neg);">Suspendido hoy</span>':'')+'</div>'+
-      (c.proximoDesde?'<div style="color:var(--cream-dim);font-size:11px;margin-top:4px;">🗓️ Próxima liquidación desde '+fcFechaDDMMYYYY(c.proximoDesde)+'</div>':'')+
+      (c.proximoDesde?'<div style="color:var(--cream-dim);font-size:11px;margin-top:4px;display:flex;align-items:center;gap:6px;">🗓️ Próxima liquidación desde '+fcFechaDDMMYYYY(c.proximoDesde)+
+        ' <button data-act="borrarProximaFecha" data-id="'+c.id+'" style="background:none;border:none;color:var(--red-neg);font-size:11px;cursor:pointer;padding:0 2px;text-decoration:underline;">borrar</button></div>':'')+
       '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;">'+
         '<button data-act="editar" data-id="'+c.id+'" class="tab-btn" style="border-radius:8px;padding:6px 10px;font-size:11.5px;">Editar</button>'+
         '<button data-act="suspender" data-id="'+c.id+'" class="tab-btn" style="border-radius:8px;padding:6px 10px;font-size:11.5px;">Suspender</button>'+
@@ -10487,6 +10488,11 @@ function fcOnClienteAction(act, id){
     fcIrAVista('liquidacion');
     fcRenderSelectLiq();
     document.getElementById('fcLiqCliente').value = id;
+  } else if (act==='borrarProximaFecha'){
+    if (confirm('¿Borrar la próxima fecha de liquidación de '+c.nombre+'? La próxima vez vas a tener que elegir la fecha "desde" a mano.')){
+      delete c.proximoDesde;
+      fcSave().then(fcRenderLista);
+    }
   }
 }
 function fcToggleSuspPanel(c){
