@@ -5945,7 +5945,7 @@ function armarBackupTexto(){
     categoriasBaseEliminadas: categoriasBaseEliminadas,
     categoriasBaseRenombres: categoriasBaseRenombres,
     facturasProveedores: (typeof window.getFacturasProveedores === 'function') ? window.getFacturasProveedores() : [],
-    clientesReparto: (typeof fc !== 'undefined') ? fc : null
+    clientesReparto: (typeof window.getClientesRepartoBackup === 'function') ? window.getClientesRepartoBackup() : null
   };
   return JSON.stringify(backup, null, 2);
 }
@@ -6051,9 +6051,8 @@ async function deshacerUltimaImportacion(){
     if (Array.isArray(data.facturasProveedores) && typeof window.restaurarFacturasProveedores === 'function'){
       await window.restaurarFacturasProveedores(data.facturasProveedores);
     }
-    if (data.clientesReparto && typeof fc !== 'undefined'){
-      fc = Object.assign(fc, data.clientesReparto);
-      await fcSave();
+    if (data.clientesReparto && typeof window.restaurarClientesRepartoBackup === 'function'){
+      await window.restaurarClientesRepartoBackup(data.clientesReparto);
     }
     await storageSet('snapshot-pre-import', ''); // se usa una sola vez
     location.reload();
@@ -6091,17 +6090,18 @@ async function procesarBackupTexto(texto, msgEl){
   // --- Clientes reparto (pestaña "Clientes"): se agregan solo los que no existan ya (por id). ---
   let nuevosClientes = 0, nuevosDiarios = 0, nuevosExtras = 0;
   const cr = data.clientesReparto;
-  if (cr && typeof fc !== 'undefined'){
+  const fcActual = (typeof window.getClientesRepartoBackup === 'function') ? window.getClientesRepartoBackup() : null;
+  if (cr && fcActual){
     if (Array.isArray(cr.clientes)){
-      const idsClientesExistentes = new Set(fc.clientes.map(c=>c.id));
+      const idsClientesExistentes = new Set(fcActual.clientes.map(c=>c.id));
       cr.clientes.forEach(c=>{ if (c && c.id && !idsClientesExistentes.has(c.id)) nuevosClientes++; });
     }
     if (Array.isArray(cr.diarios)){
-      const idsDiariosExistentes = new Set(fc.diarios.map(d=>d.id));
+      const idsDiariosExistentes = new Set(fcActual.diarios.map(d=>d.id));
       cr.diarios.forEach(d=>{ if (d && d.id && !idsDiariosExistentes.has(d.id)) nuevosDiarios++; });
     }
     if (Array.isArray(cr.extras)){
-      const idsExtrasExistentes = new Set((fc.extras||[]).map(x=>x.id));
+      const idsExtrasExistentes = new Set((fcActual.extras||[]).map(x=>x.id));
       cr.extras.forEach(x=>{ if (x && x.id && !idsExtrasExistentes.has(x.id)) nuevosExtras++; });
     }
   }
@@ -6159,24 +6159,8 @@ async function procesarBackupTexto(texto, msgEl){
   if (Array.isArray(data.facturasProveedores) && typeof window.importarFacturasProveedores === 'function'){
     facturasAgregadas = await window.importarFacturasProveedores(data.facturasProveedores);
   }
-  if (cr && typeof fc !== 'undefined'){
-    if (Array.isArray(cr.clientes)){
-      const idsClientesExistentes = new Set(fc.clientes.map(c=>c.id));
-      cr.clientes.forEach(c=>{ if (c && c.id && !idsClientesExistentes.has(c.id)){ fc.clientes.push(c); idsClientesExistentes.add(c.id); } });
-    }
-    if (Array.isArray(cr.diarios)){
-      const idsDiariosExistentes = new Set(fc.diarios.map(d=>d.id));
-      cr.diarios.forEach(d=>{ if (d && d.id && !idsDiariosExistentes.has(d.id)){ fc.diarios.push(d); idsDiariosExistentes.add(d.id); } });
-    }
-    if (Array.isArray(cr.extras)){
-      fc.extras = fc.extras || [];
-      const idsExtrasExistentes = new Set(fc.extras.map(x=>x.id));
-      cr.extras.forEach(x=>{ if (x && x.id && !idsExtrasExistentes.has(x.id)){ fc.extras.push(x); idsExtrasExistentes.add(x.id); } });
-    }
-    if (typeof cr.nextFacturaNum === 'number' && cr.nextFacturaNum > (fc.nextFacturaNum||1)){
-      fc.nextFacturaNum = cr.nextFacturaNum;
-    }
-    if (nuevosClientes || nuevosDiarios || nuevosExtras) await fcSave();
+  if (cr && typeof window.importarClientesRepartoBackup === 'function'){
+    await window.importarClientesRepartoBackup(cr);
   }
   msgEl.textContent = `Importando ${nuevosMov} movimiento(s)${facturasAgregadas ? ` y ${facturasAgregadas} comprobante(s) de proveedores` : ''}${nuevosClientes ? ` y ${nuevosClientes} cliente(s) de reparto` : ''} nuevo(s)${repetidosMov ? ` (${repetidosMov} movimiento(s) ya estaban)` : ''}…`;
   const okMov = await storageSet('manual-entries', JSON.stringify(manualEntries));
@@ -10242,6 +10226,52 @@ async function fcSave(){
     if (typeof ss === 'function') await ss(FC_KEY, JSON.stringify(fc));
   }catch(e){ console.error('fcSave', e); }
 }
+
+// Expuestas para que el backup general del panel (Exportar/Importar backup,
+// incluido el backup automático a GitHub) incluya también los datos de esta
+// pestaña (clientes, diarios/productos, extras). Sin esto, "fc" queda encerrado
+// en el closure de este módulo y el backup general no puede verlo.
+window.getClientesRepartoBackup = function(){ return fc; };
+window.importarClientesRepartoBackup = async function(cr){
+  if (!cr || typeof cr !== 'object') return 0;
+  var agregados = 0;
+  if (Array.isArray(cr.clientes)){
+    var idsClientes = new Set(fc.clientes.map(function(c){return c.id;}));
+    cr.clientes.forEach(function(c){
+      if (c && c.id && !idsClientes.has(c.id)){ fc.clientes.push(c); idsClientes.add(c.id); agregados++; }
+    });
+  }
+  if (Array.isArray(cr.diarios)){
+    var idsDiarios = new Set(fc.diarios.map(function(d){return d.id;}));
+    cr.diarios.forEach(function(d){
+      if (d && d.id && !idsDiarios.has(d.id)){ fc.diarios.push(d); idsDiarios.add(d.id); agregados++; }
+    });
+  }
+  if (Array.isArray(cr.extras)){
+    fc.extras = fc.extras || [];
+    var idsExtras = new Set(fc.extras.map(function(x){return x.id;}));
+    cr.extras.forEach(function(x){
+      if (x && x.id && !idsExtras.has(x.id)){ fc.extras.push(x); idsExtras.add(x.id); agregados++; }
+    });
+  }
+  if (typeof cr.nextFacturaNum === 'number' && cr.nextFacturaNum > (fc.nextFacturaNum||1)){
+    fc.nextFacturaNum = cr.nextFacturaNum;
+  }
+  if (agregados > 0){
+    await fcSave();
+    fcRenderDiariosCatalogo(); fcRenderSelDiarioAgregar(); fcRenderLista(); fcRenderSelectLiq();
+  }
+  return agregados;
+};
+// Distinta de importarClientesRepartoBackup: esta REEMPLAZA todo "fc" (se usa
+// solo para "deshacer última importación", donde sí queremos volver
+// exactamente al estado guardado antes de importar).
+window.restaurarClientesRepartoBackup = async function(cr){
+  if (!cr || typeof cr !== 'object') return;
+  fc = Object.assign({ nombreReparto:'Agencia Albor', datosNegocio:{}, diarios:[], nextFacturaNum:1, clientes:[], extras:[] }, cr);
+  await fcSave();
+  fcRenderDiariosCatalogo(); fcRenderSelDiarioAgregar(); fcRenderLista(); fcRenderSelectLiq();
+};
 
 /* ---------- Navegación interna de la pestaña ---------- */
 function fcIrAVista(v){
