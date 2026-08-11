@@ -1760,6 +1760,10 @@
           <input type="date" id="fcLiqHasta" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;width:100%;color-scheme:dark;">
         </div>
         <p class="card-note" id="fcLiqRangoPreview"></p>
+        <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--cream-dim);margin:2px 0 14px 0;cursor:pointer;">
+          <input type="checkbox" id="fcLiqDetalleDiario" style="width:16px;height:16px;">
+          Detalle día por día (una línea por cada día de cada suscripción)
+        </label>
         <button type="button" class="cargar-submit-btn" id="fcBtnCalcular">Calcular liquidación</button>
       </div>
 
@@ -10596,7 +10600,7 @@ function fcWireHistPanel(c, panel){
     b.addEventListener('click', function(){
       var f = (c.facturas||[]).find(function(x){return x.id===b.dataset.fid;});
       if (!f) return;
-      fcUltimaLiquidacion = {id:f.id, numero:f.numero, fechaEmision:f.fechaEmision, cliente:c, tipo:f.tipo, year:f.year, month:f.month, desde:f.desde, hasta:f.hasta, items:f.items, total:f.total};
+      fcUltimaLiquidacion = {id:f.id, numero:f.numero, fechaEmision:f.fechaEmision, cliente:c, tipo:f.tipo, year:f.year, month:f.month, desde:f.desde, hasta:f.hasta, items:f.items, total:f.total, detallado:f.detallado};
       fcIrAVista('liquidacion');
       document.getElementById('fcLiqCliente').value = c.id;
       document.getElementById('fcResultadoCard').style.display='none';
@@ -10766,6 +10770,48 @@ function fcCalcularLiquidacionRango(c, desdeISO, hastaISO){
   var total = items.reduce(function(a,i){return a+i.subtotal;},0);
   return {items:items, total:total};
 }
+// Igual que fcCalcularLiquidacionRango pero sin agrupar: una línea por cada
+// día efectivamente entregado de cada suscripción (diario/revista/extra),
+// para cuando se pide ver el detalle día por día de un cliente puntual.
+function fcCalcularLiquidacionRangoDetallada(c, desdeISO, hastaISO){
+  var items = [];
+  var inicio = new Date(desdeISO+'T00:00:00');
+  var fin = new Date(hastaISO+'T00:00:00');
+  (c.diariosCliente||[]).forEach(function(dc){
+    var dia = fc.diarios.find(function(x){return x.id===dc.diarioId;});
+    if (!dia) return;
+    for (var dt=new Date(inicio); dt<=fin; dt.setDate(dt.getDate()+1)){
+      var wd = dt.getDay();
+      var iso = dt.toISOString().slice(0,10);
+      if ((dc.dias||[]).indexOf(wd)>-1 && !fcSuspendidoEn(c, iso)){
+        var precio = dia.precios[wd]||0;
+        items.push({fecha:iso, concepto:dia.nombre, cantidad:1, precio:precio, subtotal:precio});
+      }
+    }
+  });
+  (c.revistas||[]).forEach(function(r){
+    var ocurrencias = [];
+    for (var dt=new Date(inicio); dt<=fin; dt.setDate(dt.getDate()+1)){
+      if (dt.getDay()===r.dia) ocurrencias.push(new Date(dt));
+    }
+    var validas = r.frecuencia==='semanal' ? ocurrencias
+      : r.frecuencia==='quincenal' ? ocurrencias.filter(function(_,i){return i%2===0;})
+      : ocurrencias.slice(0,1);
+    validas.forEach(function(dt){
+      var iso = dt.toISOString().slice(0,10);
+      if (!fcSuspendidoEn(c, iso)) items.push({fecha:iso, concepto:r.nombre, cantidad:1, precio:r.precio, subtotal:r.precio});
+    });
+  });
+  fc.extras.filter(function(e){return e.clienteId===c.id && e.fecha>=desdeISO && e.fecha<=hastaISO;}).forEach(function(e){
+    items.push({fecha:e.fecha, concepto:'Extra: '+e.descripcion, cantidad:1, precio:e.monto, subtotal:e.monto});
+  });
+  items.sort(function(a,b){
+    if (a.fecha!==b.fecha) return a.fecha<b.fecha?-1:1;
+    return a.concepto.localeCompare(b.concepto);
+  });
+  var total = items.reduce(function(a,i){return a+i.subtotal;},0);
+  return {items:items, total:total, detallado:true};
+}
 function fcCalcularLiquidacion(c, year, month){
   var diasEnMes = new Date(year, month, 0).getDate();
   var desdeISO = year+'-'+String(month).padStart(2,'0')+'-01';
@@ -10777,20 +10823,25 @@ document.getElementById('fcBtnCalcular').addEventListener('click', function(){
   if (!cid) return;
   var c = fc.clientes.find(function(x){return x.id===cid;});
   var tipo = document.getElementById('fcLiqTipo').value;
+  var detallado = document.getElementById('fcLiqDetalleDiario').checked;
+  var calcular = detallado ? fcCalcularLiquidacionRangoDetallada : fcCalcularLiquidacionRango;
   var res, liq;
   if (tipo==='mensual'){
     var periodo = document.getElementById('fcLiqPeriodo').value;
     if (!periodo) return;
     var parts = periodo.split('-'); var year=parseInt(parts[0]), month=parseInt(parts[1]);
-    res = fcCalcularLiquidacion(c, year, month);
-    liq = {cliente:c, tipo:'mensual', year:year, month:month, items:res.items, total:res.total};
+    var diasEnMes = new Date(year, month, 0).getDate();
+    var desdeMes = year+'-'+String(month).padStart(2,'0')+'-01';
+    var hastaMes = year+'-'+String(month).padStart(2,'0')+'-'+String(diasEnMes).padStart(2,'0');
+    res = calcular(c, desdeMes, hastaMes);
+    liq = {cliente:c, tipo:'mensual', year:year, month:month, items:res.items, total:res.total, detallado:detallado};
   } else {
     var desde = document.getElementById('fcLiqDesde').value;
     var hasta = document.getElementById('fcLiqHasta').value;
     if (!desde || !hasta){ alert('Falta la fecha desde o hasta.'); return; }
     if (hasta<desde){ alert('La fecha "hasta" no puede ser anterior a "desde".'); return; }
-    res = fcCalcularLiquidacionRango(c, desde, hasta);
-    liq = {cliente:c, tipo:tipo, desde:desde, hasta:hasta, items:res.items, total:res.total};
+    res = calcular(c, desde, hasta);
+    liq = {cliente:c, tipo:tipo, desde:desde, hasta:hasta, items:res.items, total:res.total, detallado:detallado};
   }
   // Saldo que el cliente ya arrastraba ANTES de sumar esta liquidación
   // (no incluye el total que se está por facturar ahora).
@@ -10798,9 +10849,17 @@ document.getElementById('fcBtnCalcular').addEventListener('click', function(){
   liq.saldoAnterior = saldoAnterior;
   liq.totalConDeuda = Math.round((saldoAnterior + res.total)*100)/100;
   fcUltimaLiquidacion = liq;
+  var thead = document.querySelector('#fcTablaDetalle thead tr');
   var tbody = document.querySelector('#fcTablaDetalle tbody');
+  thead.innerHTML = detallado
+    ? '<th>Fecha</th><th>Concepto</th><th style="text-align:right">P. Unit.</th><th style="text-align:right">Subtotal</th>'
+    : '<th>Concepto</th><th style="text-align:right">Cant.</th><th style="text-align:right">P. Unit.</th><th style="text-align:right">Subtotal</th>';
   if (res.items.length===0){
     tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--muted);">Sin movimientos para este período.</td></tr>';
+  } else if (detallado){
+    tbody.innerHTML = res.items.map(function(i){
+      return '<tr><td>'+fcFechaDDMMYYYY(i.fecha)+'</td><td>'+fcEsc(i.concepto)+'</td><td style="text-align:right">'+fcFmt(i.precio||0)+'</td><td style="text-align:right">'+fcFmt(i.subtotal)+'</td></tr>';
+    }).join('') + '<tr style="font-weight:800;border-top:2px solid var(--line);"><td colspan="2">Total</td><td></td><td style="text-align:right">'+fcFmt(res.total)+'</td></tr>';
   } else {
     tbody.innerHTML = res.items.map(function(i){
       return '<tr><td>'+fcEsc(i.concepto)+'</td><td style="text-align:right">'+i.cantidad+'</td><td style="text-align:right">'+fcFmt(i.precio||0)+'</td><td style="text-align:right">'+fcFmt(i.subtotal)+'</td></tr>';
@@ -10862,7 +10921,10 @@ function fcTextoFactura(l){
   lineas.push('Cliente: '+l.cliente.nombre);
   lineas.push('Período: '+fcPeriodoLabel(l));
   lineas.push('');
-  l.items.forEach(function(i){ lineas.push('• '+i.concepto+' — '+i.cantidad+' x '+fcFmt(i.precio||0)+' = '+fcFmt(i.subtotal)); });
+  l.items.forEach(function(i){
+    if (l.detallado && i.fecha) lineas.push('• '+fcFechaDDMMYYYY(i.fecha)+' — '+i.concepto+' — '+fcFmt(i.subtotal));
+    else lineas.push('• '+i.concepto+' — '+i.cantidad+' x '+fcFmt(i.precio||0)+' = '+fcFmt(i.subtotal));
+  });
   lineas.push('');
   lineas.push('TOTAL DEL PERÍODO: '+fcFmt(l.total));
   if (l.saldoAnterior>0.005){
@@ -10890,13 +10952,22 @@ function fcFacturaHTML(l){
       '<b>'+fcEsc(l.cliente.nombre)+'</b><br>'+(l.cliente.telefono?('📞 '+fcEsc(l.cliente.telefono)+'<br>'):'')+(l.cliente.direccion?fcEsc(l.cliente.direccion)+'<br>':'')+
       'Período facturado: '+fcPeriodoLabel(l)+
     '</div>'+
-    '<table><thead><tr><th>Concepto</th><th class="num">Cant.</th><th class="num">P. Unit.</th><th class="num">Subtotal</th></tr></thead><tbody>'+
-    l.items.map(function(i){return '<tr><td>'+fcEsc(i.concepto)+'</td><td class="num">'+i.cantidad+'</td><td class="num">'+fcFmt(i.precio||0)+'</td><td class="num">'+fcFmt(i.subtotal)+'</td></tr>';}).join('')+
-    '<tr class="fc-totalrow"><td>Total del período</td><td></td><td></td><td class="num">'+fcFmt(l.total)+'</td></tr>'+
-    (Math.abs(l.saldoAnterior||0)>0.005 ? (
-      '<tr><td>'+(l.saldoAnterior>0?'Deuda anterior':'A favor del cliente')+'</td><td></td><td></td><td class="num">'+(l.saldoAnterior>0?fcFmt(l.saldoAnterior):'-'+fcFmt(-l.saldoAnterior))+'</td></tr>'+
-      '<tr class="fc-totalrow"><td>Total a pagar</td><td></td><td></td><td class="num">'+fcFmt(l.totalConDeuda)+'</td></tr>'
-    ) : '')+
+    (l.detallado
+      ? '<table><thead><tr><th>Fecha</th><th>Concepto</th><th class="num">P. Unit.</th><th class="num">Subtotal</th></tr></thead><tbody>'+
+        l.items.map(function(i){return '<tr><td>'+fcFechaDDMMYYYY(i.fecha)+'</td><td>'+fcEsc(i.concepto)+'</td><td class="num">'+fcFmt(i.precio||0)+'</td><td class="num">'+fcFmt(i.subtotal)+'</td></tr>';}).join('')+
+        '<tr class="fc-totalrow"><td colspan="2">Total del período</td><td></td><td class="num">'+fcFmt(l.total)+'</td></tr>'+
+        (Math.abs(l.saldoAnterior||0)>0.005 ? (
+          '<tr><td colspan="2">'+(l.saldoAnterior>0?'Deuda anterior':'A favor del cliente')+'</td><td></td><td class="num">'+(l.saldoAnterior>0?fcFmt(l.saldoAnterior):'-'+fcFmt(-l.saldoAnterior))+'</td></tr>'+
+          '<tr class="fc-totalrow"><td colspan="2">Total a pagar</td><td></td><td class="num">'+fcFmt(l.totalConDeuda)+'</td></tr>'
+        ) : '')
+      : '<table><thead><tr><th>Concepto</th><th class="num">Cant.</th><th class="num">P. Unit.</th><th class="num">Subtotal</th></tr></thead><tbody>'+
+        l.items.map(function(i){return '<tr><td>'+fcEsc(i.concepto)+'</td><td class="num">'+i.cantidad+'</td><td class="num">'+fcFmt(i.precio||0)+'</td><td class="num">'+fcFmt(i.subtotal)+'</td></tr>';}).join('')+
+        '<tr class="fc-totalrow"><td>Total del período</td><td></td><td></td><td class="num">'+fcFmt(l.total)+'</td></tr>'+
+        (Math.abs(l.saldoAnterior||0)>0.005 ? (
+          '<tr><td>'+(l.saldoAnterior>0?'Deuda anterior':'A favor del cliente')+'</td><td></td><td></td><td class="num">'+(l.saldoAnterior>0?fcFmt(l.saldoAnterior):'-'+fcFmt(-l.saldoAnterior))+'</td></tr>'+
+          '<tr class="fc-totalrow"><td>Total a pagar</td><td></td><td></td><td class="num">'+fcFmt(l.totalConDeuda)+'</td></tr>'
+        ) : '')
+    )+
     '</tbody></table>'+
     '<div class="fc-firma"><div>Firma reparto</div><div>Recibí conforme</div></div>'+
   '</div>';
@@ -10915,7 +10986,7 @@ document.getElementById('fcBtnGenerarFactura').addEventListener('click', async f
     var cli = fc.clientes.find(function(x){return x.id===l.cliente.id;});
     if (cli){
       cli.facturas = cli.facturas||[];
-      cli.facturas.push({id:l.id, numero:l.numero, fechaEmision:l.fechaEmision, tipo:l.tipo, year:l.year, month:l.month, desde:l.desde, hasta:l.hasta, items:l.items, total:l.total});
+      cli.facturas.push({id:l.id, numero:l.numero, fechaEmision:l.fechaEmision, tipo:l.tipo, year:l.year, month:l.month, desde:l.desde, hasta:l.hasta, items:l.items, total:l.total, detallado:l.detallado});
       // Si fue una liquidación semanal/quincenal/por días/rango, la próxima
       // vez que se abra "Liquidar" para este cliente arranca el día siguiente
       // al último día ya facturado (así se pueden encadenar períodos
