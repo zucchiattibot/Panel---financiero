@@ -186,7 +186,7 @@
   #fcCerrarPrintBtn{display:none;position:fixed;top:10px;right:10px;z-index:99999;background:#c0392b;color:#fff;border:none;border-radius:8px;padding:10px 14px;font-size:13px;font-weight:700;}
   body.printing-factura #fcCerrarPrintBtn{display:block !important;visibility:visible !important;}
 </style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
 </head>
 <body>
 <div class="wrap">
@@ -5938,13 +5938,14 @@ function backupEntryKey(en){
 function armarBackupTexto(){
   const backup = {
     tipo: 'panel-agencia-backup',
-    version: 3,
+    version: 4,
     exportadoEl: new Date().toISOString(),
     manualEntries: manualEntries,
     categoriasCustom: categoriasCustom,
     categoriasBaseEliminadas: categoriasBaseEliminadas,
     categoriasBaseRenombres: categoriasBaseRenombres,
-    facturasProveedores: (typeof window.getFacturasProveedores === 'function') ? window.getFacturasProveedores() : []
+    facturasProveedores: (typeof window.getFacturasProveedores === 'function') ? window.getFacturasProveedores() : [],
+    clientesReparto: (typeof fc !== 'undefined') ? fc : null
   };
   return JSON.stringify(backup, null, 2);
 }
@@ -6050,6 +6051,10 @@ async function deshacerUltimaImportacion(){
     if (Array.isArray(data.facturasProveedores) && typeof window.restaurarFacturasProveedores === 'function'){
       await window.restaurarFacturasProveedores(data.facturasProveedores);
     }
+    if (data.clientesReparto && typeof fc !== 'undefined'){
+      fc = Object.assign(fc, data.clientesReparto);
+      await fcSave();
+    }
     await storageSet('snapshot-pre-import', ''); // se usa una sola vez
     location.reload();
   } catch(e){
@@ -6083,10 +6088,28 @@ async function procesarBackupTexto(texto, msgEl){
     data.facturasProveedores.forEach(f=>{ if (f && f.id && !idsExistentes.has(f.id)) nuevasFacturas++; });
   }
 
-  if (nuevosMov === 0 && nuevasFacturas === 0){
+  // --- Clientes reparto (pestaña "Clientes"): se agregan solo los que no existan ya (por id). ---
+  let nuevosClientes = 0, nuevosDiarios = 0, nuevosExtras = 0;
+  const cr = data.clientesReparto;
+  if (cr && typeof fc !== 'undefined'){
+    if (Array.isArray(cr.clientes)){
+      const idsClientesExistentes = new Set(fc.clientes.map(c=>c.id));
+      cr.clientes.forEach(c=>{ if (c && c.id && !idsClientesExistentes.has(c.id)) nuevosClientes++; });
+    }
+    if (Array.isArray(cr.diarios)){
+      const idsDiariosExistentes = new Set(fc.diarios.map(d=>d.id));
+      cr.diarios.forEach(d=>{ if (d && d.id && !idsDiariosExistentes.has(d.id)) nuevosDiarios++; });
+    }
+    if (Array.isArray(cr.extras)){
+      const idsExtrasExistentes = new Set((fc.extras||[]).map(x=>x.id));
+      cr.extras.forEach(x=>{ if (x && x.id && !idsExtrasExistentes.has(x.id)) nuevosExtras++; });
+    }
+  }
+
+  if (nuevosMov === 0 && nuevasFacturas === 0 && nuevosClientes === 0 && nuevosDiarios === 0 && nuevosExtras === 0){
     msgEl.textContent = repetidosMov > 0
       ? `Ese backup ya estaba cargado acá (${repetidosMov} repetido(s), 0 nuevos). No se cambió nada.`
-      : 'El backup no tenía movimientos ni comprobantes nuevos para agregar. No se cambió nada.';
+      : 'El backup no tenía movimientos, comprobantes ni datos de clientes nuevos para agregar. No se cambió nada.';
     return;
   }
 
@@ -6097,6 +6120,9 @@ async function procesarBackupTexto(texto, msgEl){
     `Se van a AGREGAR:\n` +
     `• ${nuevosMov} movimiento(s) nuevo(s)${repetidosMov ? ` (${repetidosMov} ya estaban y se van a ignorar)` : ''}\n` +
     (nuevasFacturas ? `• ${nuevasFacturas} comprobante(s) de proveedores nuevo(s)\n` : '') +
+    (nuevosClientes ? `• ${nuevosClientes} cliente(s) de reparto nuevo(s)\n` : '') +
+    (nuevosDiarios ? `• ${nuevosDiarios} diario(s)/producto(s) nuevo(s)\n` : '') +
+    (nuevosExtras ? `• ${nuevosExtras} extra(s) de reparto nuevo(s)\n` : '') +
     `\nLa importación nunca borra ni modifica lo que ya tenés cargado, solo agrega lo que falte. ` +
     `Igual, antes de aplicar, queda guardada una copia de cómo está todo ahora mismo por si querés deshacer esto después.\n\n` +
     `¿Confirmás la importación?`;
@@ -6133,7 +6159,26 @@ async function procesarBackupTexto(texto, msgEl){
   if (Array.isArray(data.facturasProveedores) && typeof window.importarFacturasProveedores === 'function'){
     facturasAgregadas = await window.importarFacturasProveedores(data.facturasProveedores);
   }
-  msgEl.textContent = `Importando ${nuevosMov} movimiento(s)${facturasAgregadas ? ` y ${facturasAgregadas} comprobante(s) de proveedores` : ''} nuevo(s)${repetidosMov ? ` (${repetidosMov} movimiento(s) ya estaban)` : ''}…`;
+  if (cr && typeof fc !== 'undefined'){
+    if (Array.isArray(cr.clientes)){
+      const idsClientesExistentes = new Set(fc.clientes.map(c=>c.id));
+      cr.clientes.forEach(c=>{ if (c && c.id && !idsClientesExistentes.has(c.id)){ fc.clientes.push(c); idsClientesExistentes.add(c.id); } });
+    }
+    if (Array.isArray(cr.diarios)){
+      const idsDiariosExistentes = new Set(fc.diarios.map(d=>d.id));
+      cr.diarios.forEach(d=>{ if (d && d.id && !idsDiariosExistentes.has(d.id)){ fc.diarios.push(d); idsDiariosExistentes.add(d.id); } });
+    }
+    if (Array.isArray(cr.extras)){
+      fc.extras = fc.extras || [];
+      const idsExtrasExistentes = new Set(fc.extras.map(x=>x.id));
+      cr.extras.forEach(x=>{ if (x && x.id && !idsExtrasExistentes.has(x.id)){ fc.extras.push(x); idsExtrasExistentes.add(x.id); } });
+    }
+    if (typeof cr.nextFacturaNum === 'number' && cr.nextFacturaNum > (fc.nextFacturaNum||1)){
+      fc.nextFacturaNum = cr.nextFacturaNum;
+    }
+    if (nuevosClientes || nuevosDiarios || nuevosExtras) await fcSave();
+  }
+  msgEl.textContent = `Importando ${nuevosMov} movimiento(s)${facturasAgregadas ? ` y ${facturasAgregadas} comprobante(s) de proveedores` : ''}${nuevosClientes ? ` y ${nuevosClientes} cliente(s) de reparto` : ''} nuevo(s)${repetidosMov ? ` (${repetidosMov} movimiento(s) ya estaban)` : ''}…`;
   const okMov = await storageSet('manual-entries', JSON.stringify(manualEntries));
   await storageSet('categorias-personalizadas', JSON.stringify(categoriasCustom));
   await storageSet('categorias-base-eliminadas', JSON.stringify(categoriasBaseEliminadas));
@@ -11067,10 +11112,17 @@ function fcNombreArchivoFactura(l){
 }
 function fcGenerarPDFBlob(){
   var el = document.getElementById('fcFacturaContenido');
+  window.scrollTo(0, 0);
   return window.html2pdf().set({
     margin: 6,
     image: {type:'jpeg', quality:0.98},
-    html2canvas: {scale:2, backgroundColor:'#f2ecd9'},
+    html2canvas: {
+      scale:2, backgroundColor:'#f2ecd9',
+      scrollX:0, scrollY:0,
+      windowWidth: document.documentElement.scrollWidth,
+      windowHeight: document.documentElement.scrollHeight,
+      useCORS:true
+    },
     jsPDF: {unit:'mm', format:'a5', orientation:'portrait'}
   }).from(el);
 }
@@ -11211,10 +11263,17 @@ var fcExtClienteActual = null;
 
 function fcExtGenerarPDFBlob(elId, formato){
   var el = document.getElementById(elId);
+  window.scrollTo(0, 0);
   return window.html2pdf().set({
     margin: 6,
     image: {type:'jpeg', quality:0.98},
-    html2canvas: {scale:2, backgroundColor:'#f2ecd9'},
+    html2canvas: {
+      scale:2, backgroundColor:'#f2ecd9',
+      scrollX:0, scrollY:0,
+      windowWidth: document.documentElement.scrollWidth,
+      windowHeight: document.documentElement.scrollHeight,
+      useCORS:true
+    },
     jsPDF: {unit:'mm', format: formato||'a5', orientation:'portrait'}
   }).from(el);
 }
