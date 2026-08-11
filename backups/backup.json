@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 4,
-  "exportadoEl": "2026-08-11T19:20:24.728Z",
+  "exportadoEl": "2026-08-11T19:43:43.887Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -722,6 +722,14 @@
       "category": "Sueldo",
       "account": "alquileres",
       "detalle": "Carniceria"
+    },
+    {
+      "date": "2026-08-11",
+      "type": "ingreso",
+      "amount": 214000,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "efectivo"
     }
   ],
   "categoriasCustom": [
@@ -5636,7 +5644,7 @@
         ]
       }
     ],
-    "nextFacturaNum": 21,
+    "nextFacturaNum": 22,
     "clientes": [
       {
         "id": "msnrvzg8wadclt",
@@ -5692,7 +5700,68 @@
           }
         ],
         "suspensiones": [],
-        "facturas": [],
+        "facturas": [
+          {
+            "id": "msp22e43z66i2e",
+            "numero": 21,
+            "fechaEmision": "2026-08-11",
+            "tipo": "mensual",
+            "year": 2026,
+            "month": 8,
+            "items": [
+              {
+                "concepto": "Clarin (Domingo)",
+                "cantidad": 5,
+                "precio": 8000,
+                "subtotal": 40000
+              },
+              {
+                "concepto": "Clarin (Lunes, Martes, Miércoles, Jueves, Viernes)",
+                "cantidad": 21,
+                "precio": 5100,
+                "subtotal": 107100
+              },
+              {
+                "concepto": "Clarin (Sábado)",
+                "cantidad": 5,
+                "precio": 7200,
+                "subtotal": 36000
+              },
+              {
+                "concepto": "Popular (Domingo)",
+                "cantidad": 5,
+                "precio": 2500,
+                "subtotal": 12500
+              },
+              {
+                "concepto": "Popular (Lunes, Martes, Miércoles, Jueves, Viernes, Sábado)",
+                "cantidad": 26,
+                "precio": 2300,
+                "subtotal": 59800
+              },
+              {
+                "concepto": "Diario ole (Domingo, Lunes)",
+                "cantidad": 10,
+                "precio": 2900,
+                "subtotal": 29000
+              },
+              {
+                "concepto": "Diario ole (Martes, Miércoles, Jueves, Viernes, Sábado)",
+                "cantidad": 21,
+                "precio": 2800,
+                "subtotal": 58800
+              },
+              {
+                "concepto": "El oeste",
+                "cantidad": 5,
+                "precio": 1500,
+                "subtotal": 7500
+              }
+            ],
+            "total": 350700,
+            "detallado": false
+          }
+        ],
         "proximoDesde": "",
         "pagos": []
       },
