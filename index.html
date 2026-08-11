@@ -41,10 +41,10 @@
   .panel{display:none;} .panel.active{display:block;}
   .fc-view{display:none;} .fc-view.active{display:block;}
   #fcFacturaContenido table{width:100%;border-collapse:collapse;font-size:13px;}
-  #fcFacturaContenido th{text-align:left;font-size:10px;text-transform:uppercase;color:#5c574a;padding:0 6px 7px 0;border-bottom:1px solid #1a2a1f;font-weight:700;}
-  #fcFacturaContenido td{padding:7px 6px;border-bottom:1px solid rgba(0,0,0,.08);}
+  #fcFacturaContenido th{text-align:left;font-size:10px;text-transform:uppercase;color:#9a927a;letter-spacing:.05em;padding:0 6px 8px 0;border-bottom:1px solid #e4ddc8;font-weight:700;}
+  #fcFacturaContenido td{padding:9px 6px;border-bottom:1px solid #efe9d8;}
   #fcFacturaContenido td.num{text-align:right;font-variant-numeric:tabular-nums;}
-  #fcFacturaContenido .fc-totalrow td{border-top:2px solid #1a2a1f;border-bottom:none;font-weight:900;font-size:15px;padding-top:10px;}
+  #fcFacturaContenido .fc-totalrow td{border-top:2px solid #1a2a1f;border-bottom:none;font-weight:900;font-size:16px;padding-top:12px;}
   #fcFacturaContenido .fc-ihead{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2px solid #1a2a1f;padding-bottom:10px;margin-bottom:12px;}
   #fcFacturaContenido .fc-ihead h3{margin:0;font-size:19px;font-weight:900;}
   #fcFacturaContenido .fc-iclient{font-size:13.5px;margin-bottom:12px;line-height:1.6;}
@@ -118,15 +118,16 @@
   .foot{color:var(--muted);font-size:11px;text-align:center;margin-top:20px;line-height:1.6;padding:0 20px;}
   a{color:var(--gold);}
   #fcFacturaContenido{position:relative;}
-  #fcFacturaContenido .fc-remito-box{border:2px solid #1a2a1f;border-radius:4px;padding:16px;}
-  #fcFacturaContenido .fc-remito-topline{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2px dashed #1a2a1f;padding-bottom:10px;margin-bottom:12px;}
-  #fcFacturaContenido .fc-remito-tag{font-size:10px;letter-spacing:.12em;text-transform:uppercase;font-weight:900;border:1.5px solid #1a2a1f;border-radius:5px;padding:2px 8px;display:inline-block;}
-  #fcFacturaContenido .fc-remito-num{font-size:12px;font-weight:800;text-align:right;}
-  #fcFacturaContenido .fc-remito-num .n{font-size:16px;}
-  #fcFacturaContenido .fc-negocio{font-size:12px;color:#5c574a;line-height:1.5;margin-top:2px;}
-  #fcFacturaContenido .fc-iclient{background:rgba(0,0,0,.035);border:1px solid rgba(0,0,0,.12);border-radius:8px;padding:9px 12px;}
-  #fcFacturaContenido .fc-firma{display:flex;justify-content:space-between;margin-top:26px;padding-top:8px;}
-  #fcFacturaContenido .fc-firma div{width:44%;border-top:1px solid #1a2a1f;text-align:center;font-size:10.5px;color:#5c574a;padding-top:4px;}
+  #fcFacturaContenido .fc-remito-box{border-radius:10px;padding:20px 18px;box-shadow:0 1px 3px rgba(0,0,0,.08);}
+  #fcFacturaContenido .fc-remito-topline{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:3px solid #d3b56a;padding-bottom:14px;margin-bottom:16px;}
+  #fcFacturaContenido .fc-brand{font-size:20px;font-weight:900;letter-spacing:-.01em;color:#1a2a1f;}
+  #fcFacturaContenido .fc-remito-tag{font-size:10px;letter-spacing:.12em;text-transform:uppercase;font-weight:800;color:#a1885a;}
+  #fcFacturaContenido .fc-remito-num{font-size:12px;font-weight:700;text-align:right;color:#5c574a;}
+  #fcFacturaContenido .fc-remito-num .n{font-size:17px;font-weight:900;color:#1a2a1f;}
+  #fcFacturaContenido .fc-negocio{font-size:12px;color:#8a8470;line-height:1.6;margin-top:4px;}
+  #fcFacturaContenido .fc-iclient{background:#faf7ee;border-radius:8px;padding:11px 13px;}
+  #fcFacturaContenido .fc-firma{display:flex;justify-content:space-between;margin-top:30px;padding-top:8px;}
+  #fcFacturaContenido .fc-firma div{width:44%;border-top:1px solid #cfc7ab;text-align:center;font-size:10.5px;color:#8a8470;padding-top:6px;}
   .note-box{background:rgba(211,181,106,.08);border:1px solid rgba(211,181,106,.3);border-radius:10px;padding:10px 13px;font-size:12px;color:var(--cream-dim);margin-top:10px;line-height:1.5;}
   .range-group{margin-bottom:14px;}
   .range-label{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:6px;}
@@ -1766,7 +1767,7 @@
             <input type="text" id="fcCfgDireccion" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;width:100%;box-sizing:border-box;">
           </div>
           <div class="range-group">
-            <div class="range-label">Teléfono (opcional)</div>
+            <div class="range-label">WhatsApp (opcional)</div>
             <input type="text" id="fcCfgTelefono" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;width:100%;box-sizing:border-box;">
           </div>
         </div>
@@ -10004,8 +10005,8 @@ var DIAS_CORTO = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
 var FC_KEY = 'fc_reparto_v1';
 
 var fc = {
-  nombreReparto: 'Clientes',
-  datosNegocio: {direccion:'', telefono:''},
+  nombreReparto: 'Agencia Albor',
+  datosNegocio: {direccion:'Maipú 175', telefono:'2395417834'},
   diarios: [],
   nextFacturaNum: 1,
   clientes: [],
@@ -10023,6 +10024,9 @@ var fcNuevoDiarioPrecios = [800,700,700,700,700,700,900];
 function fcMigrar(){
   if (!fc.diarios) fc.diarios = [];
   if (!fc.datosNegocio) fc.datosNegocio = {direccion:'', telefono:''};
+  if (!fc.nombreReparto || fc.nombreReparto==='Clientes') fc.nombreReparto = 'Agencia Albor';
+  if (!fc.datosNegocio.direccion) fc.datosNegocio.direccion = 'Maipú 175';
+  if (!fc.datosNegocio.telefono) fc.datosNegocio.telefono = '2395417834';
   if (!fc.nextFacturaNum) fc.nextFacturaNum = 1;
   var necesitaMigrar = fc.diarios.length===0 && fc.preciosDiario && fc.clientes.some(function(c){return c.llevaDiario;});
   var diarioMigradoId = null;
@@ -10536,7 +10540,7 @@ function fcTextoFactura(l){
   var lineas = [];
   lineas.push('🧾 '+fc.nombreReparto);
   if (fc.datosNegocio.direccion) lineas.push(fc.datosNegocio.direccion);
-  if (fc.datosNegocio.telefono) lineas.push('Tel: '+fc.datosNegocio.telefono);
+  if (fc.datosNegocio.telefono) lineas.push('WhatsApp: '+fc.datosNegocio.telefono);
   lineas.push('Factura/Remito Nº '+fcNumFactura(l.numero));
   lineas.push('Fecha: '+l.fechaEmision);
   lineas.push('Cliente: '+l.cliente.nombre);
@@ -10550,16 +10554,16 @@ function fcTextoFactura(l){
 function fcFacturaHTML(l){
   return '<div class="fc-remito-box">'+
     '<div class="fc-remito-topline">'+
-      '<div><h3 style="margin:0 0 3px 0;font-size:19px;font-weight:900;">'+fcEsc(fc.nombreReparto)+'</h3>'+
-        '<div class="fc-negocio">'+(fc.datosNegocio.direccion?fcEsc(fc.datosNegocio.direccion)+'<br>':'')+(fc.datosNegocio.telefono?'Tel: '+fcEsc(fc.datosNegocio.telefono):'')+'</div></div>'+
+      '<div><div class="fc-brand">'+fcEsc(fc.nombreReparto)+'</div>'+
+        '<div class="fc-negocio">'+(fc.datosNegocio.direccion?fcEsc(fc.datosNegocio.direccion):'')+(fc.datosNegocio.direccion&&fc.datosNegocio.telefono?' · ':'')+(fc.datosNegocio.telefono?'WhatsApp '+fcEsc(fc.datosNegocio.telefono):'')+'</div></div>'+
       '<div style="text-align:right;">'+
-        '<span class="fc-remito-tag">Factura · Remito</span>'+
+        '<div class="fc-remito-tag">Factura · Remito</div>'+
         '<div class="fc-remito-num">N° <span class="n">'+fcNumFactura(l.numero)+'</span></div>'+
-        '<div style="font-size:11px;color:#5c574a;margin-top:2px;">Fecha: '+l.fechaEmision+'</div>'+
+        '<div style="font-size:11px;color:#8a8470;margin-top:2px;">'+l.fechaEmision+'</div>'+
       '</div>'+
     '</div>'+
-    '<div class="fc-iclient" style="margin-bottom:12px;">'+
-      '<div style="font-size:10px;text-transform:uppercase;color:#8a8470;letter-spacing:.06em;margin-bottom:2px;">Cliente</div>'+
+    '<div class="fc-iclient" style="margin-bottom:14px;">'+
+      '<div style="font-size:10px;text-transform:uppercase;color:#a1885a;letter-spacing:.06em;margin-bottom:3px;">Cliente</div>'+
       '<b>'+fcEsc(l.cliente.nombre)+'</b><br>'+(l.cliente.telefono?('📞 '+fcEsc(l.cliente.telefono)+'<br>'):'')+(l.cliente.direccion?fcEsc(l.cliente.direccion)+'<br>':'')+
       'Período facturado: '+fcMesNombre(l.month)+' '+l.year+
     '</div>'+
