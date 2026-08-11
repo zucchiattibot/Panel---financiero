@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 3,
-  "exportadoEl": "2026-08-11T14:07:36.296Z",
+  "exportadoEl": "2026-08-11T14:16:30.220Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -698,6 +698,22 @@
       "category": "Sapito",
       "account": "agencia",
       "detalle": ""
+    },
+    {
+      "date": "2026-08-11",
+      "type": "egreso",
+      "amount": 900000,
+      "category": "Clarin",
+      "account": "agencia",
+      "detalle": "Tranferencia"
+    },
+    {
+      "date": "2026-08-11",
+      "type": "egreso",
+      "amount": 38012.7,
+      "category": "Vehiculo",
+      "account": "alquileres",
+      "detalle": "Patente"
     }
   ],
   "categoriasCustom": [
