@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 3,
-  "exportadoEl": "2026-08-11T11:34:55.235Z",
+  "exportadoEl": "2026-08-11T11:35:08.484Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -680,6 +680,14 @@
       "type": "egreso",
       "amount": 2000,
       "category": "Donato",
+      "account": "alquileres",
+      "detalle": ""
+    },
+    {
+      "date": "2026-08-11",
+      "type": "egreso",
+      "amount": 2000,
+      "category": "Chiara",
       "account": "alquileres",
       "detalle": ""
     }
