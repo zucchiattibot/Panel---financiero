@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 3,
-  "exportadoEl": "2026-08-11T10:06:34.938Z",
+  "exportadoEl": "2026-08-11T11:20:32.019Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -666,6 +666,14 @@
       "category": "Sueldo",
       "account": "alquileres",
       "detalle": "Kiosco"
+    },
+    {
+      "date": "2026-08-11",
+      "type": "ingreso",
+      "amount": 190000,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "efectivo"
     }
   ],
   "categoriasCustom": [
