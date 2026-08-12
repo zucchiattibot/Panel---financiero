@@ -2069,6 +2069,7 @@ try {
 // que ingresos/egresos nuevos entren en el mismo balance, categorías,
 // proyección e inflación que el resto de los datos.
 let manualEntries = [];
+function movUid(){ return 'm_' + Date.now().toString(36) + Math.random().toString(36).slice(2,8); }
 
 function mergeManualEntries(entries){
   // Cada entrada tiene su propia cuenta (agencia / alquileres) y los datos
@@ -2169,6 +2170,17 @@ try {
   const storedVal = await storageGet('manual-entries');
   manualEntries = storedVal ? JSON.parse(storedVal) : [];
 } catch(e) { manualEntries = []; }
+// Migración: los movimientos viejos no tenían id ni fecha de modificación
+// propios, así que una edición no se podía distinguir de "otro movimiento
+// nuevo" al pasarlo a otro dispositivo. Les asignamos eso acá una sola vez.
+(function migrarIdsManualEntries(){
+  let cambio = false;
+  manualEntries.forEach(en=>{
+    if (en && !en.id){ en.id = movUid(); cambio = true; }
+    if (en && !en.modificadoEl){ en.modificadoEl = en.exportadoEl || new Date(0).toISOString(); cambio = true; }
+  });
+  if (cambio) storageSet('manual-entries', JSON.stringify(manualEntries)).catch(()=>{});
+})();
 mergeManualEntries(manualEntries);
 
 /* ---------------- TOGGLE: sueldo propio, ¿cuenta como gasto? ---------------- */
@@ -5683,6 +5695,10 @@ renderManualList();
 async function deleteManualEntry(idx){
   manualEntries.splice(idx, 1);
   await storageSet('manual-entries', JSON.stringify(manualEntries));
+  try {
+    const ghCfg = await cargarGhConfig();
+    if (ghCfg && ghCfg.auto) await subirBackupAGithub(true);
+  } catch(e) { /* si falla el auto-backup, igual seguimos: el borrado ya quedó guardado local */ }
   location.reload();
 }
 
@@ -5973,6 +5989,11 @@ document.getElementById('cargarForm').addEventListener('submit', async (e)=>{
 
   const editandoIdx = cargarEditIndex;
   const entradaPrevia = editandoIdx !== null ? manualEntries[editandoIdx] : null;
+  // Conservamos el id del movimiento si estamos editando (para que otro
+  // dispositivo reconozca esto como "la misma entrada, actualizada" y no
+  // como una entrada nueva), y sumamos la fecha/hora de esta modificación.
+  entry.id = entradaPrevia && entradaPrevia.id ? entradaPrevia.id : movUid();
+  entry.modificadoEl = new Date().toISOString();
   if (editandoIdx !== null) manualEntries[editandoIdx] = entry;
   else manualEntries.push(entry);
 
@@ -6160,12 +6181,22 @@ async function procesarBackupTexto(texto, msgEl){
     return;
   }
 
-  // --- Vista previa: calculamos qué se agregaría, SIN tocar nada todavía. ---
+  // --- Vista previa: calculamos qué se agregaría/actualizaría, SIN tocar nada todavía. ---
+  // Los movimientos con id: si el que llega tiene fecha de modificación más
+  // nueva que el que ya tenemos acá, se cuenta como "actualizado" (se
+  // reemplaza el viejo). Los que no tienen id (backups antiguos) se
+  // comparan por sus datos, como antes.
+  const porIdExistente = new Map(manualEntries.filter(en=>en&&en.id).map(en=>[en.id, en]));
   const clavesExistentes = new Set(manualEntries.map(backupEntryKey));
-  let nuevosMov = 0, repetidosMov = 0;
+  let nuevosMov = 0, repetidosMov = 0, actualizadosMov = 0;
   data.manualEntries.forEach(en=>{
     if (!en || !en.date || !en.type || typeof en.amount === 'undefined') return;
-    if (clavesExistentes.has(backupEntryKey(en))) repetidosMov++; else nuevosMov++;
+    if (en.id && porIdExistente.has(en.id)){
+      const local = porIdExistente.get(en.id);
+      const entraEsNueva = (en.modificadoEl||'') > (local.modificadoEl||'');
+      if (entraEsNueva) actualizadosMov++; else repetidosMov++;
+    } else if (clavesExistentes.has(backupEntryKey(en))) repetidosMov++;
+    else nuevosMov++;
   });
   let nuevasFacturas = 0;
   if (Array.isArray(data.facturasProveedores) && typeof window.getFacturasProveedores === 'function'){
@@ -6192,7 +6223,7 @@ async function procesarBackupTexto(texto, msgEl){
     }
   }
 
-  if (nuevosMov === 0 && nuevasFacturas === 0 && nuevosClientes === 0 && nuevosDiarios === 0 && nuevosExtras === 0){
+  if (nuevosMov === 0 && actualizadosMov === 0 && nuevasFacturas === 0 && nuevosClientes === 0 && nuevosDiarios === 0 && nuevosExtras === 0){
     msgEl.textContent = repetidosMov > 0
       ? `Ese backup ya estaba cargado acá (${repetidosMov} repetido(s), 0 nuevos). No se cambió nada.`
       : 'El backup no tenía movimientos, comprobantes ni datos de clientes nuevos para agregar. No se cambió nada.';
@@ -6203,14 +6234,14 @@ async function procesarBackupTexto(texto, msgEl){
   const fechaBackup = data.exportadoEl ? new Date(data.exportadoEl) : null;
   const fechaTxt = fechaBackup && !isNaN(fechaBackup) ? fechaBackup.toLocaleString('es-AR') : 'fecha desconocida';
   const resumen = `Este backup es del ${fechaTxt}.\n\n` +
-    `Se van a AGREGAR:\n` +
-    `• ${nuevosMov} movimiento(s) nuevo(s)${repetidosMov ? ` (${repetidosMov} ya estaban y se van a ignorar)` : ''}\n` +
+    `Se van a AGREGAR/ACTUALIZAR:\n` +
+    `• ${nuevosMov} movimiento(s) nuevo(s)${repetidosMov ? ` (${repetidosMov} ya estaban igual y se van a ignorar)` : ''}\n` +
+    (actualizadosMov ? `• ${actualizadosMov} movimiento(s) editado(s) en otro dispositivo (se va a reemplazar la versión vieja por la editada)\n` : '') +
     (nuevasFacturas ? `• ${nuevasFacturas} comprobante(s) de proveedores nuevo(s)\n` : '') +
     (nuevosClientes ? `• ${nuevosClientes} cliente(s) de reparto nuevo(s)\n` : '') +
     (nuevosDiarios ? `• ${nuevosDiarios} diario(s)/producto(s) nuevo(s)\n` : '') +
     (nuevosExtras ? `• ${nuevosExtras} extra(s) de reparto nuevo(s)\n` : '') +
-    `\nLa importación nunca borra ni modifica lo que ya tenés cargado, solo agrega lo que falte. ` +
-    `Igual, antes de aplicar, queda guardada una copia de cómo está todo ahora mismo por si querés deshacer esto después.\n\n` +
+    `\nAntes de aplicar, queda guardada una copia de cómo está todo ahora mismo por si querés deshacer esto después.\n\n` +
     `¿Confirmás la importación?`;
   if (!window.confirm(resumen)) {
     msgEl.textContent = 'Importación cancelada. No se cambió nada.';
@@ -6223,10 +6254,20 @@ async function procesarBackupTexto(texto, msgEl){
   // --- Recién ahora se aplican los cambios. ---
   data.manualEntries.forEach(en=>{
     if (!en || !en.date || !en.type || typeof en.amount === 'undefined') return;
+    if (en.id && porIdExistente.has(en.id)){
+      const local = porIdExistente.get(en.id);
+      if ((en.modificadoEl||'') > (local.modificadoEl||'')){
+        const pos = manualEntries.indexOf(local);
+        if (pos > -1) manualEntries[pos] = en;
+        porIdExistente.set(en.id, en);
+      }
+      return;
+    }
     const clave = backupEntryKey(en);
     if (clavesExistentes.has(clave)) return;
     manualEntries.push(en);
     clavesExistentes.add(clave);
+    if (en.id) porIdExistente.set(en.id, en);
   });
   if (Array.isArray(data.categoriasCustom)){
     data.categoriasCustom.forEach(cat=>{
@@ -6251,7 +6292,7 @@ async function procesarBackupTexto(texto, msgEl){
   if (cr && typeof window.importarClientesRepartoBackup === 'function'){
     await window.importarClientesRepartoBackup(cr);
   }
-  msgEl.textContent = `Importando ${nuevosMov} movimiento(s)${facturasAgregadas ? ` y ${facturasAgregadas} comprobante(s) de proveedores` : ''}${nuevosClientes ? ` y ${nuevosClientes} cliente(s) de reparto` : ''} nuevo(s)${repetidosMov ? ` (${repetidosMov} movimiento(s) ya estaban)` : ''}…`;
+  msgEl.textContent = `Importando ${nuevosMov} movimiento(s) nuevo(s)${actualizadosMov ? ` y ${actualizadosMov} editado(s)` : ''}${facturasAgregadas ? ` y ${facturasAgregadas} comprobante(s) de proveedores` : ''}${nuevosClientes ? ` y ${nuevosClientes} cliente(s) de reparto` : ''}${repetidosMov ? ` (${repetidosMov} movimiento(s) ya estaban)` : ''}…`;
   const okMov = await storageSet('manual-entries', JSON.stringify(manualEntries));
   await storageSet('categorias-personalizadas', JSON.stringify(categoriasCustom));
   await storageSet('categorias-base-eliminadas', JSON.stringify(categoriasBaseEliminadas));
