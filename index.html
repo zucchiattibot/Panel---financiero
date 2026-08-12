@@ -1969,6 +1969,68 @@ async function storageSet(key, val){
 window.storageGet = storageGet;
 window.storageSet = storageSet;
 
+/* ---------------- CATEGORÍAS PRESTABLECIDAS PARA LA CARGA MANUAL ---------------- */
+// Se cargan ACÁ (antes de mezclar los movimientos manuales, más abajo) para
+// poder usarlas al normalizar categorías que difieren solo en tildes o
+// mayúsculas/minúsculas (ej. "Vehículo" vs "Vehiculo"), así no quedan
+// separadas como si fueran categorías distintas en las estadísticas.
+function catKey(s){
+  return (s || '').toString()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase().trim().replace(/\s+/g, ' ');
+}
+window.catKey = catKey;
+
+const CATEGORIAS_BASE = ['Sueldo','Varios','Chiara','Donato','Ahorro','Edificación','Servicios impuestos'];
+
+// Las de CATEGORIAS_BASE son fijas en el código, así que para poder
+// "eliminarlas" o "renombrarlas" desde la pantalla se guarda acá una lista
+// de las que el usuario ocultó y un mapa de renombres, aparte. El nombre
+// que se ve en el desplegable y en la gestión sale de aplicar ese mapa +
+// filtro sobre CATEGORIAS_BASE. Las categorías personalizadas, en cambio,
+// se editan/eliminan directo sobre el array categoriasCustom.
+let categoriasBaseEliminadas = [];
+let categoriasBaseRenombres = {};
+try {
+  const storedElim = await storageGet('categorias-base-eliminadas');
+  categoriasBaseEliminadas = storedElim ? JSON.parse(storedElim) : [];
+} catch(e) { categoriasBaseEliminadas = []; }
+try {
+  const storedRenom = await storageGet('categorias-base-renombres');
+  categoriasBaseRenombres = storedRenom ? JSON.parse(storedRenom) : {};
+} catch(e) { categoriasBaseRenombres = {}; }
+function categoriasBaseVisibles(){
+  return CATEGORIAS_BASE.filter(c=>!categoriasBaseEliminadas.includes(c))
+    .map(c=>categoriasBaseRenombres[c] || c);
+}
+
+let categoriasCustom = [];
+try {
+  const storedCats = await storageGet('categorias-personalizadas');
+  categoriasCustom = storedCats ? JSON.parse(storedCats) : [];
+} catch(e) { categoriasCustom = []; }
+// Si por tildes/mayúsculas distintas quedaron categorías personalizadas
+// "duplicadas" entre sí o repetidas de una base (ej. "Vehiculo" y
+// "Vehículo", o "sueldo" y "Sueldo"), se dejan unificadas acá, usando la
+// primera variante guardada como nombre visible.
+(function dedupeCategoriasCustom(){
+  const baseKeys = categoriasBaseVisibles().map(catKey);
+  const vistos = {};
+  const limpio = [];
+  let cambio = false;
+  categoriasCustom.forEach(c=>{
+    const k = catKey(c);
+    if (baseKeys.includes(k)) { cambio = true; return; }
+    if (vistos[k]) { cambio = true; return; }
+    vistos[k] = true;
+    limpio.push(c);
+  });
+  if (cambio){
+    categoriasCustom = limpio;
+    storageSet('categorias-personalizadas', JSON.stringify(categoriasCustom)).catch(()=>{});
+  }
+})();
+
 /* ---------------- CARGA MANUAL DE MOVIMIENTOS ---------------- */
 // Los movimientos cargados a mano se guardan en window.storage y se mezclan
 // acá, ANTES de que se calculen los totales/gráficos de todo el panel, para
@@ -1984,6 +2046,21 @@ function mergeManualEntries(entries){
   // Alquileres suma a RENT_MOVES/RENT_MOVES_CATS/RENT_CATEGORIES/
   // RENT_MONTHLY/RENT_YEARLY, que es donde vive el resto del panel para
   // esa cuenta (algunas estadísticas puntuales, no el balance de Agencia).
+  //
+  // Antes de agrupar, se arma un mapa que unifica categorías que solo
+  // difieren en tildes o mayúsculas/minúsculas (ej. "Vehículo" vs
+  // "Vehiculo"), para que las estadísticas no las separen en dos filas.
+  // Se parte de las categorías ya conocidas (predeterminadas + personalizadas)
+  // y, si aparece una variante nueva dentro de esta misma carga, también se
+  // unifica usando la primera forma encontrada.
+  const catCanon = {};
+  categoriasBaseVisibles().forEach(c=>{ catCanon[catKey(c)] = c; });
+  categoriasCustom.forEach(c=>{ if (!(catKey(c) in catCanon)) catCanon[catKey(c)] = c; });
+  function nombreCategoriaCanon(nombre){
+    const k = catKey(nombre);
+    if (!(k in catCanon)) catCanon[k] = nombre;
+    return catCanon[k];
+  }
   entries.forEach(en=>{
     const account = en.account === 'alquileres' ? 'alquileres' : 'agencia';
     const ymd = en.date.replace(/-/g,'');
@@ -2013,7 +2090,7 @@ function mergeManualEntries(entries){
       d.net += (incomeDelta - expenseDelta);
       if (ymd > DAILY.last_date) DAILY.last_date = ymd;
 
-      const catName = (en.category && en.category.trim()) || (isIncome ? 'Ingreso manual' : 'Egreso manual');
+      const catName = nombreCategoriaCanon((en.category && en.category.trim()) || (isIncome ? 'Ingreso manual' : 'Egreso manual'));
       const sign = isIncome ? '+' : '-';
       let c = CATEGORIES.find(x=>x.category===catName && x.sign===sign);
       if (!c){ c = {category:catName, sign, total:0, count:0}; CATEGORIES.push(c); }
@@ -2037,7 +2114,7 @@ function mergeManualEntries(entries){
         py.expense += amt;
       }
 
-      const catName = (en.category && en.category.trim()) || (isIncome ? 'Ingreso manual' : 'Egreso manual');
+      const catName = nombreCategoriaCanon((en.category && en.category.trim()) || (isIncome ? 'Ingreso manual' : 'Egreso manual'));
       const sign = isIncome ? '+' : '-';
       let rc = RENT_CATEGORIES.find(x=>x.category===catName && x.sign===sign);
       if (!rc){ rc = {category:catName, sign, total:0, count:0}; RENT_CATEGORIES.push(rc); }
@@ -2061,38 +2138,6 @@ try {
   manualEntries = storedVal ? JSON.parse(storedVal) : [];
 } catch(e) { manualEntries = []; }
 mergeManualEntries(manualEntries);
-
-/* ---------------- CATEGORÍAS PRESTABLECIDAS PARA LA CARGA MANUAL ---------------- */
-// Lista fija de arranque + las que el usuario haya agregado a mano ("Otra
-// categoría…"), persistidas aparte para que sigan apareciendo en el desplegable
-// la próxima vez. Vale para ambas cuentas (Agencia y Alquileres).
-const CATEGORIAS_BASE = ['Sueldo','Varios','Chiara','Donato','Ahorro','Edificación','Servicios impuestos'];
-let categoriasCustom = [];
-try {
-  const storedCats = await storageGet('categorias-personalizadas');
-  categoriasCustom = storedCats ? JSON.parse(storedCats) : [];
-} catch(e) { categoriasCustom = []; }
-
-// Las de CATEGORIAS_BASE son fijas en el código, así que para poder
-// "eliminarlas" o "renombrarlas" desde la pantalla se guarda acá una lista
-// de las que el usuario ocultó y un mapa de renombres, aparte. El nombre
-// que se ve en el desplegable y en la gestión sale de aplicar ese mapa +
-// filtro sobre CATEGORIAS_BASE. Las categorías personalizadas, en cambio,
-// se editan/eliminan directo sobre el array categoriasCustom.
-let categoriasBaseEliminadas = [];
-let categoriasBaseRenombres = {};
-try {
-  const storedElim = await storageGet('categorias-base-eliminadas');
-  categoriasBaseEliminadas = storedElim ? JSON.parse(storedElim) : [];
-} catch(e) { categoriasBaseEliminadas = []; }
-try {
-  const storedRenom = await storageGet('categorias-base-renombres');
-  categoriasBaseRenombres = storedRenom ? JSON.parse(storedRenom) : {};
-} catch(e) { categoriasBaseRenombres = {}; }
-function categoriasBaseVisibles(){
-  return CATEGORIAS_BASE.filter(c=>!categoriasBaseEliminadas.includes(c))
-    .map(c=>categoriasBaseRenombres[c] || c);
-}
 
 /* ---------------- TOGGLE: sueldo propio, ¿cuenta como gasto? ---------------- */
 // El sueldo que te pagás a vos mismo (categoría "Sueldo", egreso) es un gasto
@@ -5716,8 +5761,9 @@ function iniciarEdicion(fila, nombreActual, esBase, nombreOriginalBase){
     const nuevo = input.value.trim();
     if (!nuevo){ gestionMsg.textContent = 'El nombre no puede quedar vacío.'; return; }
     if (nuevo === nombreActual){ renderGestionCategorias(); return; }
-    const yaExiste = categoriasBaseVisibles().includes(nuevo) || categoriasCustom.includes(nuevo);
-    if (yaExiste){ gestionMsg.textContent = 'Ya existe una categoría con ese nombre.'; return; }
+    const nuevoKey = catKey(nuevo);
+    const yaExiste = categoriasBaseVisibles().some(c=>catKey(c)===nuevoKey) || categoriasCustom.some(c=>catKey(c)===nuevoKey);
+    if (yaExiste){ gestionMsg.textContent = 'Ya existe una categoría con ese nombre (aunque difiera en tildes o mayúsculas).'; return; }
     gestionMsg.textContent = 'Guardando…';
     let ok;
     if (esBase){
@@ -5871,7 +5917,15 @@ document.getElementById('cargarForm').addEventListener('submit', async (e)=>{
   const amountRaw = document.getElementById('cargarMonto').value;
   const amount = parseFloat(amountRaw);
   const esOtraCategoria = catSelect.value === '__otra__';
-  const category = esOtraCategoria ? catOtraInput.value.trim() : catSelect.value;
+  let category = esOtraCategoria ? catOtraInput.value.trim() : catSelect.value;
+  if (esOtraCategoria && category){
+    // Si ya existe una categoría "igual" salvo por tildes/mayúsculas
+    // (predeterminada o personalizada), se usa esa forma existente en vez
+    // de crear una nueva categoría separada.
+    const key = catKey(category);
+    const existente = categoriasBaseVisibles().find(c=>catKey(c)===key) || categoriasCustom.find(c=>catKey(c)===key);
+    if (existente) category = existente;
+  }
   const detalle = document.getElementById('cargarDetalle').value.trim();
   if (!date || !amountRaw || isNaN(amount) || amount <= 0){
     msgEl.textContent = 'Completá una fecha y un monto válido (mayor a 0).';
@@ -6144,7 +6198,10 @@ async function procesarBackupTexto(texto, msgEl){
   });
   if (Array.isArray(data.categoriasCustom)){
     data.categoriasCustom.forEach(cat=>{
-      if (cat && !categoriasCustom.includes(cat)) categoriasCustom.push(cat);
+      if (!cat) return;
+      const key = catKey(cat);
+      const yaEsta = categoriasBaseVisibles().some(c=>catKey(c)===key) || categoriasCustom.some(c=>catKey(c)===key);
+      if (!yaEsta) categoriasCustom.push(cat);
     });
   }
   if (Array.isArray(data.categoriasBaseEliminadas)){
