@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 4,
-  "exportadoEl": "2026-08-12T14:12:07.252Z",
+  "exportadoEl": "2026-08-12T14:26:16.135Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -952,6 +952,16 @@
       "medio": "efectivo",
       "id": "m_msq64jxv6lse0f",
       "modificadoEl": "2026-08-12T14:12:06.259Z"
+    },
+    {
+      "date": "2026-08-12",
+      "type": "ingreso",
+      "amount": 13000,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "efectivo",
+      "id": "m_msq6mqyg79sowl",
+      "modificadoEl": "2026-08-12T14:26:15.160Z"
     }
   ],
   "categoriasCustom": [
@@ -6157,6 +6167,7 @@
         "telefono": "",
         "direccion": "",
         "fechaAlta": "2026-08-01",
+        "categoria": "semanal",
         "diariosCliente": [
           {
             "diarioId": "msnrypbde41dta",
@@ -6167,6 +6178,8 @@
         ],
         "revistas": [],
         "suspensiones": [],
+        "facturas": [],
+        "proximoDesde": "2026-08-02",
         "pagos": []
       },
       {
@@ -6502,6 +6515,7 @@
         "telefono": "",
         "direccion": "",
         "fechaAlta": "2026-08-01",
+        "categoria": "semanal",
         "diariosCliente": [
           {
             "diarioId": "msnrypbde41dta",
@@ -6512,6 +6526,8 @@
         ],
         "revistas": [],
         "suspensiones": [],
+        "facturas": [],
+        "proximoDesde": "2026-08-10",
         "pagos": []
       },
       {
