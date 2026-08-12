@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 4,
-  "exportadoEl": "2026-08-12T15:50:49.765Z",
+  "exportadoEl": "2026-08-12T16:14:39.025Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -1002,6 +1002,16 @@
       "medio": "transferencia",
       "id": "m_msq9nhs2mebri4",
       "modificadoEl": "2026-08-12T15:50:48.770Z"
+    },
+    {
+      "date": "2026-08-12",
+      "type": "egreso",
+      "amount": 200000,
+      "category": "La nacion",
+      "account": "agencia",
+      "detalle": "La nación",
+      "id": "m_msqai4isau10zz",
+      "modificadoEl": "2026-08-12T16:14:37.924Z"
     }
   ],
   "categoriasCustom": [
