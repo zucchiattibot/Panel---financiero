@@ -1670,6 +1670,7 @@
         <div class="toggle-row" id="fcOrdenLista">
           <button type="button" class="toggle-btn active" data-orden="carga">Orden de carga</button>
           <button type="button" class="toggle-btn" data-orden="az">A-Z</button>
+          <button type="button" class="toggle-btn" data-orden="proxima">Próxima fecha</button>
         </div>
         <div id="fcListaClientes"></div>
       </div>
@@ -10666,6 +10667,14 @@ function fcRenderLista(){
   if (fcOrdenListaActual === 'az'){
     lista = lista.slice().sort(function(a,b){ return (a.nombre||'').localeCompare(b.nombre||'', 'es', {sensitivity:'base'}); });
   }
+  if (fcOrdenListaActual === 'proxima'){
+    lista = lista.slice().sort(function(a,b){
+      if (!a.proximoDesde && !b.proximoDesde) return (a.nombre||'').localeCompare(b.nombre||'', 'es', {sensitivity:'base'});
+      if (!a.proximoDesde) return 1;
+      if (!b.proximoDesde) return -1;
+      return a.proximoDesde < b.proximoDesde ? -1 : a.proximoDesde > b.proximoDesde ? 1 : 0;
+    });
+  }
   if (lista.length===0){ cont.innerHTML = '<p class="card-note">No hay clientes que coincidan con el filtro.</p>'; return; }
   cont.innerHTML = lista.map(function(c){
     var susp = fcSuspendidoHoy(c);
@@ -10735,6 +10744,12 @@ function fcOnClienteAction(act, id){
     fcIrAVista('liquidacion');
     fcRenderSelectLiq();
     document.getElementById('fcLiqCliente').value = id;
+    // Ajusta el tipo de período según la categoría del cliente, para que el
+    // formulario no quede clavado en "Mensual" (que oculta el campo "Desde").
+    var catCliente = c.categoria||'semanal';
+    var tipoSegunCategoria = catCliente==='mensual' ? 'mensual' : catCliente==='ocasional' ? 'rango' : 'semanal';
+    document.getElementById('fcLiqTipo').value = tipoSegunCategoria;
+    fcOnLiqTipoChange();
     var fcTipoLiqAct = document.getElementById('fcLiqTipo').value;
     if (fcTipoLiqAct!=='mensual'){
       document.getElementById('fcLiqDesde').value = fcProximaFechaDesde(c);
