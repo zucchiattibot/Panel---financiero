@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 4,
-  "exportadoEl": "2026-08-12T13:21:32.377Z",
+  "exportadoEl": "2026-08-12T13:33:44.204Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -9,7 +9,9 @@
       "amount": 37900,
       "category": "Sueldo",
       "account": "agencia",
-      "medio": "transferencia"
+      "medio": "transferencia",
+      "id": "m_msq4qw172msjy9",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-03",
@@ -17,7 +19,9 @@
       "amount": 148000,
       "category": "Sueldo",
       "account": "agencia",
-      "medio": "efectivo"
+      "medio": "efectivo",
+      "id": "m_msq4qw1azcm55r",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-03",
@@ -25,7 +29,9 @@
       "amount": 373000,
       "category": "Sueldo",
       "account": "agencia",
-      "medio": "efectivo"
+      "medio": "efectivo",
+      "id": "m_msq4qw1azdjo2r",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-03",
@@ -33,7 +39,9 @@
       "amount": 150000,
       "category": "Sueldo",
       "account": "agencia",
-      "medio": "transferencia"
+      "medio": "transferencia",
+      "id": "m_msq4qw1ablbsch",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-04",
@@ -41,7 +49,9 @@
       "amount": 199000,
       "category": "Sueldo",
       "account": "agencia",
-      "medio": "efectivo"
+      "medio": "efectivo",
+      "id": "m_msq4qw1argt4vv",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-04",
@@ -49,7 +59,9 @@
       "amount": 26500,
       "category": "Sueldo",
       "account": "agencia",
-      "medio": "transferencia"
+      "medio": "transferencia",
+      "id": "m_msq4qw1abtdrss",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-05",
@@ -57,7 +69,9 @@
       "amount": 30000,
       "category": "Sueldo",
       "account": "agencia",
-      "medio": "efectivo"
+      "medio": "efectivo",
+      "id": "m_msq4qw1aeap1qr",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-04",
@@ -65,7 +79,9 @@
       "amount": 100000,
       "category": "Chacha tomasin",
       "account": "agencia",
-      "medio": "transferencia"
+      "medio": "transferencia",
+      "id": "m_msq4qw1a1kgbgp",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-05",
@@ -73,7 +89,9 @@
       "amount": 9100,
       "category": "Pablo Benedicto",
       "account": "agencia",
-      "medio": "transferencia"
+      "medio": "transferencia",
+      "id": "m_msq4qw1anwlfzo",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-02",
@@ -81,7 +99,9 @@
       "amount": 4600,
       "category": "Sueldo",
       "account": "alquileres",
-      "detalle": ""
+      "detalle": "",
+      "id": "m_msq4qw1ack573m",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-03",
@@ -89,7 +109,9 @@
       "amount": 2000,
       "category": "Chiara",
       "account": "alquileres",
-      "detalle": ""
+      "detalle": "",
+      "id": "m_msq4qw1ap7yje8",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-03",
@@ -97,7 +119,9 @@
       "amount": 2000,
       "category": "Donato",
       "account": "alquileres",
-      "detalle": ""
+      "detalle": "",
+      "id": "m_msq4qw1awqlgwb",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-03",
@@ -105,7 +129,9 @@
       "amount": 20000,
       "category": "Chiara",
       "account": "alquileres",
-      "detalle": "Doctor"
+      "detalle": "Doctor",
+      "id": "m_msq4qw1a69il1k",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-03",
@@ -113,7 +139,9 @@
       "amount": 9000,
       "category": "Servicios",
       "account": "alquileres",
-      "detalle": "Personal caro"
+      "detalle": "Personal caro",
+      "id": "m_msq4qw1a22p4nb",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-03",
@@ -121,7 +149,9 @@
       "amount": 20400,
       "category": "Varios",
       "account": "alquileres",
-      "detalle": "Creatina"
+      "detalle": "Creatina",
+      "id": "m_msq4qw1avtpk36",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-04",
@@ -129,7 +159,9 @@
       "amount": 6000,
       "category": "Varios",
       "account": "alquileres",
-      "detalle": "Farmacia ibuprofeno"
+      "detalle": "Farmacia ibuprofeno",
+      "id": "m_msq4qw1a151mcu",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-04",
@@ -137,7 +169,9 @@
       "amount": 26000,
       "category": "Sueldo",
       "account": "alquileres",
-      "detalle": "Carniceria"
+      "detalle": "Carniceria",
+      "id": "m_msq4qw1a8bg2xf",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-04",
@@ -145,7 +179,9 @@
       "amount": 20000,
       "category": "Varios",
       "account": "alquileres",
-      "detalle": "Rifa jardin"
+      "detalle": "Rifa jardin",
+      "id": "m_msq4qw1axpfc7c",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-04",
@@ -153,7 +189,9 @@
       "amount": 22400,
       "category": "Sueldo",
       "account": "alquileres",
-      "detalle": "Heladeria"
+      "detalle": "Heladeria",
+      "id": "m_msq4qw1aqhx98t",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-05",
@@ -161,7 +199,9 @@
       "amount": 50000,
       "category": "Nafta",
       "account": "alquileres",
-      "detalle": ""
+      "detalle": "",
+      "id": "m_msq4qw1ac6zbjq",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-05",
@@ -169,7 +209,9 @@
       "amount": 30000,
       "category": "Donato",
       "account": "alquileres",
-      "detalle": "Básquet"
+      "detalle": "Básquet",
+      "id": "m_msq4qw1amnb68i",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-05",
@@ -177,7 +219,9 @@
       "amount": 3000,
       "category": "Donato",
       "account": "alquileres",
-      "detalle": "Masitas"
+      "detalle": "Masitas",
+      "id": "m_msq4qw1anmsocm",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-05",
@@ -185,7 +229,9 @@
       "amount": 2700,
       "category": "Sueldo",
       "account": "alquileres",
-      "detalle": ""
+      "detalle": "",
+      "id": "m_msq4qw1a5l6e63",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-05",
@@ -193,7 +239,9 @@
       "amount": 600000,
       "category": "Sueldo",
       "account": "agencia",
-      "medio": "efectivo"
+      "medio": "efectivo",
+      "id": "m_msq4qw1asbopyl",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-05",
@@ -201,7 +249,9 @@
       "amount": 34000,
       "category": "Sueldo",
       "account": "agencia",
-      "medio": "transferencia"
+      "medio": "transferencia",
+      "id": "m_msq4qw1a4x5pa5",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-05",
@@ -209,7 +259,9 @@
       "amount": 189995.3,
       "category": "Vehículo",
       "account": "alquileres",
-      "detalle": "Seguro"
+      "detalle": "Seguro",
+      "id": "m_msq4qw1ai7dpll",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-06",
@@ -217,7 +269,9 @@
       "amount": 44160,
       "category": "Varios",
       "account": "alquileres",
-      "detalle": "Cuotas river julio y agosto"
+      "detalle": "Cuotas river julio y agosto",
+      "id": "m_msq4qw1aqopaql",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-06",
@@ -225,7 +279,9 @@
       "amount": 27484.5,
       "category": "Impuestos",
       "account": "alquileres",
-      "detalle": "Arba"
+      "detalle": "Arba",
+      "id": "m_msq4qw1a5w7kkq",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-06",
@@ -233,7 +289,9 @@
       "amount": 159627.71,
       "category": "Servicios",
       "account": "alquileres",
-      "detalle": "2 eden"
+      "detalle": "2 eden",
+      "id": "m_msq4qw1aocgxdt",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-06",
@@ -241,7 +299,9 @@
       "amount": 152050,
       "category": "Tomas hnos",
       "account": "agencia",
-      "medio": "transferencia"
+      "medio": "transferencia",
+      "id": "m_msq4qw1acw5hcj",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-03",
@@ -249,7 +309,9 @@
       "amount": 152050,
       "category": "Las lagunas",
       "account": "agencia",
-      "medio": "transferencia"
+      "medio": "transferencia",
+      "id": "m_msq4qw1aabci40",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-06",
@@ -257,7 +319,9 @@
       "amount": 25400,
       "category": "Peña",
       "account": "alquileres",
-      "detalle": "Miércoles"
+      "detalle": "Miércoles",
+      "id": "m_msq4qw1acjuryn",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-06",
@@ -265,7 +329,9 @@
       "amount": 124000,
       "category": "Sueldo",
       "account": "agencia",
-      "medio": "efectivo"
+      "medio": "efectivo",
+      "id": "m_msq4qw1aiocdwx",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-06",
@@ -273,7 +339,9 @@
       "amount": 72900,
       "category": "Sueldo",
       "account": "agencia",
-      "medio": "transferencia"
+      "medio": "transferencia",
+      "id": "m_msq4qw1arqeb2j",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-06",
@@ -281,7 +349,9 @@
       "amount": 3500,
       "category": "Sueldo",
       "account": "alquileres",
-      "detalle": ""
+      "detalle": "",
+      "id": "m_msq4qw1amyucqi",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-06",
@@ -289,7 +359,9 @@
       "amount": 700000,
       "category": "Clarin",
       "account": "agencia",
-      "detalle": "Bco rio"
+      "detalle": "Bco rio",
+      "id": "m_msq4qw1aahzjsh",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-06",
@@ -297,7 +369,9 @@
       "amount": 11000,
       "category": "Sueldo",
       "account": "alquileres",
-      "detalle": "Farmacia"
+      "detalle": "Farmacia",
+      "id": "m_msq4qw1a6if4pv",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-06",
@@ -305,7 +379,9 @@
       "amount": 30000,
       "category": "Sueldo",
       "account": "agencia",
-      "medio": "efectivo"
+      "medio": "efectivo",
+      "id": "m_msq4qw1a8nn7z7",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-06",
@@ -313,7 +389,9 @@
       "amount": 30200,
       "category": "Sueldo",
       "account": "alquileres",
-      "detalle": ""
+      "detalle": "",
+      "id": "m_msq4qw1arbcnav",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-06",
@@ -321,7 +399,9 @@
       "amount": 18000,
       "category": "Peña",
       "account": "alquileres",
-      "detalle": "Jueves"
+      "detalle": "Jueves",
+      "id": "m_msq4qw1atz94ev",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-07",
@@ -329,7 +409,9 @@
       "amount": 9000,
       "category": "Donato",
       "account": "alquileres",
-      "detalle": "Personal prepago"
+      "detalle": "Personal prepago",
+      "id": "m_msq4qw1ad604ne",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-07",
@@ -337,7 +419,9 @@
       "amount": 51000,
       "category": "Sueldo",
       "account": "agencia",
-      "medio": "transferencia"
+      "medio": "transferencia",
+      "id": "m_msq4qw1acayqb9",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-07",
@@ -345,7 +429,9 @@
       "amount": 300000,
       "category": "Silmar",
       "account": "agencia",
-      "detalle": "Transferencia"
+      "detalle": "Transferencia",
+      "id": "m_msq4qw1avb4f10",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-07",
@@ -353,7 +439,9 @@
       "amount": 9000,
       "category": "Pablo Benedicto",
       "account": "agencia",
-      "medio": "transferencia"
+      "medio": "transferencia",
+      "id": "m_msq4qw1agcp9tx",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-07",
@@ -361,7 +449,9 @@
       "amount": 125000,
       "category": "Silmar",
       "account": "agencia",
-      "detalle": "Silmar efectivo"
+      "detalle": "Silmar efectivo",
+      "id": "m_msq4qw1a7rr4cp",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-07",
@@ -369,7 +459,9 @@
       "amount": 361464.6,
       "category": "Viejo Adolfo cheque",
       "account": "agencia",
-      "medio": "efectivo"
+      "medio": "efectivo",
+      "id": "m_msq4qw1a9ybj0x",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-07",
@@ -377,7 +469,9 @@
       "amount": 85000,
       "category": "Sueldo",
       "account": "agencia",
-      "medio": "transferencia"
+      "medio": "transferencia",
+      "id": "m_msq4qw1agpgq0b",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-07",
@@ -385,7 +479,9 @@
       "amount": 6000,
       "category": "Sueldo",
       "account": "agencia",
-      "medio": "efectivo"
+      "medio": "efectivo",
+      "id": "m_msq4qw1aim5tq2",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-07",
@@ -393,7 +489,9 @@
       "amount": 6000,
       "category": "Sueldo",
       "account": "alquileres",
-      "detalle": "Sueldo"
+      "detalle": "Sueldo",
+      "id": "m_msq4qw1awac24u",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-07",
@@ -401,7 +499,9 @@
       "amount": 139000,
       "category": "Sueldo",
       "account": "agencia",
-      "medio": "efectivo"
+      "medio": "efectivo",
+      "id": "m_msq4qw1a0akrdj",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-07",
@@ -409,7 +509,9 @@
       "amount": 30400,
       "category": "Sueldo",
       "account": "alquileres",
-      "detalle": "Empanadas"
+      "detalle": "Empanadas",
+      "id": "m_msq4qw1akpp4ql",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-08",
@@ -417,7 +519,9 @@
       "amount": 40000,
       "category": "Nafta",
       "account": "alquileres",
-      "detalle": "Bragado"
+      "detalle": "Bragado",
+      "id": "m_msq4qw1a58ug8d",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-08",
@@ -425,7 +529,9 @@
       "amount": 52000,
       "category": "Sueldo",
       "account": "agencia",
-      "medio": "transferencia"
+      "medio": "transferencia",
+      "id": "m_msq4qw1a5t17zm",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-08",
@@ -433,7 +539,9 @@
       "amount": 16700,
       "category": "Varios",
       "account": "alquileres",
-      "detalle": "Bragado"
+      "detalle": "Bragado",
+      "id": "m_msq4qw1a0fk13u",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2025-10-29",
@@ -441,7 +549,9 @@
       "amount": 1395800,
       "category": "Ahorro",
       "account": "alquileres",
-      "detalle": "Ahorro anual"
+      "detalle": "Ahorro anual",
+      "id": "m_msq4qw1ao6l27h",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2024-10-23",
@@ -449,7 +559,9 @@
       "amount": 3827980,
       "category": "Ahorro",
       "account": "alquileres",
-      "detalle": "Ahorro anual"
+      "detalle": "Ahorro anual",
+      "id": "m_msq4qw1alb6iye",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2023-10-17",
@@ -457,7 +569,9 @@
       "amount": 578445,
       "category": "Ahorro",
       "account": "alquileres",
-      "detalle": "Ahorro anual"
+      "detalle": "Ahorro anual",
+      "id": "m_msq4qw1anxuui2",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2022-08-08",
@@ -465,7 +579,9 @@
       "amount": 8776,
       "category": "Ahorro",
       "account": "alquileres",
-      "detalle": "Ahorro anual"
+      "detalle": "Ahorro anual",
+      "id": "m_msq4qw1afgumrk",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2021-08-08",
@@ -473,7 +589,9 @@
       "amount": 69000,
       "category": "Ahorro",
       "account": "alquileres",
-      "detalle": "Ahorro anual"
+      "detalle": "Ahorro anual",
+      "id": "m_msq4qw1a9x2hy0",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2019-08-08",
@@ -481,7 +599,9 @@
       "amount": 100085.6,
       "category": "Ahorro",
       "account": "alquileres",
-      "detalle": "Ahorro anual"
+      "detalle": "Ahorro anual",
+      "id": "m_msq4qw1aun7rc7",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2018-08-08",
@@ -489,7 +609,9 @@
       "amount": 45500,
       "category": "Ahorro",
       "account": "alquileres",
-      "detalle": "Anual"
+      "detalle": "Anual",
+      "id": "m_msq4qw1alsjr75",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-02-03",
@@ -497,7 +619,9 @@
       "amount": 867000,
       "category": "Ahorro",
       "account": "alquileres",
-      "detalle": "Anual"
+      "detalle": "Anual",
+      "id": "m_msq4qw1abe86u7",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2020-08-08",
@@ -505,7 +629,9 @@
       "amount": 41844,
       "category": "Ahorro",
       "account": "alquileres",
-      "detalle": "Ahorro Anual"
+      "detalle": "Ahorro Anual",
+      "id": "m_msq4qw1apv1fqx",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-08",
@@ -513,7 +639,9 @@
       "amount": 2300,
       "category": "Donato",
       "account": "alquileres",
-      "detalle": "Bragado"
+      "detalle": "Bragado",
+      "id": "m_msq4qw1acjlxnb",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-08",
@@ -521,7 +649,9 @@
       "amount": 215000,
       "category": "Sueldo",
       "account": "agencia",
-      "medio": "efectivo"
+      "medio": "efectivo",
+      "id": "m_msq4qw1ap7cg7w",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-08",
@@ -529,7 +659,9 @@
       "amount": 120000,
       "category": "Varios",
       "account": "alquileres",
-      "detalle": "Cena tarjeta jazmin"
+      "detalle": "Cena tarjeta jazmin",
+      "id": "m_msq4qw1a758tvr",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-09",
@@ -537,7 +669,9 @@
       "amount": 20000,
       "category": "Chiara",
       "account": "alquileres",
-      "detalle": "Salida sabado"
+      "detalle": "Salida sabado",
+      "id": "m_msq4qw1ador3pp",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-09",
@@ -545,7 +679,9 @@
       "amount": 20000,
       "category": "Empleado mandado javi",
       "account": "agencia",
-      "detalle": "Día domingo"
+      "detalle": "Día domingo",
+      "id": "m_msq4qw1adtbfz4",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-09",
@@ -553,7 +689,9 @@
       "amount": 21900,
       "category": "Sueldo",
       "account": "agencia",
-      "medio": "transferencia"
+      "medio": "transferencia",
+      "id": "m_msq4qw1aag51xu",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-09",
@@ -561,7 +699,9 @@
       "amount": 75700,
       "category": "Sueldo",
       "account": "agencia",
-      "medio": "transferencia"
+      "medio": "transferencia",
+      "id": "m_msq4qw1a76iq87",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-09",
@@ -569,7 +709,9 @@
       "amount": 5000,
       "category": "Sueldo",
       "account": "alquileres",
-      "detalle": "Panadería"
+      "detalle": "Panadería",
+      "id": "m_msq4qw1ajffrty",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-10",
@@ -577,7 +719,9 @@
       "amount": 55800,
       "category": "Sueldo",
       "account": "agencia",
-      "medio": "transferencia"
+      "medio": "transferencia",
+      "id": "m_msq4qw1au0tu3b",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-10",
@@ -585,7 +729,9 @@
       "amount": 199000,
       "category": "Sueldo",
       "account": "agencia",
-      "medio": "efectivo"
+      "medio": "efectivo",
+      "id": "m_msq4qw1a78qcxg",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-10",
@@ -593,7 +739,9 @@
       "amount": 320000,
       "category": "La nacion",
       "account": "agencia",
-      "detalle": "La nación"
+      "detalle": "La nación",
+      "id": "m_msq4qw1age10o6",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-10",
@@ -601,7 +749,9 @@
       "amount": 66000,
       "category": "Oeste",
       "account": "agencia",
-      "detalle": "El oeste"
+      "detalle": "El oeste",
+      "id": "m_msq4qw1ad1tozd",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-10",
@@ -609,7 +759,9 @@
       "amount": 28000,
       "category": "Vehículo",
       "account": "alquileres",
-      "detalle": "Lavado auto"
+      "detalle": "Lavado auto",
+      "id": "m_msq4qw1axwyoad",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-09-10",
@@ -617,7 +769,9 @@
       "amount": 62850,
       "category": "Edificación",
       "account": "alquileres",
-      "detalle": "Pintura casa cuota 1"
+      "detalle": "Pintura casa cuota 1",
+      "id": "m_msq4qw1apo8fbb",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-10-10",
@@ -625,7 +779,9 @@
       "amount": 62850,
       "category": "Edificación",
       "account": "alquileres",
-      "detalle": "Pintura casa cuota 2"
+      "detalle": "Pintura casa cuota 2",
+      "id": "m_msq4qw1awqe8bd",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-11-10",
@@ -633,7 +789,9 @@
       "amount": 62850,
       "category": "Edificación",
       "account": "alquileres",
-      "detalle": "Pintura casa cuota 3"
+      "detalle": "Pintura casa cuota 3",
+      "id": "m_msq4qw1amg7umw",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-10",
@@ -641,7 +799,9 @@
       "amount": 2900,
       "category": "Sueldo",
       "account": "agencia",
-      "medio": "transferencia"
+      "medio": "transferencia",
+      "id": "m_msq4qw1alsr23p",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-10",
@@ -649,7 +809,9 @@
       "amount": 76600,
       "category": "Sueldo",
       "account": "agencia",
-      "medio": "transferencia"
+      "medio": "transferencia",
+      "id": "m_msq4qw1a2bo986",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-11",
@@ -657,7 +819,9 @@
       "amount": 30810,
       "category": "Servicios",
       "account": "alquileres",
-      "detalle": "Internet personal"
+      "detalle": "Internet personal",
+      "id": "m_msq4qw1ajcig5h",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-11",
@@ -665,7 +829,9 @@
       "amount": 4000,
       "category": "Sueldo",
       "account": "alquileres",
-      "detalle": "Kiosco"
+      "detalle": "Kiosco",
+      "id": "m_msq4qw1atgjynz",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-11",
@@ -673,7 +839,9 @@
       "amount": 190000,
       "category": "Sueldo",
       "account": "agencia",
-      "medio": "efectivo"
+      "medio": "efectivo",
+      "id": "m_msq4qw1aku50yh",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-11",
@@ -681,7 +849,9 @@
       "amount": 2000,
       "category": "Donato",
       "account": "alquileres",
-      "detalle": ""
+      "detalle": "",
+      "id": "m_msq4qw1an6ihwm",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-11",
@@ -689,7 +859,9 @@
       "amount": 2000,
       "category": "Chiara",
       "account": "alquileres",
-      "detalle": ""
+      "detalle": "",
+      "id": "m_msq4qw1ab04oz9",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-11",
@@ -697,7 +869,9 @@
       "amount": 280000,
       "category": "Sapito",
       "account": "agencia",
-      "detalle": ""
+      "detalle": "",
+      "id": "m_msq4qw1a0ygme6",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-11",
@@ -705,7 +879,9 @@
       "amount": 900000,
       "category": "Clarin",
       "account": "agencia",
-      "detalle": "Tranferencia"
+      "detalle": "Tranferencia",
+      "id": "m_msq4qw1afz307k",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-11",
@@ -713,7 +889,9 @@
       "amount": 38012.7,
       "category": "Vehículo",
       "account": "alquileres",
-      "detalle": "Patente"
+      "detalle": "Patente",
+      "id": "m_msq4qw1a9ofr8p",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-11",
@@ -721,7 +899,9 @@
       "amount": 31800,
       "category": "Sueldo",
       "account": "alquileres",
-      "detalle": "Carniceria"
+      "detalle": "Carniceria",
+      "id": "m_msq4qw1ashk02s",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-11",
@@ -729,7 +909,9 @@
       "amount": 214000,
       "category": "Sueldo",
       "account": "agencia",
-      "medio": "efectivo"
+      "medio": "efectivo",
+      "id": "m_msq4qw1acf6w1q",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-12",
@@ -737,7 +919,9 @@
       "amount": 18600,
       "category": "Sueldo",
       "account": "agencia",
-      "medio": "transferencia"
+      "medio": "transferencia",
+      "id": "m_msq4qw1ais4hum",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     },
     {
       "date": "2026-08-12",
@@ -745,15 +929,9 @@
       "amount": 32000,
       "category": "Sueldo",
       "account": "agencia",
-      "medio": "transferencia"
-    },
-    {
-      "date": "2026-08-12",
-      "type": "ingreso",
-      "amount": 1000000,
-      "category": "Sueldo",
-      "account": "agencia",
-      "medio": "efectivo"
+      "medio": "transferencia",
+      "id": "m_msq4qw1ajst4ql",
+      "modificadoEl": "1970-01-01T00:00:00.000Z"
     }
   ],
   "categoriasCustom": [
