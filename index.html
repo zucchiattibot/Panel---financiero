@@ -1661,6 +1661,16 @@
       <div class="card">
         <h2>Tus clientes</h2>
         <input type="text" id="fcBuscar" placeholder="Buscar cliente..." style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;width:100%;box-sizing:border-box;margin-bottom:12px;">
+        <div class="toggle-row" id="fcFiltroCategoria">
+          <button type="button" class="toggle-btn active" data-cat="todos">Todos</button>
+          <button type="button" class="toggle-btn" data-cat="semanal">Semanales</button>
+          <button type="button" class="toggle-btn" data-cat="mensual">Mensuales</button>
+          <button type="button" class="toggle-btn" data-cat="ocasional">Ocasionales</button>
+        </div>
+        <div class="toggle-row" id="fcOrdenLista">
+          <button type="button" class="toggle-btn active" data-orden="carga">Orden de carga</button>
+          <button type="button" class="toggle-btn" data-orden="az">A-Z</button>
+        </div>
         <div id="fcListaClientes"></div>
       </div>
     </div>
@@ -1693,6 +1703,22 @@
         </div>
 
         <div class="range-group">
+          <div class="range-label">Categoría de cliente</div>
+          <select id="fcCategoria" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;width:100%;box-sizing:border-box;color-scheme:dark;">
+            <option value="semanal">Semanal</option>
+            <option value="mensual">Mensual</option>
+            <option value="ocasional">Ocasional</option>
+          </select>
+          <p class="card-note" style="margin:4px 0 0 0;">Para clasificar y filtrar la lista de clientes.</p>
+        </div>
+
+        <div class="range-group">
+          <div class="range-label">Referencia: liquidar desde</div>
+          <input type="date" id="fcRefLiquidarDesde" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;width:100%;box-sizing:border-box;color-scheme:dark;">
+          <p class="card-note" style="margin:4px 0 0 0;">Fecha a partir de la cual se va a calcular la próxima liquidación de este cliente. Dejalo vacío para que se calcule solo (día siguiente a la última liquidación, o la fecha de alta).</p>
+        </div>
+
+        <div class="range-group">
           <div class="range-label">Diarios que lleva</div>
           <div id="fcDiariosClienteList" style="display:flex;flex-direction:column;gap:6px;margin-bottom:8px;"></div>
           <select id="fcSelDiarioAgregar" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;width:100%;color-scheme:dark;margin-bottom:8px;"></select>
@@ -1709,12 +1735,16 @@
             <input type="number" id="fcRevPrecio" placeholder="Precio" min="0" step="0.01" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;">
           </div>
           <div class="cargar-grid-2" style="margin-top:8px;">
+            <input type="number" id="fcRevCantidad" placeholder="Cantidad" min="1" step="1" value="1" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;">
             <select id="fcRevFrecuencia" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;color-scheme:dark;">
               <option value="semanal">Semanal</option>
               <option value="quincenal">Quincenal</option>
               <option value="mensual">Mensual</option>
             </select>
+          </div>
+          <div class="cargar-grid-2" style="margin-top:8px;">
             <select id="fcRevDia" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;color-scheme:dark;"></select>
+            <div></div>
           </div>
           <button type="button" class="tab-btn" id="fcBtnAgregarRevista" style="border-radius:8px;margin-top:10px;">+ Agregar revista</button>
         </div>
@@ -10477,8 +10507,9 @@ function fcRenderRevistasForm(){
   var wrap = document.getElementById('fcRevistasList');
   if (fcRevistas.length===0){ wrap.innerHTML=''; return; }
   wrap.innerHTML = fcRevistas.map(function(r,i){
+    var cant = r.cantidad || 1;
     return '<div style="display:flex;align-items:center;gap:8px;background:rgba(0,0,0,.18);border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:12.5px;">'+
-      '<div style="flex:1;"><b>'+fcEsc(r.nombre)+'</b> — '+fcFmt(r.precio)+' · '+r.frecuencia+' · '+DIAS[r.dia]+'</div>'+
+      '<div style="flex:1;"><b>'+fcEsc(r.nombre)+'</b>'+(cant>1?' x'+cant:'')+' — '+fcFmt(r.precio)+(cant>1?(' c/u · '+fcFmt(r.precio*cant)+' total'):'')+' · '+r.frecuencia+' · '+DIAS[r.dia]+'</div>'+
       '<button type="button" data-idx="'+i+'" class="fcQuitarRev" style="background:none;border:none;color:var(--red-neg);cursor:pointer;font-size:15px;font-weight:900;">✕</button></div>';
   }).join('');
   wrap.querySelectorAll('.fcQuitarRev').forEach(function(b){
@@ -10488,12 +10519,15 @@ function fcRenderRevistasForm(){
 document.getElementById('fcBtnAgregarRevista').addEventListener('click', function(){
   var nombre = document.getElementById('fcRevNombre').value.trim();
   var precio = parseFloat(document.getElementById('fcRevPrecio').value);
+  var cantidad = parseInt(document.getElementById('fcRevCantidad').value);
+  if (isNaN(cantidad) || cantidad<1) cantidad = 1;
   var frecuencia = document.getElementById('fcRevFrecuencia').value;
   var dia = parseInt(document.getElementById('fcRevDia').value);
   if (!nombre || isNaN(precio)) return;
-  fcRevistas.push({id:fcUid(),nombre:nombre,precio:precio,frecuencia:frecuencia,dia:dia});
+  fcRevistas.push({id:fcUid(),nombre:nombre,precio:precio,cantidad:cantidad,frecuencia:frecuencia,dia:dia});
   document.getElementById('fcRevNombre').value='';
   document.getElementById('fcRevPrecio').value='';
+  document.getElementById('fcRevCantidad').value='1';
   fcRenderRevistasForm();
 });
 
@@ -10505,6 +10539,8 @@ function fcResetForm(){
   document.getElementById('fcTelefono').value='';
   document.getElementById('fcDireccion').value='';
   document.getElementById('fcFechaAlta').value=fcHoy();
+  document.getElementById('fcCategoria').value='semanal';
+  document.getElementById('fcRefLiquidarDesde').value='';
   fcDiasDiario = [1,2,3,4,5,6,0]; fcDiariosCliente = []; fcRevistas = [];
   fcRenderSelDiarioAgregar();
   fcBuildDiasChips();
@@ -10520,6 +10556,8 @@ function fcCargarClienteEnForm(c){
   document.getElementById('fcTelefono').value=c.telefono||'';
   document.getElementById('fcDireccion').value=c.direccion||'';
   document.getElementById('fcFechaAlta').value=c.fechaAlta||'';
+  document.getElementById('fcCategoria').value=c.categoria||'semanal';
+  document.getElementById('fcRefLiquidarDesde').value=c.proximoDesde||'';
   fcDiasDiario = [1,2,3,4,5,6,0];
   fcDiariosCliente = (c.diariosCliente||[]).map(function(dc){ return {diarioId:dc.diarioId, dias:(dc.dias||[]).slice()}; });
   fcRevistas = (c.revistas||[]).map(function(r){ return Object.assign({},r); });
@@ -10539,17 +10577,19 @@ document.getElementById('fcBtnGuardarCliente').addEventListener('click', async f
     telefono: document.getElementById('fcTelefono').value.trim(),
     direccion: document.getElementById('fcDireccion').value.trim(),
     fechaAlta: document.getElementById('fcFechaAlta').value || '',
+    categoria: document.getElementById('fcCategoria').value || 'semanal',
     diariosCliente: fcDiariosCliente.map(function(dc){ return {diarioId:dc.diarioId, dias:dc.dias.slice()}; }),
     revistas: fcRevistas.map(function(r){return Object.assign({},r);}),
     suspensiones: []
   };
+  var refDesde = document.getElementById('fcRefLiquidarDesde').value || '';
   if (fcEditingId){
     var idx = fc.clientes.findIndex(function(c){return c.id===fcEditingId;});
     data.suspensiones = fc.clientes[idx].suspensiones || [];
     data.facturas = fc.clientes[idx].facturas || [];
-    data.proximoDesde = fc.clientes[idx].proximoDesde || '';
+    data.proximoDesde = refDesde || (fc.clientes[idx].proximoDesde || '');
     fc.clientes[idx] = data;
-  } else { fc.clientes.push(data); }
+  } else { data.proximoDesde = refDesde; fc.clientes.push(data); }
   await fcSave();
   msg.style.color='var(--green-pos)'; msg.textContent='Cliente guardado ✔️';
   setTimeout(function(){ fcResetForm(); fcIrAVista('lista'); fcRenderLista(); }, 500);
@@ -10564,9 +10604,13 @@ function fcResumenCliente(c){
     var nombre = dia ? dia.nombre : '(diario eliminado)';
     partes.push(nombre+': '+dc.dias.slice().sort().map(function(i){return DIAS_CORTO[i];}).join(' '));
   });
-  (c.revistas||[]).forEach(function(r){ partes.push(r.nombre+' ('+r.frecuencia+')'); });
+  (c.revistas||[]).forEach(function(r){ var cant=r.cantidad||1; partes.push(r.nombre+(cant>1?' x'+cant:'')+' ('+r.frecuencia+')'); });
   return partes.length ? partes.join(' · ') : 'Sin productos cargados';
 }
+var fcCategoriaLabel = {semanal:'Semanal', mensual:'Mensual', ocasional:'Ocasional'};
+var fcCategoriaColor = {semanal:'var(--blue)', mensual:'var(--gold)', ocasional:'var(--muted)'};
+var fcFiltroCategoriaActual = 'todos';
+var fcOrdenListaActual = 'carga';
 function fcSuspendidoHoy(c){
   var hoy = fcHoy();
   return (c.suspensiones||[]).some(function(s){ return hoy>=s.desde && hoy<=(s.hasta||'9999-12-31'); });
@@ -10575,10 +10619,18 @@ function fcRenderLista(){
   var filtro = (document.getElementById('fcBuscar').value||'').toLowerCase();
   var cont = document.getElementById('fcListaClientes');
   var lista = fc.clientes.filter(function(c){ return c.nombre.toLowerCase().indexOf(filtro)>-1; });
-  if (lista.length===0){ cont.innerHTML = '<p class="card-note">Todavía no cargaste clientes. Andá a "+ Nuevo cliente".</p>'; return; }
+  if (fcFiltroCategoriaActual !== 'todos'){
+    lista = lista.filter(function(c){ return (c.categoria||'semanal')===fcFiltroCategoriaActual; });
+  }
+  if (fcOrdenListaActual === 'az'){
+    lista = lista.slice().sort(function(a,b){ return (a.nombre||'').localeCompare(b.nombre||'', 'es', {sensitivity:'base'}); });
+  }
+  if (lista.length===0){ cont.innerHTML = '<p class="card-note">No hay clientes que coincidan con el filtro.</p>'; return; }
   cont.innerHTML = lista.map(function(c){
     var susp = fcSuspendidoHoy(c);
     var saldo = fcSaldoCliente(c);
+    var cat = c.categoria||'semanal';
+    var catHTML = '<span style="font-size:10.5px;font-weight:700;padding:3px 8px;border-radius:6px;background:rgba(0,0,0,.18);color:'+fcCategoriaColor[cat]+';">'+fcCategoriaLabel[cat]+'</span>';
     var saldoHTML = saldo>0.005
       ? '<span style="font-size:10.5px;font-weight:700;padding:3px 8px;border-radius:6px;background:rgba(224,139,120,.18);color:var(--red-neg);">Debe '+fcFmt(saldo)+'</span>'
       : saldo<-0.005
@@ -10587,7 +10639,7 @@ function fcRenderLista(){
     return '<div style="border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin-bottom:9px;background:rgba(0,0,0,.14);">'+
       '<div style="font-weight:700;font-size:15px;">'+fcEsc(c.nombre)+'</div>'+
       '<div style="color:var(--cream-dim);font-size:11.5px;margin-top:2px;">'+(c.telefono?('📞 '+fcEsc(c.telefono)+' · '):'')+fcEsc(fcResumenCliente(c))+'</div>'+
-      '<div style="margin-top:7px;display:flex;gap:6px;flex-wrap:wrap;align-items:center;">'+saldoHTML+(susp?'<span style="font-size:10.5px;font-weight:700;padding:3px 8px;border-radius:6px;background:rgba(224,139,120,.18);color:var(--red-neg);">Suspendido hoy</span>':'')+'</div>'+
+      '<div style="margin-top:7px;display:flex;gap:6px;flex-wrap:wrap;align-items:center;">'+catHTML+saldoHTML+(susp?'<span style="font-size:10.5px;font-weight:700;padding:3px 8px;border-radius:6px;background:rgba(224,139,120,.18);color:var(--red-neg);">Suspendido hoy</span>':'')+'</div>'+
       (c.proximoDesde?'<div style="color:var(--cream-dim);font-size:11px;margin-top:4px;display:flex;align-items:center;gap:6px;">🗓️ Próxima liquidación desde '+fcFechaDDMMYYYY(c.proximoDesde)+
         ' <button data-act="borrarProximaFecha" data-id="'+c.id+'" style="background:none;border:none;color:var(--red-neg);font-size:11px;cursor:pointer;padding:0 2px;text-decoration:underline;">borrar</button></div>':'')+
       '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;">'+
@@ -10608,6 +10660,22 @@ function fcRenderLista(){
   });
 }
 document.getElementById('fcBuscar').addEventListener('input', fcRenderLista);
+document.querySelectorAll('#fcFiltroCategoria .toggle-btn').forEach(function(b){
+  b.addEventListener('click', function(){
+    fcFiltroCategoriaActual = b.dataset.cat;
+    document.querySelectorAll('#fcFiltroCategoria .toggle-btn').forEach(function(x){ x.classList.remove('active'); });
+    b.classList.add('active');
+    fcRenderLista();
+  });
+});
+document.querySelectorAll('#fcOrdenLista .toggle-btn').forEach(function(b){
+  b.addEventListener('click', function(){
+    fcOrdenListaActual = b.dataset.orden;
+    document.querySelectorAll('#fcOrdenLista .toggle-btn').forEach(function(x){ x.classList.remove('active'); });
+    b.classList.add('active');
+    fcRenderLista();
+  });
+});
 
 function fcOnClienteAction(act, id){
   var c = fc.clientes.find(function(x){return x.id===id;});
@@ -10904,9 +10972,11 @@ function fcCalcularLiquidacionRango(c, desdeISO, hastaISO){
     var validas = r.frecuencia==='semanal' ? ocurrencias
       : r.frecuencia==='quincenal' ? ocurrencias.filter(function(_,i){return i%2===0;})
       : ocurrencias.slice(0,1);
-    var cant = 0;
-    validas.forEach(function(dt){ var iso=dt.toISOString().slice(0,10); if (!fcSuspendidoEn(c, iso)) cant++; });
-    if (cant>0) items.push({concepto:r.nombre, cantidad:cant, precio:r.precio, subtotal:cant*r.precio});
+    var cantEnt = 0;
+    validas.forEach(function(dt){ var iso=dt.toISOString().slice(0,10); if (!fcSuspendidoEn(c, iso)) cantEnt++; });
+    var porEjemplar = r.cantidad || 1;
+    var cantTotal = cantEnt * porEjemplar;
+    if (cantTotal>0) items.push({concepto:r.nombre+(porEjemplar>1?' (x'+porEjemplar+' ejemplares)':''), cantidad:cantTotal, precio:r.precio, subtotal:cantTotal*r.precio});
   });
   fc.extras.filter(function(e){return e.clienteId===c.id && e.fecha>=desdeISO && e.fecha<=hastaISO;}).forEach(function(e){
     items.push({concepto:'Extra: '+e.descripcion, cantidad:1, precio:e.monto, subtotal:e.monto});
@@ -10941,9 +11011,10 @@ function fcCalcularLiquidacionRangoDetallada(c, desdeISO, hastaISO){
     var validas = r.frecuencia==='semanal' ? ocurrencias
       : r.frecuencia==='quincenal' ? ocurrencias.filter(function(_,i){return i%2===0;})
       : ocurrencias.slice(0,1);
+    var porEjemplar = r.cantidad || 1;
     validas.forEach(function(dt){
       var iso = dt.toISOString().slice(0,10);
-      if (!fcSuspendidoEn(c, iso)) items.push({fecha:iso, concepto:r.nombre, cantidad:1, precio:r.precio, subtotal:r.precio});
+      if (!fcSuspendidoEn(c, iso)) items.push({fecha:iso, concepto:r.nombre+(porEjemplar>1?' (x'+porEjemplar+' ejemplares)':''), cantidad:porEjemplar, precio:r.precio, subtotal:porEjemplar*r.precio});
     });
   });
   fc.extras.filter(function(e){return e.clienteId===c.id && e.fecha>=desdeISO && e.fecha<=hastaISO;}).forEach(function(e){
