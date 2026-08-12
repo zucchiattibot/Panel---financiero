@@ -10735,6 +10735,12 @@ function fcOnClienteAction(act, id){
     fcIrAVista('liquidacion');
     fcRenderSelectLiq();
     document.getElementById('fcLiqCliente').value = id;
+    var fcTipoLiqAct = document.getElementById('fcLiqTipo').value;
+    if (fcTipoLiqAct!=='mensual'){
+      document.getElementById('fcLiqDesde').value = fcProximaFechaDesde(c);
+      fcRecalcularHasta();
+    }
+    fcActualizarSaldoInfo();
   } else if (act==='borrarProximaFecha'){
     if (confirm('¿Borrar la próxima fecha de liquidación de '+c.nombre+'? La próxima vez vas a tener que elegir la fecha "desde" a mano.')){
       delete c.proximoDesde;
