@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 4,
-  "exportadoEl": "2026-08-12T15:09:11.118Z",
+  "exportadoEl": "2026-08-12T15:09:34.532Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -972,6 +972,16 @@
       "detalle": "",
       "id": "m_msq85xl557033j",
       "modificadoEl": "2026-08-12T15:09:09.833Z"
+    },
+    {
+      "date": "2026-08-12",
+      "type": "egreso",
+      "amount": 2000,
+      "category": "Chiara",
+      "account": "alquileres",
+      "detalle": "",
+      "id": "m_msq86g7sgi60yu",
+      "modificadoEl": "2026-08-12T15:09:33.976Z"
     }
   ],
   "categoriasCustom": [
