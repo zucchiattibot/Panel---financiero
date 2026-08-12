@@ -1905,9 +1905,45 @@
           </div>
           <div class="range-label">Precio por día</div>
           <div id="fcNuevoDiarioPrecios" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;"></div>
+          <div class="range-group">
+            <div class="range-label" style="color:var(--gold);">Precio en feriado (opcional, 0 = precio normal del día)</div>
+            <div id="fcNuevoDiarioPrecioFeriadoWrap"></div>
+          </div>
           <button type="button" class="tab-btn" id="fcBtnAgregarDiarioNuevo" style="border-radius:8px;">+ Agregar diario</button>
         </details>
         <p class="card-note" id="fcPreciosMsg" style="min-height:14px;margin-top:8px;"></p>
+      </div>
+      <div class="card">
+        <h2>Días sin reparto</h2>
+        <p class="card-note">Fechas puntuales del año en que no llega el diario (feriados sin edición, huelgas, etc.). Esos días no se le cobran a ningún cliente, sin importar qué días de la semana tenga contratados.</p>
+        <div class="cargar-grid-2">
+          <div class="range-group">
+            <div class="range-label">Fecha</div>
+            <input type="date" id="fcDsrFecha" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;width:100%;box-sizing:border-box;">
+          </div>
+          <div class="range-group">
+            <div class="range-label">Motivo (opcional)</div>
+            <input type="text" id="fcDsrMotivo" placeholder="Ej: no imprimió el diario" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;width:100%;box-sizing:border-box;">
+          </div>
+        </div>
+        <button type="button" class="tab-btn" id="fcBtnAgregarDsr" style="border-radius:8px;margin-top:10px;">+ Agregar día sin reparto</button>
+        <div id="fcDsrLista" style="margin-top:12px;"></div>
+      </div>
+      <div class="card">
+        <h2>Feriados con precio especial</h2>
+        <p class="card-note">Fechas en que el diario sí llega pero cuesta distinto (ej: feriados largos). Para que se aplique un precio distinto ese día, cada diario tiene que tener cargado su "Precio en feriado" en el catálogo de arriba; si un diario lo deja en 0, ese día se le sigue cobrando el precio normal.</p>
+        <div class="cargar-grid-2">
+          <div class="range-group">
+            <div class="range-label">Fecha</div>
+            <input type="date" id="fcFerFecha" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;width:100%;box-sizing:border-box;">
+          </div>
+          <div class="range-group">
+            <div class="range-label">Motivo (opcional)</div>
+            <input type="text" id="fcFerMotivo" placeholder="Ej: feriado 25 de mayo" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;width:100%;box-sizing:border-box;">
+          </div>
+        </div>
+        <button type="button" class="tab-btn" id="fcBtnAgregarFer" style="border-radius:8px;margin-top:10px;">+ Agregar feriado</button>
+        <div id="fcFerLista" style="margin-top:12px;"></div>
       </div>
     </div>
   </div>
@@ -10257,7 +10293,9 @@ var fc = {
   diarios: [],
   nextFacturaNum: 1,
   clientes: [],
-  extras: []
+  extras: [],
+  diasSinReparto: [],
+  feriados: []
 };
 var fcEditingId = null;
 var fcUltimaLiquidacion = null;
@@ -10265,11 +10303,15 @@ var fcDiasDiario = [];
 var fcDiariosCliente = [];
 var fcRevistas = [];
 var fcNuevoDiarioPrecios = [800,700,700,700,700,700,900];
+var fcNuevoDiarioPrecioFeriado = 0;
 
 /* Migra datos viejos (un solo "diario" genérico con precio por día) al
    catálogo nuevo de diarios con nombre propio, la primera vez que se carga. */
 function fcMigrar(){
   if (!fc.diarios) fc.diarios = [];
+  if (!fc.diasSinReparto) fc.diasSinReparto = [];
+  if (!fc.feriados) fc.feriados = [];
+  fc.diarios.forEach(function(d){ if (typeof d.precioFeriado !== 'number') d.precioFeriado = 0; });
   if (!fc.datosNegocio) fc.datosNegocio = {direccion:'', telefono:''};
   if (!fc.nombreReparto || fc.nombreReparto==='Clientes') fc.nombreReparto = 'Agencia Albor';
   if (!fc.datosNegocio.direccion) fc.datosNegocio.direccion = 'Maipú 175';
@@ -10385,6 +10427,20 @@ window.importarClientesRepartoBackup = async function(cr){
       if (x && x.id && !idsExtras.has(x.id)){ fc.extras.push(x); idsExtras.add(x.id); agregados++; }
     });
   }
+  if (Array.isArray(cr.diasSinReparto)){
+    fc.diasSinReparto = fc.diasSinReparto || [];
+    var idsDSR = new Set(fc.diasSinReparto.map(function(x){return x.id;}));
+    cr.diasSinReparto.forEach(function(x){
+      if (x && x.id && !idsDSR.has(x.id)){ fc.diasSinReparto.push(x); idsDSR.add(x.id); agregados++; }
+    });
+  }
+  if (Array.isArray(cr.feriados)){
+    fc.feriados = fc.feriados || [];
+    var idsFer = new Set(fc.feriados.map(function(x){return x.id;}));
+    cr.feriados.forEach(function(x){
+      if (x && x.id && !idsFer.has(x.id)){ fc.feriados.push(x); idsFer.add(x.id); agregados++; }
+    });
+  }
   if (typeof cr.nextFacturaNum === 'number' && cr.nextFacturaNum > (fc.nextFacturaNum||1)){
     fc.nextFacturaNum = cr.nextFacturaNum;
   }
@@ -10399,9 +10455,9 @@ window.importarClientesRepartoBackup = async function(cr){
 // exactamente al estado guardado antes de importar).
 window.restaurarClientesRepartoBackup = async function(cr){
   if (!cr || typeof cr !== 'object') return;
-  fc = Object.assign({ nombreReparto:'Agencia Albor', datosNegocio:{}, diarios:[], nextFacturaNum:1, clientes:[], extras:[] }, cr);
+  fc = Object.assign({ nombreReparto:'Agencia Albor', datosNegocio:{}, diarios:[], nextFacturaNum:1, clientes:[], extras:[], diasSinReparto:[], feriados:[] }, cr);
   await fcSave();
-  fcRenderDiariosCatalogo(); fcRenderSelDiarioAgregar(); fcRenderLista(); fcRenderSelectLiq();
+  fcRenderDiariosCatalogo(); fcRenderSelDiarioAgregar(); fcRenderLista(); fcRenderSelectLiq(); fcRenderDiasSinRepartoYFeriados();
 };
 
 /* ---------- Navegación interna de la pestaña ---------- */
@@ -10455,6 +10511,11 @@ function fcBuildNuevoDiarioPreciosInputs(){
   wrap.querySelectorAll('.fcNuevoDiarioPrecioInput').forEach(function(inp){
     inp.addEventListener('input', function(){ fcNuevoDiarioPrecios[parseInt(inp.dataset.idx)] = parseFloat(inp.value)||0; });
   });
+  var wrapFer = document.getElementById('fcNuevoDiarioPrecioFeriadoWrap');
+  if (wrapFer){
+    wrapFer.innerHTML = '<input type="number" min="0" step="0.01" id="fcNuevoDiarioPrecioFeriadoInput" placeholder="Dejar en 0 = mismo precio que el día" value="'+(fcNuevoDiarioPrecioFeriado||0)+'" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:9px 10px;border-radius:8px;font-size:14px;width:100%;box-sizing:border-box;">';
+    document.getElementById('fcNuevoDiarioPrecioFeriadoInput').addEventListener('input', function(){ fcNuevoDiarioPrecioFeriado = parseFloat(this.value)||0; });
+  }
 }
 function fcRenderDiariosCatalogo(){
   var wrap = document.getElementById('fcDiariosCatalogo');
@@ -10471,7 +10532,12 @@ function fcRenderDiariosCatalogo(){
         return '<div><div class="range-label" style="margin:0 0 4px 0;">'+d+'</div>'+
           '<input type="number" min="0" step="0.01" class="fcDiaPrecioInput" data-id="'+dia.id+'" data-idx="'+i+'" value="'+(dia.precios[i]||0)+'" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:8px 10px;border-radius:8px;font-size:13.5px;width:100%;box-sizing:border-box;"></div>';
       }).join('')+
-      '</div></div>';
+      '</div>'+
+      '<div style="margin-top:8px;">'+
+        '<div class="range-label" style="margin:0 0 4px 0;color:var(--gold);">Precio en feriado (0 = precio normal del día)</div>'+
+        '<input type="number" min="0" step="0.01" class="fcDiaPrecioFeriadoInput" data-id="'+dia.id+'" value="'+(dia.precioFeriado||0)+'" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:8px 10px;border-radius:8px;font-size:13.5px;width:100%;box-sizing:border-box;">'+
+      '</div>'+
+      '</div>';
   }).join('');
   wrap.querySelectorAll('.fcDiaNombreInput').forEach(function(inp){
     inp.addEventListener('change', async function(){
@@ -10483,6 +10549,13 @@ function fcRenderDiariosCatalogo(){
     inp.addEventListener('change', async function(){
       var dia = fc.diarios.find(function(x){return x.id===inp.dataset.id;});
       if (dia){ dia.precios[parseInt(inp.dataset.idx)] = parseFloat(inp.value)||0; await fcSave();
+        var m = document.getElementById('fcPreciosMsg'); m.style.color='var(--green-pos)'; m.textContent='Precio guardado ✔️'; }
+    });
+  });
+  wrap.querySelectorAll('.fcDiaPrecioFeriadoInput').forEach(function(inp){
+    inp.addEventListener('change', async function(){
+      var dia = fc.diarios.find(function(x){return x.id===inp.dataset.id;});
+      if (dia){ dia.precioFeriado = parseFloat(inp.value)||0; await fcSave();
         var m = document.getElementById('fcPreciosMsg'); m.style.color='var(--green-pos)'; m.textContent='Precio guardado ✔️'; }
     });
   });
@@ -10501,14 +10574,77 @@ function fcRenderDiariosCatalogo(){
 document.getElementById('fcBtnAgregarDiarioNuevo').addEventListener('click', async function(){
   var nombre = document.getElementById('fcNuevoDiarioNombre').value.trim();
   if (!nombre) return;
-  fc.diarios.push({id:fcUid(), nombre:nombre, precios:fcNuevoDiarioPrecios.slice()});
+  fc.diarios.push({id:fcUid(), nombre:nombre, precios:fcNuevoDiarioPrecios.slice(), precioFeriado:fcNuevoDiarioPrecioFeriado||0});
   await fcSave();
   document.getElementById('fcNuevoDiarioNombre').value='';
   fcNuevoDiarioPrecios = [800,700,700,700,700,700,900];
+  fcNuevoDiarioPrecioFeriado = 0;
   fcBuildNuevoDiarioPreciosInputs();
   fcRenderDiariosCatalogo();
   fcRenderSelDiarioAgregar();
   var m = document.getElementById('fcPreciosMsg'); m.style.color='var(--green-pos)'; m.textContent='Diario agregado ✔️';
+});
+
+/* ---------- Días sin reparto y feriados (Configuración) ---------- */
+function fcRenderDiasSinRepartoYFeriados(){
+  var dsrWrap = document.getElementById('fcDsrLista');
+  if (dsrWrap){
+    var dsr = (fc.diasSinReparto||[]).slice().sort(function(a,b){ return a.fecha<b.fecha?-1:1; });
+    dsrWrap.innerHTML = dsr.length===0 ? '<p class="card-note" style="margin:0;">Sin días cargados.</p>' :
+      dsr.map(function(d){
+        return '<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.05);">'+
+          '<div><b>'+fcFechaDDMMYYYY(d.fecha)+'</b>'+(d.motivo?(' · '+fcEsc(d.motivo)):'')+'</div>'+
+          '<button type="button" class="fcBtnQuitarDsr" data-id="'+d.id+'" style="background:none;border:none;color:var(--red-neg);cursor:pointer;font-size:15px;font-weight:900;">✕</button>'+
+        '</div>';
+      }).join('');
+    dsrWrap.querySelectorAll('.fcBtnQuitarDsr').forEach(function(b){
+      b.addEventListener('click', async function(){
+        fc.diasSinReparto = (fc.diasSinReparto||[]).filter(function(x){return x.id!==b.dataset.id;});
+        await fcSave();
+        fcRenderDiasSinRepartoYFeriados();
+      });
+    });
+  }
+  var ferWrap = document.getElementById('fcFerLista');
+  if (ferWrap){
+    var fer = (fc.feriados||[]).slice().sort(function(a,b){ return a.fecha<b.fecha?-1:1; });
+    ferWrap.innerHTML = fer.length===0 ? '<p class="card-note" style="margin:0;">Sin feriados cargados.</p>' :
+      fer.map(function(f){
+        return '<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.05);">'+
+          '<div><b>'+fcFechaDDMMYYYY(f.fecha)+'</b>'+(f.motivo?(' · '+fcEsc(f.motivo)):'')+'</div>'+
+          '<button type="button" class="fcBtnQuitarFer" data-id="'+f.id+'" style="background:none;border:none;color:var(--red-neg);cursor:pointer;font-size:15px;font-weight:900;">✕</button>'+
+        '</div>';
+      }).join('');
+    ferWrap.querySelectorAll('.fcBtnQuitarFer').forEach(function(b){
+      b.addEventListener('click', async function(){
+        fc.feriados = (fc.feriados||[]).filter(function(x){return x.id!==b.dataset.id;});
+        await fcSave();
+        fcRenderDiasSinRepartoYFeriados();
+      });
+    });
+  }
+}
+document.getElementById('fcBtnAgregarDsr').addEventListener('click', async function(){
+  var fecha = document.getElementById('fcDsrFecha').value;
+  if (!fecha) return;
+  var motivo = document.getElementById('fcDsrMotivo').value.trim();
+  fc.diasSinReparto = fc.diasSinReparto||[];
+  fc.diasSinReparto.push({id:fcUid(), fecha:fecha, motivo:motivo});
+  await fcSave();
+  document.getElementById('fcDsrFecha').value='';
+  document.getElementById('fcDsrMotivo').value='';
+  fcRenderDiasSinRepartoYFeriados();
+});
+document.getElementById('fcBtnAgregarFer').addEventListener('click', async function(){
+  var fecha = document.getElementById('fcFerFecha').value;
+  if (!fecha) return;
+  var motivo = document.getElementById('fcFerMotivo').value.trim();
+  fc.feriados = fc.feriados||[];
+  fc.feriados.push({id:fcUid(), fecha:fecha, motivo:motivo});
+  await fcSave();
+  document.getElementById('fcFerFecha').value='';
+  document.getElementById('fcFerMotivo').value='';
+  fcRenderDiasSinRepartoYFeriados();
 });
 
 /* ---------- Diarios que lleva el cliente (form) ---------- */
@@ -10988,6 +11124,16 @@ document.getElementById('fcLiqCliente').addEventListener('change', function(){
 function fcSuspendidoEn(c, iso){
   return (c.suspensiones||[]).some(function(s){ return iso>=s.desde && iso<=(s.hasta||'9999-12-31'); });
 }
+// Día en que, sin importar el cliente, no llegó ningún diario (huelga, feriado
+// sin reparto, etc.). Esos días no se cobran a nadie.
+function fcEsDiaSinReparto(iso){
+  return (fc.diasSinReparto||[]).some(function(d){ return d.fecha===iso; });
+}
+// Feriado con precio especial: el diario sí llega, pero cuesta distinto. Se
+// distingue de fcEsDiaSinReparto (ese día directamente no hay reparto).
+function fcEsFeriado(iso){
+  return (fc.feriados||[]).some(function(f){ return f.fecha===iso; });
+}
 // Núcleo del cálculo: recibe cualquier rango de fechas [desdeISO, hastaISO]
 // (inclusive) y suma diarios, revistas y extras que caigan dentro. La
 // liquidación mensual es simplemente este mismo cálculo con el 1° y el
@@ -10999,25 +11145,27 @@ function fcCalcularLiquidacionRango(c, desdeISO, hastaISO){
   (c.diariosCliente||[]).forEach(function(dc){
     var dia = fc.diarios.find(function(x){return x.id===dc.diarioId;});
     if (!dia) return;
-    var conteo = [0,0,0,0,0,0,0];
+    // Agrupar por precio: los días con el mismo precio para este mismo diario
+    // se facturan juntos en un solo ítem (ej: Clarín lunes + Clarín martes,
+    // si cuestan igual, salen como "Clarín" x10 en vez de dos renglones). Se
+    // recorre día por día (no por día de semana) porque el precio de un día
+    // puntual puede cambiar si es feriado, y esos días además pueden no
+    // cobrarse si no hubo reparto.
+    var porPrecio = {};
+    var ordenPrecios = [];
     for (var dt=new Date(inicio); dt<=fin; dt.setDate(dt.getDate()+1)){
       var wd = dt.getDay();
       var iso = dt.toISOString().slice(0,10);
-      if ((dc.dias||[]).indexOf(wd)>-1 && !fcSuspendidoEn(c, iso)) conteo[wd]++;
-    }
-    // Agrupar por precio: los días con el mismo precio para este mismo diario
-    // se facturan juntos en un solo ítem (ej: Clarín lunes + Clarín martes,
-    // si cuestan igual, salen como "Clarín" x10 en vez de dos renglones).
-    var porPrecio = {};
-    var ordenPrecios = [];
-    for (var wd2=0; wd2<7; wd2++){
-      if (conteo[wd2]>0){
-        var precio = dia.precios[wd2]||0;
-        var key = precio.toFixed(2);
-        if (!porPrecio[key]){ porPrecio[key] = {precio:precio, cantidad:0, dias:[]}; ordenPrecios.push(key); }
-        porPrecio[key].cantidad += conteo[wd2];
-        porPrecio[key].dias.push(DIAS[wd2]);
-      }
+      if ((dc.dias||[]).indexOf(wd)===-1) continue;
+      if (fcSuspendidoEn(c, iso)) continue;
+      if (fcEsDiaSinReparto(iso)) continue; // ese día no llegó el diario: no se cobra
+      var esFeriado = fcEsFeriado(iso);
+      var precio = (esFeriado && dia.precioFeriado) ? dia.precioFeriado : (dia.precios[wd]||0);
+      var key = precio.toFixed(2);
+      if (!porPrecio[key]){ porPrecio[key] = {precio:precio, cantidad:0, dias:[]}; ordenPrecios.push(key); }
+      porPrecio[key].cantidad++;
+      var etiqueta = DIAS[wd] + (esFeriado ? ' feriado' : '');
+      if (porPrecio[key].dias.indexOf(etiqueta)===-1) porPrecio[key].dias.push(etiqueta);
     }
     ordenPrecios.forEach(function(key){
       var g = porPrecio[key];
@@ -11035,7 +11183,7 @@ function fcCalcularLiquidacionRango(c, desdeISO, hastaISO){
       : r.frecuencia==='quincenal' ? ocurrencias.filter(function(_,i){return i%2===0;})
       : ocurrencias.slice(0,1);
     var cantEnt = 0;
-    validas.forEach(function(dt){ var iso=dt.toISOString().slice(0,10); if (!fcSuspendidoEn(c, iso)) cantEnt++; });
+    validas.forEach(function(dt){ var iso=dt.toISOString().slice(0,10); if (!fcSuspendidoEn(c, iso) && !fcEsDiaSinReparto(iso)) cantEnt++; });
     var porEjemplar = r.cantidad || 1;
     var cantTotal = cantEnt * porEjemplar;
     if (cantTotal>0) items.push({concepto:r.nombre+(porEjemplar>1?' (x'+porEjemplar+' ejemplares)':''), cantidad:cantTotal, precio:r.precio, subtotal:cantTotal*r.precio});
@@ -11059,10 +11207,12 @@ function fcCalcularLiquidacionRangoDetallada(c, desdeISO, hastaISO){
     for (var dt=new Date(inicio); dt<=fin; dt.setDate(dt.getDate()+1)){
       var wd = dt.getDay();
       var iso = dt.toISOString().slice(0,10);
-      if ((dc.dias||[]).indexOf(wd)>-1 && !fcSuspendidoEn(c, iso)){
-        var precio = dia.precios[wd]||0;
-        items.push({fecha:iso, concepto:dia.nombre, cantidad:1, precio:precio, subtotal:precio});
-      }
+      if ((dc.dias||[]).indexOf(wd)===-1) continue;
+      if (fcSuspendidoEn(c, iso)) continue;
+      if (fcEsDiaSinReparto(iso)) continue; // no se cobra: ese día no llegó el diario
+      var esFeriado = fcEsFeriado(iso);
+      var precio = (esFeriado && dia.precioFeriado) ? dia.precioFeriado : (dia.precios[wd]||0);
+      items.push({fecha:iso, concepto:dia.nombre+(esFeriado?' (feriado)':''), cantidad:1, precio:precio, subtotal:precio});
     }
   });
   (c.revistas||[]).forEach(function(r){
@@ -11076,7 +11226,7 @@ function fcCalcularLiquidacionRangoDetallada(c, desdeISO, hastaISO){
     var porEjemplar = r.cantidad || 1;
     validas.forEach(function(dt){
       var iso = dt.toISOString().slice(0,10);
-      if (!fcSuspendidoEn(c, iso)) items.push({fecha:iso, concepto:r.nombre+(porEjemplar>1?' (x'+porEjemplar+' ejemplares)':''), cantidad:porEjemplar, precio:r.precio, subtotal:porEjemplar*r.precio});
+      if (!fcSuspendidoEn(c, iso) && !fcEsDiaSinReparto(iso)) items.push({fecha:iso, concepto:r.nombre+(porEjemplar>1?' (x'+porEjemplar+' ejemplares)':''), cantidad:porEjemplar, precio:r.precio, subtotal:porEjemplar*r.precio});
     });
   });
   fc.extras.filter(function(e){return e.clienteId===c.id && e.fecha>=desdeISO && e.fecha<=hastaISO;}).forEach(function(e){
@@ -11787,6 +11937,7 @@ async function fcInit(){
   document.getElementById('fcCfgTelefono').value = fc.datosNegocio.telefono||'';
   fcBuildNuevoDiarioPreciosInputs();
   fcRenderDiariosCatalogo();
+  fcRenderDiasSinRepartoYFeriados();
   fcRenderSelDiarioAgregar();
   fcRenderLista();
   fcRenderSelectLiq();
