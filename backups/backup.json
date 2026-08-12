@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 4,
-  "exportadoEl": "2026-08-11T23:33:28.477Z",
+  "exportadoEl": "2026-08-12T12:11:01.201Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -730,6 +730,14 @@
       "category": "Sueldo",
       "account": "agencia",
       "medio": "efectivo"
+    },
+    {
+      "date": "2026-08-12",
+      "type": "ingreso",
+      "amount": 18600,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "transferencia"
     }
   ],
   "categoriasCustom": [
@@ -5644,7 +5652,7 @@
         ]
       }
     ],
-    "nextFacturaNum": 22,
+    "nextFacturaNum": 24,
     "clientes": [
       {
         "id": "msnrvzg8wadclt",
@@ -5700,76 +5708,16 @@
           }
         ],
         "suspensiones": [],
-        "facturas": [
-          {
-            "id": "msp22e43z66i2e",
-            "numero": 21,
-            "fechaEmision": "2026-08-11",
-            "tipo": "mensual",
-            "year": 2026,
-            "month": 8,
-            "items": [
-              {
-                "concepto": "Clarin (Domingo)",
-                "cantidad": 5,
-                "precio": 8000,
-                "subtotal": 40000
-              },
-              {
-                "concepto": "Clarin (Lunes, Martes, Miércoles, Jueves, Viernes)",
-                "cantidad": 21,
-                "precio": 5100,
-                "subtotal": 107100
-              },
-              {
-                "concepto": "Clarin (Sábado)",
-                "cantidad": 5,
-                "precio": 7200,
-                "subtotal": 36000
-              },
-              {
-                "concepto": "Popular (Domingo)",
-                "cantidad": 5,
-                "precio": 2500,
-                "subtotal": 12500
-              },
-              {
-                "concepto": "Popular (Lunes, Martes, Miércoles, Jueves, Viernes, Sábado)",
-                "cantidad": 26,
-                "precio": 2300,
-                "subtotal": 59800
-              },
-              {
-                "concepto": "Diario ole (Domingo, Lunes)",
-                "cantidad": 10,
-                "precio": 2900,
-                "subtotal": 29000
-              },
-              {
-                "concepto": "Diario ole (Martes, Miércoles, Jueves, Viernes, Sábado)",
-                "cantidad": 21,
-                "precio": 2800,
-                "subtotal": 58800
-              },
-              {
-                "concepto": "El oeste",
-                "cantidad": 5,
-                "precio": 1500,
-                "subtotal": 7500
-              }
-            ],
-            "total": 350700,
-            "detallado": false
-          }
-        ],
+        "facturas": [],
         "proximoDesde": "",
         "pagos": []
       },
       {
         "id": "msnxz83xwkwf50",
-        "nombre": "Morey",
+        "nombre": "Oroño julio",
         "telefono": "",
         "direccion": "",
+        "fechaAlta": "",
         "diariosCliente": [
           {
             "diarioId": "msnrypbde41dta",
@@ -5786,8 +5734,9 @@
         ],
         "revistas": [],
         "suspensiones": [],
-        "pagos": [],
-        "facturas": []
+        "facturas": [],
+        "proximoDesde": "",
+        "pagos": []
       },
       {
         "id": "msnxzua28sqfsj",
@@ -5924,7 +5873,7 @@
         "fechaAlta": "2026-08-01",
         "diariosCliente": [
           {
-            "diarioId": "msnrypbde41dta",
+            "diarioId": "msns0l33nw70t4",
             "dias": [
               1,
               2,
@@ -5937,6 +5886,8 @@
         ],
         "revistas": [],
         "suspensiones": [],
+        "facturas": [],
+        "proximoDesde": "",
         "pagos": []
       },
       {
@@ -6033,6 +5984,378 @@
         ],
         "revistas": [],
         "suspensiones": [],
+        "pagos": []
+      },
+      {
+        "id": "msq0w50kijwcht",
+        "nombre": "Borla",
+        "telefono": "",
+        "direccion": "",
+        "fechaAlta": "2026-08-12",
+        "diariosCliente": [
+          {
+            "diarioId": "msnrzksq1xnw9w",
+            "dias": [
+              0
+            ]
+          }
+        ],
+        "revistas": [],
+        "suspensiones": [],
+        "pagos": []
+      },
+      {
+        "id": "msq0wkwm53iy22",
+        "nombre": "Borsani maxy",
+        "telefono": "",
+        "direccion": "",
+        "fechaAlta": "2026-08-12",
+        "diariosCliente": [
+          {
+            "diarioId": "msnrypbde41dta",
+            "dias": [
+              0
+            ]
+          }
+        ],
+        "revistas": [],
+        "suspensiones": [],
+        "pagos": []
+      },
+      {
+        "id": "msq0x7976mvsjo",
+        "nombre": "Btizuela",
+        "telefono": "",
+        "direccion": "",
+        "fechaAlta": "2026-08-12",
+        "diariosCliente": [],
+        "revistas": [
+          {
+            "id": "msq0x6jufluhn1",
+            "nombre": "Oeste",
+            "precio": 1500,
+            "frecuencia": "semanal",
+            "dia": 6
+          }
+        ],
+        "suspensiones": [],
+        "pagos": []
+      },
+      {
+        "id": "msq13p3qkkwl2p",
+        "nombre": "Viejo Adolfo",
+        "telefono": "",
+        "direccion": "",
+        "fechaAlta": "2026-08-01",
+        "diariosCliente": [
+          {
+            "diarioId": "msnrypbde41dta",
+            "dias": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              0
+            ]
+          },
+          {
+            "diarioId": "msnrzksq1xnw9w",
+            "dias": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              0
+            ]
+          }
+        ],
+        "revistas": [
+          {
+            "id": "msq13nszuvbkw6",
+            "nombre": "Oeste",
+            "precio": 1500,
+            "frecuencia": "semanal",
+            "dia": 6
+          }
+        ],
+        "suspensiones": [],
+        "pagos": []
+      },
+      {
+        "id": "msq14bf1flguu3",
+        "nombre": "Todo gomas",
+        "telefono": "",
+        "direccion": "",
+        "fechaAlta": "2026-08-01",
+        "diariosCliente": [
+          {
+            "diarioId": "msnrypbde41dta",
+            "dias": [
+              0
+            ]
+          }
+        ],
+        "revistas": [],
+        "suspensiones": [],
+        "pagos": []
+      },
+      {
+        "id": "msq14vr7qrmz37",
+        "nombre": "Tito guiñazu",
+        "telefono": "",
+        "direccion": "",
+        "fechaAlta": "2026-08-01",
+        "diariosCliente": [
+          {
+            "diarioId": "msns0l33nw70t4",
+            "dias": [
+              0
+            ]
+          }
+        ],
+        "revistas": [],
+        "suspensiones": [],
+        "pagos": []
+      },
+      {
+        "id": "msq15cnbozt46q",
+        "nombre": "Ricardo Agradi",
+        "telefono": "",
+        "direccion": "",
+        "fechaAlta": "2026-08-01",
+        "diariosCliente": [
+          {
+            "diarioId": "msnrzksq1xnw9w",
+            "dias": [
+              6
+            ]
+          }
+        ],
+        "revistas": [],
+        "suspensiones": [],
+        "pagos": []
+      },
+      {
+        "id": "msq15qdmiiv486",
+        "nombre": "Villarino R",
+        "telefono": "",
+        "direccion": "",
+        "fechaAlta": "2026-08-01",
+        "diariosCliente": [
+          {
+            "diarioId": "msnrypbde41dta",
+            "dias": [
+              0
+            ]
+          }
+        ],
+        "revistas": [],
+        "suspensiones": [],
+        "pagos": []
+      },
+      {
+        "id": "msq16ad7zc6wqa",
+        "nombre": "Pacheco",
+        "telefono": "",
+        "direccion": "",
+        "fechaAlta": "2026-08-01",
+        "diariosCliente": [],
+        "revistas": [
+          {
+            "id": "msq169su9iferu",
+            "nombre": "Hola",
+            "precio": 9500,
+            "frecuencia": "semanal",
+            "dia": 6
+          }
+        ],
+        "suspensiones": [],
+        "pagos": []
+      },
+      {
+        "id": "msq16m26mbuxri",
+        "nombre": "Las Chapitas",
+        "telefono": "",
+        "direccion": "",
+        "fechaAlta": "2026-08-01",
+        "diariosCliente": [
+          {
+            "diarioId": "msnrypbde41dta",
+            "dias": [
+              0
+            ]
+          }
+        ],
+        "revistas": [],
+        "suspensiones": [],
+        "pagos": []
+      },
+      {
+        "id": "msq1736gqdojm0",
+        "nombre": "Fossati",
+        "telefono": "",
+        "direccion": "",
+        "fechaAlta": "2026-08-01",
+        "diariosCliente": [
+          {
+            "diarioId": "msnrypbde41dta",
+            "dias": [
+              0
+            ]
+          }
+        ],
+        "revistas": [],
+        "suspensiones": [],
+        "pagos": []
+      },
+      {
+        "id": "msq18wqdtl09av",
+        "nombre": "Estudio Arietti",
+        "telefono": "",
+        "direccion": "",
+        "fechaAlta": "2026-08-01",
+        "diariosCliente": [
+          {
+            "diarioId": "msnrzksq1xnw9w",
+            "dias": [
+              1,
+              3
+            ]
+          },
+          {
+            "diarioId": "msnrypbde41dta",
+            "dias": [
+              2,
+              4
+            ]
+          },
+          {
+            "diarioId": "msnsksp57a8bns",
+            "dias": [
+              5
+            ]
+          }
+        ],
+        "revistas": [
+          {
+            "id": "msq18vw6vr1eme",
+            "nombre": "Oeste",
+            "precio": 1500,
+            "frecuencia": "semanal",
+            "dia": 6
+          }
+        ],
+        "suspensiones": [],
+        "pagos": []
+      },
+      {
+        "id": "msq19fi8m0uj4s",
+        "nombre": "Esconfianza",
+        "telefono": "",
+        "direccion": "",
+        "fechaAlta": "2026-08-01",
+        "diariosCliente": [
+          {
+            "diarioId": "msnrypbde41dta",
+            "dias": [
+              0
+            ]
+          }
+        ],
+        "revistas": [],
+        "suspensiones": [],
+        "pagos": []
+      },
+      {
+        "id": "msq1by4wwr9kkl",
+        "nombre": "Todo suelto",
+        "telefono": "",
+        "direccion": "",
+        "fechaAlta": "2026-08-01",
+        "diariosCliente": [],
+        "revistas": [
+          {
+            "id": "msq1bwipjhrwa7",
+            "nombre": "Oeste",
+            "precio": 1500,
+            "frecuencia": "semanal",
+            "dia": 6
+          }
+        ],
+        "suspensiones": [],
+        "pagos": []
+      },
+      {
+        "id": "msq1j48wsff1vq",
+        "nombre": "Brizuela",
+        "telefono": "",
+        "direccion": "",
+        "fechaAlta": "2026-07-17",
+        "diariosCliente": [],
+        "revistas": [
+          {
+            "id": "msq1j2psqchcpf",
+            "nombre": "Oeste",
+            "precio": 1500,
+            "frecuencia": "semanal",
+            "dia": 6
+          }
+        ],
+        "suspensiones": [],
+        "facturas": [
+          {
+            "id": "msq1qolqu12f9o",
+            "numero": 23,
+            "fechaEmision": "2026-08-12",
+            "tipo": "rango",
+            "desde": "2026-07-18",
+            "hasta": "2026-08-17",
+            "items": [
+              {
+                "fecha": "2026-07-18",
+                "concepto": "Oeste",
+                "cantidad": 1,
+                "precio": 1500,
+                "subtotal": 1500
+              },
+              {
+                "fecha": "2026-07-25",
+                "concepto": "Oeste",
+                "cantidad": 1,
+                "precio": 1500,
+                "subtotal": 1500
+              },
+              {
+                "fecha": "2026-08-01",
+                "concepto": "Oeste",
+                "cantidad": 1,
+                "precio": 1500,
+                "subtotal": 1500
+              },
+              {
+                "fecha": "2026-08-08",
+                "concepto": "Oeste",
+                "cantidad": 1,
+                "precio": 1500,
+                "subtotal": 1500
+              },
+              {
+                "fecha": "2026-08-15",
+                "concepto": "Oeste",
+                "cantidad": 1,
+                "precio": 1500,
+                "subtotal": 1500
+              }
+            ],
+            "total": 7500,
+            "detallado": true
+          }
+        ],
+        "proximoDesde": "2026-08-18",
         "pagos": []
       }
     ],
