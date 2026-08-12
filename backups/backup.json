@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 4,
-  "exportadoEl": "2026-08-12T15:09:34.532Z",
+  "exportadoEl": "2026-08-12T15:48:02.053Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -982,6 +982,16 @@
       "detalle": "",
       "id": "m_msq86g7sgi60yu",
       "modificadoEl": "2026-08-12T15:09:33.976Z"
+    },
+    {
+      "date": "2026-08-12",
+      "type": "egreso",
+      "amount": 60000,
+      "category": "Nafta",
+      "account": "alquileres",
+      "detalle": "Nafta",
+      "id": "m_msq9jwfw8epw6d",
+      "modificadoEl": "2026-08-12T15:48:01.148Z"
     }
   ],
   "categoriasCustom": [
