@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 4,
-  "exportadoEl": "2026-08-12T14:26:16.135Z",
+  "exportadoEl": "2026-08-12T15:09:11.118Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -962,6 +962,16 @@
       "medio": "efectivo",
       "id": "m_msq6mqyg79sowl",
       "modificadoEl": "2026-08-12T14:26:15.160Z"
+    },
+    {
+      "date": "2026-08-12",
+      "type": "egreso",
+      "amount": 2000,
+      "category": "Donato",
+      "account": "alquileres",
+      "detalle": "",
+      "id": "m_msq85xl557033j",
+      "modificadoEl": "2026-08-12T15:09:09.833Z"
     }
   ],
   "categoriasCustom": [
@@ -5876,7 +5886,7 @@
         ]
       }
     ],
-    "nextFacturaNum": 24,
+    "nextFacturaNum": 25,
     "clientes": [
       {
         "id": "msnrvzg8wadclt",
