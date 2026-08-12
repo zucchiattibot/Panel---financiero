@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 4,
-  "exportadoEl": "2026-08-12T15:48:02.053Z",
+  "exportadoEl": "2026-08-12T15:50:49.765Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -992,6 +992,16 @@
       "detalle": "Nafta",
       "id": "m_msq9jwfw8epw6d",
       "modificadoEl": "2026-08-12T15:48:01.148Z"
+    },
+    {
+      "date": "2026-08-12",
+      "type": "ingreso",
+      "amount": 50000,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "transferencia",
+      "id": "m_msq9nhs2mebri4",
+      "modificadoEl": "2026-08-12T15:50:48.770Z"
     }
   ],
   "categoriasCustom": [
