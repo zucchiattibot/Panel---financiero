@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 4,
-  "exportadoEl": "2026-08-12T23:51:35.464Z",
+  "exportadoEl": "2026-08-13T02:23:58.708Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -6678,6 +6678,21 @@
         "id": "msqgdh644wsd1x",
         "fecha": "2026-11-07",
         "motivo": "Día canillita"
+      },
+      {
+        "id": "msqw826xhbh0ij",
+        "fecha": "2026-05-01",
+        "motivo": "Día del trabajador"
+      },
+      {
+        "id": "msqw8fspyy5k5o",
+        "fecha": "2026-12-25",
+        "motivo": "Navidad"
+      },
+      {
+        "id": "msqw95ryp5kg0a",
+        "fecha": "2027-01-01",
+        "motivo": "Año nuevo"
       }
     ],
     "feriados": [
