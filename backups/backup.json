@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 4,
-  "exportadoEl": "2026-08-13T13:41:08.473Z",
+  "exportadoEl": "2026-08-13T13:41:23.297Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -1062,6 +1062,16 @@
       "medio": "efectivo",
       "id": "m_msrkgk5yxx7jfv",
       "modificadoEl": "2026-08-13T13:41:07.222Z"
+    },
+    {
+      "date": "2026-08-13",
+      "type": "egreso",
+      "amount": 30000,
+      "category": "Edificación",
+      "account": "alquileres",
+      "detalle": "Pintor",
+      "id": "m_msrkgw3rie3zel",
+      "modificadoEl": "2026-08-13T13:41:22.695Z"
     }
   ],
   "categoriasCustom": [
