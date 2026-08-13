@@ -1985,6 +1985,10 @@
           <input type="number" id="vzServMonto" placeholder="0" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;width:100%;box-sizing:border-box;">
         </div>
       </div>
+      <label style="display:flex;align-items:center;gap:8px;margin-top:10px;font-size:13.5px;color:var(--cream-dim);cursor:pointer;">
+        <input type="checkbox" id="vzServRecurrente" style="width:16px;height:16px;">
+        🔁 Es un gasto fijo — repetir todos los meses en ese mismo día
+      </label>
       <button type="button" class="tab-btn" id="vzBtnAgregarServicio" style="border-radius:8px;margin-top:10px;">+ Agregar vencimiento</button>
 
       <details class="cargar-advanced" open style="margin-top:14px;">
@@ -12227,6 +12231,38 @@ function vzDuplicadoPosible(cand){
   }) || null;
 }
 
+// --- Gastos fijos mensuales (recurrentes) ---
+// Un servicio "recurrente" no guarda una fecha fija: guarda el día del mes
+// (diaMes) y acá se calcula, cada vez que se renderiza el panel, cuál es su
+// próxima fecha de vencimiento (hoy o en el futuro). Así el usuario lo carga
+// una sola vez y el panel lo va corriendo de mes en mes solo.
+function vzUltimoDiaMes(anio, mesIdx){ return new Date(anio, mesIdx+1, 0).getDate(); }
+function vzIsoFecha(anio, mesIdx, dia){ return anio+'-'+String(mesIdx+1).padStart(2,'0')+'-'+String(dia).padStart(2,'0'); }
+function vzProximaOcurrencia(diaMes){
+  var hoy = new Date(vzHoy()+'T00:00:00');
+  var anio = hoy.getFullYear(), mesIdx = hoy.getMonth();
+  var diaClamp = Math.min(diaMes, vzUltimoDiaMes(anio, mesIdx));
+  var candidata = new Date(anio, mesIdx, diaClamp);
+  if (candidata < hoy){
+    mesIdx += 1;
+    if (mesIdx > 11){ mesIdx = 0; anio += 1; }
+    diaClamp = Math.min(diaMes, vzUltimoDiaMes(anio, mesIdx));
+  }
+  return vzIsoFecha(anio, mesIdx, diaClamp);
+}
+// Recalcula la fecha de cada servicio recurrente. Se llama antes de cada
+// render para que la lista siempre muestre la próxima fecha correcta, sin
+// tener que abrir el panel justo el día del vencimiento.
+function vzActualizarRecurrentes(){
+  var cambio = false;
+  vz.servicios.forEach(function(s){
+    if (!s.recurrente || !s.diaMes) return;
+    var nueva = vzProximaOcurrencia(s.diaMes);
+    if (nueva !== s.fecha){ s.fecha = nueva; cambio = true; }
+  });
+  return cambio;
+}
+
 function vzBadge(dias){
   var color, texto;
   if (dias < 0){ color='var(--red-neg, #d9534f)'; texto='Venció hace '+Math.abs(dias)+' día(s)'; }
@@ -12330,13 +12366,14 @@ function vzRenderServicios(){
     return '<div style="display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);">'+
       '<div style="width:40px;height:40px;flex-shrink:0;border-radius:50%;background:var(--bg-2);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:var(--gold);">'+vzEsc(vzIniciales(s.nombre))+'</div>'+
       '<div style="flex:1;min-width:0;">'+
-        '<div style="font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+vzEsc(s.nombre)+'</div>'+
+        '<div style="font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+vzEsc(s.nombre)+(s.recurrente ? ' <span title="Gasto fijo mensual" style="font-weight:400;">🔁</span>' : '')+'</div>'+
         (s.referencia ? '<div class="card-note" style="margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+vzEsc(s.referencia)+'</div>' : '')+
       '</div>'+
       '<div style="text-align:right;flex-shrink:0;">'+
         (s.monto ? '<div style="font-weight:700;">'+vzFmtMonto(s.monto)+'</div>' : '')+
         '<div style="margin-top:2px;color:'+colorFecha+';font-weight:600;white-space:nowrap;">'+(dias<0 ? 'Venció el '+vzFmtVenceCorta(s.fecha) : (dias===0 ? 'Vence hoy' : 'Vence el '+vzFmtVenceCorta(s.fecha)))+'</div>'+
       '</div>'+
+      '<button type="button" data-vzrec="'+s.id+'" title="'+(s.recurrente?'Ya no repetir todos los meses':'Repetir todos los meses (gasto fijo)')+'" style="flex-shrink:0;background:none;border:none;font-size:16px;line-height:1;cursor:pointer;padding:4px;opacity:'+(s.recurrente?'1':'.45')+';">🔁</button>'+
       '<button type="button" data-vzdel="'+s.id+'" title="Borrar" style="flex-shrink:0;background:none;border:none;color:var(--muted);font-size:18px;line-height:1;cursor:pointer;padding:4px;">✕</button>'+
       '</div>';
   }).join('');
@@ -12348,9 +12385,27 @@ function vzRenderServicios(){
       vzRenderAll();
     });
   });
+  el.querySelectorAll('[data-vzrec]').forEach(function(btn){
+    btn.addEventListener('click', async function(){
+      var id = btn.getAttribute('data-vzrec');
+      var s = vz.servicios.find(function(x){ return x.id === id; });
+      if (!s) return;
+      if (s.recurrente){
+        s.recurrente = false;
+        s.diaMes = undefined;
+      } else {
+        s.diaMes = parseInt((s.fecha||'').slice(8,10), 10) || 1;
+        s.recurrente = true;
+        s.fecha = vzProximaOcurrencia(s.diaMes);
+      }
+      await vzSave();
+      vzRenderAll();
+    });
+  });
 }
 
 function vzRenderAll(){
+  if (vzActualizarRecurrentes()) vzSave();
   vzRenderAlertas();
   vzRenderImpuestos();
   vzRenderServicios();
@@ -12366,6 +12421,7 @@ function vzWireEvents(){
       var fecha = document.getElementById('vzServFecha').value;
       var referencia = (document.getElementById('vzServReferencia').value||'').trim();
       var monto = parseFloat(document.getElementById('vzServMonto').value)||0;
+      var recurrente = !!document.getElementById('vzServRecurrente').checked;
       if (!nombre || !fecha){ alert('Cargá al menos el nombre del servicio y la fecha de vencimiento.'); return; }
       var candidato = {nombre:nombre, referencia:referencia, fecha:fecha};
       var dup = vzDuplicadoExacto(candidato) || vzDuplicadoPosible(candidato);
@@ -12373,12 +12429,15 @@ function vzWireEvents(){
         var seguir = confirm('Ya tenés cargado "'+dup.nombre+'" venciendo el '+vzFmtFecha(dup.fecha)+'. ¿Agregar igual?');
         if (!seguir) return;
       }
-      vz.servicios.push({id:vzUid(), nombre:nombre, referencia:referencia||undefined, fecha:fecha, monto:monto||undefined});
+      var diaMes = parseInt(fecha.slice(8,10), 10);
+      var fechaFinal = recurrente ? vzProximaOcurrencia(diaMes) : fecha;
+      vz.servicios.push({id:vzUid(), nombre:nombre, referencia:referencia||undefined, fecha:fechaFinal, monto:monto||undefined, recurrente:recurrente||undefined, diaMes:recurrente?diaMes:undefined});
       await vzSave();
       document.getElementById('vzServNombre').value = '';
       document.getElementById('vzServFecha').value = '';
       document.getElementById('vzServReferencia').value = '';
       document.getElementById('vzServMonto').value = '';
+      document.getElementById('vzServRecurrente').checked = false;
       var fotoInput = document.getElementById('vzFotoInput');
       if (fotoInput) fotoInput.value = '';
       vzFotoBase64 = null;
