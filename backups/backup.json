@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 4,
-  "exportadoEl": "2026-08-13T02:23:58.708Z",
+  "exportadoEl": "2026-08-13T09:59:23.437Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -1042,6 +1042,16 @@
       "detalle": "Los chinos y pollería",
       "id": "m_msqqtr5nkkj1cp",
       "modificadoEl": "2026-08-12T23:51:34.331Z"
+    },
+    {
+      "date": "2026-08-13",
+      "type": "egreso",
+      "amount": 14000,
+      "category": "Peña",
+      "account": "alquileres",
+      "detalle": "Miércoles",
+      "id": "m_msrcjdz71bi1hn",
+      "modificadoEl": "2026-08-13T09:59:22.243Z"
     }
   ],
   "categoriasCustom": [
