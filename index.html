@@ -13069,17 +13069,19 @@ async function invFetchPrecios(){
   await invFetchDolarRates();
 
   try {
-    const res = await invConTimeout(fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd'), 8000);
+    const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd');
     if (!res.ok) throw new Error('HTTP ' + res.status);
     const data = await res.json();
     invPrecios['BTC'] = data.bitcoin.usd;
     ok++;
   } catch(e){ fail++; }
+  setStatus('inv-status','inv-status-text','live','Consultando precios… (S&P 500)');
 
-  try { invPrecios['SPY'] = await invConTimeout(indiceClose('spy.us', 'SPY'), 15000); ok++; }
+  try { invPrecios['SPY'] = await indiceClose('spy.us', 'SPY'); ok++; }
   catch(e){ fail++; }
   await esperar(300);
-  try { invPrecios['QQQ'] = await invConTimeout(indiceClose('qqq.us', 'QQQ'), 15000); ok++; }
+  setStatus('inv-status','inv-status-text','live','Consultando precios… (Nasdaq)');
+  try { invPrecios['QQQ'] = await indiceClose('qqq.us', 'QQQ'); ok++; }
   catch(e){ fail++; }
 
   // Activos "Otro" con ticker Stooq cargado: uno por uno para no saturar el proxy.
@@ -13091,9 +13093,10 @@ async function invFetchPrecios(){
   });
   for (const [activo, ticker] of tickers){
     await esperar(300);
+    setStatus('inv-status','inv-status-text','live','Consultando precios… (' + activo + ')');
     try {
       const yahooSym = ticker.replace(/\.us$/i, '').toUpperCase();
-      invPrecios[activo] = await invConTimeout(indiceClose(ticker, yahooSym), 15000);
+      invPrecios[activo] = await indiceClose(ticker, yahooSym);
       ok++;
     } catch(e){ fail++; }
   }
