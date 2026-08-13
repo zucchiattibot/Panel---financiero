@@ -220,6 +220,7 @@
     <button class="tab-btn" data-tab="ia">🤖 Asistente IA</button>
     <button class="tab-btn" data-tab="clientes">📰 Clientes reparto</button>
     <button class="tab-btn" data-tab="vencimientos">⏰ Vencimientos</button>
+    <button class="tab-btn" data-tab="inversiones">📈 Inversiones</button>
   </div>
   <button type="button" class="tabs-reorder-toggle" id="tabsReorderToggle">↕ Reordenar pestañas</button>
   <button type="button" class="tabs-reorder-toggle" id="tabsHideToggle">👁 Ocultar pestañas</button>
@@ -2005,6 +2006,145 @@
       <h2>Servicios cargados</h2>
       <div id="vzListaServicios"></div>
     </div>
+  </div>
+
+  <div class="panel" id="tab-inversiones">
+    <div class="card">
+      <p class="eyebrow">Cartera personal</p>
+      <h2>Inversiones</h2>
+      <p class="card-note">Cargá tus compras (y ventas) de Bitcoin, S&amp;P 500, Nasdaq 100 u otro activo, cuando las hagas. El panel calcula solo cuánto invertiste, cuánto vale hoy tu cartera y la ganancia o pérdida, con precios en vivo.</p>
+    </div>
+
+    <div class="card">
+      <h2 id="invFormTitulo">Nueva operación</h2>
+      <input type="hidden" id="invOpId">
+      <div class="range-group">
+        <div class="range-label">Activo</div>
+        <div class="toggle-row" id="invActivoToggle">
+          <button type="button" class="toggle-btn active" data-activo="BTC">₿ Bitcoin</button>
+          <button type="button" class="toggle-btn" data-activo="SPY">S&amp;P 500</button>
+          <button type="button" class="toggle-btn" data-activo="QQQ">Nasdaq 100</button>
+          <button type="button" class="toggle-btn" data-activo="OTRO">+ Otro</button>
+        </div>
+      </div>
+      <div class="cargar-grid-2" id="invOtroGroup" style="display:none;">
+        <div class="range-group">
+          <div class="range-label">Nombre del activo</div>
+          <input type="text" id="invOtroNombre" placeholder="Ej: Oro, VOO, acción XYZ" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;width:100%;box-sizing:border-box;">
+        </div>
+        <div class="range-group">
+          <div class="range-label">Símbolo Stooq (opcional)</div>
+          <input type="text" id="invOtroTicker" placeholder="Ej: voo.us" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;width:100%;box-sizing:border-box;">
+        </div>
+      </div>
+      <p class="card-note" id="invOtroAyuda" style="display:none;margin-top:-6px;">Si le ponés un símbolo de Stooq (formato símbolo.us, ej: voo.us, vti.us), el panel va a poder traerle precio en vivo igual que a los demás. Si lo dejás vacío, vas a tener que cargar el precio a mano en cada operación y no se va a poder calcular la ganancia/pérdida.</p>
+
+      <div class="range-group">
+        <div class="range-label">Tipo de operación</div>
+        <div class="toggle-row" id="invTipoToggle">
+          <button type="button" class="toggle-btn active" data-tipo="compra">Compra</button>
+          <button type="button" class="toggle-btn" data-tipo="venta">Venta</button>
+        </div>
+      </div>
+
+      <div class="range-group">
+        <div class="range-label">Fecha</div>
+        <input type="date" id="invFecha" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;width:100%;box-sizing:border-box;color-scheme:dark;">
+      </div>
+
+      <div class="range-group">
+        <div class="range-label">Cargar por</div>
+        <div class="toggle-row" id="invModoToggle">
+          <button type="button" class="toggle-btn active" data-modo="cantidad">Cantidad de unidades</button>
+          <button type="button" class="toggle-btn" data-modo="monto">Monto invertido</button>
+        </div>
+      </div>
+
+      <div id="invModoCantidadGroup">
+        <div class="range-group">
+          <div class="range-label">Cantidad</div>
+          <input type="number" id="invCantidad" min="0" step="any" placeholder="Ej: 0.01" inputmode="decimal" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;width:100%;box-sizing:border-box;">
+        </div>
+      </div>
+
+      <div id="invModoMontoGroup" style="display:none;">
+        <div class="cargar-grid-2">
+          <div class="range-group">
+            <div class="range-label">Monto invertido</div>
+            <input type="number" id="invMonto" min="0" step="any" placeholder="Ej: 50000" inputmode="decimal" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;width:100%;box-sizing:border-box;">
+          </div>
+          <div class="range-group">
+            <div class="range-label">Moneda</div>
+            <div class="toggle-row" id="invMonedaToggle" style="margin-bottom:0;">
+              <button type="button" class="toggle-btn active" data-moneda="ARS">Pesos (ARS)</button>
+              <button type="button" class="toggle-btn" data-moneda="USD">Dólares (USD)</button>
+            </div>
+          </div>
+        </div>
+        <div class="range-group" id="invCotizacionGroup">
+          <div class="range-label">Cotización del dólar a usar</div>
+          <select id="invCotizacionTipo" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;width:100%;box-sizing:border-box;color-scheme:dark;">
+            <option value="oficial">Oficial</option>
+            <option value="blue" selected>Blue</option>
+            <option value="bolsa">MEP (Bolsa)</option>
+            <option value="contadoconliqui">CCL</option>
+            <option value="mayorista">Mayorista</option>
+            <option value="cripto">Cripto</option>
+            <option value="tarjeta">Tarjeta</option>
+          </select>
+          <p class="card-note" id="invCotizacionValor" style="margin-top:6px;margin-bottom:0;">Consultando cotización…</p>
+        </div>
+        <p class="card-note" id="invCantidadCalculada" style="margin-top:-6px;font-weight:700;"></p>
+      </div>
+
+      <div class="cargar-grid-2">
+        <div class="range-group">
+          <div class="range-label">Precio por unidad (USD)</div>
+          <input type="number" id="invPrecio" min="0" step="any" placeholder="0" inputmode="decimal" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;width:100%;box-sizing:border-box;">
+        </div>
+        <div class="range-group">
+          <div class="range-label">&nbsp;</div>
+          <button type="button" class="tab-btn" id="invUsarPrecioActual" style="border-radius:8px;width:100%;margin:0;">Usar precio actual</button>
+        </div>
+      </div>
+      <p class="card-note" id="invTotalPreview" style="margin-top:-6px;"></p>
+
+      <div class="range-group">
+        <div class="range-label">Notas (opcional)</div>
+        <input type="text" id="invNotas" placeholder="Opcional" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;width:100%;box-sizing:border-box;">
+      </div>
+
+      <p class="card-note" id="invEditandoAviso" style="display:none;color:var(--gold);">✎ Editando una operación — los cambios reemplazan a la original.</p>
+      <button type="button" class="cargar-submit-btn" id="invGuardarBtn">Guardar operación</button>
+      <button type="button" id="invCancelarEdicion" class="tab-btn" style="display:none;width:100%;margin-top:8px;border-radius:8px;">Cancelar edición</button>
+      <p class="card-note" id="invMsg" style="min-height:14px;margin-top:8px;"></p>
+    </div>
+
+    <div class="card">
+      <h2>Mi cartera</h2>
+      <p class="card-note">Precios en vivo: Bitcoin (CoinGecko), S&amp;P 500 vía ETF SPY y Nasdaq 100 vía ETF QQQ (Stooq/Yahoo). Todo en dólares.</p>
+      <div class="status" id="inv-status"><i class="pulse"></i><span id="inv-status-text">Consultando precios…</span></div>
+      <div style="overflow-x:auto;margin-top:10px;">
+        <table id="invCarteraTabla"><thead><tr><th>Activo</th><th style="text-align:right">Cantidad</th><th style="text-align:right">Costo prom.</th><th style="text-align:right">Invertido</th><th style="text-align:right">Precio actual</th><th style="text-align:right">Valor actual</th><th style="text-align:right">Result.</th></tr></thead><tbody></tbody></table>
+      </div>
+      <p class="card-note" id="invCarteraEmpty" style="display:none;">Todavía no cargaste ninguna operación.</p>
+      <div class="kpi-grid" style="margin-top:14px;">
+        <div class="kpi"><div class="label">Total invertido</div><div class="val" id="invTotalInvertido">—</div></div>
+        <div class="kpi"><div class="label">Valor actual</div><div class="val" id="invTotalValor">—</div></div>
+        <div class="kpi"><div class="label">Resultado</div><div class="val" id="invTotalResultado">—</div></div>
+      </div>
+      <button type="button" class="tab-btn" id="invRefrescarBtn" style="border-radius:8px;margin-top:14px;">🔄 Actualizar precios</button>
+    </div>
+
+    <div class="card">
+      <h2>Historial de operaciones</h2>
+      <div style="overflow-x:auto;overflow-y:auto;max-height:340px;border:1px solid var(--line);border-radius:10px;">
+        <table id="invHistorialTabla"><thead><tr><th style="position:sticky;top:0;background:var(--bg-2);">Fecha</th><th style="position:sticky;top:0;background:var(--bg-2);">Activo</th><th style="position:sticky;top:0;background:var(--bg-2);">Tipo</th><th style="position:sticky;top:0;background:var(--bg-2);text-align:right">Cantidad</th><th style="position:sticky;top:0;background:var(--bg-2);text-align:right">Precio</th><th style="position:sticky;top:0;background:var(--bg-2);text-align:right">Total</th><th style="position:sticky;top:0;background:var(--bg-2);"></th></tr></thead><tbody></tbody></table>
+      </div>
+      <p class="card-note" id="invHistorialEmpty" style="display:none;">Sin operaciones cargadas.</p>
+    </div>
+
+    <div class="note-box">Esto se guarda solo en este dispositivo/instalación (window.storage o localStorage, igual que el resto del panel). Los precios de S&amp;P 500 y Nasdaq 100 son de sus ETF más líquidos (SPY y QQQ), que replican esos índices casi exacto pero no son 100% idénticos al índice. Si cargás una operación en pesos, se convierte a dólares con la cotización que elijas (Blue por defecto) para calcular cantidad, costo e invertido — todo el resto del panel de Inversiones queda siempre en USD. Los precios y cálculos son informativos, no un resumen de tu cuenta real de broker o exchange.</div>
   </div>
 
   <p class="foot">Datos: cuenta "Agencia" de tu export sqlite. Inflación: API pública ArgentinaDatos, fuente BCRA (<a href="https://argentinadatos.com/docs/" target="_blank">argentinadatos.com</a>). Gráficos dibujados con SVG nativo, sin librerías externas.</p>
@@ -12602,6 +12742,483 @@ if (document.readyState === 'loading'){
 } else {
   vzInit();
 }
+})();
+</script>
+
+<script>
+"use strict";
+/* ---------------- INVERSIONES ----------------
+   Cartera personal: BTC, S&P 500 (vía ETF SPY), Nasdaq 100 (vía ETF QQQ) y
+   activos "Otro" con símbolo Stooq opcional. Reutiliza storageGet/storageSet
+   e indiceClose/stooqClose/esperar ya definidos en el script principal. */
+(function(){
+
+const INV_KEY = 'inv-operaciones';
+let invOps = [];
+let invActivoSel = 'BTC';
+let invTipoSel = 'compra';
+let invModoSel = 'cantidad'; // 'cantidad' | 'monto'
+let invMonedaSel = 'ARS'; // 'ARS' | 'USD' (solo aplica en modo 'monto')
+let invEditId = null;
+let invPrecios = {}; // { 'BTC': 12345.6, 'SPY': 543.2, 'QQQ': 480.1, 'voo.us': 500 }
+let invPreciosStatus = 'cargando'; // 'cargando' | 'ok' | 'parcial' | 'error'
+let invDolarRates = {}; // { blue: {compra, venta}, oficial: {...}, ... } vía DolarAPI
+
+function invLabel(activo){
+  if (activo === 'BTC') return '₿ Bitcoin';
+  if (activo === 'SPY') return 'S&P 500';
+  if (activo === 'QQQ') return 'Nasdaq 100';
+  return activo; // para "otro" guardamos directamente el nombre elegido por el usuario
+}
+
+function fmtUsd(n, digits){
+  if (typeof digits !== 'number') digits = 2;
+  if (n === null || n === undefined || !isFinite(n)) return '—';
+  return new Intl.NumberFormat('en-US', {style:'currency', currency:'USD', maximumFractionDigits:digits, minimumFractionDigits: Math.min(digits,2)}).format(n);
+}
+function fmtCantidad(n){
+  if (n === null || n === undefined || !isFinite(n)) return '—';
+  return new Intl.NumberFormat('en-US', {maximumFractionDigits:8}).format(n);
+}
+
+async function invLoad(){
+  let raw = null;
+  try { raw = await storageGet(INV_KEY); } catch(e){}
+  try { invOps = raw ? JSON.parse(raw) : []; } catch(e){ invOps = []; }
+}
+async function invSave(){
+  try { await storageSet(INV_KEY, JSON.stringify(invOps)); } catch(e){}
+}
+
+/* ---- Form ---- */
+function invSetActivo(activo){
+  invActivoSel = activo;
+  document.querySelectorAll('#invActivoToggle .toggle-btn').forEach(b=>{
+    b.classList.toggle('active', b.dataset.activo === activo);
+  });
+  document.getElementById('invOtroGroup').style.display = activo === 'OTRO' ? 'flex' : 'none';
+  document.getElementById('invOtroGroup').style.flexWrap = 'wrap';
+  document.getElementById('invOtroAyuda').style.display = activo === 'OTRO' ? 'block' : 'none';
+  invUpdateTotalPreview();
+}
+function invSetTipo(tipo){
+  invTipoSel = tipo;
+  document.querySelectorAll('#invTipoToggle .toggle-btn').forEach(b=>{
+    b.classList.toggle('active', b.dataset.tipo === tipo);
+  });
+}
+function invSetModo(modo){
+  invModoSel = modo;
+  document.querySelectorAll('#invModoToggle .toggle-btn').forEach(b=>{
+    b.classList.toggle('active', b.dataset.modo === modo);
+  });
+  document.getElementById('invModoCantidadGroup').style.display = modo === 'cantidad' ? 'block' : 'none';
+  document.getElementById('invModoMontoGroup').style.display = modo === 'monto' ? 'block' : 'none';
+  invUpdateTotalPreview();
+}
+function invSetMoneda(moneda){
+  invMonedaSel = moneda;
+  document.querySelectorAll('#invMonedaToggle .toggle-btn').forEach(b=>{
+    b.classList.toggle('active', b.dataset.moneda === moneda);
+  });
+  document.getElementById('invCotizacionGroup').style.display = moneda === 'ARS' ? 'block' : 'none';
+  invUpdateTotalPreview();
+}
+function invTasaSeleccionada(){
+  const tipo = document.getElementById('invCotizacionTipo').value;
+  const r = invDolarRates[tipo];
+  return r && isFinite(r.venta) ? r.venta : null;
+}
+function invCantidadCalculada(){
+  // Cantidad de unidades a partir del monto invertido (modo 'monto'), convirtiendo a USD si hace falta.
+  const monto = parseFloat(document.getElementById('invMonto').value);
+  const precio = parseFloat(document.getElementById('invPrecio').value);
+  if (!isFinite(monto) || monto <= 0 || !isFinite(precio) || precio <= 0) return null;
+  let montoUsd = monto;
+  if (invMonedaSel === 'ARS'){
+    const tasa = invTasaSeleccionada();
+    if (!tasa) return null;
+    montoUsd = monto / tasa;
+  }
+  return montoUsd / precio;
+}
+function invUpdateTotalPreview(){
+  const totalEl = document.getElementById('invTotalPreview');
+  const calcEl = document.getElementById('invCantidadCalculada');
+  const precio = parseFloat(document.getElementById('invPrecio').value);
+
+  if (invModoSel === 'cantidad'){
+    const cant = parseFloat(document.getElementById('invCantidad').value);
+    if (isFinite(cant) && isFinite(precio) && cant > 0 && precio > 0){
+      totalEl.textContent = 'Total: ' + fmtUsd(cant * precio);
+    } else {
+      totalEl.textContent = '';
+    }
+    return;
+  }
+
+  // modo 'monto'
+  const cantCalc = invCantidadCalculada();
+  if (invMonedaSel === 'ARS' && !invTasaSeleccionada()){
+    calcEl.textContent = 'Todavía no se pudo consultar la cotización del dólar — probá de nuevo en un momento.';
+    totalEl.textContent = '';
+    return;
+  }
+  if (cantCalc === null){
+    calcEl.textContent = '';
+    totalEl.textContent = '';
+    return;
+  }
+  calcEl.textContent = 'Cantidad calculada: ' + fmtCantidad(cantCalc) +
+    (invMonedaSel === 'ARS' ? ' (a $' + fmtCantidad(invTasaSeleccionada()) + ' ARS/USD)' : '');
+  totalEl.textContent = 'Total: ' + fmtUsd(cantCalc * precio);
+}
+
+function invActivoKeyActual(){
+  // Clave interna para precios/agrupación: BTC/SPY/QQQ, o el nombre+ticker cargado en "Otro".
+  if (invActivoSel !== 'OTRO') return invActivoSel;
+  const nombre = document.getElementById('invOtroNombre').value.trim();
+  return nombre || 'Otro';
+}
+function invTickerOtro(){
+  return document.getElementById('invOtroTicker').value.trim().toLowerCase();
+}
+
+function invLimpiarForm(){
+  invEditId = null;
+  document.getElementById('invOpId').value = '';
+  invSetActivo('BTC');
+  invSetTipo('compra');
+  invSetModo('cantidad');
+  invSetMoneda('ARS');
+  document.getElementById('invFecha').valueAsDate = new Date();
+  document.getElementById('invCantidad').value = '';
+  document.getElementById('invMonto').value = '';
+  document.getElementById('invPrecio').value = '';
+  document.getElementById('invOtroNombre').value = '';
+  document.getElementById('invOtroTicker').value = '';
+  document.getElementById('invNotas').value = '';
+  document.getElementById('invCantidadCalculada').textContent = '';
+  document.getElementById('invEditandoAviso').style.display = 'none';
+  document.getElementById('invCancelarEdicion').style.display = 'none';
+  document.getElementById('invGuardarBtn').textContent = 'Guardar operación';
+  invUpdateTotalPreview();
+}
+
+async function invGuardarOperacion(){
+  const msg = document.getElementById('invMsg');
+  msg.style.color = 'var(--red-neg)';
+  const fecha = document.getElementById('invFecha').value;
+  const precio = parseFloat(document.getElementById('invPrecio').value);
+  if (!fecha){ msg.textContent = 'Elegí una fecha.'; return; }
+  if (!isFinite(precio) || precio <= 0){ msg.textContent = 'Cargá un precio válido.'; return; }
+
+  let cantidad, montoOriginal = null, monedaOriginal = null, cotizacionUsada = null;
+  if (invModoSel === 'cantidad'){
+    cantidad = parseFloat(document.getElementById('invCantidad').value);
+    if (!isFinite(cantidad) || cantidad <= 0){ msg.textContent = 'Cargá una cantidad válida.'; return; }
+  } else {
+    const monto = parseFloat(document.getElementById('invMonto').value);
+    if (!isFinite(monto) || monto <= 0){ msg.textContent = 'Cargá un monto válido.'; return; }
+    if (invMonedaSel === 'ARS'){
+      const tasa = invTasaSeleccionada();
+      if (!tasa){ msg.textContent = 'No se pudo obtener la cotización del dólar todavía, esperá un momento y probá de nuevo.'; return; }
+      cotizacionUsada = tasa;
+    }
+    cantidad = invCantidadCalculada();
+    if (!isFinite(cantidad) || cantidad <= 0){ msg.textContent = 'No se pudo calcular la cantidad. Revisá el monto y el precio.'; return; }
+    montoOriginal = monto;
+    monedaOriginal = invMonedaSel;
+  }
+
+  let activo, ticker = '';
+  if (invActivoSel === 'OTRO'){
+    const nombre = document.getElementById('invOtroNombre').value.trim();
+    if (!nombre){ msg.textContent = 'Ponele un nombre al activo.'; return; }
+    activo = nombre;
+    ticker = invTickerOtro();
+  } else {
+    activo = invActivoSel;
+  }
+
+  const op = {
+    id: invEditId || (Date.now() + '-' + Math.random().toString(36).slice(2,8)),
+    fecha, activo, ticker,
+    tipo: invTipoSel,
+    cantidad, precio,
+    montoOriginal, monedaOriginal, cotizacionUsada,
+    notas: document.getElementById('invNotas').value.trim()
+  };
+
+  if (invEditId){
+    const idx = invOps.findIndex(o=>o.id === invEditId);
+    if (idx >= 0) invOps[idx] = op; else invOps.push(op);
+  } else {
+    invOps.push(op);
+  }
+  await invSave();
+  msg.style.color = 'var(--green-pos)';
+  msg.textContent = 'Operación guardada.';
+  invLimpiarForm();
+  invRenderHistorial();
+  await invRenderCartera();
+}
+
+function invEditarOperacion(id){
+  const op = invOps.find(o=>o.id === id);
+  if (!op) return;
+  invEditId = id;
+  document.getElementById('invOpId').value = id;
+  const esConocido = op.activo === 'BTC' || op.activo === 'SPY' || op.activo === 'QQQ';
+  invSetActivo(esConocido ? op.activo : 'OTRO');
+  if (!esConocido){
+    document.getElementById('invOtroNombre').value = op.activo;
+    document.getElementById('invOtroTicker').value = op.ticker || '';
+  }
+  invSetTipo(op.tipo);
+  invSetModo('cantidad');
+  document.getElementById('invFecha').value = op.fecha;
+  document.getElementById('invCantidad').value = op.cantidad;
+  document.getElementById('invPrecio').value = op.precio;
+  document.getElementById('invNotas').value = op.notas || '';
+  document.getElementById('invEditandoAviso').style.display = 'block';
+  document.getElementById('invCancelarEdicion').style.display = 'block';
+  document.getElementById('invGuardarBtn').textContent = 'Guardar cambios';
+  invUpdateTotalPreview();
+  document.getElementById('invFormTitulo').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+async function invBorrarOperacion(id){
+  if (!confirm('¿Borrar esta operación?')) return;
+  invOps = invOps.filter(o=>o.id !== id);
+  await invSave();
+  invRenderHistorial();
+  await invRenderCartera();
+}
+
+function invRenderHistorial(){
+  const tbody = document.querySelector('#invHistorialTabla tbody');
+  const empty = document.getElementById('invHistorialEmpty');
+  tbody.innerHTML = '';
+  if (invOps.length === 0){
+    empty.style.display = 'block';
+    return;
+  }
+  empty.style.display = 'none';
+  const ordenadas = [...invOps].sort((a,b)=> a.fecha < b.fecha ? 1 : a.fecha > b.fecha ? -1 : 0);
+  ordenadas.forEach(op=>{
+    const tr = document.createElement('tr');
+    const total = op.cantidad * op.precio;
+    const origenTxt = (op.montoOriginal && op.monedaOriginal === 'ARS')
+      ? ' title="Cargado como $' + fmtCantidad(op.montoOriginal) + ' ARS a $' + fmtCantidad(op.cotizacionUsada) + ' ARS/USD"'
+      : (op.montoOriginal ? ' title="Cargado como ' + fmtUsd(op.montoOriginal) + '"' : '');
+    tr.innerHTML = '<td>' + op.fecha + '</td>' +
+      '<td>' + invLabel(op.activo) + '</td>' +
+      '<td>' + (op.tipo === 'compra' ? 'Compra' : 'Venta') + '</td>' +
+      '<td class="num">' + fmtCantidad(op.cantidad) + '</td>' +
+      '<td class="num">' + fmtUsd(op.precio) + '</td>' +
+      '<td class="num"' + origenTxt + '>' + fmtUsd(total) + (op.montoOriginal ? ' *' : '') + '</td>' +
+      '<td></td>';
+    const tdBtns = tr.lastElementChild;
+    const bEdit = document.createElement('button');
+    bEdit.type = 'button'; bEdit.className = 'link-btn'; bEdit.textContent = '✎';
+    bEdit.style.marginRight = '10px';
+    bEdit.addEventListener('click', ()=>invEditarOperacion(op.id));
+    const bDel = document.createElement('button');
+    bDel.type = 'button'; bDel.className = 'link-btn'; bDel.textContent = '🗑️';
+    bDel.addEventListener('click', ()=>invBorrarOperacion(op.id));
+    tdBtns.appendChild(bEdit); tdBtns.appendChild(bDel);
+    tbody.appendChild(tr);
+  });
+}
+
+/* ---- Precios en vivo ---- */
+async function invFetchDolarRates(){
+  const el = document.getElementById('invCotizacionValor');
+  try {
+    const res = await fetch('https://dolarapi.com/v1/dolares');
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const rows = await res.json();
+    invDolarRates = {};
+    rows.forEach(r=>{ if (r.casa) invDolarRates[r.casa] = {compra: r.compra, venta: r.venta}; });
+    if (el) el.textContent = '';
+    invUpdateTotalPreview();
+  } catch(e){
+    if (el) el.textContent = 'No se pudo consultar la cotización del dólar. Puede que este visor bloquee conexiones a internet.';
+  }
+}
+
+async function invFetchPrecios(){
+  invPreciosStatus = 'cargando';
+  setStatus('inv-status','inv-status-text','live','Consultando precios…');
+  let ok = 0, fail = 0;
+
+  await invFetchDolarRates();
+
+  try {
+    const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd');
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json();
+    invPrecios['BTC'] = data.bitcoin.usd;
+    ok++;
+  } catch(e){ fail++; }
+
+  try { invPrecios['SPY'] = await indiceClose('spy.us', 'SPY'); ok++; }
+  catch(e){ fail++; }
+  await esperar(300);
+  try { invPrecios['QQQ'] = await indiceClose('qqq.us', 'QQQ'); ok++; }
+  catch(e){ fail++; }
+
+  // Activos "Otro" con ticker Stooq cargado: uno por uno para no saturar el proxy.
+  const tickers = new Map();
+  invOps.forEach(op=>{
+    if (op.activo !== 'BTC' && op.activo !== 'SPY' && op.activo !== 'QQQ' && op.ticker){
+      tickers.set(op.activo, op.ticker);
+    }
+  });
+  for (const [activo, ticker] of tickers){
+    await esperar(300);
+    try {
+      const yahooSym = ticker.replace(/\.us$/i, '').toUpperCase();
+      invPrecios[activo] = await indiceClose(ticker, yahooSym);
+      ok++;
+    } catch(e){ fail++; }
+  }
+
+  if (fail === 0) { invPreciosStatus = 'ok'; setStatus('inv-status','inv-status-text','live','En vivo (CoinGecko / Stooq / Yahoo)'); }
+  else if (ok === 0) { invPreciosStatus = 'error'; setStatus('inv-status','inv-status-text','err','No se pudo consultar ningún precio. Puede que este visor bloquee conexiones a internet.'); }
+  else { invPreciosStatus = 'parcial'; setStatus('inv-status','inv-status-text','live','Algunos precios no se pudieron consultar.'); }
+}
+
+function invCalcularCartera(){
+  // Costo promedio por activo, procesando las operaciones en orden cronológico.
+  const porActivo = {}; // activo -> {qty, costo, label}
+  const ordenadas = [...invOps].sort((a,b)=> a.fecha < b.fecha ? -1 : a.fecha > b.fecha ? 1 : 0);
+  ordenadas.forEach(op=>{
+    if (!porActivo[op.activo]) porActivo[op.activo] = {qty:0, costo:0};
+    const s = porActivo[op.activo];
+    if (op.tipo === 'compra'){
+      s.costo += op.cantidad * op.precio;
+      s.qty += op.cantidad;
+    } else {
+      const avg = s.qty > 0 ? s.costo / s.qty : 0;
+      s.qty -= op.cantidad;
+      s.costo -= avg * op.cantidad;
+      if (s.qty < 1e-9) { s.qty = Math.max(s.qty,0); }
+      if (s.costo < 0) s.costo = 0;
+    }
+  });
+  return porActivo;
+}
+
+async function invRenderCartera(){
+  const tbody = document.querySelector('#invCarteraTabla tbody');
+  const empty = document.getElementById('invCarteraEmpty');
+  tbody.innerHTML = '';
+  const cartera = invCalcularCartera();
+  const activos = Object.keys(cartera).filter(a=>cartera[a].qty > 1e-9 || cartera[a].costo > 0.0001);
+  if (activos.length === 0){
+    empty.style.display = 'block';
+    document.getElementById('invTotalInvertido').textContent = '—';
+    document.getElementById('invTotalValor').textContent = '—';
+    document.getElementById('invTotalResultado').textContent = '—';
+    return;
+  }
+  empty.style.display = 'none';
+
+  let totalInvertido = 0, totalValor = 0, huboValorDesconocido = false;
+  activos.forEach(activo=>{
+    const s = cartera[activo];
+    const avgCost = s.qty > 0 ? s.costo / s.qty : 0;
+    const precioActual = invPrecios[activo];
+    const tieneValor = typeof precioActual === 'number' && isFinite(precioActual);
+    const valorActual = tieneValor ? s.qty * precioActual : null;
+    const resultado = tieneValor ? valorActual - s.costo : null;
+    const resultadoPct = (tieneValor && s.costo > 0) ? (resultado / s.costo * 100) : null;
+
+    totalInvertido += s.costo;
+    if (tieneValor) totalValor += valorActual; else { totalValor += s.costo; huboValorDesconocido = true; }
+
+    const tr = document.createElement('tr');
+    const resultTxt = resultado === null ? '—' :
+      (resultado >= 0 ? '+' : '') + fmtUsd(resultado) + (resultadoPct !== null ? ' (' + (resultadoPct>=0?'+':'') + resultadoPct.toFixed(1) + '%)' : '');
+    tr.innerHTML = '<td>' + invLabel(activo) + '</td>' +
+      '<td class="num">' + fmtCantidad(s.qty) + '</td>' +
+      '<td class="num">' + fmtUsd(avgCost) + '</td>' +
+      '<td class="num">' + fmtUsd(s.costo) + '</td>' +
+      '<td class="num">' + (tieneValor ? fmtUsd(precioActual) : 'sin dato') + '</td>' +
+      '<td class="num">' + (tieneValor ? fmtUsd(valorActual) : '—') + '</td>' +
+      '<td class="num ' + (resultado === null ? '' : (resultado>=0?'pos':'neg')) + '">' + resultTxt + '</td>';
+    tbody.appendChild(tr);
+  });
+
+  document.getElementById('invTotalInvertido').textContent = fmtUsd(totalInvertido);
+  document.getElementById('invTotalValor').textContent = fmtUsd(totalValor) + (huboValorDesconocido ? ' *' : '');
+  const totalResultado = totalValor - totalInvertido;
+  const totalPct = totalInvertido > 0 ? (totalResultado / totalInvertido * 100) : 0;
+  const resEl = document.getElementById('invTotalResultado');
+  resEl.textContent = (totalResultado>=0?'+':'') + fmtUsd(totalResultado) + ' (' + (totalPct>=0?'+':'') + totalPct.toFixed(1) + '%)';
+  resEl.className = 'val ' + (totalResultado>=0?'pos':'neg');
+}
+
+async function invActualizarTodo(){
+  await invFetchPrecios();
+  await invRenderCartera();
+}
+
+function invWireEvents(){
+  document.querySelectorAll('#invActivoToggle .toggle-btn').forEach(b=>{
+    b.addEventListener('click', ()=>invSetActivo(b.dataset.activo));
+  });
+  document.querySelectorAll('#invTipoToggle .toggle-btn').forEach(b=>{
+    b.addEventListener('click', ()=>invSetTipo(b.dataset.tipo));
+  });
+  document.querySelectorAll('#invModoToggle .toggle-btn').forEach(b=>{
+    b.addEventListener('click', ()=>invSetModo(b.dataset.modo));
+  });
+  document.querySelectorAll('#invMonedaToggle .toggle-btn').forEach(b=>{
+    b.addEventListener('click', ()=>invSetMoneda(b.dataset.moneda));
+  });
+  document.getElementById('invCotizacionTipo').addEventListener('change', invUpdateTotalPreview);
+  document.getElementById('invMonto').addEventListener('input', invUpdateTotalPreview);
+  document.getElementById('invCantidad').addEventListener('input', invUpdateTotalPreview);
+  document.getElementById('invPrecio').addEventListener('input', invUpdateTotalPreview);
+  document.getElementById('invGuardarBtn').addEventListener('click', invGuardarOperacion);
+  document.getElementById('invCancelarEdicion').addEventListener('click', invLimpiarForm);
+  document.getElementById('invRefrescarBtn').addEventListener('click', invActualizarTodo);
+  document.getElementById('invUsarPrecioActual').addEventListener('click', ()=>{
+    const key = invActivoKeyActual();
+    const precio = invPrecios[key];
+    if (typeof precio === 'number' && isFinite(precio)){
+      document.getElementById('invPrecio').value = precio;
+      invUpdateTotalPreview();
+    } else {
+      const msg = document.getElementById('invMsg');
+      msg.style.color = 'var(--red-neg)';
+      msg.textContent = invActivoSel === 'OTRO'
+        ? 'Todavía no hay precio en vivo para este activo (revisá el símbolo Stooq, o cargalo a mano).'
+        : 'Los precios en vivo todavía no cargaron, esperá un momento y probá de nuevo.';
+    }
+  });
+}
+
+let invYaInicializado = false;
+async function invInit(){
+  if (invYaInicializado) return;
+  invYaInicializado = true;
+  await invLoad();
+  invWireEvents();
+  invLimpiarForm();
+  invRenderHistorial();
+  await invActualizarTodo();
+}
+
+const invTabBtn = document.querySelector('.tab-btn[data-tab="inversiones"]');
+if (invTabBtn){
+  invTabBtn.addEventListener('click', invInit);
+  if (invTabBtn.classList.contains('active')) invInit();
+}
+
 })();
 </script>
 
