@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 4,
-  "exportadoEl": "2026-08-13T14:06:45.343Z",
+  "exportadoEl": "2026-08-13T14:07:04.821Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -1082,6 +1082,16 @@
       "medio": "efectivo",
       "id": "m_msrldi87jeqecj",
       "modificadoEl": "2026-08-13T14:06:44.359Z"
+    },
+    {
+      "date": "2026-08-13",
+      "type": "egreso",
+      "amount": 45000,
+      "category": "Varios",
+      "account": "alquileres",
+      "detalle": "Radio 105.1",
+      "id": "m_msrldxfx7h7bmc",
+      "modificadoEl": "2026-08-13T14:07:04.077Z"
     }
   ],
   "categoriasCustom": [
