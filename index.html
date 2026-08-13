@@ -13033,10 +13033,23 @@ function invRenderHistorial(){
 }
 
 /* ---- Precios en vivo ---- */
+/* Además del timeout con AbortController que ya usa fetchConTimeout (arriba, para Stooq/Yahoo
+   vía proxy), algunos navegadores/WebViews (sobre todo dentro de la app instalada) no cortan
+   el fetch cuando se llama a abort() — el pedido queda "colgado" sin resolver ni rechazar nunca,
+   y por eso la pestaña se quedaba trabada en "Consultando..." aunque pasaran los minutos. Esta
+   función no depende de que el fetch se cancele de verdad: solo hace una carrera contra un
+   timer, así que el código de arriba sigue de largo pase lo que pase con el pedido colgado. */
+function invConTimeout(promise, ms){
+  return Promise.race([
+    promise,
+    new Promise((_, reject) => setTimeout(()=>reject(new Error('tiempo agotado')), ms))
+  ]);
+}
+
 async function invFetchDolarRates(){
   const el = document.getElementById('invCotizacionValor');
   try {
-    const res = await fetch('https://dolarapi.com/v1/dolares');
+    const res = await invConTimeout(fetch('https://dolarapi.com/v1/dolares'), 8000);
     if (!res.ok) throw new Error('HTTP ' + res.status);
     const rows = await res.json();
     invDolarRates = {};
@@ -13044,7 +13057,7 @@ async function invFetchDolarRates(){
     if (el) el.textContent = '';
     invUpdateTotalPreview();
   } catch(e){
-    if (el) el.textContent = 'No se pudo consultar la cotización del dólar. Puede que este visor bloquee conexiones a internet.';
+    if (el) el.textContent = 'No se pudo consultar la cotización del dólar (' + e.message + '). Puede que este visor bloquee conexiones a internet.';
   }
 }
 
@@ -13056,17 +13069,17 @@ async function invFetchPrecios(){
   await invFetchDolarRates();
 
   try {
-    const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd');
+    const res = await invConTimeout(fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd'), 8000);
     if (!res.ok) throw new Error('HTTP ' + res.status);
     const data = await res.json();
     invPrecios['BTC'] = data.bitcoin.usd;
     ok++;
   } catch(e){ fail++; }
 
-  try { invPrecios['SPY'] = await indiceClose('spy.us', 'SPY'); ok++; }
+  try { invPrecios['SPY'] = await invConTimeout(indiceClose('spy.us', 'SPY'), 15000); ok++; }
   catch(e){ fail++; }
   await esperar(300);
-  try { invPrecios['QQQ'] = await indiceClose('qqq.us', 'QQQ'); ok++; }
+  try { invPrecios['QQQ'] = await invConTimeout(indiceClose('qqq.us', 'QQQ'), 15000); ok++; }
   catch(e){ fail++; }
 
   // Activos "Otro" con ticker Stooq cargado: uno por uno para no saturar el proxy.
@@ -13080,13 +13093,13 @@ async function invFetchPrecios(){
     await esperar(300);
     try {
       const yahooSym = ticker.replace(/\.us$/i, '').toUpperCase();
-      invPrecios[activo] = await indiceClose(ticker, yahooSym);
+      invPrecios[activo] = await invConTimeout(indiceClose(ticker, yahooSym), 15000);
       ok++;
     } catch(e){ fail++; }
   }
 
   if (fail === 0) { invPreciosStatus = 'ok'; setStatus('inv-status','inv-status-text','live','En vivo (CoinGecko / Stooq / Yahoo)'); }
-  else if (ok === 0) { invPreciosStatus = 'error'; setStatus('inv-status','inv-status-text','err','No se pudo consultar ningún precio. Puede que este visor bloquee conexiones a internet.'); }
+  else if (ok === 0) { invPreciosStatus = 'error'; setStatus('inv-status','inv-status-text','err','No se pudo consultar ningún precio (tiempo agotado o sin conexión). Probá tocar "Actualizar precios".'); }
   else { invPreciosStatus = 'parcial'; setStatus('inv-status','inv-status-text','live','Algunos precios no se pudieron consultar.'); }
 }
 
@@ -13206,17 +13219,30 @@ let invYaInicializado = false;
 async function invInit(){
   if (invYaInicializado) return;
   invYaInicializado = true;
-  await invLoad();
-  invWireEvents();
-  invLimpiarForm();
-  invRenderHistorial();
-  await invActualizarTodo();
+  try {
+    await invLoad();
+    invWireEvents();
+    invLimpiarForm();
+    invRenderHistorial();
+    await invActualizarTodo();
+  } catch(e){
+    console.error('Inversiones: error al iniciar', e);
+    invYaInicializado = false; // permite reintentar (ej. tocando de nuevo Actualizar precios o la solapa)
+    try { setStatus('inv-status','inv-status-text','err','No se pudo iniciar la pestaña (' + (e && e.message ? e.message : e) + ').'); } catch(e2){}
+  }
 }
 
 const invTabBtn = document.querySelector('.tab-btn[data-tab="inversiones"]');
 if (invTabBtn){
   invTabBtn.addEventListener('click', invInit);
-  if (invTabBtn.classList.contains('active')) invInit();
+}
+// No dependemos solo del clic en la solapa (por si esa escucha no llegara a dispararse en algún
+// navegador/WebView): arrancamos directo apenas termina de cargar la página, igual que el resto
+// de los módulos (Clientes, Vencimientos) hacen con su propio Init.
+if (document.readyState === 'loading'){
+  document.addEventListener('DOMContentLoaded', invInit);
+} else {
+  invInit();
 }
 
 })();
