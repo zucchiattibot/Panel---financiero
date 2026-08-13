@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 4,
-  "exportadoEl": "2026-08-13T14:07:04.821Z",
+  "exportadoEl": "2026-08-13T19:17:47.140Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -6010,7 +6010,7 @@
         "precioFeriado": 0
       }
     ],
-    "nextFacturaNum": 34,
+    "nextFacturaNum": 35,
     "clientes": [
       {
         "id": "msnrvzg8wadclt",
@@ -6611,9 +6611,71 @@
         ],
         "revistas": [],
         "suspensiones": [],
-        "facturas": [],
-        "proximoDesde": "2026-07-05",
-        "pagos": []
+        "facturas": [
+          {
+            "id": "msrlftnn1o2uo8",
+            "numero": 34,
+            "fechaEmision": "2026-08-13",
+            "tipo": "rango",
+            "desde": "2026-07-05",
+            "hasta": "2026-08-13",
+            "items": [
+              {
+                "fecha": "2026-07-05",
+                "concepto": "Clarin",
+                "cantidad": 1,
+                "precio": 8000,
+                "subtotal": 8000
+              },
+              {
+                "fecha": "2026-07-12",
+                "concepto": "Clarin",
+                "cantidad": 1,
+                "precio": 8000,
+                "subtotal": 8000
+              },
+              {
+                "fecha": "2026-07-19",
+                "concepto": "Clarin",
+                "cantidad": 1,
+                "precio": 8000,
+                "subtotal": 8000
+              },
+              {
+                "fecha": "2026-07-26",
+                "concepto": "Clarin",
+                "cantidad": 1,
+                "precio": 8000,
+                "subtotal": 8000
+              },
+              {
+                "fecha": "2026-08-02",
+                "concepto": "Clarin",
+                "cantidad": 1,
+                "precio": 8000,
+                "subtotal": 8000
+              },
+              {
+                "fecha": "2026-08-09",
+                "concepto": "Clarin",
+                "cantidad": 1,
+                "precio": 8000,
+                "subtotal": 8000
+              }
+            ],
+            "total": 48000,
+            "detallado": true
+          }
+        ],
+        "proximoDesde": "2026-08-14",
+        "pagos": [
+          {
+            "id": "msrlg9imq8t0ul",
+            "fecha": "2026-08-13",
+            "monto": 48000,
+            "nota": ""
+          }
+        ]
       },
       {
         "id": "msq18wqdtl09av",
@@ -6753,5 +6815,63 @@
       }
     ],
     "ccInit": true
+  },
+  "vencimientos": {
+    "diasAviso": 3,
+    "impuestos": [
+      {
+        "id": "ganancias-1",
+        "nombre": "Ganancias - 1° anticipo 2026",
+        "fecha": "2026-09-15",
+        "nota": "CUIT terminación 4, 5 o 6. Confirmar cerca de la fecha (ARCA suele reprogramar)."
+      },
+      {
+        "id": "ganancias-2",
+        "nombre": "Ganancias - 2° anticipo 2026",
+        "fecha": "2026-10-14",
+        "nota": "CUIT terminación 4, 5 o 6. Confirmar cerca de la fecha."
+      },
+      {
+        "id": "ganancias-3",
+        "nombre": "Ganancias - 3° anticipo 2026",
+        "fecha": "2026-12-15",
+        "nota": "CUIT terminación 4, 5 o 6. Confirmar cerca de la fecha."
+      },
+      {
+        "id": "ganancias-4",
+        "nombre": "Ganancias - 4° anticipo (feb. 2027)",
+        "fecha": "2027-02-16",
+        "nota": "CUIT terminación 4, 5 o 6. Confirmar cerca de la fecha."
+      }
+    ],
+    "servicios": [
+      {
+        "id": "vzmsrw7v49xy1bcs",
+        "nombre": "Camuzzi Gas Pampe...",
+        "referencia": "19000940600263810",
+        "fecha": "2026-09-01",
+        "monto": 56873.33
+      },
+      {
+        "id": "vzmsrw7v4aib8hl0",
+        "nombre": "EDEN",
+        "referencia": "130265701",
+        "fecha": "2026-09-07",
+        "monto": 76573.77
+      },
+      {
+        "id": "vzmsrw7v4a8ecnim",
+        "nombre": "EDEN",
+        "referencia": "130265801",
+        "fecha": "2026-09-07",
+        "monto": 86912.85
+      },
+      {
+        "id": "vzmsrwgeddo300uq",
+        "nombre": "Mun de Carlos Casa...",
+        "fecha": "2026-08-18",
+        "monto": 16739.58
+      }
+    ]
   }
 }
