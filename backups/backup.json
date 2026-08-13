@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 4,
-  "exportadoEl": "2026-08-13T19:17:47.140Z",
+  "exportadoEl": "2026-08-13T21:14:40.358Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -1092,6 +1092,16 @@
       "detalle": "Radio 105.1",
       "id": "m_msrldxfx7h7bmc",
       "modificadoEl": "2026-08-13T14:07:04.077Z"
+    },
+    {
+      "date": "2026-08-13",
+      "type": "ingreso",
+      "amount": 849900,
+      "category": "Vera y vicuña",
+      "account": "alquileres",
+      "medio": "efectivo",
+      "id": "m_mss0nt2zuny388",
+      "modificadoEl": "2026-08-13T21:14:39.227Z"
     }
   ],
   "categoriasCustom": [
@@ -1110,7 +1120,8 @@
     "Empleado mandado javi",
     "La nacion",
     "Oeste",
-    "Sapito"
+    "Sapito",
+    "Vera y vicuña"
   ],
   "categoriasBaseEliminadas": [
     "Servicios impuestos"
@@ -6846,31 +6857,48 @@
     ],
     "servicios": [
       {
-        "id": "vzmsrw7v49xy1bcs",
+        "id": "vzmsrwgeddo300uq",
+        "nombre": "Mun de Carlos Casa...",
+        "fecha": "2026-08-18",
+        "monto": 16739.58,
+        "recurrente": false
+      },
+      {
+        "id": "vzmsrwkqajnmn46z",
         "nombre": "Camuzzi Gas Pampe...",
         "referencia": "19000940600263810",
         "fecha": "2026-09-01",
         "monto": 56873.33
       },
       {
-        "id": "vzmsrw7v4aib8hl0",
+        "id": "vzmsrwkqajfvlnqq",
         "nombre": "EDEN",
         "referencia": "130265701",
         "fecha": "2026-09-07",
         "monto": 76573.77
       },
       {
-        "id": "vzmsrw7v4a8ecnim",
+        "id": "vzmsrwkqajpxtvlg",
         "nombre": "EDEN",
         "referencia": "130265801",
         "fecha": "2026-09-07",
         "monto": 86912.85
       },
       {
-        "id": "vzmsrwgeddo300uq",
-        "nombre": "Mun de Carlos Casa...",
-        "fecha": "2026-08-18",
-        "monto": 16739.58
+        "id": "vzmsrx26sx6nt247",
+        "nombre": "Gym",
+        "fecha": "2026-08-15",
+        "monto": 43000,
+        "recurrente": true,
+        "diaMes": 15
+      },
+      {
+        "id": "vzmsrx3l9m5o3w5z",
+        "nombre": "ID River",
+        "fecha": "2026-08-14",
+        "monto": 15000,
+        "recurrente": true,
+        "diaMes": 14
       }
     ]
   }
