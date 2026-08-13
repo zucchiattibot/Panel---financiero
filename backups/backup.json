@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 4,
-  "exportadoEl": "2026-08-13T13:41:23.297Z",
+  "exportadoEl": "2026-08-13T14:06:45.343Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -1072,6 +1072,16 @@
       "detalle": "Pintor",
       "id": "m_msrkgw3rie3zel",
       "modificadoEl": "2026-08-13T13:41:22.695Z"
+    },
+    {
+      "date": "2026-08-13",
+      "type": "ingreso",
+      "amount": 40000,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "efectivo",
+      "id": "m_msrldi87jeqecj",
+      "modificadoEl": "2026-08-13T14:06:44.359Z"
     }
   ],
   "categoriasCustom": [
