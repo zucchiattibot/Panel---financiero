@@ -219,6 +219,7 @@
     <button class="tab-btn" data-tab="cargar">Cargar datos</button>
     <button class="tab-btn" data-tab="ia">🤖 Asistente IA</button>
     <button class="tab-btn" data-tab="clientes">📰 Clientes reparto</button>
+    <button class="tab-btn" data-tab="vencimientos">⏰ Vencimientos</button>
   </div>
   <button type="button" class="tabs-reorder-toggle" id="tabsReorderToggle">↕ Reordenar pestañas</button>
   <button type="button" class="tabs-reorder-toggle" id="tabsHideToggle">👁 Ocultar pestañas</button>
@@ -1945,6 +1946,54 @@
         <button type="button" class="tab-btn" id="fcBtnAgregarFer" style="border-radius:8px;margin-top:10px;">+ Agregar feriado</button>
         <div id="fcFerLista" style="margin-top:12px;"></div>
       </div>
+    </div>
+  </div>
+
+  <div class="panel" id="tab-vencimientos">
+    <div class="card">
+      <p class="eyebrow">Impuestos y servicios</p>
+      <h2>Vencimientos</h2>
+      <p class="card-note">Avisa cuando falten <b id="vzDiasAvisoTxt">3</b> día(s) o menos para un vencimiento. Los impuestos tienen fecha oficial cargada abajo; los servicios (luz, gas, agua, etc.) los cargás vos a mano desde Brubank o Personal Pay, porque esas fechas cambian cada mes y no hay forma de buscarlas automáticamente.</p>
+      <div id="vzAlertas"></div>
+    </div>
+
+    <div class="card">
+      <h2>Impuestos</h2>
+      <p class="card-note">Ganancias (personas físicas) — anticipos 2026, según terminación de CUIT. ARCA suele reprogramar estas fechas durante el año, así que conviene confirmarlas cerca del vencimiento.</p>
+      <div id="vzListaImpuestos"></div>
+    </div>
+
+    <div class="card cargar-hero">
+      <h2>Agregar vencimiento de servicio</h2>
+      <div class="cargar-grid-2">
+        <div class="range-group">
+          <div class="range-label">Servicio</div>
+          <input type="text" id="vzServNombre" placeholder="Ej: Luz, Gas, Alquiler" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;width:100%;box-sizing:border-box;">
+        </div>
+        <div class="range-group">
+          <div class="range-label">Vencimiento</div>
+          <input type="date" id="vzServFecha" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;width:100%;box-sizing:border-box;">
+        </div>
+      </div>
+      <div class="range-group" style="margin-top:10px;">
+        <div class="range-label">Monto (opcional)</div>
+        <input type="number" id="vzServMonto" placeholder="0" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;width:100%;box-sizing:border-box;">
+      </div>
+      <button type="button" class="tab-btn" id="vzBtnAgregarServicio" style="border-radius:8px;margin-top:10px;">+ Agregar vencimiento</button>
+
+      <details class="cargar-advanced" open style="margin-top:14px;">
+        <summary>📷 Cargar desde captura de Brubank / Personal Pay</summary>
+        <p class="card-note">Subí la captura de "Pago de servicios" (la pantalla de "A pagar") y tocá "Leer datos de la foto". Usa la misma IA (y la misma clave) que la pestaña Proveedores, así que primero configurá tu clave de API de Gemini en la pestaña "Asistente IA" si todavía no lo hiciste. Te muestra abajo cada vencimiento que encuentre para que los revises — puede haber varios en una sola foto. Tildá los que quieras cargar y tocá "Agregar los marcados".</p>
+        <input type="file" id="vzFotoInput" accept="image/*" style="margin-top:8px;">
+        <button type="button" class="tab-btn" id="vzBtnLeerFoto" style="border-radius:8px;margin-top:8px;" disabled>🔎 Leer datos de la foto</button>
+        <p class="card-note" id="vzFotoMsg" style="min-height:14px;"></p>
+        <div id="vzOcrCandidatos"></div>
+      </details>
+    </div>
+
+    <div class="card">
+      <h2>Servicios cargados</h2>
+      <div id="vzListaServicios"></div>
     </div>
   </div>
 
@@ -6089,7 +6138,8 @@ function armarBackupTexto(){
     categoriasBaseEliminadas: categoriasBaseEliminadas,
     categoriasBaseRenombres: categoriasBaseRenombres,
     facturasProveedores: (typeof window.getFacturasProveedores === 'function') ? window.getFacturasProveedores() : [],
-    clientesReparto: (typeof window.getClientesRepartoBackup === 'function') ? window.getClientesRepartoBackup() : null
+    clientesReparto: (typeof window.getClientesRepartoBackup === 'function') ? window.getClientesRepartoBackup() : null,
+    vencimientos: (typeof window.getVencimientosBackup === 'function') ? window.getVencimientosBackup() : null
   };
   return JSON.stringify(backup, null, 2);
 }
@@ -6260,7 +6310,16 @@ async function procesarBackupTexto(texto, msgEl){
     }
   }
 
-  if (nuevosMov === 0 && actualizadosMov === 0 && nuevasFacturas === 0 && nuevosClientes === 0 && nuevosDiarios === 0 && nuevosExtras === 0){
+  // --- Vencimientos (pestaña "Vencimientos"): se agregan los servicios que no existan ya (por id). ---
+  let nuevosVencimientos = 0;
+  const vzBackup = data.vencimientos;
+  const vzActual = (typeof window.getVencimientosBackup === 'function') ? window.getVencimientosBackup() : null;
+  if (vzBackup && vzActual && Array.isArray(vzBackup.servicios)){
+    const idsVencExistentes = new Set(vzActual.servicios.map(s=>s.id));
+    vzBackup.servicios.forEach(s=>{ if (s && s.id && !idsVencExistentes.has(s.id)) nuevosVencimientos++; });
+  }
+
+  if (nuevosMov === 0 && actualizadosMov === 0 && nuevasFacturas === 0 && nuevosClientes === 0 && nuevosDiarios === 0 && nuevosExtras === 0 && nuevosVencimientos === 0){
     msgEl.textContent = repetidosMov > 0
       ? `Ese backup ya estaba cargado acá (${repetidosMov} repetido(s), 0 nuevos). No se cambió nada.`
       : 'El backup no tenía movimientos, comprobantes ni datos de clientes nuevos para agregar. No se cambió nada.';
@@ -6278,6 +6337,7 @@ async function procesarBackupTexto(texto, msgEl){
     (nuevosClientes ? `• ${nuevosClientes} cliente(s) de reparto nuevo(s)\n` : '') +
     (nuevosDiarios ? `• ${nuevosDiarios} diario(s)/producto(s) nuevo(s)\n` : '') +
     (nuevosExtras ? `• ${nuevosExtras} extra(s) de reparto nuevo(s)\n` : '') +
+    (nuevosVencimientos ? `• ${nuevosVencimientos} vencimiento(s) de servicio nuevo(s)\n` : '') +
     `\nAntes de aplicar, queda guardada una copia de cómo está todo ahora mismo por si querés deshacer esto después.\n\n` +
     `¿Confirmás la importación?`;
   if (!window.confirm(resumen)) {
@@ -6329,7 +6389,10 @@ async function procesarBackupTexto(texto, msgEl){
   if (cr && typeof window.importarClientesRepartoBackup === 'function'){
     await window.importarClientesRepartoBackup(cr);
   }
-  msgEl.textContent = `Importando ${nuevosMov} movimiento(s) nuevo(s)${actualizadosMov ? ` y ${actualizadosMov} editado(s)` : ''}${facturasAgregadas ? ` y ${facturasAgregadas} comprobante(s) de proveedores` : ''}${nuevosClientes ? ` y ${nuevosClientes} cliente(s) de reparto` : ''}${repetidosMov ? ` (${repetidosMov} movimiento(s) ya estaban)` : ''}…`;
+  if (vzBackup && typeof window.importarVencimientosBackup === 'function'){
+    await window.importarVencimientosBackup(vzBackup);
+  }
+  msgEl.textContent = `Importando ${nuevosMov} movimiento(s) nuevo(s)${actualizadosMov ? ` y ${actualizadosMov} editado(s)` : ''}${facturasAgregadas ? ` y ${facturasAgregadas} comprobante(s) de proveedores` : ''}${nuevosClientes ? ` y ${nuevosClientes} cliente(s) de reparto` : ''}${nuevosVencimientos ? ` y ${nuevosVencimientos} vencimiento(s) de servicio` : ''}${repetidosMov ? ` (${repetidosMov} movimiento(s) ya estaban)` : ''}…`;
   const okMov = await storageSet('manual-entries', JSON.stringify(manualEntries));
   await storageSet('categorias-personalizadas', JSON.stringify(categoriasCustom));
   await storageSet('categorias-base-eliminadas', JSON.stringify(categoriasBaseEliminadas));
@@ -9867,6 +9930,48 @@ renderAutoConclusions();
     return lista;
   };
 
+  // Usada por la pestaña Vencimientos para leer la captura de "Pago de servicios" de
+  // Brubank / Personal Pay (puede traer varios servicios en una sola foto). Devuelve
+  // un array de candidatos; el usuario siempre revisa/corrige antes de guardar nada.
+  window.extraerVencimientosConIA = async function(base64Data, mimeType){
+    if (!iaApiKey) throw new Error('Primero configurá tu clave de API de Gemini en la pestaña Asistente IA.');
+    const promptTexto = 'Sos un asistente que lee una captura de pantalla de la app Brubank o Personal Pay (Argentina), de la sección "Pago de servicios" o "A pagar", donde aparece una lista de tarjetas/filas con servicios por vencer (luz, gas, agua, internet, alquiler, tarjetas, expensas, etc.). ' +
+      'Devolvé SOLO un ARRAY JSON (sin texto adicional, sin backticks de markdown), uno por cada servicio/tarjeta que aparezca en la imagen, con estas claves exactas:\\n' +
+      '[{\"nombre\": string, \"dia\": number|null, \"mes\": number|null, \"anio\": number|null, \"monto\": number|null}]\\n' +
+      '\"nombre\" es el nombre del servicio o empresa tal cual figura (ej: \"Edenor\", \"Metrogas\", \"Personal Flow\"), sin inventar ni agregar palabras como \"vencimiento\" o \"pago\" que no formen parte del nombre. ' +
+      '\"dia\" y \"mes\" son los del vencimiento (mes como número 1-12); Brubank normalmente muestra el vencimiento sin año (ej: \"VENCE 18 AGO\"), en ese caso dejá \"anio\" en null. Si en la imagen sí figura el año completo, ponelo en \"anio\"; si no, null. ' +
+      '\"monto\" es el importe a pagar de ese servicio, como número positivo con punto decimal (sin separador de miles), o null si no figura. ' +
+      'Incluí una fila por cada servicio individual que veas, en el orden en que aparecen en la imagen. No incluyas encabezados, totales ni elementos que no sean un servicio a pagar. Si no encontrás ningún servicio, devolvé un array vacío [].';
+    const parts = [{ text: promptTexto }, { inline_data: { mime_type: mimeType, data: base64Data } }];
+    const body = { contents: [{ role: 'user', parts: parts }] };
+    const url = 'https://generativelanguage.googleapis.com/v1beta/models/' + IA_MODEL + ':generateContent?key=' + encodeURIComponent(iaApiKey);
+    let resp;
+    try {
+      resp = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+    } catch(e){
+      throw new Error('No se pudo conectar con Gemini. Revisá tu conexión a internet.');
+    }
+    if (!resp.ok){
+      let detalle = '';
+      try { const j = await resp.json(); detalle = (j && j.error && j.error.message) || ''; } catch(e){}
+      throw new Error('Error de Gemini (' + resp.status + '). ' + (detalle || 'Sin más detalle.'));
+    }
+    const data = await resp.json();
+    const candidate = data && data.candidates && data.candidates[0];
+    const respParts = (candidate && candidate.content && candidate.content.parts) || [];
+    let texto = respParts.map(p => p.text || '').join('').trim();
+    texto = texto.replace(/^```json/i,'').replace(/^```/,'').replace(/```$/,'').trim();
+    let parsed;
+    try { parsed = JSON.parse(texto); } catch(e){ throw new Error('La IA no devolvió un JSON válido. Probá subir la foto de nuevo, más nítida o con mejor luz.'); }
+    let lista = Array.isArray(parsed) ? parsed : null;
+    if (!lista && parsed && typeof parsed === 'object'){
+      const clave = Object.keys(parsed).find(k => Array.isArray(parsed[k]));
+      if (clave) lista = parsed[clave];
+    }
+    if (!lista) throw new Error('La IA no devolvió una lista de vencimientos. Probá de nuevo.');
+    return lista;
+  };
+
 
   async function llamarGemini(pregunta){
     await refrescarDatosVivo();
@@ -12046,6 +12151,322 @@ if (document.readyState === 'loading'){
   document.addEventListener('DOMContentLoaded', fcInit);
 } else {
   fcInit();
+}
+})();
+</script>
+
+<script>
+/* ==================== VENCIMIENTOS (impuestos y servicios) ====================
+   Módulo independiente, con su propio storage. Los impuestos (Ganancias, etc.)
+   se cargan con fecha fija revisada por Claude; los servicios (luz, gas, agua,
+   alquiler...) los carga el usuario a mano porque esas fechas cambian mes a mes
+   y solo están visibles en sus apps bancarias (Brubank / Personal Pay) — no hay
+   forma de consultarlas automáticamente desde ningún lado público. */
+(function(){
+var VZ_KEY = 'venc_v1';
+var vz = {
+  diasAviso: 3,
+  // Ganancias (personas físicas) - anticipos 2026, CUIT terminación 4/5/6.
+  // ARCA reprograma estas fechas seguido (ya pasó con el 1er anticipo en 2026),
+  // así que se muestran como referencia y conviene confirmarlas cerca de la fecha.
+  impuestos: [
+    {id:'ganancias-1', nombre:'Ganancias - 1° anticipo 2026', fecha:'2026-09-15', nota:'CUIT terminación 4, 5 o 6. Confirmar cerca de la fecha (ARCA suele reprogramar).'},
+    {id:'ganancias-2', nombre:'Ganancias - 2° anticipo 2026', fecha:'2026-10-14', nota:'CUIT terminación 4, 5 o 6. Confirmar cerca de la fecha.'},
+    {id:'ganancias-3', nombre:'Ganancias - 3° anticipo 2026', fecha:'2026-12-15', nota:'CUIT terminación 4, 5 o 6. Confirmar cerca de la fecha.'},
+    {id:'ganancias-4', nombre:'Ganancias - 4° anticipo (feb. 2027)', fecha:'2027-02-16', nota:'CUIT terminación 4, 5 o 6. Confirmar cerca de la fecha.'}
+  ],
+  servicios: []
+};
+
+function vzUid(){ return 'vz'+Date.now().toString(36)+Math.random().toString(36).slice(2,8); }
+function vzHoy(){ return new Date().toISOString().slice(0,10); }
+function vzFmtFecha(iso){
+  if (!iso) return '';
+  var p = iso.split('-');
+  return p.length===3 ? (p[2]+'/'+p[1]+'/'+p[0]) : iso;
+}
+function vzFmtMonto(n){ return '$'+(Math.round(n*100)/100).toLocaleString('es-AR',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+function vzDiasHasta(iso){
+  var hoy = new Date(vzHoy()+'T00:00:00');
+  var f = new Date(iso+'T00:00:00');
+  return Math.round((f-hoy)/86400000);
+}
+function vzEsc(s){ var d=document.createElement('div'); d.textContent = s==null?'':s; return d.innerHTML; }
+
+function vzBadge(dias){
+  var color, texto;
+  if (dias < 0){ color='var(--red-neg, #d9534f)'; texto='Venció hace '+Math.abs(dias)+' día(s)'; }
+  else if (dias === 0){ color='var(--red-neg, #d9534f)'; texto='Vence hoy'; }
+  else if (dias <= vz.diasAviso){ color='var(--red-neg, #d9534f)'; texto='Vence en '+dias+' día(s)'; }
+  else if (dias <= 7){ color='var(--gold, #c9a227)'; texto='Vence en '+dias+' día(s)'; }
+  else { color='var(--cream, #ccc)'; texto='Vence en '+dias+' día(s)'; }
+  return '<span style="color:'+color+';font-weight:600;">'+texto+'</span>';
+}
+
+async function vzLoad(){
+  try{
+    var sg = window.storageGet;
+    if (typeof sg === 'function'){
+      var raw = await sg(VZ_KEY);
+      if (raw) vz = Object.assign(vz, JSON.parse(raw));
+    }
+  }catch(e){ console.error('vzLoad', e); }
+}
+async function vzSave(){
+  try{
+    var ss = window.storageSet;
+    if (typeof ss === 'function') await ss(VZ_KEY, JSON.stringify(vz));
+  }catch(e){ console.error('vzSave', e); }
+}
+
+// Enganche para que el backup general del panel (Exportar/Importar, incluido
+// el backup automático a GitHub) incluya también los vencimientos.
+window.getVencimientosBackup = function(){ return vz; };
+window.importarVencimientosBackup = async function(v){
+  if (!v || typeof v !== 'object') return 0;
+  var agregados = 0;
+  if (Array.isArray(v.servicios)){
+    var idsExistentes = new Set(vz.servicios.map(function(s){return s.id;}));
+    v.servicios.forEach(function(s){
+      if (s && s.id && !idsExistentes.has(s.id)){ vz.servicios.push(s); idsExistentes.add(s.id); agregados++; }
+    });
+  }
+  if (agregados) await vzSave();
+  return agregados;
+};
+
+function vzTodosLosVencimientos(){
+  var lista = vz.impuestos.map(function(i){ return {id:i.id, nombre:i.nombre, fecha:i.fecha, nota:i.nota||'', tipo:'impuesto'}; })
+    .concat(vz.servicios.map(function(s){ return {id:s.id, nombre:s.nombre, fecha:s.fecha, monto:s.monto, tipo:'servicio'}; }));
+  lista.sort(function(a,b){ return (a.fecha||'').localeCompare(b.fecha||''); });
+  return lista;
+}
+
+function vzRenderAlertas(){
+  var el = document.getElementById('vzAlertas');
+  if (!el) return;
+  var proximos = vzTodosLosVencimientos().filter(function(v){ return vzDiasHasta(v.fecha) <= vz.diasAviso; });
+  if (proximos.length === 0){
+    el.innerHTML = '<p class="card-note">No hay vencimientos dentro de los próximos '+vz.diasAviso+' día(s).</p>';
+    return;
+  }
+  el.innerHTML = proximos.map(function(v){
+    return '<div style="padding:8px 0;border-bottom:1px solid var(--line);">'+
+      '<b>'+vzEsc(v.nombre)+'</b> · '+vzFmtFecha(v.fecha)+' · '+vzBadge(vzDiasHasta(v.fecha))+
+      '</div>';
+  }).join('');
+}
+
+function vzRenderImpuestos(){
+  var el = document.getElementById('vzListaImpuestos');
+  if (!el) return;
+  var lista = vz.impuestos.slice().sort(function(a,b){ return (a.fecha||'').localeCompare(b.fecha||''); });
+  if (lista.length === 0){ el.innerHTML = '<p class="card-note">No hay impuestos cargados.</p>'; return; }
+  el.innerHTML = lista.map(function(i){
+    return '<div style="padding:10px 0;border-bottom:1px solid var(--line);">'+
+      '<div><b>'+vzEsc(i.nombre)+'</b> · '+vzFmtFecha(i.fecha)+' · '+vzBadge(vzDiasHasta(i.fecha))+'</div>'+
+      (i.nota ? '<div class="card-note" style="margin-top:2px;">'+vzEsc(i.nota)+'</div>' : '')+
+      '</div>';
+  }).join('');
+}
+
+function vzRenderServicios(){
+  var el = document.getElementById('vzListaServicios');
+  if (!el) return;
+  var lista = vz.servicios.slice().sort(function(a,b){ return (a.fecha||'').localeCompare(b.fecha||''); });
+  if (lista.length === 0){ el.innerHTML = '<p class="card-note">Todavía no cargaste ningún servicio.</p>'; return; }
+  el.innerHTML = lista.map(function(s){
+    return '<div style="padding:10px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;">'+
+      '<div>'+
+        '<div><b>'+vzEsc(s.nombre)+'</b> · '+vzFmtFecha(s.fecha)+(s.monto ? ' · '+vzFmtMonto(s.monto) : '')+'</div>'+
+        '<div style="margin-top:2px;">'+vzBadge(vzDiasHasta(s.fecha))+'</div>'+
+        (s.foto ? '<div style="margin-top:6px;"><img src="'+s.foto+'" style="max-width:140px;border-radius:6px;border:1px solid var(--line);"></div>' : '')+
+      '</div>'+
+      '<button type="button" class="tab-btn" data-vzdel="'+s.id+'" style="border-radius:8px;">Borrar</button>'+
+      '</div>';
+  }).join('');
+  el.querySelectorAll('[data-vzdel]').forEach(function(btn){
+    btn.addEventListener('click', async function(){
+      var id = btn.getAttribute('data-vzdel');
+      vz.servicios = vz.servicios.filter(function(s){ return s.id !== id; });
+      await vzSave();
+      vzRenderAll();
+    });
+  });
+}
+
+function vzRenderAll(){
+  vzRenderAlertas();
+  vzRenderImpuestos();
+  vzRenderServicios();
+}
+
+var vzFotoBase64 = null;
+var vzFotoMediaType = null;
+function vzWireEvents(){
+  var btn = document.getElementById('vzBtnAgregarServicio');
+  if (btn){
+    btn.addEventListener('click', async function(){
+      var nombre = (document.getElementById('vzServNombre').value||'').trim();
+      var fecha = document.getElementById('vzServFecha').value;
+      var monto = parseFloat(document.getElementById('vzServMonto').value)||0;
+      if (!nombre || !fecha){ alert('Cargá al menos el nombre del servicio y la fecha de vencimiento.'); return; }
+      vz.servicios.push({id:vzUid(), nombre:nombre, fecha:fecha, monto:monto||undefined, foto:vzFotoBase64||undefined});
+      await vzSave();
+      document.getElementById('vzServNombre').value = '';
+      document.getElementById('vzServFecha').value = '';
+      document.getElementById('vzServMonto').value = '';
+      var fotoInput = document.getElementById('vzFotoInput');
+      if (fotoInput) fotoInput.value = '';
+      vzFotoBase64 = null;
+      vzFotoMediaType = null;
+      var btnLeerReset = document.getElementById('vzBtnLeerFoto');
+      if (btnLeerReset) btnLeerReset.disabled = true;
+      document.getElementById('vzFotoMsg').textContent = '';
+      vzRenderAll();
+    });
+  }
+  var fotoInput = document.getElementById('vzFotoInput');
+  var btnLeer = document.getElementById('vzBtnLeerFoto');
+  if (fotoInput){
+    fotoInput.addEventListener('change', function(){
+      var f = fotoInput.files && fotoInput.files[0];
+      var msg = document.getElementById('vzFotoMsg');
+      if (!f){ vzFotoBase64 = null; vzFotoMediaType = null; if (msg) msg.textContent = ''; if (btnLeer) btnLeer.disabled = true; return; }
+      var reader = new FileReader();
+      reader.onload = function(){
+        vzFotoBase64 = reader.result;
+        vzFotoMediaType = f.type || 'image/jpeg';
+        if (msg) msg.textContent = 'Foto cargada. Tocá "Leer datos de la foto" para completar el formulario, o cargá los datos a mano.';
+        if (btnLeer) btnLeer.disabled = false;
+      };
+      reader.onerror = function(){ if (msg) msg.textContent = 'No se pudo leer la imagen.'; };
+      reader.readAsDataURL(f);
+    });
+  }
+  if (btnLeer){
+    btnLeer.addEventListener('click', vzLeerFotoOCR);
+  }
+}
+
+function vzInferirAnio(dia, mes){
+  // La app de Brubank muestra el vencimiento sin año (ej: "18 AGO"). Se asume
+  // el año actual salvo que esa fecha ya haya pasado hace más de 60 días,
+  // en cuyo caso se asume que corresponde al año que viene.
+  var hoy = new Date(vzHoy()+'T00:00:00');
+  var anio = hoy.getFullYear();
+  var candidata = new Date(anio, mes-1, dia);
+  var diffDias = Math.round((candidata - hoy)/86400000);
+  if (diffDias < -60) anio += 1;
+  return anio;
+}
+
+// Convierte lo que devuelve la IA (window.extraerVencimientosConIA: nombre +
+// dia/mes/anio sueltos) al formato {nombre, fecha, monto} que usa el resto
+// de este flujo. Si la IA no trajo año (caso típico de Brubank), lo infiere
+// con vzInferirAnio; si tampoco trajo día o mes, la fecha queda vacía para
+// que el usuario la complete a mano en la revisión.
+function vzCandidatosDesdeIA(lista){
+  return (Array.isArray(lista) ? lista : []).map(function(item){
+    var dia = parseInt(item && item.dia, 10);
+    var mes = parseInt(item && item.mes, 10);
+    var anio = parseInt(item && item.anio, 10);
+    var fecha = null;
+    if (dia>=1 && dia<=31 && mes>=1 && mes<=12){
+      if (isNaN(anio)) anio = vzInferirAnio(dia, mes);
+      fecha = anio+'-'+String(mes).padStart(2,'0')+'-'+String(dia).padStart(2,'0');
+    }
+    var monto = (item && item.monto != null && item.monto !== '') ? parseFloat(item.monto) : null;
+    if (monto != null && isNaN(monto)) monto = null;
+    var nombre = (item && item.nombre) ? String(item.nombre).trim() : null;
+    return {nombre:nombre, fecha:fecha, monto:monto};
+  });
+}
+
+function vzRenderCandidatosOCR(candidatos){
+  var cont = document.getElementById('vzOcrCandidatos');
+  if (!cont) return;
+  if (!candidatos.length){ cont.innerHTML = ''; return; }
+  cont.innerHTML = '<p class="card-note" style="margin-top:10px;">Encontré '+candidatos.length+' vencimiento(s) en la imagen. Revisá cada uno (la lectura automática puede equivocarse, sobre todo con el año) y sacá el tilde a los que no quieras cargar:</p>' +
+    candidatos.map(function(c,i){
+      return '<div style="border:1px solid var(--line);border-radius:8px;padding:10px;margin-top:8px;">'+
+        '<label style="display:flex;align-items:center;gap:8px;margin-bottom:8px;"><input type="checkbox" data-ocr-check="'+i+'" checked> <b>Vencimiento '+(i+1)+'</b></label>'+
+        '<div class="cargar-grid-2">'+
+          '<input type="text" data-ocr-nombre="'+i+'" value="'+vzEsc(c.nombre||'')+'" placeholder="Nombre del servicio" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:8px 10px;border-radius:8px;font-size:14px;width:100%;box-sizing:border-box;">'+
+          '<input type="date" data-ocr-fecha="'+i+'" value="'+(c.fecha||'')+'" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:8px 10px;border-radius:8px;font-size:14px;width:100%;box-sizing:border-box;">'+
+        '</div>'+
+        '<input type="number" data-ocr-monto="'+i+'" value="'+(c.monto!=null?c.monto:'')+'" placeholder="Monto" style="margin-top:8px;background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:8px 10px;border-radius:8px;font-size:14px;width:100%;box-sizing:border-box;">'+
+      '</div>';
+    }).join('') +
+    '<button type="button" class="tab-btn" id="vzBtnAgregarOcr" style="border-radius:8px;margin-top:10px;">+ Agregar los marcados</button>';
+
+  document.getElementById('vzBtnAgregarOcr').addEventListener('click', async function(){
+    var agregados = 0;
+    candidatos.forEach(function(c,i){
+      var chk = cont.querySelector('[data-ocr-check="'+i+'"]');
+      if (!chk || !chk.checked) return;
+      var nombreEl = cont.querySelector('[data-ocr-nombre="'+i+'"]');
+      var fechaEl = cont.querySelector('[data-ocr-fecha="'+i+'"]');
+      var montoEl = cont.querySelector('[data-ocr-monto="'+i+'"]');
+      var nombreVal = (nombreEl.value||'').trim();
+      var fechaVal = fechaEl.value;
+      var montoVal = parseFloat(montoEl.value)||0;
+      if (!nombreVal || !fechaVal) return;
+      vz.servicios.push({id:vzUid(), nombre:nombreVal, fecha:fechaVal, monto:montoVal||undefined, foto:vzFotoBase64||undefined});
+      agregados++;
+    });
+    var msg = document.getElementById('vzFotoMsg');
+    if (agregados){
+      await vzSave();
+      cont.innerHTML = '';
+      vzRenderAll();
+      if (msg) msg.textContent = agregados+' vencimiento(s) agregado(s).';
+    } else if (msg){
+      msg.textContent = 'No se agregó nada: revisá que cada fila marcada tenga nombre y fecha.';
+    }
+  });
+}
+
+async function vzLeerFotoOCR(){
+  var msg = document.getElementById('vzFotoMsg');
+  var btnLeer = document.getElementById('vzBtnLeerFoto');
+  document.getElementById('vzOcrCandidatos').innerHTML = '';
+  if (!vzFotoBase64){ if (msg) msg.textContent = 'Primero elegí una foto.'; return; }
+  if (typeof window.extraerVencimientosConIA !== 'function'){
+    if (msg) msg.textContent = 'El módulo de IA todavía no cargó. Recargá la página e intentá de nuevo.';
+    return;
+  }
+  if (btnLeer) btnLeer.disabled = true;
+  try {
+    if (msg) msg.textContent = 'Analizando la foto con IA…';
+    var comma = vzFotoBase64.indexOf(',');
+    var base64Limpio = comma >= 0 ? vzFotoBase64.slice(comma+1) : vzFotoBase64;
+    var lista = await window.extraerVencimientosConIA(base64Limpio, vzFotoMediaType || 'image/jpeg');
+    var candidatos = vzCandidatosDesdeIA(lista);
+    if (candidatos.length){
+      vzRenderCandidatosOCR(candidatos);
+      if (msg) msg.textContent = '';
+    } else if (msg) {
+      msg.textContent = 'No pude reconocer ningún vencimiento en esta imagen. Cargá los datos a mano arriba — la foto queda guardada igual.';
+    }
+  } catch(e){
+    console.error('vzLeerFotoOCR', e);
+    if (msg) msg.textContent = '⚠️ ' + (e && e.message ? e.message : 'No se pudo leer la foto automáticamente.') + ' Cargá los datos a mano arriba — la foto igual queda guardada como referencia.';
+  } finally {
+    if (btnLeer) btnLeer.disabled = false;
+  }
+}
+
+async function vzInit(){
+  await vzLoad();
+  document.getElementById('vzDiasAvisoTxt').textContent = vz.diasAviso;
+  vzWireEvents();
+  vzRenderAll();
+}
+if (document.readyState === 'loading'){
+  document.addEventListener('DOMContentLoaded', vzInit);
+} else {
+  vzInit();
 }
 })();
 </script>
