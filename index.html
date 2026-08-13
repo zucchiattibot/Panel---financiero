@@ -12200,6 +12200,33 @@ function vzDiasHasta(iso){
 }
 function vzEsc(s){ var d=document.createElement('div'); d.textContent = s==null?'':s; return d.innerHTML; }
 
+// Detección de duplicados: útil cuando se carga el mismo servicio dos veces
+// (por ej. una captura de Brubank y otra de Personal Pay con el mismo ítem,
+// o la misma captura leída dos veces). No borra ni bloquea nada solo, pero
+// permite avisar antes de cargar un vencimiento que ya está.
+function vzNorm(s){
+  return (s||'').toString().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,' ').trim();
+}
+// "Exacto": mismo Nº de cliente/cuenta, o mismo nombre normalizado + misma fecha exacta.
+function vzDuplicadoExacto(cand){
+  var nombreN = vzNorm(cand.nombre);
+  var refN = (cand.referencia||'').toString().trim().toLowerCase();
+  return vz.servicios.find(function(s){
+    if (refN && (s.referencia||'').toString().trim().toLowerCase() === refN) return true;
+    return nombreN && vzNorm(s.nombre) === nombreN && cand.fecha && s.fecha === cand.fecha;
+  }) || null;
+}
+// "Posible": mismo nombre normalizado y mismo mes/año, pero día distinto —
+// puede pasar que dos apps muestren un día distinto para el mismo vencimiento.
+function vzDuplicadoPosible(cand){
+  var nombreN = vzNorm(cand.nombre);
+  if (!nombreN || !cand.fecha) return null;
+  var mesAnio = cand.fecha.slice(0,7);
+  return vz.servicios.find(function(s){
+    return vzNorm(s.nombre) === nombreN && s.fecha && s.fecha.slice(0,7) === mesAnio && s.fecha !== cand.fecha;
+  }) || null;
+}
+
 function vzBadge(dias){
   var color, texto;
   if (dias < 0){ color='var(--red-neg, #d9534f)'; texto='Venció hace '+Math.abs(dias)+' día(s)'; }
@@ -12340,6 +12367,12 @@ function vzWireEvents(){
       var referencia = (document.getElementById('vzServReferencia').value||'').trim();
       var monto = parseFloat(document.getElementById('vzServMonto').value)||0;
       if (!nombre || !fecha){ alert('Cargá al menos el nombre del servicio y la fecha de vencimiento.'); return; }
+      var candidato = {nombre:nombre, referencia:referencia, fecha:fecha};
+      var dup = vzDuplicadoExacto(candidato) || vzDuplicadoPosible(candidato);
+      if (dup){
+        var seguir = confirm('Ya tenés cargado "'+dup.nombre+'" venciendo el '+vzFmtFecha(dup.fecha)+'. ¿Agregar igual?');
+        if (!seguir) return;
+      }
       vz.servicios.push({id:vzUid(), nombre:nombre, referencia:referencia||undefined, fecha:fecha, monto:monto||undefined});
       await vzSave();
       document.getElementById('vzServNombre').value = '';
@@ -12420,8 +12453,14 @@ function vzRenderCandidatosOCR(candidatos){
   if (!candidatos.length){ cont.innerHTML = ''; return; }
   cont.innerHTML = '<p class="card-note" style="margin-top:10px;">Encontré '+candidatos.length+' vencimiento(s) en la imagen. Revisá cada uno (la lectura automática puede equivocarse, sobre todo con el año) y sacá el tilde a los que no quieras cargar:</p>' +
     candidatos.map(function(c,i){
-      return '<div style="border:1px solid var(--line);border-radius:8px;padding:10px;margin-top:8px;">'+
-        '<label style="display:flex;align-items:center;gap:8px;margin-bottom:8px;"><input type="checkbox" data-ocr-check="'+i+'" checked> <b>Vencimiento '+(i+1)+'</b></label>'+
+      var dupExacto = vzDuplicadoExacto(c);
+      var dupPosible = !dupExacto && vzDuplicadoPosible(c);
+      var avisoDup = '';
+      if (dupExacto) avisoDup = '<p class="card-note" style="color:var(--red-neg);margin:0 0 8px 0;">⚠️ Ya tenés cargado "'+vzEsc(dupExacto.nombre)+'" con esta misma fecha o Nº de cliente — se destildó para no duplicarlo. Tildalo igual si querés cargarlo de nuevo.</p>';
+      else if (dupPosible) avisoDup = '<p class="card-note" style="color:var(--gold);margin:0 0 8px 0;">⚠️ Ya tenés cargado "'+vzEsc(dupPosible.nombre)+'" venciendo ese mismo mes (día '+vzFmtVenceCorta(dupPosible.fecha)+'). Puede ser el mismo servicio con la fecha leída distinta — revisá antes de cargarlo.</p>';
+      return '<div style="border:1px solid '+(dupExacto?'var(--red-neg)':'var(--line)')+';border-radius:8px;padding:10px;margin-top:8px;">'+
+        avisoDup+
+        '<label style="display:flex;align-items:center;gap:8px;margin-bottom:8px;"><input type="checkbox" data-ocr-check="'+i+'"'+(dupExacto?'':' checked')+'> <b>Vencimiento '+(i+1)+'</b></label>'+
         '<div class="cargar-grid-2">'+
           '<input type="text" data-ocr-nombre="'+i+'" value="'+vzEsc(c.nombre||'')+'" placeholder="Nombre del servicio" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:8px 10px;border-radius:8px;font-size:14px;width:100%;box-sizing:border-box;">'+
           '<input type="date" data-ocr-fecha="'+i+'" value="'+(c.fecha||'')+'" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:8px 10px;border-radius:8px;font-size:14px;width:100%;box-sizing:border-box;">'+
