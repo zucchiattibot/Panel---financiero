@@ -1975,15 +1975,21 @@
           <input type="date" id="vzServFecha" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;width:100%;box-sizing:border-box;">
         </div>
       </div>
-      <div class="range-group" style="margin-top:10px;">
-        <div class="range-label">Monto (opcional)</div>
-        <input type="number" id="vzServMonto" placeholder="0" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;width:100%;box-sizing:border-box;">
+      <div class="cargar-grid-2" style="margin-top:10px;">
+        <div class="range-group">
+          <div class="range-label">Nº de cliente/cuenta (opcional)</div>
+          <input type="text" id="vzServReferencia" placeholder="Ej: 130265701" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;width:100%;box-sizing:border-box;">
+        </div>
+        <div class="range-group">
+          <div class="range-label">Monto (opcional)</div>
+          <input type="number" id="vzServMonto" placeholder="0" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;width:100%;box-sizing:border-box;">
+        </div>
       </div>
       <button type="button" class="tab-btn" id="vzBtnAgregarServicio" style="border-radius:8px;margin-top:10px;">+ Agregar vencimiento</button>
 
       <details class="cargar-advanced" open style="margin-top:14px;">
         <summary>📷 Cargar desde captura de Brubank / Personal Pay</summary>
-        <p class="card-note">Subí la captura de "Pago de servicios" (la pantalla de "A pagar") y tocá "Leer datos de la foto". Usa la misma IA (y la misma clave) que la pestaña Proveedores, así que primero configurá tu clave de API de Gemini en la pestaña "Asistente IA" si todavía no lo hiciste. Te muestra abajo cada vencimiento que encuentre para que los revises — puede haber varios en una sola foto. Tildá los que quieras cargar y tocá "Agregar los marcados".</p>
+        <p class="card-note">Subí la captura de "Pago de servicios" (la pantalla de "A pagar") y tocá "Leer datos de la foto". Usa la misma IA (y la misma clave) que la pestaña Proveedores, así que primero configurá tu clave de API de Gemini en la pestaña "Asistente IA" si todavía no lo hiciste. Te muestra abajo cada vencimiento que encuentre (con nombre, nº de cliente/cuenta si figura, monto y fecha) para que los revises — puede haber varios en una sola foto. Tildá los que quieras cargar y tocá "Agregar los marcados".</p>
         <input type="file" id="vzFotoInput" accept="image/*" style="margin-top:8px;">
         <button type="button" class="tab-btn" id="vzBtnLeerFoto" style="border-radius:8px;margin-top:8px;" disabled>🔎 Leer datos de la foto</button>
         <p class="card-note" id="vzFotoMsg" style="min-height:14px;"></p>
@@ -9937,8 +9943,9 @@ renderAutoConclusions();
     if (!iaApiKey) throw new Error('Primero configurá tu clave de API de Gemini en la pestaña Asistente IA.');
     const promptTexto = 'Sos un asistente que lee una captura de pantalla de la app Brubank o Personal Pay (Argentina), de la sección "Pago de servicios" o "A pagar", donde aparece una lista de tarjetas/filas con servicios por vencer (luz, gas, agua, internet, alquiler, tarjetas, expensas, etc.). ' +
       'Devolvé SOLO un ARRAY JSON (sin texto adicional, sin backticks de markdown), uno por cada servicio/tarjeta que aparezca en la imagen, con estas claves exactas:\\n' +
-      '[{\"nombre\": string, \"dia\": number|null, \"mes\": number|null, \"anio\": number|null, \"monto\": number|null}]\\n' +
+      '[{\"nombre\": string, \"referencia\": string|null, \"dia\": number|null, \"mes\": number|null, \"anio\": number|null, \"monto\": number|null}]\\n' +
       '\"nombre\" es el nombre del servicio o empresa tal cual figura (ej: \"Edenor\", \"Metrogas\", \"Personal Flow\"), sin inventar ni agregar palabras como \"vencimiento\" o \"pago\" que no formen parte del nombre. ' +
+      '\"referencia\" es el número de cliente, cuenta o contrato que suele figurar en una línea chica debajo del nombre del servicio (por ej. \"130265701\" o \"19000940600263810\"); si no aparece ese dato, usá null. ' +
       '\"dia\" y \"mes\" son los del vencimiento (mes como número 1-12); Brubank normalmente muestra el vencimiento sin año (ej: \"VENCE 18 AGO\"), en ese caso dejá \"anio\" en null. Si en la imagen sí figura el año completo, ponelo en \"anio\"; si no, null. ' +
       '\"monto\" es el importe a pagar de ese servicio, como número positivo con punto decimal (sin separador de miles), o null si no figura. ' +
       'Incluí una fila por cada servicio individual que veas, en el orden en que aparecen en la imagen. No incluyas encabezados, totales ni elementos que no sean un servicio a pagar. Si no encontrás ningún servicio, devolvé un array vacío [].';
@@ -12270,19 +12277,40 @@ function vzRenderImpuestos(){
   }).join('');
 }
 
+function vzIniciales(nombre){
+  var palabras = (nombre||'').trim().split(/\s+/).filter(Boolean);
+  if (!palabras.length) return '?';
+  if (palabras.length === 1) return palabras[0].slice(0,2).toUpperCase();
+  return (palabras[0][0]+palabras[1][0]).toUpperCase();
+}
+function vzFmtVenceCorta(iso){
+  if (!iso) return '';
+  var p = iso.split('-');
+  if (p.length !== 3) return iso;
+  var hoyAnio = new Date(vzHoy()+'T00:00:00').getFullYear();
+  var anio = parseInt(p[0],10);
+  return anio === hoyAnio ? (p[2]+'/'+p[1]) : (p[2]+'/'+p[1]+'/'+p[0]);
+}
+
 function vzRenderServicios(){
   var el = document.getElementById('vzListaServicios');
   if (!el) return;
   var lista = vz.servicios.slice().sort(function(a,b){ return (a.fecha||'').localeCompare(b.fecha||''); });
   if (lista.length === 0){ el.innerHTML = '<p class="card-note">Todavía no cargaste ningún servicio.</p>'; return; }
   el.innerHTML = lista.map(function(s){
-    return '<div style="padding:10px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;">'+
-      '<div>'+
-        '<div><b>'+vzEsc(s.nombre)+'</b> · '+vzFmtFecha(s.fecha)+(s.monto ? ' · '+vzFmtMonto(s.monto) : '')+'</div>'+
-        '<div style="margin-top:2px;">'+vzBadge(vzDiasHasta(s.fecha))+'</div>'+
-        (s.foto ? '<div style="margin-top:6px;"><img src="'+s.foto+'" style="max-width:140px;border-radius:6px;border:1px solid var(--line);"></div>' : '')+
+    var dias = vzDiasHasta(s.fecha);
+    var colorFecha = dias < 0 || dias <= vz.diasAviso ? 'var(--red-neg)' : (dias <= 7 ? 'var(--gold)' : 'var(--cream-dim)');
+    return '<div style="display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);">'+
+      '<div style="width:40px;height:40px;flex-shrink:0;border-radius:50%;background:var(--bg-2);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:var(--gold);">'+vzEsc(vzIniciales(s.nombre))+'</div>'+
+      '<div style="flex:1;min-width:0;">'+
+        '<div style="font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+vzEsc(s.nombre)+'</div>'+
+        (s.referencia ? '<div class="card-note" style="margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+vzEsc(s.referencia)+'</div>' : '')+
       '</div>'+
-      '<button type="button" class="tab-btn" data-vzdel="'+s.id+'" style="border-radius:8px;">Borrar</button>'+
+      '<div style="text-align:right;flex-shrink:0;">'+
+        (s.monto ? '<div style="font-weight:700;">'+vzFmtMonto(s.monto)+'</div>' : '')+
+        '<div style="margin-top:2px;color:'+colorFecha+';font-weight:600;white-space:nowrap;">'+(dias<0 ? 'Venció el '+vzFmtVenceCorta(s.fecha) : (dias===0 ? 'Vence hoy' : 'Vence el '+vzFmtVenceCorta(s.fecha)))+'</div>'+
+      '</div>'+
+      '<button type="button" data-vzdel="'+s.id+'" title="Borrar" style="flex-shrink:0;background:none;border:none;color:var(--muted);font-size:18px;line-height:1;cursor:pointer;padding:4px;">✕</button>'+
       '</div>';
   }).join('');
   el.querySelectorAll('[data-vzdel]').forEach(function(btn){
@@ -12309,12 +12337,14 @@ function vzWireEvents(){
     btn.addEventListener('click', async function(){
       var nombre = (document.getElementById('vzServNombre').value||'').trim();
       var fecha = document.getElementById('vzServFecha').value;
+      var referencia = (document.getElementById('vzServReferencia').value||'').trim();
       var monto = parseFloat(document.getElementById('vzServMonto').value)||0;
       if (!nombre || !fecha){ alert('Cargá al menos el nombre del servicio y la fecha de vencimiento.'); return; }
-      vz.servicios.push({id:vzUid(), nombre:nombre, fecha:fecha, monto:monto||undefined, foto:vzFotoBase64||undefined});
+      vz.servicios.push({id:vzUid(), nombre:nombre, referencia:referencia||undefined, fecha:fecha, monto:monto||undefined});
       await vzSave();
       document.getElementById('vzServNombre').value = '';
       document.getElementById('vzServFecha').value = '';
+      document.getElementById('vzServReferencia').value = '';
       document.getElementById('vzServMonto').value = '';
       var fotoInput = document.getElementById('vzFotoInput');
       if (fotoInput) fotoInput.value = '';
@@ -12379,7 +12409,8 @@ function vzCandidatosDesdeIA(lista){
     var monto = (item && item.monto != null && item.monto !== '') ? parseFloat(item.monto) : null;
     if (monto != null && isNaN(monto)) monto = null;
     var nombre = (item && item.nombre) ? String(item.nombre).trim() : null;
-    return {nombre:nombre, fecha:fecha, monto:monto};
+    var referencia = (item && item.referencia) ? String(item.referencia).trim() : null;
+    return {nombre:nombre, referencia:referencia, fecha:fecha, monto:monto};
   });
 }
 
@@ -12395,7 +12426,10 @@ function vzRenderCandidatosOCR(candidatos){
           '<input type="text" data-ocr-nombre="'+i+'" value="'+vzEsc(c.nombre||'')+'" placeholder="Nombre del servicio" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:8px 10px;border-radius:8px;font-size:14px;width:100%;box-sizing:border-box;">'+
           '<input type="date" data-ocr-fecha="'+i+'" value="'+(c.fecha||'')+'" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:8px 10px;border-radius:8px;font-size:14px;width:100%;box-sizing:border-box;">'+
         '</div>'+
-        '<input type="number" data-ocr-monto="'+i+'" value="'+(c.monto!=null?c.monto:'')+'" placeholder="Monto" style="margin-top:8px;background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:8px 10px;border-radius:8px;font-size:14px;width:100%;box-sizing:border-box;">'+
+        '<div class="cargar-grid-2" style="margin-top:8px;">'+
+          '<input type="text" data-ocr-referencia="'+i+'" value="'+vzEsc(c.referencia||'')+'" placeholder="Nº de cliente/cuenta (opcional)" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:8px 10px;border-radius:8px;font-size:14px;width:100%;box-sizing:border-box;">'+
+          '<input type="number" data-ocr-monto="'+i+'" value="'+(c.monto!=null?c.monto:'')+'" placeholder="Monto" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:8px 10px;border-radius:8px;font-size:14px;width:100%;box-sizing:border-box;">'+
+        '</div>'+
       '</div>';
     }).join('') +
     '<button type="button" class="tab-btn" id="vzBtnAgregarOcr" style="border-radius:8px;margin-top:10px;">+ Agregar los marcados</button>';
@@ -12407,12 +12441,14 @@ function vzRenderCandidatosOCR(candidatos){
       if (!chk || !chk.checked) return;
       var nombreEl = cont.querySelector('[data-ocr-nombre="'+i+'"]');
       var fechaEl = cont.querySelector('[data-ocr-fecha="'+i+'"]');
+      var referenciaEl = cont.querySelector('[data-ocr-referencia="'+i+'"]');
       var montoEl = cont.querySelector('[data-ocr-monto="'+i+'"]');
       var nombreVal = (nombreEl.value||'').trim();
       var fechaVal = fechaEl.value;
+      var referenciaVal = (referenciaEl.value||'').trim();
       var montoVal = parseFloat(montoEl.value)||0;
       if (!nombreVal || !fechaVal) return;
-      vz.servicios.push({id:vzUid(), nombre:nombreVal, fecha:fechaVal, monto:montoVal||undefined, foto:vzFotoBase64||undefined});
+      vz.servicios.push({id:vzUid(), nombre:nombreVal, referencia:referenciaVal||undefined, fecha:fechaVal, monto:montoVal||undefined});
       agregados++;
     });
     var msg = document.getElementById('vzFotoMsg');
