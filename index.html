@@ -11527,6 +11527,104 @@ async function fcGuardarPDFConDestino(blob, nombreArchivo, msg){
   setTimeout(function(){ URL.revokeObjectURL(url); }, 1000);
   msg.style.color='var(--green-pos)'; msg.textContent='PDF descargado ✔️';
 }
+
+/* ================= Exportar PDF / compartir WhatsApp genérico =================
+   Se usa para agregar, a cada tarjeta ("card") de las pestañas Inflación,
+   Estadísticas y Estadísticas Alquileres, un botón para exportar esa tarjeta
+   puntual a PDF y otro para compartirla directo por WhatsApp. Reutiliza el
+   mismo mecanismo (html2pdf + fcGuardarPDFConDestino) que ya usa la factura. */
+function fcCardPDFBlob(cardEl){
+  window.scrollTo(0, 0);
+  return window.html2pdf().set({
+    margin: 6,
+    image: {type:'jpeg', quality:0.98},
+    html2canvas: {
+      scale:2, backgroundColor:'#ffffff',
+      scrollX:0, scrollY:0,
+      windowWidth: document.documentElement.scrollWidth,
+      windowHeight: document.documentElement.scrollHeight,
+      useCORS:true,
+      // Antes de rasterizar, le sacamos todos los colores a la copia del DOM:
+      // todo queda en blanco y negro (fondos transparentes/blancos, texto
+      // negro, líneas y bordes en gris). Esto no toca la app real, solo la
+      // copia temporal que usa html2canvas para generar el PDF.
+      onclone: function(clonedDoc){
+        var style = clonedDoc.createElement('style');
+        style.textContent =
+          '*{color:#000 !important;background-color:transparent !important;background-image:none !important;border-color:#bbb !important;box-shadow:none !important;text-shadow:none !important;}'+
+          'html, body{background:#fff !important;}'+
+          '.card{background:#fff !important;border-color:#ccc !important;}'+
+          'svg *{fill:#000 !important;stroke:#000 !important;}'+
+          'svg .gridline{stroke:#ddd !important;}'+
+          'svg .axis-label{fill:#555 !important;}'+
+          'table, th, td{border-color:#ccc !important;}'+
+          '.dot{background:#000 !important;}';
+        clonedDoc.head.appendChild(style);
+      }
+    },
+    jsPDF: {unit:'mm', format:'a4', orientation:'portrait'}
+  }).from(cardEl);
+}
+function fcCardNombreArchivo(titulo){
+  return (titulo||'Panel').replace(/[^a-z0-9]+/gi,'_').slice(0,60)+'.pdf';
+}
+async function fcCardDescargarPDF(cardEl, titulo, msgEl){
+  if (typeof window.html2pdf !== 'function'){ msgEl.style.color='var(--red-neg)'; msgEl.textContent='No se pudo cargar el generador de PDF (revisá tu conexión).'; return; }
+  msgEl.style.color='var(--muted)'; msgEl.textContent='Generando PDF…';
+  try{
+    var blob = await fcCardPDFBlob(cardEl).outputPdf('blob');
+    await fcGuardarPDFConDestino(blob, fcCardNombreArchivo(titulo), msgEl);
+  }catch(e){
+    msgEl.style.color='var(--red-neg)'; msgEl.textContent='Hubo un error generando el PDF.';
+  }
+}
+async function fcCardCompartirWA(cardEl, titulo, msgEl){
+  var nombreArchivo = fcCardNombreArchivo(titulo);
+  if (typeof window.html2pdf !== 'function'){ msgEl.style.color='var(--red-neg)'; msgEl.textContent='No se pudo cargar el generador de PDF (revisá tu conexión).'; return; }
+  msgEl.style.color='var(--muted)'; msgEl.textContent='Generando PDF para compartir…';
+  var blob;
+  try{ blob = await fcCardPDFBlob(cardEl).outputPdf('blob'); }
+  catch(e){ msgEl.style.color='var(--red-neg)'; msgEl.textContent='Hubo un error generando el PDF.'; return; }
+  var file = new File([blob], nombreArchivo, {type:'application/pdf'});
+  if (navigator.canShare && navigator.canShare({files:[file]})){
+    try{
+      await navigator.share({files:[file], title:titulo});
+      msgEl.style.color='var(--green-pos)'; msgEl.textContent='Listo, elegí WhatsApp en el menú para enviarlo ✔️';
+      return;
+    }catch(e){
+      if (e && e.name==='AbortError'){ msgEl.textContent=''; return; }
+      /* si falla el share nativo, seguimos con el fallback de descarga */
+    }
+  }
+  // Fallback: no se puede adjuntar el PDF directo a WhatsApp vía enlace, así
+  // que lo descargamos y guiamos al usuario para adjuntarlo a mano.
+  await fcCardPDFBlob(cardEl).set({filename:nombreArchivo}).save();
+  var textoWA = 'Te descargué "'+titulo+'" en PDF ("'+nombreArchivo+'"). Abrí WhatsApp y adjuntalo desde tus descargas.';
+  msgEl.style.color='var(--muted)'; msgEl.textContent='PDF descargado. Adjuntalo manualmente en WhatsApp.';
+  window.open('https://wa.me/?text='+encodeURIComponent(textoWA), '_blank');
+}
+function fcInyectarExportEnPaneles(){
+  var selector = '#tab-inflacion .card, #tab-estadisticas .card, #tab-estadisticas-alquileres .card';
+  document.querySelectorAll(selector).forEach(function(card){
+    if (card.querySelector(':scope > .fc-export-row')) return; // ya tiene botones
+    var h2 = card.querySelector('h2');
+    var titulo = h2 ? h2.textContent.trim() : 'Panel';
+    var row = document.createElement('div');
+    row.className = 'fc-export-row';
+    row.style.cssText = 'display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;align-items:center;border-top:1px solid var(--line);padding-top:12px;';
+    var btnPdf = document.createElement('button');
+    btnPdf.type='button'; btnPdf.className='toggle-btn'; btnPdf.textContent='📄 Exportar PDF';
+    var btnWA = document.createElement('button');
+    btnWA.type='button'; btnWA.className='toggle-btn'; btnWA.textContent='📤 Compartir WhatsApp';
+    var msg = document.createElement('span');
+    msg.className='card-note'; msg.style.cssText='margin:0;min-height:14px;flex:1 1 100%;';
+    btnPdf.addEventListener('click', function(){ fcCardDescargarPDF(card, titulo, msg); });
+    btnWA.addEventListener('click', function(){ fcCardCompartirWA(card, titulo, msg); });
+    row.appendChild(btnPdf); row.appendChild(btnWA); row.appendChild(msg);
+    card.appendChild(row);
+  });
+}
+
 document.getElementById('fcBtnDescargarPDF').addEventListener('click', async function(){
   if (!fcUltimaLiquidacion) return;
   var msg = document.getElementById('fcFacturaMsg');
@@ -11942,6 +12040,7 @@ async function fcInit(){
   fcRenderLista();
   fcRenderSelectLiq();
   fcResetForm();
+  fcInyectarExportEnPaneles();
 }
 if (document.readyState === 'loading'){
   document.addEventListener('DOMContentLoaded', fcInit);
