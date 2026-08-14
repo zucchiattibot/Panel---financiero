@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 4,
-  "exportadoEl": "2026-08-14T21:08:23.465Z",
+  "exportadoEl": "2026-08-14T21:13:36.916Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -1202,6 +1202,16 @@
       "detalle": "Lavado manchi",
       "id": "m_mstfvjzviag89k",
       "modificadoEl": "2026-08-14T21:08:21.115Z"
+    },
+    {
+      "date": "2026-08-14",
+      "type": "ingreso",
+      "amount": 61900,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "transferencia",
+      "id": "m_mstg29qbaahkye",
+      "modificadoEl": "2026-08-14T21:13:34.403Z"
     }
   ],
   "categoriasCustom": [
