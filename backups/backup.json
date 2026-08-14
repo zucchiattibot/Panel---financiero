@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 4,
-  "exportadoEl": "2026-08-14T21:13:36.916Z",
+  "exportadoEl": "2026-08-14T23:46:30.435Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -1212,6 +1212,16 @@
       "medio": "transferencia",
       "id": "m_mstg29qbaahkye",
       "modificadoEl": "2026-08-14T21:13:34.403Z"
+    },
+    {
+      "date": "2026-08-14",
+      "type": "egreso",
+      "amount": 24600,
+      "category": "Sueldo",
+      "account": "alquileres",
+      "detalle": "Fiambre",
+      "id": "m_mstlix3wn26by8",
+      "modificadoEl": "2026-08-14T23:46:29.276Z"
     }
   ],
   "categoriasCustom": [
