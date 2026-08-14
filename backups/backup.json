@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 4,
-  "exportadoEl": "2026-08-14T01:09:26.040Z",
+  "exportadoEl": "2026-08-14T01:09:44.243Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -1122,6 +1122,16 @@
       "detalle": "Kiosco",
       "id": "m_mss91pngkb7sxq",
       "modificadoEl": "2026-08-14T01:09:24.892Z"
+    },
+    {
+      "date": "2026-08-13",
+      "type": "egreso",
+      "amount": 40000,
+      "category": "Sueldo",
+      "account": "alquileres",
+      "detalle": "Pollo tuniyo",
+      "id": "m_mss923x0c7aqef",
+      "modificadoEl": "2026-08-14T01:09:43.380Z"
     }
   ],
   "categoriasCustom": [
