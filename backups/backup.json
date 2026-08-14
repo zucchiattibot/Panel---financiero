@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 4,
-  "exportadoEl": "2026-08-14T14:29:19.823Z",
+  "exportadoEl": "2026-08-14T14:42:54.658Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -1162,6 +1162,16 @@
       "medio": "efectivo",
       "id": "m_mst1mdyau4zdii",
       "modificadoEl": "2026-08-14T14:29:18.754Z"
+    },
+    {
+      "date": "2026-08-14",
+      "type": "ingreso",
+      "amount": 132700,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "transferencia",
+      "id": "m_mst23un19gkl79",
+      "modificadoEl": "2026-08-14T14:42:53.533Z"
     }
   ],
   "categoriasCustom": [
