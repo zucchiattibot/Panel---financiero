@@ -13473,8 +13473,11 @@ if (document.readyState === 'loading'){
   <div class="ped-card" id="pedidoManualCard" style="padding:18px;">
     <h2 style="margin-bottom:5px;">🛍️ O armalo vos con tu stock</h2>
     <p class="ped-hint" style="margin-bottom:10px;">Buscá productos de tu mercadería y tocá "+ agregar" para armarle el pedido al cliente elegido arriba.</p>
-    <input id="pedidoBuscarStock" oninput="pintarPickerStock()" placeholder="🔎 Buscar producto en tu stock..." style="width:100%;box-sizing:border-box;padding:11px 12px;border:1px solid var(--gris-borde);border-radius:9px;font-size:14px;" type="text"/>
-    <div id="pickerStockList" style="margin-top:10px;"></div>
+    <div style="display:flex;gap:8px;align-items:center;">
+      <input id="pedidoBuscarStock" oninput="pintarPickerStock()" onfocus="pintarPickerStock()" onclick="pintarPickerStock()" placeholder="🔎 Buscar producto en tu stock..." style="flex:1;box-sizing:border-box;padding:11px 12px;border:1px solid var(--gris-borde);border-radius:9px;font-size:14px;" type="text"/>
+      <button type="button" class="ped-btn-secondary" onclick="cerrarPickerStock()">✕ Cerrar</button>
+    </div>
+    <div id="pickerStockList" style="margin-top:10px;max-height:320px;overflow:auto;"></div>
   </div>
 
   <!-- RESULTADO -->
@@ -13491,6 +13494,7 @@ if (document.readyState === 'loading'){
     <div class="ped-totales"><span id="totalUnidades">0 unidades</span><span class="ped-big" id="totalGeneral">$ 0,00</span></div>
     <div class="ped-btn-row ped-no-print">
       <button class="ped-btn-primary" id="btnGuardarCliente" onclick="guardarPedidoEnCliente()" style="flex:1 1 100%;">💾 Guardar pedido al cliente</button>
+      <button class="ped-btn-secondary" id="btnNuevoPedido" onclick="nuevoPedidoParaOtroCliente()" style="flex:1 1 100%;">🆕 Empezar pedido distinto para otro cliente (con tu stock)</button>
       <button class="ped-btn-secondary" id="btnWhatsapp" onclick="exportarPDFWhatsApp('compartir')">📲 WhatsApp</button>
       <button class="ped-btn-secondary" id="btnDescargar" onclick="exportarPDFWhatsApp('descargar')">⬇️ PDF</button>
       <button class="ped-btn-secondary" onclick="window.print()">Imprimir</button>
@@ -14006,7 +14010,8 @@ function pintarPickerStock(){
     cont.innerHTML = '<p class="ped-hint">Todavía no cargaste productos en tu stock (sección Mercadería).</p>';
     return;
   }
-  const limitados = filtrados.slice(0, 30);
+  const LIMITE_PICKER = 200;
+  const limitados = filtrados.slice(0, LIMITE_PICKER);
   cont.innerHTML = limitados.map(p => {
     const row = document.querySelector(`#resultBody tr[data-sku="${p.sku}"]`);
     const enPedido = row ? (Number(row.dataset.cant) || 0) : 0;
@@ -14016,7 +14021,14 @@ function pintarPickerStock(){
       <div class="ped-picker-info"><strong>${escPedido(p.producto)}</strong><span>${fmt(p.pdv)} · ${stockTxt}${enPedido ? " · En pedido: " + enPedido : ""}</span></div>
       <button type="button" class="ped-btn-secondary" onclick="agregarProductoAlPedido('${p.sku.replace(/'/g,"\\'")}')">+ agregar</button>
     </div>`;
-  }).join("") + (filtrados.length > 30 ? `<p class="ped-hint">Mostrando 30 de ${filtrados.length}. Afiná la búsqueda para ver otros.</p>` : "");
+  }).join("") + (filtrados.length > LIMITE_PICKER ? `<p class="ped-hint">Mostrando ${LIMITE_PICKER} de ${filtrados.length}. Afiná la búsqueda para ver el resto.</p>` : "");
+}
+
+function cerrarPickerStock(){
+  const buscadorEl = document.getElementById("pedidoBuscarStock");
+  const cont = document.getElementById("pickerStockList");
+  if(buscadorEl) buscadorEl.value = "";
+  if(cont) cont.innerHTML = "";
 }
 
 function agregarProductoAlPedido(sku){
@@ -14235,11 +14247,12 @@ function pintarClientes(){
       const pedidosHtml = pedidos.length ? pedidos.map((p, pidx) => `
         <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--gris-borde);gap:8px;flex-wrap:wrap;">
           <div>
-            <div style="font-weight:600;font-size:13px;">${p.fecha}</div>
+            <div style="font-weight:600;font-size:13px;">${p.fecha}${p.stockDescontado ? ' <span class="badge" style="font-size:10px;">stock descontado</span>' : ''}</div>
             <div style="font-size:12px;color:var(--texto-suave);">${p.totalUnidades} unidades — ${fmt(p.totalGeneral)}</div>
           </div>
           <div style="display:flex;gap:6px;">
             <button class="btn-secondary" style="padding:6px 10px;font-size:12px;" onclick="verPedidoCliente(${idx}, ${pidx})">Ver</button>
+            ${(p.original && p.original.length) ? `<button class="btn-secondary" style="padding:6px 10px;font-size:12px;" onclick="verOriginalPedido(${idx}, ${pidx})">📝 Original</button>` : ''}
             <button class="del-btn" title="Eliminar este pedido/carga" onclick="eliminarPedidoCliente(${idx}, ${pidx})">🗑</button>
           </div>
         </div>`).join("") : '<p class="hint" style="margin:6px 0;">Todavía no le guardaste ningún pedido/carga a este cliente.</p>';
@@ -14340,10 +14353,27 @@ function agregarCliente(){
   pintarClientes();
 }
 
+function restaurarStockDePedido(p){
+  if(!p || !p.stockDescontado || !Array.isArray(p.items)) return;
+  p.items.forEach(it => {
+    const prod = MASTER_LIST.find(m => m.sku === it.sku);
+    if(prod){
+      prod.cantidad = (Number(prod.cantidad) || 0) + (Number(it.cantidad) || 0);
+    }
+  });
+  guardarListadoLocal();
+  if(typeof pintarMaster === "function") pintarMaster();
+  pintarPickerStock();
+}
+
 function eliminarCliente(idx){
   const c = CLIENTES[idx];
   if(!c) return;
-  if(!confirm(`¿Eliminar al cliente "${c.nombre}" y todos sus pedidos guardados (${(c.pedidos||[]).length})? Esto no se puede deshacer.`)) return;
+  const pedidos = c.pedidos || [];
+  const conStockDescontado = pedidos.filter(p => p.stockDescontado).length;
+  const avisoStock = conStockDescontado ? `\n\nSe le va a devolver a tu stock lo que se había descontado en ${conStockDescontado} de esos pedidos.` : "";
+  if(!confirm(`¿Eliminar al cliente "${c.nombre}" y todos sus pedidos guardados (${pedidos.length})? Esto no se puede deshacer.${avisoStock}`)) return;
+  pedidos.forEach(restaurarStockDePedido);
   CLIENTES.splice(idx, 1);
   guardarClientesLocal();
   pintarClientes();
@@ -14352,10 +14382,24 @@ function eliminarCliente(idx){
 function eliminarPedidoCliente(cidx, pidx){
   const c = CLIENTES[cidx];
   if(!c || !c.pedidos || !c.pedidos[pidx]) return;
-  if(!confirm("¿Eliminar este pedido/carga del historial del cliente? Esto no se puede deshacer.")) return;
+  const p = c.pedidos[pidx];
+  const avisoStock = p.stockDescontado ? "\n\nSe le va a devolver a tu stock lo que se había descontado en este pedido." : "";
+  if(!confirm("¿Eliminar este pedido/carga del historial del cliente? Esto no se puede deshacer." + avisoStock)) return;
+  restaurarStockDePedido(p);
   c.pedidos.splice(pidx, 1);
   guardarClientesLocal();
   pintarClientes();
+}
+
+function verOriginalPedido(cidx, pidx){
+  const c = CLIENTES[cidx];
+  if(!c || !c.pedidos || !c.pedidos[pidx]) return;
+  const p = c.pedidos[pidx];
+  const original = p.original || [];
+  if(!original.length){ alert("No hay un registro del original para este pedido."); return; }
+  const texto = "Pedido original leído para " + c.nombre + " (" + p.fecha + "):\n\n" +
+    original.map(it => "• " + it.cantidad + " x " + it.textoOriginal).join("\n");
+  alert(texto);
 }
 
 function verPedidoCliente(cidx, pidx){
@@ -14418,6 +14462,27 @@ function guardarPedidoEnClienteConNombre(cliente){
     return;
   }
 
+  // Confirmar y descontar del stock propio (Mercadería) antes de guardar
+  const listaConfirm = items.map(it => "• " + it.cantidad + " x " + it.producto).join("\n");
+  const descontarStock = confirm("¿Descontar estas cantidades de tu stock (Mercadería)?\n\n" + listaConfirm + "\n\nAceptar = sí, descontar.\nCancelar = guardar el pedido sin tocar el stock.");
+  if(descontarStock){
+    items.forEach(it => {
+      const p = MASTER_LIST.find(m => m.sku === it.sku);
+      if(p){
+        const stockActual = Number(p.cantidad) || 0;
+        p.cantidad = Math.max(0, stockActual - it.cantidad);
+      }
+    });
+    guardarListadoLocal();
+    if(typeof pintarMaster === "function") pintarMaster();
+    pintarPickerStock();
+  }
+
+  // Registro del pedido "original" tal como lo leyó la IA (o se escribió), antes de la edición manual
+  const original = (ultimoResultado || [])
+    .filter(it => it && it.textoOriginal)
+    .map(it => ({ textoOriginal: it.textoOriginal, cantidad: it.cantidad }));
+
   let c = CLIENTES.find(c => c.nombre.toLowerCase() === cliente.toLowerCase());
   if(!c){
     c = { nombre: cliente, telefono: "", pedidos: [] };
@@ -14428,11 +14493,31 @@ function guardarPedidoEnClienteConNombre(cliente){
     fecha: new Date().toLocaleDateString("es-AR") + " " + new Date().toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit" }),
     items,
     totalGeneral,
-    totalUnidades
+    totalUnidades,
+    stockDescontado: descontarStock,
+    original
   });
   guardarClientesLocal();
   pintarClientes();
-  statusBox.innerHTML = '<div class="error" style="background:#EAF7EF;border-color:#BEE5C8;color:#1E8E5A;">Pedido guardado en el historial de "' + cliente + '".</div>';
+  statusBox.innerHTML = '<div class="error" style="background:#EAF7EF;border-color:#BEE5C8;color:#1E8E5A;">Pedido guardado en el historial de "' + cliente + '"' + (descontarStock ? " y descontado del stock." : ".") + ' Si querés, asigná este mismo pedido a otro cliente con el botón de abajo.</div>';
+}
+
+function nuevoPedidoParaOtroCliente(){
+  ultimoResultado = [];
+  const body = document.getElementById("resultBody");
+  if(body) body.innerHTML = "";
+  document.getElementById("resultCount").textContent = "0 items";
+  calcularTotales();
+  document.getElementById("clienteInput").value = "";
+  onClienteInputChange();
+  const statusBox = document.getElementById("pdfStatusBox");
+  if(statusBox) statusBox.innerHTML = '<div class="ped-hint">Listo. Elegí el nuevo cliente arriba y buscá los productos en "Armalo vos con tu stock" para armarle su propio pedido.</div>';
+  const buscador = document.getElementById("pedidoBuscarStock");
+  if(buscador){
+    buscador.value = "";
+    pintarPickerStock();
+  }
+  document.getElementById("pedidoManualCard").scrollIntoView({behavior:"smooth", block:"start"});
 }
 
 pintarClientes();
@@ -14808,8 +14893,11 @@ window.agregarCliente=agregarCliente;
 window.eliminarCliente=eliminarCliente;
 window.eliminarPedidoCliente=eliminarPedidoCliente;
 window.verPedidoCliente=verPedidoCliente;
+window.verOriginalPedido=verOriginalPedido;
 window.guardarPedidoEnCliente=guardarPedidoEnCliente;
 window.guardarPedidoEnClienteConNombre=guardarPedidoEnClienteConNombre;
+window.nuevoPedidoParaOtroCliente=nuevoPedidoParaOtroCliente;
+window.cerrarPickerStock=cerrarPickerStock;
 window.previewFoto=previewFoto;
 window.extraerDeFoto=extraerDeFoto;
 window.reemplazarListado=reemplazarListado;
