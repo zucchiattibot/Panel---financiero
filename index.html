@@ -356,6 +356,19 @@
   #pedidosIAModule .ped-photo-action strong{font-size:15px;color:var(--azul-osc);}
   #pedidosIAModule .ped-photo-action small{display:block;color:var(--texto-suave);font-size:11px;margin-top:5px;}
   #pedidosIAModule .ped-client-row{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:end;margin-top:13px;}
+  #pedidosIAModule .ped-step-label{font-size:11.5px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--azul);margin-bottom:7px;}
+  #pedidosIAModule .ped-chips{display:flex;gap:7px;flex-wrap:wrap;}
+  #pedidosIAModule .ped-chip{background:#fff;border:1.5px solid var(--gris-borde);color:var(--azul-osc);padding:8px 13px;border-radius:999px;font-size:12.5px;font-weight:600;cursor:pointer;white-space:nowrap;}
+  #pedidosIAModule .ped-chip:active{transform:scale(.97);}
+  #pedidosIAModule .ped-chip.sel{background:var(--azul);border-color:var(--azul);color:#fff;}
+  #pedidosIAModule .ped-chip.nuevo{border-style:dashed;color:var(--texto-suave);}
+  #pedidosIAModule .ped-client-context{font-size:11.5px;color:var(--texto-suave);background:#f5f8fb;border:1px solid var(--gris-borde);border-radius:8px;padding:7px 10px;}
+  #pedidosIAModule .ped-picker-row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--gris-borde);}
+  #pedidosIAModule .ped-picker-row:last-child{border-bottom:none;}
+  #pedidosIAModule .ped-picker-info{display:flex;flex-direction:column;gap:2px;min-width:0;}
+  #pedidosIAModule .ped-picker-info strong{font-size:13px;color:var(--azul-osc);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  #pedidosIAModule .ped-picker-info span{font-size:11.5px;color:var(--texto-suave);}
+  #pedidosIAModule .ped-picker-row button{flex:0 0 auto;padding:8px 13px;font-size:12.5px;}
   #pedidosIAModule .ped-client-label{font-size:12px;font-weight:700;color:var(--azul-osc);display:block;margin-bottom:5px;}
   #pedidosIAModule .ped-client-auto{font-size:10.5px;color:var(--verde);margin-top:4px;min-height:14px;}
   #pedidosIAModule .ped-admin-card{background:#fff;border:1px solid var(--gris-borde);border-radius:12px;margin-bottom:14px;overflow:hidden;}
@@ -13416,10 +13429,21 @@ if (document.readyState === 'loading'){
 
   <!-- ÚNICO FLUJO PRINCIPAL -->
   <div class="ped-card" id="pedidoFotoCard" style="padding:18px;">
-    <h2 style="margin-bottom:5px;">📷 Nuevo pedido</h2>
-    <p class="ped-hint" style="margin-bottom:12px;">Fotografiá la lista, una captura de WhatsApp o una hoja escrita. Podés agregar varias fotos del mismo pedido.</p>
+    <h2 style="margin-bottom:5px;">🛒 Nuevo pedido</h2>
+    <p class="ped-hint" style="margin-bottom:12px;">Elegí el cliente y fotografiá su lista, una captura de WhatsApp o una hoja escrita. La IA arma el pedido y lo asigna directo.</p>
 
-    <label class="ped-photo-action" for="pedidoFotosInput" id="pedidoFotosDropzone" style="min-height:145px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;">
+    <div class="ped-step-label">1 · Cliente</div>
+    <div id="clientesFrecuentesChips" class="ped-chips"></div>
+    <div style="margin-top:8px;">
+      <input id="clienteInput" list="listaClientesDatalist" placeholder="Buscar o escribir cliente nuevo..." style="width:100%;box-sizing:border-box;padding:11px 12px;border:1px solid var(--gris-borde);border-radius:9px;font-size:14px;" type="text" oninput="onClienteInputChange()"/>
+      <div class="ped-client-auto" id="clienteAutoMsg"></div>
+      <div id="clienteMatchBox" style="margin-top:5px;"></div>
+      <div id="clienteContextBox" style="margin-top:5px;"></div>
+      <datalist id="listaClientesDatalist"></datalist>
+    </div>
+
+    <div class="ped-step-label" style="margin-top:16px;">2 · Foto del pedido</div>
+    <label class="ped-photo-action" for="pedidoFotosInput" id="pedidoFotosDropzone" style="min-height:130px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;">
       <div class="cam">📷</div>
       <strong>TOCAR PARA SACAR / ELEGIR FOTO</strong>
       <small>Una o varias fotos</small>
@@ -13428,16 +13452,8 @@ if (document.readyState === 'loading'){
     <div id="pedidoFotosPreview" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;"></div>
     <div class="ped-photo-count" id="pedidoFotoCount"></div>
 
-    <div style="margin-top:12px;">
-      <label for="clienteInput" style="font-size:13px;font-weight:600;display:block;margin-bottom:5px;">👤 Cliente <span style="font-weight:400;color:var(--texto-suave);">(opcional)</span></label>
-      <input id="clienteInput" list="listaClientesDatalist" placeholder="La IA lo reconoce o elegilo" style="width:100%;box-sizing:border-box;padding:11px 12px;border:1px solid var(--gris-borde);border-radius:9px;font-size:14px;" type="text"/>
-      <div class="ped-client-auto" id="clienteAutoMsg"></div>
-      <div id="clienteMatchBox" style="margin-top:5px;"></div>
-      <datalist id="listaClientesDatalist"></datalist>
-    </div>
-
     <div class="ped-btn-row" style="margin-top:12px;">
-      <button class="ped-btn-primary" id="analizarFotosBtn" onclick="analizarFotosPedido()" disabled style="flex:1;">🤖 LEER PEDIDO</button>
+      <button class="ped-btn-primary" id="analizarFotosBtn" onclick="analizarFotosPedido()" disabled style="flex:1;">🤖 LEER Y CARGAR PEDIDO</button>
       <button class="ped-btn-secondary" id="limpiarFotosBtn" onclick="limpiarFotosPedido()" disabled>Limpiar</button>
     </div>
     <div id="fotoPedidoLoading"></div>
@@ -13453,6 +13469,14 @@ if (document.readyState === 'loading'){
     </details>
   </div>
 
+  <!-- ARMAR PEDIDO TOCANDO EL STOCK PROPIO -->
+  <div class="ped-card" id="pedidoManualCard" style="padding:18px;">
+    <h2 style="margin-bottom:5px;">🛍️ O armalo vos con tu stock</h2>
+    <p class="ped-hint" style="margin-bottom:10px;">Buscá productos de tu mercadería y tocá "+ agregar" para armarle el pedido al cliente elegido arriba.</p>
+    <input id="pedidoBuscarStock" oninput="pintarPickerStock()" placeholder="🔎 Buscar producto en tu stock..." style="width:100%;box-sizing:border-box;padding:11px 12px;border:1px solid var(--gris-borde);border-radius:9px;font-size:14px;" type="text"/>
+    <div id="pickerStockList" style="margin-top:10px;"></div>
+  </div>
+
   <!-- RESULTADO -->
   <div class="ped-card" id="resultCard" style="display:none;">
     <h2>✓ Revisar pedido <span class="ped-badge" id="resultCount">0 items</span></h2>
@@ -13460,16 +13484,16 @@ if (document.readyState === 'loading'){
     <p id="resultCliente" style="font-size:14px;font-weight:600;color:var(--azul-osc);margin:8px 0 10px;"></p>
     <div class="ped-master-table-wrap" style="max-height:none;">
       <table>
-        <thead><tr><th>Producto</th><th>Cant.</th><th class="ped-num">Precio</th><th class="ped-num">Total</th></tr></thead>
+        <thead><tr><th>Producto</th><th>Cant.</th><th class="ped-num">Precio</th><th class="ped-num">Total</th><th></th></tr></thead>
         <tbody id="resultBody"></tbody>
       </table>
     </div>
     <div class="ped-totales"><span id="totalUnidades">0 unidades</span><span class="ped-big" id="totalGeneral">$ 0,00</span></div>
     <div class="ped-btn-row ped-no-print">
-      <button class="ped-btn-secondary" onclick="window.print()">Imprimir</button>
+      <button class="ped-btn-primary" id="btnGuardarCliente" onclick="guardarPedidoEnCliente()" style="flex:1 1 100%;">💾 Guardar pedido al cliente</button>
+      <button class="ped-btn-secondary" id="btnWhatsapp" onclick="exportarPDFWhatsApp('compartir')">📲 WhatsApp</button>
       <button class="ped-btn-secondary" id="btnDescargar" onclick="exportarPDFWhatsApp('descargar')">⬇️ PDF</button>
-      <button class="ped-btn-primary" id="btnWhatsapp" onclick="exportarPDFWhatsApp('compartir')">📲 WhatsApp</button>
-      <button class="ped-btn-secondary" id="btnGuardarCliente" onclick="guardarPedidoEnCliente()">💾 Guardar</button>
+      <button class="ped-btn-secondary" onclick="window.print()">Imprimir</button>
     </div>
     <div class="ped-no-print" id="pdfStatusBox"></div>
   </div>
@@ -13875,7 +13899,7 @@ function usarStockComoPedido(){
   errorBox.innerHTML = "";
 
   const clienteStock = document.getElementById("clienteInputStock").value.trim();
-  document.getElementById("clienteInput").value = clienteStock;
+  document.getElementById("clienteInput").value = clienteStock; onClienteInputChange();
 
   const items = conCantidad.map(p => ({
     textoOriginal: p.producto,
@@ -13895,7 +13919,9 @@ function renderResultado(items){
   document.getElementById("resultCard").style.display = "block";
   document.getElementById("resultCount").textContent = items.length + " items";
   const cliente = document.getElementById("clienteInput").value.trim();
-  document.getElementById("resultCliente").textContent = cliente ? "Cliente: " + cliente : "";
+  document.getElementById("resultCliente").textContent = cliente ? "Cliente: " + cliente : "Sin cliente asignado — elegilo arriba antes de guardar";
+  const btnG = document.getElementById("btnGuardarCliente");
+  if(btnG) btnG.textContent = cliente ? ("💾 Guardar pedido a " + cliente) : "💾 Guardar pedido (elegir cliente)";
 
   body.innerHTML = items.map((it, idx) => {
     if(it.sinMatch || !it.candidatos || it.candidatos.length === 0){
@@ -13942,7 +13968,73 @@ function filaProducto(sku, cantidad, textoOriginal){
     <td class="num">${fmt(p.pdv)}</td>
     <td class="num">${fmt(p.pvp)}</td>
     <td class="num subtotal-cell">${fmt(total)}</td>
+    <td><button type="button" class="del-btn" title="Quitar este producto del pedido" onclick="quitarFilaResultado(this)">🗑</button></td>
   </tr>`;
+}
+
+function quitarFilaResultado(btn){
+  const row = btn.closest("tr");
+  if(!row) return;
+  row.remove();
+  calcularTotales();
+  const restantes = document.querySelectorAll("#resultBody tr[data-sku]").length;
+  document.getElementById("resultCount").textContent = restantes + " items";
+  pintarPickerStock();
+}
+
+function actualizarEncabezadoResultadoConCliente(){
+  const cliente = document.getElementById("clienteInput").value.trim();
+  const resultCliente = document.getElementById("resultCliente");
+  if(resultCliente) resultCliente.textContent = cliente ? "Cliente: " + cliente : "Sin cliente asignado — elegilo arriba antes de guardar";
+  const btnG = document.getElementById("btnGuardarCliente");
+  if(btnG) btnG.textContent = cliente ? ("💾 Guardar pedido a " + cliente) : "💾 Guardar pedido (elegir cliente)";
+}
+
+function pintarPickerStock(){
+  const cont = document.getElementById("pickerStockList");
+  const buscadorEl = document.getElementById("pedidoBuscarStock");
+  if(!cont || !buscadorEl) return;
+  const q = normalizarTexto(buscadorEl.value.trim());
+  let filtrados = q
+    ? MASTER_LIST.filter(p => normalizarTexto(p.producto).includes(q) || normalizarTexto(p.sku).includes(q))
+    : MASTER_LIST.slice().sort((a,b) => (a.producto||"").localeCompare(b.producto||""));
+  if(q && filtrados.length === 0){
+    cont.innerHTML = `<p class="ped-hint">Sin resultados para "${buscadorEl.value.trim()}"</p>`;
+    return;
+  }
+  if(!q && filtrados.length === 0){
+    cont.innerHTML = '<p class="ped-hint">Todavía no cargaste productos en tu stock (sección Mercadería).</p>';
+    return;
+  }
+  const limitados = filtrados.slice(0, 30);
+  cont.innerHTML = limitados.map(p => {
+    const row = document.querySelector(`#resultBody tr[data-sku="${p.sku}"]`);
+    const enPedido = row ? (Number(row.dataset.cant) || 0) : 0;
+    const stock = Number(p.cantidad) || 0;
+    const stockTxt = stock > 0 ? ("Stock: " + stock) : "Sin stock";
+    return `<div class="ped-picker-row">
+      <div class="ped-picker-info"><strong>${escPedido(p.producto)}</strong><span>${fmt(p.pdv)} · ${stockTxt}${enPedido ? " · En pedido: " + enPedido : ""}</span></div>
+      <button type="button" class="ped-btn-secondary" onclick="agregarProductoAlPedido('${p.sku.replace(/'/g,"\\'")}')">+ agregar</button>
+    </div>`;
+  }).join("") + (filtrados.length > 30 ? `<p class="ped-hint">Mostrando 30 de ${filtrados.length}. Afiná la búsqueda para ver otros.</p>` : "");
+}
+
+function agregarProductoAlPedido(sku){
+  document.getElementById("resultCard").style.display = "block";
+  const existingRow = document.querySelector(`#resultBody tr[data-sku="${sku}"]`);
+  if(existingRow){
+    const input = existingRow.querySelector(".cant-input");
+    input.value = (Number(input.value) || 0) + 1;
+    actualizarCantidadResultado(input);
+  }else{
+    const body = document.getElementById("resultBody");
+    body.insertAdjacentHTML("beforeend", filaProducto(sku, 1, ""));
+    calcularTotales();
+  }
+  const restantes = document.querySelectorAll("#resultBody tr[data-sku]").length;
+  document.getElementById("resultCount").textContent = restantes + " items";
+  actualizarEncabezadoResultadoConCliente();
+  pintarPickerStock();
 }
 
 function actualizarCantidadResultado(input){
@@ -13955,6 +14047,7 @@ function actualizarCantidadResultado(input){
     row.querySelector(".subtotal-cell").textContent = fmt(p.pdv * cant);
   }
   calcularTotales();
+  pintarPickerStock();
 }
 
 function resolverAmbiguo(idx, sku){
@@ -14167,6 +14260,62 @@ function pintarClientes(){
     }).join("");
   }
   actualizarDatalistClientes();
+  renderClientesFrecuentes();
+}
+
+function parseFechaAR(fecha){
+  if(!fecha) return 0;
+  const partes = String(fecha).split(" ");
+  const dmy = (partes[0]||"").split("/").map(Number);
+  const hm = partes[1] ? partes[1].split(":").map(Number) : [0,0];
+  if(dmy.length < 3 || !dmy[2]) return 0;
+  return new Date(dmy[2], (dmy[1]||1)-1, dmy[0]||1, hm[0]||0, hm[1]||0).getTime();
+}
+
+function renderClientesFrecuentes(){
+  const cont = document.getElementById("clientesFrecuentesChips");
+  if(!cont) return;
+  const actual = document.getElementById("clienteInput") ? document.getElementById("clienteInput").value.trim().toLowerCase() : "";
+  const conRecencia = CLIENTES.map(c => ({ c, t: (c.pedidos && c.pedidos[0]) ? parseFechaAR(c.pedidos[0].fecha) : -1 }));
+  conRecencia.sort((a,b) => b.t - a.t);
+  const top = conRecencia.slice(0, 6);
+  const chipsClientes = top.map(({c}) => {
+    const sel = actual && c.nombre.toLowerCase() === actual ? " sel" : "";
+    return `<button type="button" class="ped-chip${sel}" onclick="seleccionarClienteChip('${c.nombre.replace(/'/g,"\\'")}')">${escPedido(c.nombre)}</button>`;
+  }).join("");
+  cont.innerHTML = chipsClientes + '<button type="button" class="ped-chip nuevo" onclick="enfocarClienteNuevo()">+ nuevo cliente</button>';
+}
+
+function seleccionarClienteChip(nombre){
+  document.getElementById("clienteInput").value = nombre; onClienteInputChange();
+  onClienteInputChange();
+}
+
+function enfocarClienteNuevo(){
+  const input = document.getElementById("clienteInput");
+  input.value = "";
+  onClienteInputChange();
+  input.focus();
+}
+
+function mostrarContextoCliente(nombre){
+  const box = document.getElementById("clienteContextBox");
+  if(!box) return;
+  const n = normalizarTexto(nombre || "").trim();
+  if(!n){ box.innerHTML = ""; return; }
+  const c = CLIENTES.find(cc => normalizarTexto(cc.nombre) === n);
+  if(!c){ box.innerHTML = '<div class="ped-client-context">Cliente nuevo — se va a crear al guardar el pedido.</div>'; return; }
+  const pedidos = c.pedidos || [];
+  if(!pedidos.length){ box.innerHTML = `<div class="ped-client-context">${escPedido(c.nombre)} · sin pedidos guardados todavía</div>`; return; }
+  const ultimo = pedidos[0];
+  box.innerHTML = `<div class="ped-client-context">${escPedido(c.nombre)} · ${pedidos.length} pedido${pedidos.length === 1 ? "" : "s"} guardado${pedidos.length === 1 ? "" : "s"} · último: ${escPedido(ultimo.fecha)} (${fmt(ultimo.totalGeneral)})</div>`;
+}
+
+function onClienteInputChange(){
+  const nombre = document.getElementById("clienteInput").value.trim();
+  mostrarContextoCliente(nombre);
+  renderClientesFrecuentes();
+  actualizarEncabezadoResultadoConCliente();
 }
 
 function agregarCliente(){
@@ -14213,7 +14362,7 @@ function verPedidoCliente(cidx, pidx){
   const c = CLIENTES[cidx];
   if(!c || !c.pedidos || !c.pedidos[pidx]) return;
   const p = c.pedidos[pidx];
-  document.getElementById("clienteInput").value = c.nombre;
+  document.getElementById("clienteInput").value = c.nombre; onClienteInputChange();
   const items = p.items.map(it => ({
     textoOriginal: it.producto,
     cantidad: it.cantidad,
@@ -14234,7 +14383,7 @@ function guardarPedidoEnCliente(){
         statusBox.innerHTML = '<div class="error">Guardado cancelado: no se ingresó cliente.</div>';
         return;
       }
-      document.getElementById("clienteInput").value = nombre;
+      document.getElementById("clienteInput").value = nombre; onClienteInputChange();
       guardarPedidoEnClienteConNombre(nombre);
     });
     return;
@@ -14402,7 +14551,7 @@ function mostrarClienteDetectado(nombre){
 function seleccionarClienteDetectado(idx){
   const c = CLIENTES[idx];
   if(!c) return;
-  document.getElementById("clienteInput").value = c.nombre;
+  document.getElementById("clienteInput").value = c.nombre; onClienteInputChange();
   const box = document.getElementById("clienteMatchBox");
   if(box) box.innerHTML = `<div style="font-size:12px;color:#1E8E5A;">✓ Pedido asignado a <strong>${escPedido(c.nombre)}</strong>${c.telefono ? " · "+escPedido(c.telefono):""}</div>`;
 }
@@ -14430,12 +14579,12 @@ async function analizarFotosPedido(){
     if(nombre){
       const match = clienteMasParecido(nombre);
       if(match){
-        document.getElementById("clienteInput").value = match.cliente.nombre;
+        document.getElementById("clienteInput").value = match.cliente.nombre; onClienteInputChange();
         const cm = document.getElementById("clienteAutoMsg"); if(cm) cm.textContent = "✓ Cliente reconocido: " + match.cliente.nombre;
         mostrarClienteDetectado(nombre);
         seleccionarClienteDetectado(CLIENTES.indexOf(match.cliente));
       }else{
-        document.getElementById("clienteInput").value = nombre;
+        document.getElementById("clienteInput").value = nombre; onClienteInputChange();
         const cm = document.getElementById("clienteAutoMsg"); if(cm) cm.textContent = "Cliente detectado por la IA; revisalo antes de confirmar.";
         mostrarClienteDetectado(nombre);
       }
@@ -14634,6 +14783,10 @@ window.generarPedido=generarPedido;
 window.usarStockComoPedido=usarStockComoPedido;
 window.renderResultado=renderResultado;
 window.filaProducto=filaProducto;
+window.quitarFilaResultado=quitarFilaResultado;
+window.pintarPickerStock=pintarPickerStock;
+window.agregarProductoAlPedido=agregarProductoAlPedido;
+window.actualizarEncabezadoResultadoConCliente=actualizarEncabezadoResultadoConCliente;
 window.actualizarCantidadResultado=actualizarCantidadResultado;
 window.resolverAmbiguo=resolverAmbiguo;
 window.calcularTotales=calcularTotales;
@@ -14645,6 +14798,12 @@ window.guardarClientesLocal=guardarClientesLocal;
 window.cargarClientesLocal=cargarClientesLocal;
 window.actualizarDatalistClientes=actualizarDatalistClientes;
 window.pintarClientes=pintarClientes;
+window.renderClientesFrecuentes=renderClientesFrecuentes;
+window.seleccionarClienteChip=seleccionarClienteChip;
+window.enfocarClienteNuevo=enfocarClienteNuevo;
+window.mostrarContextoCliente=mostrarContextoCliente;
+window.onClienteInputChange=onClienteInputChange;
+window.parseFechaAR=parseFechaAR;
 window.agregarCliente=agregarCliente;
 window.eliminarCliente=eliminarCliente;
 window.eliminarPedidoCliente=eliminarPedidoCliente;
@@ -14660,6 +14819,8 @@ window.cerrar=cerrar;
 window.onOk=onOk;
 window.onCancel=onCancel;
 window.onKeydown=onKeydown;
+
+pintarPickerStock();
 
 })();
 </script>
