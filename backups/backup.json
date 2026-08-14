@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 4,
-  "exportadoEl": "2026-08-14T13:07:25.647Z",
+  "exportadoEl": "2026-08-14T14:29:19.823Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -1152,6 +1152,16 @@
       "detalle": "Cheque y efectivo",
       "id": "m_mssyp2gfmgnjqh",
       "modificadoEl": "2026-08-14T13:07:24.975Z"
+    },
+    {
+      "date": "2026-08-14",
+      "type": "ingreso",
+      "amount": 138000,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "efectivo",
+      "id": "m_mst1mdyau4zdii",
+      "modificadoEl": "2026-08-14T14:29:18.754Z"
     }
   ],
   "categoriasCustom": [
@@ -6005,6 +6015,134 @@
       "moneda": "ARS",
       "estado": "pendiente",
       "cargadaEl": "2026-08-11T14:26:28.935Z"
+    },
+    {
+      "id": "f_1786715204359_gqpti",
+      "proveedorKey": "clarin",
+      "tipo": "factura",
+      "numeroFactura": "00004-00016884",
+      "fecha": "2026-08-14",
+      "vencimiento": "2026-08-24",
+      "monto": 613015.5,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "ASTERIX II ( DGP SA )",
+          "edicion": "16",
+          "cantidad": 1,
+          "monto": 16800
+        },
+        {
+          "descripcion": "AUTOS INOLV ARGENTINOS",
+          "edicion": "8",
+          "cantidad": 7,
+          "monto": 179200
+        },
+        {
+          "descripcion": "AUTOS INOLV ARGENTINOS",
+          "edicion": "5",
+          "cantidad": 4,
+          "monto": 102400
+        },
+        {
+          "descripcion": "BIBLIOTECA CLASICA GRE",
+          "edicion": "35",
+          "cantidad": 1,
+          "monto": 21592
+        },
+        {
+          "descripcion": "COL GIMNASIA PARA LA M",
+          "edicion": "6",
+          "cantidad": 1,
+          "monto": 7808
+        },
+        {
+          "descripcion": "CONSTRUYE LA PERLITA (",
+          "edicion": "10",
+          "cantidad": 1,
+          "monto": 18000
+        },
+        {
+          "descripcion": "CONSTRUYE LA PERLITA (",
+          "edicion": "11",
+          "cantidad": 1,
+          "monto": 18000
+        },
+        {
+          "descripcion": "DODGE CHARGER RYF (DGP",
+          "edicion": "16",
+          "cantidad": 2,
+          "monto": 44000
+        },
+        {
+          "descripcion": "THE BEST OF MARVEL (DG",
+          "edicion": "11",
+          "cantidad": 1,
+          "monto": 20800
+        },
+        {
+          "descripcion": "AUDIOCUENTOS MAGICOS D",
+          "edicion": "15",
+          "cantidad": 1,
+          "monto": 23920
+        },
+        {
+          "descripcion": "AUDIOCUENTOS MAGICOS D",
+          "edicion": "18",
+          "cantidad": 3,
+          "monto": 56400
+        },
+        {
+          "descripcion": "CLIP (DGP)",
+          "edicion": "906",
+          "cantidad": 1,
+          "monto": 3574
+        },
+        {
+          "descripcion": "CLIP EXTRA (DGP)",
+          "edicion": "369",
+          "cantidad": 1,
+          "monto": 4815
+        },
+        {
+          "descripcion": "BIBLIOTECA DE PSICOLOG",
+          "edicion": "25",
+          "cantidad": 1,
+          "monto": 12720
+        },
+        {
+          "descripcion": "CRUZADAS ORO (DGP)",
+          "edicion": "10368",
+          "cantidad": 1,
+          "monto": 7516
+        },
+        {
+          "descripcion": "SOPITAS EXTRA (DGP)",
+          "edicion": "324",
+          "cantidad": 1,
+          "monto": 2379
+        },
+        {
+          "descripcion": "SOPARAMA SUPER -A (DGP",
+          "edicion": "318",
+          "cantidad": 1,
+          "monto": 2707.5
+        },
+        {
+          "descripcion": "RALLY 1:24 (DGP)",
+          "edicion": "54",
+          "cantidad": 1,
+          "monto": 40000
+        },
+        {
+          "descripcion": "JUEGOS DE INGENIO (DGP",
+          "edicion": "41",
+          "cantidad": 2,
+          "monto": 30384
+        }
+      ],
+      "cargadaEl": "2026-08-14T13:46:44.359Z"
     }
   ],
   "clientesReparto": {
