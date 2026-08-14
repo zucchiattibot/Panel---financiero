@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 4,
-  "exportadoEl": "2026-08-14T18:07:41.171Z",
+  "exportadoEl": "2026-08-14T18:42:51.914Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -1172,6 +1172,16 @@
       "medio": "transferencia",
       "id": "m_mst23un19gkl79",
       "modificadoEl": "2026-08-14T14:42:53.533Z"
+    },
+    {
+      "date": "2026-08-14",
+      "type": "ingreso",
+      "amount": 398743,
+      "category": "Tauro",
+      "account": "agencia",
+      "medio": "transferencia",
+      "id": "m_mstaofoitgfg2p",
+      "modificadoEl": "2026-08-14T18:42:50.850Z"
     }
   ],
   "categoriasCustom": [
@@ -1191,7 +1201,8 @@
     "La nacion",
     "Oeste",
     "Sapito",
-    "Vera y vicuña"
+    "Vera y vicuña",
+    "Tauro"
   ],
   "categoriasBaseEliminadas": [
     "Servicios impuestos"
