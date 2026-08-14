@@ -5037,6 +5037,11 @@ function setStatus(elId, textId, mode, text){
   if (mode) el.classList.add(mode);
   document.getElementById(textId).textContent = text;
 }
+// setStatus se usa también desde el bloque <script> de Inversiones, más abajo en el
+// archivo, que NO comparte el cierre de función (IIFE) de este bloque — sin colgarla
+// de window quedaría fuera de alcance ahí y rompería con "setStatus is not defined"
+// (el mismo problema que ya tuvimos antes con storageGet/storageSet).
+window.setStatus = setStatus;
 
 async function loadDolares(){
   try {
@@ -5092,10 +5097,17 @@ const CORS_PROXIES = [
   url => 'https://thingproxy.freeboard.io/fetch/' + url,
 ];
 
+/* No usamos AbortController/signal acá: dentro de la app instalada (el ícono en
+   pantalla de inicio), el fetch pasa por un puente interno que reenvía el pedido con
+   postMessage, y postMessage no puede clonar un objeto AbortSignal — rompía con
+   "AbortSignal object could not be cloned" y tumbaba todo lo que dependía de esta
+   función (el proxy CORS, y con él Stooq/Yahoo y el precio de Bitcoin en Inversiones).
+   Con Promise.race conseguimos el mismo límite de tiempo sin pasar ningún signal. */
 function fetchConTimeout(url, ms){
-  const ctrl = new AbortController();
-  const t = setTimeout(()=>ctrl.abort(), ms);
-  return fetch(url, {signal: ctrl.signal}).finally(()=>clearTimeout(t));
+  return Promise.race([
+    fetch(url),
+    new Promise((_, reject) => setTimeout(()=>reject(new Error('tiempo agotado')), ms))
+  ]);
 }
 
 async function fetchViaProxy(url, asJson){
@@ -5155,6 +5167,16 @@ async function indiceClose(symStooq, symYahoo){
 }
 
 function esperar(ms){ return new Promise(r => setTimeout(r, ms)); }
+// Igual que setStatus más arriba: estas funciones las usa también el bloque de
+// Inversiones (otro <script> más abajo, fuera de este IIFE), así que hay que
+// colgarlas de window para que no queden fuera de alcance ahí.
+window.fetchViaProxy = fetchViaProxy;
+window.indiceClose = indiceClose;
+window.esperar = esperar;
+window.stooqClose = stooqClose;
+window.yahooClose = yahooClose;
+window.fetchConTimeout = fetchConTimeout;
+
 
 async function loadMercadosGlobales(){
   let anyOk = false, anyFail = false;
@@ -12762,6 +12784,7 @@ let invMonedaSel = 'ARS'; // 'ARS' | 'USD' (solo aplica en modo 'monto')
 let invEditId = null;
 let invPrecios = {}; // { 'BTC': 12345.6, 'SPY': 543.2, 'QQQ': 480.1, 'voo.us': 500 }
 let invPreciosStatus = 'cargando'; // 'cargando' | 'ok' | 'parcial' | 'error'
+let invPreciosErrores = {}; // { 'BTC': 'mensaje real del error', ... } — para diagnosticar sin adivinar
 let invDolarRates = {}; // { blue: {compra, venta}, oficial: {...}, ... } vía DolarAPI
 
 function invLabel(activo){
@@ -13069,20 +13092,32 @@ async function invFetchPrecios(){
   await invFetchDolarRates();
 
   try {
-    const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd');
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    const data = await res.json();
+    let data, errDirectoMsg = null;
+    try {
+      const res = await invConTimeout(fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd'), 12000);
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      data = await res.json();
+    } catch(errDirecto){
+      errDirectoMsg = (errDirecto && errDirecto.message) ? errDirecto.message : String(errDirecto);
+      // El pedido directo a CoinGecko puede estar bloqueado en algunos navegadores/WebViews;
+      // reintentamos vía el mismo proxy que ya usan S&P 500 / Nasdaq.
+      data = await invConTimeout(fetchViaProxy('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd', true), 12000);
+    }
+    if (!data || !data.bitcoin || typeof data.bitcoin.usd !== 'number'){
+      throw new Error('respuesta sin precio de bitcoin' + (errDirectoMsg ? ' (directo falló antes con: ' + errDirectoMsg + ')' : ''));
+    }
     invPrecios['BTC'] = data.bitcoin.usd;
+    delete invPreciosErrores['BTC'];
     ok++;
-  } catch(e){ fail++; }
+  } catch(e){ fail++; invPreciosErrores['BTC'] = (e && e.message) ? e.message : String(e); }
   setStatus('inv-status','inv-status-text','live','Consultando precios… (S&P 500)');
 
-  try { invPrecios['SPY'] = await indiceClose('spy.us', 'SPY'); ok++; }
-  catch(e){ fail++; }
+  try { invPrecios['SPY'] = await invConTimeout(indiceClose('spy.us', 'SPY'), 12000); delete invPreciosErrores['SPY']; ok++; }
+  catch(e){ fail++; invPreciosErrores['SPY'] = (e && e.message) ? e.message : String(e); }
   await esperar(300);
   setStatus('inv-status','inv-status-text','live','Consultando precios… (Nasdaq)');
-  try { invPrecios['QQQ'] = await indiceClose('qqq.us', 'QQQ'); ok++; }
-  catch(e){ fail++; }
+  try { invPrecios['QQQ'] = await invConTimeout(indiceClose('qqq.us', 'QQQ'), 12000); delete invPreciosErrores['QQQ']; ok++; }
+  catch(e){ fail++; invPreciosErrores['QQQ'] = (e && e.message) ? e.message : String(e); }
 
   // Activos "Otro" con ticker Stooq cargado: uno por uno para no saturar el proxy.
   const tickers = new Map();
@@ -13096,14 +13131,15 @@ async function invFetchPrecios(){
     setStatus('inv-status','inv-status-text','live','Consultando precios… (' + activo + ')');
     try {
       const yahooSym = ticker.replace(/\.us$/i, '').toUpperCase();
-      invPrecios[activo] = await indiceClose(ticker, yahooSym);
+      invPrecios[activo] = await invConTimeout(indiceClose(ticker, yahooSym), 12000);
       ok++;
     } catch(e){ fail++; }
   }
 
+  const detalleErrores = Object.keys(invPreciosErrores).map(k=>k+': '+invPreciosErrores[k]).join(' · ');
   if (fail === 0) { invPreciosStatus = 'ok'; setStatus('inv-status','inv-status-text','live','En vivo (CoinGecko / Stooq / Yahoo)'); }
-  else if (ok === 0) { invPreciosStatus = 'error'; setStatus('inv-status','inv-status-text','err','No se pudo consultar ningún precio (tiempo agotado o sin conexión). Probá tocar "Actualizar precios".'); }
-  else { invPreciosStatus = 'parcial'; setStatus('inv-status','inv-status-text','live','Algunos precios no se pudieron consultar.'); }
+  else if (ok === 0) { invPreciosStatus = 'error'; setStatus('inv-status','inv-status-text','err','No se pudo consultar ningún precio. ' + detalleErrores); }
+  else { invPreciosStatus = 'parcial'; setStatus('inv-status','inv-status-text','live','Algunos precios no se pudieron consultar: ' + detalleErrores); }
 }
 
 function invCalcularCartera(){
@@ -13162,7 +13198,7 @@ async function invRenderCartera(){
       '<td class="num">' + fmtCantidad(s.qty) + '</td>' +
       '<td class="num">' + fmtUsd(avgCost) + '</td>' +
       '<td class="num">' + fmtUsd(s.costo) + '</td>' +
-      '<td class="num">' + (tieneValor ? fmtUsd(precioActual) : 'sin dato') + '</td>' +
+      '<td class="num" ' + ((!tieneValor && invPreciosErrores[activo]) ? ('title="' + invPreciosErrores[activo].replace(/"/g,"'") + '"') : '') + '>' + (tieneValor ? fmtUsd(precioActual) : 'sin dato' + (invPreciosErrores[activo] ? ' ⚠︎' : '')) + '</td>' +
       '<td class="num">' + (tieneValor ? fmtUsd(valorActual) : '—') + '</td>' +
       '<td class="num ' + (resultado === null ? '' : (resultado>=0?'pos':'neg')) + '">' + resultTxt + '</td>';
     tbody.appendChild(tr);
@@ -13178,7 +13214,12 @@ async function invRenderCartera(){
 }
 
 async function invActualizarTodo(){
-  await invFetchPrecios();
+  try {
+    await invConTimeout(invFetchPrecios(), 60000);
+  } catch(e){
+    invPreciosStatus = 'error';
+    setStatus('inv-status','inv-status-text','err','No se pudo consultar los precios (tardó demasiado). Probá tocar "Actualizar precios" de nuevo.');
+  }
   await invRenderCartera();
 }
 
@@ -13211,9 +13252,10 @@ function invWireEvents(){
     } else {
       const msg = document.getElementById('invMsg');
       msg.style.color = 'var(--red-neg)';
-      msg.textContent = invActivoSel === 'OTRO'
+      const detalle = invPreciosErrores[key] ? (' Detalle: ' + invPreciosErrores[key]) : '';
+      msg.textContent = (invActivoSel === 'OTRO'
         ? 'Todavía no hay precio en vivo para este activo (revisá el símbolo Stooq, o cargalo a mano).'
-        : 'Los precios en vivo todavía no cargaron, esperá un momento y probá de nuevo.';
+        : 'Los precios en vivo todavía no cargaron, esperá un momento y probá de nuevo.') + detalle;
     }
   });
 }
