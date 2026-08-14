@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 4,
-  "exportadoEl": "2026-08-14T13:07:03.205Z",
+  "exportadoEl": "2026-08-14T13:07:25.647Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -1142,6 +1142,16 @@
       "detalle": "Mandados",
       "id": "m_mssyokof0slynz",
       "modificadoEl": "2026-08-14T13:07:01.935Z"
+    },
+    {
+      "date": "2026-08-14",
+      "type": "egreso",
+      "amount": 961464.6,
+      "category": "Silmar",
+      "account": "agencia",
+      "detalle": "Cheque y efectivo",
+      "id": "m_mssyp2gfmgnjqh",
+      "modificadoEl": "2026-08-14T13:07:24.975Z"
     }
   ],
   "categoriasCustom": [
