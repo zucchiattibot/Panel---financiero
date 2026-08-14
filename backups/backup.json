@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 4,
-  "exportadoEl": "2026-08-14T18:48:22.928Z",
+  "exportadoEl": "2026-08-14T21:08:23.465Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -1192,6 +1192,16 @@
       "detalle": "La nación",
       "id": "m_mstavj4f7dk77u",
       "modificadoEl": "2026-08-14T18:48:21.903Z"
+    },
+    {
+      "date": "2026-08-14",
+      "type": "egreso",
+      "amount": 14000,
+      "category": "Varios",
+      "account": "alquileres",
+      "detalle": "Lavado manchi",
+      "id": "m_mstfvjzviag89k",
+      "modificadoEl": "2026-08-14T21:08:21.115Z"
     }
   ],
   "categoriasCustom": [
