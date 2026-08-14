@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 4,
-  "exportadoEl": "2026-08-13T21:36:09.740Z",
+  "exportadoEl": "2026-08-14T01:09:26.040Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -1112,6 +1112,16 @@
       "medio": "transferencia",
       "id": "m_mss1ffya5qdi3k",
       "modificadoEl": "2026-08-13T21:36:08.578Z"
+    },
+    {
+      "date": "2026-08-13",
+      "type": "egreso",
+      "amount": 4800,
+      "category": "Varios",
+      "account": "alquileres",
+      "detalle": "Kiosco",
+      "id": "m_mss91pngkb7sxq",
+      "modificadoEl": "2026-08-14T01:09:24.892Z"
     }
   ],
   "categoriasCustom": [
