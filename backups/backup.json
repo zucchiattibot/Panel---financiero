@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 4,
-  "exportadoEl": "2026-08-14T01:09:44.243Z",
+  "exportadoEl": "2026-08-14T13:07:03.205Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -1132,6 +1132,16 @@
       "detalle": "Pollo tuniyo",
       "id": "m_mss923x0c7aqef",
       "modificadoEl": "2026-08-14T01:09:43.380Z"
+    },
+    {
+      "date": "2026-08-14",
+      "type": "egreso",
+      "amount": 8000,
+      "category": "Empleado mandado javi",
+      "account": "agencia",
+      "detalle": "Mandados",
+      "id": "m_mssyokof0slynz",
+      "modificadoEl": "2026-08-14T13:07:01.935Z"
     }
   ],
   "categoriasCustom": [
@@ -6825,7 +6835,15 @@
         "pagos": []
       }
     ],
-    "extras": [],
+    "extras": [
+      {
+        "id": "msstzjhcrczrjm",
+        "clienteId": "msokpdwksc5o1a",
+        "fecha": "2026-08-14",
+        "descripcion": "Popular",
+        "monto": 2300
+      }
+    ],
     "diasSinReparto": [
       {
         "id": "msqgdh644wsd1x",
