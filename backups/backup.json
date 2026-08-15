@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 4,
-  "exportadoEl": "2026-08-15T14:06:06.421Z",
+  "exportadoEl": "2026-08-15T14:06:29.010Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -1253,6 +1253,16 @@
       "medio": "efectivo",
       "id": "m_msug8ddh74r327",
       "modificadoEl": "2026-08-15T14:06:05.237Z"
+    },
+    {
+      "date": "2026-08-15",
+      "type": "egreso",
+      "amount": 200000,
+      "category": "Edificación",
+      "account": "alquileres",
+      "detalle": "Pintura local",
+      "id": "m_msug8v33gxsbti",
+      "modificadoEl": "2026-08-15T14:06:28.191Z"
     }
   ],
   "categoriasCustom": [
