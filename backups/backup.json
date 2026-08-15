@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 4,
-  "exportadoEl": "2026-08-14T23:46:30.435Z",
+  "exportadoEl": "2026-08-15T00:55:31.893Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -1222,6 +1222,16 @@
       "detalle": "Fiambre",
       "id": "m_mstlix3wn26by8",
       "modificadoEl": "2026-08-14T23:46:29.276Z"
+    },
+    {
+      "date": "2026-08-14",
+      "type": "egreso",
+      "amount": 34000,
+      "category": "Sueldo",
+      "account": "alquileres",
+      "detalle": "Sandwiches sushi",
+      "id": "m_mstnzowgwqmi73",
+      "modificadoEl": "2026-08-15T00:55:31.024Z"
     }
   ],
   "categoriasCustom": [
@@ -7280,7 +7290,7 @@
       {
         "id": "vzmsrx3l9m5o3w5z",
         "nombre": "ID River",
-        "fecha": "2026-08-14",
+        "fecha": "2026-09-14",
         "monto": 15000,
         "recurrente": true,
         "diaMes": 14
