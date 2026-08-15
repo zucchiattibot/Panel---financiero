@@ -3241,6 +3241,7 @@ function renderResumen(metric, mode, param){
   resMode = mode;
 
   let monthlySlice, cutIdx, cumIncomeSlice, cumExpenseSlice, dateLabel, periodoTxt;
+  let periodIncome, periodExpense; // ingresos/egresos SOLO del período elegido (no acumulado desde el origen)
 
   if (mode === 'rango' && param && param.desde && param.hasta){
     monthlySlice = buildRangeMonthly(MOVES, CAT_LIST, param.desde, param.hasta);
@@ -3251,6 +3252,8 @@ function renderResumen(metric, mode, param){
     cutIdx = monthlySlice.length - 1;
     dateLabel = 'del ' + fmtDMYint(param.desde) + ' al ' + fmtDMYint(param.hasta);
     periodoTxt = ', en el rango de fechas elegido.';
+    periodIncome = monthlySlice.reduce((s,m)=>s+m.income,0);
+    periodExpense = monthlySlice.reduce((s,m)=>s+m.expense,0);
   } else if (mode === 'mensual' && param){
     cutIdx = MONTHLY.findIndex(m=>m.ym===param);
     if (cutIdx === -1) cutIdx = MONTHLY.length-1;
@@ -3259,6 +3262,8 @@ function renderResumen(metric, mode, param){
     cumExpenseSlice = cumExpenseArr.slice(0, cutIdx+1);
     dateLabel = 'al cierre de ' + fmtMonth(monthlySlice[monthlySlice.length-1].ym);
     periodoTxt = ', hasta el cierre elegido.';
+    periodIncome = MONTHLY[cutIdx].income;
+    periodExpense = MONTHLY[cutIdx].expense;
   } else {
     const yearCutoff = (mode==='anual') ? param : null;
     cutIdx = yearCutoff ? MONTHLY.reduce((acc,m,i)=> m.ym.slice(0,4)<=yearCutoff ? i : acc, -1) : MONTHLY.length-1;
@@ -3267,30 +3272,35 @@ function renderResumen(metric, mode, param){
     cumExpenseSlice = cumExpenseArr.slice(0, cutIdx+1);
     dateLabel = 'al cierre de ' + fmtMonth(monthlySlice[monthlySlice.length-1].ym);
     periodoTxt = yearCutoff ? ', hasta el cierre elegido.' : ', toda la historia de la cuenta.';
+    if (yearCutoff){
+      periodIncome = MONTHLY.filter(m=>m.ym.slice(0,4)===yearCutoff).reduce((s,m)=>s+m.income,0);
+      periodExpense = MONTHLY.filter(m=>m.ym.slice(0,4)===yearCutoff).reduce((s,m)=>s+m.expense,0);
+    } else {
+      periodIncome = monthlySlice.reduce((s,m)=>s+m.income,0);
+      periodExpense = monthlySlice.reduce((s,m)=>s+m.expense,0);
+    }
   }
 
   const closeMonth = monthlySlice[monthlySlice.length-1];
-  const sliceIncome = monthlySlice.reduce((s,m)=>s+m.income,0);
-  const sliceExpense = monthlySlice.reduce((s,m)=>s+m.expense,0);
 
   document.getElementById('res-date').textContent = dateLabel;
-  document.getElementById('res-income').textContent = fmtARS(sliceIncome);
-  document.getElementById('res-expense').textContent = fmtARS(sliceExpense);
+  document.getElementById('res-income').textContent = fmtARS(periodIncome);
+  document.getElementById('res-expense').textContent = fmtARS(periodExpense);
 
   let data, color, totalVal, chartNote, pctText;
   if (metric==='ingresos'){
-    data = cumIncomeSlice; color = '#7fd4a0'; totalVal = sliceIncome;
+    data = cumIncomeSlice; color = '#7fd4a0'; totalVal = periodIncome;
     chartNote = 'Ingresos acumulados mes a mes' + periodoTxt;
-    pctText = (sliceIncome+sliceExpense>0) ? 'Los ingresos representan el ' + (sliceIncome/(sliceIncome+sliceExpense)*100).toFixed(1) + '% del volumen operado en el período (ingresos + egresos).' : '';
+    pctText = (periodIncome+periodExpense>0) ? 'Los ingresos representan el ' + (periodIncome/(periodIncome+periodExpense)*100).toFixed(1) + '% del volumen operado en el período (ingresos + egresos).' : '';
   } else if (metric==='egresos'){
-    data = cumExpenseSlice; color = '#e08b78'; totalVal = sliceExpense;
+    data = cumExpenseSlice; color = '#e08b78'; totalVal = periodExpense;
     chartNote = 'Egresos acumulados mes a mes' + periodoTxt;
-    pctText = (sliceIncome+sliceExpense>0) ? 'Los egresos representan el ' + (sliceExpense/(sliceIncome+sliceExpense)*100).toFixed(1) + '% del volumen operado en el período (ingresos + egresos).' : '';
+    pctText = (periodIncome+periodExpense>0) ? 'Los egresos representan el ' + (periodExpense/(periodIncome+periodExpense)*100).toFixed(1) + '% del volumen operado en el período (ingresos + egresos).' : '';
   } else {
     data = monthlySlice.map((m,i)=> mode==='rango' ? m.cum : (typeof m.cum === 'number' ? m.cum : cumIncomeSlice[i]-cumExpenseSlice[i]));
-    color = '#d3b56a'; totalVal = (mode==='rango') ? closeMonth.cum : closeMonth.cum;
+    color = '#d3b56a'; totalVal = closeMonth.cum;
     chartNote = 'Acumulado mes a mes' + periodoTxt;
-    pctText = sliceIncome>0 ? 'Margen neto: ' + (((sliceIncome-sliceExpense)/sliceIncome)*100).toFixed(1) + '% sobre los ingresos del período.' : '';
+    pctText = periodIncome>0 ? 'Margen neto: ' + (((periodIncome-periodExpense)/periodIncome)*100).toFixed(1) + '% sobre los ingresos del período.' : '';
   }
   document.getElementById('res-total').textContent = fmtARS(totalVal);
   document.getElementById('res-total').className = 'big-number ' + (totalVal<0?'neg':'pos');
