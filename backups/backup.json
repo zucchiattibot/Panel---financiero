@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 4,
-  "exportadoEl": "2026-08-15T00:55:31.893Z",
+  "exportadoEl": "2026-08-15T12:51:46.326Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -1232,6 +1232,17 @@
       "detalle": "Sandwiches sushi",
       "id": "m_mstnzowgwqmi73",
       "modificadoEl": "2026-08-15T00:55:31.024Z"
+    },
+    {
+      "date": "2026-08-15",
+      "type": "ingreso",
+      "amount": 180600,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "efectivo",
+      "detalle": "Cheque pinciaroli",
+      "id": "m_msudks2k6zkbjf",
+      "modificadoEl": "2026-08-15T12:51:45.308Z"
     }
   ],
   "categoriasCustom": [
