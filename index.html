@@ -41,6 +41,61 @@
   .tab-btn[data-tab].tab-btn-hidden{display:none !important;}
   .tab-btn[data-tab].tab-hide-marked{opacity:.45;text-decoration:line-through;border-style:dashed;}
 
+  /* ---------- Tema claro (⚙️ Configuración) ----------
+     Solo pisa las variables de :root, así que todo lo que ya usa var(--x)
+     se adapta solo. Los elementos con colores fijos (ej. la factura/remito
+     imprimible, que siempre tiene que verse como papel blanco) quedan
+     afuera a propósito. */
+  body.tema-claro{
+    --bg-0:#f7f3e6; --bg-1:#ffffff; --bg-2:#efe9d8;
+    --line:#ddd4ba; --cream:#20301f; --cream-dim:#5b5643;
+    --gold:#9c7a2e; --green-pos:#1f7a4d; --red-neg:#b6432e; --muted:#867f63;
+    --blue:#2f5f86;
+  }
+  body.tema-claro .tab-btn.active{color:#fff8ea;}
+  body.tema-claro .cargar-tipo-btn.active[data-tipo="ingreso"]{color:#155c37;}
+  body.tema-claro .cargar-tipo-btn.active[data-tipo="egreso"]{color:#8a3220;}
+
+  /* ---------- Densidad compacta (⚙️ Configuración) ---------- */
+  body.densidad-compacta .wrap{padding:16px 12px 0 12px;}
+  body.densidad-compacta .card{padding:12px 10px;margin-bottom:9px;border-radius:12px;}
+  body.densidad-compacta h1{font-size:21px;}
+  body.densidad-compacta h2{font-size:14px;}
+  body.densidad-compacta .card-note{font-size:10.5px;margin-bottom:8px;}
+  body.densidad-compacta .kpi{padding:8px 10px;}
+  body.densidad-compacta .kpi .val{font-size:15px;}
+  body.densidad-compacta .big-number{font-size:25px;}
+  body.densidad-compacta table td, body.densidad-compacta table th{padding:5px 4px;}
+  body.densidad-compacta .tab-btn{padding:6px 12px;font-size:12px;}
+  body.densidad-compacta .tabs{margin-bottom:12px;}
+  body.densidad-compacta .toggle-btn{padding:5px 10px;font-size:11px;}
+
+  /* ---------- Personalizar panel (prolijidad / ocultar cosas) ---------- */
+  body.hide-topheader #topHeaderBlock{display:none !important;}
+  body.hide-secdesc .sec-desc{display:none !important;}
+  .customize-toggle{background:var(--bg-2);border:1px solid var(--line);color:var(--cream-dim);
+    padding:7px 13px;border-radius:999px;font-size:12px;font-weight:600;cursor:pointer;
+    display:inline-flex;align-items:center;gap:6px;margin:-6px 0 14px 0;}
+  .customize-toggle.active{color:var(--gold);border-color:var(--gold);}
+  #panelCustomizeBox{display:none;background:rgba(0,0,0,.2);border:1px solid var(--line);
+    border-radius:12px;padding:12px 14px;margin:-8px 0 16px 0;}
+  #panelCustomizeBox.active{display:block;}
+  #panelCustomizeBox .cz-row{display:flex;align-items:center;gap:9px;padding:7px 0;
+    border-bottom:1px solid var(--line);font-size:13px;color:var(--cream-dim);}
+  #panelCustomizeBox .cz-row:last-child{border-bottom:none;}
+  #panelCustomizeBox .cz-row input[type="checkbox"]{width:16px;height:16px;flex:0 0 auto;accent-color:var(--gold);}
+  #panelCustomizeBox .cz-section-label{font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--muted);margin:10px 0 2px 0;}
+  #panelCustomizeBox .cz-section-label:first-child{margin-top:0;}
+  #panelCustomizeBox .tabs-reorder-toggle{display:block !important;margin:0 !important;
+    padding:7px 0 !important;font-size:13px !important;text-decoration:none !important;width:100%;text-align:left;
+    border-bottom:1px solid var(--line);}
+  #panelCustomizeBox .link-btn{display:block !important;margin:0 !important;
+    padding:7px 0 !important;font-size:13px !important;text-decoration:none !important;
+    border-bottom:1px solid var(--line);}
+  #panelCustomizeBox > .tabs-reorder-toggle:last-of-type,
+  #panelCustomizeBox > .link-btn:last-of-type{border-bottom:none;}
+
   .panel{display:none;} .panel.active{display:block;}
   .fc-view{display:none;} .fc-view.active{display:block;}
   #fcFacturaContenido table{width:100%;border-collapse:collapse;font-size:13px;}
@@ -396,9 +451,21 @@
   }
 </style></head>
 <body>
+<script>
+// Aplica densidad/tema guardados ANTES de que se dibuje el resto del panel,
+// para que no haya un parpadeo con el estilo por defecto. Lectura síncrona
+// (localStorage) igual que la de formato de números más abajo.
+try {
+  var __agCfgEarly = JSON.parse(localStorage.getItem('agencia-config-v1') || '{}');
+  if (__agCfgEarly.densidad === 'compacto') document.body.classList.add('densidad-compacta');
+  if (__agCfgEarly.tema === 'light') document.body.classList.add('tema-claro');
+} catch(e){}
+</script>
 <div class="wrap">
+<div class="top-header" id="topHeaderBlock">
 <p class="eyebrow">Solo cuenta Agencia · ARS</p>
 <h1>Panel del negocio</h1>
+</div>
 <div class="card" style="padding:14px 16px;">
 <h2 style="font-size:14px;">Tu sueldo, ¿cuenta como gasto?</h2>
 <p class="card-note" id="sueldoToggleNote">Cargando…</p>
@@ -425,7 +492,8 @@
 <button class="tab-btn" data-tab="clientes">📰 Clientes reparto</button>
 <button class="tab-btn" data-tab="vencimientos">⏰ Vencimientos</button>
 <button class="tab-btn" data-tab="inversiones">📈 Inversiones</button>
-<button class="tab-btn" data-tab="pedidos-ia">🛒 Pedidos IA</button></div>
+<button class="tab-btn" data-tab="pedidos-ia">🛒 Pedidos IA</button>
+<button class="tab-btn" data-tab="configuracion">⚙️ Configuración</button></div>
 <button class="tabs-reorder-toggle" id="tabsReorderToggle" type="button">↕ Reordenar pestañas</button>
 <button class="tabs-reorder-toggle" id="tabsHideToggle" type="button">👁 Ocultar pestañas</button>
 <div class="tabs-reorder-bar" id="tabsReorderBar">
@@ -1706,7 +1774,7 @@
 </div>
 <div class="panel" id="tab-cargar">
 <div class="card cargar-hero tipo-ingreso" id="cargarHero">
-<p class="eyebrow">Carga rápida</p>
+<p class="eyebrow sec-desc">Carga rápida</p>
 <h2>Cargar un movimiento</h2>
 <p class="card-note">Sumá un ingreso o un gasto ahora. Se refleja al instante en el balance, categorías, comparaciones y proyección de todo el panel.</p>
 <form id="cargarForm">
@@ -1805,9 +1873,73 @@
 </div>
 </details>
 </div>
+<div class="panel" id="tab-configuracion">
+<p class="eyebrow sec-desc">Ajustes generales</p>
+<h2>⚙️ Configuración</h2>
+<p class="card-note">Formato de números, pestaña de inicio, densidad, tema y copias de seguridad. Separado de "Personalizar panel" (que es lo visual/prolijidad). Nada de esto toca los datos cargados.</p>
+
+<div class="card">
+<h2 style="font-size:14px;">Moneda / formato de números</h2>
+<p class="card-note">Cómo se muestran los montos en todo el panel. Ejemplo con el nuevo formato: <strong id="cfgEjemploNum">$ 1.234</strong></p>
+<div class="range-label" style="margin-top:2px;">Decimales</div>
+<div class="toggle-row" id="cfgDecimalesToggle">
+<button class="toggle-btn" data-val="0" type="button">Sin decimales</button>
+<button class="toggle-btn" data-val="2" type="button">Con decimales</button>
+</div>
+<div class="range-label">Separador</div>
+<div class="toggle-row" id="cfgMilesToggle" style="margin-bottom:0;">
+<button class="toggle-btn" data-val="es-AR" type="button">1.234,56 (Argentina)</button>
+<button class="toggle-btn" data-val="en-US" type="button">1,234.56 (Internacional)</button>
+</div>
+</div>
+
+<div class="card">
+<h2 style="font-size:14px;">Pestaña de inicio</h2>
+<p class="card-note">Con cuál pestaña arranca el panel cada vez que lo abrís.</p>
+<select id="cfgPestanaInicio" style="width:100%;padding:11px 10px;border-radius:8px;background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);font-size:14px;"></select>
+<label style="display:flex;align-items:center;gap:9px;margin-top:12px;font-size:13px;color:var(--cream-dim);">
+<input id="cfgRecordarUltima" type="checkbox"/> Recordar la última pestaña que usé (tiene prioridad sobre la de inicio)
+    </label>
+</div>
+
+<div class="card">
+<h2 style="font-size:14px;">Densidad</h2>
+<p class="card-note">Modo compacto: menos padding y letra más chica, para ver más contenido de una.</p>
+<div class="toggle-row" id="cfgDensidadToggle" style="margin-bottom:0;">
+<button class="toggle-btn" data-val="normal" type="button">Normal</button>
+<button class="toggle-btn" data-val="compacto" type="button">Compacto</button>
+</div>
+</div>
+
+<div class="card">
+<h2 style="font-size:14px;">Tema</h2>
+<div class="toggle-row" id="cfgTemaToggle" style="margin-bottom:0;">
+<button class="toggle-btn" data-val="dark" type="button">🌙 Oscuro (verde/dorado)</button>
+<button class="toggle-btn" data-val="light" type="button">☀️ Claro</button>
+</div>
+</div>
+
+<div class="card">
+<h2 style="font-size:14px;">Copia de seguridad completa</h2>
+<p class="card-note">Exporta o restaura TODO lo cargado (movimientos, categorías, facturas de proveedores, clientes de reparto, vencimientos) en un solo paso, sin tener que buscarlo dentro de "Cargar datos".</p>
+<button class="cargar-submit-btn" id="cfgBackupCompleto" style="margin-bottom:10px;" type="button">💾 Copia de seguridad completa</button>
+<div style="display:flex;gap:10px;flex-wrap:wrap;">
+<button class="tab-btn" id="cfgPegarBackup" style="border-radius:8px;" type="button">📋 Restaurar pegando backup</button>
+<label class="tab-btn" for="cfgInputImportarBackup" style="border-radius:8px;cursor:pointer;margin:0;display:inline-flex;align-items:center;">⬆️ Restaurar desde archivo</label>
+<input accept="application/json,.json" id="cfgInputImportarBackup" style="display:none;" type="file"/>
+</div>
+</div>
+
+<div class="card">
+<h2 style="font-size:14px;">Restablecer vista</h2>
+<p class="card-note">Vuelve el orden de pestañas, las pestañas ocultas, los nombres personalizados (pestañas y cuentas), el orden de paneles y el menú "⚙️ Personalizar panel" a como vienen por defecto. <strong>No borra ningún dato cargado.</strong></p>
+<button class="tab-btn" id="cfgResetVista" style="width:100%;border-radius:8px;padding:12px;" type="button">↺ Restablecer vista a valores por defecto</button>
+<p class="card-note" id="cfgResetVistaMsg" style="margin-top:8px;min-height:14px;"></p>
+</div>
+</div>
 <div class="panel" id="tab-ia">
 <div class="card">
-<p class="eyebrow">Preguntale a tus números</p>
+<p class="eyebrow sec-desc">Preguntale a tus números</p>
 <h2>Asistente IA</h2>
 <p class="card-note">Preguntas en lenguaje natural sobre Agencia y Alquileres: "¿cómo venimos este mes?", "¿en qué gasté más este año?", "compará este año con el pasado"... Usa Gemini (IA gratis de Google). La IA solo recibe resúmenes — totales por mes, por año y por categoría — nunca tus movimientos uno por uno. También recibe cotizaciones en vivo (dólar, bitcoin/ethereum, riesgo país, soja, novillo, inflación, UVA, CER, tasas BCRA), así que podés preguntarle cosas como "¿a cuánto dólar blue equivale mi saldo?" o "¿cómo viene la inflación este mes?".</p>
 <details class="cargar-advanced" id="iaConfigDetails" style="margin:0 0 14px 0;">
@@ -1840,7 +1972,7 @@
 </div>
 <div class="panel" id="tab-clientes">
 <div class="card">
-<p class="eyebrow">Reparto de diarios y revistas</p>
+<p class="eyebrow sec-desc">Reparto de diarios y revistas</p>
 <h2 id="fcNombreReparto">Clientes</h2>
 <p class="card-note">Cargá clientes, lo que lleva cada uno, suspensiones y extras. Liquidá por período y generá una factura para mandar por WhatsApp. Todo separado de las cuentas Agencia / Alquileres — es su propio negocio.</p>
 <div class="toggle-row" id="fcNav">
@@ -2130,7 +2262,7 @@
 </div>
 <div class="panel" id="tab-vencimientos">
 <div class="card">
-<p class="eyebrow">Impuestos y servicios</p>
+<p class="eyebrow sec-desc">Impuestos y servicios</p>
 <h2>Vencimientos</h2>
 <p class="card-note">Avisa cuando falten <b id="vzDiasAvisoTxt">3</b> día(s) o menos para un vencimiento. Los impuestos tienen fecha oficial cargada abajo; los servicios (luz, gas, agua, etc.) los cargás vos a mano desde Brubank o Personal Pay, porque esas fechas cambian cada mes y no hay forma de buscarlas automáticamente.</p>
 <div id="vzAlertas"></div>
@@ -2183,7 +2315,7 @@
 </div>
 <div class="panel" id="tab-inversiones">
 <div class="card">
-<p class="eyebrow">Cartera personal</p>
+<p class="eyebrow sec-desc">Cartera personal</p>
 <h2>Inversiones</h2>
 <p class="card-note">Cargá tus compras (y ventas) de Bitcoin, S&amp;P 500, Nasdaq 100 u otro activo, cuando las hagas. El panel calcula solo cuánto invertiste, cuánto vale hoy tu cartera y la ganancia o pérdida, con precios en vivo.</p>
 </div>
@@ -2663,7 +2795,35 @@ MOVES.forEach(r=>{
   }
 });
 
-const fmtARS = (n) => new Intl.NumberFormat('es-AR', {style:'currency', currency:'ARS', maximumFractionDigits:0}).format(n);
+// AGENCIA_NUM_CFG: objeto mutable (no reasignable, pero sí editable) que lee
+// la sección ⚙️ Configuración al final del archivo. fmtARS se define una
+// sola vez acá pero lee estas propiedades en cada llamada, así que cambiar
+// decimales/formatoMiles desde Configuración afecta automáticamente a los
+// cientos de lugares del panel que ya usan fmtARS(...), sin tener que tocarlos.
+var AGENCIA_NUM_CFG = { decimales: 0, formatoMiles: 'es-AR' };
+window.AGENCIA_NUM_CFG = AGENCIA_NUM_CFG;
+// Lectura SÍNCRONA (localStorage, no la API async window.storage) de la
+// configuración guardada en ⚙️ Configuración. Tiene que pasar acá, antes de
+// que el resto del panel arranque a dibujar números más abajo en este mismo
+// script; si se dejara para más adelante (DOMContentLoaded), todo lo que ya
+// se dibujó en la primera pasada quedaría con el formato viejo hasta la
+// próxima recarga. storageSet siempre espeja en localStorage aunque el panel
+// esté corriendo con window.storage, así que esta lectura es confiable.
+try {
+  var __agCfgRaw = localStorage.getItem('agencia-config-v1');
+  if (__agCfgRaw){
+    var __agCfg = JSON.parse(__agCfgRaw);
+    if (typeof __agCfg.decimales === 'number') AGENCIA_NUM_CFG.decimales = __agCfg.decimales;
+    if (typeof __agCfg.formatoMiles === 'string') AGENCIA_NUM_CFG.formatoMiles = __agCfg.formatoMiles;
+  }
+} catch(e){}
+const fmtARS = (n) => {
+  try {
+    return new Intl.NumberFormat(AGENCIA_NUM_CFG.formatoMiles, {style:'currency', currency:'ARS', minimumFractionDigits: AGENCIA_NUM_CFG.decimales, maximumFractionDigits: AGENCIA_NUM_CFG.decimales}).format(n);
+  } catch(e){
+    return '$' + Number(n).toFixed(AGENCIA_NUM_CFG.decimales);
+  }
+};
 const fmtUSD = (n) => 'US$' + new Intl.NumberFormat('es-AR', {maximumFractionDigits:0}).format(n);
 const meses = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
 const mesesLargo = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
@@ -5423,19 +5583,69 @@ function fetchConTimeout(url, ms){
   ]);
 }
 
+/* Semáforo global: limita cuántos pedidos "vía proxy" corren en simultáneo en TODA la
+   pestaña de Mercados. Cada pedido individual ya dispara sus propios 4 proxies en paralelo
+   (ver fetchViaProxy más abajo); si además se permiten muchos pedidos distintos (6 índices +
+   2 bonos + Agro) al mismo tiempo, se llega a más de 30 conexiones simultáneas contra solo 4
+   servidores de proxy — el navegador limita a ~6 conexiones por servidor, así que la mayoría
+   queda haciendo cola y nunca llega a responder antes del timeout (eso era el "No disponible"
+   generalizado). Con este límite, como mucho 5 pedidos van en simultáneo (5 x 4 proxies = 20
+   conexiones repartidas en 4 servidores = 5 por servidor, justo debajo del límite típico de
+   6 del navegador). */
+let PROXY_SEMAFORO_LIBRE = 5;
+const PROXY_SEMAFORO_COLA = [];
+function proxySemaforoAdquirir(){
+  return new Promise(resolve => {
+    if (PROXY_SEMAFORO_LIBRE > 0){ PROXY_SEMAFORO_LIBRE--; resolve(); }
+    else PROXY_SEMAFORO_COLA.push(resolve);
+  });
+}
+function proxySemaforoLiberar(){
+  if (PROXY_SEMAFORO_COLA.length){ PROXY_SEMAFORO_COLA.shift()(); }
+  else PROXY_SEMAFORO_LIBRE++;
+}
+
 async function fetchViaProxy(url, asJson){
-  let lastErr = null;
-  for (const buildUrl of CORS_PROXIES){
-    try {
-      const res = await fetchConTimeout(buildUrl(url), 7000);
-      if (!res.ok) throw new Error('HTTP ' + res.status);
-      return asJson ? await res.json() : await res.text();
-    } catch(err){
-      lastErr = (err && err.name === 'AbortError') ? new Error('tiempo agotado') : err;
-      // probamos el siguiente proxy de la lista
-    }
+  // Antes probábamos los proxies UNO POR UNO (hasta 4 x 7s = 28s de espera si los
+  // primeros estaban caídos). Ahora los lanzamos todos en paralelo y nos quedamos
+  // con el primero que responda bien — así un proxy lento o caído ya no frena a
+  // los demás, y en el caso normal (algún proxy anda bien) la respuesta llega en
+  // el tiempo del más rápido, no en la suma de todos.
+  // NOTA: se implementa "a mano" con un Promise común (en vez de Promise.any) porque
+  // el webview propio de la app instalada puede no soportar Promise.any todavía —
+  // eso fue justamente lo que hizo que todo mostrara "No disponible" en el intento
+  // anterior. Esta versión solo depende de async/await, que ya se usa en todo el resto
+  // del archivo sin problemas.
+  // El semáforo (arriba) limita cuántos de estos "grupos de 4 proxies" corren a la vez
+  // en toda la app, para no saturar la conexión — eso fue lo que causó el "No disponible"
+  // generalizado en el intento anterior.
+  await proxySemaforoAdquirir();
+  try {
+    return await new Promise((resolve, reject) => {
+      let pendientes = CORS_PROXIES.length;
+      let resuelto = false;
+      let ultimoError = null;
+      CORS_PROXIES.forEach((buildUrl) => {
+        (async () => {
+          try {
+            const res = await fetchConTimeout(buildUrl(url), 5000);
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            const data = asJson ? await res.json() : await res.text();
+            if (!resuelto){ resuelto = true; resolve(data); }
+          } catch(err){
+            ultimoError = (err && err.name === 'AbortError') ? new Error('tiempo agotado') : err;
+          } finally {
+            pendientes--;
+            if (pendientes === 0 && !resuelto){
+              reject(ultimoError || new Error('ningún proxy disponible'));
+            }
+          }
+        })();
+      });
+    });
+  } finally {
+    proxySemaforoLiberar();
   }
-  throw lastErr || new Error('ningún proxy disponible');
 }
 
 /* r.jina.ai renderiza la página (ejecuta el JavaScript) y devuelve el texto resultante — a
@@ -5464,19 +5674,28 @@ async function yahooClose(yahooSymbol){
   return price;
 }
 
-/* Probamos Stooq primero y, si falla, Yahoo Finance como respaldo — son fuentes independientes,
-   así que si una bloquea al proxy (a Stooq le pasaba con pedidos sin headers de navegador) la
-   otra puede seguir funcionando. */
+/* Probamos Stooq y Yahoo EN PARALELO (antes: primero Stooq completo, y solo si fallaba
+   se arrancaba con Yahoo — cuando las dos fuentes fallan, como en el caso de la captura
+   que mandaste, eso significaba esperar el timeout completo de Stooq y DESPUÉS el timeout
+   completo de Yahoo, el doble de espera por índice). Ahora arrancan los dos a la vez y nos
+   quedamos con el que responda primero. */
 async function indiceClose(symStooq, symYahoo){
-  try {
-    return await stooqClose(symStooq);
-  } catch(errStooq){
-    try {
-      return await yahooClose(symYahoo);
-    } catch(errYahoo){
-      throw new Error('Stooq: ' + errStooq.message + ' · Yahoo: ' + errYahoo.message);
-    }
-  }
+  return new Promise((resolve, reject) => {
+    let pendientes = 2, resuelto = false, errStooq = null, errYahoo = null;
+    const chequearFinal = () => {
+      if (pendientes === 0 && !resuelto){
+        reject(new Error('Stooq: ' + (errStooq?.message||'?') + ' · Yahoo: ' + (errYahoo?.message||'?')));
+      }
+    };
+    stooqClose(symStooq)
+      .then(v => { if (!resuelto){ resuelto = true; resolve(v); } })
+      .catch(e => { errStooq = e; })
+      .finally(() => { pendientes--; chequearFinal(); });
+    yahooClose(symYahoo)
+      .then(v => { if (!resuelto){ resuelto = true; resolve(v); } })
+      .catch(e => { errYahoo = e; })
+      .finally(() => { pendientes--; chequearFinal(); });
+  });
 }
 
 function esperar(ms){ return new Promise(r => setTimeout(r, ms)); }
@@ -5502,9 +5721,11 @@ async function loadMercadosGlobales(){
     {sym:'xauusd', yahoo:'GC=F', elId:'oro-val', label:'Oro', digits:0, prefix:'US$ '},
     {sym:'usdbrl', yahoo:'BRL=X', elId:'brl-val', label:'Real brasileño', digits:3},
   ];
-  // Los pedimos de a uno (no todos en paralelo) para no saturar los proxies gratuitos —
-  // pedir los 4 al mismo tiempo era justamente lo que hacía que Stooq empezara a fallar.
-  for (const idx of indices){
+  // Antes se pedían de a uno con una pausa de 350ms entre cada uno (6 índices x
+  // hasta 7-14s de proxy c/u + pausas = fácil más de un minuto solo acá). Ahora que
+  // fetchViaProxy ya prueba todos los proxies en paralelo por dentro, no hace falta
+  // seguir espaciando los pedidos: los 6 índices van todos a la vez.
+  await Promise.all(indices.map(async (idx) => {
     try {
       const close = await indiceClose(idx.sym, idx.yahoo);
       document.getElementById(idx.elId).textContent = (idx.prefix||'') + new Intl.NumberFormat('en-US',{maximumFractionDigits:idx.digits}).format(close);
@@ -5515,8 +5736,7 @@ async function loadMercadosGlobales(){
       errores.push(idx.label + ': ' + err.message);
       console.error('Mercados globales (' + idx.sym + '):', err);
     }
-    await esperar(350);
-  }
+  }));
   try {
     const res = await fetch('https://api.argentinadatos.com/v1/finanzas/indices/riesgo-pais/ultimo');
     if (!res.ok) throw new Error('HTTP ' + res.status);
@@ -5536,7 +5756,7 @@ async function loadMercadosGlobales(){
     {yahoo:'AL30.BA', elId:'al30-val', label:'AL30'},
     {yahoo:'GD30.BA', elId:'gd30-val', label:'GD30'},
   ];
-  for (const bono of bonos){
+  await Promise.all(bonos.map(async (bono) => {
     try {
       const precio = await yahooClose(bono.yahoo);
       document.getElementById(bono.elId).textContent = fmtARS(precio);
@@ -5546,8 +5766,7 @@ async function loadMercadosGlobales(){
       anyFail = true;
       errores.push(bono.label + ': ' + err.message);
     }
-    await esperar(350);
-  }
+  }));
   document.getElementById('mercados-detalle').textContent = errores.length ? errores.join(' · ') : '';
   if (anyOk && !anyFail) setStatus('mercados-status','mercados-status-text','live','En vivo');
   else if (anyOk) setStatus('mercados-status','mercados-status-text','live','Parcial — algunas fuentes no respondieron (detalle abajo)');
@@ -6183,9 +6402,11 @@ async function loadMercadosTodo(){
   // Dólar, cripto y BTC especial van directo (sin proxy) y sí pueden ir en paralelo.
   // Mercados globales y Agro comparten los proxies gratuitos, así que van uno después
   // del otro para no saturarlos entre sí.
-  await Promise.all([loadDolares(), loadCripto(), loadBtcEspecial(), loadIndicadoresMacro()]);
-  await loadMercadosGlobales();
-  await loadAgro();
+  // Mercados Globales y Agro usaban proxies "compartidos" y por eso antes iban
+  // secuenciales (uno esperaba a que termine el otro). Ahora que fetchViaProxy
+  // reparte cada pedido entre los 4 proxies en paralelo por su cuenta, ya no hace
+  // falta esperar a que termine todo Mercados Globales para recién arrancar Agro.
+  await Promise.all([loadDolares(), loadCripto(), loadBtcEspecial(), loadIndicadoresMacro(), loadMercadosGlobales(), loadAgro()]);
   await loadTasasBcra();
   await loadVolatilidad();
   await loadDolarBlueVsInflacion();
@@ -15208,6 +15429,329 @@ window.onKeydown=onKeydown;
 
 pintarPickerStock();
 
+})();
+</script>
+<script>
+(function(){
+  'use strict';
+
+  // Junta en un solo menú "⚙️ Personalizar panel" todos los botones sueltos
+  // (Reordenar pestañas, Ocultar pestañas, Renombrar pestañas, Mover paneles,
+  // Nombres de cuentas) más los toggles para ocultar el título de arriba y
+  // las descripciones de cada sección. No borra ninguna función, solo las
+  // agrupa y las deja colapsadas por defecto para que el panel se vea prolijo.
+
+  var storageGet = null, storageSet = null;
+  try { if (typeof window.storageGet === 'function') storageGet = window.storageGet; } catch(e){}
+  try { if (typeof window.storageSet === 'function') storageSet = window.storageSet; } catch(e){}
+  if (!storageGet) storageGet = async function(){ return null; };
+  if (!storageSet) storageSet = async function(){ return false; };
+
+  var K_PREFS = 'panelCustomizePrefs';
+  var prefs = { hideTopHeader: false, hideSecDesc: false };
+
+  function applyPrefs(){
+    document.body.classList.toggle('hide-topheader', !!prefs.hideTopHeader);
+    document.body.classList.toggle('hide-secdesc', !!prefs.hideSecDesc);
+  }
+  function savePrefs(){ storageSet(K_PREFS, JSON.stringify(prefs)); }
+
+  function buildCheckboxRow(box, label, key){
+    var row = document.createElement('label');
+    row.className = 'cz-row';
+    var chk = document.createElement('input');
+    chk.type = 'checkbox';
+    chk.checked = !!prefs[key];
+    var span = document.createElement('span');
+    span.textContent = label;
+    row.appendChild(chk);
+    row.appendChild(span);
+    box.appendChild(row);
+    chk.addEventListener('change', function(){
+      prefs[key] = chk.checked;
+      applyPrefs();
+      savePrefs();
+    });
+  }
+
+  function moveIfExists(box, id){
+    var el = document.getElementById(id);
+    if (el) box.appendChild(el);
+  }
+
+  function init(){
+    var tabsEl = document.querySelector('.tabs');
+    if (!tabsEl) return;
+
+    var gear = document.createElement('button');
+    gear.type = 'button';
+    gear.id = 'panelCustomizeToggle';
+    gear.className = 'customize-toggle';
+    gear.textContent = '⚙️ Personalizar panel';
+    tabsEl.insertAdjacentElement('afterend', gear);
+
+    var box = document.createElement('div');
+    box.id = 'panelCustomizeBox';
+    box.setAttribute('data-no-relabel', '1');
+    gear.insertAdjacentElement('afterend', box);
+
+    var lblVista = document.createElement('div');
+    lblVista.className = 'cz-section-label';
+    lblVista.textContent = 'Vista';
+    box.appendChild(lblVista);
+    buildCheckboxRow(box, 'Ocultar título de arriba de todo', 'hideTopHeader');
+    buildCheckboxRow(box, 'Ocultar descripciones de cada sección', 'hideSecDesc');
+
+    var lblOpc = document.createElement('div');
+    lblOpc.className = 'cz-section-label';
+    lblOpc.textContent = 'Pestañas y paneles';
+    box.appendChild(lblOpc);
+    // Estos botones ya existen en la página (o los crean otros scripts);
+    // acá solo los movemos adentro del menú, sin tocar su funcionamiento.
+    moveIfExists(box, 'tabsReorderToggle');
+    moveIfExists(box, 'tabsHideToggle');
+    moveIfExists(box, 'tabsRenameToggle');
+    moveIfExists(box, 'panelReorderToggle');
+
+    var lblCuentas = document.createElement('div');
+    lblCuentas.className = 'cz-section-label';
+    lblCuentas.textContent = 'Nombres';
+    box.appendChild(lblCuentas);
+    moveIfExists(box, 'openAccountSettings');
+
+    // Si alguno de esos botones no existía todavía cuando corrió este script,
+    // lo revisamos un par de veces más (algunos se crean de forma asíncrona).
+    var retries = 0;
+    var retryTimer = setInterval(function(){
+      retries++;
+      moveIfExists(box, 'tabsRenameToggle');
+      moveIfExists(box, 'panelReorderToggle');
+      moveIfExists(box, 'openAccountSettings');
+      if (retries >= 6) clearInterval(retryTimer);
+    }, 400);
+
+    gear.addEventListener('click', function(){
+      var isActive = box.classList.toggle('active');
+      gear.classList.toggle('active', isActive);
+    });
+
+    applyPrefs();
+  }
+
+  async function boot(){
+    try { var p = await storageGet(K_PREFS); if (p) prefs = Object.assign(prefs, JSON.parse(p) || {}); } catch(e){}
+    applyPrefs();
+    try { init(); } catch(e){ console.error('panelCustomize init', e); }
+  }
+
+  if (document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', function(){ setTimeout(boot, 0); });
+  } else {
+    setTimeout(boot, 0);
+  }
+  window.addEventListener('load', function(){ setTimeout(applyPrefs, 50); });
+})();
+</script>
+<script>
+(function initConfiguracionGeneral(){
+  'use strict';
+
+  // Todo lo de la pestaña "⚙️ Configuración": formato de moneda, pestaña de
+  // inicio, recordar última pestaña, densidad, tema claro/oscuro, backup
+  // completo y restablecer vista. Se guarda en un solo objeto (una sola
+  // clave de storage) para no ensuciar con claves sueltas.
+
+  var sg = (typeof window.storageGet === 'function') ? window.storageGet : async function(){ return null; };
+  var ss = (typeof window.storageSet === 'function') ? window.storageSet : async function(){ return false; };
+
+  var CONFIG_KEY = 'agencia-config-v1';
+  var LAST_TAB_KEY = 'agencia-last-tab';
+  // Claves que forman "la vista" (orden/ocultas/nombres/menú personalizar).
+  // A propósito NO incluye datos cargados (movimientos, categorías, etc.)
+  // ni las claves de este mismo objeto de Configuración.
+  var VIEW_RESET_KEYS = ['agencia-tab-order','agencia-tabs-hidden','customTabNames','customAccountNames','customPanelOrder','panelCustomizePrefs'];
+
+  var DEFAULTS = { decimales:0, formatoMiles:'es-AR', pestanaInicio:'resumen', recordarUltima:true, densidad:'normal', tema:'dark' };
+  var cfg = Object.assign({}, DEFAULTS);
+
+  function applyNumCfg(){
+    if (window.AGENCIA_NUM_CFG){
+      window.AGENCIA_NUM_CFG.decimales = cfg.decimales;
+      window.AGENCIA_NUM_CFG.formatoMiles = cfg.formatoMiles;
+    }
+  }
+  function applyVisualCfg(){
+    document.body.classList.toggle('densidad-compacta', cfg.densidad === 'compacto');
+    document.body.classList.toggle('tema-claro', cfg.tema === 'light');
+  }
+  function saveCfg(){ return ss(CONFIG_KEY, JSON.stringify(cfg)); }
+
+  function setToggleActive(boxId, val){
+    var box = document.getElementById(boxId);
+    if (!box) return;
+    Array.from(box.querySelectorAll('.toggle-btn')).forEach(function(b){
+      b.classList.toggle('active', b.dataset.val === String(val));
+    });
+  }
+
+  function refreshEjemplo(){
+    var el = document.getElementById('cfgEjemploNum');
+    if (el && typeof window.fmtARS === 'function') el.textContent = fmtARS(1234.5);
+    else if (el) el.textContent = new Intl.NumberFormat(cfg.formatoMiles, {style:'currency', currency:'ARS', minimumFractionDigits:cfg.decimales, maximumFractionDigits:cfg.decimales}).format(1234.5);
+  }
+
+  function poblarSelectPestanas(){
+    var sel = document.getElementById('cfgPestanaInicio');
+    if (!sel) return;
+    sel.innerHTML = '';
+    Array.from(document.querySelectorAll('.tab-btn[data-tab]')).forEach(function(btn){
+      var opt = document.createElement('option');
+      opt.value = btn.dataset.tab;
+      opt.textContent = btn.textContent.trim();
+      sel.appendChild(opt);
+    });
+    sel.value = cfg.pestanaInicio;
+  }
+
+  function activarTabPorId(tab){
+    var btn = document.querySelector('.tab-btn[data-tab="'+tab+'"]');
+    if (!btn || btn.classList.contains('tab-btn-hidden')) return false;
+    document.querySelectorAll('.tab-btn[data-tab]').forEach(function(b){ b.classList.remove('active'); });
+    document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('active'); });
+    btn.classList.add('active');
+    var panel = document.getElementById('tab-'+tab);
+    if (panel) panel.classList.add('active');
+    return true;
+  }
+
+  function wireUI(){
+    setToggleActive('cfgDecimalesToggle', cfg.decimales);
+    setToggleActive('cfgMilesToggle', cfg.formatoMiles);
+    setToggleActive('cfgDensidadToggle', cfg.densidad);
+    setToggleActive('cfgTemaToggle', cfg.tema);
+    document.getElementById('cfgRecordarUltima').checked = !!cfg.recordarUltima;
+    poblarSelectPestanas();
+    refreshEjemplo();
+
+    document.getElementById('cfgDecimalesToggle').addEventListener('click', function(e){
+      var b = e.target.closest('.toggle-btn'); if (!b) return;
+      cfg.decimales = Number(b.dataset.val);
+      setToggleActive('cfgDecimalesToggle', cfg.decimales);
+      applyNumCfg(); refreshEjemplo(); saveCfg();
+      recargarParaAplicarFormato();
+    });
+    document.getElementById('cfgMilesToggle').addEventListener('click', function(e){
+      var b = e.target.closest('.toggle-btn'); if (!b) return;
+      cfg.formatoMiles = b.dataset.val;
+      setToggleActive('cfgMilesToggle', cfg.formatoMiles);
+      applyNumCfg(); refreshEjemplo(); saveCfg();
+      recargarParaAplicarFormato();
+    });
+    document.getElementById('cfgDensidadToggle').addEventListener('click', function(e){
+      var b = e.target.closest('.toggle-btn'); if (!b) return;
+      cfg.densidad = b.dataset.val;
+      setToggleActive('cfgDensidadToggle', cfg.densidad);
+      applyVisualCfg(); saveCfg();
+    });
+    document.getElementById('cfgTemaToggle').addEventListener('click', function(e){
+      var b = e.target.closest('.toggle-btn'); if (!b) return;
+      cfg.tema = b.dataset.val;
+      setToggleActive('cfgTemaToggle', cfg.tema);
+      applyVisualCfg(); saveCfg();
+    });
+    document.getElementById('cfgPestanaInicio').addEventListener('change', function(){
+      cfg.pestanaInicio = this.value;
+      saveCfg();
+    });
+    document.getElementById('cfgRecordarUltima').addEventListener('change', function(){
+      cfg.recordarUltima = this.checked;
+      saveCfg();
+    });
+
+    document.getElementById('cfgBackupCompleto').addEventListener('click', function(){
+      if (typeof window.exportarBackup === 'function') window.exportarBackup();
+      else if (typeof exportarBackup === 'function') exportarBackup();
+    });
+    document.getElementById('cfgPegarBackup').addEventListener('click', function(){
+      if (typeof window.abrirModalPegarBackup === 'function') window.abrirModalPegarBackup();
+      else if (typeof abrirModalPegarBackup === 'function') abrirModalPegarBackup();
+    });
+    document.getElementById('cfgInputImportarBackup').addEventListener('change', function(e){
+      var file = e.target.files && e.target.files[0];
+      if (file){
+        if (typeof window.importarBackupArchivo === 'function') window.importarBackupArchivo(file);
+        else if (typeof importarBackupArchivo === 'function') importarBackupArchivo(file);
+      }
+      e.target.value = '';
+    });
+
+    document.getElementById('cfgResetVista').addEventListener('click', function(){
+      var msg = document.getElementById('cfgResetVistaMsg');
+      if (!confirm('¿Restablecer el orden de pestañas, pestañas ocultas, nombres personalizados y el menú "Personalizar panel" a como vienen por defecto?\n\nEsto NO borra ningún dato cargado.')) return;
+      msg.textContent = 'Restableciendo...';
+      Promise.all(VIEW_RESET_KEYS.map(function(k){ return ss(k, ''); })).then(function(){
+        msg.textContent = 'Listo, recargando...';
+        setTimeout(function(){ location.reload(); }, 400);
+      });
+    });
+  }
+
+  function recargarParaAplicarFormato(){
+    var msg = document.getElementById('cfgResetVistaMsg');
+    // Reusamos el mismo cartel de mensajes de la tarjeta de abajo para avisar
+    // que se está aplicando el nuevo formato (los montos ya están dibujados
+    // en pantalla en las otras pestañas, así que hace falta recargar para
+    // que se vuelvan a armar con el formato nuevo).
+    if (msg) msg.textContent = '';
+    var note = document.getElementById('cfgEjemploNum');
+    if (note) note.insertAdjacentHTML('afterend', ' <span style="color:var(--muted);font-size:11px;">(aplicando en todo el panel…)</span>');
+    setTimeout(function(){ location.reload(); }, 350);
+  }
+
+  function wireRecordarUltimaPestana(){
+    document.querySelectorAll('.tab-btn[data-tab]').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        if (cfg.recordarUltima) ss(LAST_TAB_KEY, btn.dataset.tab);
+      });
+    });
+  }
+
+  async function aplicarTabInicial(){
+    // Corre al final de todo (después de que se restauren orden/ocultas/
+    // nombres de pestañas, que son scripts anteriores) para elegir con qué
+    // pestaña arrancar: prioridad a "recordar última pestaña" si está
+    // activado y esa pestaña sigue existiendo/visible; si no, la pestaña de
+    // inicio elegida en Configuración; si no, "Resumen" (el default de
+    // siempre) que ya viene activo en el HTML.
+    var yaEsta = document.querySelector('.tab-btn.active[data-tab]');
+    var actual = yaEsta ? yaEsta.dataset.tab : 'resumen';
+    var objetivo = null;
+    if (cfg.recordarUltima){
+      var last = null;
+      try { last = await sg(LAST_TAB_KEY); } catch(e){}
+      if (last) objetivo = last;
+    }
+    if (!objetivo && cfg.pestanaInicio) objetivo = cfg.pestanaInicio;
+    if (objetivo && objetivo !== actual) activarTabPorId(objetivo);
+  }
+
+  async function boot(){
+    try {
+      var raw = await sg(CONFIG_KEY);
+      if (raw) cfg = Object.assign({}, DEFAULTS, JSON.parse(raw) || {});
+    } catch(e){}
+    applyNumCfg();
+    applyVisualCfg();
+    try { wireUI(); } catch(e){ console.error('config UI', e); }
+    try { wireRecordarUltimaPestana(); } catch(e){ console.error('config recordar', e); }
+    try { await aplicarTabInicial(); } catch(e){ console.error('config tab inicial', e); }
+  }
+
+  if (document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', function(){ setTimeout(boot, 0); });
+  } else {
+    setTimeout(boot, 0);
+  }
 })();
 </script>
 </body>
