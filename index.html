@@ -9770,7 +9770,7 @@ renderAutoConclusions();
       }).filter(it => it.descripcion);
       facturas.push({
         id: 'f_' + Date.now() + '_' + Math.random().toString(36).slice(2,7),
-        proveedorKey: provState.prov,
+        proveedorKey: prov.key,
         tipo: get('tipo') || 'factura',
         numeroFactura: get('numero') || null,
         fecha: get('fecha') || null,
@@ -9847,7 +9847,7 @@ renderAutoConclusions();
         const original = lista[i] || {};
         facturas.push({
           id: 'f_' + Date.now() + '_' + i + '_' + Math.random().toString(36).slice(2,7),
-          proveedorKey: provState.prov,
+          proveedorKey: prov.key,
           tipo: get('tipo') || 'factura',
           numeroFactura: get('numero') || null,
           fecha: get('fecha') || null,
@@ -9893,10 +9893,21 @@ renderAutoConclusions();
     }
     const moneda = f.moneda && f.moneda !== 'ARS' ? ' (' + escapeHtmlProv(f.moneda) + ')' : '';
     const cargada = f.cargadaEl ? new Date(f.cargadaEl).toLocaleString('es-AR') : '—';
+    const otrosProv = PROVEEDORES.filter(p => p.key !== f.proveedorKey);
+    const reasignarHtml = otrosProv.length
+      ? '<div style="margin-top:10px;padding-top:8px;border-top:1px solid var(--line);display:flex;gap:6px;align-items:center;flex-wrap:wrap;">' +
+          '<span class="card-note" style="margin:0;">¿Está en el proveedor equivocado?</span>' +
+          '<select data-fac-reasignar-select="' + f.id + '" style="background:var(--bg-1);color:var(--cream);border:1px solid var(--line);border-radius:6px;padding:4px 6px;font-size:12px;">' +
+            otrosProv.map(p => '<option value="' + p.key + '">' + escapeHtmlProv(p.label) + '</option>').join('') +
+          '</select>' +
+          '<button type="button" class="link-btn" data-fac-reasignar-btn="' + f.id + '">Mover a este proveedor</button>' +
+        '</div>'
+      : '';
     return '<tr data-fac-detalle="' + f.id + '" style="display:none;">' +
       '<td colspan="7" style="padding:8px 4px 12px 4px;background:rgba(0,0,0,.12);">' +
         '<div class="card-note" style="margin-bottom:6px;">N° ' + (f.numeroFactura ? escapeHtmlProv(f.numeroFactura) : '—') + moneda + ' · Cargada el ' + cargada + '</div>' +
         itemsHtml +
+        reasignarHtml +
       '</td></tr>';
   }
 
@@ -10032,6 +10043,22 @@ renderAutoConclusions();
           e.stopPropagation();
           facturas = facturas.filter(x => x.id !== btn.getAttribute('data-fac-del'));
           saveFacturas(); renderFacturas(); renderResumenDeuda(); renderCuentaCorriente();
+        });
+      });
+      elTbody.querySelectorAll('[data-fac-reasignar-btn]').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const id = btn.getAttribute('data-fac-reasignar-btn');
+          const sel = elTbody.querySelector('[data-fac-reasignar-select="' + id + '"]');
+          const f = facturas.find(x => x.id === id);
+          if (!sel || !f || !sel.value) return;
+          const nuevoProv = PROVEEDORES.find(p => p.key === sel.value);
+          if (!nuevoProv) return;
+          f.proveedorKey = nuevoProv.key;
+          saveFacturas();
+          renderFacturas();
+          renderResumenDeuda();
+          renderCuentaCorriente();
         });
       });
       // Tocar una fila (fuera de los botones de acción) abre/cierra el detalle del
