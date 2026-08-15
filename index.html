@@ -3274,6 +3274,8 @@ function renderResumen(metric, mode, param){
   const sliceExpense = monthlySlice.reduce((s,m)=>s+m.expense,0);
 
   document.getElementById('res-date').textContent = dateLabel;
+  document.getElementById('res-income').textContent = fmtARS(sliceIncome);
+  document.getElementById('res-expense').textContent = fmtARS(sliceExpense);
 
   let data, color, totalVal, chartNote, pctText;
   if (metric==='ingresos'){
@@ -3394,6 +3396,8 @@ function renderResumenAlq(metric, mode, param){
   const sliceExpense = monthlySlice.reduce((s,m)=>s+m.expense,0);
 
   document.getElementById('resAlq-date').textContent = dateLabel;
+  document.getElementById('resAlq-income').textContent = fmtARS(sliceIncome);
+  document.getElementById('resAlq-expense').textContent = fmtARS(sliceExpense);
 
   let data, color, totalVal, chartNote, pctText;
   if (metric==='ingresos'){
