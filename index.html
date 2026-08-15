@@ -448,11 +448,27 @@
 <button class="toggle-btn" data-metric="ingresos">Solo ingresos</button>
 <button class="toggle-btn" data-metric="egresos">Solo egresos</button>
 </div>
-<div class="toggle-row" style="margin-bottom:14px;">
+<div class="toggle-row" id="resPeriodModeToggle" style="margin-bottom:10px;">
+<button class="toggle-btn active" data-periodmode="anual">Anual</button>
+<button class="toggle-btn" data-periodmode="mensual">Mensual</button>
+<button class="toggle-btn" data-periodmode="rango">Rango de fechas</button>
+</div>
+<div class="toggle-row" id="resAnualWrap" style="margin-bottom:14px;">
 <label for="resYearSelect" style="font-size:12px;color:var(--muted);align-self:center;margin-right:2px;">Balance al cierre de:</label>
 <select id="resYearSelect" style="background:var(--bg-2);border:1px solid var(--line);color:var(--cream);padding:8px 12px;border-radius:999px;font-size:13px;font-weight:500;">
 <option value="">Todo (histórico)</option>
 </select>
+</div>
+<div class="toggle-row" id="resMensualWrap" style="margin-bottom:14px;display:none;">
+<label for="resMonthSelect" style="font-size:12px;color:var(--muted);align-self:center;margin-right:2px;">Balance al cierre de:</label>
+<select id="resMonthSelect" style="background:var(--bg-2);border:1px solid var(--line);color:var(--cream);padding:8px 12px;border-radius:999px;font-size:13px;font-weight:500;"></select>
+</div>
+<div class="toggle-row" id="resRangoWrap" style="margin-bottom:14px;display:none;flex-wrap:wrap;gap:8px;">
+<label style="font-size:12px;color:var(--muted);align-self:center;">Desde:</label>
+<input type="date" id="resDesde" style="background:var(--bg-2);border:1px solid var(--line);color:var(--cream);padding:7px 10px;border-radius:999px;font-size:13px;">
+<label style="font-size:12px;color:var(--muted);align-self:center;">Hasta:</label>
+<input type="date" id="resHasta" style="background:var(--bg-2);border:1px solid var(--line);color:var(--cream);padding:7px 10px;border-radius:999px;font-size:13px;">
+<button class="toggle-btn" id="resRangoAplicar" type="button">Aplicar</button>
 </div>
 <div class="big-number" id="res-total">…</div>
 <p class="card-note" id="res-pct" style="margin-top:2px;"></p>
@@ -471,11 +487,27 @@
 <button class="toggle-btn" data-metric="ingresos">Solo ingresos</button>
 <button class="toggle-btn" data-metric="egresos">Solo egresos</button>
 </div>
-<div class="toggle-row" style="margin-bottom:14px;">
+<div class="toggle-row" id="resAlqPeriodModeToggle" style="margin-bottom:10px;">
+<button class="toggle-btn active" data-periodmode="anual">Anual</button>
+<button class="toggle-btn" data-periodmode="mensual">Mensual</button>
+<button class="toggle-btn" data-periodmode="rango">Rango de fechas</button>
+</div>
+<div class="toggle-row" id="resAlqAnualWrap" style="margin-bottom:14px;">
 <label for="resAlqYearSelect" style="font-size:12px;color:var(--muted);align-self:center;margin-right:2px;">Balance al cierre de:</label>
 <select id="resAlqYearSelect" style="background:var(--bg-2);border:1px solid var(--line);color:var(--cream);padding:8px 12px;border-radius:999px;font-size:13px;font-weight:500;">
 <option value="">Todo (histórico)</option>
 </select>
+</div>
+<div class="toggle-row" id="resAlqMensualWrap" style="margin-bottom:14px;display:none;">
+<label for="resAlqMonthSelect" style="font-size:12px;color:var(--muted);align-self:center;margin-right:2px;">Balance al cierre de:</label>
+<select id="resAlqMonthSelect" style="background:var(--bg-2);border:1px solid var(--line);color:var(--cream);padding:8px 12px;border-radius:999px;font-size:13px;font-weight:500;"></select>
+</div>
+<div class="toggle-row" id="resAlqRangoWrap" style="margin-bottom:14px;display:none;flex-wrap:wrap;gap:8px;">
+<label style="font-size:12px;color:var(--muted);align-self:center;">Desde:</label>
+<input type="date" id="resAlqDesde" style="background:var(--bg-2);border:1px solid var(--line);color:var(--cream);padding:7px 10px;border-radius:999px;font-size:13px;">
+<label style="font-size:12px;color:var(--muted);align-self:center;">Hasta:</label>
+<input type="date" id="resAlqHasta" style="background:var(--bg-2);border:1px solid var(--line);color:var(--cream);padding:7px 10px;border-radius:999px;font-size:13px;">
+<button class="toggle-btn" id="resAlqRangoAplicar" type="button">Aplicar</button>
 </div>
 <div class="big-number" id="resAlq-total">…</div>
 <p class="card-note" id="resAlq-pct" style="margin-top:2px;"></p>
@@ -1551,6 +1583,9 @@
 <div style="overflow-x:auto;">
 <table id="alqCmpTable"><thead><tr><th>Categoría</th><th style="text-align:right">Este mes</th><th style="text-align:right">Mes comparado</th><th style="text-align:right">Diferencia</th><th style="text-align:right">Var. %</th></tr></thead><tbody></tbody></table>
 </div>
+<p class="card-note" id="alqCmpMismoDiaTitulo" style="margin-top:18px;border-top:1px solid var(--line);padding-top:14px;"></p>
+<div class="kpi-grid" id="alqCmpMismoDiaKpis" style="margin-top:10px;"></div>
+<p class="card-note" id="alqCmpMismoDiaResumen" style="margin-top:10px;"></p>
 </div>
 <div class="card">
 <h2>Comparativa mensual — Ingresos (Alquileres)</h2>
@@ -1569,6 +1604,9 @@
 <div style="overflow-x:auto;">
 <table id="alqCmpIngTable"><thead><tr><th>Categoría</th><th style="text-align:right">Este mes</th><th style="text-align:right">Mes comparado</th><th style="text-align:right">Diferencia</th><th style="text-align:right">Var. %</th></tr></thead><tbody></tbody></table>
 </div>
+<p class="card-note" id="alqCmpIngMismoDiaTitulo" style="margin-top:18px;border-top:1px solid var(--line);padding-top:14px;"></p>
+<div class="kpi-grid" id="alqCmpIngMismoDiaKpis" style="margin-top:10px;"></div>
+<p class="card-note" id="alqCmpIngMismoDiaResumen" style="margin-top:10px;"></p>
 </div>
 <div class="card">
 <h2>Comparativa anual — Alquileres</h2>
@@ -1707,9 +1745,9 @@
 <button class="toggle-btn" data-medio="transferencia" type="button">Transferencia</button>
 </div>
 </div>
-<div class="range-group" id="cargarDetalleGroup" style="display:none;margin-top:14px;">
-<div class="range-label">Detalle (opcional)</div>
-<input id="cargarDetalle" placeholder="Detalle del gasto..." style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:11px 10px;border-radius:8px;font-size:14px;width:100%;" type="text"/>
+<div class="range-group" id="cargarDetalleGroup" style="margin-top:14px;">
+<div class="range-label">Descripción (opcional)</div>
+<input id="cargarDetalle" placeholder="Descripción del movimiento..." style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:11px 10px;border-radius:8px;font-size:14px;width:100%;" type="text"/>
 </div>
 <p class="card-note" id="cargarEditandoAviso" style="display:none;color:var(--gold);margin-bottom:10px;">✎ Editando un movimiento — los cambios reemplazan al original.</p>
 <button class="cargar-submit-btn" id="cargarSubmitBtn" type="submit">Guardar movimiento</button>
@@ -2462,7 +2500,7 @@ function mergeManualEntries(entries){
     const detailParts = [];
     if (en.category && en.category.trim()) detailParts.push(en.category.trim());
     if (isIncome && en.medio) detailParts.push(en.medio === 'transferencia' ? 'Transferencia' : 'Efectivo');
-    if (!isIncome && en.detalle && en.detalle.trim()) detailParts.push(en.detalle.trim());
+    if (en.detalle && en.detalle.trim()) detailParts.push(en.detalle.trim());
     const detailText = detailParts.join(' - ');
 
     if (account === 'agencia'){
@@ -3127,6 +3165,43 @@ document.querySelectorAll('.tab-btn[data-alqsub]').forEach(btn=>{
   })();
 })();
 
+/* ---------------- RESUMEN: helpers compartidos para modo Anual/Mensual/Rango ---------------- */
+// Fecha AAAAMMDD (int) -> "DD/MM/AAAA", para mostrar el rango elegido.
+function fmtDMYint(dInt){
+  const s = String(dInt);
+  return s.slice(6,8) + '/' + s.slice(4,6) + '/' + s.slice(0,4);
+}
+// Arma una serie mensual {ym, income, expense} a partir de los movimientos
+// crudos (MOVES o RENT_MOVES) filtrados a un rango de fechas [desdeInt,
+// hastaInt] (AAAAMMDD, inclusive). Se usa para el modo "Rango de fechas",
+// donde el balance no es acumulado desde el origen de la cuenta sino solo
+// dentro del período elegido.
+function buildRangeMonthly(moves, catList, desdeInt, hastaInt){
+  const map = {};
+  moves.forEach(m=>{
+    const d = m[0];
+    if (d < desdeInt || d > hastaInt) return;
+    const ym = String(d).slice(0,6);
+    const cat = catList[m[1]];
+    const sign = cat ? cat.sign : '-';
+    if (!map[ym]) map[ym] = {ym, income:0, expense:0};
+    if (sign === '+') map[ym].income += m[2]; else map[ym].expense += m[2];
+  });
+  return Object.keys(map).sort().map(k=>map[k]);
+}
+// Conecta el toggle Anual/Mensual/Rango con sus 3 bloques de controles.
+function wirePeriodModeToggle(toggleId, wraps, onChange){
+  document.querySelectorAll('#' + toggleId + ' .toggle-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      document.querySelectorAll('#' + toggleId + ' .toggle-btn').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      const mode = btn.dataset.periodmode;
+      Object.keys(wraps).forEach(k=>{ document.getElementById(wraps[k]).style.display = (k===mode) ? 'flex' : 'none'; });
+      onChange(mode);
+    });
+  });
+}
+
 /* ---------------- RESUMEN ---------------- */
 const last = MONTHLY[MONTHLY.length-1];
 const totalIncome = MONTHLY.reduce((s,m)=>s+m.income,0);
@@ -3149,33 +3224,71 @@ YEARLY.slice().reverse().forEach(y=>{
   opt.textContent = 'dic ' + y.year + (y.year===last.ym.slice(0,4) ? ' (parcial, hasta ' + fmtMonth(last.ym) + ')' : '');
   resYearSelectEl.appendChild(opt);
 });
+// Llenar el selector de mes con todos los meses disponibles (más reciente primero)
+const resMonthSelectEl = document.getElementById('resMonthSelect');
+MONTHLY.slice().reverse().forEach(m=>{
+  const opt = document.createElement('option');
+  opt.value = m.ym;
+  opt.textContent = fmtMonth(m.ym) + (m.ym===last.ym ? ' (parcial)' : '');
+  resMonthSelectEl.appendChild(opt);
+});
 
 let currentMetric = 'neto';
+let resMode = 'anual';
 
-function renderResumen(metric, yearCutoff){
+function renderResumen(metric, mode, param){
   currentMetric = metric;
-  // Recorta la serie mensual al año elegido (o toda la historia si no hay corte)
-  const cutIdx = yearCutoff ? MONTHLY.reduce((acc,m,i)=> m.ym.slice(0,4)<=yearCutoff ? i : acc, -1) : MONTHLY.length-1;
-  const monthlySlice = MONTHLY.slice(0, cutIdx+1);
+  resMode = mode;
+
+  let monthlySlice, cutIdx, cumIncomeSlice, cumExpenseSlice, dateLabel, periodoTxt;
+
+  if (mode === 'rango' && param && param.desde && param.hasta){
+    monthlySlice = buildRangeMonthly(MOVES, CAT_LIST, param.desde, param.hasta);
+    if (!monthlySlice.length) monthlySlice = [{ym: String(param.desde).slice(0,6), income:0, expense:0}];
+    let ci=0, ce=0;
+    cumIncomeSlice = []; cumExpenseSlice = [];
+    monthlySlice.forEach(m=>{ ci+=m.income; ce+=m.expense; cumIncomeSlice.push(ci); cumExpenseSlice.push(ce); m.cum = ci-ce; });
+    cutIdx = monthlySlice.length - 1;
+    dateLabel = 'del ' + fmtDMYint(param.desde) + ' al ' + fmtDMYint(param.hasta);
+    periodoTxt = ', en el rango de fechas elegido.';
+  } else if (mode === 'mensual' && param){
+    cutIdx = MONTHLY.findIndex(m=>m.ym===param);
+    if (cutIdx === -1) cutIdx = MONTHLY.length-1;
+    monthlySlice = MONTHLY.slice(0, cutIdx+1);
+    cumIncomeSlice = cumIncomeArr.slice(0, cutIdx+1);
+    cumExpenseSlice = cumExpenseArr.slice(0, cutIdx+1);
+    dateLabel = 'al cierre de ' + fmtMonth(monthlySlice[monthlySlice.length-1].ym);
+    periodoTxt = ', hasta el cierre elegido.';
+  } else {
+    const yearCutoff = (mode==='anual') ? param : null;
+    cutIdx = yearCutoff ? MONTHLY.reduce((acc,m,i)=> m.ym.slice(0,4)<=yearCutoff ? i : acc, -1) : MONTHLY.length-1;
+    monthlySlice = MONTHLY.slice(0, cutIdx+1);
+    cumIncomeSlice = cumIncomeArr.slice(0, cutIdx+1);
+    cumExpenseSlice = cumExpenseArr.slice(0, cutIdx+1);
+    dateLabel = 'al cierre de ' + fmtMonth(monthlySlice[monthlySlice.length-1].ym);
+    periodoTxt = yearCutoff ? ', hasta el cierre elegido.' : ', toda la historia de la cuenta.';
+  }
+
   const closeMonth = monthlySlice[monthlySlice.length-1];
   const sliceIncome = monthlySlice.reduce((s,m)=>s+m.income,0);
   const sliceExpense = monthlySlice.reduce((s,m)=>s+m.expense,0);
 
-  document.getElementById('res-date').textContent = 'al cierre de ' + fmtMonth(closeMonth.ym);
+  document.getElementById('res-date').textContent = dateLabel;
 
   let data, color, totalVal, chartNote, pctText;
   if (metric==='ingresos'){
-    data = cumIncomeArr.slice(0, cutIdx+1); color = '#7fd4a0'; totalVal = sliceIncome;
-    chartNote = 'Ingresos acumulados mes a mes' + (yearCutoff ? ', hasta el cierre elegido.' : ', toda la historia de la cuenta.');
-    pctText = 'Los ingresos representan el ' + (sliceIncome/(sliceIncome+sliceExpense)*100).toFixed(1) + '% del volumen operado en el período (ingresos + egresos).';
+    data = cumIncomeSlice; color = '#7fd4a0'; totalVal = sliceIncome;
+    chartNote = 'Ingresos acumulados mes a mes' + periodoTxt;
+    pctText = (sliceIncome+sliceExpense>0) ? 'Los ingresos representan el ' + (sliceIncome/(sliceIncome+sliceExpense)*100).toFixed(1) + '% del volumen operado en el período (ingresos + egresos).' : '';
   } else if (metric==='egresos'){
-    data = cumExpenseArr.slice(0, cutIdx+1); color = '#e08b78'; totalVal = sliceExpense;
-    chartNote = 'Egresos acumulados mes a mes' + (yearCutoff ? ', hasta el cierre elegido.' : ', toda la historia de la cuenta.');
-    pctText = 'Los egresos representan el ' + (sliceExpense/(sliceIncome+sliceExpense)*100).toFixed(1) + '% del volumen operado en el período (ingresos + egresos).';
+    data = cumExpenseSlice; color = '#e08b78'; totalVal = sliceExpense;
+    chartNote = 'Egresos acumulados mes a mes' + periodoTxt;
+    pctText = (sliceIncome+sliceExpense>0) ? 'Los egresos representan el ' + (sliceExpense/(sliceIncome+sliceExpense)*100).toFixed(1) + '% del volumen operado en el período (ingresos + egresos).' : '';
   } else {
-    data = monthlySlice.map(m=>m.cum); color = '#d3b56a'; totalVal = closeMonth.cum;
-    chartNote = 'Acumulado mes a mes' + (yearCutoff ? ', hasta el cierre elegido.' : ', toda la historia de la cuenta.');
-    pctText = 'Margen neto: ' + (((sliceIncome-sliceExpense)/sliceIncome)*100).toFixed(1) + '% sobre los ingresos del período.';
+    data = monthlySlice.map((m,i)=> mode==='rango' ? m.cum : (typeof m.cum === 'number' ? m.cum : cumIncomeSlice[i]-cumExpenseSlice[i]));
+    color = '#d3b56a'; totalVal = (mode==='rango') ? closeMonth.cum : closeMonth.cum;
+    chartNote = 'Acumulado mes a mes' + periodoTxt;
+    pctText = sliceIncome>0 ? 'Margen neto: ' + (((sliceIncome-sliceExpense)/sliceIncome)*100).toFixed(1) + '% sobre los ingresos del período.' : '';
   }
   document.getElementById('res-total').textContent = fmtARS(totalVal);
   document.getElementById('res-total').className = 'big-number ' + (totalVal<0?'neg':'pos');
@@ -3187,13 +3300,27 @@ document.querySelectorAll('#resMetricToggle .toggle-btn').forEach(btn=>{
   btn.addEventListener('click', ()=>{
     document.querySelectorAll('#resMetricToggle .toggle-btn').forEach(b=>b.classList.remove('active'));
     btn.classList.add('active');
-    renderResumen(btn.dataset.metric, resYearSelectEl.value || null);
+    renderResumen(btn.dataset.metric, resMode, resCurrentParam());
   });
 });
-resYearSelectEl.addEventListener('change', ()=>{
-  renderResumen(currentMetric, resYearSelectEl.value || null);
+function resCurrentParam(){
+  if (resMode === 'mensual') return resMonthSelectEl.value || null;
+  if (resMode === 'rango') return resRangoParam;
+  return resYearSelectEl.value || null;
+}
+let resRangoParam = null;
+resYearSelectEl.addEventListener('change', ()=>{ renderResumen(currentMetric, 'anual', resYearSelectEl.value || null); });
+resMonthSelectEl.addEventListener('change', ()=>{ renderResumen(currentMetric, 'mensual', resMonthSelectEl.value || null); });
+document.getElementById('resRangoAplicar').addEventListener('click', ()=>{
+  const dV = document.getElementById('resDesde').value, hV = document.getElementById('resHasta').value;
+  if (!dV || !hV){ document.getElementById('res-pct').textContent = 'Elegí una fecha desde y una fecha hasta.'; return; }
+  resRangoParam = {desde: parseInt(dV.replace(/-/g,''),10), hasta: parseInt(hV.replace(/-/g,''),10)};
+  renderResumen(currentMetric, 'rango', resRangoParam);
 });
-renderResumen('neto');
+wirePeriodModeToggle('resPeriodModeToggle', {anual:'resAnualWrap', mensual:'resMensualWrap', rango:'resRangoWrap'}, (mode)=>{
+  renderResumen(currentMetric, mode, resCurrentParam());
+});
+renderResumen('neto', 'anual', null);
 
 /* ---------------- RESUMEN — BALANCE ACUMULADO DE ALQUILERES ---------------- */
 const lastAlq = RENT_MONTHLY[RENT_MONTHLY.length-1];
@@ -3217,31 +3344,69 @@ RENT_YEARLY.slice().reverse().forEach(y=>{
   opt.textContent = 'dic ' + y.year + (y.year===lastAlq.ym.slice(0,4) ? ' (parcial, hasta ' + fmtMonth(lastAlq.ym) + ')' : '');
   resAlqYearSelectEl.appendChild(opt);
 });
+const resAlqMonthSelectEl = document.getElementById('resAlqMonthSelect');
+RENT_MONTHLY.slice().reverse().forEach(m=>{
+  const opt = document.createElement('option');
+  opt.value = m.ym;
+  opt.textContent = fmtMonth(m.ym) + (m.ym===lastAlq.ym ? ' (parcial)' : '');
+  resAlqMonthSelectEl.appendChild(opt);
+});
 
 let currentMetricAlq = 'neto';
+let resAlqMode = 'anual';
 
-function renderResumenAlq(metric, yearCutoff){
+function renderResumenAlq(metric, mode, param){
   currentMetricAlq = metric;
-  const cutIdx = yearCutoff ? RENT_MONTHLY.reduce((acc,m,i)=> m.ym.slice(0,4)<=yearCutoff ? i : acc, -1) : RENT_MONTHLY.length-1;
-  const monthlySlice = RENT_MONTHLY.slice(0, cutIdx+1);
+  resAlqMode = mode;
+
+  let monthlySlice, cutIdx, cumIncomeSlice, cumExpenseSlice, cumNetSlice, dateLabel, periodoTxt;
+
+  if (mode === 'rango' && param && param.desde && param.hasta){
+    monthlySlice = buildRangeMonthly(RENT_MOVES, RENT_MOVES_CATS, param.desde, param.hasta);
+    if (!monthlySlice.length) monthlySlice = [{ym: String(param.desde).slice(0,6), income:0, expense:0}];
+    let ci=0, ce=0;
+    cumIncomeSlice = []; cumExpenseSlice = []; cumNetSlice = [];
+    monthlySlice.forEach(m=>{ ci+=m.income; ce+=m.expense; cumIncomeSlice.push(ci); cumExpenseSlice.push(ce); cumNetSlice.push(ci-ce); });
+    dateLabel = 'del ' + fmtDMYint(param.desde) + ' al ' + fmtDMYint(param.hasta);
+    periodoTxt = ', en el rango de fechas elegido.';
+  } else if (mode === 'mensual' && param){
+    cutIdx = RENT_MONTHLY.findIndex(m=>m.ym===param);
+    if (cutIdx === -1) cutIdx = RENT_MONTHLY.length-1;
+    monthlySlice = RENT_MONTHLY.slice(0, cutIdx+1);
+    cumIncomeSlice = cumIncomeArrAlq.slice(0, cutIdx+1);
+    cumExpenseSlice = cumExpenseArrAlq.slice(0, cutIdx+1);
+    cumNetSlice = cumNetArrAlq.slice(0, cutIdx+1);
+    dateLabel = 'al cierre de ' + fmtMonth(monthlySlice[monthlySlice.length-1].ym);
+    periodoTxt = ', hasta el cierre elegido.';
+  } else {
+    const yearCutoff = (mode==='anual') ? param : null;
+    cutIdx = yearCutoff ? RENT_MONTHLY.reduce((acc,m,i)=> m.ym.slice(0,4)<=yearCutoff ? i : acc, -1) : RENT_MONTHLY.length-1;
+    monthlySlice = RENT_MONTHLY.slice(0, cutIdx+1);
+    cumIncomeSlice = cumIncomeArrAlq.slice(0, cutIdx+1);
+    cumExpenseSlice = cumExpenseArrAlq.slice(0, cutIdx+1);
+    cumNetSlice = cumNetArrAlq.slice(0, cutIdx+1);
+    dateLabel = 'al cierre de ' + fmtMonth(monthlySlice[monthlySlice.length-1].ym);
+    periodoTxt = yearCutoff ? ', hasta el cierre elegido.' : ', toda la historia de la cuenta.';
+  }
+
   const closeMonth = monthlySlice[monthlySlice.length-1];
   const sliceIncome = monthlySlice.reduce((s,m)=>s+m.income,0);
   const sliceExpense = monthlySlice.reduce((s,m)=>s+m.expense,0);
 
-  document.getElementById('resAlq-date').textContent = 'al cierre de ' + fmtMonth(closeMonth.ym);
+  document.getElementById('resAlq-date').textContent = dateLabel;
 
   let data, color, totalVal, chartNote, pctText;
   if (metric==='ingresos'){
-    data = cumIncomeArrAlq.slice(0, cutIdx+1); color = '#7fd4a0'; totalVal = sliceIncome;
-    chartNote = 'Ingresos acumulados mes a mes' + (yearCutoff ? ', hasta el cierre elegido.' : ', toda la historia de la cuenta.');
+    data = cumIncomeSlice; color = '#7fd4a0'; totalVal = sliceIncome;
+    chartNote = 'Ingresos acumulados mes a mes' + periodoTxt;
     pctText = sliceIncome+sliceExpense>0 ? 'Los ingresos representan el ' + (sliceIncome/(sliceIncome+sliceExpense)*100).toFixed(1) + '% del volumen operado en el período (ingresos + egresos).' : '';
   } else if (metric==='egresos'){
-    data = cumExpenseArrAlq.slice(0, cutIdx+1); color = '#e08b78'; totalVal = sliceExpense;
-    chartNote = 'Egresos acumulados mes a mes' + (yearCutoff ? ', hasta el cierre elegido.' : ', toda la historia de la cuenta.');
+    data = cumExpenseSlice; color = '#e08b78'; totalVal = sliceExpense;
+    chartNote = 'Egresos acumulados mes a mes' + periodoTxt;
     pctText = sliceIncome+sliceExpense>0 ? 'Los egresos representan el ' + (sliceExpense/(sliceIncome+sliceExpense)*100).toFixed(1) + '% del volumen operado en el período (ingresos + egresos).' : '';
   } else {
-    data = cumNetArrAlq.slice(0, cutIdx+1); color = '#d3b56a'; totalVal = closeMonth ? (sliceIncome-sliceExpense) : 0;
-    chartNote = 'Acumulado mes a mes' + (yearCutoff ? ', hasta el cierre elegido.' : ', toda la historia de la cuenta.');
+    data = cumNetSlice; color = '#d3b56a'; totalVal = closeMonth ? (sliceIncome-sliceExpense) : 0;
+    chartNote = 'Acumulado mes a mes' + periodoTxt;
     pctText = sliceIncome>0 ? 'Margen neto: ' + (((sliceIncome-sliceExpense)/sliceIncome)*100).toFixed(1) + '% sobre los ingresos del período.' : '';
   }
   document.getElementById('resAlq-total').textContent = fmtARS(totalVal);
@@ -3254,13 +3419,27 @@ document.querySelectorAll('#resAlqMetricToggle .toggle-btn').forEach(btn=>{
   btn.addEventListener('click', ()=>{
     document.querySelectorAll('#resAlqMetricToggle .toggle-btn').forEach(b=>b.classList.remove('active'));
     btn.classList.add('active');
-    renderResumenAlq(btn.dataset.metric, resAlqYearSelectEl.value || null);
+    renderResumenAlq(btn.dataset.metric, resAlqMode, resAlqCurrentParam());
   });
 });
-resAlqYearSelectEl.addEventListener('change', ()=>{
-  renderResumenAlq(currentMetricAlq, resAlqYearSelectEl.value || null);
+function resAlqCurrentParam(){
+  if (resAlqMode === 'mensual') return resAlqMonthSelectEl.value || null;
+  if (resAlqMode === 'rango') return resAlqRangoParam;
+  return resAlqYearSelectEl.value || null;
+}
+let resAlqRangoParam = null;
+resAlqYearSelectEl.addEventListener('change', ()=>{ renderResumenAlq(currentMetricAlq, 'anual', resAlqYearSelectEl.value || null); });
+resAlqMonthSelectEl.addEventListener('change', ()=>{ renderResumenAlq(currentMetricAlq, 'mensual', resAlqMonthSelectEl.value || null); });
+document.getElementById('resAlqRangoAplicar').addEventListener('click', ()=>{
+  const dV = document.getElementById('resAlqDesde').value, hV = document.getElementById('resAlqHasta').value;
+  if (!dV || !hV){ document.getElementById('resAlq-pct').textContent = 'Elegí una fecha desde y una fecha hasta.'; return; }
+  resAlqRangoParam = {desde: parseInt(dV.replace(/-/g,''),10), hasta: parseInt(hV.replace(/-/g,''),10)};
+  renderResumenAlq(currentMetricAlq, 'rango', resAlqRangoParam);
 });
-renderResumenAlq('neto');
+wirePeriodModeToggle('resAlqPeriodModeToggle', {anual:'resAlqAnualWrap', mensual:'resAlqMensualWrap', rango:'resAlqRangoWrap'}, (mode)=>{
+  renderResumenAlq(currentMetricAlq, mode, resAlqCurrentParam());
+});
+renderResumenAlq('neto', 'anual', null);
 
 /* ---------------- SELECTOR DE MES/AÑO (reemplaza <input type=month>) ---------------- */
 // Algunos navegadores/webviews embebidos no muestran el picker nativo de
@@ -6246,7 +6425,7 @@ let cargarTipo = 'ingreso';
 let cargarMedio = 'efectivo';
 function updateCargarTipoFields(){
   document.getElementById('cargarMedioGroup').style.display = cargarTipo === 'ingreso' ? 'block' : 'none';
-  document.getElementById('cargarDetalleGroup').style.display = cargarTipo === 'ingreso' ? 'none' : 'block';
+  document.getElementById('cargarDetalleGroup').style.display = 'block';
   const hero = document.getElementById('cargarHero');
   if (hero){
     hero.classList.toggle('tipo-ingreso', cargarTipo === 'ingreso');
@@ -6363,7 +6542,7 @@ document.getElementById('cargarForm').addEventListener('submit', async (e)=>{
   }
   const entry = {date, type: cargarTipo, amount, category, account: cargarCuenta};
   if (cargarTipo === 'ingreso') entry.medio = cargarMedio;
-  else entry.detalle = detalle;
+  if (detalle) entry.detalle = detalle;
 
   const editandoIdx = cargarEditIndex;
   const entradaPrevia = editandoIdx !== null ? manualEntries[editandoIdx] : null;
@@ -8147,6 +8326,31 @@ renderAutoConclusions();
     return { porCat, total, count };
   }
 
+  // Gasto de un mes, pero solo contando del día 1 hasta "hastaDia" (inclusive).
+  // Sirve para comparar de forma pareja "lo que va del mes" contra el mismo
+  // tramo de días del mes anterior (ej: 1 al 14 de agosto vs. 1 al 14 de julio).
+  function totalsPorCategoriaMesHastaDia(ym, hastaDia){
+    const y = ym.slice(0,4), m = ym.slice(4,6);
+    const desdeInt = ymToRangeInt(y+'-'+m, false);
+    const hastaInt = parseInt(y + m + String(hastaDia).padStart(2,'0'), 10);
+    const porCat = Object.create(null);
+    let total = 0, count = 0;
+    RENT_MOVES.forEach(mv => {
+      if (mv[0] < desdeInt || mv[0] > hastaInt) return;
+      const cat = RENT_MOVES_CATS[mv[1]];
+      if (!cat || cat.sign !== '-') return;
+      const amt = mv[2];
+      const nombre = cat.category;
+      porCat[nombre] = (porCat[nombre] || 0) + amt;
+      total += amt; count += 1;
+    });
+    return { porCat, total, count };
+  }
+
+  function diasEnMesYmGasto(ym){
+    const y = parseInt(ym.slice(0,4),10), m = parseInt(ym.slice(4,6),10);
+    return new Date(y, m, 0).getDate();
+  }
   function renderAlqComparativa(){
     const mesVal = document.getElementById('alqCmpMes').value;
     const parts = mesVal.split('-');
@@ -8196,6 +8400,33 @@ renderAutoConclusions();
             '<td class="num ' + dCls + '">' + pctTxt + '</td></tr>';
         }).join('')
       : '<tr><td colspan="5" class="card-note">Sin categorías con movimientos en ninguno de los dos meses.</td></tr>';
+
+    // --- Comparado "mismo día del mes" (ej: 1 al 14 de este mes vs. 1 al 14 del mes comparado) ---
+    const hoyDiaG = new Date().getDate();
+    const diaCorteG = Math.min(hoyDiaG, diasEnMesYmGasto(ymActual), diasEnMesYmGasto(ymComparado));
+    const actualHD = totalsPorCategoriaMesHastaDia(ymActual, diaCorteG);
+    const comparadoHD = totalsPorCategoriaMesHastaDia(ymComparado, diaCorteG);
+    const diffHD = actualHD.total - comparadoHD.total;
+    const diffPctHD = comparadoHD.total > 0 ? (diffHD / comparadoHD.total) * 100 : null;
+    const clsHD = diffHD > 0 ? 'neg' : (diffHD < 0 ? 'pos' : '');
+
+    document.getElementById('alqCmpMismoDiaTitulo').textContent =
+      'Comparado del 1 al ' + diaCorteG + ' de cada mes (para no comparar un mes en curso contra uno completo):';
+
+    document.getElementById('alqCmpMismoDiaKpis').innerHTML =
+      kpi('1 al ' + diaCorteG + ' de ' + fmtMonth(ymActual), fmtARS(actualHD.total), actualHD.count + (actualHD.count===1?' movimiento':' movimientos'), 'neg') +
+      kpi('1 al ' + diaCorteG + ' de ' + fmtMonth(ymComparado), fmtARS(comparadoHD.total), comparadoHD.count + (comparadoHD.count===1?' movimiento':' movimientos')) +
+      kpi('Diferencia', (diffHD>=0?'+':'') + fmtARS(diffHD), diffPctHD !== null ? ((diffPctHD>=0?'+':'') + diffPctHD.toFixed(1) + '%') : 'sin base de comparación', clsHD);
+
+    if (actualHD.count === 0 && comparadoHD.count === 0){
+      document.getElementById('alqCmpMismoDiaResumen').textContent = 'No hay movimientos registrados en ese tramo de días en ninguno de los dos meses.';
+    } else if (diffHD === 0){
+      document.getElementById('alqCmpMismoDiaResumen').textContent = 'Llevás gastado lo mismo que en ' + compLabel + ', hasta el día ' + diaCorteG + '.';
+    } else {
+      document.getElementById('alqCmpMismoDiaResumen').textContent =
+        (diffHD > 0 ? 'Llevás gastado ' + fmtARS(diffHD) + ' más' : 'Llevás gastado ' + fmtARS(Math.abs(diffHD)) + ' menos') +
+        ' que en ' + compLabel + ', hasta el día ' + diaCorteG + (diffPctHD !== null ? ' (' + (diffPctHD>=0?'+':'') + diffPctHD.toFixed(1) + '%)' : '') + '.';
+    }
   }
 
   document.getElementById('alqCmpMes').addEventListener('change', renderAlqComparativa);
@@ -8227,6 +8458,32 @@ renderAutoConclusions();
       total += amt; count += 1;
     });
     return { porCat, total, count };
+  }
+
+  // Ingresos de un mes, pero solo contando del día 1 hasta "hastaDia" (inclusive).
+  // Sirve para comparar de forma pareja "lo que va del mes" contra el mismo
+  // tramo de días del mes anterior (ej: 1 al 14 de agosto vs. 1 al 14 de julio).
+  function ingresosPorCategoriaMesHastaDia(ym, hastaDia){
+    const y = ym.slice(0,4), m = ym.slice(4,6);
+    const desdeInt = ymToRangeInt(y+'-'+m, false);
+    const hastaInt = parseInt(y + m + String(hastaDia).padStart(2,'0'), 10);
+    const porCat = Object.create(null);
+    let total = 0, count = 0;
+    RENT_MOVES.forEach(mv => {
+      if (mv[0] < desdeInt || mv[0] > hastaInt) return;
+      const cat = RENT_MOVES_CATS[mv[1]];
+      if (!cat || cat.sign !== '+') return;
+      const amt = mv[2];
+      const nombre = cat.category;
+      porCat[nombre] = (porCat[nombre] || 0) + amt;
+      total += amt; count += 1;
+    });
+    return { porCat, total, count };
+  }
+
+  function diasEnMesYm(ym){
+    const y = parseInt(ym.slice(0,4),10), m = parseInt(ym.slice(4,6),10);
+    return new Date(y, m, 0).getDate();
   }
 
   function renderAlqComparativaIngresos(){
@@ -8278,6 +8535,33 @@ renderAutoConclusions();
             '<td class="num ' + dCls + '">' + pctTxt + '</td></tr>';
         }).join('')
       : '<tr><td colspan="5" class="card-note">Sin categorías con ingresos en ninguno de los dos meses.</td></tr>';
+
+    // --- Comparado "mismo día del mes" (ej: 1 al 14 de este mes vs. 1 al 14 del mes comparado) ---
+    const hoyDia = new Date().getDate();
+    const diaCorte = Math.min(hoyDia, diasEnMesYm(ymActual), diasEnMesYm(ymComparado));
+    const actualHD = ingresosPorCategoriaMesHastaDia(ymActual, diaCorte);
+    const comparadoHD = ingresosPorCategoriaMesHastaDia(ymComparado, diaCorte);
+    const diffHD = actualHD.total - comparadoHD.total;
+    const diffPctHD = comparadoHD.total > 0 ? (diffHD / comparadoHD.total) * 100 : null;
+    const clsHD = diffHD > 0 ? 'pos' : (diffHD < 0 ? 'neg' : '');
+
+    document.getElementById('alqCmpIngMismoDiaTitulo').textContent =
+      'Comparado del 1 al ' + diaCorte + ' de cada mes (para no comparar un mes en curso contra uno completo):';
+
+    document.getElementById('alqCmpIngMismoDiaKpis').innerHTML =
+      kpi('1 al ' + diaCorte + ' de ' + fmtMonth(ymActual), fmtARS(actualHD.total), actualHD.count + (actualHD.count===1?' movimiento':' movimientos'), 'pos') +
+      kpi('1 al ' + diaCorte + ' de ' + fmtMonth(ymComparado), fmtARS(comparadoHD.total), comparadoHD.count + (comparadoHD.count===1?' movimiento':' movimientos')) +
+      kpi('Diferencia', (diffHD>=0?'+':'') + fmtARS(diffHD), diffPctHD !== null ? ((diffPctHD>=0?'+':'') + diffPctHD.toFixed(1) + '%') : 'sin base de comparación', clsHD);
+
+    if (actualHD.count === 0 && comparadoHD.count === 0){
+      document.getElementById('alqCmpIngMismoDiaResumen').textContent = 'No hay ingresos registrados en ese tramo de días en ninguno de los dos meses.';
+    } else if (diffHD === 0){
+      document.getElementById('alqCmpIngMismoDiaResumen').textContent = 'Llevás lo mismo que en ' + compLabel + ', hasta el día ' + diaCorte + '.';
+    } else {
+      document.getElementById('alqCmpIngMismoDiaResumen').textContent =
+        (diffHD > 0 ? 'Llevás ' + fmtARS(diffHD) + ' más' : 'Llevás ' + fmtARS(Math.abs(diffHD)) + ' menos') +
+        ' que en ' + compLabel + ', hasta el día ' + diaCorte + (diffPctHD !== null ? ' (' + (diffPctHD>=0?'+':'') + diffPctHD.toFixed(1) + '%)' : '') + '.';
+    }
   }
 
   document.getElementById('alqCmpIngMes').addEventListener('change', renderAlqComparativaIngresos);
