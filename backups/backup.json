@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 4,
-  "exportadoEl": "2026-08-15T14:06:29.010Z",
+  "exportadoEl": "2026-08-15T14:11:28.649Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -1263,6 +1263,16 @@
       "detalle": "Pintura local",
       "id": "m_msug8v33gxsbti",
       "modificadoEl": "2026-08-15T14:06:28.191Z"
+    },
+    {
+      "date": "2026-08-15",
+      "type": "egreso",
+      "amount": 6000,
+      "category": "Sueldo",
+      "account": "alquileres",
+      "detalle": "Pilas electronec y pan panadería",
+      "id": "m_msugfa26xhz9ux",
+      "modificadoEl": "2026-08-15T14:11:27.534Z"
     }
   ],
   "categoriasCustom": [
