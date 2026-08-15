@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 4,
-  "exportadoEl": "2026-08-15T14:11:28.649Z",
+  "exportadoEl": "2026-08-15T14:21:53.132Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -1273,6 +1273,16 @@
       "detalle": "Pilas electronec y pan panadería",
       "id": "m_msugfa26xhz9ux",
       "modificadoEl": "2026-08-15T14:11:27.534Z"
+    },
+    {
+      "date": "2026-08-15",
+      "type": "ingreso",
+      "amount": 31600,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "transferencia",
+      "id": "m_msugsnvi1qsf5n",
+      "modificadoEl": "2026-08-15T14:21:51.966Z"
     }
   ],
   "categoriasCustom": [
