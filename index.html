@@ -449,6 +449,30 @@
     #pedidosIAModule table{font-size:11px;}
     #pedidosIAModule thead th{background:var(--azul-osc) !important;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
   }
+
+  /* ---------- Modo discreto (tapa montos) ---------- */
+  body.modo-discreto .val, body.modo-discreto .big-number, body.modo-discreto .kpi .val,
+  body.modo-discreto td.num, body.modo-discreto #resumenPlainText{
+    filter: blur(6px); user-select:none; transition:filter .15s;
+  }
+  body.modo-discreto .val:active, body.modo-discreto .big-number:active, body.modo-discreto .kpi .val:active,
+  body.modo-discreto td.num:active{ filter:none; }
+  #agModoDiscretoBtn.active{color:var(--gold);border-color:var(--gold);}
+
+  /* ---------- Barra de avisos proactivos ---------- */
+  .ag-aviso{display:flex;align-items:center;gap:8px;background:rgba(211,181,106,.12);border:1px solid rgba(211,181,106,.4);
+    color:var(--cream);border-radius:10px;padding:9px 12px;font-size:12.5px;line-height:1.4;}
+  .ag-aviso.ag-aviso-alerta{background:rgba(224,139,120,.14);border-color:rgba(224,139,120,.5);}
+
+  /* ---------- Bloqueo por PIN ---------- */
+  #agPinLock{position:fixed;inset:0;z-index:9999;background:radial-gradient(ellipse at top, var(--bg-1), var(--bg-0) 70%);
+    display:none;flex-direction:column;align-items:center;justify-content:center;padding:24px;gap:14px;text-align:center;}
+  #agPinLock.active{display:flex;}
+  #agPinLock h2{font-family:Georgia,serif;color:var(--cream);margin:0;}
+  #agPinLock input{width:200px;max-width:80vw;padding:14px;border-radius:10px;border:1px solid var(--line);
+    background:rgba(0,0,0,.25);color:var(--cream);font-size:20px;text-align:center;letter-spacing:6px;}
+  #agPinLock button{background:var(--gold);color:#1a2a1f;border:none;padding:12px 24px;border-radius:10px;font-weight:700;cursor:pointer;font-size:14px;}
+  #agPinLockMsg{color:var(--red-neg);font-size:12.5px;min-height:16px;}
 </style></head>
 <body>
 <script>
@@ -459,8 +483,22 @@ try {
   var __agCfgEarly = JSON.parse(localStorage.getItem('agencia-config-v1') || '{}');
   if (__agCfgEarly.densidad === 'compacto') document.body.classList.add('densidad-compacta');
   if (__agCfgEarly.tema === 'light') document.body.classList.add('tema-claro');
+  if (__agCfgEarly.modoDiscreto) document.body.classList.add('modo-discreto');
+} catch(e){}
+try {
+  var __agPinEarly = JSON.parse(localStorage.getItem('agencia-pin') || '{}');
+  if (__agPinEarly.enabled) document.body.classList.add('ag-locked');
 } catch(e){}
 </script>
+<style>body.ag-locked .wrap{display:none;}</style>
+<div id="agPinLock">
+<h2>🔒 Panel bloqueado</h2>
+<p class="card-note" style="margin:0;">Ingresá tu PIN para entrar.</p>
+<input autocomplete="off" id="agPinInput" inputmode="numeric" maxlength="8" pattern="[0-9]*" type="password"/>
+<button id="agPinBtn" type="button">Desbloquear</button>
+<button id="agPinHuellaBtn" style="background:var(--bg-2);color:var(--cream);display:none;" type="button">👆 Usar huella / Face ID</button>
+<p id="agPinLockMsg"></p>
+</div>
 <div class="wrap">
 <div class="top-header" id="topHeaderBlock">
 <p class="eyebrow">Solo cuenta Agencia · ARS</p>
@@ -474,6 +512,8 @@ try {
 <button class="toggle-btn" data-val="no">Sin mi sueldo como gasto</button>
 </div>
 </div>
+<div id="agAvisosBar" style="display:none;flex-direction:column;gap:6px;margin:-6px 0 14px 0;"></div>
+<button class="customize-toggle" id="agModoDiscretoBtn" style="margin:-6px 8px 14px 0;" type="button">🙈 Modo discreto</button>
 <div class="tabs">
 <button class="tab-btn active" data-tab="resumen">Resumen</button>
 <button class="tab-btn" data-tab="informe">Informe</button>
@@ -777,13 +817,31 @@ try {
 <div class="card">
 <h2>Facturas y deudas — <span id="facProvNombre"></span></h2>
 <p class="card-note">Subí una foto o un PDF de cada comprobante de este proveedor: factura, nota de crédito o nota de débito. La IA (la misma clave de Gemini configurada en Asistente IA) identifica el tipo de documento, el número, las fechas y el monto — las notas de crédito descuentan de la deuda en vez de sumar. Vos revisás y confirmás antes de que quede guardado.</p>
-<input accept="image/*,application/pdf" id="facturaFileInput" multiple="" style="margin:10px 0;color:var(--cream);" type="file"/>
+<div style="display:flex;gap:20px;flex-wrap:wrap;align-items:flex-start;margin:10px 0;">
+<label style="display:flex;flex-direction:column;gap:4px;">
+<span class="card-note" style="font-size:12px;">📷 Foto</span>
+<input accept="image/*" id="facturaFileInputFoto" multiple="" style="color:var(--cream);" type="file"/>
+</label>
+<label style="display:flex;flex-direction:column;gap:4px;">
+<span class="card-note" style="font-size:12px;">📄 PDF</span>
+<input accept="application/pdf,.pdf" id="facturaFileInputPdf" multiple="" style="color:var(--cream);" type="file"/>
+</label>
+</div>
 <p class="card-note" id="facturaEstado"></p>
 <div id="facturaRevision" style="display:flex;flex-direction:column;gap:12px;margin-top:8px;"></div>
 <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--line);">
 <p class="card-note" style="font-weight:600;color:var(--cream);margin-bottom:6px;">¿Muchas facturas? Subí el extracto de cuenta del proveedor</p>
-<p class="card-note">Pedile a este proveedor un extracto o resumen de cuenta con todas las facturas de un período (entre dos fechas) y subilo acá — podés elegir varias fotos si el extracto tiene más de una página, o un solo PDF. La IA separa cada factura, nota de crédito o nota de débito que encuentre; el panel las va a seguir desglosando una por una, igual que si las hubieras cargado de a una. Vos elegís cuáles guardar antes de que queden guardadas.</p>
-<input accept="image/*,application/pdf" id="extractoFileInput" multiple="" style="margin:10px 0;color:var(--cream);" type="file"/>
+<p class="card-note">Pedile a este proveedor un extracto o resumen de cuenta con todas las facturas de un período (entre dos fechas) y subilo acá — podés elegir varias fotos si el extracto tiene más de una página, o uno o varios PDF. La IA separa cada factura, nota de crédito o nota de débito que encuentre; el panel las va a seguir desglosando una por una, igual que si las hubieras cargado de a una. Vos elegís cuáles guardar antes de que queden guardadas.</p>
+<div style="display:flex;gap:20px;flex-wrap:wrap;align-items:flex-start;margin:10px 0;">
+<label style="display:flex;flex-direction:column;gap:4px;">
+<span class="card-note" style="font-size:12px;">📷 Foto(s)</span>
+<input accept="image/*" id="extractoFileInputFoto" multiple="" style="color:var(--cream);" type="file"/>
+</label>
+<label style="display:flex;flex-direction:column;gap:4px;">
+<span class="card-note" style="font-size:12px;">📄 PDF</span>
+<input accept="application/pdf,.pdf" id="extractoFileInputPdf" multiple="" style="color:var(--cream);" type="file"/>
+</label>
+</div>
 <p class="card-note" id="extractoEstado"></p>
 <div id="extractoRevision"></div>
 </div>
@@ -1863,6 +1921,11 @@ try {
 <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--cream-dim);">
 <input id="ghAuto" type="checkbox"/> Subir automático cada vez que cargo un movimiento nuevo a mano
           </label>
+<label style="display:flex;align-items:center;gap:9px;font-size:13px;color:var(--cream-dim);margin-top:6px;">
+<span style="flex:0 0 auto;">Además, subir solo aunque no cargue nada, cada</span>
+<input id="cfgGhAutoDias" min="0" placeholder="0 = desactivado" style="width:90px;padding:8px 10px;border-radius:8px;border:1px solid var(--line);background:rgba(0,0,0,.18);color:var(--cream);font-size:13px;" type="number"/>
+<span style="flex:0 0 auto;">día(s)</span>
+</label>
 </div>
 <div style="display:flex;gap:10px;flex-wrap:wrap;">
 <button class="tab-btn" id="btnGuardarGhConfig" style="border-radius:8px;" type="button">💾 Guardar configuración</button>
@@ -1920,6 +1983,64 @@ try {
 </div>
 
 <div class="card">
+<h2 style="font-size:14px;">Comportamiento</h2>
+<p class="card-note">Cuenta con la que arranca "Cargar datos" y cómo se muestran las fechas en las tablas del panel.</p>
+<div class="range-label" style="margin-top:2px;">Cuenta por defecto al cargar un movimiento</div>
+<div class="toggle-row" id="cfgCuentaDefaultToggle">
+<button class="toggle-btn" data-val="agencia" type="button">Agencia</button>
+<button class="toggle-btn" data-val="alquileres" type="button">Alquileres</button>
+</div>
+<div class="range-label">Formato de fecha</div>
+<div class="toggle-row" id="cfgFormatoFechaToggle" style="margin-bottom:0;">
+<button class="toggle-btn" data-val="DMY" type="button">31/12/2026</button>
+<button class="toggle-btn" data-val="YMD" type="button">2026-12-31</button>
+</div>
+</div>
+
+<div class="card">
+<h2 style="font-size:14px;">Notificaciones</h2>
+<p class="card-note">Avisos proactivos arriba de todo el panel (no hace falta entrar a cada pestaña para verlos).</p>
+<div class="range-label" style="margin-top:2px;">Avisar de vencimientos que faltan (días)</div>
+<input id="cfgAvisoVencDias" max="60" min="0" style="width:100%;padding:10px 12px;border-radius:8px;border:1px solid var(--line);background:rgba(0,0,0,.18);color:var(--cream);font-size:14px;" type="number"/>
+<div class="range-label">Avisar si pasaron muchos días sin cargar movimientos</div>
+<input id="cfgAvisoInactividadDias" min="0" style="width:100%;padding:10px 12px;border-radius:8px;border:1px solid var(--line);background:rgba(0,0,0,.18);color:var(--cream);font-size:14px;" type="number"/>
+<p class="card-note" style="margin:8px 0 0 0;">Poné 0 para desactivar cualquiera de los dos avisos.</p>
+</div>
+
+<div class="card">
+<h2 style="font-size:14px;">Seguridad</h2>
+<p class="card-note">PIN para abrir el panel (protege los datos si alguien agarra el celu) y "modo discreto" para tapar los montos en pantalla.</p>
+<div id="cfgPinEstado" style="font-size:13px;color:var(--cream-dim);margin-bottom:10px;">Cargando…</div>
+<div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:6px;">
+<input id="cfgPinNuevo" inputmode="numeric" maxlength="8" pattern="[0-9]*" placeholder="PIN nuevo (4 a 8 dígitos)" style="flex:1;min-width:160px;padding:10px 12px;border-radius:8px;border:1px solid var(--line);background:rgba(0,0,0,.18);color:var(--cream);font-size:14px;" type="password"/>
+<button class="tab-btn" id="cfgPinGuardar" style="border-radius:8px;" type="button">🔒 Activar / cambiar PIN</button>
+</div>
+<button class="tab-btn" id="cfgPinQuitar" style="border-radius:8px;" type="button">Quitar PIN</button>
+<p class="card-note" id="cfgPinMsg" style="min-height:14px;margin-top:8px;">El PIN se guarda en este dispositivo (no viaja en el backup). Si te lo olvidás, usá "Quitar PIN" desde este mismo botón — si no podés entrar, borralo desde "Borrar todos los datos" de más abajo (eso sí pierde los datos, así que primero intentá recordarlo).</p>
+<button class="tab-btn" id="cfgPinHuellaActivar" style="border-radius:8px;display:none;" type="button">👆 Activar también huella / Face ID</button>
+<p class="card-note" id="cfgPinHuellaMsg" style="min-height:14px;margin-top:6px;"></p>
+<div style="border-top:1px solid var(--line);margin:14px 0 12px 0;"></div>
+<label style="display:flex;align-items:center;gap:9px;font-size:13px;color:var(--cream-dim);">
+<input id="cfgModoDiscretoDefault" type="checkbox"/> Empezar siempre en modo discreto (montos tapados)
+    </label>
+<p class="card-note" style="margin:8px 0 0 0;">También podés prenderlo/apagarlo al toque con el botón "🙈" que aparece arriba de las pestañas.</p>
+</div>
+
+<div class="card">
+<h2 style="font-size:14px;">Cotizaciones / moneda</h2>
+<p class="card-note">Qué dólar usar como referencia para las conversiones y proyecciones del panel (Mercados sigue mostrando todas las cotizaciones igual).</p>
+<div class="range-label" style="margin-top:2px;">Dólar de referencia</div>
+<div class="toggle-row" id="cfgDolarDefaultToggle">
+<button class="toggle-btn" data-val="blue" type="button">Blue</button>
+<button class="toggle-btn" data-val="oficial" type="button">Oficial</button>
+<button class="toggle-btn" data-val="mep" type="button">MEP</button>
+<button class="toggle-btn" data-val="cripto" type="button">Cripto</button>
+</div>
+<div class="range-label">Avisarme si el balance proyectado cae por debajo de</div>
+<input id="cfgUmbralSaldo" min="0" placeholder="0 = sin aviso" style="width:100%;padding:10px 12px;border-radius:8px;border:1px solid var(--line);background:rgba(0,0,0,.18);color:var(--cream);font-size:14px;" type="number"/>
+</div>
+
+<div class="card">
 <h2 style="font-size:14px;">Copia de seguridad completa</h2>
 <p class="card-note">Exporta o restaura TODO lo cargado (movimientos, categorías, facturas de proveedores, clientes de reparto, vencimientos) en un solo paso, sin tener que buscarlo dentro de "Cargar datos".</p>
 <button class="cargar-submit-btn" id="cfgBackupCompleto" style="margin-bottom:10px;" type="button">💾 Copia de seguridad completa</button>
@@ -1931,10 +2052,23 @@ try {
 </div>
 
 <div class="card">
+<h2 style="font-size:14px;">Exportar a Excel / CSV</h2>
+<p class="card-note">Los movimientos cargados a mano (Agencia y Alquileres) en un .csv, para abrir en Excel/Sheets o mandarle al contador. El backup completo de arriba sigue siendo el que hay que usar para restaurar datos en el panel.</p>
+<button class="tab-btn" id="cfgExportarCsv" style="width:100%;border-radius:8px;padding:12px;" type="button">⬇️ Exportar movimientos a CSV</button>
+</div>
+
+<div class="card">
 <h2 style="font-size:14px;">Restablecer vista</h2>
 <p class="card-note">Vuelve el orden de pestañas, las pestañas ocultas, los nombres personalizados (pestañas y cuentas), el orden de paneles y el menú "⚙️ Personalizar panel" a como vienen por defecto. <strong>No borra ningún dato cargado.</strong></p>
 <button class="tab-btn" id="cfgResetVista" style="width:100%;border-radius:8px;padding:12px;" type="button">↺ Restablecer vista a valores por defecto</button>
 <p class="card-note" id="cfgResetVistaMsg" style="margin-top:8px;min-height:14px;"></p>
+</div>
+
+<div class="card" style="border-color:rgba(224,139,120,.5);">
+<h2 style="font-size:14px;color:var(--red-neg);">Zona de riesgo</h2>
+<p class="card-note">Borra TODO lo cargado en este dispositivo (movimientos, categorías, facturas, clientes, vencimientos, inversiones, configuración, PIN, backup de GitHub guardado — todo). Es un reset de fábrica del panel. No se puede deshacer. Hacé antes una "Copia de seguridad completa" si por las dudas.</p>
+<button class="tab-btn" id="cfgBorrarTodo" style="width:100%;border-radius:8px;padding:12px;border-color:var(--red-neg);color:var(--red-neg);" type="button">🗑️ Borrar todos los datos</button>
+<p class="card-note" id="cfgBorrarTodoMsg" style="margin-top:8px;min-height:14px;"></p>
 </div>
 </div>
 <div class="panel" id="tab-ia">
@@ -6468,7 +6602,8 @@ function renderManualList(){
     let catTxt = en.category ? en.category : '—';
     if (en.type === 'ingreso' && en.medio) catTxt += ' (' + (en.medio === 'transferencia' ? 'Transferencia' : 'Efectivo') + ')';
     if (en.type !== 'ingreso' && en.detalle) catTxt += ' — ' + en.detalle;
-    tr.innerHTML = `<td>${en.date}</td><td>${cuentaTxt}</td><td>${tipoTxt}</td><td>${catTxt}</td><td class="num ${sign}">${fmtARS(parseFloat(en.amount))}</td><td><button type="button" class="link-btn" data-edit-idx="${idx}">Editar</button> <button type="button" class="link-btn" data-idx="${idx}">Borrar</button></td>`;
+    const fechaTxt = (typeof window.AGENCIA_FMT_FECHA === 'function') ? window.AGENCIA_FMT_FECHA(en.date) : en.date;
+    tr.innerHTML = `<td>${fechaTxt}</td><td>${cuentaTxt}</td><td>${tipoTxt}</td><td>${catTxt}</td><td class="num ${sign}">${fmtARS(parseFloat(en.amount))}</td><td><button type="button" class="link-btn" data-edit-idx="${idx}">Editar</button> <button type="button" class="link-btn" data-idx="${idx}">Borrar</button></td>`;
     tbody.appendChild(tr);
   });
   tbody.querySelectorAll('button[data-idx]').forEach(btn=>{
@@ -6485,6 +6620,9 @@ document.getElementById('cargarVerMasBtn').addEventListener('click', ()=>{
 renderManualList();
 
 async function deleteManualEntry(idx){
+  const enBorrar = manualEntries[idx];
+  const confirmTxt = enBorrar ? `¿Borrar este movimiento?\n\n${enBorrar.date} · ${enBorrar.type === 'ingreso' ? 'Ingreso' : 'Egreso'} · $${enBorrar.amount}` : '¿Borrar este movimiento?';
+  if (!confirm(confirmTxt)) return;
   manualEntries.splice(idx, 1);
   await storageSet('manual-entries', JSON.stringify(manualEntries));
   try {
@@ -9394,7 +9532,8 @@ renderAutoConclusions();
     renderCuentaCorriente();
   };
 
-  const elFacInput = document.getElementById('facturaFileInput');
+  const elFacInputFoto = document.getElementById('facturaFileInputFoto');
+  const elFacInputPdf = document.getElementById('facturaFileInputPdf');
   const elFacEstado = document.getElementById('facturaEstado');
   const elFacRevision = document.getElementById('facturaRevision');
   const elFacFiltroDesde = document.getElementById('facFiltroDesde');
@@ -9438,10 +9577,11 @@ renderAutoConclusions();
     });
   }
 
-  if (elFacInput){
-    elFacInput.addEventListener('change', async () => {
-      const files = Array.from(elFacInput.files || []);
-      elFacInput.value = '';
+  function manejarSeleccionFactura(inputEl){
+    if (!inputEl) return;
+    inputEl.addEventListener('change', async () => {
+      const files = Array.from(inputEl.files || []);
+      inputEl.value = '';
       if (!files.length) return;
       if (typeof window.extraerFacturaConIA !== 'function'){
         elFacEstado.textContent = 'El módulo de IA todavía no cargó. Recargá la página e intentá de nuevo.';
@@ -9464,15 +9604,19 @@ renderAutoConclusions();
       }
     });
   }
+  manejarSeleccionFactura(elFacInputFoto);
+  manejarSeleccionFactura(elFacInputPdf);
 
-  const elExtractoInput = document.getElementById('extractoFileInput');
+  const elExtractoInputFoto = document.getElementById('extractoFileInputFoto');
+  const elExtractoInputPdf = document.getElementById('extractoFileInputPdf');
   const elExtractoEstado = document.getElementById('extractoEstado');
   const elExtractoRevision = document.getElementById('extractoRevision');
 
-  if (elExtractoInput){
-    elExtractoInput.addEventListener('change', async () => {
-      const files = Array.from(elExtractoInput.files || []);
-      elExtractoInput.value = '';
+  function manejarSeleccionExtracto(inputEl){
+    if (!inputEl) return;
+    inputEl.addEventListener('change', async () => {
+      const files = Array.from(inputEl.files || []);
+      inputEl.value = '';
       if (!files.length) return;
       if (typeof window.extraerExtractoConIA !== 'function'){
         elExtractoEstado.textContent = 'El módulo de IA todavía no cargó. Recargá la página e intentá de nuevo.';
@@ -9499,6 +9643,8 @@ renderAutoConclusions();
       }
     });
   }
+  manejarSeleccionExtracto(elExtractoInputFoto);
+  manejarSeleccionExtracto(elExtractoInputPdf);
 
   // La IA devuelve los montos con punto decimal (ej. 1234.56). Los cuadros de
   // revisión se muestran y se guardan en formato argentino (coma decimal), así
@@ -15571,7 +15717,17 @@ pintarPickerStock();
   // ni las claves de este mismo objeto de Configuración.
   var VIEW_RESET_KEYS = ['agencia-tab-order','agencia-tabs-hidden','customTabNames','customAccountNames','customPanelOrder','panelCustomizePrefs'];
 
-  var DEFAULTS = { decimales:0, formatoMiles:'es-AR', pestanaInicio:'resumen', recordarUltima:true, densidad:'normal', tema:'dark' };
+  var DEFAULTS = { decimales:0, formatoMiles:'es-AR', pestanaInicio:'resumen', recordarUltima:true, densidad:'normal', tema:'dark',
+    // Comportamiento
+    cuentaDefaultCarga:'agencia', formatoFecha:'DMY',
+    // Notificaciones
+    avisoVencDias:3, avisoInactividadDias:7,
+    // Seguridad
+    modoDiscreto:false,
+    // Cotizaciones / moneda
+    dolarDefault:'blue', umbralSaldoMinimo:0,
+    // Backup
+    ghAutoDias:0 };
   var cfg = Object.assign({}, DEFAULTS);
 
   function applyNumCfg(){
@@ -15583,8 +15739,32 @@ pintarPickerStock();
   function applyVisualCfg(){
     document.body.classList.toggle('densidad-compacta', cfg.densidad === 'compacto');
     document.body.classList.toggle('tema-claro', cfg.tema === 'light');
+    document.body.classList.toggle('modo-discreto', !!cfg.modoDiscreto);
+    var btn = document.getElementById('agModoDiscretoBtn');
+    if (btn) btn.classList.toggle('active', !!cfg.modoDiscreto);
   }
   function saveCfg(){ return ss(CONFIG_KEY, JSON.stringify(cfg)); }
+
+  // Cuenta con la que arranca "Cargar datos" (Comportamiento). cargarCuenta
+  // es la variable global que ya maneja esa pestaña; solo la pisamos una
+  // vez al arrancar, antes de que el usuario toque el toggle a mano.
+  function applyCuentaDefaultCarga(){
+    try {
+      if (cfg.cuentaDefaultCarga !== 'agencia'){ // 'agencia' ya viene activo por defecto en el HTML
+        var btn = document.querySelector('#cargarCuentaToggle .toggle-btn[data-cuenta="'+cfg.cuentaDefaultCarga+'"]');
+        if (btn && !btn.classList.contains('active')) btn.click();
+      }
+    } catch(e){}
+  }
+
+  // Formato de fecha (Comportamiento): se aplica a la tabla de "Movimientos
+  // cargados a mano", que es donde el usuario ve y edita fechas propias.
+  window.AGENCIA_FMT_FECHA = function(iso){
+    if (!iso || typeof iso !== 'string') return iso;
+    var m = iso.match(/^(\d{4})-(\d{2})-(\d{2})/);
+    if (!m) return iso;
+    return cfg.formatoFecha === 'YMD' ? (m[1]+'-'+m[2]+'-'+m[3]) : (m[3]+'/'+m[2]+'/'+m[1]);
+  };
 
   function setToggleActive(boxId, val){
     var box = document.getElementById(boxId);
@@ -15694,6 +15874,334 @@ pintarPickerStock();
         setTimeout(function(){ location.reload(); }, 400);
       });
     });
+
+    wireNuevasSecciones();
+  }
+
+  /* ==================== Comportamiento / Notificaciones / Seguridad /
+     Cotizaciones / Backup — agregado sobre la Configuración original.
+     Todo vive en el mismo objeto `cfg` (misma clave de storage) salvo el
+     PIN, que se guarda aparte (agencia-pin) para no viajar en el backup. */
+
+  function wireNuevasSecciones(){
+    // -- Comportamiento --
+    setToggleActive('cfgCuentaDefaultToggle', cfg.cuentaDefaultCarga);
+    setToggleActive('cfgFormatoFechaToggle', cfg.formatoFecha);
+    var cuentaBox = document.getElementById('cfgCuentaDefaultToggle');
+    if (cuentaBox) cuentaBox.addEventListener('click', function(e){
+      var b = e.target.closest('.toggle-btn'); if (!b) return;
+      cfg.cuentaDefaultCarga = b.dataset.val;
+      setToggleActive('cfgCuentaDefaultToggle', cfg.cuentaDefaultCarga);
+      saveCfg();
+    });
+    var fechaBox = document.getElementById('cfgFormatoFechaToggle');
+    if (fechaBox) fechaBox.addEventListener('click', function(e){
+      var b = e.target.closest('.toggle-btn'); if (!b) return;
+      cfg.formatoFecha = b.dataset.val;
+      setToggleActive('cfgFormatoFechaToggle', cfg.formatoFecha);
+      saveCfg();
+      if (typeof window.renderManualList === 'function') window.renderManualList();
+    });
+
+    // -- Notificaciones --
+    var avisoVenc = document.getElementById('cfgAvisoVencDias');
+    var avisoInact = document.getElementById('cfgAvisoInactividadDias');
+    if (avisoVenc){
+      avisoVenc.value = cfg.avisoVencDias;
+      avisoVenc.addEventListener('change', function(){ cfg.avisoVencDias = Math.max(0, parseInt(this.value,10)||0); saveCfg(); renderAvisos(); });
+    }
+    if (avisoInact){
+      avisoInact.value = cfg.avisoInactividadDias;
+      avisoInact.addEventListener('change', function(){ cfg.avisoInactividadDias = Math.max(0, parseInt(this.value,10)||0); saveCfg(); renderAvisos(); });
+    }
+
+    // -- Seguridad --
+    var mdChk = document.getElementById('cfgModoDiscretoDefault');
+    if (mdChk){
+      mdChk.checked = !!cfg.modoDiscreto;
+      mdChk.addEventListener('change', function(){ cfg.modoDiscreto = this.checked; applyVisualCfg(); saveCfg(); });
+    }
+    wireModoDiscretoBtn();
+    wireSeguridad();
+
+    // -- Cotizaciones / moneda --
+    setToggleActive('cfgDolarDefaultToggle', cfg.dolarDefault);
+    var dolarBox = document.getElementById('cfgDolarDefaultToggle');
+    if (dolarBox) dolarBox.addEventListener('click', function(e){
+      var b = e.target.closest('.toggle-btn'); if (!b) return;
+      cfg.dolarDefault = b.dataset.val;
+      setToggleActive('cfgDolarDefaultToggle', cfg.dolarDefault);
+      saveCfg();
+    });
+    var umbral = document.getElementById('cfgUmbralSaldo');
+    if (umbral){
+      umbral.value = cfg.umbralSaldoMinimo || '';
+      umbral.addEventListener('change', function(){ cfg.umbralSaldoMinimo = Math.max(0, parseFloat(this.value)||0); saveCfg(); renderAvisos(); });
+    }
+
+    // -- Backup --
+    var ghDias = document.getElementById('cfgGhAutoDias');
+    if (ghDias){
+      ghDias.value = cfg.ghAutoDias || '';
+      ghDias.addEventListener('change', function(){ cfg.ghAutoDias = Math.max(0, parseInt(this.value,10)||0); saveCfg(); });
+    }
+    var csvBtn = document.getElementById('cfgExportarCsv');
+    if (csvBtn) csvBtn.addEventListener('click', exportarCsv);
+    var borrarBtn = document.getElementById('cfgBorrarTodo');
+    if (borrarBtn) borrarBtn.addEventListener('click', borrarTodosLosDatos);
+  }
+
+  function wireModoDiscretoBtn(){
+    var btn = document.getElementById('agModoDiscretoBtn');
+    if (!btn) return;
+    btn.classList.toggle('active', !!cfg.modoDiscreto);
+    btn.addEventListener('click', function(){
+      cfg.modoDiscreto = !cfg.modoDiscreto;
+      applyVisualCfg();
+      saveCfg();
+    });
+  }
+
+  function renderAvisos(){
+    var bar = document.getElementById('agAvisosBar');
+    if (!bar) return;
+    var avisos = [];
+
+    try {
+      if (cfg.avisoVencDias > 0 && typeof window.getVencimientosBackup === 'function'){
+        var vz = window.getVencimientosBackup();
+        var hoy = new Date(); hoy.setHours(0,0,0,0);
+        var todos = [].concat(vz.impuestos||[], vz.servicios||[]);
+        var proximos = todos.filter(function(v){
+          if (!v.fecha) return false;
+          var f = new Date(v.fecha+'T00:00:00');
+          var dias = Math.round((f - hoy)/86400000);
+          return dias >= 0 && dias <= cfg.avisoVencDias;
+        });
+        if (proximos.length){
+          avisos.push({tipo:'alerta', texto:'⏰ Tenés ' + proximos.length + ' vencimiento(s) dentro de los próximos ' + cfg.avisoVencDias + ' día(s): ' + proximos.map(function(v){return v.nombre;}).join(', ') + '.'});
+        }
+      }
+    } catch(e){}
+
+    try {
+      if (cfg.avisoInactividadDias > 0 && typeof manualEntries !== 'undefined' && manualEntries.length){
+        var fechas = manualEntries.map(function(en){ return en.date; }).filter(Boolean).sort();
+        var ultima = fechas[fechas.length-1];
+        if (ultima){
+          var hoy2 = new Date(); hoy2.setHours(0,0,0,0);
+          var f2 = new Date(ultima+'T00:00:00');
+          var diasPasados = Math.round((hoy2 - f2)/86400000);
+          if (diasPasados >= cfg.avisoInactividadDias){
+            avisos.push({tipo:'normal', texto:'📝 Hace ' + diasPasados + ' día(s) que no cargás un movimiento nuevo a mano.'});
+          }
+        }
+      }
+    } catch(e){}
+
+    try {
+      if (cfg.umbralSaldoMinimo > 0){
+        var projEl = document.getElementById('proj-total');
+        if (projEl && projEl.textContent && projEl.textContent.indexOf('…') === -1){
+          var num = parseFloat(projEl.textContent.replace(/[^\d,.-]/g,'').replace(/\./g,'').replace(',', '.'));
+          if (!isNaN(num) && num < cfg.umbralSaldoMinimo){
+            avisos.push({tipo:'alerta', texto:'⚠ El balance proyectado (' + projEl.textContent.trim() + ') está por debajo de tu umbral mínimo.'});
+          }
+        }
+      }
+    } catch(e){}
+
+    if (avisos.length){
+      bar.style.display = 'flex';
+      bar.innerHTML = avisos.map(function(a){ return '<div class="ag-aviso' + (a.tipo==='alerta' ? ' ag-aviso-alerta' : '') + '">' + a.texto + '</div>'; }).join('');
+    } else {
+      bar.style.display = 'none';
+      bar.innerHTML = '';
+    }
+  }
+
+  function exportarCsv(){
+    try {
+      var rows = [['Fecha','Cuenta','Tipo','Categoría','Monto']];
+      (typeof manualEntries !== 'undefined' ? manualEntries : []).forEach(function(en){
+        rows.push([en.date||'', en.account==='alquileres'?'Alquileres':'Agencia', en.type==='ingreso'?'Ingreso':'Egreso', en.category||'', en.amount||'']);
+      });
+      var csv = rows.map(function(r){
+        return r.map(function(v){
+          var s = String(v).replace(/"/g,'""');
+          return /[",\n]/.test(s) ? '"'+s+'"' : s;
+        }).join(',');
+      }).join('\n');
+      var blob = new Blob(['\uFEFF'+csv], {type:'text/csv;charset=utf-8;'});
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url; a.download = 'agencia-movimientos-' + new Date().toISOString().slice(0,10) + '.csv';
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      setTimeout(function(){ URL.revokeObjectURL(url); }, 2000);
+    } catch(e){ alert('No se pudo exportar el CSV: ' + e.message); }
+  }
+
+  async function borrarTodosLosDatos(){
+    var msg = document.getElementById('cfgBorrarTodoMsg');
+    if (!confirm('Esto borra TODOS los datos cargados en este dispositivo (movimientos, categorías, facturas, clientes, vencimientos, inversiones, configuración, PIN, backup de GitHub guardado). No se puede deshacer.\n\n¿Confirmás?')) return;
+    if (!confirm('Última confirmación: ¿estás 100% seguro? Si tenés dudas, cancelá y hacé antes una Copia de seguridad completa.')) return;
+    if (msg) msg.textContent = 'Borrando...';
+    try { Object.keys(localStorage).forEach(function(k){ localStorage.removeItem(k); }); } catch(e){}
+    try {
+      if (window.storage && typeof window.storage.list === 'function'){
+        var r = await window.storage.list(undefined, false);
+        if (r && r.keys){
+          for (var i=0;i<r.keys.length;i++){
+            try { await window.storage.delete(r.keys[i], false); } catch(e){}
+          }
+        }
+      }
+    } catch(e){}
+    if (msg) msg.textContent = 'Listo. Recargando...';
+    setTimeout(function(){ location.reload(); }, 500);
+  }
+
+  async function checkGhAutoDias(){
+    try {
+      if (!cfg.ghAutoDias || cfg.ghAutoDias <= 0) return;
+      var LAST_GH_KEY = 'agencia-last-gh-auto';
+      var lastRaw = await sg(LAST_GH_KEY);
+      var last = lastRaw ? parseInt(lastRaw, 10) : 0;
+      var diasPasados = (Date.now() - last) / 86400000;
+      if (diasPasados >= cfg.ghAutoDias && typeof window.subirBackupAGithub === 'function'){
+        await window.subirBackupAGithub(true);
+        await ss(LAST_GH_KEY, String(Date.now()));
+      }
+    } catch(e){}
+  }
+
+  /* ---------------- PIN + huella/Face ID ---------------- */
+  var PIN_KEY = 'agencia-pin';
+  function randSalt(){ return Math.random().toString(36).slice(2) + Date.now().toString(36); }
+  async function pinHash(pin, salt){
+    var enc = new TextEncoder().encode(pin + ':' + salt);
+    var buf = await crypto.subtle.digest('SHA-256', enc);
+    return Array.from(new Uint8Array(buf)).map(function(b){ return b.toString(16).padStart(2,'0'); }).join('');
+  }
+  async function cargarPinCfg(){
+    try { var raw = await sg(PIN_KEY); return raw ? JSON.parse(raw) : {enabled:false}; } catch(e){ return {enabled:false}; }
+  }
+  function guardarPinCfg(pc){ return ss(PIN_KEY, JSON.stringify(pc)); }
+  function b64ToBuf(b64){
+    var bin = atob(b64); var buf = new Uint8Array(bin.length);
+    for (var i=0;i<bin.length;i++) buf[i] = bin.charCodeAt(i);
+    return buf.buffer;
+  }
+  function bufToB64(buf){
+    var bytes = new Uint8Array(buf); var bin = '';
+    for (var i=0;i<bytes.length;i++) bin += String.fromCharCode(bytes[i]);
+    return btoa(bin);
+  }
+
+  async function wireSeguridad(){
+    var pc = await cargarPinCfg();
+    var estadoEl = document.getElementById('cfgPinEstado');
+    function refrescarEstado(){
+      if (estadoEl) estadoEl.textContent = pc.enabled
+        ? '🔒 PIN activado' + (pc.webauthnId ? ' · huella/Face ID activada también.' : '.')
+        : 'Sin PIN (cualquiera que abra el panel entra directo).';
+      var huellaBtn = document.getElementById('cfgPinHuellaActivar');
+      if (huellaBtn) huellaBtn.style.display = (pc.enabled && window.PublicKeyCredential && !pc.webauthnId) ? 'inline-block' : 'none';
+    }
+    refrescarEstado();
+
+    var guardarBtn = document.getElementById('cfgPinGuardar');
+    var quitarBtn = document.getElementById('cfgPinQuitar');
+    var input = document.getElementById('cfgPinNuevo');
+    var msg = document.getElementById('cfgPinMsg');
+    if (guardarBtn) guardarBtn.addEventListener('click', async function(){
+      var val = (input && input.value || '').trim();
+      if (!/^\d{4,8}$/.test(val)){ if (msg) msg.textContent = 'El PIN tiene que tener entre 4 y 8 números.'; return; }
+      var salt = randSalt();
+      var hash = await pinHash(val, salt);
+      pc = {enabled:true, hash:hash, salt:salt, webauthnId: pc.webauthnId};
+      await guardarPinCfg(pc);
+      if (input) input.value = '';
+      if (msg) msg.textContent = 'PIN activado. La próxima vez que abras el panel te lo va a pedir.';
+      refrescarEstado();
+    });
+    if (quitarBtn) quitarBtn.addEventListener('click', async function(){
+      if (!pc.enabled){ if (msg) msg.textContent = 'No tenías PIN activado.'; return; }
+      if (!confirm('¿Quitar el PIN? El panel va a abrir directo, sin pedir nada.')) return;
+      pc = {enabled:false};
+      await guardarPinCfg(pc);
+      if (msg) msg.textContent = 'PIN desactivado.';
+      refrescarEstado();
+    });
+
+    var huellaBtn = document.getElementById('cfgPinHuellaActivar');
+    var huellaMsg = document.getElementById('cfgPinHuellaMsg');
+    if (huellaBtn) huellaBtn.addEventListener('click', async function(){
+      try {
+        var challenge = crypto.getRandomValues(new Uint8Array(32));
+        var userId = crypto.getRandomValues(new Uint8Array(16));
+        var cred = await navigator.credentials.create({ publicKey: {
+          challenge: challenge,
+          rp: { name: 'Agencia · Panel financiero' },
+          user: { id: userId, name: 'usuario-panel', displayName: 'Usuario del panel' },
+          pubKeyCredParams: [{ type:'public-key', alg:-7 }, { type:'public-key', alg:-257 }],
+          authenticatorSelection: { authenticatorAttachment:'platform', userVerification:'required' },
+          timeout: 60000
+        }});
+        if (cred){
+          pc.webauthnId = bufToB64(cred.rawId);
+          await guardarPinCfg(pc);
+          if (huellaMsg) huellaMsg.textContent = 'Listo, ya podés desbloquear también con huella/Face ID.';
+          refrescarEstado();
+        }
+      } catch(e){
+        if (huellaMsg) huellaMsg.textContent = 'No se pudo activar (' + (e && e.message ? e.message : 'cancelado') + '). Podés seguir usando el PIN normal.';
+      }
+    });
+  }
+
+  async function wireLockOverlay(){
+    var pc = await cargarPinCfg();
+    document.body.classList.toggle('ag-locked', !!pc.enabled);
+    if (!pc.enabled) return;
+    var input = document.getElementById('agPinInput');
+    var btn = document.getElementById('agPinBtn');
+    var huellaBtn = document.getElementById('agPinHuellaBtn');
+    var msg = document.getElementById('agPinLockMsg');
+    async function intentar(){
+      var val = (input && input.value || '').trim();
+      if (!val) return;
+      var hash = await pinHash(val, pc.salt);
+      if (hash === pc.hash){
+        document.body.classList.remove('ag-locked');
+        if (msg) msg.textContent = '';
+      } else {
+        if (msg) msg.textContent = 'PIN incorrecto.';
+        if (input){ input.value=''; input.focus(); }
+      }
+    }
+    if (btn) btn.addEventListener('click', intentar);
+    if (input) input.addEventListener('keydown', function(e){ if (e.key === 'Enter') intentar(); });
+    if (pc.webauthnId && window.PublicKeyCredential && huellaBtn){
+      huellaBtn.style.display = 'inline-block';
+      huellaBtn.addEventListener('click', async function(){
+        try {
+          var challenge = crypto.getRandomValues(new Uint8Array(32));
+          var res = await navigator.credentials.get({ publicKey: {
+            challenge: challenge,
+            allowCredentials: [{ id: b64ToBuf(pc.webauthnId), type:'public-key' }],
+            userVerification: 'required',
+            timeout: 60000
+          }});
+          if (res){
+            document.body.classList.remove('ag-locked');
+            if (msg) msg.textContent = '';
+          }
+        } catch(e){
+          if (msg) msg.textContent = 'No se pudo verificar. Probá con el PIN.';
+        }
+      });
+    }
   }
 
   function recargarParaAplicarFormato(){
@@ -15745,6 +16253,10 @@ pintarPickerStock();
     try { wireUI(); } catch(e){ console.error('config UI', e); }
     try { wireRecordarUltimaPestana(); } catch(e){ console.error('config recordar', e); }
     try { await aplicarTabInicial(); } catch(e){ console.error('config tab inicial', e); }
+    try { applyCuentaDefaultCarga(); } catch(e){ console.error('config cuenta default', e); }
+    try { await wireLockOverlay(); } catch(e){ console.error('config pin lock', e); }
+    try { renderAvisos(); setTimeout(renderAvisos, 1500); } catch(e){ console.error('config avisos', e); }
+    try { checkGhAutoDias(); } catch(e){ console.error('config gh auto dias', e); }
   }
 
   if (document.readyState === 'loading'){
