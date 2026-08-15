@@ -1966,6 +1966,14 @@ try {
 </div>
 
 <div class="card">
+<h2 style="font-size:14px;">Fechas en los filtros</h2>
+<p class="card-note">Los rangos de fecha/mes de cada pestaña (Proveedores, Categorías, Comparar, Buscar, Cotizaciones, etc.) arrancan en la última fecha que elegiste ahí, en vez de volver siempre al período por defecto.</p>
+<label style="display:flex;align-items:center;gap:9px;font-size:13px;color:var(--cream-dim);">
+<input id="cfgRecordarFechas" type="checkbox"/> Recordar la última fecha elegida en cada filtro
+    </label>
+</div>
+
+<div class="card">
 <h2 style="font-size:14px;">Densidad</h2>
 <p class="card-note">Modo compacto: menos padding y letra más chica, para ver más contenido de una.</p>
 <div class="toggle-row" id="cfgDensidadToggle" style="margin-bottom:0;">
@@ -15745,7 +15753,7 @@ pintarPickerStock();
   // ni las claves de este mismo objeto de Configuración.
   var VIEW_RESET_KEYS = ['agencia-tab-order','agencia-tabs-hidden','customTabNames','customAccountNames','customPanelOrder','panelCustomizePrefs'];
 
-  var DEFAULTS = { decimales:0, formatoMiles:'es-AR', pestanaInicio:'resumen', recordarUltima:true, densidad:'normal', tema:'dark',
+  var DEFAULTS = { decimales:0, formatoMiles:'es-AR', pestanaInicio:'resumen', recordarUltima:true, recordarFechas:true, densidad:'normal', tema:'dark',
     // Comportamiento
     cuentaDefaultCarga:'agencia', formatoFecha:'DMY',
     // Notificaciones
@@ -15838,6 +15846,8 @@ pintarPickerStock();
     setToggleActive('cfgDensidadToggle', cfg.densidad);
     setToggleActive('cfgTemaToggle', cfg.tema);
     document.getElementById('cfgRecordarUltima').checked = !!cfg.recordarUltima;
+    var cfgRecordarFechasEl = document.getElementById('cfgRecordarFechas');
+    if (cfgRecordarFechasEl) cfgRecordarFechasEl.checked = !!cfg.recordarFechas;
     poblarSelectPestanas();
     refreshEjemplo();
 
@@ -15875,6 +15885,12 @@ pintarPickerStock();
       cfg.recordarUltima = this.checked;
       saveCfg();
     });
+    if (cfgRecordarFechasEl){
+      cfgRecordarFechasEl.addEventListener('change', function(){
+        cfg.recordarFechas = this.checked;
+        saveCfg();
+      });
+    }
 
     document.getElementById('cfgBackupCompleto').addEventListener('click', function(){
       if (typeof window.exportarBackup === 'function') window.exportarBackup();
@@ -16252,6 +16268,60 @@ pintarPickerStock();
     });
   }
 
+  /* ---- Fechas por defecto: recordar la última fecha/mes elegido en cada
+     filtro (Proveedores, Categorías, Comparar, Buscar, Cotizaciones, etc.)
+     en vez de volver siempre al período por defecto. Se guarda una clave
+     por campo (por su id) en localStorage, aparte del objeto `cfg`, así no
+     hace falta reescribir todo el backup cada vez que se cambia una fecha.
+     Corre después de que todas las pestañas ya armaron sus campos de fecha
+     y monthpicks (boot() arranca en DOMContentLoaded), así que pisa el
+     default recién puesto por cada pestaña con lo último guardado. */
+  var FECHA_MEM_PREFIX = 'agencia-fecha-mem::';
+  // Fechas de "alta de un registro nuevo" (movimiento, cliente, vencimiento,
+  // inversión...) que a propósito quedan afuera: ya tienen su propio default
+  // sensato (hoy), y recordarlas cambiaría el comportamiento de carga de
+  // datos en vez del de los filtros/períodos, que es lo que se pidió acá.
+  var FECHA_MEM_EXCLUIR = ['cargarFecha','fcFechaAlta','fcExtraFecha','fcExtPagoFecha','fcDsrFecha','fcFerFecha','vzServFecha','invFecha'];
+
+  function fechaMemLeer(id){
+    try { return localStorage.getItem(FECHA_MEM_PREFIX + id); } catch(e){ return null; }
+  }
+  function fechaMemGuardar(id, val){
+    try { if (val) localStorage.setItem(FECHA_MEM_PREFIX + id, val); } catch(e){}
+  }
+  function wireFechaMemoria(){
+    document.querySelectorAll('input[type="date"]').forEach(function(el){
+      if (!el.id || FECHA_MEM_EXCLUIR.indexOf(el.id) !== -1) return;
+      if (cfg.recordarFechas){
+        var guardado = fechaMemLeer(el.id);
+        if (guardado && !el.value){
+          el.value = guardado;
+          // Dispara los listeners que cada pestaña ya tiene enganchados
+          // (algunas escuchan 'change', otras 'input') para que la tabla/
+          // gráfico se actualice con la fecha restaurada, no solo el input.
+          el.dispatchEvent(new Event('change', {bubbles:true}));
+          el.dispatchEvent(new Event('input', {bubbles:true}));
+        }
+      }
+      el.addEventListener('change', function(){
+        if (cfg.recordarFechas && el.value) fechaMemGuardar(el.id, el.value);
+      });
+    });
+    document.querySelectorAll('.monthpick').forEach(function(el){
+      if (!el.id) return;
+      if (cfg.recordarFechas){
+        var guardado = fechaMemLeer(el.id);
+        if (guardado && guardado !== el.value){
+          el.value = guardado;
+          el.dispatchEvent(new Event('change', {bubbles:true}));
+        }
+      }
+      el.addEventListener('change', function(){
+        if (cfg.recordarFechas) fechaMemGuardar(el.id, el.value);
+      });
+    });
+  }
+
   async function aplicarTabInicial(){
     // Corre al final de todo (después de que se restauren orden/ocultas/
     // nombres de pestañas, que son scripts anteriores) para elegir con qué
@@ -16280,6 +16350,7 @@ pintarPickerStock();
     applyVisualCfg();
     try { wireUI(); } catch(e){ console.error('config UI', e); }
     try { wireRecordarUltimaPestana(); } catch(e){ console.error('config recordar', e); }
+    try { wireFechaMemoria(); } catch(e){ console.error('config fechas memoria', e); }
     try { await aplicarTabInicial(); } catch(e){ console.error('config tab inicial', e); }
     try { applyCuentaDefaultCarga(); } catch(e){ console.error('config cuenta default', e); }
     try { await wireLockOverlay(); } catch(e){ console.error('config pin lock', e); }
