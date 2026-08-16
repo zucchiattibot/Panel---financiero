@@ -246,6 +246,22 @@
   body.printing-factura #fcFacturaContenido{position:absolute;top:0;left:0;width:100%;}
   #fcCerrarPrintBtn{display:none;position:fixed;top:10px;right:10px;z-index:99999;background:#c0392b;color:#fff;border:none;border-radius:8px;padding:10px 14px;font-size:13px;font-weight:700;}
   body.printing-factura #fcCerrarPrintBtn{display:block !important;visibility:visible !important;}
+
+  /* Modal para abrir un comprobante desde Ganancia semanal */
+  #ganSemFacturaModal{display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.72);padding:18px;overflow:auto;}
+  #ganSemFacturaModal.active{display:block;}
+  #ganSemFacturaModal .gsm-box{max-width:720px;margin:4vh auto;background:var(--bg-1);border:1px solid var(--line);border-radius:16px;padding:16px;box-shadow:0 20px 60px rgba(0,0,0,.45);}
+  #ganSemFacturaModal .gsm-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:12px;}
+  #ganSemFacturaModal .gsm-close{background:var(--bg-2);border:1px solid var(--line);color:var(--cream);border-radius:8px;padding:7px 10px;cursor:pointer;font-size:13px;}
+  #ganSemFacturaModal .gsm-title{font-weight:800;font-size:17px;}
+  #ganSemFacturaModal .gsm-sub{color:var(--cream-dim);font-size:12px;margin-top:3px;}
+  #ganSemFacturaModal .gsm-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;}
+  #ganSemFacturaModal .gsm-field{background:rgba(0,0,0,.12);border:1px solid var(--line);border-radius:9px;padding:8px 10px;}
+  #ganSemFacturaModal .gsm-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;}
+  #ganSemFacturaModal .gsm-value{font-size:13px;margin-top:2px;}
+  #ganSemFacturaModal table{width:100%;border-collapse:collapse;font-size:12px;}
+  #ganSemFacturaModal th,#ganSemFacturaModal td{padding:6px;border-bottom:1px solid var(--line);}
+  @media(max-width:520px){#ganSemFacturaModal{padding:8px;}#ganSemFacturaModal .gsm-grid{grid-template-columns:1fr 1fr;}#ganSemFacturaModal .gsm-box{padding:12px;}}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
 <style>
@@ -933,7 +949,7 @@ try {
 <p class="card-note" id="ganSemNota" style="margin-top:6px;"></p>
 <div class="kpi-grid" id="ganSemKpis" style="margin-top:10px;"></div>
 <div style="overflow-x:auto;margin-top:14px;">
-<table id="ganSemTable"><thead><tr><th>Semana</th><th style="text-align:right">Cargas</th><th style="text-align:right">Notas de crédito</th><th style="text-align:right">Neto</th></tr></thead><tbody></tbody></table>
+<table id="ganSemTable"><thead><tr><th>Semana</th><th style="text-align:right">Cargas</th><th style="text-align:right">Notas de crédito</th><th style="text-align:right">Diferencia neta</th></tr></thead><tbody></tbody></table>
 </div>
 </div>
 <div class="card">
@@ -974,7 +990,7 @@ try {
 <h2>Detalle año a año</h2>
 <p class="card-note">Var.% es contra el año anterior, en pesos nominales de cada momento.</p>
 <div style="overflow-x:auto;">
-<table id="yearlyTable"><thead><tr><th>Año</th><th style="text-align:right">Ingresos</th><th style="text-align:right">Var.%</th><th style="text-align:right">Egresos</th><th style="text-align:right">Var.%</th><th style="text-align:right">Neto</th></tr></thead><tbody></tbody></table>
+<table id="yearlyTable"><thead><tr><th>Año</th><th style="text-align:right">Ingresos</th><th style="text-align:right">Var.%</th><th style="text-align:right">Egresos</th><th style="text-align:right">Var.%</th><th style="text-align:right">Diferencia neta</th></tr></thead><tbody></tbody></table>
 </div>
 </div>
 <div class="card">
@@ -11041,6 +11057,41 @@ renderAutoConclusions();
     return { key: aInt(lunes), lunesIso: aIso(lunes), domingoIso: aIso(domingo) };
   }
 
+  function abrirFacturaDesdeGanSem(id){
+    const f = facturas.find(x => String(x.id) === String(id));
+    if (!f) return;
+    const modal = document.getElementById('ganSemFacturaModal');
+    const title = document.getElementById('ganSemFacturaModalTitle');
+    const sub = document.getElementById('ganSemFacturaModalSub');
+    const body = document.getElementById('ganSemFacturaModalBody');
+    if (!modal || !body) return;
+    const esCredito = f.tipo === 'nota_credito';
+    const moneda = f.moneda && f.moneda !== 'ARS' ? ' (' + escapeHtmlProv(f.moneda) + ')' : '';
+    const items = Array.isArray(f.items) ? f.items : [];
+    const itemsHtml = items.length ? '<div style="overflow-x:auto;"><table><thead><tr>' +
+      '<th style="text-align:left;">Título / producto</th><th style="text-align:left;">Edición</th><th style="text-align:right;">Cant.</th><th style="text-align:right;">Monto</th></tr></thead><tbody>' +
+      items.map(it => '<tr><td>' + escapeHtmlProv(it.descripcion || '—') + '</td><td>' + escapeHtmlProv(it.edicion || '—') + '</td><td style="text-align:right;">' + (it.cantidad != null ? Number(it.cantidad).toLocaleString('es-AR',{maximumFractionDigits:2}) : '—') + '</td><td style="text-align:right;">' + (it.monto != null ? (esCredito ? '−' : '') + fmtARS(it.monto) : '—') + '</td></tr>').join('') +
+      '</tbody></table></div>'
+      : '<p class="card-note">Este comprobante no tiene títulos/productos cargados en el detalle.</p>';
+    if (title) title.textContent = (esCredito ? 'Nota de crédito' : etiquetaTipo(f.tipo)) + (f.numeroFactura ? ' · N° ' + f.numeroFactura : '');
+    if (sub) sub.textContent = 'Detalle completo del comprobante';
+    body.innerHTML =
+      '<div class="gsm-grid">' +
+        '<div class="gsm-field"><div class="gsm-label">Fecha</div><div class="gsm-value">' + (f.fecha ? fmtFechaCorta(fechaAIntProv(f.fecha)) : '—') + '</div></div>' +
+        '<div class="gsm-field"><div class="gsm-label">Vencimiento</div><div class="gsm-value">' + (f.vencimiento ? fmtFechaCorta(fechaAIntProv(f.vencimiento)) : '—') + '</div></div>' +
+        '<div class="gsm-field"><div class="gsm-label">Estado</div><div class="gsm-value">' + (f.estado === 'pendiente' ? 'Pendiente' : 'Pagada') + '</div></div>' +
+        '<div class="gsm-field"><div class="gsm-label">Importe</div><div class="gsm-value ' + (esCredito ? 'pos' : '') + '">' + (esCredito ? '−' : '') + fmtARS(f.monto || 0) + moneda + '</div></div>' +
+      '</div>' +
+      '<div class="card-note" style="margin-bottom:6px;">Productos / ítems de este comprobante</div>' + itemsHtml;
+    modal.classList.add('active');
+    modal.setAttribute('aria-hidden','false');
+  }
+
+  const ganSemFacturaModal = document.getElementById('ganSemFacturaModal');
+  const ganSemFacturaModalClose = document.getElementById('ganSemFacturaModalClose');
+  if (ganSemFacturaModalClose) ganSemFacturaModalClose.addEventListener('click', () => { ganSemFacturaModal.classList.remove('active'); ganSemFacturaModal.setAttribute('aria-hidden','true'); });
+  if (ganSemFacturaModal) ganSemFacturaModal.addEventListener('click', e => { if (e.target === ganSemFacturaModal) { ganSemFacturaModal.classList.remove('active'); ganSemFacturaModal.setAttribute('aria-hidden','true'); } });
+
   function renderGananciaSemanal(){
     const prov = PROVEEDORES.find(p => p.key === provState.prov) || PROVEEDORES[0];
     const nombreEl = document.getElementById('ganSemProvNombre');
@@ -11119,7 +11170,7 @@ renderAutoConclusions();
                 '</tr>'
               ).join('');
               return '<div style="border:1px solid var(--line);border-radius:8px;padding:8px;margin:7px 0;background:rgba(0,0,0,.08);">' +
-                '<div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:6px;"><strong>' + escapeHtmlProv(etiquetaTipo(m.tipo)) + (m.numeroFactura ? ' · N° ' + escapeHtmlProv(m.numeroFactura) : '') + '</strong><span>' + (m.fecha ? fmtFechaCorta(fechaAIntProv(m.fecha)) : '—') + ' · ' + (m.estado === 'pendiente' ? 'Pendiente' : 'Pagada') + '</span></div>' +
+                '<div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:6px;align-items:center;"><button type="button" class="link-btn" data-gan-sem-factura="' + m.id + '" style="font-weight:800;text-align:left;padding:2px 0;">▸ ' + escapeHtmlProv(etiquetaTipo(m.tipo)) + (m.numeroFactura ? ' · N° ' + escapeHtmlProv(m.numeroFactura) : '') + '</button><span>' + (m.fecha ? fmtFechaCorta(fechaAIntProv(m.fecha)) : '—') + ' · ' + (m.estado === 'pendiente' ? 'Pendiente' : 'Pagada') + '</span></div>' +
                 '<div class="card-note" style="margin-bottom:5px;">Importe de ítems que cae en esta semana: <strong>' + (esCredito ? '−' : '') + fmtARS(m.montoItems) + '</strong>' +
                   (m.montoComprobante && Math.abs(m.montoComprobante - m.montoItems) > 0.009 ? ' · Comprobante: ' + (esCredito ? '−' : '') + fmtARS(m.montoComprobante) : '') +
                 '</div>' +
@@ -11149,6 +11200,12 @@ renderAutoConclusions();
           const abierto = detalle.style.display !== 'none';
           detalle.style.display = abierto ? 'none' : '';
           if (arrow) arrow.textContent = abierto ? '▸' : '▾';
+        });
+      });
+      elTbody.querySelectorAll('[data-gan-sem-factura]').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          abrirFacturaDesdeGanSem(btn.getAttribute('data-gan-sem-factura'));
         });
       });
     }
@@ -18481,5 +18538,15 @@ document.getElementById('panelMenuFlotanteOverlay').addEventListener('click', fu
 });
 })();
 </script>
+
+<div id="ganSemFacturaModal" aria-hidden="true">
+  <div class="gsm-box" role="dialog" aria-modal="true" aria-label="Detalle del comprobante">
+    <div class="gsm-head">
+      <div><div class="gsm-title" id="ganSemFacturaModalTitle">Comprobante</div><div class="gsm-sub" id="ganSemFacturaModalSub"></div></div>
+      <button type="button" class="gsm-close" id="ganSemFacturaModalClose">Cerrar ✕</button>
+    </div>
+    <div id="ganSemFacturaModalBody"></div>
+  </div>
+</div>
 </body>
 </html>
