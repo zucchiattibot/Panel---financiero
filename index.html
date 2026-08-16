@@ -9759,6 +9759,60 @@ renderAutoConclusions();
     return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   }
 
+  // Convierte un texto de monto (con coma o punto decimal, con o sin separador
+  // de miles) al número que representa. Usada por los chequeos de duplicados
+  // y de consistencia de ítems, que trabajan con los mismos campos que ve el
+  // usuario en pantalla (formato argentino).
+  function parseMontoTexto(txt){
+    const s = String(txt==null?'':txt).trim();
+    if (!s) return null;
+    const n = Math.abs(parseFloat(s.replace(/\./g,'').replace(',', '.')) || parseFloat(s) || 0);
+    return isNaN(n) ? null : n;
+  }
+
+  // Busca en las facturas YA GUARDADAS una que parezca ser la misma que la que
+  // se está por cargar, para avisar antes de guardar (nunca bloquea, solo informa).
+  // Duplicado casi seguro: mismo proveedor + mismo N° de comprobante.
+  // Duplicado probable: mismo proveedor + misma fecha de emisión + mismo monto.
+  function detectarFacturaDuplicada(proveedorKey, numero, fecha, monto){
+    const numNorm = String(numero||'').trim().toLowerCase();
+    const fechaNorm = String(fecha||'').trim();
+    const montoNum = (typeof monto === 'number') ? monto : parseMontoTexto(monto);
+    return facturas.find(f => {
+      if (f.proveedorKey !== proveedorKey) return false;
+      if (numNorm && f.numeroFactura && String(f.numeroFactura).trim().toLowerCase() === numNorm) return true;
+      if (fechaNorm && f.fecha === fechaNorm && montoNum != null && f.monto != null && Math.abs(f.monto - montoNum) < 1) return true;
+      return false;
+    }) || null;
+  }
+
+  function textoAvisoDuplicado(dup){
+    if (!dup) return '';
+    return '⚠️ Ya hay ' + (dup.tipo==='nota_credito'?'una nota de crédito':dup.tipo==='nota_debito'?'una nota de débito':'una factura') +
+      ' cargada' + (dup.numeroFactura ? ' con el N° "' + escapeHtmlProv(dup.numeroFactura) + '"' : '') +
+      (dup.fecha ? ' del ' + dup.fecha : '') + (dup.monto!=null ? ' por ' + fmtARSProv(dup.monto) : '') +
+      '. Revisá que no sea la misma antes de guardar de nuevo.';
+  }
+
+  function fmtARSProv(n){
+    try { return (typeof fmtARS === 'function') ? fmtARS(n) : ('$' + Number(n).toLocaleString('es-AR')); }
+    catch(e){ return '$' + n; }
+  }
+
+  // Suma los montos de los ítems (formato argentino, coma decimal) y la compara
+  // contra el total del comprobante, para avisar si algo no cierra (por ej. la
+  // IA se salteó un ítem o el total fue mal leído).
+  function chequearSumaItems(itemsArr, montoTotalTxt){
+    const total = parseMontoTexto(montoTotalTxt);
+    if (total == null) return '';
+    const conMonto = itemsArr.filter(it => String(it.monto||'').trim() !== '');
+    if (!conMonto.length) return '';
+    const suma = conMonto.reduce((s,it) => s + (parseMontoTexto(it.monto) || 0), 0);
+    const diff = Math.abs(suma - total);
+    if (diff < 1) return '';
+    return '⚠️ La suma de los ítems (' + fmtARSProv(suma) + ') no coincide con el monto total (' + fmtARSProv(total) + '). Puede que falte un ítem o que algún importe esté mal leído — revisalo antes de guardar.';
+  }
+
   async function loadFacturas(){
     try { const raw = await storageGet(K_FACTURAS); if (raw) facturas = JSON.parse(raw) || []; } catch(e){ facturas = []; }
     renderFacturas();
@@ -9971,6 +10025,8 @@ renderAutoConclusions();
     div.style.cssText = 'border:1px solid var(--line);border-radius:10px;padding:12px;background:rgba(0,0,0,.18);';
     div.innerHTML =
       '<div class="card-note" style="margin-bottom:8px;">Revisá los datos que leyó la IA de "' + escapeHtmlProv(nombreArchivo) + '" (proveedor: ' + prov.label + ') y corregí lo que haga falta antes de guardar:</div>' +
+      '<div data-aviso-dup style="display:none;background:rgba(224,139,120,.15);border:1px solid var(--red-neg);color:var(--red-neg);border-radius:8px;padding:8px 10px;font-size:12px;margin-bottom:8px;"></div>' +
+      '<div data-aviso-suma style="display:none;background:rgba(211,181,106,.15);border:1px solid var(--gold);color:var(--gold);border-radius:8px;padding:8px 10px;font-size:12px;margin-bottom:8px;"></div>' +
       campoTipoDocRevision(datos.tipo_documento) +
       campoRevision('numero', 'N° de comprobante', datos.numero_factura) +
       campoRevision('fecha', 'Fecha de emisión (AAAA-MM-DD)', datos.fecha_emision) +
@@ -9999,6 +10055,7 @@ renderAutoConclusions();
           const i = parseInt(b.getAttribute('data-item-del'),10);
           itemsLocal.splice(i,1);
           pintarItems();
+          if (typeof recalcularAvisos === 'function') recalcularAvisos();
         });
       });
       itemsBody.querySelectorAll('[data-item-campo]').forEach(inp => {
@@ -10007,19 +10064,42 @@ renderAutoConclusions();
           const idx = parseInt(tr.getAttribute('data-item-idx'),10);
           const campo = inp.getAttribute('data-item-campo');
           itemsLocal[idx][campo] = inp.value;
+          if (typeof recalcularAvisos === 'function') recalcularAvisos();
         });
       });
     }
+    // Recalcula los dos avisos (duplicado y suma de ítems) con los valores
+    // actuales de los campos — se llama al armar la tarjeta y cada vez que el
+    // usuario edita algo, para que el aviso siempre refleje lo que se va a guardar.
+    const elAvisoDup = div.querySelector('[data-aviso-dup]');
+    const elAvisoSuma = div.querySelector('[data-aviso-suma]');
+    function recalcularAvisos(){
+      const get = (campo) => { const e = div.querySelector('[data-campo="' + campo + '"]'); return e ? e.value.trim() : ''; };
+      const dup = detectarFacturaDuplicada(prov.key, get('numero'), get('fecha'), get('monto'));
+      if (dup){ elAvisoDup.style.display = 'block'; elAvisoDup.innerHTML = textoAvisoDuplicado(dup); }
+      else { elAvisoDup.style.display = 'none'; elAvisoDup.innerHTML = ''; }
+      const avisoSuma = chequearSumaItems(itemsLocal, get('monto'));
+      if (avisoSuma){ elAvisoSuma.style.display = 'block'; elAvisoSuma.textContent = avisoSuma; }
+      else { elAvisoSuma.style.display = 'none'; elAvisoSuma.textContent = ''; }
+    }
+    div.querySelectorAll('[data-campo="numero"], [data-campo="fecha"], [data-campo="monto"]').forEach(inp => {
+      inp.addEventListener('input', recalcularAvisos);
+    });
+
     pintarItems();
+    recalcularAvisos();
     div.querySelector('[data-accion="agregar-item"]').addEventListener('click', () => {
       itemsLocal.push({ descripcion:'', edicion:'', cantidad:'', monto:'' });
       pintarItems();
+      recalcularAvisos();
     });
 
     div.querySelector('[data-accion="guardar"]').addEventListener('click', () => {
       const get = (campo) => div.querySelector('[data-campo="' + campo + '"]').value.trim();
       const montoTxt = get('monto');
       const monto = Math.abs(parseFloat(montoTxt.replace(/\./g,'').replace(',', '.')) || parseFloat(montoTxt) || 0) || null;
+      const dupAlGuardar = detectarFacturaDuplicada(prov.key, get('numero'), get('fecha'), montoTxt);
+      if (dupAlGuardar && !confirm('Parece que ya cargaste este comprobante antes (mismo N° o misma fecha y monto). ¿Guardar de todas formas?')) return;
       const itemsGuardar = itemsLocal.map(it => {
         const descripcion = String(it.descripcion||'').trim();
         const edicion = String(it.edicion||'').trim();
@@ -10059,12 +10139,16 @@ renderAutoConclusions();
   // Revisión en lote de un extracto de cuenta: la IA devuelve varias facturas/notas
   // de una vez y acá se arma una tabla editable para confirmarlas antes de guardarlas,
   // una por una, en el mismo array "facturas" que usa la carga individual.
-  function filaRevisionExtracto(item, idx){
+  function filaRevisionExtracto(item, idx, proveedorKey){
     const tipo = ['factura','nota_credito','nota_debito'].includes(item.tipo_documento) ? item.tipo_documento : 'factura';
     const monto = formatMontoParaRevision(item.monto_total);
     const inputCss = 'width:100%;box-sizing:border-box;background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:6px;border-radius:5px;font-size:12px;';
-    return '<tr data-idx="' + idx + '"' + (item.resumen_items ? ' title="' + escapeHtmlProv(item.resumen_items) + '"' : '') + '>' +
+    const dup = detectarFacturaDuplicada(proveedorKey, item.numero_factura, item.fecha_emision, item.monto_total);
+    const filaStyle = dup ? ' style="background:rgba(224,139,120,.12);"' : '';
+    const tituloDup = dup ? ' Posible duplicado: ya hay un comprobante cargado que coincide en N° o en fecha+monto.' : '';
+    return '<tr data-idx="' + idx + '"' + filaStyle + ' title="' + escapeHtmlProv((item.resumen_items||'') + tituloDup) + '">' +
       '<td style="padding:6px 4px 6px 0;"><input type="checkbox" data-campo="incluir" checked style="width:16px;height:16px;"></td>' +
+      (dup ? '<td style="padding:6px 4px 6px 0;" title="Posible duplicado">⚠️</td>' : '<td></td>') +
       '<td style="padding:6px 4px 6px 0;min-width:96px;"><select data-campo="tipo" style="' + inputCss + '">' +
         '<option value="factura"' + (tipo==='factura'?' selected':'') + '>Factura</option>' +
         '<option value="nota_credito"' + (tipo==='nota_credito'?' selected':'') + '>N. crédito</option>' +
@@ -10082,9 +10166,10 @@ renderAutoConclusions();
     const wrap = document.createElement('div');
     wrap.style.cssText = 'border:1px solid var(--line);border-radius:10px;padding:12px;background:rgba(0,0,0,.18);margin-top:10px;';
     wrap.innerHTML =
-      '<div class="card-note" style="margin-bottom:8px;">La IA encontró ' + lista.length + (lista.length===1?' comprobante':' comprobantes') + ' en "' + escapeHtmlProv(nombreArchivos) + '" (proveedor: ' + prov.label + '). Revisá cada fila, corregí lo que haga falta y destildá lo que no quieras guardar — pasá el mouse sobre una fila para ver los items que detectó, si los hay:</div>' +
+      '<div class="card-note" style="margin-bottom:8px;">La IA encontró ' + lista.length + (lista.length===1?' comprobante':' comprobantes') + ' en "' + escapeHtmlProv(nombreArchivos) + '" (proveedor: ' + prov.label + '). Revisá cada fila, corregí lo que haga falta y destildá lo que no quieras guardar — pasá el mouse sobre una fila para ver los items o el aviso de posible duplicado, si los hay. Las filas marcadas con ⚠️ ya parecen estar cargadas:</div>' +
       '<div style="overflow-x:auto;">' +
       '<table style="width:100%;border-collapse:collapse;font-size:11px;"><thead><tr>' +
+        '<th style="text-align:left;padding:0 4px 6px 0;"></th>' +
         '<th style="text-align:left;padding:0 4px 6px 0;"></th>' +
         '<th style="text-align:left;padding:0 4px 6px 0;">Tipo</th>' +
         '<th style="text-align:left;padding:0 4px 6px 0;">N°</th>' +
@@ -10092,7 +10177,7 @@ renderAutoConclusions();
         '<th style="text-align:left;padding:0 4px 6px 0;">Vence</th>' +
         '<th style="text-align:right;padding:0 0 6px 0;">Monto</th>' +
       '</tr></thead><tbody>' +
-      lista.map((item, idx) => filaRevisionExtracto(item, idx)).join('') +
+      lista.map((item, idx) => filaRevisionExtracto(item, idx, prov.key)).join('') +
       '</tbody></table></div>' +
       '<div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;">' +
         '<button type="button" class="toggle-btn" data-accion="guardar-todas" style="flex:1;">Guardar seleccionadas</button>' +
@@ -10103,6 +10188,14 @@ renderAutoConclusions();
     wrap.querySelector('[data-accion="descartar-todas"]').addEventListener('click', () => wrap.remove());
     wrap.querySelector('[data-accion="guardar-todas"]').addEventListener('click', () => {
       const filas = Array.from(wrap.querySelectorAll('tbody tr'));
+      // Antes de guardar nada, revisamos con los valores actuales (ya editados
+      // por el usuario si corrigió algo) si alguna fila tildada parece duplicada.
+      const dupsAlGuardar = filas.filter(fila => {
+        if (!fila.querySelector('[data-campo="incluir"]').checked) return false;
+        const g = (campo) => fila.querySelector('[data-campo="' + campo + '"]').value.trim();
+        return !!detectarFacturaDuplicada(prov.key, g('numero'), g('fecha'), g('monto'));
+      });
+      if (dupsAlGuardar.length && !confirm('Hay ' + dupsAlGuardar.length + ' comprobante(s) tildado(s) que parecen ya estar cargados. ¿Guardar de todas formas?')) return;
       let guardadas = 0;
       filas.forEach((fila, i) => {
         const incluir = fila.querySelector('[data-campo="incluir"]').checked;
