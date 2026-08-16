@@ -9759,6 +9759,54 @@ renderAutoConclusions();
     return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   }
 
+  /* ---- Aviso de posible factura duplicada ----
+     Compara, contra TODO lo ya cargado del mismo proveedor: (1) mismo N° de
+     comprobante, (2) misma fecha + mismo monto total, y (3) ítems del
+     desglose que ya figuran en otra factura cargada (mismo texto + mismo
+     monto de línea). Es solo informativo: nunca bloquea el guardado, el
+     usuario decide si guarda igual. */
+  function normalizarTextoProv(s){
+    return String(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,' ').trim();
+  }
+  function chequearDuplicadosFactura(proveedorKey, numeroFactura, fecha, monto, items, idExcluir){
+    const avisos = [];
+    const numNorm = String(numeroFactura||'').trim().toLowerCase();
+    const itemsNuevos = (Array.isArray(items) ? items : []).filter(it => it && it.descripcion).map(it => ({
+      desc: normalizarTextoProv(it.descripcion),
+      monto: (it.monto != null && it.monto !== '' && !isNaN(parseFloat(it.monto))) ? Math.round(parseFloat(it.monto)*100)/100 : null
+    })).filter(it => it.desc);
+    facturas.forEach(f => {
+      if (!f || f.proveedorKey !== proveedorKey) return;
+      if (idExcluir && f.id === idExcluir) return;
+      if (numNorm && f.numeroFactura && String(f.numeroFactura).trim().toLowerCase() === numNorm){
+        avisos.push('Mismo N° de comprobante ("' + numeroFactura + '") que una factura ya cargada' + (f.fecha ? ' el ' + f.fecha : '') + '.');
+      }
+      if (fecha && f.fecha === fecha && monto != null && f.monto != null && Math.abs(f.monto - monto) < 0.01){
+        avisos.push('Misma fecha (' + fecha + ') y mismo monto que una factura ya cargada' + (f.numeroFactura ? ' (N° ' + f.numeroFactura + ')' : '') + '.');
+      }
+      if (itemsNuevos.length && Array.isArray(f.items) && f.items.length){
+        const itemsExistentes = f.items.filter(it => it && it.descripcion).map(it => ({
+          desc: normalizarTextoProv(it.descripcion),
+          monto: (it.monto != null && !isNaN(parseFloat(it.monto))) ? Math.round(parseFloat(it.monto)*100)/100 : null
+        }));
+        itemsNuevos.forEach(itNuevo => {
+          const coincide = itemsExistentes.find(itEx => itEx.desc === itNuevo.desc &&
+            (itNuevo.monto == null || itEx.monto == null || Math.abs(itEx.monto - itNuevo.monto) < 0.01));
+          if (coincide){
+            avisos.push('El ítem "' + (coincide.desc || itNuevo.desc) + '" ya figura en otra factura cargada' + (f.numeroFactura ? ' (N° ' + f.numeroFactura + ')' : '') + (f.fecha ? ' del ' + f.fecha : '') + '.');
+          }
+        });
+      }
+    });
+    return Array.from(new Set(avisos));
+  }
+  function renderAvisoDuplicadoHtml(avisos){
+    if (!avisos.length) return '';
+    return '<div class="card-note" style="margin:8px 0;padding:8px 10px;border-radius:8px;background:rgba(224,139,120,.14);border:1px solid var(--red-neg);color:var(--red-neg);">' +
+      '⚠️ Posible factura duplicada:<br>' + avisos.map(a => '• ' + escapeHtmlProv(a)).join('<br>') +
+      '</div>';
+  }
+
   async function loadFacturas(){
     try { const raw = await storageGet(K_FACTURAS); if (raw) facturas = JSON.parse(raw) || []; } catch(e){ facturas = []; }
     renderFacturas();
@@ -9983,11 +10031,22 @@ renderAutoConclusions();
         '</tr></thead><tbody data-items-body></tbody></table></div>' +
         '<button type="button" class="link-btn" data-accion="agregar-item" style="margin-top:4px;">+ Agregar producto</button>' +
       '</div>' +
+      '<div data-aviso-duplicado></div>' +
       '<div style="display:flex;gap:8px;margin-top:10px;">' +
         '<button type="button" class="toggle-btn" data-accion="guardar" style="flex:1;">Guardar</button>' +
         '<button type="button" class="toggle-btn" data-accion="descartar" style="flex:1;">Descartar</button>' +
       '</div>';
     elFacRevision.appendChild(div);
+
+    const avisoBox = div.querySelector('[data-aviso-duplicado]');
+    function recalcularAvisoDuplicado(){
+      const get = (campo) => { const el = div.querySelector('[data-campo="' + campo + '"]'); return el ? el.value.trim() : ''; };
+      const montoTxt = get('monto');
+      const montoChk = Math.abs(parseFloat(montoTxt.replace(/\./g,'').replace(',', '.')) || parseFloat(montoTxt) || 0) || null;
+      const itemsChk = itemsLocal.map(it => ({ descripcion: it.descripcion, monto: String(it.monto||'').replace(',', '.') }));
+      const avisos = chequearDuplicadosFactura(prov.key, get('numero'), get('fecha'), montoChk, itemsChk, null);
+      avisoBox.innerHTML = renderAvisoDuplicadoHtml(avisos);
+    }
 
     const itemsBody = div.querySelector('[data-items-body]');
     function pintarItems(){
@@ -10007,13 +10066,19 @@ renderAutoConclusions();
           const idx = parseInt(tr.getAttribute('data-item-idx'),10);
           const campo = inp.getAttribute('data-item-campo');
           itemsLocal[idx][campo] = inp.value;
+          recalcularAvisoDuplicado();
         });
       });
+      recalcularAvisoDuplicado();
     }
     pintarItems();
     div.querySelector('[data-accion="agregar-item"]').addEventListener('click', () => {
       itemsLocal.push({ descripcion:'', edicion:'', cantidad:'', monto:'' });
       pintarItems();
+    });
+    ['numero','fecha','monto'].forEach(campo => {
+      const el = div.querySelector('[data-campo="' + campo + '"]');
+      if (el) el.addEventListener('input', recalcularAvisoDuplicado);
     });
 
     div.querySelector('[data-accion="guardar"]').addEventListener('click', () => {
@@ -10074,7 +10139,8 @@ renderAutoConclusions();
       '<td style="padding:6px 4px 6px 0;min-width:96px;"><input type="text" data-campo="fecha" value="' + escapeHtmlProv(item.fecha_emision||'') + '" placeholder="AAAA-MM-DD" style="' + inputCss + '"></td>' +
       '<td style="padding:6px 4px 6px 0;min-width:96px;"><input type="text" data-campo="vencimiento" value="' + escapeHtmlProv(item.fecha_vencimiento||'') + '" placeholder="AAAA-MM-DD" style="' + inputCss + '"></td>' +
       '<td style="padding:6px 0 6px 0;min-width:90px;"><input type="text" data-campo="monto" value="' + escapeHtmlProv(monto) + '" style="' + inputCss + 'text-align:right;"></td>' +
-    '</tr>';
+    '</tr>' +
+    '<tr data-fila-aviso="' + idx + '" style="display:none;"><td colspan="6" style="padding:0 4px 8px 0;"><div data-aviso-duplicado></div></td></tr>';
   }
 
   function renderRevisionExtracto(lista, nombreArchivos){
@@ -10100,9 +10166,30 @@ renderAutoConclusions();
       '</div>';
     elExtractoRevision.appendChild(wrap);
 
+    function recalcularAvisoFila(idx){
+      const fila = wrap.querySelector('tbody tr[data-idx="' + idx + '"]');
+      const filaAviso = wrap.querySelector('tr[data-fila-aviso="' + idx + '"]');
+      if (!fila || !filaAviso) return;
+      const get = (campo) => { const el = fila.querySelector('[data-campo="' + campo + '"]'); return el ? el.value.trim() : ''; };
+      const montoTxt = get('monto');
+      const montoChk = Math.abs(parseFloat(montoTxt.replace(/\./g,'').replace(',', '.')) || parseFloat(montoTxt) || 0) || null;
+      const avisos = chequearDuplicadosFactura(prov.key, get('numero'), get('fecha'), montoChk, [], null);
+      const box = filaAviso.querySelector('[data-aviso-duplicado]');
+      box.innerHTML = renderAvisoDuplicadoHtml(avisos);
+      filaAviso.style.display = avisos.length ? '' : 'none';
+    }
+    lista.forEach((item, idx) => {
+      recalcularAvisoFila(idx);
+      const fila = wrap.querySelector('tbody tr[data-idx="' + idx + '"]');
+      ['numero','fecha','monto'].forEach(campo => {
+        const el = fila.querySelector('[data-campo="' + campo + '"]');
+        if (el) el.addEventListener('input', () => recalcularAvisoFila(idx));
+      });
+    });
+
     wrap.querySelector('[data-accion="descartar-todas"]').addEventListener('click', () => wrap.remove());
     wrap.querySelector('[data-accion="guardar-todas"]').addEventListener('click', () => {
-      const filas = Array.from(wrap.querySelectorAll('tbody tr'));
+      const filas = Array.from(wrap.querySelectorAll('tbody tr[data-idx]'));
       let guardadas = 0;
       filas.forEach((fila, i) => {
         const incluir = fila.querySelector('[data-campo="incluir"]').checked;
