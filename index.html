@@ -7751,14 +7751,19 @@ async function subirBackupAGithub(silencioso){
 // uno con su propia ruta (cfg.path vs cfg.pathProveedores) pero el mismo
 // owner/repo/token de la configuración.
 async function subirTextoAGithub(cfg, path, contenido, mensajeCommit){
-  const apiUrl = `https://api.github.com/repos/${encodeURIComponent(cfg.owner)}/${encodeURIComponent(cfg.repo)}/contents/${path.split('/').map(encodeURIComponent).join('/')}`;
+  const apiUrlBase = `https://api.github.com/repos/${encodeURIComponent(cfg.owner)}/${encodeURIComponent(cfg.repo)}/contents/${path.split('/').map(encodeURIComponent).join('/')}`;
   const headers = {
     'Authorization': `Bearer ${cfg.token}`,
     'Accept': 'application/vnd.github+json',
     'X-GitHub-Api-Version': '2022-11-28'
   };
   let sha = undefined;
-  const getResp = await fetch(apiUrl, { headers });
+  // Parámetro anti-caché en la lectura previa: algunos WebView de apps
+  // cachean el GET por URL sin respetar cache:'no-store', y si esa consulta
+  // devolvió "no existe" (404) antes de crear el archivo, podría reusar esa
+  // respuesta vieja más tarde. Con un parámetro que cambia en cada llamada,
+  // la URL nunca se repite y no hay nada para servir desde caché.
+  const getResp = await fetch(apiUrlBase + '?_=' + Date.now(), { headers, cache: 'no-store' });
   if (getResp.status === 200){
     const data = await getResp.json();
     sha = data.sha;
@@ -7771,7 +7776,7 @@ async function subirTextoAGithub(cfg, path, contenido, mensajeCommit){
     content: utf8ToBase64(contenido)
   };
   if (sha) body.sha = sha;
-  const putResp = await fetch(apiUrl, { method: 'PUT', headers, body: JSON.stringify(body) });
+  const putResp = await fetch(apiUrlBase, { method: 'PUT', headers, body: JSON.stringify(body), cache: 'no-store' });
   if (!putResp.ok){
     const errBody = await putResp.text().catch(()=> '');
     throw new Error(`GitHub devolvió HTTP ${putResp.status}. ${errBody.slice(0,200)}`);
@@ -7781,13 +7786,15 @@ async function subirTextoAGithub(cfg, path, contenido, mensajeCommit){
 // Función interna compartida para traer el contenido de un archivo desde
 // GitHub (usada tanto por el backup completo como por el de Proveedores).
 async function traerTextoDesdeGithub(cfg, path){
-  const apiUrl = `https://api.github.com/repos/${encodeURIComponent(cfg.owner)}/${encodeURIComponent(cfg.repo)}/contents/${path.split('/').map(encodeURIComponent).join('/')}`;
+  const apiUrlBase = `https://api.github.com/repos/${encodeURIComponent(cfg.owner)}/${encodeURIComponent(cfg.repo)}/contents/${path.split('/').map(encodeURIComponent).join('/')}`;
   const headers = {
     'Authorization': `Bearer ${cfg.token}`,
     'Accept': 'application/vnd.github+json',
     'X-GitHub-Api-Version': '2022-11-28'
   };
-  const resp = await fetch(apiUrl, { headers });
+  // Mismo parámetro anti-caché que en subirTextoAGithub, para no toparse con
+  // una respuesta vieja guardada por el WebView de la app.
+  const resp = await fetch(apiUrlBase + '?_=' + Date.now(), { headers, cache: 'no-store' });
   if (resp.status === 404) throw new Error('Todavía no hay ningún backup subido a GitHub en esa ruta.');
   if (!resp.ok){
     const errBody = await resp.text().catch(()=> '');
