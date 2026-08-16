@@ -925,6 +925,11 @@ try {
 <input id="ganSemFiltroHasta" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:8px;border-radius:6px;font-size:13px;" type="date"/>
 <button class="link-btn" id="ganSemFiltroLimpiar" type="button">Limpiar filtro</button>
 </div>
+<div class="toggle-row" id="ganSemTipoToggle" style="margin-top:8px;">
+<button class="toggle-btn active" data-tipo="todo" type="button">Todo</button>
+<button class="toggle-btn" data-tipo="diario" type="button">Solo diarios</button>
+<button class="toggle-btn" data-tipo="revista" type="button">Solo revistas y colecciones</button>
+</div>
 <p class="card-note" id="ganSemNota" style="margin-top:6px;"></p>
 <div class="kpi-grid" id="ganSemKpis" style="margin-top:10px;"></div>
 <div style="overflow-x:auto;margin-top:14px;">
@@ -11000,6 +11005,28 @@ renderAutoConclusions();
     });
   }
 
+  // Clasifica un ítem de factura como "diario" o "revista/colección" según el
+  // título/descripción cargado. Diarios: Nación, Clarín, Popular y Olé (con o
+  // sin tilde). Cualquier otro título (revistas, fascículos, colecciones,
+  // revistas opcionales, etc.) se considera "revista" para esta separación.
+  const GANSEM_DIARIOS_REGEX = /\b(naci[oó]n|clar[ií]n|popular|ol[eé])\b/i;
+  function esItemDiario(it){
+    const texto = String((it && it.descripcion) || '').toLowerCase();
+    return GANSEM_DIARIOS_REGEX.test(texto);
+  }
+
+  let ganSemTipo = 'todo'; // 'todo' | 'diario' | 'revista'
+  const elGanSemTipoToggle = document.getElementById('ganSemTipoToggle');
+  if (elGanSemTipoToggle){
+    elGanSemTipoToggle.querySelectorAll('.toggle-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        ganSemTipo = btn.dataset.tipo;
+        elGanSemTipoToggle.querySelectorAll('.toggle-btn').forEach(b => b.classList.toggle('active', b === btn));
+        renderGananciaSemanal();
+      });
+    });
+  }
+
   // Devuelve el lunes y domingo (como enteros AAAAMMDD) de la semana que contiene fechaIso.
   function semanaDeFechaProv(fechaIso){
     const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(fechaIso||'');
@@ -11033,6 +11060,8 @@ renderAutoConclusions();
       f.items.forEach(it => {
         const monto = (it.monto != null && !isNaN(it.monto)) ? Number(it.monto) : 0;
         if (!monto) return;
+        if (ganSemTipo === 'diario' && !esItemDiario(it)) return;
+        if (ganSemTipo === 'revista' && esItemDiario(it)) return;
         const fechaEf = fechaEfectivaItemProv(it, f);
         const fInt = fechaAIntProv(fechaEf);
         if (fInt === null) return;
@@ -11050,8 +11079,9 @@ renderAutoConclusions();
 
     const notaEl = document.getElementById('ganSemNota');
     if (notaEl){
+      const recorteTxt = ganSemTipo === 'diario' ? ' (solo diarios)' : (ganSemTipo === 'revista' ? ' (solo revistas y colecciones)' : '');
       notaEl.textContent = conItems.length
-        ? filas.length + (filas.length===1 ? ' semana con movimiento' : ' semanas con movimiento') + ' para ' + prov.label + '.'
+        ? filas.length + (filas.length===1 ? ' semana con movimiento' : ' semanas con movimiento') + ' para ' + prov.label + recorteTxt + '.'
         : 'Todavía no hay productos con monto detectados en las facturas cargadas de ' + prov.label + ' (se completa al cargar comprobantes individuales con detalle de ítems).';
     }
 
