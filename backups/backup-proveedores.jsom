@@ -1,0 +1,6139 @@
+{
+  "tipo": "panel-agencia-backup-proveedores",
+  "version": 1,
+  "exportadoEl": "2026-08-16T15:14:15.077Z",
+  "facturasProveedores": [
+    {
+      "id": "f_1786288479789_g5a9h",
+      "proveedorKey": "silmar",
+      "tipo": "factura",
+      "numeroFactura": "00004-00016838",
+      "fecha": "2026-08-07",
+      "vencimiento": "2026-08-17",
+      "monto": 406163,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "AUDI QUATTRO (DGP)",
+          "edicion": "54",
+          "cantidad": 1,
+          "monto": 16800
+        },
+        {
+          "descripcion": "BIBLIOTECA CLASICA GRE",
+          "edicion": "34",
+          "cantidad": 1,
+          "monto": 21592
+        },
+        {
+          "descripcion": "DODGE CHARGER RYF (DGP",
+          "edicion": "15",
+          "cantidad": 2,
+          "monto": 44000
+        },
+        {
+          "descripcion": "LEYENDAS DEL MOTOR (DG",
+          "edicion": "1",
+          "cantidad": 2,
+          "monto": 15440
+        },
+        {
+          "descripcion": "AUDIOCUENTOS MAGICOS D",
+          "edicion": "8",
+          "cantidad": 1,
+          "monto": 18800
+        },
+        {
+          "descripcion": "AUDIOCUENTOS MAGICOS D",
+          "edicion": "17",
+          "cantidad": 3,
+          "monto": 56400
+        },
+        {
+          "descripcion": "AUDIOCUENTOS MAGICOS D",
+          "edicion": "16",
+          "cantidad": 3,
+          "monto": 56400
+        },
+        {
+          "descripcion": "QUIJOTE PLATINO EXTRA",
+          "edicion": "10075",
+          "cantidad": 1,
+          "monto": 7662
+        },
+        {
+          "descripcion": "33 CRUZADAS EXTRA (DGP",
+          "edicion": "464",
+          "cantidad": 1,
+          "monto": 2598
+        },
+        {
+          "descripcion": "QUIJOTE SOPAMANIA POCK",
+          "edicion": "11000",
+          "cantidad": 1,
+          "monto": 3600
+        },
+        {
+          "descripcion": "CONSTRUYE TU COMBI (DG",
+          "edicion": "65",
+          "cantidad": 3,
+          "monto": 49800
+        },
+        {
+          "descripcion": "PROTAGONISTAS 2 (DGP)",
+          "edicion": "58",
+          "cantidad": 1,
+          "monto": 11920
+        },
+        {
+          "descripcion": "MIS ANIMALES DEL ZOO (",
+          "edicion": "54",
+          "cantidad": 1,
+          "monto": 12792
+        },
+        {
+          "descripcion": "JUEGOS DE INGENIO (DGP",
+          "edicion": "40",
+          "cantidad": 2,
+          "monto": 30384
+        },
+        {
+          "descripcion": "CRUCIGRAMA (PERFIL INT",
+          "edicion": "1265",
+          "cantidad": 1,
+          "monto": 4875
+        },
+        {
+          "descripcion": "CRUCIGRAMA CLASICOS DE",
+          "edicion": "164",
+          "cantidad": 1,
+          "monto": 4785
+        },
+        {
+          "descripcion": "JOKER EXTRA (PERFIL IN",
+          "edicion": "282",
+          "cantidad": 2,
+          "monto": 14700
+        },
+        {
+          "descripcion": "JOKER SUDOKU POCKET (P",
+          "edicion": "110",
+          "cantidad": 1,
+          "monto": 3690
+        },
+        {
+          "descripcion": "CARAS (11)",
+          "edicion": "2324",
+          "cantidad": 1,
+          "monto": 8175
+        },
+        {
+          "descripcion": "SEMANARIO (PERFIL)",
+          "edicion": "2260",
+          "cantidad": 6,
+          "monto": 21750
+        }
+      ],
+      "cargadaEl": "2026-08-09T15:14:39.789Z"
+    },
+    {
+      "id": "f_1786291422569_2ll5f",
+      "proveedorKey": "silmar",
+      "tipo": "factura",
+      "numeroFactura": "00004-00016815",
+      "fecha": "2026-03-08",
+      "vencimiento": "2026-08-13",
+      "monto": 8925,
+      "moneda": "ARS",
+      "estado": "pagada",
+      "items": [
+        {
+          "descripcion": "Carga de revistas y otros\n1 NOTICIAS (11)",
+          "edicion": "2588",
+          "cantidad": null,
+          "monto": 8925
+        }
+      ],
+      "cargadaEl": "2026-08-09T16:03:42.569Z"
+    },
+    {
+      "id": "f_1786291734404_8rmno",
+      "proveedorKey": "silmar",
+      "tipo": "nota_credito",
+      "numeroFactura": "00004-00009607",
+      "fecha": "2026-08-03",
+      "vencimiento": null,
+      "monto": 77490.7,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "EL MUEBLE (BRI) (DGP)",
+          "edicion": "4",
+          "cantidad": 1,
+          "monto": 5080
+        },
+        {
+          "descripcion": "CLIP (DGP)",
+          "edicion": "905",
+          "cantidad": 1,
+          "monto": 3574
+        },
+        {
+          "descripcion": "CLIP EXTRA (DGP)",
+          "edicion": "368",
+          "cantidad": 1,
+          "monto": 4450
+        },
+        {
+          "descripcion": "QUIJOTE SOPAS (DGP)",
+          "edicion": "11026",
+          "cantidad": 1,
+          "monto": 5983
+        },
+        {
+          "descripcion": "QUIJOTE SOPITAS (DGP)",
+          "edicion": "10031",
+          "cantidad": 1,
+          "monto": 29827
+        },
+        {
+          "descripcion": "CAMPEONES (DGP)",
+          "edicion": "784",
+          "cantidad": 1,
+          "monto": 11020
+        },
+        {
+          "descripcion": "CRUCIGRAMA CLASICO ORO",
+          "edicion": "163",
+          "cantidad": 1,
+          "monto": 4785
+        },
+        {
+          "descripcion": "CRUCIGRAMA CLASICOS (P",
+          "edicion": "295",
+          "cantidad": 1,
+          "monto": 3900
+        },
+        {
+          "descripcion": "CRUCIGRAMA CLASICOS DE",
+          "edicion": "162",
+          "cantidad": 1,
+          "monto": 4785
+        },
+        {
+          "descripcion": "CARAS (11)",
+          "edicion": "2322",
+          "cantidad": 1,
+          "monto": 8175
+        },
+        {
+          "descripcion": "SEMANARIO (PERFIL)",
+          "edicion": "2256",
+          "cantidad": 1,
+          "monto": 3625
+        },
+        {
+          "descripcion": "SEMANARIO (PERFIL)",
+          "edicion": "2258",
+          "cantidad": 4,
+          "monto": 14500
+        },
+        {
+          "descripcion": "CRUCIGRAMA REVUELTOS O",
+          "edicion": "123",
+          "cantidad": 1,
+          "monto": 4631
+        }
+      ],
+      "cargadaEl": "2026-08-09T16:08:54.404Z"
+    },
+    {
+      "id": "f_1786324739290_0_5bh4d",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00582060",
+      "fecha": "2026-07-31",
+      "vencimiento": null,
+      "monto": 101152,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.290Z"
+    },
+    {
+      "id": "f_1786324739290_1_gji2d",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00582004",
+      "fecha": "2026-07-31",
+      "vencimiento": null,
+      "monto": 56679.6,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.290Z"
+    },
+    {
+      "id": "f_1786324739290_2_xwo9d",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00581940",
+      "fecha": "2026-07-31",
+      "vencimiento": null,
+      "monto": 51768,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.290Z"
+    },
+    {
+      "id": "f_1786324739290_3_tp5yb",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00581874",
+      "fecha": "2026-07-30",
+      "vencimiento": null,
+      "monto": 51768,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.290Z"
+    },
+    {
+      "id": "f_1786324739290_4_rlfc5",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00581746",
+      "fecha": "2026-07-29",
+      "vencimiento": null,
+      "monto": 11590,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.290Z"
+    },
+    {
+      "id": "f_1786324739290_5_f6ykx",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00581745",
+      "fecha": "2026-07-29",
+      "vencimiento": null,
+      "monto": 94466,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.290Z"
+    },
+    {
+      "id": "f_1786324739290_6_xfqc9",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00581641",
+      "fecha": "2026-07-29",
+      "vencimiento": null,
+      "monto": 58416,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.290Z"
+    },
+    {
+      "id": "f_1786324739290_7_lso34",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00955657",
+      "fecha": "2026-07-28",
+      "vencimiento": null,
+      "monto": 18893.2,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.290Z"
+    },
+    {
+      "id": "f_1786324739290_8_yqic4",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00955656",
+      "fecha": "2026-07-28",
+      "vencimiento": null,
+      "monto": 15493.2,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.290Z"
+    },
+    {
+      "id": "f_1786324739290_9_oyzn5",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00955655",
+      "fecha": "2026-07-28",
+      "vencimiento": null,
+      "monto": 5795,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.290Z"
+    },
+    {
+      "id": "f_1786324739290_10_tor73",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00955654",
+      "fecha": "2026-07-28",
+      "vencimiento": null,
+      "monto": 15493.2,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.290Z"
+    },
+    {
+      "id": "f_1786324739290_11_eyin2",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00955653",
+      "fecha": "2026-07-28",
+      "vencimiento": null,
+      "monto": 17533.2,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.290Z"
+    },
+    {
+      "id": "f_1786324739291_12_tx967",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00955652",
+      "fecha": "2026-07-28",
+      "vencimiento": null,
+      "monto": 5795,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_13_xkw6u",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00955651",
+      "fecha": "2026-07-28",
+      "vencimiento": null,
+      "monto": 113359.2,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_14_bb8cn",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00955650",
+      "fecha": "2026-07-28",
+      "vencimiento": null,
+      "monto": 40359.6,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_15_bhyil",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00955649",
+      "fecha": "2026-07-28",
+      "vencimiento": null,
+      "monto": 28554,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_16_yav6x",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00955648",
+      "fecha": "2026-07-28",
+      "vencimiento": null,
+      "monto": 28554,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_17_xqvh1",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00955647",
+      "fecha": "2026-07-28",
+      "vencimiento": null,
+      "monto": 9518,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_18_c8pok",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00955646",
+      "fecha": "2026-07-28",
+      "vencimiento": null,
+      "monto": 38072,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_19_ii9no",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00955174",
+      "fecha": "2026-07-28",
+      "vencimiento": null,
+      "monto": 33400,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_20_9s0q2",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00955173",
+      "fecha": "2026-07-28",
+      "vencimiento": null,
+      "monto": 14640,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_21_eq5ve",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00955172",
+      "fecha": "2026-07-28",
+      "vencimiento": null,
+      "monto": 9760,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_22_s7mu9",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00955171",
+      "fecha": "2026-07-28",
+      "vencimiento": null,
+      "monto": 10980,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_23_mk8po",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00955170",
+      "fecha": "2026-07-28",
+      "vencimiento": null,
+      "monto": 13420,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_24_8202l",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00955169",
+      "fecha": "2026-07-28",
+      "vencimiento": null,
+      "monto": 33400,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_25_ow9pv",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00955168",
+      "fecha": "2026-07-28",
+      "vencimiento": null,
+      "monto": 15860,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_26_4mgk8",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00955167",
+      "fecha": "2026-07-28",
+      "vencimiento": null,
+      "monto": 12200,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_27_b0qzs",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00955166",
+      "fecha": "2026-07-28",
+      "vencimiento": null,
+      "monto": 13420,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_28_zqnqi",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00955165",
+      "fecha": "2026-07-28",
+      "vencimiento": null,
+      "monto": 12200,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_29_deizy",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00955164",
+      "fecha": "2026-07-28",
+      "vencimiento": null,
+      "monto": 28056,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_30_btaf3",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00955163",
+      "fecha": "2026-07-28",
+      "vencimiento": null,
+      "monto": 12200,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_31_73g0g",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00955162",
+      "fecha": "2026-07-28",
+      "vencimiento": null,
+      "monto": 12200,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_32_4a2u5",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00955161",
+      "fecha": "2026-07-28",
+      "vencimiento": null,
+      "monto": 13420,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_33_ch79p",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00955160",
+      "fecha": "2026-07-28",
+      "vencimiento": null,
+      "monto": 7320,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_34_gvwc2",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00955159",
+      "fecha": "2026-07-28",
+      "vencimiento": null,
+      "monto": 13420,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_35_n3c6u",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00955158",
+      "fecha": "2026-07-28",
+      "vencimiento": null,
+      "monto": 12200,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_36_osdgb",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00955157",
+      "fecha": "2026-07-28",
+      "vencimiento": null,
+      "monto": 15860,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_37_ru9x7",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00955156",
+      "fecha": "2026-07-28",
+      "vencimiento": null,
+      "monto": 10980,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_38_kt9c4",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00955155",
+      "fecha": "2026-07-28",
+      "vencimiento": null,
+      "monto": 14640,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_39_ozngz",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00955444",
+      "fecha": "2026-07-28",
+      "vencimiento": null,
+      "monto": 5264,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_40_hhequ",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00955443",
+      "fecha": "2026-07-28",
+      "vencimiento": null,
+      "monto": 11898,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_41_4p2ck",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00955442",
+      "fecha": "2026-07-28",
+      "vencimiento": null,
+      "monto": 13160,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_42_ptage",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00955441",
+      "fecha": "2026-07-28",
+      "vencimiento": null,
+      "monto": 17800,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_43_txbxv",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00955440",
+      "fecha": "2026-07-28",
+      "vencimiento": null,
+      "monto": 10528,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_44_8okpc",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00955439",
+      "fecha": "2026-07-28",
+      "vencimiento": null,
+      "monto": 5264,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_45_wbc74",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00955438",
+      "fecha": "2026-07-28",
+      "vencimiento": null,
+      "monto": 15792,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_46_h7n5a",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00955437",
+      "fecha": "2026-07-28",
+      "vencimiento": null,
+      "monto": 7932,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_47_c5093",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00955436",
+      "fecha": "2026-07-28",
+      "vencimiento": null,
+      "monto": 17800,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_48_b1d2l",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00955435",
+      "fecha": "2026-07-28",
+      "vencimiento": null,
+      "monto": 10528,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_49_ibs6u",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00955434",
+      "fecha": "2026-07-28",
+      "vencimiento": null,
+      "monto": 2632,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_50_fniwz",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00955433",
+      "fecha": "2026-07-28",
+      "vencimiento": null,
+      "monto": 5264,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_51_syn1h",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00955432",
+      "fecha": "2026-07-28",
+      "vencimiento": null,
+      "monto": 7932,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_52_63t2t",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00955431",
+      "fecha": "2026-07-28",
+      "vencimiento": null,
+      "monto": 10528,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_53_5d71g",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00955430",
+      "fecha": "2026-07-28",
+      "vencimiento": null,
+      "monto": 28480,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_54_9vdiw",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00955429",
+      "fecha": "2026-07-28",
+      "vencimiento": null,
+      "monto": 13160,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_55_y0mly",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00955428",
+      "fecha": "2026-07-28",
+      "vencimiento": null,
+      "monto": 13296,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_56_jg3fj",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00955427",
+      "fecha": "2026-07-28",
+      "vencimiento": null,
+      "monto": 30036,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_57_2jrxl",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00955426",
+      "fecha": "2026-07-28",
+      "vencimiento": null,
+      "monto": 31794,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_58_heykr",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00955425",
+      "fecha": "2026-07-28",
+      "vencimiento": null,
+      "monto": 3324,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_59_67jxq",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00955424",
+      "fecha": "2026-07-28",
+      "vencimiento": null,
+      "monto": 3324,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_60_8yl1k",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00955423",
+      "fecha": "2026-07-28",
+      "vencimiento": null,
+      "monto": 9972,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_61_p5gwx",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00954406",
+      "fecha": "2026-07-28",
+      "vencimiento": null,
+      "monto": 154932,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_62_k9qov",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00954405",
+      "fecha": "2026-07-28",
+      "vencimiento": null,
+      "monto": 40359.6,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_63_z0b4t",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00954404",
+      "fecha": "2026-07-28",
+      "vencimiento": null,
+      "monto": 18893.2,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_64_go28f",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00954403",
+      "fecha": "2026-07-28",
+      "vencimiento": null,
+      "monto": 40359.6,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_65_hyuwg",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00954402",
+      "fecha": "2026-07-28",
+      "vencimiento": null,
+      "monto": 5795,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_66_jkjww",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00954401",
+      "fecha": "2026-07-28",
+      "vencimiento": null,
+      "monto": 75572.8,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_67_922ji",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00954400",
+      "fecha": "2026-07-28",
+      "vencimiento": null,
+      "monto": 22979.32,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_68_0aznk",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00954399",
+      "fecha": "2026-07-28",
+      "vencimiento": null,
+      "monto": 22979.32,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_69_9wdf1",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00954398",
+      "fecha": "2026-07-28",
+      "vencimiento": null,
+      "monto": 14819.32,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_70_alt8h",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00954397",
+      "fecha": "2026-07-28",
+      "vencimiento": null,
+      "monto": 18220,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_71_lb8mi",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00954396",
+      "fecha": "2026-07-28",
+      "vencimiento": null,
+      "monto": 11419.32,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_72_3fmfu",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00954395",
+      "fecha": "2026-07-28",
+      "vencimiento": null,
+      "monto": 10059.32,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_73_fk2vk",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00954394",
+      "fecha": "2026-07-28",
+      "vencimiento": null,
+      "monto": 14819.32,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_74_juh77",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00954393",
+      "fecha": "2026-07-28",
+      "vencimiento": null,
+      "monto": 38072,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_75_gzeay",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00954392",
+      "fecha": "2026-07-28",
+      "vencimiento": null,
+      "monto": 19036,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_76_t1f8d",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00954391",
+      "fecha": "2026-07-28",
+      "vencimiento": null,
+      "monto": 9518,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_77_yjno4",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00954390",
+      "fecha": "2026-07-28",
+      "vencimiento": null,
+      "monto": 28554,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_78_f4mkv",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00581584",
+      "fecha": "2026-07-28",
+      "vencimiento": null,
+      "monto": 92959.2,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_79_q858j",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00581520",
+      "fecha": "2026-07-28",
+      "vencimiento": null,
+      "monto": 58416,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_80_gmsoi",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00581457",
+      "fecha": "2026-07-28",
+      "vencimiento": null,
+      "monto": 69804,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_81_bwaum",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00581399",
+      "fecha": "2026-07-28",
+      "vencimiento": null,
+      "monto": 40359.6,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_82_3e8hk",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00581362",
+      "fecha": "2026-07-28",
+      "vencimiento": null,
+      "monto": 37786.4,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_83_3j9u8",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00581262",
+      "fecha": "2026-07-27",
+      "vencimiento": null,
+      "monto": 65064,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_84_i1169",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00581186",
+      "fecha": "2026-07-26",
+      "vencimiento": null,
+      "monto": 89978,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_85_hdyi3",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00581105",
+      "fecha": "2026-07-25",
+      "vencimiento": null,
+      "monto": 9789.6,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_86_9cvvz",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00581104",
+      "fecha": "2026-07-25",
+      "vencimiento": null,
+      "monto": 49879.6,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_87_aomma",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00580994",
+      "fecha": "2026-07-25",
+      "vencimiento": null,
+      "monto": 95742,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_88_sbair",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00580913",
+      "fecha": "2026-07-24",
+      "vencimiento": null,
+      "monto": 30986.4,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_89_pxvft",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00580912",
+      "fecha": "2026-07-24",
+      "vencimiento": null,
+      "monto": 58745.6,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_90_27kvb",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00580801",
+      "fecha": "2026-07-24",
+      "vencimiento": null,
+      "monto": 51768,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_91_lanr9",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00953811",
+      "fecha": "2026-07-23",
+      "vencimiento": null,
+      "monto": 10980,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_92_kjzr8",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00953810",
+      "fecha": "2026-07-23",
+      "vencimiento": null,
+      "monto": 12200,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.291Z"
+    },
+    {
+      "id": "f_1786324739291_93_xyowi",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00580760",
+      "fecha": "2026-07-23",
+      "vencimiento": null,
+      "monto": 28266.4,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_94_ln7ep",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00580697",
+      "fecha": "2026-07-23",
+      "vencimiento": null,
+      "monto": 88912,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_95_2lkks",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00580696",
+      "fecha": "2026-07-23",
+      "vencimiento": null,
+      "monto": 10469.6,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_96_u4t9a",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00580596",
+      "fecha": "2026-07-23",
+      "vencimiento": null,
+      "monto": 51768,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_97_ms5r6",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00580528",
+      "fecha": "2026-07-22",
+      "vencimiento": null,
+      "monto": 11590,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_98_vhc7z",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00580459",
+      "fecha": "2026-07-22",
+      "vencimiento": null,
+      "monto": 58416,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_99_dmg5f",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00952647",
+      "fecha": "2026-07-21",
+      "vencimiento": null,
+      "monto": 3088,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_100_pkg1w",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00952646",
+      "fecha": "2026-07-21",
+      "vencimiento": null,
+      "monto": 1544,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_101_oskus",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00952645",
+      "fecha": "2026-07-21",
+      "vencimiento": null,
+      "monto": 1544,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_102_8ds4w",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00952644",
+      "fecha": "2026-07-21",
+      "vencimiento": null,
+      "monto": 3088,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_103_6b7fg",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00952643",
+      "fecha": "2026-07-21",
+      "vencimiento": null,
+      "monto": 6176,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_104_s9016",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00952546",
+      "fecha": "2026-07-21",
+      "vencimiento": null,
+      "monto": 13296,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_105_c8phc",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00952545",
+      "fecha": "2026-07-21",
+      "vencimiento": null,
+      "monto": 16620,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_106_m5hrc",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00952544",
+      "fecha": "2026-07-21",
+      "vencimiento": null,
+      "monto": 25030,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_107_2ng69",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00952543",
+      "fecha": "2026-07-21",
+      "vencimiento": null,
+      "monto": 27252,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_108_3rke5",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00952542",
+      "fecha": "2026-07-21",
+      "vencimiento": null,
+      "monto": 6648,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_109_z4i60",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00952541",
+      "fecha": "2026-07-21",
+      "vencimiento": null,
+      "monto": 9972,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_110_vh0st",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00952540",
+      "fecha": "2026-07-21",
+      "vencimiento": null,
+      "monto": 19944,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_111_m28b6",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00952224",
+      "fecha": "2026-07-21",
+      "vencimiento": null,
+      "monto": 10059.32,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_112_znf4l",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00952223",
+      "fecha": "2026-07-21",
+      "vencimiento": null,
+      "monto": 9380,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_113_8eq6d",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00952222",
+      "fecha": "2026-07-21",
+      "vencimiento": null,
+      "monto": 9380,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_114_bmu0a",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00952221",
+      "fecha": "2026-07-21",
+      "vencimiento": null,
+      "monto": 17533.2,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_115_pm25w",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00952220",
+      "fecha": "2026-07-21",
+      "vencimiento": null,
+      "monto": 17533.2,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_116_rcsde",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00952219",
+      "fecha": "2026-07-21",
+      "vencimiento": null,
+      "monto": 40359.6,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_117_m6i6v",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00952218",
+      "fecha": "2026-07-21",
+      "vencimiento": null,
+      "monto": 22293.2,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_118_civeh",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00952217",
+      "fecha": "2026-07-21",
+      "vencimiento": null,
+      "monto": 70132.8,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_119_12kc4",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00952216",
+      "fecha": "2026-07-21",
+      "vencimiento": null,
+      "monto": 12099.32,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_120_ui36m",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00952215",
+      "fecha": "2026-07-21",
+      "vencimiento": null,
+      "monto": 12099.32,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_121_2wfyp",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00952214",
+      "fecha": "2026-07-21",
+      "vencimiento": null,
+      "monto": 77798,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_122_jpw5x",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00952213",
+      "fecha": "2026-07-21",
+      "vencimiento": null,
+      "monto": 17533.2,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_123_8ar7y",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00952212",
+      "fecha": "2026-07-21",
+      "vencimiento": null,
+      "monto": 17533.2,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_124_am2gx",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00952211",
+      "fecha": "2026-07-21",
+      "vencimiento": null,
+      "monto": 5795,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_125_ekx7m",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00952210",
+      "fecha": "2026-07-21",
+      "vencimiento": null,
+      "monto": 56679.6,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_126_o100i",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00952209",
+      "fecha": "2026-07-21",
+      "vencimiento": null,
+      "monto": 77798,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_127_xxqeh",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00580409",
+      "fecha": "2026-07-21",
+      "vencimiento": null,
+      "monto": 18893.2,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_128_koeof",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00580408",
+      "fecha": "2026-07-21",
+      "vencimiento": null,
+      "monto": 42091.32,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_129_ukqfa",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00580325",
+      "fecha": "2026-07-21",
+      "vencimiento": null,
+      "monto": 55328,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_130_mv8bt",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00580224",
+      "fecha": "2026-07-20",
+      "vencimiento": null,
+      "monto": 15440,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_131_7ifqz",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00580186",
+      "fecha": "2026-07-19",
+      "vencimiento": null,
+      "monto": 40359.6,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_132_nvo33",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00580132",
+      "fecha": "2026-07-19",
+      "vencimiento": null,
+      "monto": 81678,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_133_ld5tc",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00580067",
+      "fecha": "2026-07-18",
+      "vencimiento": null,
+      "monto": 219918.4,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_134_9646d",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00579979",
+      "fecha": "2026-07-18",
+      "vencimiento": null,
+      "monto": 92654,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_135_fjq9k",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00579908",
+      "fecha": "2026-07-17",
+      "vencimiento": null,
+      "monto": 48680,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_136_11iix",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00579834",
+      "fecha": "2026-07-17",
+      "vencimiento": null,
+      "monto": 82372.8,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_137_ka93u",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00579752",
+      "fecha": "2026-07-16",
+      "vencimiento": null,
+      "monto": 46479.6,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_138_1f1az",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00579751",
+      "fecha": "2026-07-16",
+      "vencimiento": null,
+      "monto": 20739.32,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_139_cum88",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00579672",
+      "fecha": "2026-07-16",
+      "vencimiento": null,
+      "monto": 40359.6,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_140_920ah",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00579524",
+      "fecha": "2026-07-16",
+      "vencimiento": null,
+      "monto": 48680,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_141_cbigk",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00579456",
+      "fecha": "2026-07-15",
+      "vencimiento": null,
+      "monto": 11590,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_142_y9lp6",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00579387",
+      "fecha": "2026-07-15",
+      "vencimiento": null,
+      "monto": 58652,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_143_xnxzj",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00579313",
+      "fecha": "2026-07-15",
+      "vencimiento": null,
+      "monto": 94466,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_144_zc6jl",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00579312",
+      "fecha": "2026-07-15",
+      "vencimiento": null,
+      "monto": 115295.92,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_145_26vy3",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00950708",
+      "fecha": "2026-07-14",
+      "vencimiento": null,
+      "monto": 3088,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_146_7qdou",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00950707",
+      "fecha": "2026-07-14",
+      "vencimiento": null,
+      "monto": 1544,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_147_r2qoc",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00950706",
+      "fecha": "2026-07-14",
+      "vencimiento": null,
+      "monto": 1660,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_148_y3o0j",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00950705",
+      "fecha": "2026-07-14",
+      "vencimiento": null,
+      "monto": 1544,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_149_iov70",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00950704",
+      "fecha": "2026-07-14",
+      "vencimiento": null,
+      "monto": 4632,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_150_5nbjv",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00950703",
+      "fecha": "2026-07-14",
+      "vencimiento": null,
+      "monto": 21616,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_151_6aq0k",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00950702",
+      "fecha": "2026-07-14",
+      "vencimiento": null,
+      "monto": 15440,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_152_maqhc",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00950536",
+      "fecha": "2026-07-14",
+      "vencimiento": null,
+      "monto": 9972,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_153_bubj9",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00950535",
+      "fecha": "2026-07-14",
+      "vencimiento": null,
+      "monto": 13296,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_154_tl2s2",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00950534",
+      "fecha": "2026-07-14",
+      "vencimiento": null,
+      "monto": 20024,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_155_z2ylf",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00950533",
+      "fecha": "2026-07-14",
+      "vencimiento": null,
+      "monto": 18168,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_156_2um14",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00950532",
+      "fecha": "2026-07-14",
+      "vencimiento": null,
+      "monto": 3324,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_157_pflud",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00950531",
+      "fecha": "2026-07-14",
+      "vencimiento": null,
+      "monto": 3324,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_158_wf2mk",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00950530",
+      "fecha": "2026-07-14",
+      "vencimiento": null,
+      "monto": 19944,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_159_8opz0",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00579205",
+      "fecha": "2026-07-14",
+      "vencimiento": null,
+      "monto": 28819.32,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_160_86eey",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00579204",
+      "fecha": "2026-07-14",
+      "vencimiento": null,
+      "monto": 90092.4,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_161_gg6iw",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00579114",
+      "fecha": "2026-07-14",
+      "vencimiento": null,
+      "monto": 17533.2,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_162_6sv3o",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00579000",
+      "fecha": "2026-07-14",
+      "vencimiento": null,
+      "monto": 55328,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_163_84v4b",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00949780",
+      "fecha": "2026-07-13",
+      "vencimiento": null,
+      "monto": 11736,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_164_bfgir",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00949779",
+      "fecha": "2026-07-13",
+      "vencimiento": null,
+      "monto": 13152,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_165_gktu4",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00949778",
+      "fecha": "2026-07-13",
+      "vencimiento": null,
+      "monto": 19890,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_166_oscfh",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00949777",
+      "fecha": "2026-07-13",
+      "vencimiento": null,
+      "monto": 2934,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_167_kx8dd",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00949776",
+      "fecha": "2026-07-13",
+      "vencimiento": null,
+      "monto": 2934,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_168_fnvzx",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00578925",
+      "fecha": "2026-07-13",
+      "vencimiento": null,
+      "monto": 40359.6,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_169_4j37s",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00578892",
+      "fecha": "2026-07-13",
+      "vencimiento": null,
+      "monto": 92426,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_170_0ab59",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00578733",
+      "fecha": "2026-07-13",
+      "vencimiento": null,
+      "monto": 61976,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_171_wu9xc",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00949442",
+      "fecha": "2026-07-12",
+      "vencimiento": null,
+      "monto": 17533.2,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_172_ztqv0",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00949441",
+      "fecha": "2026-07-12",
+      "vencimiento": null,
+      "monto": 5795,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739292_173_ykjl1",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00949440",
+      "fecha": "2026-07-12",
+      "vencimiento": null,
+      "monto": 15493.2,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.292Z"
+    },
+    {
+      "id": "f_1786324739293_174_8plpy",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00949439",
+      "fecha": "2026-07-12",
+      "vencimiento": null,
+      "monto": 18893.2,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.293Z"
+    },
+    {
+      "id": "f_1786324739293_175_i0i31",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00949438",
+      "fecha": "2026-07-12",
+      "vencimiento": null,
+      "monto": 87666,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.293Z"
+    },
+    {
+      "id": "f_1786324739293_176_huuwt",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00949437",
+      "fecha": "2026-07-12",
+      "vencimiento": null,
+      "monto": 94466,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.293Z"
+    },
+    {
+      "id": "f_1786324739293_177_f2mpj",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00949436",
+      "fecha": "2026-07-12",
+      "vencimiento": null,
+      "monto": 113359.2,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.293Z"
+    },
+    {
+      "id": "f_1786324739293_178_alkrt",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00578657",
+      "fecha": "2026-07-12",
+      "vencimiento": null,
+      "monto": 81678,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.293Z"
+    },
+    {
+      "id": "f_1786324739293_179_50tnt",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00578560",
+      "fecha": "2026-07-11",
+      "vencimiento": null,
+      "monto": 12099.32,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.293Z"
+    },
+    {
+      "id": "f_1786324739293_180_33x91",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00578559",
+      "fecha": "2026-07-11",
+      "vencimiento": null,
+      "monto": 18893.2,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.293Z"
+    },
+    {
+      "id": "f_1786324739293_181_b0vv5",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00578558",
+      "fecha": "2026-07-11",
+      "vencimiento": null,
+      "monto": 30986.4,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.293Z"
+    },
+    {
+      "id": "f_1786324739293_182_ii3pw",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00578434",
+      "fecha": "2026-07-11",
+      "vencimiento": null,
+      "monto": 12099.32,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.293Z"
+    },
+    {
+      "id": "f_1786324739293_183_1dev1",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00578379",
+      "fecha": "2026-07-11",
+      "vencimiento": null,
+      "monto": 88912,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.293Z"
+    },
+    {
+      "id": "f_1786324739293_184_abfky",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00578323",
+      "fecha": "2026-07-11",
+      "vencimiento": null,
+      "monto": 30986.4,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.293Z"
+    },
+    {
+      "id": "f_1786324739293_185_mci85",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00578268",
+      "fecha": "2026-07-11",
+      "vencimiento": null,
+      "monto": 17533.2,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.293Z"
+    },
+    {
+      "id": "f_1786324739293_186_6a13m",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00578213",
+      "fecha": "2026-07-11",
+      "vencimiento": null,
+      "monto": 17533.2,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.293Z"
+    },
+    {
+      "id": "f_1786324739293_187_l1xol",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00578126",
+      "fecha": "2026-07-11",
+      "vencimiento": null,
+      "monto": 92654,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.293Z"
+    },
+    {
+      "id": "f_1786324739293_188_4klqy",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00578055",
+      "fecha": "2026-07-10",
+      "vencimiento": null,
+      "monto": 48680,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.293Z"
+    },
+    {
+      "id": "f_1786324739293_189_8zvnm",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00577941",
+      "fecha": "2026-07-09",
+      "vencimiento": null,
+      "monto": 48680,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.293Z"
+    },
+    {
+      "id": "f_1786324739293_190_upilh",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00577872",
+      "fecha": "2026-07-08",
+      "vencimiento": null,
+      "monto": 11590,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.293Z"
+    },
+    {
+      "id": "f_1786324739293_191_lzmx2",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00577803",
+      "fecha": "2026-07-08",
+      "vencimiento": null,
+      "monto": 65300,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.293Z"
+    },
+    {
+      "id": "f_1786324739293_192_3rz9a",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00947921",
+      "fecha": "2026-07-07",
+      "vencimiento": null,
+      "monto": 15440,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.293Z"
+    },
+    {
+      "id": "f_1786324739293_193_s67re",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00947920",
+      "fecha": "2026-07-07",
+      "vencimiento": null,
+      "monto": 16984,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.293Z"
+    },
+    {
+      "id": "f_1786324739293_194_n1gf0",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00947919",
+      "fecha": "2026-07-07",
+      "vencimiento": null,
+      "monto": 44820,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.293Z"
+    },
+    {
+      "id": "f_1786324739293_195_a11nv",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00947918",
+      "fecha": "2026-07-07",
+      "vencimiento": null,
+      "monto": 24704,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.293Z"
+    },
+    {
+      "id": "f_1786324739293_196_rvniu",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00947917",
+      "fecha": "2026-07-07",
+      "vencimiento": null,
+      "monto": 16984,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.293Z"
+    },
+    {
+      "id": "f_1786324739293_197_e5g7d",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00947916",
+      "fecha": "2026-07-07",
+      "vencimiento": null,
+      "monto": 19516,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.293Z"
+    },
+    {
+      "id": "f_1786324739293_198_iack5",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00947915",
+      "fecha": "2026-07-07",
+      "vencimiento": null,
+      "monto": 18122,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.293Z"
+    },
+    {
+      "id": "f_1786324739293_199_ly2l1",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00947914",
+      "fecha": "2026-07-07",
+      "vencimiento": null,
+      "monto": 15334,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.293Z"
+    },
+    {
+      "id": "f_1786324739293_200_8yec0",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00947913",
+      "fecha": "2026-07-07",
+      "vencimiento": null,
+      "monto": 18122,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.293Z"
+    },
+    {
+      "id": "f_1786324739293_201_ag97f",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00947912",
+      "fecha": "2026-07-07",
+      "vencimiento": null,
+      "monto": 34730,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.293Z"
+    },
+    {
+      "id": "f_1786324739293_202_q39rk",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00947911",
+      "fecha": "2026-07-07",
+      "vencimiento": null,
+      "monto": 25092,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.293Z"
+    },
+    {
+      "id": "f_1786324739293_203_p291u",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00947910",
+      "fecha": "2026-07-07",
+      "vencimiento": null,
+      "monto": 16728,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.293Z"
+    },
+    {
+      "id": "f_1786324739293_204_11umt",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00947909",
+      "fecha": "2026-07-07",
+      "vencimiento": null,
+      "monto": 16728,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.293Z"
+    },
+    {
+      "id": "f_1786324739293_205_euza2",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00947908",
+      "fecha": "2026-07-07",
+      "vencimiento": null,
+      "monto": 15334,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.293Z"
+    },
+    {
+      "id": "f_1786324739293_206_p0ppb",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00947907",
+      "fecha": "2026-07-07",
+      "vencimiento": null,
+      "monto": 16728,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.293Z"
+    },
+    {
+      "id": "f_1786324739293_207_xnvom",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00947384",
+      "fecha": "2026-07-07",
+      "vencimiento": null,
+      "monto": 9972,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.293Z"
+    },
+    {
+      "id": "f_1786324739293_208_mbvs9",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00947383",
+      "fecha": "2026-07-07",
+      "vencimiento": null,
+      "monto": 13296,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.293Z"
+    },
+    {
+      "id": "f_1786324739293_209_nwkka",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00947382",
+      "fecha": "2026-07-07",
+      "vencimiento": null,
+      "monto": 35042,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.293Z"
+    },
+    {
+      "id": "f_1786324739293_210_0gwg9",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00947381",
+      "fecha": "2026-07-07",
+      "vencimiento": null,
+      "monto": 22710,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.293Z"
+    },
+    {
+      "id": "f_1786324739293_211_gctvd",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00947380",
+      "fecha": "2026-07-07",
+      "vencimiento": null,
+      "monto": 3324,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.293Z"
+    },
+    {
+      "id": "f_1786324739293_212_m7u3k",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00947379",
+      "fecha": "2026-07-07",
+      "vencimiento": null,
+      "monto": 3324,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.293Z"
+    },
+    {
+      "id": "f_1786324739293_213_ilb0e",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00947378",
+      "fecha": "2026-07-07",
+      "vencimiento": null,
+      "monto": 19944,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.293Z"
+    },
+    {
+      "id": "f_1786324739293_214_rzcrq",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00947377",
+      "fecha": "2026-07-07",
+      "vencimiento": null,
+      "monto": 9972,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.293Z"
+    },
+    {
+      "id": "f_1786324739293_215_l61tq",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00947376",
+      "fecha": "2026-07-07",
+      "vencimiento": null,
+      "monto": 16620,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.293Z"
+    },
+    {
+      "id": "f_1786324739293_216_cz00l",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00947375",
+      "fecha": "2026-07-07",
+      "vencimiento": null,
+      "monto": 25030,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.293Z"
+    },
+    {
+      "id": "f_1786324739293_217_0020h",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00947374",
+      "fecha": "2026-07-07",
+      "vencimiento": null,
+      "monto": 22710,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.293Z"
+    },
+    {
+      "id": "f_1786324739293_218_qtegg",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00947373",
+      "fecha": "2026-07-07",
+      "vencimiento": null,
+      "monto": 3324,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.293Z"
+    },
+    {
+      "id": "f_1786324739293_219_qb7h0",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00947372",
+      "fecha": "2026-07-07",
+      "vencimiento": null,
+      "monto": 6648,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.293Z"
+    },
+    {
+      "id": "f_1786324739293_220_huyqz",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00947371",
+      "fecha": "2026-07-07",
+      "vencimiento": null,
+      "monto": 19944,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.293Z"
+    },
+    {
+      "id": "f_1786324739293_221_ijyvl",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00947370",
+      "fecha": "2026-07-07",
+      "vencimiento": null,
+      "monto": 9972,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.293Z"
+    },
+    {
+      "id": "f_1786324739293_222_9ybmf",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00946929",
+      "fecha": "2026-07-07",
+      "vencimiento": null,
+      "monto": 40359.6,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.293Z"
+    },
+    {
+      "id": "f_1786324739293_223_no479",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00946928",
+      "fecha": "2026-07-07",
+      "vencimiento": null,
+      "monto": 18893.2,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.293Z"
+    },
+    {
+      "id": "f_1786324739293_224_myut9",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00946927",
+      "fecha": "2026-07-07",
+      "vencimiento": null,
+      "monto": 15493.2,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.293Z"
+    },
+    {
+      "id": "f_1786324739293_225_g24s5",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00946926",
+      "fecha": "2026-07-07",
+      "vencimiento": null,
+      "monto": 3213.2,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.293Z"
+    },
+    {
+      "id": "f_1786324739293_226_nblt7",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00946925",
+      "fecha": "2026-07-07",
+      "vencimiento": null,
+      "monto": 3213.2,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.293Z"
+    },
+    {
+      "id": "f_1786324739293_227_j7jpo",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00946924",
+      "fecha": "2026-07-07",
+      "vencimiento": null,
+      "monto": 3213.2,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.293Z"
+    },
+    {
+      "id": "f_1786324739293_228_49r5z",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00946923",
+      "fecha": "2026-07-07",
+      "vencimiento": null,
+      "monto": 3213.2,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.293Z"
+    },
+    {
+      "id": "f_1786324739293_229_q1ufs",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00946922",
+      "fecha": "2026-07-07",
+      "vencimiento": null,
+      "monto": 3893.2,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.293Z"
+    },
+    {
+      "id": "f_1786324739293_230_j2ndq",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00946921",
+      "fecha": "2026-07-07",
+      "vencimiento": null,
+      "monto": 3213.2,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.293Z"
+    },
+    {
+      "id": "f_1786324739293_231_bu8kq",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00946920",
+      "fecha": "2026-07-07",
+      "vencimiento": null,
+      "monto": 3893.2,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.293Z"
+    },
+    {
+      "id": "f_1786324739293_232_1nkfr",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00946919",
+      "fecha": "2026-07-07",
+      "vencimiento": null,
+      "monto": 3213.2,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.293Z"
+    },
+    {
+      "id": "f_1786324739293_233_7eo4h",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00946918",
+      "fecha": "2026-07-07",
+      "vencimiento": null,
+      "monto": 3213.2,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.293Z"
+    },
+    {
+      "id": "f_1786324739293_234_o25yz",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00946917",
+      "fecha": "2026-07-07",
+      "vencimiento": null,
+      "monto": 3213.2,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.293Z"
+    },
+    {
+      "id": "f_1786324739293_235_jfx7y",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00946916",
+      "fecha": "2026-07-07",
+      "vencimiento": null,
+      "monto": 5253.2,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.293Z"
+    },
+    {
+      "id": "f_1786324739293_236_7z0ot",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00946915",
+      "fecha": "2026-07-07",
+      "vencimiento": null,
+      "monto": 4573.2,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.293Z"
+    },
+    {
+      "id": "f_1786324739293_237_hwqnf",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00946914",
+      "fecha": "2026-07-07",
+      "vencimiento": null,
+      "monto": 4573.2,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.293Z"
+    },
+    {
+      "id": "f_1786324739293_238_yfn0w",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00946913",
+      "fecha": "2026-07-07",
+      "vencimiento": null,
+      "monto": 5253.2,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.293Z"
+    },
+    {
+      "id": "f_1786324739293_239_gq0w0",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00946912",
+      "fecha": "2026-07-07",
+      "vencimiento": null,
+      "monto": 5795,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.293Z"
+    },
+    {
+      "id": "f_1786324739293_240_5kot1",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00946911",
+      "fecha": "2026-07-07",
+      "vencimiento": null,
+      "monto": 3485.2,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.293Z"
+    },
+    {
+      "id": "f_1786324739293_241_twnsw",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00946910",
+      "fecha": "2026-07-07",
+      "vencimiento": null,
+      "monto": 2533.2,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.293Z"
+    },
+    {
+      "id": "f_1786324739293_242_76r2m",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00946909",
+      "fecha": "2026-07-07",
+      "vencimiento": null,
+      "monto": 5253.2,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.293Z"
+    },
+    {
+      "id": "f_1786324739293_243_ixbks",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00946908",
+      "fecha": "2026-07-07",
+      "vencimiento": null,
+      "monto": 4913.2,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.293Z"
+    },
+    {
+      "id": "f_1786324739293_244_974xu",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00946907",
+      "fecha": "2026-07-07",
+      "vencimiento": null,
+      "monto": 4573.2,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.293Z"
+    },
+    {
+      "id": "f_1786324739293_245_ayazz",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00946906",
+      "fecha": "2026-07-07",
+      "vencimiento": null,
+      "monto": 3893.2,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.293Z"
+    },
+    {
+      "id": "f_1786324739293_246_u9kmu",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00946905",
+      "fecha": "2026-07-07",
+      "vencimiento": null,
+      "monto": 2533.2,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.293Z"
+    },
+    {
+      "id": "f_1786324739293_247_nu1wz",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00946904",
+      "fecha": "2026-07-07",
+      "vencimiento": null,
+      "monto": 40359.6,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.293Z"
+    },
+    {
+      "id": "f_1786324739293_248_j5ka4",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00946903",
+      "fecha": "2026-07-07",
+      "vencimiento": null,
+      "monto": 43466,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.293Z"
+    },
+    {
+      "id": "f_1786324739293_249_3naox",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450A00946902",
+      "fecha": "2026-07-07",
+      "vencimiento": null,
+      "monto": 5795,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.294Z"
+    },
+    {
+      "id": "f_1786324739294_250_n95g0",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00577703",
+      "fecha": "2026-07-07",
+      "vencimiento": null,
+      "monto": 17533.2,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.294Z"
+    },
+    {
+      "id": "f_1786324739294_251_9fzt2",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00577639",
+      "fecha": "2026-07-07",
+      "vencimiento": null,
+      "monto": 55328,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.294Z"
+    },
+    {
+      "id": "f_1786324739294_252_exo3o",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00577570",
+      "fecha": "2026-07-07",
+      "vencimiento": null,
+      "monto": 17385,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.294Z"
+    },
+    {
+      "id": "f_1786324739294_253_ninuy",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00577504",
+      "fecha": "2026-07-06",
+      "vencimiento": null,
+      "monto": 61976,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.294Z"
+    },
+    {
+      "id": "f_1786324739294_255_2oefs",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00577428",
+      "fecha": "2026-07-05",
+      "vencimiento": null,
+      "monto": 81678,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.294Z"
+    },
+    {
+      "id": "f_1786324739294_256_iefks",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00577317",
+      "fecha": "2026-07-04",
+      "vencimiento": null,
+      "monto": 219918.4,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.294Z"
+    },
+    {
+      "id": "f_1786324739294_257_2dt63",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00577316",
+      "fecha": "2026-07-04",
+      "vencimiento": null,
+      "monto": 182846,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.294Z"
+    },
+    {
+      "id": "f_1786324739294_258_3t32e",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00577204",
+      "fecha": "2026-07-04",
+      "vencimiento": null,
+      "monto": 92654,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.294Z"
+    },
+    {
+      "id": "f_1786324739294_259_egj54",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00577108",
+      "fecha": "2026-07-03",
+      "vencimiento": null,
+      "monto": 30986.4,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.294Z"
+    },
+    {
+      "id": "f_1786324739294_260_yn3bx",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00577107",
+      "fecha": "2026-07-03",
+      "vencimiento": null,
+      "monto": 38072,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.294Z"
+    },
+    {
+      "id": "f_1786324739294_261_xcfa6",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00577106",
+      "fecha": "2026-07-03",
+      "vencimiento": null,
+      "monto": 51386.4,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.294Z"
+    },
+    {
+      "id": "f_1786324739294_262_mzhqs",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00576975",
+      "fecha": "2026-07-03",
+      "vencimiento": null,
+      "monto": 48680,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.294Z"
+    },
+    {
+      "id": "f_1786324739294_263_8td30",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00576896",
+      "fecha": "2026-07-02",
+      "vencimiento": null,
+      "monto": 67208,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.294Z"
+    },
+    {
+      "id": "f_1786324739294_264_gk3d3",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00576828",
+      "fecha": "2026-07-01",
+      "vencimiento": null,
+      "monto": 80740,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.294Z"
+    },
+    {
+      "id": "f_1786324739294_265_ln1af",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450A00576772",
+      "fecha": "2026-07-01",
+      "vencimiento": null,
+      "monto": 113359.2,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T01:18:59.294Z"
+    },
+    {
+      "id": "f_1786361782432_0_zj3yz",
+      "proveedorKey": "clarin",
+      "tipo": "factura",
+      "numeroFactura": "0132A01339851",
+      "fecha": "2026-07-07",
+      "vencimiento": "2026-08-11",
+      "monto": 75931.61,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T11:36:22.432Z"
+    },
+    {
+      "id": "f_1786361782440_1_h3yn9",
+      "proveedorKey": "clarin",
+      "tipo": "factura",
+      "numeroFactura": "0132A01339851",
+      "fecha": "2026-07-07",
+      "vencimiento": "2026-08-21",
+      "monto": 50621.08,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T11:36:22.440Z"
+    },
+    {
+      "id": "f_1786361782440_2_4k27v",
+      "proveedorKey": "clarin",
+      "tipo": "factura",
+      "numeroFactura": "0132A01339852",
+      "fecha": "2026-07-07",
+      "vencimiento": "2026-07-14",
+      "monto": 622074,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T11:36:22.440Z"
+    },
+    {
+      "id": "f_1786361782440_3_7vpo3",
+      "proveedorKey": "clarin",
+      "tipo": "factura",
+      "numeroFactura": "0132A01339853",
+      "fecha": "2026-07-07",
+      "vencimiento": "2026-07-27",
+      "monto": 191232.54,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T11:36:22.440Z"
+    },
+    {
+      "id": "f_1786361782440_4_g9xef",
+      "proveedorKey": "clarin",
+      "tipo": "factura",
+      "numeroFactura": "0132A01339853",
+      "fecha": "2026-07-07",
+      "vencimiento": "2026-08-06",
+      "monto": 127488.36,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T11:36:22.440Z"
+    },
+    {
+      "id": "f_1786361782440_5_5nlpx",
+      "proveedorKey": "clarin",
+      "tipo": "factura",
+      "numeroFactura": "0132A01339854",
+      "fecha": "2026-07-07",
+      "vencimiento": "2026-07-17",
+      "monto": 22460.66,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T11:36:22.440Z"
+    },
+    {
+      "id": "f_1786361782440_6_hfomw",
+      "proveedorKey": "clarin",
+      "tipo": "factura",
+      "numeroFactura": "0132A01339854",
+      "fecha": "2026-07-07",
+      "vencimiento": "2026-08-01",
+      "monto": 14973.77,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T11:36:22.440Z"
+    },
+    {
+      "id": "f_1786361782440_7_ryvm8",
+      "proveedorKey": "clarin",
+      "tipo": "factura",
+      "numeroFactura": "0132A01339855",
+      "fecha": "2026-07-07",
+      "vencimiento": "2026-07-27",
+      "monto": 54000.1,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T11:36:22.440Z"
+    },
+    {
+      "id": "f_1786361782440_8_90ge6",
+      "proveedorKey": "clarin",
+      "tipo": "factura",
+      "numeroFactura": "0132A01339855",
+      "fecha": "2026-07-07",
+      "vencimiento": "2026-08-06",
+      "monto": 36000.06,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T11:36:22.440Z"
+    },
+    {
+      "id": "f_1786361782440_9_p69n3",
+      "proveedorKey": "clarin",
+      "tipo": "factura",
+      "numeroFactura": "0132A01339856",
+      "fecha": "2026-07-07",
+      "vencimiento": "2026-08-03",
+      "monto": 49000.16,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T11:36:22.440Z"
+    },
+    {
+      "id": "f_1786361782440_10_0gcqs",
+      "proveedorKey": "clarin",
+      "tipo": "nota_credito",
+      "numeroFactura": "0132A01360382",
+      "fecha": "2026-07-07",
+      "vencimiento": "2026-07-01",
+      "monto": 24706.72,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T11:36:22.440Z"
+    },
+    {
+      "id": "f_1786361782440_11_c5ak0",
+      "proveedorKey": "clarin",
+      "tipo": "nota_credito",
+      "numeroFactura": "0132A01360382",
+      "fecha": "2026-07-07",
+      "vencimiento": "2026-08-16",
+      "monto": 16471.15,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T11:36:22.440Z"
+    },
+    {
+      "id": "f_1786361782440_12_tpg9f",
+      "proveedorKey": "clarin",
+      "tipo": "nota_credito",
+      "numeroFactura": "0132A01360383",
+      "fecha": "2026-07-07",
+      "vencimiento": "2026-07-12",
+      "monto": 18045.66,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T11:36:22.440Z"
+    },
+    {
+      "id": "f_1786361782440_13_oa7mg",
+      "proveedorKey": "clarin",
+      "tipo": "nota_credito",
+      "numeroFactura": "0132A01360383",
+      "fecha": "2026-07-07",
+      "vencimiento": "2026-07-22",
+      "monto": 12030.44,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T11:36:22.440Z"
+    },
+    {
+      "id": "f_1786361782440_14_4ibpu",
+      "proveedorKey": "clarin",
+      "tipo": "nota_credito",
+      "numeroFactura": "0132A01360384",
+      "fecha": "2026-07-07",
+      "vencimiento": "2026-07-04",
+      "monto": 15840.04,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T11:36:22.440Z"
+    },
+    {
+      "id": "f_1786361782440_15_rm76p",
+      "proveedorKey": "clarin",
+      "tipo": "nota_credito",
+      "numeroFactura": "0132A01360384",
+      "fecha": "2026-07-07",
+      "vencimiento": "2026-07-14",
+      "monto": 10560.02,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T11:36:22.440Z"
+    },
+    {
+      "id": "f_1786361782440_16_iicmo",
+      "proveedorKey": "clarin",
+      "tipo": "nota_credito",
+      "numeroFactura": "0132A01360385",
+      "fecha": "2026-07-07",
+      "vencimiento": "2026-07-11",
+      "monto": 5880.02,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T11:36:22.440Z"
+    },
+    {
+      "id": "f_1786361782440_17_i8r8j",
+      "proveedorKey": "clarin",
+      "tipo": "nota_credito",
+      "numeroFactura": "0132A01360385",
+      "fecha": "2026-07-07",
+      "vencimiento": "2026-07-21",
+      "monto": 3920.01,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T11:36:22.440Z"
+    },
+    {
+      "id": "f_1786361782440_18_nk5nd",
+      "proveedorKey": "clarin",
+      "tipo": "nota_credito",
+      "numeroFactura": "0132A01360386",
+      "fecha": "2026-07-07",
+      "vencimiento": "2026-07-11",
+      "monto": 19900,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T11:36:22.440Z"
+    },
+    {
+      "id": "f_1786361782440_19_viem6",
+      "proveedorKey": "clarin",
+      "tipo": "nota_credito",
+      "numeroFactura": "0132A01360387",
+      "fecha": "2026-07-07",
+      "vencimiento": "2025-06-24",
+      "monto": 39200.13,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T11:36:22.440Z"
+    },
+    {
+      "id": "f_1786361782440_20_a69hr",
+      "proveedorKey": "clarin",
+      "tipo": "factura",
+      "numeroFactura": "0132A01340433",
+      "fecha": "2026-07-14",
+      "vencimiento": "2026-07-21",
+      "monto": 680480,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T11:36:22.440Z"
+    },
+    {
+      "id": "f_1786361782440_21_z7g3d",
+      "proveedorKey": "clarin",
+      "tipo": "factura",
+      "numeroFactura": "0132A01340434",
+      "fecha": "2026-07-14",
+      "vencimiento": "2026-08-03",
+      "monto": 106800.29,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T11:36:22.440Z"
+    },
+    {
+      "id": "f_1786361782440_22_sg9jx",
+      "proveedorKey": "clarin",
+      "tipo": "factura",
+      "numeroFactura": "0132A01340434",
+      "fecha": "2026-07-14",
+      "vencimiento": "2026-08-13",
+      "monto": 71200.19,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T11:36:22.440Z"
+    },
+    {
+      "id": "f_1786361782440_23_fjgkk",
+      "proveedorKey": "clarin",
+      "tipo": "factura",
+      "numeroFactura": "0132A01340435",
+      "fecha": "2026-07-14",
+      "vencimiento": "2026-08-13",
+      "monto": 27800,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T11:36:22.440Z"
+    },
+    {
+      "id": "f_1786361782440_24_t99p2",
+      "proveedorKey": "clarin",
+      "tipo": "factura",
+      "numeroFactura": "0132A01340436",
+      "fecha": "2026-07-14",
+      "vencimiento": "2026-07-24",
+      "monto": 22460.66,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T11:36:22.440Z"
+    },
+    {
+      "id": "f_1786361782440_25_85h09",
+      "proveedorKey": "clarin",
+      "tipo": "factura",
+      "numeroFactura": "0132A01340436",
+      "fecha": "2026-07-14",
+      "vencimiento": "2026-08-08",
+      "monto": 14973.77,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T11:36:22.440Z"
+    },
+    {
+      "id": "f_1786361782440_26_n7013",
+      "proveedorKey": "clarin",
+      "tipo": "factura",
+      "numeroFactura": "0132A01340437",
+      "fecha": "2026-07-14",
+      "vencimiento": "2026-08-10",
+      "monto": 49000.16,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T11:36:22.440Z"
+    },
+    {
+      "id": "f_1786361782440_27_oj9u3",
+      "proveedorKey": "clarin",
+      "tipo": "factura",
+      "numeroFactura": "0132A01340522",
+      "fecha": "2026-07-14",
+      "vencimiento": "2026-08-03",
+      "monto": 12200.03,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T11:36:22.440Z"
+    },
+    {
+      "id": "f_1786361782440_28_r8bf5",
+      "proveedorKey": "clarin",
+      "tipo": "factura",
+      "numeroFactura": "0132A01341146",
+      "fecha": "2026-07-21",
+      "vencimiento": "2026-07-28",
+      "monto": 784918,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T11:36:22.440Z"
+    },
+    {
+      "id": "f_1786361782440_29_1mjaw",
+      "proveedorKey": "clarin",
+      "tipo": "factura",
+      "numeroFactura": "0132A01341147",
+      "fecha": "2026-07-21",
+      "vencimiento": "2026-08-10",
+      "monto": 161280.46,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T11:36:22.440Z"
+    },
+    {
+      "id": "f_1786361782440_30_a6cr3",
+      "proveedorKey": "clarin",
+      "tipo": "factura",
+      "numeroFactura": "0132A01341147",
+      "fecha": "2026-07-21",
+      "vencimiento": "2026-08-20",
+      "monto": 107520.3,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T11:36:22.440Z"
+    },
+    {
+      "id": "f_1786361782440_31_xjuoa",
+      "proveedorKey": "clarin",
+      "tipo": "factura",
+      "numeroFactura": "0132A01341148",
+      "fecha": "2026-07-21",
+      "vencimiento": "2026-07-31",
+      "monto": 22460.66,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T11:36:22.440Z"
+    },
+    {
+      "id": "f_1786361782440_32_kwdmm",
+      "proveedorKey": "clarin",
+      "tipo": "factura",
+      "numeroFactura": "0132A01341148",
+      "fecha": "2026-07-21",
+      "vencimiento": "2026-08-15",
+      "monto": 14973.77,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T11:36:22.440Z"
+    },
+    {
+      "id": "f_1786361782440_33_az6x0",
+      "proveedorKey": "clarin",
+      "tipo": "factura",
+      "numeroFactura": "0132A01341149",
+      "fecha": "2026-07-21",
+      "vencimiento": "2026-08-17",
+      "monto": 49000.16,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T11:36:22.440Z"
+    },
+    {
+      "id": "f_1786361782440_34_iz11u",
+      "proveedorKey": "clarin",
+      "tipo": "nota_credito",
+      "numeroFactura": "0132A01360977",
+      "fecha": "2026-07-21",
+      "vencimiento": "2026-07-10",
+      "monto": 24706.72,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T11:36:22.440Z"
+    },
+    {
+      "id": "f_1786361782440_35_eunqc",
+      "proveedorKey": "clarin",
+      "tipo": "nota_credito",
+      "numeroFactura": "0132A01360977",
+      "fecha": "2026-07-21",
+      "vencimiento": "2026-07-25",
+      "monto": 16471.15,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T11:36:22.440Z"
+    },
+    {
+      "id": "f_1786361782440_36_441uc",
+      "proveedorKey": "clarin",
+      "tipo": "nota_credito",
+      "numeroFactura": "0132A01360978",
+      "fecha": "2026-07-21",
+      "vencimiento": "2026-07-04",
+      "monto": 218880.67,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T11:36:22.440Z"
+    },
+    {
+      "id": "f_1786361782440_37_u0xa5",
+      "proveedorKey": "clarin",
+      "tipo": "nota_credito",
+      "numeroFactura": "0132A01360978",
+      "fecha": "2026-07-21",
+      "vencimiento": "2026-07-14",
+      "monto": 145920.45,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T11:36:22.440Z"
+    },
+    {
+      "id": "f_1786361782440_38_bdjj6",
+      "proveedorKey": "clarin",
+      "tipo": "nota_credito",
+      "numeroFactura": "0132A01360979",
+      "fecha": "2026-07-21",
+      "vencimiento": "2026-07-07",
+      "monto": 204534,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T11:36:22.440Z"
+    },
+    {
+      "id": "f_1786361782440_39_7k1p4",
+      "proveedorKey": "clarin",
+      "tipo": "factura",
+      "numeroFactura": "0132A01341841",
+      "fecha": "2026-07-31",
+      "vencimiento": "2026-08-07",
+      "monto": 877786,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T11:36:22.440Z"
+    },
+    {
+      "id": "f_1786361782440_40_mkisq",
+      "proveedorKey": "clarin",
+      "tipo": "factura",
+      "numeroFactura": "0132A01341842",
+      "fecha": "2026-07-31",
+      "vencimiento": "2026-09-04",
+      "monto": 79200,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T11:36:22.440Z"
+    },
+    {
+      "id": "f_1786361782440_41_s9ryq",
+      "proveedorKey": "clarin",
+      "tipo": "factura",
+      "numeroFactura": "0132A01341842",
+      "fecha": "2026-07-31",
+      "vencimiento": "2026-09-14",
+      "monto": 52800,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T11:36:22.440Z"
+    },
+    {
+      "id": "f_1786361782440_42_excgt",
+      "proveedorKey": "clarin",
+      "tipo": "factura",
+      "numeroFactura": "0132A01341843",
+      "fecha": "2026-07-31",
+      "vencimiento": "2026-08-20",
+      "monto": 69240.19,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T11:36:22.440Z"
+    },
+    {
+      "id": "f_1786361782440_43_qmrpu",
+      "proveedorKey": "clarin",
+      "tipo": "factura",
+      "numeroFactura": "0132A01341843",
+      "fecha": "2026-07-31",
+      "vencimiento": "2026-08-30",
+      "monto": 46160.13,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T11:36:22.440Z"
+    },
+    {
+      "id": "f_1786361782440_44_i4h1o",
+      "proveedorKey": "clarin",
+      "tipo": "factura",
+      "numeroFactura": "0132A01341844",
+      "fecha": "2026-07-31",
+      "vencimiento": "2026-08-10",
+      "monto": 22460.66,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T11:36:22.440Z"
+    },
+    {
+      "id": "f_1786361782440_45_tfz4k",
+      "proveedorKey": "clarin",
+      "tipo": "factura",
+      "numeroFactura": "0132A01341844",
+      "fecha": "2026-07-31",
+      "vencimiento": "2026-08-25",
+      "monto": 14973.77,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T11:36:22.440Z"
+    },
+    {
+      "id": "f_1786361782440_46_1mg0k",
+      "proveedorKey": "clarin",
+      "tipo": "factura",
+      "numeroFactura": "0132A01341845",
+      "fecha": "2026-07-31",
+      "vencimiento": "2026-08-27",
+      "monto": 98000.32,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T11:36:22.440Z"
+    },
+    {
+      "id": "f_1786361782440_47_kbd7m",
+      "proveedorKey": "clarin",
+      "tipo": "factura",
+      "numeroFactura": "0132A01341846",
+      "fecha": "2026-07-31",
+      "vencimiento": "2026-08-20",
+      "monto": 100800.29,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T11:36:22.440Z"
+    },
+    {
+      "id": "f_1786361782440_48_w5smw",
+      "proveedorKey": "clarin",
+      "tipo": "factura",
+      "numeroFactura": "0132A01341846",
+      "fecha": "2026-07-31",
+      "vencimiento": "2026-08-30",
+      "monto": 67200.19,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T11:36:22.440Z"
+    },
+    {
+      "id": "f_1786361782440_49_pzpzv",
+      "proveedorKey": "clarin",
+      "tipo": "factura",
+      "numeroFactura": "0132A01342002",
+      "fecha": "2026-07-31",
+      "vencimiento": "2026-08-20",
+      "monto": 194680.39,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T11:36:22.440Z"
+    },
+    {
+      "id": "f_1786361782440_50_eyl70",
+      "proveedorKey": "clarin",
+      "tipo": "nota_credito",
+      "numeroFactura": "0132A01361807",
+      "fecha": "2026-07-31",
+      "vencimiento": "2026-07-17",
+      "monto": 20214.59,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T11:36:22.440Z"
+    },
+    {
+      "id": "f_1786361782440_51_1fizj",
+      "proveedorKey": "clarin",
+      "tipo": "nota_credito",
+      "numeroFactura": "0132A01361807",
+      "fecha": "2026-07-31",
+      "vencimiento": "2026-08-01",
+      "monto": 13476.39,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T11:36:22.440Z"
+    },
+    {
+      "id": "f_1786361782440_52_z97mu",
+      "proveedorKey": "clarin",
+      "tipo": "nota_credito",
+      "numeroFactura": "0132A01361808",
+      "fecha": "2026-07-31",
+      "vencimiento": "2026-07-10",
+      "monto": 17968.52,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T11:36:22.440Z"
+    },
+    {
+      "id": "f_1786361782440_53_11xxt",
+      "proveedorKey": "clarin",
+      "tipo": "nota_credito",
+      "numeroFactura": "0132A01361808",
+      "fecha": "2026-07-31",
+      "vencimiento": "2026-07-25",
+      "monto": 11979.02,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T11:36:22.440Z"
+    },
+    {
+      "id": "f_1786361782440_54_06frg",
+      "proveedorKey": "clarin",
+      "tipo": "nota_credito",
+      "numeroFactura": "0132A01361809",
+      "fecha": "2026-07-31",
+      "vencimiento": "2026-07-24",
+      "monto": 17968.52,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T11:36:22.440Z"
+    },
+    {
+      "id": "f_1786361782440_55_68bym",
+      "proveedorKey": "clarin",
+      "tipo": "nota_credito",
+      "numeroFactura": "0132A01361809",
+      "fecha": "2026-07-31",
+      "vencimiento": "2026-08-08",
+      "monto": 11979.02,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T11:36:22.441Z"
+    },
+    {
+      "id": "f_1786361782441_56_4zn0q",
+      "proveedorKey": "clarin",
+      "tipo": "nota_credito",
+      "numeroFactura": "0132A01361810",
+      "fecha": "2026-07-31",
+      "vencimiento": "2026-08-11",
+      "monto": 25344,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T11:36:22.441Z"
+    },
+    {
+      "id": "f_1786361782441_57_f071b",
+      "proveedorKey": "clarin",
+      "tipo": "nota_credito",
+      "numeroFactura": "0132A01361810",
+      "fecha": "2026-07-31",
+      "vencimiento": "2026-08-21",
+      "monto": 16896,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T11:36:22.441Z"
+    },
+    {
+      "id": "f_1786361782441_58_ir1nu",
+      "proveedorKey": "clarin",
+      "tipo": "nota_credito",
+      "numeroFactura": "0132A01361811",
+      "fecha": "2026-07-31",
+      "vencimiento": "2026-07-20",
+      "monto": 101160.29,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T11:36:22.441Z"
+    },
+    {
+      "id": "f_1786361782441_59_lmvqn",
+      "proveedorKey": "clarin",
+      "tipo": "nota_credito",
+      "numeroFactura": "0132A01361811",
+      "fecha": "2026-07-31",
+      "vencimiento": "2026-07-30",
+      "monto": 67440.19,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T11:36:22.441Z"
+    },
+    {
+      "id": "f_1786361782441_60_isk50",
+      "proveedorKey": "clarin",
+      "tipo": "nota_credito",
+      "numeroFactura": "0132A01361812",
+      "fecha": "2026-07-31",
+      "vencimiento": "2026-07-27",
+      "monto": 120960.35,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T11:36:22.441Z"
+    },
+    {
+      "id": "f_1786361782441_61_kejd3",
+      "proveedorKey": "clarin",
+      "tipo": "nota_credito",
+      "numeroFactura": "0132A01361812",
+      "fecha": "2026-07-31",
+      "vencimiento": "2026-08-06",
+      "monto": 80640.23,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T11:36:22.441Z"
+    },
+    {
+      "id": "f_1786361782441_62_uja2e",
+      "proveedorKey": "clarin",
+      "tipo": "nota_credito",
+      "numeroFactura": "0132A01361813",
+      "fecha": "2026-07-31",
+      "vencimiento": "2026-06-14",
+      "monto": 16680,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T11:36:22.441Z"
+    },
+    {
+      "id": "f_1786361782441_63_aff6c",
+      "proveedorKey": "clarin",
+      "tipo": "nota_credito",
+      "numeroFactura": "0132A01361814",
+      "fecha": "2026-07-31",
+      "vencimiento": "2025-07-01",
+      "monto": 39200.13,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T11:36:22.441Z"
+    },
+    {
+      "id": "f_1786361782441_64_6klnr",
+      "proveedorKey": "clarin",
+      "tipo": "nota_credito",
+      "numeroFactura": "0132A01361815",
+      "fecha": "2026-07-31",
+      "vencimiento": "2025-07-10",
+      "monto": 29400.1,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T11:36:22.441Z"
+    },
+    {
+      "id": "f_1786361782441_65_oqkll",
+      "proveedorKey": "clarin",
+      "tipo": "nota_credito",
+      "numeroFactura": "0132A01361816",
+      "fecha": "2026-07-31",
+      "vencimiento": "2026-08-03",
+      "monto": 84240.23,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T11:36:22.441Z"
+    },
+    {
+      "id": "f_1786361782441_66_wu81s",
+      "proveedorKey": "clarin",
+      "tipo": "nota_credito",
+      "numeroFactura": "0132A01361816",
+      "fecha": "2026-07-31",
+      "vencimiento": "2026-08-13",
+      "monto": 56160.16,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T11:36:22.441Z"
+    },
+    {
+      "id": "f_1786361782441_67_y1u20",
+      "proveedorKey": "clarin",
+      "tipo": "nota_credito",
+      "numeroFactura": "0132A01361817",
+      "fecha": "2026-07-31",
+      "vencimiento": "2025-10-27",
+      "monto": 32400.06,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T11:36:22.441Z"
+    },
+    {
+      "id": "f_1786361782441_68_ikrpc",
+      "proveedorKey": "clarin",
+      "tipo": "nota_credito",
+      "numeroFactura": "0132A01361817",
+      "fecha": "2026-07-31",
+      "vencimiento": "2025-11-06",
+      "monto": 21600.04,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T11:36:22.441Z"
+    },
+    {
+      "id": "f_1786361782441_69_rnz0m",
+      "proveedorKey": "clarin",
+      "tipo": "nota_credito",
+      "numeroFactura": "0132A01361818",
+      "fecha": "2026-07-31",
+      "vencimiento": "2026-07-21",
+      "monto": 227510,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T11:36:22.441Z"
+    },
+    {
+      "id": "f_1786361782441_70_eie2y",
+      "proveedorKey": "clarin",
+      "tipo": "nota_credito",
+      "numeroFactura": "0132A01361819",
+      "fecha": "2026-07-31",
+      "vencimiento": "2026-07-14",
+      "monto": 205622,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T11:36:22.441Z"
+    },
+    {
+      "id": "f_1786361782441_71_i0m6x",
+      "proveedorKey": "clarin",
+      "tipo": "nota_credito",
+      "numeroFactura": "0132A01361820",
+      "fecha": "2026-07-31",
+      "vencimiento": "2026-07-31",
+      "monto": 20214.59,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T11:36:22.441Z"
+    },
+    {
+      "id": "f_1786361782441_72_844v9",
+      "proveedorKey": "clarin",
+      "tipo": "nota_credito",
+      "numeroFactura": "0132A01361820",
+      "fecha": "2026-07-31",
+      "vencimiento": "2026-08-15",
+      "monto": 13476.39,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T11:36:22.441Z"
+    },
+    {
+      "id": "f_1786361782441_73_6prqh",
+      "proveedorKey": "clarin",
+      "tipo": "nota_credito",
+      "numeroFactura": "0132A01361821",
+      "fecha": "2026-07-31",
+      "vencimiento": "2026-08-10",
+      "monto": 358680.94,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T11:36:22.441Z"
+    },
+    {
+      "id": "f_1786361782441_74_pktol",
+      "proveedorKey": "clarin",
+      "tipo": "nota_credito",
+      "numeroFactura": "0132A01361821",
+      "fecha": "2026-07-31",
+      "vencimiento": "2026-08-25",
+      "monto": 239120.63,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T11:36:22.441Z"
+    },
+    {
+      "id": "f_1786361782441_75_gmbal",
+      "proveedorKey": "clarin",
+      "tipo": "nota_credito",
+      "numeroFactura": "0132A01361822",
+      "fecha": "2026-07-31",
+      "vencimiento": "2026-07-24",
+      "monto": 39200.13,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T11:36:22.441Z"
+    },
+    {
+      "id": "f_1786361782441_76_pjy5r",
+      "proveedorKey": "clarin",
+      "tipo": "nota_credito",
+      "numeroFactura": "0132A01361823",
+      "fecha": "2026-07-31",
+      "vencimiento": "2026-08-10",
+      "monto": 60480.17,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T11:36:22.441Z"
+    },
+    {
+      "id": "f_1786361782441_77_fzl7r",
+      "proveedorKey": "clarin",
+      "tipo": "nota_credito",
+      "numeroFactura": "0132A01361823",
+      "fecha": "2026-07-31",
+      "vencimiento": "2026-08-20",
+      "monto": 40320.12,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T11:36:22.441Z"
+    },
+    {
+      "id": "f_1786361782441_78_yoa48",
+      "proveedorKey": "clarin",
+      "tipo": "nota_credito",
+      "numeroFactura": "0132A01361824",
+      "fecha": "2026-07-31",
+      "vencimiento": "2026-07-28",
+      "monto": 290788,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T11:36:22.441Z"
+    },
+    {
+      "id": "f_1786363537236_0_mnslc",
+      "proveedorKey": "silmar",
+      "tipo": "factura",
+      "numeroFactura": "00004-00016608",
+      "fecha": "2026-07-03",
+      "vencimiento": "2026-07-13",
+      "monto": 322657.1,
+      "moneda": "ARS",
+      "estado": "pagada",
+      "cargadaEl": "2026-08-10T12:05:37.236Z"
+    },
+    {
+      "id": "f_1786363537244_1_civy0",
+      "proveedorKey": "silmar",
+      "tipo": "nota_credito",
+      "numeroFactura": "00004-00009492",
+      "fecha": "2026-07-06",
+      "vencimiento": "2026-07-16",
+      "monto": 114417,
+      "moneda": "ARS",
+      "estado": "pagada",
+      "cargadaEl": "2026-08-10T12:05:37.244Z"
+    },
+    {
+      "id": "f_1786363537244_2_3x7fb",
+      "proveedorKey": "silmar",
+      "tipo": "factura",
+      "numeroFactura": "00004-00016633",
+      "fecha": "2026-07-06",
+      "vencimiento": "2026-07-16",
+      "monto": 250603,
+      "moneda": "ARS",
+      "estado": "pagada",
+      "cargadaEl": "2026-08-10T12:05:37.244Z"
+    },
+    {
+      "id": "f_1786363537244_3_ixces",
+      "proveedorKey": "silmar",
+      "tipo": "factura",
+      "numeroFactura": "00004-00016658",
+      "fecha": "2026-07-10",
+      "vencimiento": "2026-07-20",
+      "monto": 59060,
+      "moneda": "ARS",
+      "estado": "pagada",
+      "cargadaEl": "2026-08-10T12:05:37.244Z"
+    },
+    {
+      "id": "f_1786363537245_4_st0wi",
+      "proveedorKey": "silmar",
+      "tipo": "factura",
+      "numeroFactura": "00004-00016700",
+      "fecha": "2026-07-17",
+      "vencimiento": "2026-07-27",
+      "monto": 1261352.5,
+      "moneda": "ARS",
+      "estado": "pagada",
+      "cargadaEl": "2026-08-10T12:05:37.245Z"
+    },
+    {
+      "id": "f_1786363537245_5_k44lc",
+      "proveedorKey": "silmar",
+      "tipo": "nota_credito",
+      "numeroFactura": "00004-00009550",
+      "fecha": "2026-07-20",
+      "vencimiento": "2026-07-30",
+      "monto": 80244,
+      "moneda": "ARS",
+      "estado": "pagada",
+      "cargadaEl": "2026-08-10T12:05:37.245Z"
+    },
+    {
+      "id": "f_1786363537245_6_l96ui",
+      "proveedorKey": "silmar",
+      "tipo": "factura",
+      "numeroFactura": "00004-00016721",
+      "fecha": "2026-07-20",
+      "vencimiento": "2026-07-30",
+      "monto": 8925,
+      "moneda": "ARS",
+      "estado": "pagada",
+      "cargadaEl": "2026-08-10T12:05:37.245Z"
+    },
+    {
+      "id": "f_1786363537245_7_r5ipp",
+      "proveedorKey": "silmar",
+      "tipo": "factura",
+      "numeroFactura": "00004-00016745",
+      "fecha": "2026-07-24",
+      "vencimiento": "2026-08-03",
+      "monto": 924984.4,
+      "moneda": "ARS",
+      "estado": "pagada",
+      "cargadaEl": "2026-08-10T12:05:37.245Z"
+    },
+    {
+      "id": "f_1786363537245_8_3iguc",
+      "proveedorKey": "silmar",
+      "tipo": "nota_credito",
+      "numeroFactura": "00004-00009577",
+      "fecha": "2026-07-27",
+      "vencimiento": "2026-08-06",
+      "monto": 130529,
+      "moneda": "ARS",
+      "estado": "pagada",
+      "cargadaEl": "2026-08-10T12:05:37.245Z"
+    },
+    {
+      "id": "f_1786363537245_9_dz4j3",
+      "proveedorKey": "silmar",
+      "tipo": "factura",
+      "numeroFactura": "00004-00016770",
+      "fecha": "2026-07-27",
+      "vencimiento": "2026-08-06",
+      "monto": 48725,
+      "moneda": "ARS",
+      "estado": "pagada",
+      "cargadaEl": "2026-08-10T12:05:37.245Z"
+    },
+    {
+      "id": "f_1786363537245_10_zlhqw",
+      "proveedorKey": "silmar",
+      "tipo": "factura",
+      "numeroFactura": "00004-00016794",
+      "fecha": "2026-07-31",
+      "vencimiento": "2026-08-10",
+      "monto": 965926,
+      "moneda": "ARS",
+      "estado": "pagada",
+      "cargadaEl": "2026-08-10T12:05:37.245Z"
+    },
+    {
+      "id": "f_1786363537245_12_slbka",
+      "proveedorKey": "silmar",
+      "tipo": "factura",
+      "numeroFactura": "00004-00016815",
+      "fecha": "2026-08-03",
+      "vencimiento": "2026-08-13",
+      "monto": 8925,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-10T12:05:37.245Z"
+    },
+    {
+      "id": "f_1786370470737_xdtmz",
+      "proveedorKey": "silmar",
+      "tipo": "nota_credito",
+      "numeroFactura": "00004-00009637",
+      "fecha": "2026-08-10",
+      "vencimiento": null,
+      "monto": 129948,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "ARCHIVADOR AVIONES II",
+          "edicion": "201",
+          "cantidad": 1,
+          "monto": 10800
+        },
+        {
+          "descripcion": "BIBL OSPREY II (DGP) L",
+          "edicion": "1",
+          "cantidad": 1,
+          "monto": 7192
+        },
+        {
+          "descripcion": "CONSTRUYE LA PERLITA (",
+          "edicion": "8",
+          "cantidad": 1,
+          "monto": 18000
+        },
+        {
+          "descripcion": "COSAS DE CASA (BRI) (D",
+          "edicion": "342",
+          "cantidad": 1,
+          "monto": 3620
+        },
+        {
+          "descripcion": "EL MUEBLE MINI (BRI) (",
+          "edicion": "758",
+          "cantidad": 1,
+          "monto": 3620
+        },
+        {
+          "descripcion": "ESTRELLAS DEL FUTBOL (",
+          "edicion": "6",
+          "cantidad": 1,
+          "monto": 11720
+        },
+        {
+          "descripcion": "NATIONAL GEOGRA/MAG (D",
+          "edicion": "574",
+          "cantidad": 1,
+          "monto": 7562
+        },
+        {
+          "descripcion": "QUIJOTE SOPAS (DGP)",
+          "edicion": "10028",
+          "cantidad": 1,
+          "monto": 6567
+        },
+        {
+          "descripcion": "QUIJOTE SOPAMANIA POCK",
+          "edicion": "33",
+          "cantidad": 1,
+          "monto": 2550
+        },
+        {
+          "descripcion": "LEYENDAS DE LA MODA (D",
+          "edicion": "45",
+          "cantidad": 1,
+          "monto": 15992
+        },
+        {
+          "descripcion": "RACING CARS (DGP) McLa",
+          "edicion": "21",
+          "cantidad": 1,
+          "monto": 24200
+        },
+        {
+          "descripcion": "SEMANARIO (PERFIL)",
+          "edicion": "2258",
+          "cantidad": 1,
+          "monto": 3625
+        },
+        {
+          "descripcion": "SEMANARIO (PERFIL)",
+          "edicion": "2259",
+          "cantidad": 4,
+          "monto": 14500
+        }
+      ],
+      "cargadaEl": "2026-08-10T14:01:10.737Z"
+    },
+    {
+      "id": "f_1786370664388_j08hx",
+      "proveedorKey": "silmar",
+      "tipo": "factura",
+      "numeroFactura": "00004-00016861",
+      "fecha": "2026-08-10",
+      "vencimiento": "2026-08-20",
+      "monto": 13800,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "JOKER (PERFIL INT)",
+          "edicion": "1356",
+          "cantidad": 1,
+          "monto": 4875
+        },
+        {
+          "descripcion": "NOTICIAS (11)",
+          "edicion": "2589",
+          "cantidad": 1,
+          "monto": 8925
+        }
+      ],
+      "cargadaEl": "2026-08-10T14:04:24.388Z"
+    },
+    {
+      "id": "f_1786715204359_gqpti",
+      "proveedorKey": "silmar",
+      "tipo": "factura",
+      "numeroFactura": "00004-00016884",
+      "fecha": "2026-08-14",
+      "vencimiento": "2026-08-24",
+      "monto": 613015.5,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "ASTERIX II ( DGP SA )",
+          "edicion": "16",
+          "cantidad": 1,
+          "monto": 16800
+        },
+        {
+          "descripcion": "AUTOS INOLV ARGENTINOS",
+          "edicion": "8",
+          "cantidad": 7,
+          "monto": 179200
+        },
+        {
+          "descripcion": "AUTOS INOLV ARGENTINOS",
+          "edicion": "5",
+          "cantidad": 4,
+          "monto": 102400
+        },
+        {
+          "descripcion": "BIBLIOTECA CLASICA GRE",
+          "edicion": "35",
+          "cantidad": 1,
+          "monto": 21592
+        },
+        {
+          "descripcion": "COL GIMNASIA PARA LA M",
+          "edicion": "6",
+          "cantidad": 1,
+          "monto": 7808
+        },
+        {
+          "descripcion": "CONSTRUYE LA PERLITA (",
+          "edicion": "10",
+          "cantidad": 1,
+          "monto": 18000
+        },
+        {
+          "descripcion": "CONSTRUYE LA PERLITA (",
+          "edicion": "11",
+          "cantidad": 1,
+          "monto": 18000
+        },
+        {
+          "descripcion": "DODGE CHARGER RYF (DGP",
+          "edicion": "16",
+          "cantidad": 2,
+          "monto": 44000
+        },
+        {
+          "descripcion": "THE BEST OF MARVEL (DG",
+          "edicion": "11",
+          "cantidad": 1,
+          "monto": 20800
+        },
+        {
+          "descripcion": "AUDIOCUENTOS MAGICOS D",
+          "edicion": "15",
+          "cantidad": 1,
+          "monto": 23920
+        },
+        {
+          "descripcion": "AUDIOCUENTOS MAGICOS D",
+          "edicion": "18",
+          "cantidad": 3,
+          "monto": 56400
+        },
+        {
+          "descripcion": "CLIP (DGP)",
+          "edicion": "906",
+          "cantidad": 1,
+          "monto": 3574
+        },
+        {
+          "descripcion": "CLIP EXTRA (DGP)",
+          "edicion": "369",
+          "cantidad": 1,
+          "monto": 4815
+        },
+        {
+          "descripcion": "BIBLIOTECA DE PSICOLOG",
+          "edicion": "25",
+          "cantidad": 1,
+          "monto": 12720
+        },
+        {
+          "descripcion": "CRUZADAS ORO (DGP)",
+          "edicion": "10368",
+          "cantidad": 1,
+          "monto": 7516
+        },
+        {
+          "descripcion": "SOPITAS EXTRA (DGP)",
+          "edicion": "324",
+          "cantidad": 1,
+          "monto": 2379
+        },
+        {
+          "descripcion": "SOPARAMA SUPER -A (DGP",
+          "edicion": "318",
+          "cantidad": 1,
+          "monto": 2707.5
+        },
+        {
+          "descripcion": "RALLY 1:24 (DGP)",
+          "edicion": "54",
+          "cantidad": 1,
+          "monto": 40000
+        },
+        {
+          "descripcion": "JUEGOS DE INGENIO (DGP",
+          "edicion": "41",
+          "cantidad": 2,
+          "monto": 30384
+        }
+      ],
+      "cargadaEl": "2026-08-14T13:46:44.359Z"
+    },
+    {
+      "id": "f_1786885336882_5xge2",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00582392",
+      "fecha": "2026-08-02",
+      "vencimiento": "2026-08-16",
+      "monto": 74960,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "LA NACION DOM",
+          "edicion": "20260802",
+          "cantidad": 10,
+          "monto": 50060
+        },
+        {
+          "descripcion": "POPULAR DOM",
+          "edicion": "20260802",
+          "cantidad": 15,
+          "monto": 24900
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:02:16.882Z"
+    },
+    {
+      "id": "f_1786885337420_yu63j",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00582468",
+      "fecha": "2026-08-03",
+      "vencimiento": "2026-08-17",
+      "monto": 65064,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "LA NACION LUN",
+          "edicion": "20260803",
+          "cantidad": 14,
+          "monto": 46536
+        },
+        {
+          "descripcion": "POPULAR LUN",
+          "edicion": "20260803",
+          "cantidad": 12,
+          "monto": 18528
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:02:17.420Z"
+    },
+    {
+      "id": "f_1786885338181_s5wgw",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00582625",
+      "fecha": "2026-08-04",
+      "vencimiento": "2026-09-29",
+      "monto": 43466,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "200219 DINOSAURIOS 2\nSTEGOSAURUS + FASCÍCULO",
+          "edicion": "0000006",
+          "cantidad": 5,
+          "monto": 43466
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:02:18.181Z"
+    },
+    {
+      "id": "f_1786885343746_zp1t7",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450-00958195",
+      "fecha": "2026-08-05",
+      "vencimiento": null,
+      "monto": 9972,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "LA NACION MAR",
+          "edicion": "20260728",
+          "cantidad": 3,
+          "monto": 9972
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:02:23.746Z"
+    },
+    {
+      "id": "f_1786885345445_ljtn3",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450-00958191",
+      "fecha": "2026-08-05",
+      "vencimiento": "2026-08-15",
+      "monto": 9972,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "LA NACION VIE",
+          "edicion": "20260724",
+          "cantidad": 3,
+          "monto": 9972
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:02:25.445Z"
+    },
+    {
+      "id": "f_1786885976704_wlgbu",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00582308",
+      "fecha": "2026-08-01",
+      "vencimiento": "2026-09-12",
+      "monto": 188932,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "200423 AUTOS ALEMANE\nNero-Nakiri + Fascículo",
+          "edicion": "0000010",
+          "cantidad": 2,
+          "monto": 37786.4
+        },
+        {
+          "descripcion": "200440 ORGULLO ARGEN\nNero-Nakiri + Fascículo",
+          "edicion": "0000004",
+          "cantidad": 8,
+          "monto": 151145.6
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:12:56.704Z"
+    },
+    {
+      "id": "f_1786885977544_ngzo0",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00582307",
+      "fecha": "2026-08-01",
+      "vencimiento": "2026-09-26",
+      "monto": 43466,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "200219 DINOSAURIOS 2 \nVELOCIRAPTOR + FASCÍCULO",
+          "edicion": "0000005",
+          "cantidad": 5,
+          "monto": 43466
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:12:57.545Z"
+    },
+    {
+      "id": "f_1786885978235_k8bzv",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00582195",
+      "fecha": "2026-08-01",
+      "vencimiento": "2026-08-15",
+      "monto": 95742,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "LA NACION SAB",
+          "edicion": "20260801",
+          "cantidad": 17,
+          "monto": 77214
+        },
+        {
+          "descripcion": "POPULAR SAB",
+          "edicion": "20260801",
+          "cantidad": 12,
+          "monto": 18528
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:12:58.235Z"
+    },
+    {
+      "id": "f_1786886021342_3jnpd",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00582533",
+      "fecha": "2026-08-04",
+      "vencimiento": "2026-08-18",
+      "monto": 58416,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "LA NACION MAR",
+          "edicion": "20260804",
+          "cantidad": 12,
+          "monto": 39888
+        },
+        {
+          "descripcion": "POPULAR MAR",
+          "edicion": "20260804",
+          "cantidad": 12,
+          "monto": 18528
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:13:41.342Z"
+    },
+    {
+      "id": "f_1786886022167_qouq2",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450-00958361",
+      "fecha": "2026-08-05",
+      "vencimiento": "2026-08-15",
+      "monto": 6176,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "POPULAR MAR",
+          "edicion": "20260728",
+          "cantidad": 4,
+          "monto": 6176
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:13:42.167Z"
+    },
+    {
+      "id": "f_1786886023050_8koyw",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450-00958360",
+      "fecha": "2026-08-05",
+      "vencimiento": "2026-08-15",
+      "monto": 6176,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "POPULAR LUN",
+          "edicion": "20260727",
+          "cantidad": 4,
+          "monto": 6176
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:13:43.050Z"
+    },
+    {
+      "id": "f_1786886023857_9eos4",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450-00958359",
+      "fecha": "2026-08-05",
+      "vencimiento": "2026-08-15",
+      "monto": 3320,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "110607 POPULAR DOM",
+          "edicion": "20260726",
+          "cantidad": 2,
+          "monto": 3320
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:13:43.857Z"
+    },
+    {
+      "id": "f_1786886024673_8g8jl",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450-00958358",
+      "fecha": "2026-08-05",
+      "vencimiento": null,
+      "monto": 3088,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "POPULAR SAB",
+          "edicion": "20260725",
+          "cantidad": 2,
+          "monto": 3088
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:13:44.673Z"
+    },
+    {
+      "id": "f_1786886025476_2j6d5",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450-00958357",
+      "fecha": "2026-08-05",
+      "vencimiento": null,
+      "monto": 3088,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "POPULAR VIE",
+          "edicion": "20260724",
+          "cantidad": 2,
+          "monto": 3088
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:13:45.477Z"
+    },
+    {
+      "id": "f_1786886026310_cc1eb",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450-00958356",
+      "fecha": "2026-08-05",
+      "vencimiento": "2026-08-15",
+      "monto": 7720,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "POPULAR JUE",
+          "edicion": "20260723",
+          "cantidad": 5,
+          "monto": 7720
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:13:46.310Z"
+    },
+    {
+      "id": "f_1786886089769_ou6yz",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450-00958355",
+      "fecha": "2026-08-05",
+      "vencimiento": "2026-08-15",
+      "monto": 7720,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "POPULAR MIE",
+          "edicion": "20260722",
+          "cantidad": 5,
+          "monto": 7720
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:14:49.769Z"
+    },
+    {
+      "id": "f_1786886091083_6sbuf",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450-00958194",
+      "fecha": "2026-08-05",
+      "vencimiento": "2026-08-15",
+      "monto": 16620,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "LA NACION LUN 20260727 Devolución",
+          "edicion": "20260727",
+          "cantidad": 5,
+          "monto": 16620
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:14:51.083Z"
+    },
+    {
+      "id": "f_1786886091833_rh6lb",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450-00958193",
+      "fecha": "2026-08-05",
+      "vencimiento": "2026-08-15",
+      "monto": 30036,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "LA NACION DOM",
+          "edicion": "20260726",
+          "cantidad": 6,
+          "monto": 30036
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:14:51.833Z"
+    },
+    {
+      "id": "f_1786886092507_5aryi",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450-00958192",
+      "fecha": "2026-08-05",
+      "vencimiento": "2026-08-15",
+      "monto": 27252,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "LA NACION SAB",
+          "edicion": "20260725",
+          "cantidad": 6,
+          "monto": 27252
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:14:52.507Z"
+    },
+    {
+      "id": "f_1786886093867_gusg2",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450-00958190",
+      "fecha": "2026-08-05",
+      "vencimiento": null,
+      "monto": 6648,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "LA NACION JUE",
+          "edicion": "20260723",
+          "cantidad": 2,
+          "monto": 6648
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:14:53.867Z"
+    },
+    {
+      "id": "f_1786886094582_p8t04",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450-00958189",
+      "fecha": "2026-08-05",
+      "vencimiento": "2026-08-15",
+      "monto": 13296,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "LA NACION MIE 20260722 Devolución",
+          "edicion": "20260722",
+          "cantidad": 4,
+          "monto": 13296
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:14:54.582Z"
+    },
+    {
+      "id": "f_1786886153236_1zv96",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450-00957942",
+      "fecha": "2026-08-05",
+      "vencimiento": "2026-08-15",
+      "monto": 3263.2,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "120465 LIBROS INFANT\nAVENGERS",
+          "edicion": "0000095",
+          "cantidad": 1,
+          "monto": 3263.2
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:15:53.236Z"
+    },
+    {
+      "id": "f_1786886154005_gy0g4",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450-00957941",
+      "fecha": "2026-08-05",
+      "vencimiento": "2026-08-15",
+      "monto": 3263.2,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "LIBROS INFANT DISNEY JUNIOR",
+          "edicion": "0000095",
+          "cantidad": 1,
+          "monto": 3263.2
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:15:54.005Z"
+    },
+    {
+      "id": "f_1786886154735_sao1c",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450-00957940",
+      "fecha": "2026-08-05",
+      "vencimiento": "2026-08-15",
+      "monto": 3263.2,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "120467 LIBROS INFANT PRINCESAS",
+          "edicion": "0000095",
+          "cantidad": 1,
+          "monto": 3263.2
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:15:54.735Z"
+    },
+    {
+      "id": "f_1786886155452_hksx3",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00582799",
+      "fecha": "2026-08-05",
+      "vencimiento": "2026-09-09",
+      "monto": 11590,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "HOLA",
+          "edicion": "0000821",
+          "cantidad": 2,
+          "monto": 11590
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:15:55.452Z"
+    },
+    {
+      "id": "f_1786886156729_113gm",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00582798",
+      "fecha": "2026-08-05",
+      "vencimiento": "2026-09-30",
+      "monto": 123734,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "JARDÍN",
+          "edicion": "0000169",
+          "cantidad": 4,
+          "monto": 38072
+        },
+        {
+          "descripcion": "LIVING",
+          "edicion": "0000220",
+          "cantidad": 5,
+          "monto": 47590
+        },
+        {
+          "descripcion": "LUGARES",
+          "edicion": "0000364",
+          "cantidad": 1,
+          "monto": 9518
+        },
+        {
+          "descripcion": "OHLALÁ",
+          "edicion": "0000221",
+          "cantidad": 3,
+          "monto": 28554
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:15:56.729Z"
+    },
+    {
+      "id": "f_1786886157756_3glom",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00582692",
+      "fecha": "2026-08-05",
+      "vencimiento": "2026-08-19",
+      "monto": 58416,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "000003 LA NACION MIE",
+          "edicion": "20260805",
+          "cantidad": 12,
+          "monto": 39888
+        },
+        {
+          "descripcion": "110603 POPULAR MIE",
+          "edicion": "20260805",
+          "cantidad": 12,
+          "monto": 18528
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:15:57.756Z"
+    },
+    {
+      "id": "f_1786886158575_0tjha",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00582992",
+      "fecha": "2026-08-06",
+      "vencimiento": "2026-09-17",
+      "monto": 119898.4,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "POP CULTURE Bugs Bunny + Fascículo",
+          "edicion": "0000008",
+          "cantidad": 2,
+          "monto": 30986.4
+        },
+        {
+          "descripcion": "DEADPOOL Bugs Bunny + Fascículo",
+          "edicion": "0000004",
+          "cantidad": 8,
+          "monto": 88912
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:15:58.575Z"
+    },
+    {
+      "id": "f_1786886159475_7nr6r",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00582991",
+      "fecha": "2026-08-06",
+      "vencimiento": "2026-10-01",
+      "monto": 43466,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "200219 DINOSAURIOS 2 PTERODÁPTILO + FASCÍCULO",
+          "edicion": "0000011",
+          "cantidad": 5,
+          "monto": 43466
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:15:59.475Z"
+    },
+    {
+      "id": "f_1786886294686_oodj9",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00582891",
+      "fecha": "2026-08-06",
+      "vencimiento": "2026-08-20",
+      "monto": 51768,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "LA NACION JUE",
+          "edicion": "20260806",
+          "cantidad": 10,
+          "monto": 33240
+        },
+        {
+          "descripcion": "POPULAR JUE",
+          "edicion": "20260806",
+          "cantidad": 12,
+          "monto": 18528
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:18:14.686Z"
+    },
+    {
+      "id": "f_1786886295513_5fipe",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00583133",
+      "fecha": "2026-08-07",
+      "vencimiento": "2026-09-11",
+      "monto": 35066.4,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "200444 F1 EXTENSION\nAlpine - Entrega 6 + Fascículo",
+          "edicion": "0000006",
+          "cantidad": 2,
+          "monto": 35066.4
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:18:15.513Z"
+    },
+    {
+      "id": "f_1786886296226_yupht",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00583069",
+      "fecha": "2026-08-07",
+      "vencimiento": "2026-08-21",
+      "monto": 51768,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "LA NACION VIE",
+          "edicion": "20260807",
+          "cantidad": 10,
+          "monto": 33240
+        },
+        {
+          "descripcion": "POPULAR VIE",
+          "edicion": "20260807",
+          "cantidad": 12,
+          "monto": 18528
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:18:16.226Z"
+    },
+    {
+      "id": "f_1786886297001_udpvj",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00583343",
+      "fecha": "2026-08-08",
+      "vencimiento": "2026-10-03",
+      "monto": 43466,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "200219 DINOSAURIOS 2 ANKILOSAURUS + FASCÍCULO",
+          "edicion": "0000007",
+          "cantidad": 5,
+          "monto": 43466
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:18:17.001Z"
+    },
+    {
+      "id": "f_1786886298074_09l2j",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00583342",
+      "fecha": "2026-08-08",
+      "vencimiento": "2026-10-17",
+      "monto": 75456.6,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "LIBROS PRH EL LIBRO DE LOS RETOS",
+          "edicion": "0000001",
+          "cantidad": 1,
+          "monto": 13459.32
+        },
+        {
+          "descripcion": "LIBROS PRH EL LIBRO DE LOS RETOS",
+          "edicion": "0000001",
+          "cantidad": 1,
+          "monto": 19579.32
+        },
+        {
+          "descripcion": "LIBROS PRH EL LIBRO DE LOS RETOS",
+          "edicion": "0000001",
+          "cantidad": 1,
+          "monto": 19579.32
+        },
+        {
+          "descripcion": "LIBROS PRH EL LIBRO DE LOS RETOS",
+          "edicion": "0000001",
+          "cantidad": 1,
+          "monto": 11419.32
+        },
+        {
+          "descripcion": "LIBROS PRH EL LIBRO DE LOS RETOS",
+          "edicion": "0000001",
+          "cantidad": 1,
+          "monto": 11419.32
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:18:18.074Z"
+    },
+    {
+      "id": "f_1786886299116_2l0dh",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00583341",
+      "fecha": "2026-08-08",
+      "vencimiento": "2026-09-19",
+      "monto": 18893.2,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "200424 STITCH\nStitch Halloween",
+          "edicion": "0000013",
+          "cantidad": 1,
+          "monto": 18893.2
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:18:19.116Z"
+    },
+    {
+      "id": "f_1786886299916_76i5z",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00583196",
+      "fecha": "2026-08-08",
+      "vencimiento": "2022-08-22",
+      "monto": 95742,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "LA NACION SAB",
+          "edicion": "20260808",
+          "cantidad": 17,
+          "monto": 77214
+        },
+        {
+          "descripcion": "POPULAR SAB",
+          "edicion": "20260808",
+          "cantidad": 12,
+          "monto": 18528
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:18:19.916Z"
+    },
+    {
+      "id": "f_1786886300757_z2ee2",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00583544",
+      "fecha": "2026-08-09",
+      "vencimiento": "2026-09-20",
+      "monto": 40359.6,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "200236 MON Y BILL 20",
+          "edicion": "0000037",
+          "cantidad": 3,
+          "monto": 40359.6
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:18:20.757Z"
+    },
+    {
+      "id": "f_1786886410248_8v7om",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00583513",
+      "fecha": "2026-08-09",
+      "vencimiento": "2026-09-20",
+      "monto": 40359.6,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "MON Y BILL 20 Billete - Nicaragua 2",
+          "edicion": "0000036",
+          "cantidad": 3,
+          "monto": 40359.6
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:20:10.248Z"
+    },
+    {
+      "id": "f_1786886410881_v5g8c",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450-00959129",
+      "fecha": "2026-08-09",
+      "vencimiento": "2026-08-19",
+      "monto": 40359.6,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "200236 MON Y BILL 20\nMonedas Finland - Folio",
+          "edicion": "0000035",
+          "cantidad": 3,
+          "monto": 40359.6
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:20:10.881Z"
+    },
+    {
+      "id": "f_1786886411489_rwgas",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450-00959128",
+      "fecha": "2026-08-09",
+      "vencimiento": "2026-08-19",
+      "monto": 77798,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "200430 DEADPOOL\nDeadpool: Todo en familia",
+          "edicion": "0000003",
+          "cantidad": 7,
+          "monto": 77798
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:20:11.489Z"
+    },
+    {
+      "id": "f_1786886412097_dgdwz",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450-00959127",
+      "fecha": "2026-08-09",
+      "vencimiento": "2026-08-19",
+      "monto": 24186.4,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "200443 DESCAPOTABLES 0000001 Devolución\nMercedes-Benz 280 SE (1967) Entrega 1 + Fascículo",
+          "edicion": "0000001",
+          "cantidad": 2,
+          "monto": 24186.4
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:20:12.097Z"
+    },
+    {
+      "id": "f_1786886413067_bdpj6",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00583442",
+      "fecha": "2026-08-09",
+      "vencimiento": "2026-08-23",
+      "monto": 74960,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "LA NACION DOM",
+          "edicion": "20260809",
+          "cantidad": 10,
+          "monto": 50060
+        },
+        {
+          "descripcion": "POPULAR DOM",
+          "edicion": "20260809",
+          "cantidad": 15,
+          "monto": 24900
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:20:13.067Z"
+    },
+    {
+      "id": "f_1786886413826_p68a4",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00583695",
+      "fecha": "2026-08-10",
+      "vencimiento": "2026-10-05",
+      "monto": 49493.2,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "200426 GREEN PAN 0000002 Reposición SARTÉN 28CM CHEF GREENPAN",
+          "edicion": "0000002",
+          "cantidad": 1,
+          "monto": 49493.2
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:20:13.826Z"
+    },
+    {
+      "id": "f_1786886414634_wefcl",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00583694",
+      "fecha": "2026-08-10",
+      "vencimiento": "2026-09-21",
+      "monto": 61586.4,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "AMERICANAS 4X The Immaculate Collection - doble + Fascículo",
+          "edicion": "0000006",
+          "cantidad": 1,
+          "monto": 18893.2
+        },
+        {
+          "descripcion": "MADONNA The Immaculate Collection - doble + Fascículo",
+          "edicion": "0000004",
+          "cantidad": 1,
+          "monto": 42693.2
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:20:14.634Z"
+    },
+    {
+      "id": "f_1786886415430_3i1oi",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00583597",
+      "fecha": "2026-08-10",
+      "vencimiento": "2026-08-24",
+      "monto": 65064,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "LA NACION LUN",
+          "edicion": "20260810",
+          "cantidad": 14,
+          "monto": 46536
+        },
+        {
+          "descripcion": "POPULAR LUN",
+          "edicion": "20260810",
+          "cantidad": 12,
+          "monto": 18528
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:20:15.430Z"
+    },
+    {
+      "id": "f_1786886442940_8ndnk",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00583938",
+      "fecha": "2026-08-12",
+      "vencimiento": "2026-08-26",
+      "monto": 58416,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "000003 LA NACION MIE",
+          "edicion": "20260812",
+          "cantidad": 12,
+          "monto": 39888
+        },
+        {
+          "descripcion": "110603 POPULAR MIE",
+          "edicion": "20260812",
+          "cantidad": 12,
+          "monto": 18528
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:20:42.940Z"
+    },
+    {
+      "id": "f_1786886443873_yvkwa",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00584042",
+      "fecha": "2026-08-12",
+      "vencimiento": "2026-09-23",
+      "monto": 113359.2,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "200429 AMERICANAS 4X\n1973 Ford Bronco + Fascículo",
+          "edicion": "0000001",
+          "cantidad": 6,
+          "monto": 113359.2
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:20:43.873Z"
+    },
+    {
+      "id": "f_1786886444698_tggnz",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00584043",
+      "fecha": "2026-08-12",
+      "vencimiento": "2026-09-16",
+      "monto": 11590,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "HOLA",
+          "edicion": "0000822",
+          "cantidad": 2,
+          "monto": 11590
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:20:44.698Z"
+    },
+    {
+      "id": "f_1786886445581_0e85c",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00583764",
+      "fecha": "2026-08-11",
+      "vencimiento": "2026-08-25",
+      "monto": 58416,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "LA NACION MAR",
+          "edicion": "20260811",
+          "cantidad": 12,
+          "monto": 39888
+        },
+        {
+          "descripcion": "POPULAR MAR",
+          "edicion": "20260811",
+          "cantidad": 12,
+          "monto": 18528
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:20:45.581Z"
+    },
+    {
+      "id": "f_1786886446797_rq8q5",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00583862",
+      "fecha": "2026-08-11",
+      "vencimiento": "2026-10-20",
+      "monto": 95859.32,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "500546 LIBROS PRH UNICORNIO",
+          "edicion": "0000001",
+          "cantidad": 1,
+          "monto": 20600
+        },
+        {
+          "descripcion": "500547 LIBROS PRH UNICORNIO",
+          "edicion": "0000001",
+          "cantidad": 1,
+          "monto": 20600
+        },
+        {
+          "descripcion": "500548 LIBROS PRH UNICORNIO",
+          "edicion": "0000001",
+          "cantidad": 1,
+          "monto": 20600
+        },
+        {
+          "descripcion": "500549 LIBROS PRH UNICORNIO",
+          "edicion": "0000001",
+          "cantidad": 1,
+          "monto": 20600
+        },
+        {
+          "descripcion": "500550 LIBROS PRH UNICORNIO",
+          "edicion": "0000001",
+          "cantidad": 1,
+          "monto": 13459.32
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:20:46.797Z"
+    },
+    {
+      "id": "f_1786886447888_ia6yd",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00583863",
+      "fecha": "2026-08-11",
+      "vencimiento": "2026-09-22",
+      "monto": 46479.6,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "200443 DESCAPOTABLES\nMercedes-Benz 280 SE (1967) Entrega 3 + Fascículo",
+          "edicion": "0000003",
+          "cantidad": 3,
+          "monto": 46479.6
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:20:47.888Z"
+    },
+    {
+      "id": "f_1786458388929_2_q5nre",
+      "proveedorKey": "clarin",
+      "tipo": "factura",
+      "numeroFactura": "0132A01342596",
+      "fecha": "2026-08-07",
+      "vencimiento": "2026-09-11",
+      "monto": 74817.66,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-11T14:26:28.931Z"
+    },
+    {
+      "id": "f_1786458388933_3_fpx6o",
+      "proveedorKey": "clarin",
+      "tipo": "factura",
+      "numeroFactura": "0132A01342596",
+      "fecha": "2026-08-07",
+      "vencimiento": "2026-09-21",
+      "monto": 49878.44,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-11T14:26:28.933Z"
+    },
+    {
+      "id": "f_1786458388934_4_yl26s",
+      "proveedorKey": "clarin",
+      "tipo": "factura",
+      "numeroFactura": "0132A01342597",
+      "fecha": "2026-08-07",
+      "vencimiento": "2026-08-14",
+      "monto": 665136,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-11T14:26:28.934Z"
+    },
+    {
+      "id": "f_1786458388934_5_bz2kn",
+      "proveedorKey": "clarin",
+      "tipo": "factura",
+      "numeroFactura": "0132A01342598",
+      "fecha": "2026-08-07",
+      "vencimiento": "2026-08-17",
+      "monto": 24422.95,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-11T14:26:28.934Z"
+    },
+    {
+      "id": "f_1786458388934_6_mfsxq",
+      "proveedorKey": "clarin",
+      "tipo": "factura",
+      "numeroFactura": "0132A01342598",
+      "fecha": "2026-08-07",
+      "vencimiento": "2026-09-01",
+      "monto": 16281.97,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-11T14:26:28.934Z"
+    },
+    {
+      "id": "f_1786458388934_7_ld9rr",
+      "proveedorKey": "clarin",
+      "tipo": "factura",
+      "numeroFactura": "0132A01342599",
+      "fecha": "2026-08-07",
+      "vencimiento": "2026-08-27",
+      "monto": 67200.19,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-11T14:26:28.934Z"
+    },
+    {
+      "id": "f_1786458388934_8_9zlb8",
+      "proveedorKey": "clarin",
+      "tipo": "factura",
+      "numeroFactura": "0132A01342599",
+      "fecha": "2026-08-07",
+      "vencimiento": "2026-09-06",
+      "monto": 44800.13,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-11T14:26:28.934Z"
+    },
+    {
+      "id": "f_1786458388934_9_ggsy3",
+      "proveedorKey": "clarin",
+      "tipo": "factura",
+      "numeroFactura": "0132A01342600",
+      "fecha": "2026-08-07",
+      "vencimiento": "2026-09-03",
+      "monto": 49000.16,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-11T14:26:28.934Z"
+    },
+    {
+      "id": "f_1786458388934_10_44skl",
+      "proveedorKey": "clarin",
+      "tipo": "factura",
+      "numeroFactura": "0132A01342689",
+      "fecha": "2026-08-07",
+      "vencimiento": "2026-08-27",
+      "monto": 46172.09,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-11T14:26:28.934Z"
+    },
+    {
+      "id": "f_1786458388934_11_jfsyk",
+      "proveedorKey": "clarin",
+      "tipo": "nota_credito",
+      "numeroFactura": "0132A01362375",
+      "fecha": "2026-08-07",
+      "vencimiento": "2026-08-07",
+      "monto": 245854,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-11T14:26:28.934Z"
+    },
+    {
+      "id": "f_1786458388934_12_q93ze",
+      "proveedorKey": "clarin",
+      "tipo": "nota_credito",
+      "numeroFactura": "0132A01362376",
+      "fecha": "2026-08-07",
+      "vencimiento": "2026-08-10",
+      "monto": 20214.59,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-11T14:26:28.934Z"
+    },
+    {
+      "id": "f_1786458388934_13_h0yef",
+      "proveedorKey": "clarin",
+      "tipo": "nota_credito",
+      "numeroFactura": "0132A01362376",
+      "fecha": "2026-08-07",
+      "vencimiento": "2026-08-25",
+      "monto": 13476.39,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-11T14:26:28.934Z"
+    },
+    {
+      "id": "f_1786458388934_14_8n8yw",
+      "proveedorKey": "clarin",
+      "tipo": "nota_credito",
+      "numeroFactura": "0132A01362377",
+      "fecha": "2026-08-07",
+      "vencimiento": "2026-08-11",
+      "monto": 31563.66,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-11T14:26:28.934Z"
+    },
+    {
+      "id": "f_1786458388934_15_bjruc",
+      "proveedorKey": "clarin",
+      "tipo": "nota_credito",
+      "numeroFactura": "0132A01362377",
+      "fecha": "2026-08-07",
+      "vencimiento": "2026-08-21",
+      "monto": 21042.44,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-11T14:26:28.935Z"
+    },
+    {
+      "id": "f_1786458388935_16_vavju",
+      "proveedorKey": "clarin",
+      "tipo": "nota_credito",
+      "numeroFactura": "0132A01362378",
+      "fecha": "2026-08-07",
+      "vencimiento": "2026-08-17",
+      "monto": 29280.07,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-11T14:26:28.935Z"
+    },
+    {
+      "id": "f_1786458388935_17_hcvvj",
+      "proveedorKey": "clarin",
+      "tipo": "nota_credito",
+      "numeroFactura": "0132A01362378",
+      "fecha": "2026-08-07",
+      "vencimiento": "2026-09-01",
+      "monto": 19520.05,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "cargadaEl": "2026-08-11T14:26:28.935Z"
+    }
+  ]
+}
