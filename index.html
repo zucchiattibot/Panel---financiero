@@ -2413,6 +2413,7 @@ try {
 <button class="toggle-btn active" data-rcview="lista" type="button">Clientes</button>
 <button class="toggle-btn" data-rcview="nuevo" type="button">+ Nuevo cliente</button>
 <button class="toggle-btn" data-rcview="porcoleccion" type="button">📦 Por colección</button>
+<button class="toggle-btn" data-rcview="publicidad" type="button">🎬 Publicidad</button>
 </div>
 </div>
 <!-- LISTA -->
@@ -2501,6 +2502,33 @@ try {
 <div id="rcListaColecciones"></div>
 </div>
 </div>
+<!-- PUBLICIDAD: fotos y videos catalogados por proveedor -->
+<div class="rc-view" data-rcview="publicidad">
+<div class="card">
+<h2>🎬 Material publicitario</h2>
+<p class="card-note">Guardá acá las fotos y videos que le sacás a cada colección para publicidad (lo mismo que hoy guardás en WhatsApp), catalogados por proveedor.</p>
+<p class="card-note" style="color:var(--gold);">📷 Las fotos se guardan completas acá adentro (comprimidas, livianas) — para reenviarlas tocás 📤 y listo. 🎬 Los videos <strong>no se guardan completos</strong> (ocuparían demasiado): guardamos una miniatura para reconocerlos y catalogarlos por proveedor, y cuando querés reenviar uno tocás "🔎 Elegir en galería y enviar" — el panel te abre la galería del celular, lo elegís vos mismo (te mostramos la miniatura, la fecha y el nombre de archivo para reconocerlo fácil) y ahí sale el selector para mandarlo por WhatsApp. Así podés catalogar todos los que quieras, sin límite práctico.</p>
+<div id="rcMatEspacio" style="font-size:12px;color:var(--cream-dim);margin-bottom:10px;"></div>
+<div class="range-group">
+<div class="range-label">Proveedor</div>
+<input id="rcMatProveedor" list="rcMatProveedorList" placeholder="Ej: Editorial Salvat, De Agostini..." style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;width:100%;box-sizing:border-box;" type="text"/>
+<datalist id="rcMatProveedorList"></datalist>
+</div>
+<div class="range-group">
+<div class="range-label">Foto o video</div>
+<input id="rcMatArchivoInput" accept="image/*,video/*" style="margin-bottom:8px;" type="file"/>
+</div>
+<input type="file" id="rcMatVideoPickInput" accept="video/*" style="display:none;"/>
+<input id="rcMatNota" placeholder="Nota (opcional, ej: nombre de la colección, tapa N°30)" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;width:100%;box-sizing:border-box;margin-bottom:8px;" type="text"/>
+<button class="tab-btn" id="rcBtnSubirMaterial" style="border-radius:8px;" type="button">Guardar en el panel</button>
+<p class="card-note" id="rcMatSubeMsg" style="min-height:14px;margin-top:8px;"></p>
+</div>
+<div class="card">
+<h2>Por proveedor</h2>
+<input id="rcMatBuscarProveedor" placeholder="Buscar proveedor..." style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;width:100%;box-sizing:border-box;margin-bottom:12px;" type="text"/>
+<div id="rcMatGaleria"></div>
+</div>
+</div>
 <!-- POR COLECCIÓN: detalle -->
 <div class="rc-view" data-rcview="coleccionDetalle">
 <div class="card">
@@ -2518,6 +2546,9 @@ try {
 <div class="card">
 <h2>Avisar a todos los que la llevan</h2>
 <p class="card-note">Si hay una foto cargada arriba, primero probá "Adjuntar foto y enviar": abre el selector para compartir de tu celular con la foto ya puesta, elegís WhatsApp ahí y podés tildar varios chats a la vez para reenviarla. "Enviar a todos" en cambio abre un chat de WhatsApp por cliente solo con el texto (la foto no se adjunta sola, hay que pegarla vos en cada uno).</p>
+<p class="card-note" id="rcColProgreso" style="display:none;font-weight:600;color:var(--cream);margin:0 0 10px 0;"></p>
+<button class="tab-btn" id="rcBtnSiguientePendiente" style="border-radius:8px;margin-bottom:8px;width:100%;color:var(--green-pos);display:none;font-weight:600;" type="button"></button>
+<button class="tab-btn" id="rcBtnReiniciarEnvios" style="border-radius:8px;margin-bottom:10px;display:none;font-size:12px;" type="button">↺ Reiniciar progreso de esta entrega</button>
 <button class="tab-btn" id="rcBtnAdjuntarFotoEnviar" style="border-radius:8px;margin-bottom:10px;color:var(--green-pos);display:none;" type="button">📎 Adjuntar foto y enviar</button>
 <textarea id="rcColMsgTodos" rows="3" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:13.5px;width:100%;box-sizing:border-box;resize:vertical;font-family:inherit;"></textarea>
 <button class="tab-btn" id="rcBtnEnviarTodos" style="border-radius:8px;margin-top:10px;color:var(--green-pos);" type="button">📱 Enviar a todos (sin foto)</button>
@@ -13302,8 +13333,11 @@ if (document.readyState === 'loading'){
 (function(){
 "use strict";
 var RC_KEY = 'rc_colecciones_v1';
+var RC_MAT_KEY = 'rc_material_pub_v1'; /* clave APARTE para fotos/videos publicitarios, para que si se llena de espacio no arriesgue los datos de clientes/entregas */
+var RC_MAT_MAX_TOTAL_BYTES = 20*1024*1024; /* tope total, pero ahora solo pesan las FOTOS (completas) y las miniaturas de video (chiquitas) — el video completo no se guarda acá, así que esto alcanza para miles de catalogaciones */
 var RC_MENSAJE_DEFAULT = 'Hola! Te escribo porque llegó tu colección "{coleccion}"{nota}. Te mando la foto de la publicación en este chat.';
 var rc = { clientes: [], colecciones: [], mensajePlantilla: RC_MENSAJE_DEFAULT };
+var rcMat = { items: [] }; /* [{id, proveedor, tipo:'foto'|'video', dataUrl, nombreArchivo, nota, fecha, bytes}] */
 var rcEditingId = null;
 var rcColeccionActualNombre = null;
 var rcColFotoSeleccionadaId = null; /* qué foto de la colección se va a enviar */
@@ -13361,6 +13395,268 @@ async function rcSave(){
   }catch(e){ console.error('rcSave', e); }
 }
 
+/* ---------- Material publicitario (fotos y video por proveedor) ---------- */
+async function rcMatLoad(){
+  try{
+    var sg = window.storageGet;
+    if (typeof sg === 'function'){
+      var raw = await sg(RC_MAT_KEY);
+      if (raw) rcMat = Object.assign({items:[]}, JSON.parse(raw));
+    }
+  }catch(e){ console.error('rcMatLoad', e); }
+  if (!Array.isArray(rcMat.items)) rcMat.items = [];
+}
+/* A diferencia de rcSave, ésta AVISA si no se pudo guardar (por ej. sin
+   espacio) en vez de fallar en silencio — perder un video pesado sin avisar
+   sería peor que el resto de los datos, que son mucho más livianos. */
+async function rcMatSave(){
+  try{
+    var ss = window.storageSet;
+    if (typeof ss === 'function'){
+      var ok = await ss(RC_MAT_KEY, JSON.stringify(rcMat));
+      return !!ok;
+    }
+  }catch(e){ console.error('rcMatSave', e); }
+  return false;
+}
+function rcMatBytesUsados(){
+  return rcMat.items.reduce(function(s,it){ return s + (it.bytes||0); }, 0);
+}
+function rcMatFmtBytes(b){
+  if (b >= 1024*1024) return (b/(1024*1024)).toFixed(1)+' MB';
+  return Math.round(b/1024)+' KB';
+}
+function rcRenderMatEspacio(){
+  var el = document.getElementById('rcMatEspacio');
+  if (!el) return;
+  var usados = rcMatBytesUsados();
+  var pct = Math.min(100, Math.round(usados/RC_MAT_MAX_TOTAL_BYTES*100));
+  el.innerHTML = '📦 '+rcMatFmtBytes(usados)+' usados de '+rcMatFmtBytes(RC_MAT_MAX_TOTAL_BYTES)+' disponibles ('+pct+'%)'+(pct>=85?' — quedan pocos MB, capaz conviene borrar algo viejo antes de subir más.':'');
+}
+function rcMatProveedoresDistintos(){
+  var set = {};
+  rcMat.items.forEach(function(it){ if (it.proveedor) set[it.proveedor]=true; });
+  return Object.keys(set).sort(function(a,b){ return a.localeCompare(b,'es',{sensitivity:'base'}); });
+}
+function rcRenderMatProveedorDatalist(){
+  var dl = document.getElementById('rcMatProveedorList');
+  if (!dl) return;
+  dl.innerHTML = rcMatProveedoresDistintos().map(function(p){ return '<option value="'+rcEsc(p)+'"></option>'; }).join('');
+}
+function rcRenderMatGaleria(){
+  var cont = document.getElementById('rcMatGaleria');
+  if (!cont) return;
+  var filtro = (document.getElementById('rcMatBuscarProveedor').value||'').toLowerCase();
+  rcRenderMatEspacio();
+  rcRenderMatProveedorDatalist();
+  if (rcMat.items.length===0){ cont.innerHTML = '<p class="card-note" style="margin:0;">Todavía no subiste nada. Elegí un proveedor y una foto o video arriba.</p>'; return; }
+  var porProveedor = {};
+  rcMat.items.forEach(function(it){
+    var key = it.proveedor || 'Sin proveedor';
+    porProveedor[key] = porProveedor[key] || [];
+    porProveedor[key].push(it);
+  });
+  var proveedores = Object.keys(porProveedor).sort(function(a,b){ return a.localeCompare(b,'es',{sensitivity:'base'}); });
+  if (filtro) proveedores = proveedores.filter(function(p){ return p.toLowerCase().indexOf(filtro)>-1; });
+  if (proveedores.length===0){ cont.innerHTML = '<p class="card-note" style="margin:0;">Sin coincidencias.</p>'; return; }
+  cont.innerHTML = proveedores.map(function(prov){
+    var items = porProveedor[prov].slice().sort(function(a,b){ return (b.fecha||'').localeCompare(a.fecha||''); });
+    return '<div style="margin-bottom:16px;">'+
+      '<div style="font-weight:700;font-size:13.5px;color:var(--gold);margin-bottom:8px;">🏷️ '+rcEsc(prov)+' ('+items.length+')</div>'+
+      '<div style="display:flex;flex-wrap:wrap;gap:10px;">'+
+      items.map(function(it){
+        var previsualiz;
+        if (it.tipo==='video'){
+          previsualiz = it.thumbDataUrl
+            ? '<div style="position:relative;width:140px;height:140px;"><img src="'+it.thumbDataUrl+'" style="width:140px;height:140px;object-fit:cover;border-radius:8px;"/><span style="position:absolute;bottom:4px;right:4px;background:rgba(0,0,0,.65);border-radius:5px;padding:1px 5px;font-size:11px;">🎬</span></div>'
+            : '<div style="width:140px;height:140px;border-radius:8px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;font-size:34px;">🎬</div>';
+        } else {
+          previsualiz = '<img src="'+it.dataUrl+'" style="width:140px;height:140px;object-fit:cover;border-radius:8px;"/>';
+        }
+        var accionCompartir = it.tipo==='video'
+          ? '<button data-mid-buscar="'+it.id+'" class="tab-btn rc-mat-buscar-video" style="border-radius:6px;padding:4px 6px;font-size:10.5px;flex:1;" type="button">🔎 Elegir en galería y enviar</button>'
+          : '<button data-mid-compartir="'+it.id+'" class="tab-btn rc-mat-compartir-foto" style="border-radius:6px;padding:4px 8px;font-size:11px;color:var(--green-pos);" type="button">📤</button>'+
+            '<a href="'+it.dataUrl+'" download="'+rcEsc(prov)+'-'+(it.fecha||'')+'.jpg" class="tab-btn" style="border-radius:6px;padding:4px 8px;font-size:11px;">⬇️</a>';
+        return '<div data-mid="'+it.id+'" style="border:1px solid var(--line);border-radius:10px;padding:8px;width:156px;">'+
+          previsualiz+
+          '<div style="font-size:11px;color:var(--cream-dim);margin-top:6px;">'+(it.tipo==='video'?'🎬':'📷')+' '+rcFmtFechaCol(it.fecha)+'</div>'+
+          (it.tipo==='video' && it.nombreArchivo?'<div style="font-size:10.5px;color:var(--cream-dim);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="'+rcEsc(it.nombreArchivo)+'">📄 '+rcEsc(it.nombreArchivo)+'</div>':'')+
+          (it.nota?'<div style="font-size:11px;color:var(--cream-dim);">'+rcEsc(it.nota)+'</div>':'')+
+          '<div style="display:flex;gap:6px;margin-top:6px;">'+
+          accionCompartir+
+          '<button data-mid-del="'+it.id+'" class="tab-btn rc-mat-borrar" style="border-radius:6px;padding:4px 8px;font-size:11px;color:var(--red-neg);" type="button">✕</button>'+
+          '</div>'+
+        '</div>';
+      }).join('')+
+      '</div></div>';
+  }).join('');
+  cont.querySelectorAll('.rc-mat-borrar').forEach(function(b){
+    b.addEventListener('click', function(){
+      if (!confirm('¿Eliminar este ítem del catálogo? '+(rcMat.items.find(function(it){return it.id===b.dataset.midDel;}).tipo==='video' ? 'El video en sí no se toca, solo se borra del catálogo del panel.' : 'No se puede deshacer.')+'')) return;
+      rcMat.items = rcMat.items.filter(function(it){ return it.id!==b.dataset.midDel; });
+      rcMatSave().then(rcRenderMatGaleria);
+    });
+  });
+  cont.querySelectorAll('.rc-mat-compartir-foto').forEach(function(b){
+    b.addEventListener('click', function(){
+      var it = rcMat.items.find(function(x){return x.id===b.dataset.midCompartir;});
+      if (!it || !it.dataUrl) return;
+      var file = rcDataUrlToFile(it.dataUrl, (it.proveedor||'material')+'-'+(it.fecha||'')+'.jpg');
+      rcMatCompartirArchivo(file, it.nota||('Material de '+it.proveedor), it.proveedor);
+    });
+  });
+  cont.querySelectorAll('.rc-mat-buscar-video').forEach(function(b){
+    b.addEventListener('click', function(){
+      var it = rcMat.items.find(function(x){return x.id===b.dataset.midBuscar;});
+      if (!it) return;
+      rcMatPickCallback = function(file){
+        rcMatCompartirArchivo(file, it.nota||('Material de '+it.proveedor), it.proveedor);
+      };
+      document.getElementById('rcMatVideoPickInput').click();
+    });
+  });
+}
+document.getElementById('rcMatBuscarProveedor').addEventListener('input', rcRenderMatGaleria);
+document.getElementById('rcBtnSubirMaterial').addEventListener('click', function(){
+  var proveedor = document.getElementById('rcMatProveedor').value.trim();
+  var input = document.getElementById('rcMatArchivoInput');
+  var nota = document.getElementById('rcMatNota').value.trim();
+  var msgEl = document.getElementById('rcMatSubeMsg');
+  var file = input.files && input.files[0];
+  msgEl.style.color='var(--red-neg)';
+  if (!proveedor){ msgEl.textContent='Escribí el proveedor primero.'; return; }
+  if (!file){ msgEl.textContent='Elegí una foto o video primero.'; return; }
+  var esVideo = file.type.indexOf('video')===0;
+  function guardarItem(item, bytesAprox){
+    if (rcMatBytesUsados() + bytesAprox > RC_MAT_MAX_TOTAL_BYTES){
+      msgEl.textContent = 'No entra: ya usaste '+rcMatFmtBytes(rcMatBytesUsados())+' de '+rcMatFmtBytes(RC_MAT_MAX_TOTAL_BYTES)+'. Borrá algo del catálogo antes de subir más.';
+      return;
+    }
+    item.bytes = bytesAprox;
+    rcMat.items.unshift(item);
+    rcMatSave().then(function(ok){
+      if (!ok){
+        rcMat.items.shift(); /* no se pudo guardar: no lo dejamos como si estuviera, para no confundir */
+        msgEl.style.color='var(--red-neg)';
+        msgEl.textContent = 'No se pudo guardar (sin espacio en el navegador). Borrá algo del catálogo o probá con una foto más liviana.';
+        rcRenderMatGaleria();
+        return;
+      }
+      msgEl.style.color='var(--green-pos)';
+      msgEl.textContent = esVideo ? 'Catalogado en '+proveedor+'. El video en sí queda en la galería de tu celular — acá guardamos una miniatura para reconocerlo.' : 'Guardado en '+proveedor+'.';
+      document.getElementById('rcMatArchivoInput').value='';
+      document.getElementById('rcMatNota').value='';
+      rcRenderMatGaleria();
+    });
+  }
+  if (esVideo){
+    /* El video NO se guarda completo acá (ocuparía demasiado); solo se
+       cataloga con una miniatura tomada del propio video, el nombre de
+       archivo, la fecha y el proveedor — datos que después sirven para
+       reconocerlo y encontrarlo en la galería del celular al reenviarlo. */
+    rcMatVideoThumbnail(file).then(function(thumb){
+      var item = {
+        id: rcUid(), proveedor: proveedor, tipo: 'video',
+        thumbDataUrl: thumb, dataUrl: null, nombreArchivo: file.name, nota: nota,
+        fecha: new Date().toISOString().slice(0,10)
+      };
+      guardarItem(item, thumb ? Math.round(thumb.length*0.75) : 200);
+    });
+  } else {
+    var reader2 = new FileReader();
+    reader2.onload = function(ev){
+      var img = new Image();
+      img.onload = function(){
+        var maxW = 1080;
+        var scale = Math.min(1, maxW / img.width);
+        var w = Math.round(img.width*scale), h = Math.round(img.height*scale);
+        var canvas = document.createElement('canvas');
+        canvas.width = w; canvas.height = h;
+        canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+        var dataUrl = canvas.toDataURL('image/jpeg', 0.8);
+        var item = {
+          id: rcUid(), proveedor: proveedor, tipo: 'foto',
+          dataUrl: dataUrl, thumbDataUrl: null, nombreArchivo: file.name, nota: nota,
+          fecha: new Date().toISOString().slice(0,10)
+        };
+        guardarItem(item, Math.round(dataUrl.length*0.75));
+      };
+      img.onerror = function(){ msgEl.textContent='No se pudo leer la foto.'; };
+      img.src = ev.target.result;
+    };
+    reader2.onerror = function(){ msgEl.textContent='No se pudo leer la foto.'; };
+    reader2.readAsDataURL(file);
+  }
+});
+/* Saca una miniatura chiquita (jpeg ~300px) de un video, tomando un frame
+   cerca del comienzo. Se usa solo para reconocer el video en el catálogo,
+   nunca se guarda el video en sí. Si el navegador no puede (formato raro,
+   etc.), devuelve null y el catálogo igual funciona, solo que sin miniatura. */
+function rcMatVideoThumbnail(file){
+  return new Promise(function(resolve){
+    var listo = false;
+    var url;
+    function terminar(dataUrl){
+      if (listo) return;
+      listo = true;
+      if (url){ try{ URL.revokeObjectURL(url); }catch(e){} }
+      resolve(dataUrl);
+    }
+    try{
+      url = URL.createObjectURL(file);
+      var video = document.createElement('video');
+      video.preload = 'metadata';
+      video.muted = true;
+      video.playsInline = true;
+      video.src = url;
+      video.addEventListener('loadeddata', function(){
+        try{ video.currentTime = Math.min(0.5, (video.duration||1)/4); }
+        catch(e){ capturar(); }
+      });
+      video.addEventListener('seeked', capturar);
+      video.addEventListener('error', function(){ terminar(null); });
+      function capturar(){
+        try{
+          var w = video.videoWidth || 300, h = video.videoHeight || 300;
+          var maxW = 300;
+          var scale = Math.min(1, maxW/w);
+          var canvas = document.createElement('canvas');
+          canvas.width = Math.round(w*scale); canvas.height = Math.round(h*scale);
+          canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+          terminar(canvas.toDataURL('image/jpeg', 0.6));
+        }catch(e){ terminar(null); }
+      }
+      setTimeout(function(){ terminar(null); }, 3000); /* por si el navegador nunca dispara 'seeked' */
+    }catch(e){ terminar(null); }
+  });
+}
+/* Comparte un File ya elegido (foto guardada completa, o video recién
+   seleccionado de la galería) usando el selector nativo del celular, con el
+   texto/nota como mensaje. Es lo mismo que ya usamos para las fotos de
+   entrega, reutilizado acá para el material publicitario. */
+async function rcMatCompartirArchivo(file, caption, tituloProveedor){
+  var msgEl = document.getElementById('rcMatSubeMsg');
+  if (navigator.canShare && navigator.share){
+    try{
+      if (navigator.canShare({files:[file]})){
+        await navigator.share({files:[file], text:caption||'', title:tituloProveedor||''});
+        if (msgEl){ msgEl.style.color='var(--green-pos)'; msgEl.textContent='Listo, elegí WhatsApp (Estado, chat o grupo) en el selector.'; }
+        return;
+      }
+    }catch(e){
+      if (e && e.name==='AbortError') return;
+    }
+  }
+  if (msgEl){ msgEl.style.color='var(--red-neg)'; msgEl.textContent='Este navegador/app no admite compartir archivos así. Guardá el archivo elegido y compartilo manualmente desde WhatsApp.'; }
+}
+var rcMatPickCallback = null;
+document.getElementById('rcMatVideoPickInput').addEventListener('change', function(){
+  var file = this.files && this.files[0];
+  var cb = rcMatPickCallback;
+  this.value=''; rcMatPickCallback = null;
+  if (file && cb) cb(file);
+});
+
 // Expuestas para el backup general del panel (Exportar/Importar backup),
 // igual que "clientesReparto" y "vencimientos".
 window.getColeccionesBackup = function(){ return rc; };
@@ -13408,6 +13704,7 @@ document.querySelectorAll('#rcNav .toggle-btn').forEach(function(btn){
     if (btn.dataset.rcview==='lista') rcRenderLista();
     if (btn.dataset.rcview==='nuevo' && !rcEditingId) rcResetForm();
     if (btn.dataset.rcview==='porcoleccion'){ rcRenderColeccionesLista(); rcRenderPlantillaConfig(); }
+    if (btn.dataset.rcview==='publicidad') rcRenderMatGaleria();
   });
 });
 
@@ -13939,15 +14236,33 @@ async function rcCompartirColeccionA(tel, nombreCliente, foto, msgEl){
       if (navigator.canShare({files:[file]})){
         await navigator.share({files:[file], text:texto, title:rcColeccionActualNombre||'Colección'});
         if (msgEl){ msgEl.style.color='var(--green-pos)'; msgEl.textContent='Listo, elegí WhatsApp y el chat de '+nombreCliente+' en el selector.'+avisoTel; }
-        return;
+        return 'enviado';
       }
     }catch(e){
-      if (e && e.name==='AbortError'){ if (msgEl) msgEl.textContent=''; return; }
+      if (e && e.name==='AbortError'){ if (msgEl) msgEl.textContent=''; return 'cancelado'; }
       /* si falla el share nativo, seguimos con el fallback de abajo */
     }
   }
   window.open('https://wa.me/'+tel+'?text='+encodeURIComponent(texto), '_blank');
   if (msgEl){ msgEl.style.color='var(--muted)'; msgEl.textContent = foto ? 'Se abrió el chat solo con el texto — adjuntá la foto a mano (tu navegador no permite compartir con foto adjunta acá).' : ''; }
+  return 'enviado';
+}
+/* ---------- Seguimiento de a quién ya se le mandó cada entrega ----------
+   Se guarda por colección + id de foto (así cada entrega nueva arranca su
+   propio conteo, sin arrastrar lo de entregas anteriores). Es un registro de
+   "ya lo procesé", no una confirmación real de WhatsApp (eso ninguna web lo
+   puede saber) — pero alcanza para no perderse en la lista. */
+function rcEnviosDeFoto(col, fotoId){
+  if (!col || !fotoId) return [];
+  col.enviosFoto = col.enviosFoto || {};
+  if (!Array.isArray(col.enviosFoto[fotoId])) col.enviosFoto[fotoId] = [];
+  return col.enviosFoto[fotoId];
+}
+function rcMarcarEnviado(col, fotoId, clienteId, val){
+  var lista = rcEnviosDeFoto(col, fotoId);
+  var idx = lista.indexOf(clienteId);
+  if (val && idx===-1) lista.push(clienteId);
+  if (!val && idx!==-1) lista.splice(idx,1);
 }
 /* Lista de clientes como checklist: tildar/destildar asigna o quita de la
    colección al toque, sin tener que buscar y apretar "+ Agregar" cliente
@@ -13962,16 +14277,43 @@ function rcRenderColClientes(){
   var visibles = filtro ? todos.filter(function(c){ return c.nombre.toLowerCase().indexOf(filtro)>-1; }) : todos;
   var esAsignado = function(c){ return (c.colecciones||[]).some(function(k){return rcNormNombre(k.nombre)===normActual;}); };
   var asignados = todos.filter(esAsignado);
+  var asignadosConTel = asignados.filter(function(c){ return rcTel(c.telefono); });
+  var enviosSet = new Set(ultimaFoto ? rcEnviosDeFoto(col, ultimaFoto.id) : []);
 
   var msgEl = document.getElementById('rcColMsgTodos');
   if (msgEl && !msgEl.dataset.tocado){ msgEl.value = rcMensajeWAColeccion(rcColeccionActualNombre, ultimaFoto); }
   var btnTodos = document.getElementById('rcBtnEnviarTodos');
   if (btnTodos){
-    var conTel = asignados.filter(function(c){ return rcTel(c.telefono); }).length;
-    btnTodos.textContent = '📱 Enviar a todos (sin foto) ('+conTel+')';
+    btnTodos.textContent = '📱 Enviar a todos (sin foto) ('+asignadosConTel.length+')';
   }
   var btnAdjuntar = document.getElementById('rcBtnAdjuntarFotoEnviar');
   if (btnAdjuntar){ btnAdjuntar.style.display = ultimaFoto ? '' : 'none'; }
+
+  /* ---- Progreso de esta entrega (con foto) y botón "siguiente pendiente" ---- */
+  var progresoEl = document.getElementById('rcColProgreso');
+  var btnSiguiente = document.getElementById('rcBtnSiguientePendiente');
+  var btnReiniciar = document.getElementById('rcBtnReiniciarEnvios');
+  if (ultimaFoto && asignadosConTel.length>0){
+    var enviados = asignadosConTel.filter(function(c){ return enviosSet.has(c.id); });
+    var pendientes = asignadosConTel.filter(function(c){ return !enviosSet.has(c.id); });
+    if (progresoEl){
+      progresoEl.style.display='';
+      progresoEl.textContent = enviados.length+' de '+asignadosConTel.length+' ya recibieron esta entrega'+(pendientes.length?' · falta: '+pendientes.map(function(c){return c.nombre;}).slice(0,3).join(', ')+(pendientes.length>3?'…':''):' · ¡completo! 🎉');
+    }
+    if (btnSiguiente){
+      if (pendientes.length===0){ btnSiguiente.style.display='none'; }
+      else {
+        btnSiguiente.style.display='';
+        btnSiguiente.textContent = '▶️ Enviar al siguiente pendiente: '+pendientes[0].nombre+' ('+pendientes.length+' falta'+(pendientes.length===1?'':'n')+')';
+        btnSiguiente.dataset.cid = pendientes[0].id;
+      }
+    }
+    if (btnReiniciar){ btnReiniciar.style.display = enviados.length>0 ? '' : 'none'; }
+  } else {
+    if (progresoEl) progresoEl.style.display='none';
+    if (btnSiguiente) btnSiguiente.style.display='none';
+    if (btnReiniciar) btnReiniciar.style.display='none';
+  }
 
   var html = '';
   if (todos.length===0){
@@ -13982,16 +14324,26 @@ function rcRenderColClientes(){
     html = visibles.map(function(c){
       var marcado = esAsignado(c);
       var tel = rcTel(c.telefono);
+      var yaEnviado = ultimaFoto && enviosSet.has(c.id);
       var waBtn = (marcado && tel) ? '<button type="button" data-cid="'+c.id+'" class="tab-btn rc-col-compartir" style="border-radius:8px;padding:5px 9px;font-size:11px;color:var(--green-pos);" onclick="event.stopPropagation()">📱</button>' : '';
-      return '<label style="display:flex;align-items:center;gap:9px;border:1px solid var(--line);border-radius:8px;padding:8px 10px;margin-bottom:6px;cursor:pointer;">'+
+      var enviadoChk = (marcado && tel && ultimaFoto) ? '<input type="checkbox" data-cid-env="'+c.id+'" class="rc-col-enviado" '+(yaEnviado?'checked':'')+' title="Ya le mandé esta foto" style="width:17px;height:17px;flex:0 0 auto;accent-color:var(--green-pos);" onclick="event.stopPropagation()"/>' : '';
+      return '<label style="display:flex;align-items:center;gap:9px;border:1px solid '+(yaEnviado?'var(--green-pos)':'var(--line)')+';border-radius:8px;padding:8px 10px;margin-bottom:6px;cursor:pointer;">'+
         '<input type="checkbox" data-cid="'+c.id+'" class="rc-col-check" '+(marcado?'checked':'')+' style="width:17px;height:17px;flex:0 0 auto;accent-color:var(--gold);"/>'+
-        '<div style="flex:1;min-width:0;"><div style="font-weight:600;font-size:13.5px;">'+rcEsc(c.nombre)+'</div>'+
+        '<div style="flex:1;min-width:0;"><div style="font-weight:600;font-size:13.5px;">'+(yaEnviado?'✅ ':'')+rcEsc(c.nombre)+'</div>'+
         (c.telefono?'<div style="font-size:11px;color:var(--cream-dim);">📞 '+rcEsc(c.telefono)+'</div>':'')+'</div>'+
+        enviadoChk+
         waBtn+
       '</label>';
     }).join('');
   }
   cont.innerHTML = html;
+  cont.querySelectorAll('.rc-col-enviado').forEach(function(chk){
+    chk.addEventListener('change', function(){
+      if (!ultimaFoto) return;
+      rcMarcarEnviado(col, ultimaFoto.id, chk.dataset.cidEnv, chk.checked);
+      rcSave().then(rcRenderColClientes);
+    });
+  });
   cont.querySelectorAll('.rc-col-check').forEach(function(chk){
     chk.addEventListener('change', function(){
       var c = rc.clientes.find(function(x){return x.id===chk.dataset.cid;});
@@ -14006,13 +14358,40 @@ function rcRenderColClientes(){
     });
   });
   cont.querySelectorAll('.rc-col-compartir').forEach(function(b){
-    b.addEventListener('click', function(){
+    b.addEventListener('click', async function(){
       var c = rc.clientes.find(function(x){return x.id===b.dataset.cid;});
       if (!c) return;
-      rcCompartirColeccionA(rcTel(c.telefono), c.nombre, ultimaFoto, document.getElementById('rcColEnviarTodosMsg'));
+      var resultado = await rcCompartirColeccionA(rcTel(c.telefono), c.nombre, ultimaFoto, document.getElementById('rcColEnviarTodosMsg'));
+      if (resultado==='enviado' && ultimaFoto){
+        rcMarcarEnviado(col, ultimaFoto.id, c.id, true);
+        rcSave().then(rcRenderColClientes);
+      }
     });
   });
 }
+document.getElementById('rcBtnSiguientePendiente').addEventListener('click', async function(){
+  var btn = this;
+  var normActual = rcNormNombre(rcColeccionActualNombre);
+  var col = rc.colecciones.find(function(k){ return rcNormNombre(k.nombre)===normActual; });
+  var ultimaFoto = rcColFotoAEnviar(col);
+  var c = rc.clientes.find(function(x){return x.id===btn.dataset.cid;});
+  if (!c || !ultimaFoto) return;
+  var resultado = await rcCompartirColeccionA(rcTel(c.telefono), c.nombre, ultimaFoto, document.getElementById('rcColEnviarTodosMsg'));
+  if (resultado==='enviado'){
+    rcMarcarEnviado(col, ultimaFoto.id, c.id, true);
+    rcSave().then(rcRenderColClientes);
+  }
+});
+document.getElementById('rcBtnReiniciarEnvios').addEventListener('click', function(){
+  var normActual = rcNormNombre(rcColeccionActualNombre);
+  var col = rc.colecciones.find(function(k){ return rcNormNombre(k.nombre)===normActual; });
+  var ultimaFoto = rcColFotoAEnviar(col);
+  if (!col || !ultimaFoto) return;
+  if (!confirm('¿Reiniciar el progreso de esta entrega? Todos los clientes van a volver a figurar como pendientes (esto no borra ni reenvía nada, solo el marcado).')) return;
+  col.enviosFoto = col.enviosFoto || {};
+  col.enviosFoto[ultimaFoto.id] = [];
+  rcSave().then(rcRenderColClientes);
+});
 document.getElementById('rcColBuscarCliente').addEventListener('input', rcRenderColClientes);
 document.getElementById('rcColMsgTodos').addEventListener('input', function(){ this.dataset.tocado='1'; });
 document.getElementById('rcBtnMarcarTodosCol').addEventListener('click', function(){
@@ -14071,7 +14450,7 @@ document.getElementById('rcBtnAdjuntarFotoEnviar').addEventListener('click', asy
     }
     await navigator.share({files:[file], text:texto, title:rcColeccionActualNombre||'Colección'});
     estadoEl.style.color='var(--green-pos)';
-    estadoEl.textContent = 'Listo. Elegí WhatsApp en el selector — ahí podés tildar varios chats para reenviarla de una sola vez.';
+    estadoEl.textContent = 'Listo. Elegí WhatsApp en el selector — ahí podés tildar varios chats para reenviarla de una sola vez. Como el celular no nos dice a quién le mandaste, marcá el ✔️ de cada cliente en la lista de abajo para no perder la cuenta (o usá mejor "Enviar al siguiente pendiente" para que se marque solo, uno por uno).';
   }catch(e){
     if (e && e.name==='AbortError'){ estadoEl.textContent=''; return; }
     estadoEl.style.color='var(--red-neg)'; estadoEl.textContent='No se pudo abrir el selector para compartir.';
@@ -14081,6 +14460,7 @@ document.getElementById('rcBtnAdjuntarFotoEnviar').addEventListener('click', asy
 /* ---------- Init ---------- */
 async function rcInit(){
   await rcLoad();
+  await rcMatLoad();
   rcResetForm();
   rcRenderLista();
   rcRenderPlantillaConfig();
