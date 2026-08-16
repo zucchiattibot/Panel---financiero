@@ -918,6 +918,20 @@ try {
 <button class="link-btn" id="itemsVerMasBtn" style="margin-top:10px;display:none;" type="button"></button>
 </div>
 <div class="card">
+<h2>Ganancia semanal — <span id="ganSemProvNombre"></span></h2>
+<p class="card-note">Cargas de facturas menos notas de crédito, semana por semana — pero no por la fecha en que se emitió el comprobante, sino por la fecha del diario/edición de cada producto (si no se cargó o no se pudo detectar esa fecha en el ítem, usa la de emisión del comprobante, como las revistas). Así una nota de crédito emitida el 16 pero que corrige un diario del 6 impacta en la semana del 6, no en la del 16.</p>
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;">
+<input id="ganSemFiltroDesde" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:8px;border-radius:6px;font-size:13px;" type="date"/>
+<input id="ganSemFiltroHasta" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:8px;border-radius:6px;font-size:13px;" type="date"/>
+<button class="link-btn" id="ganSemFiltroLimpiar" type="button">Limpiar filtro</button>
+</div>
+<p class="card-note" id="ganSemNota" style="margin-top:6px;"></p>
+<div class="kpi-grid" id="ganSemKpis" style="margin-top:10px;"></div>
+<div style="overflow-x:auto;margin-top:14px;">
+<table id="ganSemTable"><thead><tr><th>Semana</th><th style="text-align:right">Cargas</th><th style="text-align:right">Notas de crédito</th><th style="text-align:right">Neto</th></tr></thead><tbody></tbody></table>
+</div>
+</div>
+<div class="card">
 <h2>Deuda total con proveedores</h2>
 <p class="card-note">Suma de las facturas cargadas y marcadas como pendientes, por proveedor — todas las categorías de esta pestaña.</p>
 <div style="overflow-x:auto;">
@@ -9877,6 +9891,7 @@ renderAutoConclusions();
     renderResumenDeuda();
     renderCuentaCorriente();
     renderDesgloseItems();
+    renderGananciaSemanal();
   }
 
   function renderFacturadoVsPagado(prov, desdeInt, hastaInt, totalPagadoPeriodo){
@@ -9928,6 +9943,53 @@ renderAutoConclusions();
     if (!f) return null;
     const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(f);
     return m ? (parseInt(m[1],10)*10000 + parseInt(m[2],10)*100 + parseInt(m[3],10)) : null;
+  }
+  // NUEVO — no reemplaza nada existente. Busca una fecha (DD/MM o DD/MM/AAAA, con
+  // guión o punto también) escrita dentro del texto de un item (descripción o N° de
+  // edición) — eso es lo que la IA ya transcribió del PDF/foto. Si no encuentra nada
+  // (típico en revistas, que no traen fecha propia por ítem) devuelve null, y quien
+  // use esto debe caer de vuelta a la fecha de emisión del comprobante, tal cual hace
+  // hoy todo lo demás del panel.
+  function detectarFechaItemDesdeTexto(textos, fechaComprobanteIso){
+    const regex = /\b(\d{1,2})[\/\-.](\d{1,2})(?:[\/\-.](\d{2,4}))?\b/;
+    for (let i=0; i<textos.length; i++){
+      const t = textos[i];
+      if (!t) continue;
+      const m = regex.exec(String(t));
+      if (!m) continue;
+      const dd = parseInt(m[1],10), mm = parseInt(m[2],10);
+      if (dd < 1 || dd > 31 || mm < 1 || mm > 12) continue;
+      let yyyy;
+      if (m[3]){
+        yyyy = parseInt(m[3],10);
+        if (yyyy < 100) yyyy += 2000;
+      } else {
+        const compInt = fechaAIntProv(fechaComprobanteIso);
+        yyyy = compInt ? Math.floor(compInt/10000) : new Date().getFullYear();
+        if (compInt){
+          const candidatoInt = yyyy*10000 + mm*100 + dd;
+          const diff = candidatoInt - compInt;
+          if (diff > 6000) yyyy -= 1;      // ej. comprobante de enero, item de diciembre
+          else if (diff < -6000) yyyy += 1; // ej. comprobante de diciembre, item de enero
+        }
+      }
+      const chequeo = new Date(yyyy, mm-1, dd);
+      if (chequeo.getFullYear()!==yyyy || chequeo.getMonth()!==mm-1 || chequeo.getDate()!==dd) continue;
+      return yyyy + '-' + String(mm).padStart(2,'0') + '-' + String(dd).padStart(2,'0');
+    }
+    return null;
+  }
+  // Fecha "efectiva" de un item para agrupar por semana: la propia del diario/edición
+  // si se pudo cargar o detectar, y si no, la de emisión del comprobante (revistas y
+  // demás casos sin fecha propia) — exactamente el criterio que definiste.
+  // OJO: esto se recalcula al vuelo leyendo descripcion/edicion, NO depende de un campo
+  // guardado — así funciona igual con facturas ya cargadas de antes de este cambio y con
+  // las nuevas. Si en la revisión se corrigió a mano (fechaItem guardado), esa corrección
+  // manda por sobre la detección automática.
+  function fechaEfectivaItemProv(it, f){
+    if (it && it.fechaItem) return it.fechaItem;
+    const detectada = detectarFechaItemDesdeTexto([(it && it.descripcion), (it && it.edicion)], (f && f.fecha) || null);
+    return detectada || ((f && f.fecha) || null);
   }
   // Las notas de crédito descuentan de la deuda; facturas y notas de débito suman.
   function montoConSigno(f){
@@ -10272,7 +10334,8 @@ renderAutoConclusions();
       '<td style="padding:4px 4px 4px 0;"><input type="text" data-item-campo="descripcion" value="' + escapeHtmlProv(it.descripcion!=null?it.descripcion:'') + '" placeholder="Título / descripción del producto" style="' + inputCss + '"></td>' +
       '<td style="padding:4px 4px 4px 0;width:74px;"><input type="text" data-item-campo="edicion" value="' + escapeHtmlProv(it.edicion!=null?it.edicion:'') + '" placeholder="N° ed." style="' + inputCss + '"></td>' +
       '<td style="padding:4px 4px 4px 0;width:64px;"><input type="text" data-item-campo="cantidad" value="' + escapeHtmlProv(it.cantidad!=null?it.cantidad:'') + '" style="' + inputCss + 'text-align:right;"></td>' +
-      '<td style="padding:4px 0;width:92px;"><input type="text" data-item-campo="monto" value="' + escapeHtmlProv(it.monto!=null?it.monto:'') + '" style="' + inputCss + 'text-align:right;"></td>' +
+      '<td style="padding:4px 4px 4px 0;width:92px;"><input type="text" data-item-campo="monto" value="' + escapeHtmlProv(it.monto!=null?it.monto:'') + '" style="' + inputCss + 'text-align:right;"></td>' +
+      '<td style="padding:4px 4px 4px 0;width:88px;"><input type="text" data-item-campo="fechaItem" value="' + escapeHtmlProv(it.fechaItem!=null?it.fechaItem:'') + '" placeholder="AAAA-MM-DD" title="Fecha del diario/edición (vacío = usa la fecha de emisión). Se detecta sola si está escrita en el título o en N° ed." style="' + inputCss + '"></td>' +
       '<td style="padding:4px 0 4px 4px;width:22px;"><button type="button" class="link-btn" data-item-del="' + idx + '" title="Quitar">✕</button></td>' +
     '</tr>';
   }
@@ -10284,7 +10347,11 @@ renderAutoConclusions();
       edicion: (it && it.numero_edicion != null) ? it.numero_edicion : '',
       cantidad: (it && it.cantidad != null) ? it.cantidad : '',
       monto: formatMontoParaRevision((it && it.monto != null) ? it.monto
-        : ((it && it.cantidad != null && it.precio_unitario != null) ? (Number(it.cantidad) * Number(it.precio_unitario)) : ''))
+        : ((it && it.cantidad != null && it.precio_unitario != null) ? (Number(it.cantidad) * Number(it.precio_unitario)) : '')),
+      // NUEVO: fecha propia del diario/edición, detectada sola del texto que ya leyó
+      // la IA (descripción o N° de edición). Editable por si hace falta corregirla;
+      // si queda vacía, el panel usa la fecha de emisión del comprobante (revistas, etc).
+      fechaItem: detectarFechaItemDesdeTexto([(it && it.descripcion), (it && it.numero_edicion)], datos.fecha_emision) || ''
     })) : [];
     const div = document.createElement('div');
     div.style.cssText = 'border:1px solid var(--line);border-radius:10px;padding:12px;background:rgba(0,0,0,.18);';
@@ -10300,7 +10367,7 @@ renderAutoConclusions();
       '<div style="margin-top:8px;">' +
         '<label class="card-note" style="display:block;margin-bottom:4px;">Productos/conceptos detectados (editá, agregá o quitá filas — esto alimenta el desglose por título de la pestaña):</label>' +
         '<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;font-size:12px;"><thead><tr>' +
-          '<th style="text-align:left;padding:0 4px 4px 0;">Título / descripción</th><th style="text-align:left;padding:0 4px 4px 0;">N° ed.</th><th style="text-align:right;padding:0 4px 4px 0;">Cant.</th><th style="text-align:right;padding:0 0 4px 0;">Monto</th><th></th>' +
+          '<th style="text-align:left;padding:0 4px 4px 0;">Título / descripción</th><th style="text-align:left;padding:0 4px 4px 0;">N° ed.</th><th style="text-align:right;padding:0 4px 4px 0;">Cant.</th><th style="text-align:right;padding:0 4px 4px 0;">Monto</th><th style="text-align:left;padding:0 4px 4px 0;" title="Fecha del diario (vacío = fecha de emisión)">Fecha ítem</th><th></th>' +
         '</tr></thead><tbody data-items-body></tbody></table></div>' +
         '<button type="button" class="link-btn" data-accion="agregar-item" style="margin-top:4px;">+ Agregar producto</button>' +
       '</div>' +
@@ -10314,7 +10381,7 @@ renderAutoConclusions();
     function pintarItems(){
       itemsBody.innerHTML = itemsLocal.length
         ? itemsLocal.map((it,idx) => filaItemRevision(it, idx)).join('')
-        : '<tr><td colspan="5" class="card-note" style="padding:4px 0;">Sin productos detectados. Agregalos manualmente si querés que figuren en el desglose.</td></tr>';
+        : '<tr><td colspan="6" class="card-note" style="padding:4px 0;">Sin productos detectados. Agregalos manualmente si querés que figuren en el desglose.</td></tr>';
       itemsBody.querySelectorAll('[data-item-del]').forEach(b => {
         b.addEventListener('click', () => {
           const i = parseInt(b.getAttribute('data-item-del'),10);
@@ -10354,7 +10421,7 @@ renderAutoConclusions();
     pintarItems();
     recalcularAvisos();
     div.querySelector('[data-accion="agregar-item"]').addEventListener('click', () => {
-      itemsLocal.push({ descripcion:'', edicion:'', cantidad:'', monto:'' });
+      itemsLocal.push({ descripcion:'', edicion:'', cantidad:'', monto:'', fechaItem:'' });
       pintarItems();
       recalcularAvisos();
     });
@@ -10372,11 +10439,14 @@ renderAutoConclusions();
         const cantNum = cantTxt !== '' ? parseFloat(cantTxt.replace(',', '.')) : null;
         const montoTxtIt = String(it.monto!=null?it.monto:'').trim();
         const montoNum = montoTxtIt !== '' ? (Math.abs(parseFloat(montoTxtIt.replace(/\./g,'').replace(',', '.')) || parseFloat(montoTxtIt) || 0) || null) : null;
+        const fechaItemTxt = String(it.fechaItem||'').trim();
+        const fechaItemOk = /^\d{4}-\d{2}-\d{2}$/.test(fechaItemTxt) ? fechaItemTxt : null;
         return {
           descripcion,
           edicion: edicion || null,
           cantidad: (cantNum != null && !isNaN(cantNum)) ? cantNum : null,
-          monto: (montoNum != null && !isNaN(montoNum)) ? montoNum : null
+          monto: (montoNum != null && !isNaN(montoNum)) ? montoNum : null,
+          fechaItem: fechaItemOk
         };
       }).filter(it => it.descripcion);
       facturas.push({
@@ -10864,6 +10934,104 @@ renderAutoConclusions();
       } else {
         elItemsVerMasBtn.style.display = 'none';
       }
+    }
+  }
+
+  /* ---- Ganancia semanal por proveedor (NUEVO, independiente del Desglose de arriba) ----
+     Agrupa cargas (facturas/notas de débito, +) menos notas de crédito (−) por semana
+     (lunes a domingo), usando la fecha efectiva de cada item: la propia del diario si
+     se cargó/detectó, y si no la de emisión del comprobante. No modifica ni comparte
+     estado con renderDesgloseItems — es su propia sección, su propio filtro de fechas. */
+  const elGanSemFiltroDesde = document.getElementById('ganSemFiltroDesde');
+  const elGanSemFiltroHasta = document.getElementById('ganSemFiltroHasta');
+  const elGanSemFiltroLimpiar = document.getElementById('ganSemFiltroLimpiar');
+  [elGanSemFiltroDesde, elGanSemFiltroHasta].forEach(el => {
+    if (el) el.addEventListener('input', renderGananciaSemanal);
+  });
+  if (elGanSemFiltroLimpiar){
+    elGanSemFiltroLimpiar.addEventListener('click', () => {
+      if (elGanSemFiltroDesde) elGanSemFiltroDesde.value = '';
+      if (elGanSemFiltroHasta) elGanSemFiltroHasta.value = '';
+      renderGananciaSemanal();
+    });
+  }
+
+  // Devuelve el lunes y domingo (como enteros AAAAMMDD) de la semana que contiene fechaIso.
+  function semanaDeFechaProv(fechaIso){
+    const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(fechaIso||'');
+    if (!m) return null;
+    const d = new Date(parseInt(m[1],10), parseInt(m[2],10)-1, parseInt(m[3],10));
+    const dow = d.getDay(); // 0=domingo..6=sábado
+    const diffLunes = (dow === 0) ? -6 : (1 - dow);
+    const lunes = new Date(d); lunes.setDate(d.getDate() + diffLunes);
+    const domingo = new Date(lunes); domingo.setDate(lunes.getDate() + 6);
+    const aInt = (dt) => dt.getFullYear()*10000 + (dt.getMonth()+1)*100 + dt.getDate();
+    const aIso = (dt) => dt.getFullYear() + '-' + String(dt.getMonth()+1).padStart(2,'0') + '-' + String(dt.getDate()).padStart(2,'0');
+    return { key: aInt(lunes), lunesIso: aIso(lunes), domingoIso: aIso(domingo) };
+  }
+
+  function renderGananciaSemanal(){
+    const prov = PROVEEDORES.find(p => p.key === provState.prov) || PROVEEDORES[0];
+    const nombreEl = document.getElementById('ganSemProvNombre');
+    if (nombreEl) nombreEl.textContent = prov.label;
+
+    const desdeF = elGanSemFiltroDesde ? elGanSemFiltroDesde.value : '';
+    const hastaF = elGanSemFiltroHasta ? elGanSemFiltroHasta.value : '';
+    const desdeInt = desdeF ? fechaAIntProv(desdeF) : null;
+    const hastaInt = hastaF ? fechaAIntProv(hastaF) : null;
+
+    const conItems = facturas.filter(f => f.proveedorKey === prov.key && Array.isArray(f.items) && f.items.length);
+
+    const semanas = Object.create(null);
+    let totalCargas = 0, totalNC = 0;
+    conItems.forEach(f => {
+      const esNC = f.tipo === 'nota_credito';
+      f.items.forEach(it => {
+        const monto = (it.monto != null && !isNaN(it.monto)) ? Number(it.monto) : 0;
+        if (!monto) return;
+        const fechaEf = fechaEfectivaItemProv(it, f);
+        const fInt = fechaAIntProv(fechaEf);
+        if (fInt === null) return;
+        if (desdeInt !== null && fInt < desdeInt) return;
+        if (hastaInt !== null && fInt > hastaInt) return;
+        const sem = semanaDeFechaProv(fechaEf);
+        if (!sem) return;
+        if (!semanas[sem.key]) semanas[sem.key] = { key: sem.key, lunesIso: sem.lunesIso, domingoIso: sem.domingoIso, cargas: 0, nc: 0 };
+        if (esNC){ semanas[sem.key].nc += monto; totalNC += monto; }
+        else { semanas[sem.key].cargas += monto; totalCargas += monto; }
+      });
+    });
+
+    const filas = Object.values(semanas).sort((a,b) => b.key - a.key);
+
+    const notaEl = document.getElementById('ganSemNota');
+    if (notaEl){
+      notaEl.textContent = conItems.length
+        ? filas.length + (filas.length===1 ? ' semana con movimiento' : ' semanas con movimiento') + ' para ' + prov.label + '.'
+        : 'Todavía no hay productos con monto detectados en las facturas cargadas de ' + prov.label + ' (se completa al cargar comprobantes individuales con detalle de ítems).';
+    }
+
+    const elKpis = document.getElementById('ganSemKpis');
+    if (elKpis){
+      elKpis.innerHTML =
+        kpi('Cargas', fmtARS(totalCargas)) +
+        kpi('Notas de crédito', fmtARS(totalNC)) +
+        kpi('Neto', fmtARS(totalCargas - totalNC));
+    }
+
+    const elTbody = document.querySelector('#ganSemTable tbody');
+    if (elTbody){
+      elTbody.innerHTML = filas.length
+        ? filas.map(s => {
+            const neto = s.cargas - s.nc;
+            return '<tr>' +
+              '<td>' + fmtFechaItemProv(s.lunesIso) + ' – ' + fmtFechaItemProv(s.domingoIso) + '</td>' +
+              '<td class="num">' + fmtARS(s.cargas) + '</td>' +
+              '<td class="num">' + (s.nc ? fmtARS(s.nc) : '—') + '</td>' +
+              '<td class="num">' + fmtARS(neto) + '</td>' +
+            '</tr>';
+          }).join('')
+        : '<tr><td colspan="4" class="card-note">Sin datos para mostrar en este rango.</td></tr>';
     }
   }
 
