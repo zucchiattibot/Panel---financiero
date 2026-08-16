@@ -824,7 +824,6 @@ try {
 </div>
 <div class="card">
 <h2>Facturas y deudas — <span id="facProvNombre"></span></h2>
-<div id="facRecuperacionBox" style="display:none;margin-bottom:14px;"></div>
 <p class="card-note">Subí una foto o un PDF de cada comprobante de este proveedor: factura, nota de crédito o nota de débito. La IA (la misma clave de Gemini configurada en Asistente IA) identifica el tipo de documento, el número, las fechas y el monto — las notas de crédito descuentan de la deuda en vez de sumar. Vos revisás y confirmás antes de que quede guardado.</p>
 <div style="display:flex;gap:20px;flex-wrap:wrap;align-items:flex-start;margin:10px 0;">
 <label style="display:flex;flex-direction:column;gap:4px;">
@@ -871,13 +870,6 @@ try {
 <p class="card-note" style="margin-top:6px;">Tocá una fila para ver el detalle del comprobante, incluidos los títulos/productos cargados.</p>
 </div>
 <button class="link-btn" id="facVerMasBtn" style="margin-top:10px;display:none;" type="button"></button>
-</div>
-<div class="card">
-<h2>Revisión de duplicados — <span id="dupProvNombre"></span></h2>
-<p class="card-note">Busca, entre TODAS las facturas ya cargadas de este proveedor, comprobantes que puedan estar duplicados: mismo N° de comprobante, o misma fecha y monto, o ítems del desglose que se repiten entre dos comprobantes distintos. Es un chequeo manual — no borra nada solo, vos revisás cada grupo y tildás lo que quieras eliminar.</p>
-<button class="link-btn" id="dupBuscarBtn" type="button">🔍 Buscar posibles duplicados</button>
-<p class="card-note" id="dupEstado" style="margin-top:8px;"></p>
-<div id="dupResultados" style="margin-top:10px;display:flex;flex-direction:column;gap:12px;"></div>
 </div>
 <div class="card">
 <h2>Extracto de cuenta corriente — <span id="ccProvNombre"></span></h2>
@@ -9767,171 +9759,13 @@ renderAutoConclusions();
     return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   }
 
-  /* ---- Aviso de posible factura duplicada ----
-     Compara, contra TODO lo ya cargado del mismo proveedor: (1) mismo N° de
-     comprobante, (2) misma fecha + mismo monto total, y (3) ítems del
-     desglose que ya figuran en otra factura cargada (mismo texto + mismo
-     monto de línea). Es solo informativo: nunca bloquea el guardado, el
-     usuario decide si guarda igual. */
-  function normalizarTextoProv(s){
-    return String(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,' ').trim();
-  }
-  function chequearDuplicadosFactura(proveedorKey, numeroFactura, fecha, monto, items, idExcluir){
-    const avisos = [];
-    const numNorm = String(numeroFactura||'').trim().toLowerCase();
-    const itemsNuevos = (Array.isArray(items) ? items : []).filter(it => it && it.descripcion).map(it => ({
-      desc: normalizarTextoProv(it.descripcion),
-      monto: (it.monto != null && it.monto !== '' && !isNaN(parseFloat(it.monto))) ? Math.round(parseFloat(it.monto)*100)/100 : null
-    })).filter(it => it.desc);
-    facturas.forEach(f => {
-      if (!f || f.proveedorKey !== proveedorKey) return;
-      if (idExcluir && f.id === idExcluir) return;
-      if (numNorm && f.numeroFactura && String(f.numeroFactura).trim().toLowerCase() === numNorm){
-        avisos.push('Mismo N° de comprobante ("' + numeroFactura + '") que una factura ya cargada' + (f.fecha ? ' el ' + f.fecha : '') + '.');
-      }
-      if (fecha && f.fecha === fecha && monto != null && f.monto != null && Math.abs(f.monto - monto) < 0.01){
-        avisos.push('Misma fecha (' + fecha + ') y mismo monto que una factura ya cargada' + (f.numeroFactura ? ' (N° ' + f.numeroFactura + ')' : '') + '.');
-      }
-      if (itemsNuevos.length && Array.isArray(f.items) && f.items.length){
-        const itemsExistentes = f.items.filter(it => it && it.descripcion).map(it => ({
-          desc: normalizarTextoProv(it.descripcion),
-          monto: (it.monto != null && !isNaN(parseFloat(it.monto))) ? Math.round(parseFloat(it.monto)*100)/100 : null
-        }));
-        itemsNuevos.forEach(itNuevo => {
-          const coincide = itemsExistentes.find(itEx => itEx.desc === itNuevo.desc &&
-            (itNuevo.monto == null || itEx.monto == null || Math.abs(itEx.monto - itNuevo.monto) < 0.01));
-          if (coincide){
-            avisos.push('El ítem "' + (coincide.desc || itNuevo.desc) + '" ya figura en otra factura cargada' + (f.numeroFactura ? ' (N° ' + f.numeroFactura + ')' : '') + (f.fecha ? ' del ' + f.fecha : '') + '.');
-          }
-        });
-      }
-    });
-    return Array.from(new Set(avisos));
-  }
-  function renderAvisoDuplicadoHtml(avisos){
-    if (!avisos.length) return '';
-    return '<div class="card-note" style="margin:8px 0;padding:8px 10px;border-radius:8px;background:rgba(224,139,120,.14);border:1px solid var(--red-neg);color:var(--red-neg);">' +
-      '⚠️ Posible factura duplicada:<br>' + avisos.map(a => '• ' + escapeHtmlProv(a)).join('<br>') +
-      '</div>';
-  }
-
   async function loadFacturas(){
-    let raw = null;
-    try {
-      raw = await storageGet(K_FACTURAS);
-      if (raw) facturas = JSON.parse(raw) || [];
-    } catch(e){
-      // El texto guardado existe pero no se pudo interpretar como JSON (por
-      // ejemplo, se cortó a la mitad al escribirlo). NO lo descartamos: lo
-      // guardamos tal cual para poder ofrecer una recuperación más abajo,
-      // en vez de vaciar en silencio lo que el usuario ya había cargado.
-      facturas = [];
-      facturasRawDanado = raw || null;
-    }
+    try { const raw = await storageGet(K_FACTURAS); if (raw) facturas = JSON.parse(raw) || []; } catch(e){ facturas = []; }
     renderFacturas();
     renderResumenDeuda();
     renderCuentaCorriente();
   }
-  let facturasRawDanado = null;
   function saveFacturas(){ storageSet(K_FACTURAS, JSON.stringify(facturas)); }
-
-  // Recuperación por objetos: en vez de depender de que el texto entero sea
-  // un array JSON válido, busca cada bloque "{ ... }" de nivel superior
-  // (respetando comillas, para no confundirse con llaves dentro de un
-  // texto) e intenta parsearlo suelto. Así, aunque el cierre del array se
-  // haya cortado o dañado, cada factura completa igual se recupera.
-  function intentarRecuperarFacturasDanadas(rawTxt){
-    if (!rawTxt || typeof rawTxt !== 'string') return [];
-    const recuperadas = [];
-    let depth = 0, start = -1, inStr = false, strChar = '', esc = false;
-    for (let i=0;i<rawTxt.length;i++){
-      const c = rawTxt[i];
-      if (inStr){
-        if (esc){ esc = false; }
-        else if (c === '\\'){ esc = true; }
-        else if (c === strChar){ inStr = false; }
-        continue;
-      }
-      if (c === '"' || c === "'"){ inStr = true; strChar = c; continue; }
-      if (c === '{'){ if (depth === 0) start = i; depth++; }
-      else if (c === '}'){
-        depth--;
-        if (depth === 0 && start >= 0){
-          const trozo = rawTxt.slice(start, i+1);
-          try { const obj = JSON.parse(trozo); if (obj && obj.id && obj.proveedorKey) recuperadas.push(obj); } catch(e2){ /* ese bloque quedó ilegible, se descarta solo ese */ }
-          start = -1;
-        }
-      }
-    }
-    // Por si el mismo comprobante quedó duplicado dentro del texto dañado.
-    const vistos = new Set();
-    return recuperadas.filter(f => { if (vistos.has(f.id)) return false; vistos.add(f.id); return true; });
-  }
-
-  function renderRecuperacionFacturas(){
-    const box = document.getElementById('facRecuperacionBox');
-    if (!box) return;
-    if (!facturasRawDanado || facturas.length > 0){
-      box.style.display = 'none';
-      box.innerHTML = '';
-      return;
-    }
-    box.style.display = 'block';
-    box.innerHTML =
-      '<div class="card" style="border:1px solid var(--red-neg);background:rgba(224,139,120,.08);">' +
-        '<h2 style="color:var(--red-neg);">⚠️ No pude leer las facturas guardadas</h2>' +
-        '<p class="card-note">El texto guardado de tus comprobantes existe pero no se pudo interpretar (probablemente se cortó a la mitad al guardarse). <strong>No lo borré</strong> — el texto crudo sigue disponible más abajo. Podés intentar una recuperación automática (rescata cada comprobante completo, aunque el archivo entero esté dañado) o copiar el texto para guardarlo aparte.</p>' +
-        '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;">' +
-          '<button type="button" class="toggle-btn" id="facRecuperarBtn">🩹 Intentar recuperación automática</button>' +
-          '<button type="button" class="link-btn" id="facVerCrudoBtn">Ver / copiar el texto crudo</button>' +
-        '</div>' +
-        '<p class="card-note" id="facRecuperarEstado" style="margin-top:8px;"></p>' +
-        '<div id="facCrudoBox" style="display:none;margin-top:8px;">' +
-          '<textarea readonly style="width:100%;box-sizing:border-box;min-height:140px;background:rgba(0,0,0,.25);border:1px solid var(--line);color:var(--cream);padding:8px;border-radius:6px;font-size:11px;font-family:monospace;">' + escapeHtmlProv(facturasRawDanado) + '</textarea>' +
-          '<button type="button" class="link-btn" id="facCopiarCrudoBtn" style="margin-top:6px;">Copiar texto</button>' +
-        '</div>' +
-      '</div>';
-
-    const btnRecuperar = document.getElementById('facRecuperarBtn');
-    const estado = document.getElementById('facRecuperarEstado');
-    if (btnRecuperar){
-      btnRecuperar.addEventListener('click', () => {
-        const recuperadas = intentarRecuperarFacturasDanadas(facturasRawDanado);
-        if (!recuperadas.length){
-          estado.textContent = 'No pude rescatar ningún comprobante completo de ese texto. Probá "Ver / copiar el texto crudo" y guardalo aparte por si se puede revisar a mano.';
-          return;
-        }
-        if (!confirm('Encontré ' + recuperadas.length + (recuperadas.length===1?' comprobante recuperable':' comprobantes recuperables') + '. ¿Los cargo y guardo?')) return;
-        facturas = recuperadas;
-        facturasRawDanado = null;
-        saveFacturas();
-        renderFacturas();
-        renderResumenDeuda();
-        renderCuentaCorriente();
-      });
-    }
-    const btnVerCrudo = document.getElementById('facVerCrudoBtn');
-    if (btnVerCrudo){
-      btnVerCrudo.addEventListener('click', () => {
-        const crudo = document.getElementById('facCrudoBox');
-        if (crudo) crudo.style.display = crudo.style.display === 'none' ? 'block' : 'none';
-      });
-    }
-    const btnCopiar = document.getElementById('facCopiarCrudoBtn');
-    if (btnCopiar){
-      btnCopiar.addEventListener('click', () => {
-        const ta = box.querySelector('#facCrudoBox textarea');
-        if (!ta) return;
-        ta.select();
-        ta.setSelectionRange(0, 999999);
-        let copiado = false;
-        try { if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(facturasRawDanado); copiado = true; } } catch(e){}
-        if (!copiado){ try { document.execCommand('copy'); copiado = true; } catch(e){} }
-        btnCopiar.textContent = copiado ? '✓ Copiado' : 'No se pudo copiar — seleccioná el texto a mano';
-        setTimeout(() => { btnCopiar.textContent = 'Copiar texto'; }, 2500);
-      });
-    }
-  }
 
   // Expuestas para que el backup general del panel (Exportar/Importar backup)
   // incluya también las facturas/notas cargadas acá.
@@ -10149,22 +9983,11 @@ renderAutoConclusions();
         '</tr></thead><tbody data-items-body></tbody></table></div>' +
         '<button type="button" class="link-btn" data-accion="agregar-item" style="margin-top:4px;">+ Agregar producto</button>' +
       '</div>' +
-      '<div data-aviso-duplicado></div>' +
       '<div style="display:flex;gap:8px;margin-top:10px;">' +
         '<button type="button" class="toggle-btn" data-accion="guardar" style="flex:1;">Guardar</button>' +
         '<button type="button" class="toggle-btn" data-accion="descartar" style="flex:1;">Descartar</button>' +
       '</div>';
     elFacRevision.appendChild(div);
-
-    const avisoBox = div.querySelector('[data-aviso-duplicado]');
-    function recalcularAvisoDuplicado(){
-      const get = (campo) => { const el = div.querySelector('[data-campo="' + campo + '"]'); return el ? el.value.trim() : ''; };
-      const montoTxt = get('monto');
-      const montoChk = Math.abs(parseFloat(montoTxt.replace(/\./g,'').replace(',', '.')) || parseFloat(montoTxt) || 0) || null;
-      const itemsChk = itemsLocal.map(it => ({ descripcion: it.descripcion, monto: String(it.monto||'').replace(',', '.') }));
-      const avisos = chequearDuplicadosFactura(prov.key, get('numero'), get('fecha'), montoChk, itemsChk, null);
-      avisoBox.innerHTML = renderAvisoDuplicadoHtml(avisos);
-    }
 
     const itemsBody = div.querySelector('[data-items-body]');
     function pintarItems(){
@@ -10184,19 +10007,13 @@ renderAutoConclusions();
           const idx = parseInt(tr.getAttribute('data-item-idx'),10);
           const campo = inp.getAttribute('data-item-campo');
           itemsLocal[idx][campo] = inp.value;
-          recalcularAvisoDuplicado();
         });
       });
-      recalcularAvisoDuplicado();
     }
     pintarItems();
     div.querySelector('[data-accion="agregar-item"]').addEventListener('click', () => {
       itemsLocal.push({ descripcion:'', edicion:'', cantidad:'', monto:'' });
       pintarItems();
-    });
-    ['numero','fecha','monto'].forEach(campo => {
-      const el = div.querySelector('[data-campo="' + campo + '"]');
-      if (el) el.addEventListener('input', recalcularAvisoDuplicado);
     });
 
     div.querySelector('[data-accion="guardar"]').addEventListener('click', () => {
@@ -10257,8 +10074,7 @@ renderAutoConclusions();
       '<td style="padding:6px 4px 6px 0;min-width:96px;"><input type="text" data-campo="fecha" value="' + escapeHtmlProv(item.fecha_emision||'') + '" placeholder="AAAA-MM-DD" style="' + inputCss + '"></td>' +
       '<td style="padding:6px 4px 6px 0;min-width:96px;"><input type="text" data-campo="vencimiento" value="' + escapeHtmlProv(item.fecha_vencimiento||'') + '" placeholder="AAAA-MM-DD" style="' + inputCss + '"></td>' +
       '<td style="padding:6px 0 6px 0;min-width:90px;"><input type="text" data-campo="monto" value="' + escapeHtmlProv(monto) + '" style="' + inputCss + 'text-align:right;"></td>' +
-    '</tr>' +
-    '<tr data-fila-aviso="' + idx + '" style="display:none;"><td colspan="6" style="padding:0 4px 8px 0;"><div data-aviso-duplicado></div></td></tr>';
+    '</tr>';
   }
 
   function renderRevisionExtracto(lista, nombreArchivos){
@@ -10284,30 +10100,9 @@ renderAutoConclusions();
       '</div>';
     elExtractoRevision.appendChild(wrap);
 
-    function recalcularAvisoFila(idx){
-      const fila = wrap.querySelector('tbody tr[data-idx="' + idx + '"]');
-      const filaAviso = wrap.querySelector('tr[data-fila-aviso="' + idx + '"]');
-      if (!fila || !filaAviso) return;
-      const get = (campo) => { const el = fila.querySelector('[data-campo="' + campo + '"]'); return el ? el.value.trim() : ''; };
-      const montoTxt = get('monto');
-      const montoChk = Math.abs(parseFloat(montoTxt.replace(/\./g,'').replace(',', '.')) || parseFloat(montoTxt) || 0) || null;
-      const avisos = chequearDuplicadosFactura(prov.key, get('numero'), get('fecha'), montoChk, [], null);
-      const box = filaAviso.querySelector('[data-aviso-duplicado]');
-      box.innerHTML = renderAvisoDuplicadoHtml(avisos);
-      filaAviso.style.display = avisos.length ? '' : 'none';
-    }
-    lista.forEach((item, idx) => {
-      recalcularAvisoFila(idx);
-      const fila = wrap.querySelector('tbody tr[data-idx="' + idx + '"]');
-      ['numero','fecha','monto'].forEach(campo => {
-        const el = fila.querySelector('[data-campo="' + campo + '"]');
-        if (el) el.addEventListener('input', () => recalcularAvisoFila(idx));
-      });
-    });
-
     wrap.querySelector('[data-accion="descartar-todas"]').addEventListener('click', () => wrap.remove());
     wrap.querySelector('[data-accion="guardar-todas"]').addEventListener('click', () => {
-      const filas = Array.from(wrap.querySelectorAll('tbody tr[data-idx]'));
+      const filas = Array.from(wrap.querySelectorAll('tbody tr'));
       let guardadas = 0;
       filas.forEach((fila, i) => {
         const incluir = fila.querySelector('[data-campo="incluir"]').checked;
@@ -10386,17 +10181,6 @@ renderAutoConclusions();
     const prov = PROVEEDORES.find(p => p.key === provState.prov) || PROVEEDORES[0];
     const nombreEl = document.getElementById('facProvNombre');
     if (nombreEl) nombreEl.textContent = prov.label;
-    const dupNombreEl = document.getElementById('dupProvNombre');
-    if (dupNombreEl){
-      if (dupNombreEl.textContent && dupNombreEl.textContent !== prov.label){
-        const contDup = document.getElementById('dupResultados');
-        const estadoDup = document.getElementById('dupEstado');
-        if (contDup) contDup.innerHTML = '';
-        if (estadoDup) estadoDup.textContent = '';
-      }
-      dupNombreEl.textContent = prov.label;
-    }
-    renderRecuperacionFacturas();
     const propias = facturas.filter(f => f.proveedorKey === prov.key)
       .sort((a,b) => (b.fecha||'').localeCompare(a.fecha||''));
 
@@ -10562,125 +10346,7 @@ renderAutoConclusions();
     renderDesgloseItems();
   }
 
-  /* ---- Buscar duplicados entre facturas YA CARGADAS de un proveedor ----
-     Compara cada par de comprobantes del proveedor y los agrupa si comparten
-     N° de comprobante, o fecha+monto, o ítems del desglose. No borra nada
-     solo: solo arma la lista para que el usuario revise y elija qué borrar. */
-  function detectarDuplicadosExistentes(proveedorKey){
-    const propias = facturas.filter(f => f.proveedorKey === proveedorKey);
-    const n = propias.length;
-    const parent = propias.map((_,i) => i);
-    function find(i){ while(parent[i] !== i){ parent[i] = parent[parent[i]]; i = parent[i]; } return i; }
-    function union(i,j){ const ri = find(i), rj = find(j); if (ri !== rj) parent[ri] = rj; }
-    function itemsNormFac(f){
-      return (Array.isArray(f.items) ? f.items : []).filter(it => it && it.descripcion).map(it => ({
-        desc: normalizarTextoProv(it.descripcion),
-        monto: (it.monto != null && !isNaN(parseFloat(it.monto))) ? Math.round(parseFloat(it.monto)*100)/100 : null
-      }));
-    }
-    const razonesPar = {};
-    for (let i=0;i<n;i++){
-      for (let j=i+1;j<n;j++){
-        const a = propias[i], b = propias[j];
-        const razones = [];
-        const numA = String(a.numeroFactura||'').trim().toLowerCase();
-        const numB = String(b.numeroFactura||'').trim().toLowerCase();
-        if (numA && numB && numA === numB) razones.push('mismo N° de comprobante');
-        if (a.fecha && b.fecha && a.fecha === b.fecha && a.monto != null && b.monto != null && Math.abs(a.monto - b.monto) < 0.01) razones.push('misma fecha y monto');
-        const itemsA = itemsNormFac(a), itemsB = itemsNormFac(b);
-        if (itemsA.length && itemsB.length){
-          let coincidencias = 0;
-          itemsA.forEach(itA => {
-            if (itemsB.find(itB => itB.desc === itA.desc && (itA.monto == null || itB.monto == null || Math.abs(itA.monto - itB.monto) < 0.01))) coincidencias++;
-          });
-          if (coincidencias > 0) razones.push(coincidencias + ' ítem(s) del desglose coinciden');
-        }
-        if (razones.length){
-          union(i,j);
-          razonesPar[i+'_'+j] = razones;
-        }
-      }
-    }
-    const grupos = {};
-    for (let i=0;i<n;i++){
-      const r = find(i);
-      if (!grupos[r]) grupos[r] = [];
-      grupos[r].push(i);
-    }
-    const clusters = Object.values(grupos).filter(g => g.length > 1).map(g => {
-      const razonesSet = new Set();
-      for (let a=0;a<g.length;a++){
-        for (let b=a+1;b<g.length;b++){
-          const razones = razonesPar[g[a]+'_'+g[b]] || razonesPar[g[b]+'_'+g[a]] || [];
-          razones.forEach(r => razonesSet.add(r));
-        }
-      }
-      return { facturas: g.map(idx => propias[idx]), razones: Array.from(razonesSet) };
-    });
-    clusters.sort((x,y) => y.facturas.length - x.facturas.length);
-    return clusters;
-  }
-
-  function renderDuplicadosResultados(clusters, prov){
-    const cont = document.getElementById('dupResultados');
-    const estado = document.getElementById('dupEstado');
-    if (!cont || !estado) return;
-    if (!clusters.length){
-      cont.innerHTML = '';
-      estado.textContent = 'No encontré posibles duplicados entre las facturas cargadas de ' + prov.label + '.';
-      return;
-    }
-    estado.textContent = 'Encontré ' + clusters.length + (clusters.length===1?' grupo':' grupos') + ' de posibles duplicados en ' + prov.label + '. Revisá cada uno y tildá lo que quieras eliminar — no se borra nada solo.';
-    cont.innerHTML = clusters.map(cl => {
-      const filas = cl.facturas.map(f => {
-        const monto = f.monto != null ? fmtARS(f.monto) : '—';
-        const nItems = Array.isArray(f.items) ? f.items.length : 0;
-        const cargada = f.cargadaEl ? String(f.cargadaEl).slice(0,10) : '—';
-        return '<label style="display:flex;align-items:flex-start;gap:8px;padding:6px 0;border-bottom:1px solid var(--line);font-size:13px;">' +
-          '<input type="checkbox" data-dup-fac="' + f.id + '" style="margin-top:3px;">' +
-          '<span>' + etiquetaTipo(f.tipo) + (f.numeroFactura ? (' N° ' + escapeHtmlProv(f.numeroFactura)) : ' (sin N°)') +
-            ' · ' + (f.fecha || 'sin fecha') + ' · ' + monto +
-            (nItems ? (' · ' + nItems + ' ítem(s)') : '') +
-            ' · cargada el ' + cargada + '</span>' +
-        '</label>';
-      }).join('');
-      return '<div style="border:1px solid var(--red-neg);border-radius:10px;padding:12px;background:rgba(224,139,120,.08);">' +
-        '<div class="card-note" style="color:var(--red-neg);margin-bottom:6px;">⚠️ Posible duplicado — ' + cl.razones.map(r => escapeHtmlProv(r)).join(', ') + '</div>' +
-        filas +
-      '</div>';
-    }).join('') +
-    '<button type="button" class="toggle-btn" id="dupEliminarBtn" style="margin-top:4px;align-self:flex-start;">🗑️ Eliminar las tildadas</button>';
-
-    const btnEliminar = document.getElementById('dupEliminarBtn');
-    if (btnEliminar){
-      btnEliminar.addEventListener('click', () => {
-        const ids = Array.from(cont.querySelectorAll('[data-dup-fac]:checked')).map(el => el.getAttribute('data-dup-fac'));
-        if (!ids.length){ estado.textContent = 'No tildaste ninguna factura para eliminar.'; return; }
-        if (!confirm('¿Eliminar ' + ids.length + (ids.length===1?' factura tildada':' facturas tildadas') + '? Esta acción no se puede deshacer.')) return;
-        facturas = facturas.filter(f => !ids.includes(f.id));
-        saveFacturas();
-        renderFacturas();
-        renderResumenDeuda();
-        renderCuentaCorriente();
-        const nuevosClusters = detectarDuplicadosExistentes(prov.key);
-        renderDuplicadosResultados(nuevosClusters, prov);
-      });
-    }
-  }
-
-  const dupBuscarBtn = document.getElementById('dupBuscarBtn');
-  if (dupBuscarBtn){
-    dupBuscarBtn.addEventListener('click', () => {
-      const prov = PROVEEDORES.find(p => p.key === provState.prov) || PROVEEDORES[0];
-      const dupNombreEl = document.getElementById('dupProvNombre');
-      if (dupNombreEl) dupNombreEl.textContent = prov.label;
-      const estado = document.getElementById('dupEstado');
-      if (estado) estado.textContent = 'Buscando…';
-      const clusters = detectarDuplicadosExistentes(prov.key);
-      renderDuplicadosResultados(clusters, prov);
-    });
-  }
-
+  const elItemsFiltroDesde = document.getElementById('itemsFiltroDesde');
   const elItemsFiltroHasta = document.getElementById('itemsFiltroHasta');
   const elItemsFiltroLimpiar = document.getElementById('itemsFiltroLimpiar');
   const elItemsBuscar = document.getElementById('itemsBuscar');
