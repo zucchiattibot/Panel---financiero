@@ -854,6 +854,11 @@ try {
 <div id="extractoRevision"></div>
 </div>
 <div class="kpi-grid" id="facturaKpis" style="margin-top:16px;"></div>
+<div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--line);">
+<button class="toggle-btn" id="facBuscarDupBtn" type="button">🔍 Buscar duplicados en lo ya cargado</button>
+<p class="card-note" style="margin-top:6px;">Revisa TODOS los comprobantes ya guardados (de todos los proveedores) y te muestra los grupos que parecen ser el mismo comprobante cargado más de una vez, para que elijas cuál eliminar.</p>
+<div id="facDupResultado" style="margin-top:10px;"></div>
+</div>
 <p class="card-note" style="margin-top:16px;">Historial — elegí una fecha "entre" y "entre" (por ej. del 1 al 8 de agosto) o un monto para ver los comprobantes de ese período y sus estadísticas: cuánto facturaste, cuánto queda pendiente y cuánto pagaste realmente según tus movimientos bancarios en esas mismas fechas (esto solo afecta esta sección, no los totales generales de arriba):</p>
 <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;">
 <input id="facFiltroDesde" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:8px;border-radius:6px;font-size:13px;" type="date"/>
@@ -9786,6 +9791,84 @@ renderAutoConclusions();
     }) || null;
   }
 
+  // Revisa TODAS las facturas ya guardadas (de todos los proveedores) y las
+  // agrupa cuando parecen ser el mismo comprobante cargado más de una vez:
+  // mismo proveedor + mismo N° de comprobante, o mismo proveedor + misma
+  // fecha + mismo monto. Usa union-find para que las coincidencias "en cadena"
+  // (A duplica con B por N°, B duplica con C por fecha+monto) queden en un
+  // mismo grupo. Devuelve solo los grupos con 2 o más comprobantes.
+  function buscarFacturasDuplicadasGuardadas(){
+    const porProveedor = {};
+    facturas.forEach(f => { (porProveedor[f.proveedorKey] = porProveedor[f.proveedorKey] || []).push(f); });
+    const grupos = [];
+    Object.keys(porProveedor).forEach(provKey => {
+      const lista = porProveedor[provKey];
+      const parent = lista.map((_,i) => i);
+      function find(i){ while (parent[i] !== i){ parent[i] = parent[parent[i]]; i = parent[i]; } return i; }
+      function union(a,b){ const ra=find(a), rb=find(b); if (ra!==rb) parent[ra]=rb; }
+      for (let i=0;i<lista.length;i++){
+        for (let j=i+1;j<lista.length;j++){
+          const a = lista[i], b = lista[j];
+          const numA = String(a.numeroFactura||'').trim().toLowerCase();
+          const numB = String(b.numeroFactura||'').trim().toLowerCase();
+          const mismoNum = numA && numB && numA === numB;
+          const mismoFechaMonto = a.fecha && a.fecha === b.fecha && a.monto!=null && b.monto!=null && Math.abs(a.monto-b.monto) < 1;
+          if (mismoNum || mismoFechaMonto) union(i,j);
+        }
+      }
+      const clusters = {};
+      lista.forEach((f,i) => { const r = find(i); (clusters[r]=clusters[r]||[]).push(f); });
+      Object.values(clusters).forEach(grupo => {
+        if (grupo.length > 1){
+          grupo.sort((a,b) => (b.fecha||'').localeCompare(a.fecha||''));
+          grupos.push({ proveedorKey: provKey, facturas: grupo });
+        }
+      });
+    });
+    grupos.sort((g1,g2) => (g2.facturas[0].fecha||'').localeCompare(g1.facturas[0].fecha||''));
+    return grupos;
+  }
+
+  function renderBuscarDuplicados(){
+    const cont = document.getElementById('facDupResultado');
+    if (!cont) return;
+    const grupos = buscarFacturasDuplicadasGuardadas();
+    if (!grupos.length){
+      cont.innerHTML = '<p class="card-note" style="margin:0;">No encontré comprobantes que parezcan duplicados. 👍</p>';
+      return;
+    }
+    cont.innerHTML = '<p class="card-note" style="margin:0 0 8px 0;">Encontré ' + grupos.length + (grupos.length===1?' grupo':' grupos') + ' que parecen duplicados. Revisá cada uno y eliminá el que sobre:</p>' +
+      grupos.map((g, gi) => {
+        const prov = PROVEEDORES.find(p => p.key === g.proveedorKey);
+        const nombreProv = prov ? prov.label : g.proveedorKey;
+        return '<div style="border:1px solid var(--red-neg);border-radius:10px;padding:10px 12px;margin-bottom:10px;background:rgba(224,139,120,.08);">' +
+          '<div class="card-note" style="font-weight:700;color:var(--cream);margin-bottom:6px;">' + escapeHtmlProv(nombreProv) + '</div>' +
+          '<table style="width:100%;border-collapse:collapse;font-size:12.5px;">' +
+          g.facturas.map(f =>
+            '<tr>' +
+              '<td style="padding:4px 6px 4px 0;">' + (f.fecha||'—') + '</td>' +
+              '<td style="padding:4px 6px 4px 0;">' + escapeHtmlProv(etiquetaTipo(f.tipo)) + (f.numeroFactura ? ' N° ' + escapeHtmlProv(f.numeroFactura) : '') + '</td>' +
+              '<td style="padding:4px 6px 4px 0;text-align:right;">' + fmtARSProv(f.monto||0) + '</td>' +
+              '<td style="padding:4px 6px 4px 0;">' + (f.estado==='pendiente'?'Pendiente':'Pagada') + '</td>' +
+              '<td style="padding:4px 0;"><button type="button" class="link-btn" data-fac-dup-del="' + f.id + '">Eliminar</button></td>' +
+            '</tr>'
+          ).join('') +
+          '</table></div>';
+      }).join('');
+    cont.querySelectorAll('[data-fac-dup-del]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.getAttribute('data-fac-dup-del');
+        if (!confirm('¿Eliminar este comprobante? No se puede deshacer.')) return;
+        facturas = facturas.filter(x => x.id !== id);
+        saveFacturas();
+        renderFacturas();
+        renderResumenDeuda();
+        renderCuentaCorriente();
+        renderBuscarDuplicados();
+      });
+    });
+  }
+
   function textoAvisoDuplicado(dup){
     if (!dup) return '';
     return '⚠️ Ya hay ' + (dup.tipo==='nota_credito'?'una nota de crédito':dup.tipo==='nota_debito'?'una nota de débito':'una factura') +
@@ -9876,6 +9959,9 @@ renderAutoConclusions();
       renderFacturas();
     });
   }
+  const elFacBuscarDupBtn = document.getElementById('facBuscarDupBtn');
+  if (elFacBuscarDupBtn) elFacBuscarDupBtn.addEventListener('click', renderBuscarDuplicados);
+
   const elFacVerMasBtn = document.getElementById('facVerMasBtn');
   if (elFacVerMasBtn){
     elFacVerMasBtn.addEventListener('click', () => {
