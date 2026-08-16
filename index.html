@@ -2419,6 +2419,12 @@ try {
 <div class="rc-view active" data-rcview="lista">
 <div class="card">
 <h2>Tus clientes</h2>
+<div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;align-items:center;">
+<button class="tab-btn" id="rcBtnImportarContactos" style="border-radius:8px;" type="button">📇 Importar contactos</button>
+<span class="card-note" style="margin:0;">Desde la agenda del teléfono o un .vcf exportado</span>
+</div>
+<input type="file" id="rcImportVcfInput" accept=".vcf,text/vcard,text/x-vcard" style="display:none;"/>
+<div id="rcImportPreview"></div>
 <input id="rcBuscar" placeholder="Buscar cliente o colección..." style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;width:100%;box-sizing:border-box;margin-bottom:12px;" type="text"/>
 <div class="toggle-row" id="rcFiltro">
 <button class="toggle-btn active" data-rcf="todos" type="button">Todos</button>
@@ -2493,7 +2499,7 @@ try {
 <h2 id="rcColDetalleTitulo">Colección</h2>
 <button class="tab-btn" id="rcBtnEliminarColeccion" style="border-radius:8px;padding:6px 10px;font-size:11.5px;color:var(--red-neg);white-space:nowrap;" type="button">🗑️ Eliminar colección</button>
 </div>
-<p class="card-note">Subí la foto de la publicación cuando llega una entrega. WhatsApp no permite adjuntar la imagen automáticamente desde un link — el panel la deja guardada acá para que la adjuntes vos en el chat que se abre (o la descargues).</p>
+<p class="card-note">Subí la foto de la publicación cuando llega una entrega. Ningún link de WhatsApp puede adjuntar una imagen solo — pero abajo, en "Adjuntar foto y enviar" o en el 📱 de cada cliente, el panel intenta abrir el selector para compartir de tu celular con la foto ya puesta (si tu navegador/app lo permite). Si no lo permite, cae al chat de WhatsApp solo con el texto y la adjuntás vos (o la descargás acá).</p>
 <input id="rcColFotoInput" accept="image/*" style="margin-bottom:8px;" type="file"/>
 <input id="rcColFotoNota" placeholder="Nota de la entrega (ej: N° 45, llegó hoy)" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;width:100%;box-sizing:border-box;margin-bottom:8px;" type="text"/>
 <button class="tab-btn" id="rcBtnSubirFoto" style="border-radius:8px;" type="button">Guardar foto</button>
@@ -2501,9 +2507,10 @@ try {
 </div>
 <div class="card">
 <h2>Avisar a todos los que la llevan</h2>
-<p class="card-note">Editá el mensaje y enviaselo de una a todos los clientes tildados abajo. Se abre un chat de WhatsApp por cliente (permití las ventanas emergentes si el navegador las bloquea).</p>
+<p class="card-note">Si hay una foto cargada arriba, primero probá "Adjuntar foto y enviar": abre el selector para compartir de tu celular con la foto ya puesta, elegís WhatsApp ahí y podés tildar varios chats a la vez para reenviarla. "Enviar a todos" en cambio abre un chat de WhatsApp por cliente solo con el texto (la foto no se adjunta sola, hay que pegarla vos en cada uno).</p>
+<button class="tab-btn" id="rcBtnAdjuntarFotoEnviar" style="border-radius:8px;margin-bottom:10px;color:var(--green-pos);display:none;" type="button">📎 Adjuntar foto y enviar</button>
 <textarea id="rcColMsgTodos" rows="3" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:13.5px;width:100%;box-sizing:border-box;resize:vertical;font-family:inherit;"></textarea>
-<button class="tab-btn" id="rcBtnEnviarTodos" style="border-radius:8px;margin-top:10px;color:var(--green-pos);" type="button">📱 Enviar a todos</button>
+<button class="tab-btn" id="rcBtnEnviarTodos" style="border-radius:8px;margin-top:10px;color:var(--green-pos);" type="button">📱 Enviar a todos (sin foto)</button>
 <p class="card-note" id="rcColEnviarTodosMsg" style="min-height:14px;margin:8px 0 0 0;"></p>
 </div>
 <div class="card">
@@ -13586,6 +13593,120 @@ function rcOnAction(act, cid, kid){
   }
 }
 
+/* ---------- Importar contactos ----------
+   No existe ninguna API pública para leer la agenda de WhatsApp directo desde
+   una página web (ni siquiera empaquetada en un APK con WebView normal), así
+   que se hace de dos formas, probando primero la mejor disponible:
+   1) Contact Picker API (navigator.contacts.select): funciona en Chrome/WebView
+      Android que la soporte, y deja elegir contactos de la agenda del teléfono
+      (que en general coincide con los de WhatsApp, porque WhatsApp usa esa
+      misma agenda). Requiere gesto del usuario y HTTPS.
+   2) Si no está disponible (la mayoría de los WebView empaquetados no la
+      tienen habilitada), se cae a pedir un archivo .vcf: desde Contactos del
+      teléfono se puede exportar todo o una selección como .vcf, y desde
+      WhatsApp también se puede compartir un contacto individual como vCard
+      (se comparte a "Guardar en Archivos" o similar y después se elige acá).
+   En ambos casos se muestra una vista previa para tildar quién se importa,
+   así no se pisan ni duplican clientes ya cargados. */
+function rcParseVcf(texto){
+  var textoUnfold = (texto||'').replace(/\r\n/g,'\n').replace(/\n[ \t]/g,'');
+  var bloques = textoUnfold.split(/BEGIN:VCARD/i).slice(1);
+  var out = [];
+  bloques.forEach(function(b){
+    var lineas = b.split('\n');
+    var nombre = '';
+    var telefonos = [];
+    lineas.forEach(function(linea){
+      var m = linea.match(/^FN[^:]*:(.*)$/i);
+      if (m && !nombre) nombre = m[1].trim();
+      var t = linea.match(/^TEL[^:]*:(.*)$/i);
+      if (t && t[1].trim()) telefonos.push(t[1].trim());
+    });
+    if (!nombre){
+      var nMatch = b.match(/\nN[^:]*:([^\n]*)/i);
+      if (nMatch){
+        var partes = nMatch[1].split(';').filter(Boolean);
+        nombre = partes.reverse().join(' ').trim();
+      }
+    }
+    var tel = telefonos.length ? telefonos[0].replace(/[^0-9+]/g,'') : '';
+    if (nombre || tel) out.push({nombre: nombre, telefono: tel});
+  });
+  return out;
+}
+function rcMostrarPreviewImportacion(lista){
+  var cont = document.getElementById('rcImportPreview');
+  lista = (lista||[]).filter(function(c){ return c && (c.nombre || c.telefono); });
+  if (lista.length===0){ cont.innerHTML=''; alert('No se encontraron contactos con nombre o teléfono en la selección.'); return; }
+  var existentesTel = {};
+  rc.clientes.forEach(function(c){ var t=rcTel(c.telefono); if (t) existentesTel[t]=true; });
+  cont.innerHTML = '<div class="card" style="margin:0 0 12px 0;">'+
+    '<h2>Revisá antes de importar ('+lista.length+')</h2>'+
+    '<p class="card-note">Tildá a quién agregar como cliente nuevo (sin colecciones asignadas todavía; se las sumás después). Los que ya tenés cargados con el mismo WhatsApp salen destildados.</p>'+
+    '<div id="rcImportLista"></div>'+
+    '<button class="cargar-submit-btn" id="rcBtnConfirmarImportacion" type="button" style="margin-top:10px;">Agregar tildados</button>'+
+    '<button class="tab-btn" id="rcBtnCancelarImportacion" style="width:100%;margin-top:8px;border-radius:8px;" type="button">Cancelar</button>'+
+  '</div>';
+  var listaEl = document.getElementById('rcImportLista');
+  listaEl.innerHTML = lista.map(function(c, i){
+    var tel = rcTel(c.telefono);
+    var yaExiste = !!(tel && existentesTel[tel]);
+    return '<label style="display:flex;align-items:center;gap:9px;border:1px solid var(--line);border-radius:8px;padding:8px 10px;margin-bottom:6px;cursor:pointer;'+(yaExiste?'opacity:.5;':'')+'">'+
+      '<input type="checkbox" data-idx="'+i+'" class="rc-import-check" '+(yaExiste?'':'checked')+' style="width:17px;height:17px;flex:0 0 auto;accent-color:var(--gold);"/>'+
+      '<div style="flex:1;min-width:0;"><div style="font-weight:600;font-size:13.5px;">'+rcEsc(c.nombre||'(sin nombre)')+'</div>'+
+      (c.telefono?('<div style="font-size:11px;color:var(--cream-dim);">📞 '+rcEsc(c.telefono)+'</div>'):'<div style="font-size:11px;color:var(--red-neg);">Sin teléfono</div>')+
+      (yaExiste?'<div style="font-size:10.5px;color:var(--muted);">Ya está cargado</div>':'')+
+      '</div></label>';
+  }).join('');
+  document.getElementById('rcBtnCancelarImportacion').addEventListener('click', function(){ cont.innerHTML=''; });
+  document.getElementById('rcBtnConfirmarImportacion').addEventListener('click', function(){
+    var checks = listaEl.querySelectorAll('.rc-import-check:checked');
+    var agregados = 0;
+    checks.forEach(function(chk){
+      var c = lista[parseInt(chk.dataset.idx,10)];
+      if (!c || !(c.nombre||c.telefono)) return;
+      rc.clientes.push({id: rcUid(), nombre: c.nombre||'(sin nombre)', telefono: c.telefono||'', direccion:'', notas:'', colecciones:[]});
+      agregados++;
+    });
+    rcSave().then(function(){
+      cont.innerHTML='';
+      rcRenderLista();
+      alert(agregados>0 ? (agregados+' cliente(s) importado(s). Ya podés sumarles colecciones editando cada uno.') : 'No tildaste ningún contacto.');
+    });
+  });
+}
+document.getElementById('rcBtnImportarContactos').addEventListener('click', async function(){
+  if ('contacts' in navigator && 'ContactsManager' in window){
+    try{
+      var picked = await navigator.contacts.select(['name','tel'], {multiple:true});
+      if (picked && picked.length){
+        var parsed = picked.map(function(p){
+          return {
+            nombre: (p.name && p.name[0]) || '',
+            telefono: (p.tel && p.tel[0]) ? p.tel[0].replace(/[^0-9+]/g,'') : ''
+          };
+        });
+        rcMostrarPreviewImportacion(parsed);
+        return;
+      }
+      return; // el usuario canceló el picker sin elegir nada
+    }catch(e){
+      // no soportado en este WebView/contexto (falta permiso, no es HTTPS top-level, etc.):
+      // seguimos con el fallback de archivo .vcf en vez de dejar el botón sin hacer nada.
+    }
+  }
+  document.getElementById('rcImportVcfInput').click();
+});
+document.getElementById('rcImportVcfInput').addEventListener('change', function(){
+  var file = this.files && this.files[0];
+  this.value = '';
+  if (!file) return;
+  var reader = new FileReader();
+  reader.onload = function(ev){ rcMostrarPreviewImportacion(rcParseVcf(ev.target.result)); };
+  reader.onerror = function(){ alert('No se pudo leer ese archivo.'); };
+  reader.readAsText(file);
+});
+
 /* ---------- Por colección: lista ---------- */
 function rcRenderColeccionesLista(){
   var cont = document.getElementById('rcListaColecciones');
@@ -13722,6 +13843,41 @@ function rcMensajeWAColeccion(nombreColeccion, foto){
   base += '. Te mando la foto de la publicación en este chat.';
   return base;
 }
+/* Convierte la foto guardada (dataURL jpeg) en un File, para poder adjuntarla
+   de verdad vía Web Share API en vez de solo abrir un link de WhatsApp con
+   texto (que nunca puede llevar la imagen adjunta, es una limitación de
+   WhatsApp: ningún link wa.me puede adjuntar archivos). */
+function rcDataUrlToFile(dataUrl, filename){
+  var partes = dataUrl.split(',');
+  var mimeMatch = partes[0].match(/:(.*?);/);
+  var mime = mimeMatch ? mimeMatch[1] : 'image/jpeg';
+  var bin = atob(partes[1]);
+  var arr = new Uint8Array(bin.length);
+  for (var i=0; i<bin.length; i++) arr[i] = bin.charCodeAt(i);
+  return new File([arr], filename, {type: mime});
+}
+/* Comparte la foto de la última entrega (si hay) usando el selector nativo
+   del celular (Web Share API), que sí permite elegir WhatsApp y que la foto
+   quede adjunta de una. Si no está disponible o el usuario cancela, cae al
+   comportamiento anterior: abrir el chat de WhatsApp solo con el texto. */
+async function rcCompartirColeccionA(tel, nombreCliente, foto, msgEl){
+  var texto = rcMensajeWAColeccion(rcColeccionActualNombre, foto);
+  if (foto && foto.dataUrl && navigator.canShare && navigator.share){
+    try{
+      var file = rcDataUrlToFile(foto.dataUrl, (rcColeccionActualNombre||'coleccion')+'-'+(foto.fecha||'')+'.jpg');
+      if (navigator.canShare({files:[file]})){
+        await navigator.share({files:[file], text:texto, title:rcColeccionActualNombre||'Colección'});
+        if (msgEl){ msgEl.style.color='var(--green-pos)'; msgEl.textContent='Listo, elegí WhatsApp y el chat de '+nombreCliente+' en el selector ✔️'; }
+        return;
+      }
+    }catch(e){
+      if (e && e.name==='AbortError'){ if (msgEl) msgEl.textContent=''; return; }
+      /* si falla el share nativo, seguimos con el fallback de abajo */
+    }
+  }
+  window.open('https://wa.me/'+tel+'?text='+encodeURIComponent(texto), '_blank');
+  if (msgEl){ msgEl.style.color='var(--muted)'; msgEl.textContent = foto ? 'Se abrió el chat solo con el texto — adjuntá la foto a mano (tu navegador no permite compartir con foto adjunta acá).' : ''; }
+}
 /* Lista de clientes como checklist: tildar/destildar asigna o quita de la
    colección al toque, sin tener que buscar y apretar "+ Agregar" cliente
    por cliente. También arma el mensaje y el envío masivo por WhatsApp. */
@@ -13741,8 +13897,10 @@ function rcRenderColClientes(){
   var btnTodos = document.getElementById('rcBtnEnviarTodos');
   if (btnTodos){
     var conTel = asignados.filter(function(c){ return rcTel(c.telefono); }).length;
-    btnTodos.textContent = '📱 Enviar a todos ('+conTel+')';
+    btnTodos.textContent = '📱 Enviar a todos (sin foto) ('+conTel+')';
   }
+  var btnAdjuntar = document.getElementById('rcBtnAdjuntarFotoEnviar');
+  if (btnAdjuntar){ btnAdjuntar.style.display = ultimaFoto ? '' : 'none'; }
 
   var html = '';
   if (todos.length===0){
@@ -13753,12 +13911,12 @@ function rcRenderColClientes(){
     html = visibles.map(function(c){
       var marcado = esAsignado(c);
       var tel = rcTel(c.telefono);
-      var waLink = (marcado && tel) ? '<a href="https://wa.me/'+tel+'?text='+encodeURIComponent(rcMensajeWAColeccion(rcColeccionActualNombre, ultimaFoto))+'" target="_blank" class="tab-btn" style="border-radius:8px;padding:5px 9px;font-size:11px;color:var(--green-pos);" onclick="event.stopPropagation()">📱</a>' : '';
+      var waBtn = (marcado && tel) ? '<button type="button" data-cid="'+c.id+'" class="tab-btn rc-col-compartir" style="border-radius:8px;padding:5px 9px;font-size:11px;color:var(--green-pos);" onclick="event.stopPropagation()">📱</button>' : '';
       return '<label style="display:flex;align-items:center;gap:9px;border:1px solid var(--line);border-radius:8px;padding:8px 10px;margin-bottom:6px;cursor:pointer;">'+
         '<input type="checkbox" data-cid="'+c.id+'" class="rc-col-check" '+(marcado?'checked':'')+' style="width:17px;height:17px;flex:0 0 auto;accent-color:var(--gold);"/>'+
         '<div style="flex:1;min-width:0;"><div style="font-weight:600;font-size:13.5px;">'+rcEsc(c.nombre)+'</div>'+
         (c.telefono?'<div style="font-size:11px;color:var(--cream-dim);">📞 '+rcEsc(c.telefono)+'</div>':'')+'</div>'+
-        waLink+
+        waBtn+
       '</label>';
     }).join('');
   }
@@ -13774,6 +13932,13 @@ function rcRenderColClientes(){
         c.colecciones = (c.colecciones||[]).filter(function(k){return rcNormNombre(k.nombre)!==normActual;});
       }
       rcSave().then(function(){ rcRenderColClientes(); rcRenderColeccionesLista(); });
+    });
+  });
+  cont.querySelectorAll('.rc-col-compartir').forEach(function(b){
+    b.addEventListener('click', function(){
+      var c = rc.clientes.find(function(x){return x.id===b.dataset.cid;});
+      if (!c) return;
+      rcCompartirColeccionA(rcTel(c.telefono), c.nombre, ultimaFoto, document.getElementById('rcColEnviarTodosMsg'));
     });
   });
 }
@@ -13810,12 +13975,36 @@ document.getElementById('rcBtnEnviarTodos').addEventListener('click', function()
   var texto = (msgEl.value||'').trim();
   if (!texto){ estadoEl.style.color='var(--red-neg)'; estadoEl.textContent='Escribí un mensaje primero.'; return; }
   if (asignadosConTel.length===0){ estadoEl.style.color='var(--red-neg)'; estadoEl.textContent='No hay clientes con WhatsApp cargado en esta colección.'; return; }
-  if (!confirm('Se van a abrir '+asignadosConTel.length+' chat(s) de WhatsApp, uno por cliente. ¿Continuar?')) return;
+  if (!confirm('Se van a abrir '+asignadosConTel.length+' chat(s) de WhatsApp, uno por cliente, SOLO con el texto (sin la foto adjunta). ¿Continuar?')) return;
   asignadosConTel.forEach(function(c){
     window.open('https://wa.me/'+rcTel(c.telefono)+'?text='+encodeURIComponent(texto), '_blank');
   });
   estadoEl.style.color='var(--green-pos)';
   estadoEl.textContent = 'Se abrieron '+asignadosConTel.length+' chat(s). Si el navegador bloqueó alguno, permití las ventanas emergentes para este sitio.';
+});
+document.getElementById('rcBtnAdjuntarFotoEnviar').addEventListener('click', async function(){
+  var normActual = rcNormNombre(rcColeccionActualNombre);
+  var col = rc.colecciones.find(function(k){ return rcNormNombre(k.nombre)===normActual; });
+  var ultimaFoto = col && col.fotos && col.fotos[0];
+  var estadoEl = document.getElementById('rcColEnviarTodosMsg');
+  var msgEl = document.getElementById('rcColMsgTodos');
+  var texto = (msgEl.value||'').trim() || rcMensajeWAColeccion(rcColeccionActualNombre, ultimaFoto);
+  if (!ultimaFoto){ estadoEl.style.color='var(--red-neg)'; estadoEl.textContent='Todavía no subiste ninguna foto de esta colección.'; return; }
+  if (!(navigator.canShare && navigator.share)){
+    estadoEl.style.color='var(--red-neg)'; estadoEl.textContent='Este navegador/app no admite compartir con foto adjunta. Usá "Enviar a todos" y adjuntala a mano en cada chat.'; return;
+  }
+  try{
+    var file = rcDataUrlToFile(ultimaFoto.dataUrl, (rcColeccionActualNombre||'coleccion')+'-'+(ultimaFoto.fecha||'')+'.jpg');
+    if (!navigator.canShare({files:[file]})){
+      estadoEl.style.color='var(--red-neg)'; estadoEl.textContent='Este navegador/app no admite compartir con foto adjunta. Usá "Enviar a todos" y adjuntala a mano en cada chat.'; return;
+    }
+    await navigator.share({files:[file], text:texto, title:rcColeccionActualNombre||'Colección'});
+    estadoEl.style.color='var(--green-pos)';
+    estadoEl.textContent = 'Listo. Elegí WhatsApp en el selector — ahí podés tildar varios chats para reenviarla de una sola vez.';
+  }catch(e){
+    if (e && e.name==='AbortError'){ estadoEl.textContent=''; return; }
+    estadoEl.style.color='var(--red-neg)'; estadoEl.textContent='No se pudo abrir el selector para compartir.';
+  }
 });
 
 /* ---------- Init ---------- */
