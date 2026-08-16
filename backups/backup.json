@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 4,
-  "exportadoEl": "2026-08-16T15:34:41.536Z",
+  "exportadoEl": "2026-08-16T23:54:16.467Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -1400,6 +1400,15 @@
       "detalle": "Queso",
       "id": "m_msvyu64fxf5r8l",
       "modificadoEl": "2026-08-16T15:34:41.535Z"
+    },
+    {
+      "date": "2026-08-16",
+      "type": "egreso",
+      "amount": 10000,
+      "category": "Chiara",
+      "account": "alquileres",
+      "id": "m_mswgomxbkz0kwn",
+      "modificadoEl": "2026-08-16T23:54:16.463Z"
     }
   ],
   "categoriasCustom": [
@@ -6382,6 +6391,1182 @@
         }
       ],
       "cargadaEl": "2026-08-14T13:46:44.359Z"
+    },
+    {
+      "id": "f_1786885336882_5xge2",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00582392",
+      "fecha": "2026-08-02",
+      "vencimiento": "2026-08-16",
+      "monto": 74960,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "LA NACION DOM",
+          "edicion": "20260802",
+          "cantidad": 10,
+          "monto": 50060
+        },
+        {
+          "descripcion": "POPULAR DOM",
+          "edicion": "20260802",
+          "cantidad": 15,
+          "monto": 24900
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:02:16.882Z"
+    },
+    {
+      "id": "f_1786885337420_yu63j",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00582468",
+      "fecha": "2026-08-03",
+      "vencimiento": "2026-08-17",
+      "monto": 65064,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "LA NACION LUN",
+          "edicion": "20260803",
+          "cantidad": 14,
+          "monto": 46536
+        },
+        {
+          "descripcion": "POPULAR LUN",
+          "edicion": "20260803",
+          "cantidad": 12,
+          "monto": 18528
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:02:17.420Z"
+    },
+    {
+      "id": "f_1786885338181_s5wgw",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00582625",
+      "fecha": "2026-08-04",
+      "vencimiento": "2026-09-29",
+      "monto": 43466,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "200219 DINOSAURIOS 2\nSTEGOSAURUS + FASCÍCULO",
+          "edicion": "0000006",
+          "cantidad": 5,
+          "monto": 43466
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:02:18.181Z"
+    },
+    {
+      "id": "f_1786885343746_zp1t7",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450-00958195",
+      "fecha": "2026-08-05",
+      "vencimiento": null,
+      "monto": 9972,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "LA NACION MAR",
+          "edicion": "20260728",
+          "cantidad": 3,
+          "monto": 9972
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:02:23.746Z"
+    },
+    {
+      "id": "f_1786885345445_ljtn3",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450-00958191",
+      "fecha": "2026-08-05",
+      "vencimiento": "2026-08-15",
+      "monto": 9972,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "LA NACION VIE",
+          "edicion": "20260724",
+          "cantidad": 3,
+          "monto": 9972
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:02:25.445Z"
+    },
+    {
+      "id": "f_1786885976704_wlgbu",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00582308",
+      "fecha": "2026-08-01",
+      "vencimiento": "2026-09-12",
+      "monto": 188932,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "200423 AUTOS ALEMANE\nNero-Nakiri + Fascículo",
+          "edicion": "0000010",
+          "cantidad": 2,
+          "monto": 37786.4
+        },
+        {
+          "descripcion": "200440 ORGULLO ARGEN\nNero-Nakiri + Fascículo",
+          "edicion": "0000004",
+          "cantidad": 8,
+          "monto": 151145.6
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:12:56.704Z"
+    },
+    {
+      "id": "f_1786885977544_ngzo0",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00582307",
+      "fecha": "2026-08-01",
+      "vencimiento": "2026-09-26",
+      "monto": 43466,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "200219 DINOSAURIOS 2 \nVELOCIRAPTOR + FASCÍCULO",
+          "edicion": "0000005",
+          "cantidad": 5,
+          "monto": 43466
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:12:57.545Z"
+    },
+    {
+      "id": "f_1786885978235_k8bzv",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00582195",
+      "fecha": "2026-08-01",
+      "vencimiento": "2026-08-15",
+      "monto": 95742,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "LA NACION SAB",
+          "edicion": "20260801",
+          "cantidad": 17,
+          "monto": 77214
+        },
+        {
+          "descripcion": "POPULAR SAB",
+          "edicion": "20260801",
+          "cantidad": 12,
+          "monto": 18528
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:12:58.235Z"
+    },
+    {
+      "id": "f_1786886021342_3jnpd",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00582533",
+      "fecha": "2026-08-04",
+      "vencimiento": "2026-08-18",
+      "monto": 58416,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "LA NACION MAR",
+          "edicion": "20260804",
+          "cantidad": 12,
+          "monto": 39888
+        },
+        {
+          "descripcion": "POPULAR MAR",
+          "edicion": "20260804",
+          "cantidad": 12,
+          "monto": 18528
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:13:41.342Z"
+    },
+    {
+      "id": "f_1786886022167_qouq2",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450-00958361",
+      "fecha": "2026-08-05",
+      "vencimiento": "2026-08-15",
+      "monto": 6176,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "POPULAR MAR",
+          "edicion": "20260728",
+          "cantidad": 4,
+          "monto": 6176
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:13:42.167Z"
+    },
+    {
+      "id": "f_1786886023050_8koyw",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450-00958360",
+      "fecha": "2026-08-05",
+      "vencimiento": "2026-08-15",
+      "monto": 6176,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "POPULAR LUN",
+          "edicion": "20260727",
+          "cantidad": 4,
+          "monto": 6176
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:13:43.050Z"
+    },
+    {
+      "id": "f_1786886023857_9eos4",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450-00958359",
+      "fecha": "2026-08-05",
+      "vencimiento": "2026-08-15",
+      "monto": 3320,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "110607 POPULAR DOM",
+          "edicion": "20260726",
+          "cantidad": 2,
+          "monto": 3320
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:13:43.857Z"
+    },
+    {
+      "id": "f_1786886024673_8g8jl",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450-00958358",
+      "fecha": "2026-08-05",
+      "vencimiento": null,
+      "monto": 3088,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "POPULAR SAB",
+          "edicion": "20260725",
+          "cantidad": 2,
+          "monto": 3088
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:13:44.673Z"
+    },
+    {
+      "id": "f_1786886025476_2j6d5",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450-00958357",
+      "fecha": "2026-08-05",
+      "vencimiento": null,
+      "monto": 3088,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "POPULAR VIE",
+          "edicion": "20260724",
+          "cantidad": 2,
+          "monto": 3088
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:13:45.477Z"
+    },
+    {
+      "id": "f_1786886026310_cc1eb",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450-00958356",
+      "fecha": "2026-08-05",
+      "vencimiento": "2026-08-15",
+      "monto": 7720,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "POPULAR JUE",
+          "edicion": "20260723",
+          "cantidad": 5,
+          "monto": 7720
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:13:46.310Z"
+    },
+    {
+      "id": "f_1786886089769_ou6yz",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450-00958355",
+      "fecha": "2026-08-05",
+      "vencimiento": "2026-08-15",
+      "monto": 7720,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "POPULAR MIE",
+          "edicion": "20260722",
+          "cantidad": 5,
+          "monto": 7720
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:14:49.769Z"
+    },
+    {
+      "id": "f_1786886091083_6sbuf",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450-00958194",
+      "fecha": "2026-08-05",
+      "vencimiento": "2026-08-15",
+      "monto": 16620,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "LA NACION LUN 20260727 Devolución",
+          "edicion": "20260727",
+          "cantidad": 5,
+          "monto": 16620
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:14:51.083Z"
+    },
+    {
+      "id": "f_1786886091833_rh6lb",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450-00958193",
+      "fecha": "2026-08-05",
+      "vencimiento": "2026-08-15",
+      "monto": 30036,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "LA NACION DOM",
+          "edicion": "20260726",
+          "cantidad": 6,
+          "monto": 30036
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:14:51.833Z"
+    },
+    {
+      "id": "f_1786886092507_5aryi",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450-00958192",
+      "fecha": "2026-08-05",
+      "vencimiento": "2026-08-15",
+      "monto": 27252,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "LA NACION SAB",
+          "edicion": "20260725",
+          "cantidad": 6,
+          "monto": 27252
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:14:52.507Z"
+    },
+    {
+      "id": "f_1786886093867_gusg2",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450-00958190",
+      "fecha": "2026-08-05",
+      "vencimiento": null,
+      "monto": 6648,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "LA NACION JUE",
+          "edicion": "20260723",
+          "cantidad": 2,
+          "monto": 6648
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:14:53.867Z"
+    },
+    {
+      "id": "f_1786886094582_p8t04",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450-00958189",
+      "fecha": "2026-08-05",
+      "vencimiento": "2026-08-15",
+      "monto": 13296,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "LA NACION MIE 20260722 Devolución",
+          "edicion": "20260722",
+          "cantidad": 4,
+          "monto": 13296
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:14:54.582Z"
+    },
+    {
+      "id": "f_1786886153236_1zv96",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450-00957942",
+      "fecha": "2026-08-05",
+      "vencimiento": "2026-08-15",
+      "monto": 3263.2,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "120465 LIBROS INFANT\nAVENGERS",
+          "edicion": "0000095",
+          "cantidad": 1,
+          "monto": 3263.2
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:15:53.236Z"
+    },
+    {
+      "id": "f_1786886154005_gy0g4",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450-00957941",
+      "fecha": "2026-08-05",
+      "vencimiento": "2026-08-15",
+      "monto": 3263.2,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "LIBROS INFANT DISNEY JUNIOR",
+          "edicion": "0000095",
+          "cantidad": 1,
+          "monto": 3263.2
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:15:54.005Z"
+    },
+    {
+      "id": "f_1786886154735_sao1c",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450-00957940",
+      "fecha": "2026-08-05",
+      "vencimiento": "2026-08-15",
+      "monto": 3263.2,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "120467 LIBROS INFANT PRINCESAS",
+          "edicion": "0000095",
+          "cantidad": 1,
+          "monto": 3263.2
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:15:54.735Z"
+    },
+    {
+      "id": "f_1786886155452_hksx3",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00582799",
+      "fecha": "2026-08-05",
+      "vencimiento": "2026-09-09",
+      "monto": 11590,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "HOLA",
+          "edicion": "0000821",
+          "cantidad": 2,
+          "monto": 11590
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:15:55.452Z"
+    },
+    {
+      "id": "f_1786886156729_113gm",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00582798",
+      "fecha": "2026-08-05",
+      "vencimiento": "2026-09-30",
+      "monto": 123734,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "JARDÍN",
+          "edicion": "0000169",
+          "cantidad": 4,
+          "monto": 38072
+        },
+        {
+          "descripcion": "LIVING",
+          "edicion": "0000220",
+          "cantidad": 5,
+          "monto": 47590
+        },
+        {
+          "descripcion": "LUGARES",
+          "edicion": "0000364",
+          "cantidad": 1,
+          "monto": 9518
+        },
+        {
+          "descripcion": "OHLALÁ",
+          "edicion": "0000221",
+          "cantidad": 3,
+          "monto": 28554
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:15:56.729Z"
+    },
+    {
+      "id": "f_1786886157756_3glom",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00582692",
+      "fecha": "2026-08-05",
+      "vencimiento": "2026-08-19",
+      "monto": 58416,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "000003 LA NACION MIE",
+          "edicion": "20260805",
+          "cantidad": 12,
+          "monto": 39888
+        },
+        {
+          "descripcion": "110603 POPULAR MIE",
+          "edicion": "20260805",
+          "cantidad": 12,
+          "monto": 18528
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:15:57.756Z"
+    },
+    {
+      "id": "f_1786886158575_0tjha",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00582992",
+      "fecha": "2026-08-06",
+      "vencimiento": "2026-09-17",
+      "monto": 119898.4,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "POP CULTURE Bugs Bunny + Fascículo",
+          "edicion": "0000008",
+          "cantidad": 2,
+          "monto": 30986.4
+        },
+        {
+          "descripcion": "DEADPOOL Bugs Bunny + Fascículo",
+          "edicion": "0000004",
+          "cantidad": 8,
+          "monto": 88912
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:15:58.575Z"
+    },
+    {
+      "id": "f_1786886159475_7nr6r",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00582991",
+      "fecha": "2026-08-06",
+      "vencimiento": "2026-10-01",
+      "monto": 43466,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "200219 DINOSAURIOS 2 PTERODÁPTILO + FASCÍCULO",
+          "edicion": "0000011",
+          "cantidad": 5,
+          "monto": 43466
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:15:59.475Z"
+    },
+    {
+      "id": "f_1786886294686_oodj9",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00582891",
+      "fecha": "2026-08-06",
+      "vencimiento": "2026-08-20",
+      "monto": 51768,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "LA NACION JUE",
+          "edicion": "20260806",
+          "cantidad": 10,
+          "monto": 33240
+        },
+        {
+          "descripcion": "POPULAR JUE",
+          "edicion": "20260806",
+          "cantidad": 12,
+          "monto": 18528
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:18:14.686Z"
+    },
+    {
+      "id": "f_1786886295513_5fipe",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00583133",
+      "fecha": "2026-08-07",
+      "vencimiento": "2026-09-11",
+      "monto": 35066.4,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "200444 F1 EXTENSION\nAlpine - Entrega 6 + Fascículo",
+          "edicion": "0000006",
+          "cantidad": 2,
+          "monto": 35066.4
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:18:15.513Z"
+    },
+    {
+      "id": "f_1786886296226_yupht",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00583069",
+      "fecha": "2026-08-07",
+      "vencimiento": "2026-08-21",
+      "monto": 51768,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "LA NACION VIE",
+          "edicion": "20260807",
+          "cantidad": 10,
+          "monto": 33240
+        },
+        {
+          "descripcion": "POPULAR VIE",
+          "edicion": "20260807",
+          "cantidad": 12,
+          "monto": 18528
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:18:16.226Z"
+    },
+    {
+      "id": "f_1786886297001_udpvj",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00583343",
+      "fecha": "2026-08-08",
+      "vencimiento": "2026-10-03",
+      "monto": 43466,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "200219 DINOSAURIOS 2 ANKILOSAURUS + FASCÍCULO",
+          "edicion": "0000007",
+          "cantidad": 5,
+          "monto": 43466
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:18:17.001Z"
+    },
+    {
+      "id": "f_1786886298074_09l2j",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00583342",
+      "fecha": "2026-08-08",
+      "vencimiento": "2026-10-17",
+      "monto": 75456.6,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "LIBROS PRH EL LIBRO DE LOS RETOS",
+          "edicion": "0000001",
+          "cantidad": 1,
+          "monto": 13459.32
+        },
+        {
+          "descripcion": "LIBROS PRH EL LIBRO DE LOS RETOS",
+          "edicion": "0000001",
+          "cantidad": 1,
+          "monto": 19579.32
+        },
+        {
+          "descripcion": "LIBROS PRH EL LIBRO DE LOS RETOS",
+          "edicion": "0000001",
+          "cantidad": 1,
+          "monto": 19579.32
+        },
+        {
+          "descripcion": "LIBROS PRH EL LIBRO DE LOS RETOS",
+          "edicion": "0000001",
+          "cantidad": 1,
+          "monto": 11419.32
+        },
+        {
+          "descripcion": "LIBROS PRH EL LIBRO DE LOS RETOS",
+          "edicion": "0000001",
+          "cantidad": 1,
+          "monto": 11419.32
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:18:18.074Z"
+    },
+    {
+      "id": "f_1786886299116_2l0dh",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00583341",
+      "fecha": "2026-08-08",
+      "vencimiento": "2026-09-19",
+      "monto": 18893.2,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "200424 STITCH\nStitch Halloween",
+          "edicion": "0000013",
+          "cantidad": 1,
+          "monto": 18893.2
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:18:19.116Z"
+    },
+    {
+      "id": "f_1786886299916_76i5z",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00583196",
+      "fecha": "2026-08-08",
+      "vencimiento": "2022-08-22",
+      "monto": 95742,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "LA NACION SAB",
+          "edicion": "20260808",
+          "cantidad": 17,
+          "monto": 77214
+        },
+        {
+          "descripcion": "POPULAR SAB",
+          "edicion": "20260808",
+          "cantidad": 12,
+          "monto": 18528
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:18:19.916Z"
+    },
+    {
+      "id": "f_1786886300757_z2ee2",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00583544",
+      "fecha": "2026-08-09",
+      "vencimiento": "2026-09-20",
+      "monto": 40359.6,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "200236 MON Y BILL 20",
+          "edicion": "0000037",
+          "cantidad": 3,
+          "monto": 40359.6
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:18:20.757Z"
+    },
+    {
+      "id": "f_1786886410248_8v7om",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00583513",
+      "fecha": "2026-08-09",
+      "vencimiento": "2026-09-20",
+      "monto": 40359.6,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "MON Y BILL 20 Billete - Nicaragua 2",
+          "edicion": "0000036",
+          "cantidad": 3,
+          "monto": 40359.6
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:20:10.248Z"
+    },
+    {
+      "id": "f_1786886410881_v5g8c",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450-00959129",
+      "fecha": "2026-08-09",
+      "vencimiento": "2026-08-19",
+      "monto": 40359.6,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "200236 MON Y BILL 20\nMonedas Finland - Folio",
+          "edicion": "0000035",
+          "cantidad": 3,
+          "monto": 40359.6
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:20:10.881Z"
+    },
+    {
+      "id": "f_1786886411489_rwgas",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450-00959128",
+      "fecha": "2026-08-09",
+      "vencimiento": "2026-08-19",
+      "monto": 77798,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "200430 DEADPOOL\nDeadpool: Todo en familia",
+          "edicion": "0000003",
+          "cantidad": 7,
+          "monto": 77798
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:20:11.489Z"
+    },
+    {
+      "id": "f_1786886412097_dgdwz",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450-00959127",
+      "fecha": "2026-08-09",
+      "vencimiento": "2026-08-19",
+      "monto": 24186.4,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "200443 DESCAPOTABLES 0000001 Devolución\nMercedes-Benz 280 SE (1967) Entrega 1 + Fascículo",
+          "edicion": "0000001",
+          "cantidad": 2,
+          "monto": 24186.4
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:20:12.097Z"
+    },
+    {
+      "id": "f_1786886413067_bdpj6",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00583442",
+      "fecha": "2026-08-09",
+      "vencimiento": "2026-08-23",
+      "monto": 74960,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "LA NACION DOM",
+          "edicion": "20260809",
+          "cantidad": 10,
+          "monto": 50060
+        },
+        {
+          "descripcion": "POPULAR DOM",
+          "edicion": "20260809",
+          "cantidad": 15,
+          "monto": 24900
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:20:13.067Z"
+    },
+    {
+      "id": "f_1786886413826_p68a4",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00583695",
+      "fecha": "2026-08-10",
+      "vencimiento": "2026-10-05",
+      "monto": 49493.2,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "200426 GREEN PAN 0000002 Reposición SARTÉN 28CM CHEF GREENPAN",
+          "edicion": "0000002",
+          "cantidad": 1,
+          "monto": 49493.2
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:20:13.826Z"
+    },
+    {
+      "id": "f_1786886414634_wefcl",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00583694",
+      "fecha": "2026-08-10",
+      "vencimiento": "2026-09-21",
+      "monto": 61586.4,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "AMERICANAS 4X The Immaculate Collection - doble + Fascículo",
+          "edicion": "0000006",
+          "cantidad": 1,
+          "monto": 18893.2
+        },
+        {
+          "descripcion": "MADONNA The Immaculate Collection - doble + Fascículo",
+          "edicion": "0000004",
+          "cantidad": 1,
+          "monto": 42693.2
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:20:14.634Z"
+    },
+    {
+      "id": "f_1786886415430_3i1oi",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00583597",
+      "fecha": "2026-08-10",
+      "vencimiento": "2026-08-24",
+      "monto": 65064,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "LA NACION LUN",
+          "edicion": "20260810",
+          "cantidad": 14,
+          "monto": 46536
+        },
+        {
+          "descripcion": "POPULAR LUN",
+          "edicion": "20260810",
+          "cantidad": 12,
+          "monto": 18528
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:20:15.430Z"
+    },
+    {
+      "id": "f_1786886442940_8ndnk",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00583938",
+      "fecha": "2026-08-12",
+      "vencimiento": "2026-08-26",
+      "monto": 58416,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "000003 LA NACION MIE",
+          "edicion": "20260812",
+          "cantidad": 12,
+          "monto": 39888
+        },
+        {
+          "descripcion": "110603 POPULAR MIE",
+          "edicion": "20260812",
+          "cantidad": 12,
+          "monto": 18528
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:20:42.940Z"
+    },
+    {
+      "id": "f_1786886443873_yvkwa",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00584042",
+      "fecha": "2026-08-12",
+      "vencimiento": "2026-09-23",
+      "monto": 113359.2,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "200429 AMERICANAS 4X\n1973 Ford Bronco + Fascículo",
+          "edicion": "0000001",
+          "cantidad": 6,
+          "monto": 113359.2
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:20:43.873Z"
+    },
+    {
+      "id": "f_1786886444698_tggnz",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00584043",
+      "fecha": "2026-08-12",
+      "vencimiento": "2026-09-16",
+      "monto": 11590,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "HOLA",
+          "edicion": "0000822",
+          "cantidad": 2,
+          "monto": 11590
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:20:44.698Z"
+    },
+    {
+      "id": "f_1786886445581_0e85c",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00583764",
+      "fecha": "2026-08-11",
+      "vencimiento": "2026-08-25",
+      "monto": 58416,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "LA NACION MAR",
+          "edicion": "20260811",
+          "cantidad": 12,
+          "monto": 39888
+        },
+        {
+          "descripcion": "POPULAR MAR",
+          "edicion": "20260811",
+          "cantidad": 12,
+          "monto": 18528
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:20:45.581Z"
+    },
+    {
+      "id": "f_1786886446797_rq8q5",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00583862",
+      "fecha": "2026-08-11",
+      "vencimiento": "2026-10-20",
+      "monto": 95859.32,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "500546 LIBROS PRH UNICORNIO",
+          "edicion": "0000001",
+          "cantidad": 1,
+          "monto": 20600
+        },
+        {
+          "descripcion": "500547 LIBROS PRH UNICORNIO",
+          "edicion": "0000001",
+          "cantidad": 1,
+          "monto": 20600
+        },
+        {
+          "descripcion": "500548 LIBROS PRH UNICORNIO",
+          "edicion": "0000001",
+          "cantidad": 1,
+          "monto": 20600
+        },
+        {
+          "descripcion": "500549 LIBROS PRH UNICORNIO",
+          "edicion": "0000001",
+          "cantidad": 1,
+          "monto": 20600
+        },
+        {
+          "descripcion": "500550 LIBROS PRH UNICORNIO",
+          "edicion": "0000001",
+          "cantidad": 1,
+          "monto": 13459.32
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:20:46.797Z"
+    },
+    {
+      "id": "f_1786886447888_ia6yd",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00583863",
+      "fecha": "2026-08-11",
+      "vencimiento": "2026-09-22",
+      "monto": 46479.6,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "200443 DESCAPOTABLES\nMercedes-Benz 280 SE (1967) Entrega 3 + Fascículo",
+          "edicion": "0000003",
+          "cantidad": 3,
+          "monto": 46479.6
+        }
+      ],
+      "cargadaEl": "2026-08-16T13:20:47.888Z"
     }
   ],
   "clientesReparto": {
