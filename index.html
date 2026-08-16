@@ -11069,7 +11069,14 @@ renderAutoConclusions();
         if (hastaInt !== null && fInt > hastaInt) return;
         const sem = semanaDeFechaProv(fechaEf);
         if (!sem) return;
-        if (!semanas[sem.key]) semanas[sem.key] = { key: sem.key, lunesIso: sem.lunesIso, domingoIso: sem.domingoIso, cargas: 0, nc: 0 };
+        if (!semanas[sem.key]) semanas[sem.key] = { key: sem.key, lunesIso: sem.lunesIso, domingoIso: sem.domingoIso, cargas: 0, nc: 0, movimientos: [] };
+        let mov = semanas[sem.key].movimientos.find(x => x.id === f.id);
+        if (!mov){
+          mov = { id:f.id, fecha:f.fecha||'', tipo:f.tipo||'', numeroFactura:f.numeroFactura||'', estado:f.estado||'', montoComprobante:Number(f.monto||0), montoItems:0, items:[] };
+          semanas[sem.key].movimientos.push(mov);
+        }
+        mov.montoItems += monto;
+        mov.items.push({ descripcion:it.descripcion||'', edicion:it.edicion||'', cantidad:it.cantidad, monto:monto, fechaEfectiva:fechaEf||'' });
         if (esNC){ semanas[sem.key].nc += monto; totalNC += monto; }
         else { semanas[sem.key].cargas += monto; totalCargas += monto; }
       });
@@ -11098,14 +11105,52 @@ renderAutoConclusions();
       elTbody.innerHTML = filas.length
         ? filas.map(s => {
             const neto = s.cargas - s.nc;
-            return '<tr>' +
-              '<td>' + fmtFechaItemProv(s.lunesIso) + ' – ' + fmtFechaItemProv(s.domingoIso) + '</td>' +
+            const detalleId = 'ganSemDetalle_' + s.key;
+            const movimientos = (s.movimientos || []).slice().sort((a,b) => (b.fecha||'').localeCompare(a.fecha||''));
+            const detalleHtml = movimientos.map(m => {
+              const esCredito = m.tipo === 'nota_credito';
+              const itemsHtml = (m.items || []).map(it =>
+                '<tr>' +
+                  '<td style="padding:4px 6px;">' + escapeHtmlProv(it.descripcion || '—') + '</td>' +
+                  '<td style="padding:4px 6px;">' + escapeHtmlProv(it.edicion || '—') + '</td>' +
+                  '<td style="padding:4px 6px;text-align:right;">' + (it.cantidad != null ? Number(it.cantidad).toLocaleString('es-AR',{maximumFractionDigits:2}) : '—') + '</td>' +
+                  '<td style="padding:4px 6px;text-align:right;">' + fmtARS(it.monto) + '</td>' +
+                  '<td style="padding:4px 6px;">' + (it.fechaEfectiva ? fmtFechaItemProv(it.fechaEfectiva) : '—') + '</td>' +
+                '</tr>'
+              ).join('');
+              return '<div style="border:1px solid var(--line);border-radius:8px;padding:8px;margin:7px 0;background:rgba(0,0,0,.08);">' +
+                '<div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:6px;"><strong>' + escapeHtmlProv(etiquetaTipo(m.tipo)) + (m.numeroFactura ? ' · N° ' + escapeHtmlProv(m.numeroFactura) : '') + '</strong><span>' + (m.fecha ? fmtFechaCorta(fechaAIntProv(m.fecha)) : '—') + ' · ' + (m.estado === 'pendiente' ? 'Pendiente' : 'Pagada') + '</span></div>' +
+                '<div class="card-note" style="margin-bottom:5px;">Importe de ítems que cae en esta semana: <strong>' + (esCredito ? '−' : '') + fmtARS(m.montoItems) + '</strong>' +
+                  (m.montoComprobante && Math.abs(m.montoComprobante - m.montoItems) > 0.009 ? ' · Comprobante: ' + (esCredito ? '−' : '') + fmtARS(m.montoComprobante) : '') +
+                '</div>' +
+                '<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;font-size:11.5px;"><thead><tr>' +
+                  '<th style="text-align:left;padding:4px 6px;">Título / producto</th><th style="text-align:left;padding:4px 6px;">Edición</th><th style="text-align:right;padding:4px 6px;">Cant.</th><th style="text-align:right;padding:4px 6px;">Monto</th><th style="text-align:left;padding:4px 6px;">Fecha aplicada</th>' +
+                '</tr></thead><tbody>' + itemsHtml + '</tbody></table></div>' +
+              '</div>';
+            }).join('');
+            return '<tr data-gan-sem-row="' + s.key + '" style="cursor:pointer;">' +
+              '<td><span data-gan-sem-arrow="' + s.key + '">▸</span> ' + fmtFechaItemProv(s.lunesIso) + ' – ' + fmtFechaItemProv(s.domingoIso) + '</td>' +
               '<td class="num">' + fmtARS(s.cargas) + '</td>' +
               '<td class="num">' + (s.nc ? fmtARS(s.nc) : '—') + '</td>' +
               '<td class="num">' + fmtARS(neto) + '</td>' +
-            '</tr>';
+            '</tr>' +
+            '<tr data-gan-sem-detalle="' + s.key + '" style="display:none;"><td colspan="4" style="padding:8px 4px 12px 4px;background:rgba(0,0,0,.10);">' +
+              '<div class="card-note" style="margin-bottom:6px;">Comprobantes e ítems que forman esta semana según el filtro seleccionado.</div>' +
+              (detalleHtml || '<div class="card-note">Sin detalle de comprobantes.</div>') +
+            '</td></tr>';
           }).join('')
         : '<tr><td colspan="4" class="card-note">Sin datos para mostrar en este rango.</td></tr>';
+      elTbody.querySelectorAll('[data-gan-sem-row]').forEach(row => {
+        row.addEventListener('click', () => {
+          const id = row.getAttribute('data-gan-sem-row');
+          const detalle = elTbody.querySelector('[data-gan-sem-detalle="' + id + '"]');
+          const arrow = row.querySelector('[data-gan-sem-arrow="' + id + '"]');
+          if (!detalle) return;
+          const abierto = detalle.style.display !== 'none';
+          detalle.style.display = abierto ? 'none' : '';
+          if (arrow) arrow.textContent = abierto ? '▸' : '▾';
+        });
+      });
     }
   }
 
