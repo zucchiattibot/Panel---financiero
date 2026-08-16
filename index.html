@@ -859,6 +859,17 @@ try {
 <p class="card-note" style="margin-top:6px;">Revisa TODOS los comprobantes ya guardados (de todos los proveedores) y te muestra los grupos que parecen ser el mismo comprobante cargado más de una vez, para que elijas cuál eliminar.</p>
 <div id="facDupResultado" style="margin-top:10px;"></div>
 </div>
+<div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--line);">
+<p class="card-note" style="font-weight:600;color:var(--cream);margin-bottom:6px;">Backup solo de Proveedores</p>
+<p class="card-note">Exporta o restaura SOLO las facturas/notas de crédito y débito cargadas en esta pestaña (de todos los proveedores), sin tocar movimientos, clientes ni el resto del panel. Útil si solo querés pasar o respaldar esto puntualmente.</p>
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;">
+<button class="tab-btn" id="btnExportarBackupProveedores" style="border-radius:8px;" type="button">⬇️ Exportar solo Proveedores</button>
+<button class="tab-btn" id="btnPegarBackupProveedores" style="border-radius:8px;" type="button">📋 Pegar backup de Proveedores</button>
+<label class="tab-btn" for="inputImportarBackupProveedores" style="border-radius:8px;cursor:pointer;margin:0;display:inline-flex;align-items:center;">⬆️ Importar backup de Proveedores (archivo)</label>
+<input accept="application/json,.json" id="inputImportarBackupProveedores" style="display:none;" type="file"/>
+</div>
+<p class="card-note" id="backupProveedoresMsg" style="min-height:14px;margin-top:6px;"></p>
+</div>
 <p class="card-note" style="margin-top:16px;">Historial — elegí una fecha "entre" y "entre" (por ej. del 1 al 8 de agosto) o un monto para ver los comprobantes de ese período y sus estadísticas: cuánto facturaste, cuánto queda pendiente y cuánto pagaste realmente según tus movimientos bancarios en esas mismas fechas (esto solo afecta esta sección, no los totales generales de arriba):</p>
 <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;">
 <input id="facFiltroDesde" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:8px;border-radius:6px;font-size:13px;" type="date"/>
@@ -1925,11 +1936,12 @@ try {
 <div class="note-box">Esto se guarda en este dispositivo/instalación (localStorage si abrís el panel como app o página suelta; window.storage si lo abrís dentro de Claude). No viaja solo a otros celulares ni sobrevive a un "borrar datos" o desinstalar la app. Por eso: <strong>Exportar backup</strong> intenta descargar un archivo .json Y además siempre te muestra el backup como texto en pantalla con un botón para copiarlo — usá ese texto (pegalo en Notas, WhatsApp a vos mismo, etc.) si la descarga de archivo no funciona dentro de la app. El backup incluye también las facturas/notas de crédito y débito cargadas en Proveedores. Para recuperarlo después: <strong>Pegar backup</strong> (pegando ese texto) o <strong>Importar backup (archivo)</strong> si tenés el .json guardado. <strong>Importar nunca borra ni reemplaza lo que ya tenés cargado</strong> — solo agrega lo que falte, y siempre te muestra antes qué se va a agregar y te pide confirmar. Si igual te arrepentís de una importación, usá <strong>↩️ Deshacer última importación</strong> para volver a como estaba justo antes.</div>
 <div class="card">
 <h2>Backup automático a GitHub</h2>
-<p class="card-note">Sube el backup (movimientos cargados a mano) directo a un archivo del repo del panel, sin copiar ni pegar nada. Necesita un token de acceso personal de GitHub con permiso sobre ese repo. El token queda guardado solo en este dispositivo, nunca en el código del panel.</p>
+<p class="card-note">Sube el backup directo a un archivo del repo del panel, sin copiar ni pegar nada. Podés usar la primera ruta para el backup completo (movimientos cargados a mano, proveedores, clientes, etc.) y, si querés, la segunda ruta para subir/traer SOLO los comprobantes de Proveedores por separado, en su propio archivo. Necesita un token de acceso personal de GitHub con permiso sobre ese repo. El token queda guardado solo en este dispositivo, nunca en el código del panel.</p>
 <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:12px;">
 <input id="ghOwner" placeholder="Usuario/organización de GitHub (ej: zucchiattibot)" style="padding:10px 12px;border-radius:8px;border:1px solid var(--line);background:rgba(0,0,0,.18);color:var(--cream);font-size:14px;" type="text"/>
 <input id="ghRepo" placeholder="Nombre del repo (ej: Panel---financiero)" style="padding:10px 12px;border-radius:8px;border:1px solid var(--line);background:rgba(0,0,0,.18);color:var(--cream);font-size:14px;" type="text"/>
 <input id="ghPath" placeholder="Ruta del archivo (ej: backups/backup.json)" style="padding:10px 12px;border-radius:8px;border:1px solid var(--line);background:rgba(0,0,0,.18);color:var(--cream);font-size:14px;" type="text"/>
+<input id="ghPathProveedores" placeholder="Ruta del archivo SOLO Proveedores (ej: backups/backup-proveedores.json)" style="padding:10px 12px;border-radius:8px;border:1px solid var(--line);background:rgba(0,0,0,.18);color:var(--cream);font-size:14px;" type="text"/>
 <input autocomplete="off" id="ghToken" placeholder="Token de GitHub (github_pat_...)" style="padding:10px 12px;border-radius:8px;border:1px solid var(--line);background:rgba(0,0,0,.18);color:var(--cream);font-size:14px;" type="password"/>
 <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--cream-dim);">
 <input id="ghAuto" type="checkbox"/> Subir automático cada vez que cargo un movimiento nuevo a mano
@@ -1944,6 +1956,10 @@ try {
 <button class="tab-btn" id="btnGuardarGhConfig" style="border-radius:8px;" type="button">💾 Guardar configuración</button>
 <button class="tab-btn" id="btnSubirGhAhora" style="border-radius:8px;" type="button">☁️ Subir backup ahora</button>
 <button class="tab-btn" id="btnTraerGhAhora" style="border-radius:8px;" type="button">⬇️ Traer backup desde GitHub</button>
+</div>
+<div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:8px;">
+<button class="tab-btn" id="btnSubirGhAhoraProveedores" style="border-radius:8px;" type="button">☁️ Subir solo Proveedores a GitHub</button>
+<button class="tab-btn" id="btnTraerGhAhoraProveedores" style="border-radius:8px;" type="button">⬇️ Traer backup de Proveedores desde GitHub</button>
 </div>
 <p class="card-note" id="ghMsg" style="min-height:14px;margin-top:8px;"></p>
 </div>
@@ -7555,6 +7571,114 @@ document.getElementById('inputImportarBackup').addEventListener('change', (e)=>{
   e.target.value = '';
 });
 
+/* ---------------- BACKUP SOLO DE PROVEEDORES (facturas/notas de crédito/débito) ----------------
+   Mismo mecanismo que el backup completo (armarBackupTexto/procesarBackupTexto) pero
+   acotado a lo cargado en la pestaña Proveedores: no toca movimientos, categorías,
+   clientes de reparto, vencimientos ni reservas de colecciones. Pensado para cuando
+   solo se quiere pasar o respaldar los comprobantes de proveedores. */
+function armarBackupProveedoresTexto(){
+  const backup = {
+    tipo: 'panel-agencia-backup-proveedores',
+    version: 1,
+    exportadoEl: new Date().toISOString(),
+    facturasProveedores: (typeof window.getFacturasProveedores === 'function') ? window.getFacturasProveedores() : []
+  };
+  return JSON.stringify(backup, null, 2);
+}
+
+function exportarBackupProveedores(){
+  const texto = armarBackupProveedoresTexto();
+  const fecha = new Date().toISOString().slice(0, 10);
+  intentarDescargaArchivo(texto, `panel-backup-proveedores-${fecha}.json`);
+  const cant = (typeof window.getFacturasProveedores === 'function') ? window.getFacturasProveedores().length : 0;
+  abrirModalBackup({
+    titulo: `Backup de Proveedores: ${cant} comprobante(s)`,
+    ayuda: 'Si no viste que se descargara ningún archivo, copiá este texto con el botón de abajo y pegalo en Notas, WhatsApp a vos mismo, un mail, etc. Para recuperarlo después usá "📋 Pegar backup de Proveedores".',
+    texto: texto,
+    soloLectura: true,
+    etiquetaBoton: '📋 Copiar todo',
+    alAccionar: async ()=>{
+      const ta = document.getElementById('backupModalTextarea');
+      const ok = await copiarTexto(texto, ta);
+      document.getElementById('backupModalMsg').textContent = ok
+        ? 'Copiado ✔️. Ahora pegalo en Notas, WhatsApp a vos mismo, un mail, etc.'
+        : 'No se copió automático. Tocá y mantené presionado sobre el texto de arriba para seleccionarlo y copiarlo a mano.';
+    }
+  });
+}
+
+async function procesarBackupProveedoresTexto(texto, msgEl){
+  let data;
+  try {
+    data = JSON.parse(texto);
+  } catch(e){
+    msgEl.textContent = 'No se pudo leer ese texto/archivo. ¿Es un backup de Proveedores válido de este panel?';
+    return;
+  }
+  if (!data || !Array.isArray(data.facturasProveedores)){
+    msgEl.textContent = 'Ese texto/archivo no tiene el formato de un backup de Proveedores de este panel.';
+    return;
+  }
+  let nuevasFacturas = 0;
+  if (typeof window.getFacturasProveedores === 'function'){
+    const idsExistentes = new Set(window.getFacturasProveedores().map(f=>f.id));
+    data.facturasProveedores.forEach(f=>{ if (f && f.id && !idsExistentes.has(f.id)) nuevasFacturas++; });
+  }
+  if (nuevasFacturas === 0){
+    msgEl.textContent = 'Ese backup no tenía comprobantes nuevos para agregar (los que trae ya estaban cargados). No se cambió nada.';
+    return;
+  }
+  const fechaBackup = data.exportadoEl ? new Date(data.exportadoEl) : null;
+  const fechaTxt = fechaBackup && !isNaN(fechaBackup) ? fechaBackup.toLocaleString('es-AR') : 'fecha desconocida';
+  const resumen = `Este backup de Proveedores es del ${fechaTxt}.\n\n` +
+    `Se van a AGREGAR ${nuevasFacturas} comprobante(s) de proveedores nuevo(s). No se toca ni se reemplaza nada de lo que ya tenés cargado.\n\n` +
+    `¿Confirmás la importación?`;
+  if (!window.confirm(resumen)){
+    msgEl.textContent = 'Importación cancelada. No se cambió nada.';
+    return;
+  }
+  if (typeof window.importarFacturasProveedores !== 'function'){
+    msgEl.textContent = 'El módulo de Proveedores todavía no cargó. Recargá la página e intentá de nuevo.';
+    return;
+  }
+  const agregadas = await window.importarFacturasProveedores(data.facturasProveedores);
+  msgEl.textContent = `Listo: se agregaron ${agregadas} comprobante(s) de proveedores nuevo(s).`;
+}
+
+async function importarBackupProveedoresArchivo(file){
+  const msgEl = document.getElementById('backupProveedoresMsg');
+  if (!file) return;
+  msgEl.textContent = 'Leyendo archivo…';
+  try {
+    const texto = await file.text();
+    await procesarBackupProveedoresTexto(texto, msgEl);
+  } catch(e){
+    msgEl.textContent = 'No se pudo leer el archivo. Probá con "📋 Pegar backup de Proveedores" en su lugar.';
+  }
+}
+
+function abrirModalPegarBackupProveedores(){
+  abrirModalBackup({
+    titulo: 'Pegar backup de Proveedores',
+    ayuda: 'Pegá acá el texto completo que copiaste antes con "Exportar solo Proveedores" (mantené presionado sobre el recuadro y elegí Pegar).',
+    texto: '',
+    soloLectura: false,
+    etiquetaBoton: 'Importar este texto',
+    alAccionar: ()=>{
+      const texto = document.getElementById('backupModalTextarea').value;
+      procesarBackupProveedoresTexto(texto, document.getElementById('backupModalMsg'));
+    }
+  });
+}
+
+document.getElementById('btnExportarBackupProveedores').addEventListener('click', exportarBackupProveedores);
+document.getElementById('btnPegarBackupProveedores').addEventListener('click', abrirModalPegarBackupProveedores);
+document.getElementById('inputImportarBackupProveedores').addEventListener('change', (e)=>{
+  const file = e.target.files && e.target.files[0];
+  importarBackupProveedoresArchivo(file);
+  e.target.value = '';
+});
+
 /* ---------------- BACKUP AUTOMÁTICO A GITHUB (GitHub Contents API) ---------------- */
 // Sube armarBackupTexto() directo a un archivo del repo vía PUT a
 // https://api.github.com/repos/{owner}/{repo}/contents/{path}. Requiere un
@@ -7585,6 +7709,7 @@ async function guardarGhConfigDesdeForm(){
     owner: document.getElementById('ghOwner').value.trim(),
     repo: document.getElementById('ghRepo').value.trim(),
     path: document.getElementById('ghPath').value.trim() || 'backups/backup.json',
+    pathProveedores: document.getElementById('ghPathProveedores').value.trim() || 'backups/backup-proveedores.json',
     token: document.getElementById('ghToken').value.trim(),
     auto: document.getElementById('ghAuto').checked
   };
@@ -7597,6 +7722,7 @@ async function precargarGhForm(){
   document.getElementById('ghOwner').value = cfg.owner || '';
   document.getElementById('ghRepo').value = cfg.repo || '';
   document.getElementById('ghPath').value = cfg.path || '';
+  document.getElementById('ghPathProveedores').value = cfg.pathProveedores || '';
   document.getElementById('ghToken').value = cfg.token || '';
   document.getElementById('ghAuto').checked = !!cfg.auto;
 }
@@ -7609,40 +7735,99 @@ async function subirBackupAGithub(silencioso){
     return false;
   }
   if (msgEl && !silencioso) msgEl.textContent = 'Subiendo a GitHub…';
-  const apiUrl = `https://api.github.com/repos/${encodeURIComponent(cfg.owner)}/${encodeURIComponent(cfg.repo)}/contents/${cfg.path.split('/').map(encodeURIComponent).join('/')}`;
-  const headers = {
-    'Authorization': `Bearer ${cfg.token}`,
-    'Accept': 'application/vnd.github+json',
-    'X-GitHub-Api-Version': '2022-11-28'
-  };
   try {
-    // 1) Ver si el archivo ya existe, para mandar su sha (si no, GitHub rechaza el PUT como "update" a un archivo existente).
-    let sha = undefined;
-    const getResp = await fetch(apiUrl, { headers });
-    if (getResp.status === 200){
-      const data = await getResp.json();
-      sha = data.sha;
-    } else if (getResp.status !== 404){
-      const errBody = await getResp.text().catch(()=> '');
-      throw new Error(`No se pudo consultar el archivo (HTTP ${getResp.status}). ${errBody.slice(0,200)}`);
-    }
-    // 2) Crear o actualizar el archivo.
-    const contenido = armarBackupTexto();
-    const body = {
-      message: `Backup automático — ${new Date().toISOString()}`,
-      content: utf8ToBase64(contenido)
-    };
-    if (sha) body.sha = sha;
-    const putResp = await fetch(apiUrl, { method: 'PUT', headers, body: JSON.stringify(body) });
-    if (!putResp.ok){
-      const errBody = await putResp.text().catch(()=> '');
-      throw new Error(`GitHub devolvió HTTP ${putResp.status}. ${errBody.slice(0,200)}`);
-    }
+    await subirTextoAGithub(cfg, cfg.path, armarBackupTexto(), 'Backup automático');
     if (msgEl) msgEl.textContent = `Backup subido a GitHub ✔️ (${new Date().toLocaleTimeString()})`;
     return true;
   } catch(e){
     if (msgEl) msgEl.textContent = `No se pudo subir a GitHub: ${e.message || e}`;
     return false;
+  }
+}
+
+// Función interna compartida: hace el PUT a la Contents API de GitHub para
+// crear o actualizar UN archivo en una ruta dada, con el texto que se le pase.
+// La usan tanto el backup completo como el backup solo de Proveedores — cada
+// uno con su propia ruta (cfg.path vs cfg.pathProveedores) pero el mismo
+// owner/repo/token de la configuración.
+async function subirTextoAGithub(cfg, path, contenido, mensajeCommit){
+  const apiUrl = `https://api.github.com/repos/${encodeURIComponent(cfg.owner)}/${encodeURIComponent(cfg.repo)}/contents/${path.split('/').map(encodeURIComponent).join('/')}`;
+  const headers = {
+    'Authorization': `Bearer ${cfg.token}`,
+    'Accept': 'application/vnd.github+json',
+    'X-GitHub-Api-Version': '2022-11-28'
+  };
+  let sha = undefined;
+  const getResp = await fetch(apiUrl, { headers });
+  if (getResp.status === 200){
+    const data = await getResp.json();
+    sha = data.sha;
+  } else if (getResp.status !== 404){
+    const errBody = await getResp.text().catch(()=> '');
+    throw new Error(`No se pudo consultar el archivo (HTTP ${getResp.status}). ${errBody.slice(0,200)}`);
+  }
+  const body = {
+    message: `${mensajeCommit} — ${new Date().toISOString()}`,
+    content: utf8ToBase64(contenido)
+  };
+  if (sha) body.sha = sha;
+  const putResp = await fetch(apiUrl, { method: 'PUT', headers, body: JSON.stringify(body) });
+  if (!putResp.ok){
+    const errBody = await putResp.text().catch(()=> '');
+    throw new Error(`GitHub devolvió HTTP ${putResp.status}. ${errBody.slice(0,200)}`);
+  }
+}
+
+// Función interna compartida para traer el contenido de un archivo desde
+// GitHub (usada tanto por el backup completo como por el de Proveedores).
+async function traerTextoDesdeGithub(cfg, path){
+  const apiUrl = `https://api.github.com/repos/${encodeURIComponent(cfg.owner)}/${encodeURIComponent(cfg.repo)}/contents/${path.split('/').map(encodeURIComponent).join('/')}`;
+  const headers = {
+    'Authorization': `Bearer ${cfg.token}`,
+    'Accept': 'application/vnd.github+json',
+    'X-GitHub-Api-Version': '2022-11-28'
+  };
+  const resp = await fetch(apiUrl, { headers });
+  if (resp.status === 404) throw new Error('Todavía no hay ningún backup subido a GitHub en esa ruta.');
+  if (!resp.ok){
+    const errBody = await resp.text().catch(()=> '');
+    throw new Error(`GitHub devolvió HTTP ${resp.status}. ${errBody.slice(0,200)}`);
+  }
+  const data = await resp.json();
+  return base64ToUtf8(data.content || '');
+}
+
+async function subirBackupProveedoresAGithub(silencioso){
+  const msgEl = document.getElementById('ghMsg');
+  const cfg = await cargarGhConfig();
+  if (!cfg || !cfg.owner || !cfg.repo || !cfg.pathProveedores || !cfg.token){
+    if (!silencioso && msgEl) msgEl.textContent = 'Falta completar usuario, repo, la ruta de Proveedores o el token. Guardá la configuración primero.';
+    return false;
+  }
+  if (msgEl && !silencioso) msgEl.textContent = 'Subiendo backup de Proveedores a GitHub…';
+  try {
+    await subirTextoAGithub(cfg, cfg.pathProveedores, armarBackupProveedoresTexto(), 'Backup de Proveedores');
+    if (msgEl) msgEl.textContent = `Backup de Proveedores subido a GitHub ✔️ (${new Date().toLocaleTimeString()})`;
+    return true;
+  } catch(e){
+    if (msgEl) msgEl.textContent = `No se pudo subir el backup de Proveedores a GitHub: ${e.message || e}`;
+    return false;
+  }
+}
+
+async function traerBackupProveedoresDesdeGithub(){
+  const msgEl = document.getElementById('ghMsg');
+  const cfg = await cargarGhConfig();
+  if (!cfg || !cfg.owner || !cfg.repo || !cfg.pathProveedores || !cfg.token){
+    if (msgEl) msgEl.textContent = 'Falta completar usuario, repo, la ruta de Proveedores o el token. Guardá la configuración primero.';
+    return;
+  }
+  if (msgEl) msgEl.textContent = 'Trayendo backup de Proveedores desde GitHub…';
+  try {
+    const texto = await traerTextoDesdeGithub(cfg, cfg.pathProveedores);
+    await procesarBackupProveedoresTexto(texto, msgEl);
+  } catch(e){
+    if (msgEl) msgEl.textContent = `No se pudo traer el backup de Proveedores: ${e.message || e}`;
   }
 }
 
@@ -7654,23 +7839,8 @@ async function traerBackupDesdeGithub(){
     return;
   }
   if (msgEl) msgEl.textContent = 'Trayendo backup desde GitHub…';
-  const apiUrl = `https://api.github.com/repos/${encodeURIComponent(cfg.owner)}/${encodeURIComponent(cfg.repo)}/contents/${cfg.path.split('/').map(encodeURIComponent).join('/')}`;
-  const headers = {
-    'Authorization': `Bearer ${cfg.token}`,
-    'Accept': 'application/vnd.github+json',
-    'X-GitHub-Api-Version': '2022-11-28'
-  };
   try {
-    const resp = await fetch(apiUrl, { headers });
-    if (resp.status === 404){
-      throw new Error('Todavía no hay ningún backup subido a GitHub en esa ruta.');
-    }
-    if (!resp.ok){
-      const errBody = await resp.text().catch(()=> '');
-      throw new Error(`GitHub devolvió HTTP ${resp.status}. ${errBody.slice(0,200)}`);
-    }
-    const data = await resp.json();
-    const texto = base64ToUtf8(data.content || '');
+    const texto = await traerTextoDesdeGithub(cfg, cfg.path);
     await procesarBackupTexto(texto, msgEl);
   } catch(e){
     if (msgEl) msgEl.textContent = `No se pudo traer el backup: ${e.message || e}`;
@@ -7684,6 +7854,8 @@ document.getElementById('btnGuardarGhConfig').addEventListener('click', async ()
 });
 document.getElementById('btnSubirGhAhora').addEventListener('click', ()=> subirBackupAGithub(false));
 document.getElementById('btnTraerGhAhora').addEventListener('click', traerBackupDesdeGithub);
+document.getElementById('btnSubirGhAhoraProveedores').addEventListener('click', ()=> subirBackupProveedoresAGithub(false));
+document.getElementById('btnTraerGhAhoraProveedores').addEventListener('click', traerBackupProveedoresDesdeGithub);
 precargarGhForm();
 
 /* ---------------- EN CRIOLLO / INFORME EJECUTIVO / RATIO / ESTACIONALIDAD ---------------- */
