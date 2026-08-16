@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 4,
-  "exportadoEl": "2026-08-15T23:13:53.408Z",
+  "exportadoEl": "2026-08-16T02:35:27.763Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -1331,6 +1331,16 @@
       "account": "alquileres",
       "id": "m_msuzstx3xnx625",
       "modificadoEl": "2026-08-15T23:13:52.503Z"
+    },
+    {
+      "date": "2026-08-15",
+      "type": "egreso",
+      "amount": 15500,
+      "category": "Chiara",
+      "account": "alquileres",
+      "detalle": "Empanadas",
+      "id": "m_msv701u0kd52ke",
+      "modificadoEl": "2026-08-16T02:35:26.664Z"
     }
   ],
   "categoriasCustom": [
@@ -7253,7 +7263,7 @@
       {
         "id": "vzmsrx26sx6nt247",
         "nombre": "Gym",
-        "fecha": "2026-08-15",
+        "fecha": "2026-09-15",
         "monto": 43000,
         "recurrente": true,
         "diaMes": 15
@@ -7265,6 +7275,16 @@
         "monto": 15000,
         "recurrente": true,
         "diaMes": 14
+      }
+    ]
+  },
+  "reservasColecciones": {
+    "clientes": [],
+    "colecciones": [
+      {
+        "id": "rcmsv5sqlye9z5v7",
+        "nombre": "Autitos",
+        "fotos": []
       }
     ]
   }
