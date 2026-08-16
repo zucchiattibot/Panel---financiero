@@ -2456,6 +2456,7 @@ try {
 <div id="rcColeccionesList" style="display:flex;flex-direction:column;gap:6px;margin-bottom:8px;"></div>
 <input id="rcColNombre" list="rcCatalogoDatalist" placeholder="Nombre de la colección" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;width:100%;box-sizing:border-box;margin-bottom:8px;" type="text"/>
 <datalist id="rcCatalogoDatalist"></datalist>
+<div id="rcColSugeridas" style="display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-bottom:8px;"></div>
 <div class="cargar-grid-2">
 <input id="rcColCantidad" min="1" placeholder="Cantidad" step="1" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;" type="number" value="1"/>
 <select id="rcColEstado" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;color-scheme:dark;">
@@ -2496,8 +2497,20 @@ try {
 <div id="rcColFotos" style="margin-top:14px;"></div>
 </div>
 <div class="card">
+<h2>Avisar a todos los que la llevan</h2>
+<p class="card-note">Editá el mensaje y enviaselo de una a todos los clientes tildados abajo. Se abre un chat de WhatsApp por cliente (permití las ventanas emergentes si el navegador las bloquea).</p>
+<textarea id="rcColMsgTodos" rows="3" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:13.5px;width:100%;box-sizing:border-box;resize:vertical;font-family:inherit;"></textarea>
+<button class="tab-btn" id="rcBtnEnviarTodos" style="border-radius:8px;margin-top:10px;color:var(--green-pos);" type="button">📱 Enviar a todos</button>
+<p class="card-note" id="rcColEnviarTodosMsg" style="min-height:14px;margin:8px 0 0 0;"></p>
+</div>
+<div class="card">
 <h2>Clientes que la llevan</h2>
-<input id="rcColBuscarCliente" placeholder="Buscar cliente para asignar (escribí para ver sugerencias)..." style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;width:100%;box-sizing:border-box;margin-bottom:12px;" type="text"/>
+<p class="card-note">Tildá quién lleva esta colección. Se guarda al toque, sin tener que buscar y agregar uno por uno.</p>
+<input id="rcColBuscarCliente" placeholder="Filtrar clientes por nombre..." style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;width:100%;box-sizing:border-box;margin-bottom:8px;" type="text"/>
+<div style="display:flex;gap:8px;margin-bottom:12px;">
+<button class="tab-btn" id="rcBtnMarcarTodosCol" style="border-radius:8px;font-size:11.5px;padding:6px 10px;" type="button">Marcar todos</button>
+<button class="tab-btn" id="rcBtnDesmarcarTodosCol" style="border-radius:8px;font-size:11.5px;padding:6px 10px;" type="button">Ninguno</button>
+</div>
 <div id="rcColClientes"></div>
 </div>
 </div>
@@ -13375,12 +13388,33 @@ document.querySelectorAll('#rcNav .toggle-btn').forEach(function(btn){
   });
 });
 
-/* ---------- Catálogo de nombres usados (sugerencias, no limita a nada) ---------- */
+/* ---------- Catálogo de nombres usados (sugerencias, no limita a nada) ----------
+   Además de alimentar el datalist, muestra "chips" con las colecciones ya
+   usadas para poder sumarlas a un cliente con un solo toque, sin tener que
+   volver a tipear el nombre ni completar cantidad/estado/notas a mano. */
 function rcRenderCatalogoDatalist(){
   var nombres = {};
   rc.clientes.forEach(function(c){ (c.colecciones||[]).forEach(function(k){ if (k.nombre) nombres[k.nombre]=true; }); });
+  rc.colecciones.forEach(function(k){ if (k.nombre) nombres[k.nombre]=true; });
+  var lista = Object.keys(nombres).sort(function(a,b){ return a.localeCompare(b,'es',{sensitivity:'base'}); });
   var dl = document.getElementById('rcCatalogoDatalist');
-  dl.innerHTML = Object.keys(nombres).sort().map(function(n){ return '<option value="'+rcEsc(n)+'"></option>'; }).join('');
+  dl.innerHTML = lista.map(function(n){ return '<option value="'+rcEsc(n)+'"></option>'; }).join('');
+  var chipsCont = document.getElementById('rcColSugeridas');
+  if (!chipsCont) return;
+  if (lista.length===0){ chipsCont.innerHTML=''; return; }
+  chipsCont.innerHTML = '<span class="card-note" style="margin:0 2px 0 0;">Tocá para agregar rápido:</span>' + lista.map(function(n){
+    var yaAgregada = rcColeccionesForm.some(function(k){ return rcNormNombre(k.nombre)===rcNormNombre(n); });
+    return '<button type="button" data-nombre="'+rcEsc(n)+'" class="tab-btn rc-col-chip" style="border-radius:999px;padding:5px 11px;font-size:11.5px;'+(yaAgregada?'opacity:.4;':'')+'" '+(yaAgregada?'disabled':'')+'>'+rcEsc(n)+'</button>';
+  }).join('');
+  chipsCont.querySelectorAll('.rc-col-chip').forEach(function(b){
+    b.addEventListener('click', function(){
+      var nombre = b.dataset.nombre;
+      if (rcColeccionesForm.some(function(k){ return rcNormNombre(k.nombre)===rcNormNombre(nombre); })) return;
+      rcColeccionesForm.push({id:rcUid(), nombre:nombre, cantidad:1, estado:'reservado', notas:''});
+      rcRenderColeccionesForm();
+      rcRenderCatalogoDatalist();
+    });
+  });
 }
 
 /* ---------- Alta / edición de cliente ---------- */
@@ -13399,7 +13433,7 @@ function rcRenderColeccionesForm(){
     '</div>';
   }).join('');
   cont.querySelectorAll('button[data-i]').forEach(function(b){
-    b.addEventListener('click', function(){ rcColeccionesForm.splice(parseInt(b.dataset.i,10),1); rcRenderColeccionesForm(); });
+    b.addEventListener('click', function(){ rcColeccionesForm.splice(parseInt(b.dataset.i,10),1); rcRenderColeccionesForm(); rcRenderCatalogoDatalist(); });
   });
 }
 document.getElementById('rcBtnAgregarColeccion').addEventListener('click', function(){
@@ -13583,6 +13617,9 @@ function rcAbrirColeccion(nombre){
   document.getElementById('rcColFotoInput').value='';
   document.getElementById('rcColFotoNota').value='';
   document.getElementById('rcColBuscarCliente').value='';
+  var msgTodosEl = document.getElementById('rcColMsgTodos');
+  if (msgTodosEl){ msgTodosEl.value=''; delete msgTodosEl.dataset.tocado; }
+  document.getElementById('rcColEnviarTodosMsg').textContent='';
   rcRenderColFotos();
   rcRenderColClientes();
   rcIrAVista('coleccionDetalle');
@@ -13650,56 +13687,101 @@ function rcMensajeWAColeccion(nombreColeccion, foto){
   base += '. Te mando la foto de la publicación en este chat.';
   return base;
 }
+/* Lista de clientes como checklist: tildar/destildar asigna o quita de la
+   colección al toque, sin tener que buscar y apretar "+ Agregar" cliente
+   por cliente. También arma el mensaje y el envío masivo por WhatsApp. */
 function rcRenderColClientes(){
   var cont = document.getElementById('rcColClientes');
   var filtro = (document.getElementById('rcColBuscarCliente').value||'').toLowerCase();
   var normActual = rcNormNombre(rcColeccionActualNombre);
   var col = rc.colecciones.find(function(k){ return rcNormNombre(k.nombre)===normActual; });
   var ultimaFoto = col && col.fotos && col.fotos[0];
-  var asignados = rc.clientes.filter(function(c){ return (c.colecciones||[]).some(function(k){return rcNormNombre(k.nombre)===normActual;}); });
-  var candidatos = filtro ? rc.clientes.filter(function(c){ return c.nombre.toLowerCase().indexOf(filtro)>-1 && asignados.indexOf(c)===-1; }) : [];
+  var todos = rc.clientes.slice().sort(function(a,b){ return (a.nombre||'').localeCompare(b.nombre||'','es',{sensitivity:'base'}); });
+  var visibles = filtro ? todos.filter(function(c){ return c.nombre.toLowerCase().indexOf(filtro)>-1; }) : todos;
+  var esAsignado = function(c){ return (c.colecciones||[]).some(function(k){return rcNormNombre(k.nombre)===normActual;}); };
+  var asignados = todos.filter(esAsignado);
+
+  var msgEl = document.getElementById('rcColMsgTodos');
+  if (msgEl && !msgEl.dataset.tocado){ msgEl.value = rcMensajeWAColeccion(rcColeccionActualNombre, ultimaFoto); }
+  var btnTodos = document.getElementById('rcBtnEnviarTodos');
+  if (btnTodos){
+    var conTel = asignados.filter(function(c){ return rcTel(c.telefono); }).length;
+    btnTodos.textContent = '📱 Enviar a todos ('+conTel+')';
+  }
+
   var html = '';
-  if (asignados.length===0){ html += '<p class="card-note" style="margin:0 0 10px 0;">Todavía no asignaste clientes a esta colección.</p>'; }
-  html += asignados.map(function(c){
-    var msg = encodeURIComponent(rcMensajeWAColeccion(rcColeccionActualNombre, ultimaFoto));
-    var tel = rcTel(c.telefono);
-    return '<div style="display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:8px;padding:8px 10px;margin-bottom:6px;">'+
-      '<div style="flex:1;min-width:0;"><div style="font-weight:600;font-size:13.5px;">'+rcEsc(c.nombre)+'</div>'+
-      (c.telefono?'<div style="font-size:11px;color:var(--cream-dim);">📞 '+rcEsc(c.telefono)+'</div>':'')+'</div>'+
-      (tel?'<a href="https://wa.me/'+tel+'?text='+msg+'" target="_blank" class="tab-btn" style="border-radius:8px;padding:5px 9px;font-size:11px;color:var(--green-pos);">📱</a>':'')+
-      '<button data-cid="'+c.id+'" class="tab-btn rc-col-quitar" style="border-radius:8px;padding:5px 9px;font-size:11px;color:var(--red-neg);" type="button">Quitar</button>'+
-    '</div>';
-  }).join('');
-  if (filtro){
-    html += '<div class="range-label" style="margin-top:10px;">Agregar a la colección</div>';
-    if (candidatos.length===0){ html += '<p class="card-note" style="margin:4px 0 0 0;">Sin coincidencias (o ya está asignado).</p>'; }
-    html += candidatos.map(function(c){
-      return '<div style="display:flex;align-items:center;gap:8px;border:1px dashed var(--line);border-radius:8px;padding:8px 10px;margin-top:6px;">'+
-        '<div style="flex:1;min-width:0;font-size:13.5px;">'+rcEsc(c.nombre)+'</div>'+
-        '<button data-cid="'+c.id+'" class="tab-btn rc-col-agregar" style="border-radius:8px;padding:5px 9px;font-size:11px;color:var(--gold);" type="button">+ Agregar</button>'+
-      '</div>';
+  if (todos.length===0){
+    html = '<p class="card-note" style="margin:0;">Todavía no cargaste clientes. Andá a "+ Nuevo cliente" primero.</p>';
+  } else if (visibles.length===0){
+    html = '<p class="card-note" style="margin:0;">Sin coincidencias.</p>';
+  } else {
+    html = visibles.map(function(c){
+      var marcado = esAsignado(c);
+      var tel = rcTel(c.telefono);
+      var waLink = (marcado && tel) ? '<a href="https://wa.me/'+tel+'?text='+encodeURIComponent(rcMensajeWAColeccion(rcColeccionActualNombre, ultimaFoto))+'" target="_blank" class="tab-btn" style="border-radius:8px;padding:5px 9px;font-size:11px;color:var(--green-pos);" onclick="event.stopPropagation()">📱</a>' : '';
+      return '<label style="display:flex;align-items:center;gap:9px;border:1px solid var(--line);border-radius:8px;padding:8px 10px;margin-bottom:6px;cursor:pointer;">'+
+        '<input type="checkbox" data-cid="'+c.id+'" class="rc-col-check" '+(marcado?'checked':'')+' style="width:17px;height:17px;flex:0 0 auto;accent-color:var(--gold);"/>'+
+        '<div style="flex:1;min-width:0;"><div style="font-weight:600;font-size:13.5px;">'+rcEsc(c.nombre)+'</div>'+
+        (c.telefono?'<div style="font-size:11px;color:var(--cream-dim);">📞 '+rcEsc(c.telefono)+'</div>':'')+'</div>'+
+        waLink+
+      '</label>';
     }).join('');
   }
   cont.innerHTML = html;
-  cont.querySelectorAll('.rc-col-quitar').forEach(function(b){
-    b.addEventListener('click', function(){
-      var c = rc.clientes.find(function(x){return x.id===b.dataset.cid;});
+  cont.querySelectorAll('.rc-col-check').forEach(function(chk){
+    chk.addEventListener('change', function(){
+      var c = rc.clientes.find(function(x){return x.id===chk.dataset.cid;});
       if (!c) return;
-      c.colecciones = (c.colecciones||[]).filter(function(k){return rcNormNombre(k.nombre)!==normActual;});
+      if (chk.checked){
+        c.colecciones = c.colecciones || [];
+        if (!esAsignado(c)) c.colecciones.push({id: rcUid(), nombre: rcColeccionActualNombre, cantidad:1, estado:'reservado', notas:''});
+      } else {
+        c.colecciones = (c.colecciones||[]).filter(function(k){return rcNormNombre(k.nombre)!==normActual;});
+      }
       rcSave().then(function(){ rcRenderColClientes(); rcRenderColeccionesLista(); });
-    });
-  });
-  cont.querySelectorAll('.rc-col-agregar').forEach(function(b){
-    b.addEventListener('click', function(){
-      var c = rc.clientes.find(function(x){return x.id===b.dataset.cid;});
-      if (!c) return;
-      c.colecciones = c.colecciones || [];
-      c.colecciones.push({id: rcUid(), nombre: rcColeccionActualNombre, cantidad:1, estado:'reservado', notas:''});
-      rcSave().then(function(){ document.getElementById('rcColBuscarCliente').value=''; rcRenderColClientes(); rcRenderColeccionesLista(); });
     });
   });
 }
 document.getElementById('rcColBuscarCliente').addEventListener('input', rcRenderColClientes);
+document.getElementById('rcColMsgTodos').addEventListener('input', function(){ this.dataset.tocado='1'; });
+document.getElementById('rcBtnMarcarTodosCol').addEventListener('click', function(){
+  var filtro = (document.getElementById('rcColBuscarCliente').value||'').toLowerCase();
+  var normActual = rcNormNombre(rcColeccionActualNombre);
+  var visibles = filtro ? rc.clientes.filter(function(c){return c.nombre.toLowerCase().indexOf(filtro)>-1;}) : rc.clientes;
+  visibles.forEach(function(c){
+    c.colecciones = c.colecciones || [];
+    if (!(c.colecciones||[]).some(function(k){return rcNormNombre(k.nombre)===normActual;})){
+      c.colecciones.push({id: rcUid(), nombre: rcColeccionActualNombre, cantidad:1, estado:'reservado', notas:''});
+    }
+  });
+  rcSave().then(function(){ rcRenderColClientes(); rcRenderColeccionesLista(); });
+});
+document.getElementById('rcBtnDesmarcarTodosCol').addEventListener('click', function(){
+  var filtro = (document.getElementById('rcColBuscarCliente').value||'').toLowerCase();
+  var normActual = rcNormNombre(rcColeccionActualNombre);
+  var visibles = filtro ? rc.clientes.filter(function(c){return c.nombre.toLowerCase().indexOf(filtro)>-1;}) : rc.clientes;
+  visibles.forEach(function(c){
+    c.colecciones = (c.colecciones||[]).filter(function(k){return rcNormNombre(k.nombre)!==normActual;});
+  });
+  rcSave().then(function(){ rcRenderColClientes(); rcRenderColeccionesLista(); });
+});
+document.getElementById('rcBtnEnviarTodos').addEventListener('click', function(){
+  var normActual = rcNormNombre(rcColeccionActualNombre);
+  var asignadosConTel = rc.clientes.filter(function(c){
+    return (c.colecciones||[]).some(function(k){return rcNormNombre(k.nombre)===normActual;}) && rcTel(c.telefono);
+  });
+  var msgEl = document.getElementById('rcColMsgTodos');
+  var estadoEl = document.getElementById('rcColEnviarTodosMsg');
+  var texto = (msgEl.value||'').trim();
+  if (!texto){ estadoEl.style.color='var(--red-neg)'; estadoEl.textContent='Escribí un mensaje primero.'; return; }
+  if (asignadosConTel.length===0){ estadoEl.style.color='var(--red-neg)'; estadoEl.textContent='No hay clientes con WhatsApp cargado en esta colección.'; return; }
+  if (!confirm('Se van a abrir '+asignadosConTel.length+' chat(s) de WhatsApp, uno por cliente. ¿Continuar?')) return;
+  asignadosConTel.forEach(function(c){
+    window.open('https://wa.me/'+rcTel(c.telefono)+'?text='+encodeURIComponent(texto), '_blank');
+  });
+  estadoEl.style.color='var(--green-pos)';
+  estadoEl.textContent = 'Se abrieron '+asignadosConTel.length+' chat(s). Si el navegador bloqueó alguno, permití las ventanas emergentes para este sitio.';
+});
 
 /* ---------- Init ---------- */
 async function rcInit(){
