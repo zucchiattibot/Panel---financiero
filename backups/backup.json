@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 4,
-  "exportadoEl": "2026-08-16T12:32:21.972Z",
+  "exportadoEl": "2026-08-16T12:57:48.735Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -1370,6 +1370,16 @@
       "account": "alquileres",
       "id": "m_msvsboiojxm5ei",
       "modificadoEl": "2026-08-16T12:32:21.216Z"
+    },
+    {
+      "date": "2026-08-16",
+      "type": "egreso",
+      "amount": 8000,
+      "category": "Empleado mandado javi",
+      "account": "agencia",
+      "detalle": "Día domingo",
+      "id": "m_msvt8e1157pdo0",
+      "modificadoEl": "2026-08-16T12:57:47.269Z"
     }
   ],
   "categoriasCustom": [
