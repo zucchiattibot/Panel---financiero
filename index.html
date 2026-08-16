@@ -919,7 +919,7 @@ try {
 </div>
 <div class="card">
 <h2>Ganancia semanal — <span id="ganSemProvNombre"></span></h2>
-<p class="card-note">Cargas de facturas menos notas de crédito, semana por semana — pero no por la fecha en que se emitió el comprobante, sino por la fecha del diario/edición de cada producto (si no se cargó o no se pudo detectar esa fecha en el ítem, usa la de emisión del comprobante, como las revistas). Así una nota de crédito emitida el 16 pero que corrige un diario del 6 impacta en la semana del 6, no en la del 16.</p>
+<p class="card-note">Cargas de facturas menos notas de crédito, semana por semana — pero no por la fecha en que se emitió el comprobante, sino por la fecha del diario/edición de cada producto (si no se cargó o no se pudo detectar esa fecha en el ítem, usa la de emisión del comprobante, como las revistas). Así una nota de crédito emitida el 16 pero que corrige un diario del 6 impacta en la semana del 6, no en la del 16. Si el proveedor no pone fecha sino el nombre del día (Lunes a Domingo), también se detecta: se usa la ocurrencia de ese día más cercana hacia atrás desde la fecha de emisión del comprobante.</p>
 <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;">
 <input id="ganSemFiltroDesde" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:8px;border-radius:6px;font-size:13px;" type="date"/>
 <input id="ganSemFiltroHasta" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:8px;border-radius:6px;font-size:13px;" type="date"/>
@@ -9976,6 +9976,50 @@ renderAutoConclusions();
       const chequeo = new Date(yyyy, mm-1, dd);
       if (chequeo.getFullYear()!==yyyy || chequeo.getMonth()!==mm-1 || chequeo.getDate()!==dd) continue;
       return yyyy + '-' + String(mm).padStart(2,'0') + '-' + String(dd).padStart(2,'0');
+    }
+    // NUEVO — algunos proveedores no ponen fecha en el ítem, sino el nombre del día
+    // (Lunes, Martes, ..., Domingo). En ese caso buscamos la ocurrencia de ese día
+    // más cercana hacia atrás desde la fecha de emisión del comprobante (incluye el
+    // propio día de emisión si coincide), igual criterio de "lo más cercano" que se
+    // usa arriba para fechas sin año. Así una nota de crédito que dice "Lunes" y se
+    // emite el 16 cae en el lunes de esa semana o, si no corresponde, en el lunes
+    // anterior más próximo.
+    const dia = detectarDiaSemanaDesdeTexto(textos);
+    if (dia !== null){
+      const fecha = fechaDesdeDiaSemanaCercanoProv(dia, fechaComprobanteIso);
+      if (fecha) return fecha;
+    }
+    return null;
+  }
+  const DIAS_SEMANA_PROV = { domingo:0, lunes:1, martes:2, miercoles:3, jueves:4, viernes:5, sabado:6 };
+  function detectarDiaSemanaDesdeTexto(textos){
+    const regex = /\b(domingo|lunes|martes|mi[ée]rcoles|jueves|viernes|s[áa]bado)\b/i;
+    for (let i=0; i<textos.length; i++){
+      const t = textos[i];
+      if (!t) continue;
+      const m = regex.exec(String(t));
+      if (!m) continue;
+      const norm = m[1].toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+      if (DIAS_SEMANA_PROV[norm] !== undefined) return DIAS_SEMANA_PROV[norm];
+    }
+    return null;
+  }
+  // Fecha real (AAAA-MM-DD) del día de semana "diaObjetivo" (0=domingo..6=sábado)
+  // más cercana hacia atrás (o igual) a fechaRefIso. Si no hay fechaRefIso, usa hoy.
+  function fechaDesdeDiaSemanaCercanoProv(diaObjetivo, fechaRefIso){
+    const refInt = fechaAIntProv(fechaRefIso);
+    let ref;
+    if (refInt){
+      const y = Math.floor(refInt/10000), mo = Math.floor((refInt%10000)/100)-1, d = refInt%100;
+      ref = new Date(y, mo, d);
+    } else {
+      ref = new Date();
+    }
+    for (let back=0; back<=90; back++){
+      const cand = new Date(ref.getFullYear(), ref.getMonth(), ref.getDate()-back);
+      if (cand.getDay() === diaObjetivo){
+        return cand.getFullYear() + '-' + String(cand.getMonth()+1).padStart(2,'0') + '-' + String(cand.getDate()).padStart(2,'0');
+      }
     }
     return null;
   }
