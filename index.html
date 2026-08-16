@@ -73,6 +73,8 @@
   /* ---------- Personalizar panel (prolijidad / ocultar cosas) ---------- */
   body.hide-topheader #topHeaderBlock{display:none !important;}
   body.hide-secdesc .sec-desc{display:none !important;}
+  body.hide-tabsearch #panelBuscarSeccion{display:none !important;}
+  body.hide-fabmenu #panelMenuFlotanteBtn{display:none !important;}
   .customize-toggle{background:var(--bg-2);border:1px solid var(--line);color:var(--cream-dim);
     padding:7px 13px;border-radius:999px;font-size:12px;font-weight:600;cursor:pointer;
     display:inline-flex;align-items:center;gap:6px;margin:-6px 0 14px 0;}
@@ -515,6 +517,10 @@ try {
 </div>
 <div id="agAvisosBar" style="display:none;flex-direction:column;gap:6px;margin:-6px 0 14px 0;"></div>
 <button class="customize-toggle" id="agModoDiscretoBtn" style="margin:-6px 8px 14px 0;" type="button">🙈 Modo discreto</button>
+<div class="card" style="padding:10px 12px;margin-bottom:10px;">
+<input id="panelBuscarSeccion" type="text" placeholder="🔍 Buscar una pestaña (ej: proveedores, dólar, colecciones, vencimientos...)" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;width:100%;box-sizing:border-box;"/>
+<div id="panelBuscarResultados" style="margin-top:8px;display:none;"></div>
+</div>
 <div class="tabs">
 <button class="tab-btn active" data-tab="resumen">Resumen</button>
 <button class="tab-btn" data-tab="informe">Informe</button>
@@ -3427,6 +3433,80 @@ document.querySelectorAll('.tab-btn[data-alqsub]').forEach(btn=>{
     document.getElementById('alqsub-'+btn.dataset.alqsub).classList.add('active');
   });
 });
+
+/* ---------------- BUSCADOR RÁPIDO DE PESTAÑAS ---------------- */
+// Cada pestaña tiene, además de su nombre, algunas palabras clave de lo que
+// contiene, para encontrarla buscando por tema y no solo por el título exacto.
+var PANEL_BUSCAR_KEYWORDS = {
+  'resumen': ['inicio','general','balance'],
+  'informe': ['reporte','pdf'],
+  'categorias': ['gastos','rubros','egresos'],
+  'proveedores': ['pagos','facturas','deuda','distribuidor','comprobantes','notas de credito','notas de debito'],
+  'comparar': ['años','anual','historico'],
+  'rango': ['periodo','fechas','entre fechas'],
+  'proyeccion': ['futuro','estimacion'],
+  'inflacion': ['ipc','precios','indice'],
+  'mercados': ['dolar','cotizacion','blue','oficial','mep'],
+  'buscar': ['movimiento','busqueda','transaccion'],
+  'estadisticas': ['graficos','metricas'],
+  'estadisticas-alquileres': ['alquiler','renta','inquilino'],
+  'cargar': ['importar','csv','excel','movimientos','subir datos'],
+  'ia': ['gemini','api key','asistente','ocr','clave'],
+  'clientes': ['diarios','revistas','kioscos','reparto','repartidor'],
+  'colecciones': ['fasciculos','figuras','laminas','coleccionable','reservas'],
+  'vencimientos': ['servicios','pago de servicios','luz','gas','agua'],
+  'inversiones': ['dolar','acciones','etf','spy','qqq','broker','cartera'],
+  'pedidos-ia': ['pedidos','compra'],
+  'configuracion': ['backup','exportar','importar backup','ajustes','pin','seguridad']
+};
+function panelBuscarNorm(s){ return (s||'').toString().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,''); }
+function panelBuscarEsc(s){ var d=document.createElement('div'); d.textContent = s==null?'':s; return d.innerHTML; }
+function panelBuscarIndice(){
+  var items = Array.from(document.querySelectorAll('.tabs .tab-btn[data-tab]'))
+    .filter(function(b){ return !b.classList.contains('tab-btn-hidden'); }) /* respeta las pestañas que el usuario ocultó */
+    .map(function(b){
+    return { tab: b.dataset.tab, label: b.textContent.trim(), keywords: PANEL_BUSCAR_KEYWORDS[b.dataset.tab]||[] };
+  });
+  // Atajos directos a sub-secciones dentro de "Reservas colecciones", que tiene varias pestañas internas.
+  items.push({ tab:'colecciones', rcview:'publicidad', label:'🎬 Publicidad (fotos y videos por proveedor)', keywords:['video','foto','publicidad','proveedor','material','whatsapp estado'] });
+  items.push({ tab:'colecciones', rcview:'porcoleccion', label:'📦 Colecciones: fotos de entrega y avisar clientes', keywords:['entrega','avisar','mensaje whatsapp coleccion'] });
+  return items;
+}
+function panelBuscarFiltrar(query){
+  var q = panelBuscarNorm(query);
+  if (!q) return [];
+  return panelBuscarIndice().filter(function(it){
+    if (panelBuscarNorm(it.label).indexOf(q)>-1) return true;
+    return (it.keywords||[]).some(function(k){ return panelBuscarNorm(k).indexOf(q)>-1; });
+  }).slice(0,8);
+}
+function panelBuscarIrA(it){
+  var btn = document.querySelector('.tabs .tab-btn[data-tab="'+it.tab+'"]');
+  if (btn) btn.click();
+  if (it.rcview){
+    var rcBtn = document.querySelector('#rcNav .toggle-btn[data-rcview="'+it.rcview+'"]');
+    if (rcBtn) rcBtn.click();
+  }
+  document.getElementById('panelBuscarSeccion').value='';
+  document.getElementById('panelBuscarResultados').style.display='none';
+  document.getElementById('panelBuscarResultados').innerHTML='';
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+function panelBuscarRender(){
+  var input = document.getElementById('panelBuscarSeccion');
+  var cont = document.getElementById('panelBuscarResultados');
+  var resultados = panelBuscarFiltrar(input.value);
+  if (resultados.length===0){ cont.style.display='none'; cont.innerHTML=''; return; }
+  cont.style.display='block';
+  cont.innerHTML = resultados.map(function(it, i){
+    return '<button type="button" data-idx="'+i+'" class="tab-btn panel-buscar-resultado" style="display:block;width:100%;text-align:left;border-radius:8px;margin-bottom:6px;">'+panelBuscarEsc(it.label)+'</button>';
+  }).join('');
+  cont.querySelectorAll('.panel-buscar-resultado').forEach(function(b){
+    b.addEventListener('click', function(){ panelBuscarIrA(resultados[Number(b.dataset.idx)]); });
+  });
+}
+document.getElementById('panelBuscarSeccion').addEventListener('input', panelBuscarRender);
+document.getElementById('panelBuscarSeccion').addEventListener('focus', panelBuscarRender);
 
 /* ---------------- TABS: reordenar con flechas ----------------
    Tocás "Reordenar pestañas", elegís una pestaña tocándola (mientras estás
@@ -16955,11 +17035,13 @@ pintarPickerStock();
   if (!storageSet) storageSet = async function(){ return false; };
 
   var K_PREFS = 'panelCustomizePrefs';
-  var prefs = { hideTopHeader: false, hideSecDesc: false };
+  var prefs = { hideTopHeader: false, hideSecDesc: false, hideTabSearch: false, hideFabMenu: false };
 
   function applyPrefs(){
     document.body.classList.toggle('hide-topheader', !!prefs.hideTopHeader);
     document.body.classList.toggle('hide-secdesc', !!prefs.hideSecDesc);
+    document.body.classList.toggle('hide-tabsearch', !!prefs.hideTabSearch);
+    document.body.classList.toggle('hide-fabmenu', !!prefs.hideFabMenu);
   }
   function savePrefs(){ storageSet(K_PREFS, JSON.stringify(prefs)); }
 
@@ -17008,6 +17090,8 @@ pintarPickerStock();
     box.appendChild(lblVista);
     buildCheckboxRow(box, 'Ocultar título de arriba de todo', 'hideTopHeader');
     buildCheckboxRow(box, 'Ocultar descripciones de cada sección', 'hideSecDesc');
+    buildCheckboxRow(box, 'Ocultar buscador de pestañas ("🔍 Buscar una pestaña")', 'hideTabSearch');
+    buildCheckboxRow(box, 'Ocultar botón flotante de menú (☰)', 'hideFabMenu');
 
     var lblOpc = document.createElement('div');
     lblOpc.className = 'cz-section-label';
@@ -17688,6 +17772,68 @@ pintarPickerStock();
   } else {
     setTimeout(boot, 0);
   }
+})();
+</script>
+<!-- MENÚ FLOTANTE: botón fijo siempre visible + pestañas agrupadas por tema -->
+<button id="panelMenuFlotanteBtn" type="button" style="position:fixed;right:16px;bottom:16px;z-index:9997;width:56px;height:56px;border-radius:50%;background:var(--gold);color:#1a1a1a;border:none;font-size:24px;box-shadow:0 4px 14px rgba(0,0,0,.4);cursor:pointer;">☰</button>
+<div id="panelMenuFlotanteOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:9998;padding:16px;overflow-y:auto;">
+<div style="max-width:520px;margin:0 auto;">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+<h2 style="margin:0;color:var(--cream);">Ir a...</h2>
+<button id="panelMenuFlotanteCerrar" type="button" class="tab-btn" style="border-radius:8px;">✕ Cerrar</button>
+</div>
+<div id="panelMenuFlotanteLista"></div>
+</div>
+</div>
+<script>
+(function(){
+"use strict";
+var PANEL_MENU_GRUPOS = [
+  { titulo: '🏠 Principal', tabs: ['resumen'] },
+  { titulo: '📊 Análisis y reportes', tabs: ['informe','categorias','comparar','rango','proyeccion','inflacion','buscar','estadisticas','estadisticas-alquileres'] },
+  { titulo: '🧾 Proveedores y carga de datos', tabs: ['proveedores','cargar'] },
+  { titulo: '💵 Mercados e inversiones', tabs: ['mercados','inversiones'] },
+  { titulo: '👥 Clientes y reparto', tabs: ['clientes','colecciones','vencimientos'] },
+  { titulo: '🤖 Inteligencia artificial', tabs: ['ia','pedidos-ia'] },
+  { titulo: '⚙️ Configuración', tabs: ['configuracion'] }
+];
+function panelMenuEsc(s){ var d=document.createElement('div'); d.textContent = s==null?'':s; return d.innerHTML; }
+function panelMenuRender(){
+  var cont = document.getElementById('panelMenuFlotanteLista');
+  var botonesPorTab = {};
+  document.querySelectorAll('.tabs .tab-btn[data-tab]').forEach(function(b){
+    if (b.classList.contains('tab-btn-hidden')) return; /* respeta las pestañas que el usuario ocultó */
+    botonesPorTab[b.dataset.tab] = b.textContent.trim();
+  });
+  cont.innerHTML = PANEL_MENU_GRUPOS.map(function(g){
+    var items = g.tabs.filter(function(t){ return botonesPorTab[t]; }); /* respeta pestañas ocultas por el usuario */
+    if (items.length===0) return '';
+    return '<div style="margin-bottom:16px;">'+
+      '<div style="font-weight:700;font-size:13px;color:var(--gold);margin-bottom:6px;">'+g.titulo+'</div>'+
+      items.map(function(t){
+        return '<button type="button" data-menu-tab="'+t+'" class="tab-btn" style="display:block;width:100%;text-align:left;border-radius:8px;margin-bottom:6px;">'+panelMenuEsc(botonesPorTab[t])+'</button>';
+      }).join('')+
+      '</div>';
+  }).join('');
+  cont.querySelectorAll('[data-menu-tab]').forEach(function(b){
+    b.addEventListener('click', function(){
+      var btn = document.querySelector('.tabs .tab-btn[data-tab="'+b.dataset.menuTab+'"]');
+      if (btn) btn.click();
+      document.getElementById('panelMenuFlotanteOverlay').style.display='none';
+      window.scrollTo({top:0, behavior:'smooth'});
+    });
+  });
+}
+document.getElementById('panelMenuFlotanteBtn').addEventListener('click', function(){
+  panelMenuRender();
+  document.getElementById('panelMenuFlotanteOverlay').style.display='block';
+});
+document.getElementById('panelMenuFlotanteCerrar').addEventListener('click', function(){
+  document.getElementById('panelMenuFlotanteOverlay').style.display='none';
+});
+document.getElementById('panelMenuFlotanteOverlay').addEventListener('click', function(ev){
+  if (ev.target.id==='panelMenuFlotanteOverlay') this.style.display='none';
+});
 })();
 </script>
 </body>
