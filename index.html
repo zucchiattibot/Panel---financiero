@@ -2482,6 +2482,16 @@ try {
 <!-- POR COLECCIÓN: lista -->
 <div class="rc-view" data-rcview="porcoleccion">
 <div class="card">
+<h2>⚙️ Mensaje predeterminado</h2>
+<p class="card-note">Así arranca el mensaje cada vez que abrís una colección para avisar por WhatsApp (después lo podés retocar al toque, sin afectar esta plantilla). Usá <strong>{coleccion}</strong> donde quieras que aparezca el nombre de la colección, y <strong>{nota}</strong> donde quieras que aparezca la nota de la entrega si cargaste una (si no cargaste nota, esa parte se omite sola).</p>
+<textarea id="rcMsgPlantilla" rows="3" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:13.5px;width:100%;box-sizing:border-box;resize:vertical;font-family:inherit;"></textarea>
+<div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;">
+<button class="tab-btn" id="rcBtnGuardarPlantilla" style="border-radius:8px;color:var(--green-pos);" type="button">Guardar como predeterminado</button>
+<button class="tab-btn" id="rcBtnRestaurarPlantilla" style="border-radius:8px;" type="button">Restaurar el de fábrica</button>
+</div>
+<p class="card-note" id="rcMsgPlantillaEstado" style="min-height:14px;margin-top:8px;"></p>
+</div>
+<div class="card">
 <h2>Colecciones</h2>
 <p class="card-note">Elegí una colección para subir la foto de la publicación (fascículo, figura, etc.) y ver o asignar qué clientes la llevan.</p>
 <div style="display:flex;gap:8px;margin-bottom:12px;">
@@ -13292,7 +13302,8 @@ if (document.readyState === 'loading'){
 (function(){
 "use strict";
 var RC_KEY = 'rc_colecciones_v1';
-var rc = { clientes: [], colecciones: [] };
+var RC_MENSAJE_DEFAULT = 'Hola! Te escribo porque llegó tu colección "{coleccion}"{nota}. Te mando la foto de la publicación en este chat.';
+var rc = { clientes: [], colecciones: [], mensajePlantilla: RC_MENSAJE_DEFAULT };
 var rcEditingId = null;
 var rcColeccionActualNombre = null;
 var rcColFotoSeleccionadaId = null; /* qué foto de la colección se va a enviar */
@@ -13341,6 +13352,7 @@ async function rcLoad(){
   }catch(e){ console.error('rcLoad', e); }
   if (!Array.isArray(rc.clientes)) rc.clientes = [];
   if (!Array.isArray(rc.colecciones)) rc.colecciones = [];
+  if (typeof rc.mensajePlantilla !== 'string' || !rc.mensajePlantilla.trim()) rc.mensajePlantilla = RC_MENSAJE_DEFAULT;
 }
 async function rcSave(){
   try{
@@ -13395,7 +13407,7 @@ document.querySelectorAll('#rcNav .toggle-btn').forEach(function(btn){
     rcIrAVista(btn.dataset.rcview);
     if (btn.dataset.rcview==='lista') rcRenderLista();
     if (btn.dataset.rcview==='nuevo' && !rcEditingId) rcResetForm();
-    if (btn.dataset.rcview==='porcoleccion') rcRenderColeccionesLista();
+    if (btn.dataset.rcview==='porcoleccion'){ rcRenderColeccionesLista(); rcRenderPlantillaConfig(); }
   });
 });
 
@@ -13862,11 +13874,36 @@ document.getElementById('rcBtnSubirFoto').addEventListener('click', function(){
 });
 
 function rcMensajeWAColeccion(nombreColeccion, foto){
-  var base = 'Hola! Te escribo porque llegó tu colección "'+nombreColeccion+'"';
-  if (foto && foto.nota) base += ' ('+foto.nota+')';
-  base += '. Te mando la foto de la publicación en este chat.';
-  return base;
+  var plantilla = rc.mensajePlantilla || RC_MENSAJE_DEFAULT;
+  var notaTxt = (foto && foto.nota) ? ' ('+foto.nota+')' : '';
+  var texto = plantilla.replace(/\{coleccion\}/g, nombreColeccion||'').replace(/\{nota\}/g, notaTxt);
+  /* Por si alguien guarda una plantilla sin {coleccion}, igual avisamos cuál es */
+  if (plantilla.indexOf('{coleccion}')===-1 && nombreColeccion) texto += ' («'+nombreColeccion+'»)';
+  return texto;
 }
+function rcRenderPlantillaConfig(){
+  var ta = document.getElementById('rcMsgPlantilla');
+  if (ta && document.activeElement !== ta) ta.value = rc.mensajePlantilla || RC_MENSAJE_DEFAULT;
+}
+document.getElementById('rcBtnGuardarPlantilla').addEventListener('click', function(){
+  var ta = document.getElementById('rcMsgPlantilla');
+  var estadoEl = document.getElementById('rcMsgPlantillaEstado');
+  var val = (ta.value||'').trim();
+  if (!val){ estadoEl.style.color='var(--red-neg)'; estadoEl.textContent='Escribí algo antes de guardar.'; return; }
+  rc.mensajePlantilla = val;
+  rcSave().then(function(){
+    estadoEl.style.color='var(--green-pos)'; estadoEl.textContent='Guardado. A partir de ahora las colecciones arrancan con este mensaje.';
+  });
+});
+document.getElementById('rcBtnRestaurarPlantilla').addEventListener('click', function(){
+  if (!confirm('¿Volver al mensaje predeterminado de fábrica? Esto no borra ningún mensaje que ya hayas mandado, solo cambia el que se sugiere al abrir una colección.')) return;
+  rc.mensajePlantilla = RC_MENSAJE_DEFAULT;
+  document.getElementById('rcMsgPlantilla').value = RC_MENSAJE_DEFAULT;
+  rcSave().then(function(){
+    var estadoEl = document.getElementById('rcMsgPlantillaEstado');
+    estadoEl.style.color='var(--green-pos)'; estadoEl.textContent='Restaurado al mensaje de fábrica.';
+  });
+});
 /* Convierte la foto guardada (dataURL jpeg) en un File, para poder adjuntarla
    de verdad vía Web Share API en vez de solo abrir un link de WhatsApp con
    texto (que nunca puede llevar la imagen adjunta, es una limitación de
@@ -14046,6 +14083,7 @@ async function rcInit(){
   await rcLoad();
   rcResetForm();
   rcRenderLista();
+  rcRenderPlantillaConfig();
 }
 if (document.readyState === 'loading'){
   document.addEventListener('DOMContentLoaded', rcInit);
