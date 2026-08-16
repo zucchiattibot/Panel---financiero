@@ -872,6 +872,13 @@ try {
 <button class="link-btn" id="facVerMasBtn" style="margin-top:10px;display:none;" type="button"></button>
 </div>
 <div class="card">
+<h2>Revisión de duplicados — <span id="dupProvNombre"></span></h2>
+<p class="card-note">Busca, entre TODAS las facturas ya cargadas de este proveedor, comprobantes que puedan estar duplicados: mismo N° de comprobante, o misma fecha y monto, o ítems del desglose que se repiten entre dos comprobantes distintos. Es un chequeo manual — no borra nada solo, vos revisás cada grupo y tildás lo que quieras eliminar.</p>
+<button class="link-btn" id="dupBuscarBtn" type="button">🔍 Buscar posibles duplicados</button>
+<p class="card-note" id="dupEstado" style="margin-top:8px;"></p>
+<div id="dupResultados" style="margin-top:10px;display:flex;flex-direction:column;gap:12px;"></div>
+</div>
+<div class="card">
 <h2>Extracto de cuenta corriente — <span id="ccProvNombre"></span></h2>
 <p class="card-note">Elegí un rango de fechas ("entre" y "entre") y te armo el extracto de ese proveedor <strong>solo con lo que pasó en ese rango</strong>: cada factura, nota de crédito y nota de débito cargada, más cada pago o depósito real que le hiciste según tus movimientos bancarios, en orden cronológico. El saldo arranca en $0 al principio del rango — no arrastra nada de fechas anteriores.</p>
 <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;">
@@ -10268,6 +10275,16 @@ renderAutoConclusions();
     const prov = PROVEEDORES.find(p => p.key === provState.prov) || PROVEEDORES[0];
     const nombreEl = document.getElementById('facProvNombre');
     if (nombreEl) nombreEl.textContent = prov.label;
+    const dupNombreEl = document.getElementById('dupProvNombre');
+    if (dupNombreEl){
+      if (dupNombreEl.textContent && dupNombreEl.textContent !== prov.label){
+        const contDup = document.getElementById('dupResultados');
+        const estadoDup = document.getElementById('dupEstado');
+        if (contDup) contDup.innerHTML = '';
+        if (estadoDup) estadoDup.textContent = '';
+      }
+      dupNombreEl.textContent = prov.label;
+    }
     const propias = facturas.filter(f => f.proveedorKey === prov.key)
       .sort((a,b) => (b.fecha||'').localeCompare(a.fecha||''));
 
@@ -10433,7 +10450,125 @@ renderAutoConclusions();
     renderDesgloseItems();
   }
 
-  const elItemsFiltroDesde = document.getElementById('itemsFiltroDesde');
+  /* ---- Buscar duplicados entre facturas YA CARGADAS de un proveedor ----
+     Compara cada par de comprobantes del proveedor y los agrupa si comparten
+     N° de comprobante, o fecha+monto, o ítems del desglose. No borra nada
+     solo: solo arma la lista para que el usuario revise y elija qué borrar. */
+  function detectarDuplicadosExistentes(proveedorKey){
+    const propias = facturas.filter(f => f.proveedorKey === proveedorKey);
+    const n = propias.length;
+    const parent = propias.map((_,i) => i);
+    function find(i){ while(parent[i] !== i){ parent[i] = parent[parent[i]]; i = parent[i]; } return i; }
+    function union(i,j){ const ri = find(i), rj = find(j); if (ri !== rj) parent[ri] = rj; }
+    function itemsNormFac(f){
+      return (Array.isArray(f.items) ? f.items : []).filter(it => it && it.descripcion).map(it => ({
+        desc: normalizarTextoProv(it.descripcion),
+        monto: (it.monto != null && !isNaN(parseFloat(it.monto))) ? Math.round(parseFloat(it.monto)*100)/100 : null
+      }));
+    }
+    const razonesPar = {};
+    for (let i=0;i<n;i++){
+      for (let j=i+1;j<n;j++){
+        const a = propias[i], b = propias[j];
+        const razones = [];
+        const numA = String(a.numeroFactura||'').trim().toLowerCase();
+        const numB = String(b.numeroFactura||'').trim().toLowerCase();
+        if (numA && numB && numA === numB) razones.push('mismo N° de comprobante');
+        if (a.fecha && b.fecha && a.fecha === b.fecha && a.monto != null && b.monto != null && Math.abs(a.monto - b.monto) < 0.01) razones.push('misma fecha y monto');
+        const itemsA = itemsNormFac(a), itemsB = itemsNormFac(b);
+        if (itemsA.length && itemsB.length){
+          let coincidencias = 0;
+          itemsA.forEach(itA => {
+            if (itemsB.find(itB => itB.desc === itA.desc && (itA.monto == null || itB.monto == null || Math.abs(itA.monto - itB.monto) < 0.01))) coincidencias++;
+          });
+          if (coincidencias > 0) razones.push(coincidencias + ' ítem(s) del desglose coinciden');
+        }
+        if (razones.length){
+          union(i,j);
+          razonesPar[i+'_'+j] = razones;
+        }
+      }
+    }
+    const grupos = {};
+    for (let i=0;i<n;i++){
+      const r = find(i);
+      if (!grupos[r]) grupos[r] = [];
+      grupos[r].push(i);
+    }
+    const clusters = Object.values(grupos).filter(g => g.length > 1).map(g => {
+      const razonesSet = new Set();
+      for (let a=0;a<g.length;a++){
+        for (let b=a+1;b<g.length;b++){
+          const razones = razonesPar[g[a]+'_'+g[b]] || razonesPar[g[b]+'_'+g[a]] || [];
+          razones.forEach(r => razonesSet.add(r));
+        }
+      }
+      return { facturas: g.map(idx => propias[idx]), razones: Array.from(razonesSet) };
+    });
+    clusters.sort((x,y) => y.facturas.length - x.facturas.length);
+    return clusters;
+  }
+
+  function renderDuplicadosResultados(clusters, prov){
+    const cont = document.getElementById('dupResultados');
+    const estado = document.getElementById('dupEstado');
+    if (!cont || !estado) return;
+    if (!clusters.length){
+      cont.innerHTML = '';
+      estado.textContent = 'No encontré posibles duplicados entre las facturas cargadas de ' + prov.label + '.';
+      return;
+    }
+    estado.textContent = 'Encontré ' + clusters.length + (clusters.length===1?' grupo':' grupos') + ' de posibles duplicados en ' + prov.label + '. Revisá cada uno y tildá lo que quieras eliminar — no se borra nada solo.';
+    cont.innerHTML = clusters.map(cl => {
+      const filas = cl.facturas.map(f => {
+        const monto = f.monto != null ? fmtARS(f.monto) : '—';
+        const nItems = Array.isArray(f.items) ? f.items.length : 0;
+        const cargada = f.cargadaEl ? String(f.cargadaEl).slice(0,10) : '—';
+        return '<label style="display:flex;align-items:flex-start;gap:8px;padding:6px 0;border-bottom:1px solid var(--line);font-size:13px;">' +
+          '<input type="checkbox" data-dup-fac="' + f.id + '" style="margin-top:3px;">' +
+          '<span>' + etiquetaTipo(f.tipo) + (f.numeroFactura ? (' N° ' + escapeHtmlProv(f.numeroFactura)) : ' (sin N°)') +
+            ' · ' + (f.fecha || 'sin fecha') + ' · ' + monto +
+            (nItems ? (' · ' + nItems + ' ítem(s)') : '') +
+            ' · cargada el ' + cargada + '</span>' +
+        '</label>';
+      }).join('');
+      return '<div style="border:1px solid var(--red-neg);border-radius:10px;padding:12px;background:rgba(224,139,120,.08);">' +
+        '<div class="card-note" style="color:var(--red-neg);margin-bottom:6px;">⚠️ Posible duplicado — ' + cl.razones.map(r => escapeHtmlProv(r)).join(', ') + '</div>' +
+        filas +
+      '</div>';
+    }).join('') +
+    '<button type="button" class="toggle-btn" id="dupEliminarBtn" style="margin-top:4px;align-self:flex-start;">🗑️ Eliminar las tildadas</button>';
+
+    const btnEliminar = document.getElementById('dupEliminarBtn');
+    if (btnEliminar){
+      btnEliminar.addEventListener('click', () => {
+        const ids = Array.from(cont.querySelectorAll('[data-dup-fac]:checked')).map(el => el.getAttribute('data-dup-fac'));
+        if (!ids.length){ estado.textContent = 'No tildaste ninguna factura para eliminar.'; return; }
+        if (!confirm('¿Eliminar ' + ids.length + (ids.length===1?' factura tildada':' facturas tildadas') + '? Esta acción no se puede deshacer.')) return;
+        facturas = facturas.filter(f => !ids.includes(f.id));
+        saveFacturas();
+        renderFacturas();
+        renderResumenDeuda();
+        renderCuentaCorriente();
+        const nuevosClusters = detectarDuplicadosExistentes(prov.key);
+        renderDuplicadosResultados(nuevosClusters, prov);
+      });
+    }
+  }
+
+  const dupBuscarBtn = document.getElementById('dupBuscarBtn');
+  if (dupBuscarBtn){
+    dupBuscarBtn.addEventListener('click', () => {
+      const prov = PROVEEDORES.find(p => p.key === provState.prov) || PROVEEDORES[0];
+      const dupNombreEl = document.getElementById('dupProvNombre');
+      if (dupNombreEl) dupNombreEl.textContent = prov.label;
+      const estado = document.getElementById('dupEstado');
+      if (estado) estado.textContent = 'Buscando…';
+      const clusters = detectarDuplicadosExistentes(prov.key);
+      renderDuplicadosResultados(clusters, prov);
+    });
+  }
+
   const elItemsFiltroHasta = document.getElementById('itemsFiltroHasta');
   const elItemsFiltroLimpiar = document.getElementById('itemsFiltroLimpiar');
   const elItemsBuscar = document.getElementById('itemsBuscar');
