@@ -824,6 +824,7 @@ try {
 </div>
 <div class="card">
 <h2>Facturas y deudas — <span id="facProvNombre"></span></h2>
+<div id="facRecuperacionBox" style="display:none;margin-bottom:14px;"></div>
 <p class="card-note">Subí una foto o un PDF de cada comprobante de este proveedor: factura, nota de crédito o nota de débito. La IA (la misma clave de Gemini configurada en Asistente IA) identifica el tipo de documento, el número, las fechas y el monto — las notas de crédito descuentan de la deuda en vez de sumar. Vos revisás y confirmás antes de que quede guardado.</p>
 <div style="display:flex;gap:20px;flex-wrap:wrap;align-items:flex-start;margin:10px 0;">
 <label style="display:flex;flex-direction:column;gap:4px;">
@@ -9815,12 +9816,122 @@ renderAutoConclusions();
   }
 
   async function loadFacturas(){
-    try { const raw = await storageGet(K_FACTURAS); if (raw) facturas = JSON.parse(raw) || []; } catch(e){ facturas = []; }
+    let raw = null;
+    try {
+      raw = await storageGet(K_FACTURAS);
+      if (raw) facturas = JSON.parse(raw) || [];
+    } catch(e){
+      // El texto guardado existe pero no se pudo interpretar como JSON (por
+      // ejemplo, se cortó a la mitad al escribirlo). NO lo descartamos: lo
+      // guardamos tal cual para poder ofrecer una recuperación más abajo,
+      // en vez de vaciar en silencio lo que el usuario ya había cargado.
+      facturas = [];
+      facturasRawDanado = raw || null;
+    }
     renderFacturas();
     renderResumenDeuda();
     renderCuentaCorriente();
   }
+  let facturasRawDanado = null;
   function saveFacturas(){ storageSet(K_FACTURAS, JSON.stringify(facturas)); }
+
+  // Recuperación por objetos: en vez de depender de que el texto entero sea
+  // un array JSON válido, busca cada bloque "{ ... }" de nivel superior
+  // (respetando comillas, para no confundirse con llaves dentro de un
+  // texto) e intenta parsearlo suelto. Así, aunque el cierre del array se
+  // haya cortado o dañado, cada factura completa igual se recupera.
+  function intentarRecuperarFacturasDanadas(rawTxt){
+    if (!rawTxt || typeof rawTxt !== 'string') return [];
+    const recuperadas = [];
+    let depth = 0, start = -1, inStr = false, strChar = '', esc = false;
+    for (let i=0;i<rawTxt.length;i++){
+      const c = rawTxt[i];
+      if (inStr){
+        if (esc){ esc = false; }
+        else if (c === '\\'){ esc = true; }
+        else if (c === strChar){ inStr = false; }
+        continue;
+      }
+      if (c === '"' || c === "'"){ inStr = true; strChar = c; continue; }
+      if (c === '{'){ if (depth === 0) start = i; depth++; }
+      else if (c === '}'){
+        depth--;
+        if (depth === 0 && start >= 0){
+          const trozo = rawTxt.slice(start, i+1);
+          try { const obj = JSON.parse(trozo); if (obj && obj.id && obj.proveedorKey) recuperadas.push(obj); } catch(e2){ /* ese bloque quedó ilegible, se descarta solo ese */ }
+          start = -1;
+        }
+      }
+    }
+    // Por si el mismo comprobante quedó duplicado dentro del texto dañado.
+    const vistos = new Set();
+    return recuperadas.filter(f => { if (vistos.has(f.id)) return false; vistos.add(f.id); return true; });
+  }
+
+  function renderRecuperacionFacturas(){
+    const box = document.getElementById('facRecuperacionBox');
+    if (!box) return;
+    if (!facturasRawDanado || facturas.length > 0){
+      box.style.display = 'none';
+      box.innerHTML = '';
+      return;
+    }
+    box.style.display = 'block';
+    box.innerHTML =
+      '<div class="card" style="border:1px solid var(--red-neg);background:rgba(224,139,120,.08);">' +
+        '<h2 style="color:var(--red-neg);">⚠️ No pude leer las facturas guardadas</h2>' +
+        '<p class="card-note">El texto guardado de tus comprobantes existe pero no se pudo interpretar (probablemente se cortó a la mitad al guardarse). <strong>No lo borré</strong> — el texto crudo sigue disponible más abajo. Podés intentar una recuperación automática (rescata cada comprobante completo, aunque el archivo entero esté dañado) o copiar el texto para guardarlo aparte.</p>' +
+        '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;">' +
+          '<button type="button" class="toggle-btn" id="facRecuperarBtn">🩹 Intentar recuperación automática</button>' +
+          '<button type="button" class="link-btn" id="facVerCrudoBtn">Ver / copiar el texto crudo</button>' +
+        '</div>' +
+        '<p class="card-note" id="facRecuperarEstado" style="margin-top:8px;"></p>' +
+        '<div id="facCrudoBox" style="display:none;margin-top:8px;">' +
+          '<textarea readonly style="width:100%;box-sizing:border-box;min-height:140px;background:rgba(0,0,0,.25);border:1px solid var(--line);color:var(--cream);padding:8px;border-radius:6px;font-size:11px;font-family:monospace;">' + escapeHtmlProv(facturasRawDanado) + '</textarea>' +
+          '<button type="button" class="link-btn" id="facCopiarCrudoBtn" style="margin-top:6px;">Copiar texto</button>' +
+        '</div>' +
+      '</div>';
+
+    const btnRecuperar = document.getElementById('facRecuperarBtn');
+    const estado = document.getElementById('facRecuperarEstado');
+    if (btnRecuperar){
+      btnRecuperar.addEventListener('click', () => {
+        const recuperadas = intentarRecuperarFacturasDanadas(facturasRawDanado);
+        if (!recuperadas.length){
+          estado.textContent = 'No pude rescatar ningún comprobante completo de ese texto. Probá "Ver / copiar el texto crudo" y guardalo aparte por si se puede revisar a mano.';
+          return;
+        }
+        if (!confirm('Encontré ' + recuperadas.length + (recuperadas.length===1?' comprobante recuperable':' comprobantes recuperables') + '. ¿Los cargo y guardo?')) return;
+        facturas = recuperadas;
+        facturasRawDanado = null;
+        saveFacturas();
+        renderFacturas();
+        renderResumenDeuda();
+        renderCuentaCorriente();
+      });
+    }
+    const btnVerCrudo = document.getElementById('facVerCrudoBtn');
+    if (btnVerCrudo){
+      btnVerCrudo.addEventListener('click', () => {
+        const crudo = document.getElementById('facCrudoBox');
+        if (crudo) crudo.style.display = crudo.style.display === 'none' ? 'block' : 'none';
+      });
+    }
+    const btnCopiar = document.getElementById('facCopiarCrudoBtn');
+    if (btnCopiar){
+      btnCopiar.addEventListener('click', () => {
+        const ta = box.querySelector('#facCrudoBox textarea');
+        if (!ta) return;
+        ta.select();
+        ta.setSelectionRange(0, 999999);
+        let copiado = false;
+        try { if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(facturasRawDanado); copiado = true; } } catch(e){}
+        if (!copiado){ try { document.execCommand('copy'); copiado = true; } catch(e){} }
+        btnCopiar.textContent = copiado ? '✓ Copiado' : 'No se pudo copiar — seleccioná el texto a mano';
+        setTimeout(() => { btnCopiar.textContent = 'Copiar texto'; }, 2500);
+      });
+    }
+  }
 
   // Expuestas para que el backup general del panel (Exportar/Importar backup)
   // incluya también las facturas/notas cargadas acá.
@@ -10285,6 +10396,7 @@ renderAutoConclusions();
       }
       dupNombreEl.textContent = prov.label;
     }
+    renderRecuperacionFacturas();
     const propias = facturas.filter(f => f.proveedorKey === prov.key)
       .sort((a,b) => (b.fecha||'').localeCompare(a.fecha||''));
 
