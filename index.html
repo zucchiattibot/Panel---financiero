@@ -13295,6 +13295,7 @@ var RC_KEY = 'rc_colecciones_v1';
 var rc = { clientes: [], colecciones: [] };
 var rcEditingId = null;
 var rcColeccionActualNombre = null;
+var rcColFotoSeleccionadaId = null; /* qué foto de la colección se va a enviar */
 var rcFiltroActual = 'todos';
 var rcEstadoLabel = {reservado:'Reservado', entregado:'Entregado', pausado:'Pausado'};
 var rcEstadoColor = {reservado:'var(--gold)', entregado:'var(--green-pos)', pausado:'var(--muted)'};
@@ -13766,6 +13767,7 @@ document.getElementById('rcBtnNuevaColeccion').addEventListener('click', functio
 /* ---------- Por colección: detalle (fotos + clientes asignados) ---------- */
 function rcAbrirColeccion(nombre){
   rcColeccionActualNombre = nombre;
+  rcColFotoSeleccionadaId = null; /* al entrar a la colección, todavía no eligió foto (se usa la última por defecto) */
   document.getElementById('rcColDetalleTitulo').textContent = nombre;
   document.getElementById('rcColFotoInput').value='';
   document.getElementById('rcColFotoNota').value='';
@@ -13785,25 +13787,47 @@ document.getElementById('rcBtnEliminarColeccion').addEventListener('click', func
   if (rcColeccionActualNombre) rcEliminarColeccion(rcColeccionActualNombre);
 });
 
+/* Devuelve la foto que se debe enviar: la que el usuario tocó para elegir,
+   o si no eligió ninguna (o la que eligió ya no existe), la última subida. */
+function rcColFotoAEnviar(col){
+  var fotos = (col && col.fotos) || [];
+  if (fotos.length===0) return null;
+  if (rcColFotoSeleccionadaId){
+    var elegida = fotos.find(function(f){ return f.id===rcColFotoSeleccionadaId; });
+    if (elegida) return elegida;
+  }
+  return fotos[0];
+}
 function rcRenderColFotos(){
   var cont = document.getElementById('rcColFotos');
   var col = rc.colecciones.find(function(k){ return rcNormNombre(k.nombre)===rcNormNombre(rcColeccionActualNombre); });
   var fotos = (col && col.fotos) || [];
   if (fotos.length===0){ cont.innerHTML = '<p class="card-note" style="margin:0;">Todavía no subiste ninguna foto de esta colección.</p>'; return; }
-  cont.innerHTML = fotos.map(function(f, i){
-    return '<div style="display:flex;gap:10px;align-items:center;border:1px solid var(--line);border-radius:8px;padding:8px;margin-bottom:8px;'+(i===0?'box-shadow:0 0 0 1px var(--gold) inset;':'')+'">'+
+  var seleccionada = rcColFotoAEnviar(col);
+  cont.innerHTML = '<p class="card-note" style="margin:0 0 8px 0;">📸 Tocá una foto para elegir cuál se manda por WhatsApp.</p>' +
+    fotos.map(function(f, i){
+    var esSeleccionada = seleccionada && f.id===seleccionada.id;
+    return '<div data-fid-row="'+f.id+'" class="rc-col-foto-fila" style="display:flex;gap:10px;align-items:center;border:1px solid '+(esSeleccionada?'var(--gold)':'var(--line)')+';border-radius:8px;padding:8px;margin-bottom:8px;cursor:pointer;'+(esSeleccionada?'box-shadow:0 0 0 1px var(--gold) inset;':'')+'">'+
       '<img src="'+f.dataUrl+'" style="width:56px;height:56px;object-fit:cover;border-radius:6px;flex:0 0 auto;"/>'+
-      '<div style="flex:1;min-width:0;"><div style="font-size:12.5px;font-weight:600;">'+(i===0?'📌 Última entrega · ':'')+rcFmtFechaCol(f.fecha)+'</div>'+
+      '<div style="flex:1;min-width:0;"><div style="font-size:12.5px;font-weight:600;">'+(esSeleccionada?'✅ Se envía esta · ':(i===0?'📌 Última entrega · ':''))+rcFmtFechaCol(f.fecha)+'</div>'+
       (f.nota?'<div style="font-size:11.5px;color:var(--cream-dim);">'+rcEsc(f.nota)+'</div>':'')+'</div>'+
-      '<a href="'+f.dataUrl+'" download="'+rcEsc(rcColeccionActualNombre)+'-'+f.fecha+'.jpg" class="tab-btn" style="border-radius:8px;padding:5px 9px;font-size:11px;">⬇️</a>'+
-      '<button data-fid="'+f.id+'" class="tab-btn rc-col-foto-borrar" style="border-radius:8px;padding:5px 9px;font-size:11px;color:var(--red-neg);" type="button">✕</button>'+
+      '<a href="'+f.dataUrl+'" download="'+rcEsc(rcColeccionActualNombre)+'-'+f.fecha+'.jpg" class="tab-btn" style="border-radius:8px;padding:5px 9px;font-size:11px;" onclick="event.stopPropagation()">⬇️</a>'+
+      '<button data-fid="'+f.id+'" class="tab-btn rc-col-foto-borrar" style="border-radius:8px;padding:5px 9px;font-size:11px;color:var(--red-neg);" type="button" onclick="event.stopPropagation()">✕</button>'+
     '</div>';
   }).join('');
+  cont.querySelectorAll('.rc-col-foto-fila').forEach(function(row){
+    row.addEventListener('click', function(){
+      rcColFotoSeleccionadaId = row.dataset.fidRow;
+      rcRenderColFotos();
+      rcRenderColClientes();
+    });
+  });
   cont.querySelectorAll('.rc-col-foto-borrar').forEach(function(b){
     b.addEventListener('click', function(){
       if (!confirm('¿Eliminar esta foto?')) return;
       col.fotos = col.fotos.filter(function(f){return f.id!==b.dataset.fid;});
-      rcSave().then(rcRenderColFotos);
+      if (rcColFotoSeleccionadaId===b.dataset.fid) rcColFotoSeleccionadaId = null;
+      rcSave().then(function(){ rcRenderColFotos(); rcRenderColClientes(); });
     });
   });
 }
@@ -13862,12 +13886,22 @@ function rcDataUrlToFile(dataUrl, filename){
    comportamiento anterior: abrir el chat de WhatsApp solo con el texto. */
 async function rcCompartirColeccionA(tel, nombreCliente, foto, msgEl){
   var texto = rcMensajeWAColeccion(rcColeccionActualNombre, foto);
+  /* Copiamos el número al portapapeles ANTES de abrir el selector: WhatsApp
+     no deja pre-elegir el contacto cuando hay un archivo adjunto (lo controla
+     el sistema, no esta web), pero si el número queda copiado, en el buscador
+     de WhatsApp alcanza con pegarlo (mantener presionado → Pegar) en vez de
+     escribir el nombre a mano y tener que ubicarlo entre los contactos. */
+  var telCopiado = false;
+  if (tel && navigator.clipboard && navigator.clipboard.writeText){
+    try{ await navigator.clipboard.writeText(tel); telCopiado = true; }catch(e){ /* si el navegador no deja copiar, seguimos igual */ }
+  }
+  var avisoTel = telCopiado ? ' Copié el número de '+nombreCliente+' («'+tel+'») al portapapeles: si no aparece entre los chats recientes, pegalo en el buscador de WhatsApp en vez de escribir el nombre.' : '';
   if (foto && foto.dataUrl && navigator.canShare && navigator.share){
     try{
       var file = rcDataUrlToFile(foto.dataUrl, (rcColeccionActualNombre||'coleccion')+'-'+(foto.fecha||'')+'.jpg');
       if (navigator.canShare({files:[file]})){
         await navigator.share({files:[file], text:texto, title:rcColeccionActualNombre||'Colección'});
-        if (msgEl){ msgEl.style.color='var(--green-pos)'; msgEl.textContent='Listo, elegí WhatsApp y el chat de '+nombreCliente+' en el selector ✔️'; }
+        if (msgEl){ msgEl.style.color='var(--green-pos)'; msgEl.textContent='Listo, elegí WhatsApp y el chat de '+nombreCliente+' en el selector.'+avisoTel; }
         return;
       }
     }catch(e){
@@ -13886,7 +13920,7 @@ function rcRenderColClientes(){
   var filtro = (document.getElementById('rcColBuscarCliente').value||'').toLowerCase();
   var normActual = rcNormNombre(rcColeccionActualNombre);
   var col = rc.colecciones.find(function(k){ return rcNormNombre(k.nombre)===normActual; });
-  var ultimaFoto = col && col.fotos && col.fotos[0];
+  var ultimaFoto = rcColFotoAEnviar(col);
   var todos = rc.clientes.slice().sort(function(a,b){ return (a.nombre||'').localeCompare(b.nombre||'','es',{sensitivity:'base'}); });
   var visibles = filtro ? todos.filter(function(c){ return c.nombre.toLowerCase().indexOf(filtro)>-1; }) : todos;
   var esAsignado = function(c){ return (c.colecciones||[]).some(function(k){return rcNormNombre(k.nombre)===normActual;}); };
@@ -13985,7 +14019,7 @@ document.getElementById('rcBtnEnviarTodos').addEventListener('click', function()
 document.getElementById('rcBtnAdjuntarFotoEnviar').addEventListener('click', async function(){
   var normActual = rcNormNombre(rcColeccionActualNombre);
   var col = rc.colecciones.find(function(k){ return rcNormNombre(k.nombre)===normActual; });
-  var ultimaFoto = col && col.fotos && col.fotos[0];
+  var ultimaFoto = rcColFotoAEnviar(col);
   var estadoEl = document.getElementById('rcColEnviarTodosMsg');
   var msgEl = document.getElementById('rcColMsgTodos');
   var texto = (msgEl.value||'').trim() || rcMensajeWAColeccion(rcColeccionActualNombre, ultimaFoto);
