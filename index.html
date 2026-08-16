@@ -2489,7 +2489,10 @@ try {
 <div class="rc-view" data-rcview="coleccionDetalle">
 <div class="card">
 <button class="tab-btn" id="rcBtnVolverColecciones" style="border-radius:8px;margin-bottom:10px;" type="button">← Volver a colecciones</button>
+<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;">
 <h2 id="rcColDetalleTitulo">Colección</h2>
+<button class="tab-btn" id="rcBtnEliminarColeccion" style="border-radius:8px;padding:6px 10px;font-size:11.5px;color:var(--red-neg);white-space:nowrap;" type="button">🗑️ Eliminar colección</button>
+</div>
 <p class="card-note">Subí la foto de la publicación cuando llega una entrega. WhatsApp no permite adjuntar la imagen automáticamente desde un link — el panel la deja guardada acá para que la adjuntes vos en el chat que se abre (o la descargues).</p>
 <input id="rcColFotoInput" accept="image/*" style="margin-bottom:8px;" type="file"/>
 <input id="rcColFotoNota" placeholder="Nota de la entrega (ej: N° 45, llegó hoy)" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;width:100%;box-sizing:border-box;margin-bottom:8px;" type="text"/>
@@ -13591,13 +13594,42 @@ function rcRenderColeccionesLista(){
   cont.innerHTML = cat.map(function(k){
     var ultimaFoto = (k.fotos && k.fotos[0]) ? k.fotos[0].fecha : null;
     return '<div data-nombre="'+rcEsc(k.nombre)+'" class="rc-col-item" style="border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin-bottom:9px;background:rgba(0,0,0,.14);cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:10px;">'+
-      '<div><div style="font-weight:700;font-size:14.5px;">'+rcEsc(k.nombre)+'</div>'+
+      '<div style="flex:1;min-width:0;"><div style="font-weight:700;font-size:14.5px;">'+rcEsc(k.nombre)+'</div>'+
       '<div style="color:var(--cream-dim);font-size:11.5px;margin-top:2px;">'+k.count+' cliente'+(k.count!==1?'s':'')+(ultimaFoto?' · última entrega '+rcFmtFechaCol(ultimaFoto):' · sin fotos cargadas')+'</div></div>'+
-      '<div style="color:var(--gold);font-size:18px;">›</div>'+
+      '<button data-nombre-borrar="'+rcEsc(k.nombre)+'" class="tab-btn rc-col-item-borrar" style="border-radius:8px;padding:5px 9px;font-size:11px;color:var(--red-neg);flex:0 0 auto;" type="button">🗑️</button>'+
+      '<div style="color:var(--gold);font-size:18px;flex:0 0 auto;">›</div>'+
     '</div>';
   }).join('');
   cont.querySelectorAll('.rc-col-item').forEach(function(el){
     el.addEventListener('click', function(){ rcAbrirColeccion(el.dataset.nombre); });
+  });
+  cont.querySelectorAll('.rc-col-item-borrar').forEach(function(b){
+    b.addEventListener('click', function(ev){
+      ev.stopPropagation();
+      rcEliminarColeccion(b.dataset.nombreBorrar);
+    });
+  });
+}
+/* Elimina la colección del catálogo (con sus fotos) y la desasigna de todos
+   los clientes que la tuvieran cargada. No borra a los clientes, solo esa
+   colección puntual de cada uno. */
+function rcEliminarColeccion(nombre){
+  var norm = rcNormNombre(nombre);
+  var count = rc.clientes.filter(function(c){ return (c.colecciones||[]).some(function(k){return rcNormNombre(k.nombre)===norm;}); }).length;
+  var aviso = '¿Eliminar la colección "'+nombre+'"?'+(count>0?(' Se va a desasignar de '+count+' cliente'+(count!==1?'s':'')+'.'):'')+' No se puede deshacer.';
+  if (!confirm(aviso)) return;
+  rc.colecciones = rc.colecciones.filter(function(k){ return rcNormNombre(k.nombre)!==norm; });
+  rc.clientes.forEach(function(c){
+    c.colecciones = (c.colecciones||[]).filter(function(k){ return rcNormNombre(k.nombre)!==norm; });
+  });
+  rcSave().then(function(){
+    rcRenderColeccionesLista();
+    rcRenderLista();
+    rcRenderCatalogoDatalist();
+    if (rcColeccionActualNombre && rcNormNombre(rcColeccionActualNombre)===norm){
+      rcColeccionActualNombre = null;
+      rcIrAVista('porcoleccion');
+    }
   });
 }
 document.getElementById('rcBtnNuevaColeccion').addEventListener('click', function(){
@@ -13627,6 +13659,9 @@ function rcAbrirColeccion(nombre){
 document.getElementById('rcBtnVolverColecciones').addEventListener('click', function(){
   rcIrAVista('porcoleccion');
   rcRenderColeccionesLista();
+});
+document.getElementById('rcBtnEliminarColeccion').addEventListener('click', function(){
+  if (rcColeccionActualNombre) rcEliminarColeccion(rcColeccionActualNombre);
 });
 
 function rcRenderColFotos(){
