@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 4,
-  "exportadoEl": "2026-08-16T15:34:28.197Z",
+  "exportadoEl": "2026-08-16T15:34:41.536Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -1390,6 +1390,16 @@
       "medio": "efectivo",
       "id": "m_msvytvtwykesap",
       "modificadoEl": "2026-08-16T15:34:28.196Z"
+    },
+    {
+      "date": "2026-08-16",
+      "type": "egreso",
+      "amount": 31000,
+      "category": "Sueldo",
+      "account": "alquileres",
+      "detalle": "Queso",
+      "id": "m_msvyu64fxf5r8l",
+      "modificadoEl": "2026-08-16T15:34:41.535Z"
     }
   ],
   "categoriasCustom": [
