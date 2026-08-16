@@ -11087,10 +11087,25 @@ renderAutoConclusions();
     modal.setAttribute('aria-hidden','false');
   }
 
-  const ganSemFacturaModal = document.getElementById('ganSemFacturaModal');
-  const ganSemFacturaModalClose = document.getElementById('ganSemFacturaModalClose');
-  if (ganSemFacturaModalClose) ganSemFacturaModalClose.addEventListener('click', () => { ganSemFacturaModal.classList.remove('active'); ganSemFacturaModal.setAttribute('aria-hidden','true'); });
-  if (ganSemFacturaModal) ganSemFacturaModal.addEventListener('click', e => { if (e.target === ganSemFacturaModal) { ganSemFacturaModal.classList.remove('active'); ganSemFacturaModal.setAttribute('aria-hidden','true'); } });
+  // Cierre robusto del modal de detalle. Este script puede ejecutarse antes de que
+  // el HTML del modal exista, por eso usamos delegación de eventos en document.
+  function cerrarGanSemFacturaModal(){
+    const modal = document.getElementById('ganSemFacturaModal');
+    if (!modal) return;
+    modal.classList.remove('active');
+    modal.setAttribute('aria-hidden','true');
+  }
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest && e.target.closest('#ganSemFacturaModalClose');
+    if (btn){
+      e.preventDefault();
+      e.stopPropagation();
+      cerrarGanSemFacturaModal();
+      return;
+    }
+    const modal = document.getElementById('ganSemFacturaModal');
+    if (modal && e.target === modal) cerrarGanSemFacturaModal();
+  });
 
   function renderGananciaSemanal(){
     const prov = PROVEEDORES.find(p => p.key === provState.prov) || PROVEEDORES[0];
@@ -18543,7 +18558,7 @@ document.getElementById('panelMenuFlotanteOverlay').addEventListener('click', fu
   <div class="gsm-box" role="dialog" aria-modal="true" aria-label="Detalle del comprobante">
     <div class="gsm-head">
       <div><div class="gsm-title" id="ganSemFacturaModalTitle">Comprobante</div><div class="gsm-sub" id="ganSemFacturaModalSub"></div></div>
-      <button type="button" class="gsm-close" id="ganSemFacturaModalClose">Cerrar ✕</button>
+      <button type="button" class="gsm-close" id="ganSemFacturaModalClose" onclick="event.preventDefault(); event.stopPropagation(); var m=document.getElementById('ganSemFacturaModal'); if(m){m.classList.remove('active');m.setAttribute('aria-hidden','true');}">Cerrar ✕</button>
     </div>
     <div id="ganSemFacturaModalBody"></div>
   </div>
