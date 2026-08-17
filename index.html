@@ -247,8 +247,6 @@
   #fcCerrarPrintBtn{display:none;position:fixed;top:10px;right:10px;z-index:99999;background:#c0392b;color:#fff;border:none;border-radius:8px;padding:10px 14px;font-size:13px;font-weight:700;}
   body.printing-factura #fcCerrarPrintBtn{display:block !important;visibility:visible !important;}
 
-  #cardPreciosRentabilidad input[type=number],#cardPreciosRentabilidad input[type=date]{font-size:12px;}
-  #cardPreciosRentabilidad .pos{color:var(--green-pos);} #cardPreciosRentabilidad .neg{color:var(--red-neg);}
   /* Modal para abrir un comprobante desde Ganancia semanal */
   #ganSemFacturaModal{display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.72);padding:18px;overflow:auto;}
   #ganSemFacturaModal.active{display:block;}
@@ -934,23 +932,6 @@ try {
 <table id="itemsTable"><thead><tr><th></th><th>Producto / concepto</th><th style="text-align:right">Cant.</th><th style="text-align:right">Monto</th><th style="text-align:right">Facturas</th><th style="text-align:right">%</th></tr></thead><tbody></tbody></table>
 </div>
 <button class="link-btn" id="itemsVerMasBtn" style="margin-top:10px;display:none;" type="button"></button>
-</div>
-<div class="card" id="cardPreciosRentabilidad">
-<h2>💰 Precios de venta y rentabilidad</h2>
-<p class="card-note">Para no cargar una lista interminable, acá configurás <strong>un precio base por producto</strong>. Ese precio se aplica a todas sus ediciones. Si una edición o un día tiene otro precio, agregás una <strong>excepción</strong>. Cuando cambie el precio más adelante, guardás otro precio base con una nueva fecha de vigencia y los períodos anteriores no cambian.</p>
-<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;">
-<input id="precioBuscar" placeholder="🔎 Buscar diario, revista o colección..." style="flex:1;min-width:180px;background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:9px 10px;border-radius:6px;font-size:13px;box-sizing:border-box;" type="text"/>
-<button class="link-btn" id="precioLimpiar" type="button">Limpiar</button>
-</div>
-<p class="card-note" id="precioNota" style="margin-top:8px;"></p>
-<div style="overflow-x:auto;margin-top:10px;">
-<table id="preciosVentaTable"><thead><tr><th>Producto</th><th style="text-align:right">Precio tapa base</th><th style="text-align:right">Recargo proveedor</th><th style="text-align:right">Venta cliente</th><th>Desde</th><th>Excepciones</th><th></th></tr></thead><tbody></tbody></table>
-</div>
-<div class="kpi-grid" id="rentabilidadKpis" style="margin-top:12px;"></div>
-<div style="overflow-x:auto;margin-top:12px;">
-<table id="rentabilidadTable"><thead><tr><th>Producto</th><th style="text-align:right">Cant. neta</th><th style="text-align:right">Costo neto</th><th style="text-align:right">Ingreso tuyo</th><th style="text-align:right">Ganancia</th><th style="text-align:right">Margen</th></tr></thead><tbody></tbody></table>
-</div>
-<p class="card-note" style="margin-top:8px;">La rentabilidad de abajo usa los comprobantes y notas de crédito del rango seleccionado en <strong>Ganancia semanal</strong>. El recargo se muestra aparte porque es dinero del proveedor y no forma parte de tu ganancia.</p>
 </div>
 <div class="card">
 <h2>Ganancia semanal — <span id="ganSemProvNombre"></span></h2>
@@ -9932,8 +9913,6 @@ renderAutoConclusions();
     renderCuentaCorriente();
     renderDesgloseItems();
     renderGananciaSemanal();
-    renderPreciosVenta();
-    renderRentabilidad();
   }
 
   function renderFacturadoVsPagado(prov, desdeInt, hastaInt, totalPagadoPeriodo){
@@ -10228,8 +10207,6 @@ renderAutoConclusions();
     renderFacturas();
     renderResumenDeuda();
     renderCuentaCorriente();
-    renderPreciosVenta();
-    renderRentabilidad();
   }
   function saveFacturas(){ storageSet(K_FACTURAS, JSON.stringify(facturas)); }
 
@@ -10251,8 +10228,6 @@ renderAutoConclusions();
       renderFacturas();
       renderResumenDeuda();
       renderCuentaCorriente();
-      renderPreciosVenta();
-      renderRentabilidad();
     }
     return agregadas;
   };
@@ -11027,181 +11002,6 @@ renderAutoConclusions();
     }
   }
 
-  /* ---- Precios de venta y rentabilidad por producto ---- */
-  const K_PRECIOS_VENTA = 'precios-venta-proveedores-v2';
-  const K_PRECIOS_VENTA_OLD = 'precios-venta-proveedores-v1';
-  let preciosVenta = [];
-  try { preciosVenta = JSON.parse(localStorage.getItem(K_PRECIOS_VENTA) || '[]') || []; } catch(e){ preciosVenta = []; }
-
-  function normPrecio(s){
-    return String(s==null?'':s).trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,' ');
-  }
-  function precioKey(proveedorKey, descripcion, edicion){
-    return String(proveedorKey||'') + '|' + normPrecio(descripcion) + '|' + normPrecio(edicion);
-  }
-  function guardarPreciosVenta(){
-    const raw = JSON.stringify(preciosVenta);
-    try { localStorage.setItem(K_PRECIOS_VENTA, raw); } catch(e){}
-    try { storageSet(K_PRECIOS_VENTA, raw); } catch(e){}
-  }
-  function precioBaseKey(proveedorKey, descripcion){
-    return String(proveedorKey||'') + '|' + normPrecio(descripcion) + '|*';
-  }
-  function precioVigente(proveedorKey, descripcion, edicion, fechaIso){
-    const fi = fechaAIntProv(fechaIso) || 99999999;
-    const exactKey = precioKey(proveedorKey, descripcion, edicion);
-    const baseKey = precioBaseKey(proveedorKey, descripcion);
-    const exactos = preciosVenta.filter(x => x.key === exactKey && (!x.vigenteDesdeInt || x.vigenteDesdeInt <= fi));
-    const bases = preciosVenta.filter(x => x.key === baseKey && (!x.vigenteDesdeInt || x.vigenteDesdeInt <= fi));
-    exactos.sort((a,b) => ((b.vigenteDesdeInt||0)-(a.vigenteDesdeInt||0)) || String(b.creado||'').localeCompare(String(a.creado||'')));
-    bases.sort((a,b) => ((b.vigenteDesdeInt||0)-(a.vigenteDesdeInt||0)) || String(b.creado||'').localeCompare(String(a.creado||'')));
-    return exactos[0] || bases[0] || null;
-  }
-  function cargarPreciosVentaStorage(){
-    try {
-      const raw = localStorage.getItem(K_PRECIOS_VENTA);
-      if (raw) preciosVenta = JSON.parse(raw) || [];
-    } catch(e){}
-  }
-  cargarPreciosVentaStorage();
-
-  function productosRentabilidad(provKey){
-    const mapa = Object.create(null);
-    facturas.filter(f => f.proveedorKey === provKey && Array.isArray(f.items)).forEach(f => {
-      f.items.forEach(it => {
-        const desc = String(it.descripcion||'').trim();
-        const ed = String(it.edicion||'').trim();
-        if (!desc && !ed) return;
-        const key = precioKey(provKey, desc, ed);
-        if (!mapa[key]) mapa[key] = {key, descripcion:desc || '—', edicion:ed || '—', costoUnit:0, costoQty:0, muestras:0};
-        const qty = Number(it.cantidad);
-        const q = isFinite(qty) && qty > 0 ? qty : 1;
-        const monto = Number(it.monto)||0;
-        mapa[key].costoQty += q;
-        mapa[key].costoUnit += monto;
-        mapa[key].muestras++;
-      });
-    });
-    return Object.values(mapa).map(x => ({...x, costoUnitario: x.costoQty ? x.costoUnit/x.costoQty : 0})).sort((a,b)=>a.descripcion.localeCompare(b.descripcion,'es'));
-  }
-
-  function productosPrecioBase(provKey){
-    const mapa = Object.create(null);
-    productosRentabilidad(provKey).forEach(x => {
-      const key = precioBaseKey(provKey, x.descripcion);
-      if (!mapa[key]) mapa[key] = {key, descripcion:x.descripcion, cantidad:0, costo:0, ediciones:new Set()};
-      mapa[key].cantidad += x.costoQty;
-      mapa[key].costo += x.costoUnit;
-      if (x.edicion && x.edicion !== '—') mapa[key].ediciones.add(x.edicion);
-    });
-    return Object.values(mapa).map(x => ({...x, costoUnitario:x.cantidad ? x.costo/x.cantidad : 0})).sort((a,b)=>a.descripcion.localeCompare(b.descripcion,'es'));
-  }
-
-  function renderPreciosVenta(){
-    const prov = PROVEEDORES.find(p => p.key === provState.prov) || PROVEEDORES[0];
-    const tbody = document.querySelector('#preciosVentaTable tbody');
-    const nota = document.getElementById('precioNota');
-    const buscar = normPrecio(document.getElementById('precioBuscar')?.value || '');
-    if (!tbody) return;
-    const productos = productosPrecioBase(prov.key).filter(x => !buscar || normPrecio(x.descripcion).includes(buscar));
-    if (nota) nota.textContent = productos.length ? productos.length + (productos.length===1?' producto configurables.':' productos configurables.') + ' Cada fila usa un precio base; las excepciones se cargan solo cuando hacen falta.' : 'No hay productos con detalle para este proveedor en las facturas cargadas.';
-    const hoy = new Date().toISOString().slice(0,10);
-    tbody.innerHTML = productos.length ? productos.map(x => {
-      const actual = precioVigente(prov.key, x.descripcion, '*', hoy);
-      const base = preciosVenta.filter(r=>r.key===x.key).sort((a,b)=>((b.vigenteDesdeInt||0)-(a.vigenteDesdeInt||0)))[0] || null;
-      const tapa = base ? base.tapa : '';
-      const rec = base ? base.recargo : '';
-      const vig = base && base.vigenteDesde ? base.vigenteDesde : hoy;
-      const ex = preciosVenta.filter(r=>r.proveedorKey===prov.key && normPrecio(r.descripcion)===normPrecio(x.descripcion) && r.key !== x.key);
-      return '<tr>'+
-        '<td><strong>'+escapeHtmlProv(x.descripcion)+'</strong><div class="card-note" style="margin:2px 0 0">'+x.ediciones.size.toLocaleString('es-AR')+' edición(es) detectadas · costo prom. '+fmtARS(x.costoUnitario)+'</div></td>'+
-        '<td class="num"><input data-base-tapa="'+escapeHtmlProv(x.key)+'" type="number" step="0.01" min="0" value="'+(tapa!==''?String(tapa):'')+'" style="width:105px;box-sizing:border-box;background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:7px;border-radius:6px;"/></td>'+
-        '<td class="num"><input data-base-recargo="'+escapeHtmlProv(x.key)+'" type="number" step="0.01" min="0" value="'+(rec!==''?String(rec):'')+'" style="width:105px;box-sizing:border-box;background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:7px;border-radius:6px;"/></td>'+
-        '<td class="num">'+(tapa!=='' && rec!=='' ? fmtARS(Number(tapa)+Number(rec)) : '—')+'</td>'+
-        '<td><input data-base-vig="'+escapeHtmlProv(x.key)+'" type="date" value="'+vig+'" style="width:130px;box-sizing:border-box;background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:7px;border-radius:6px;"/></td>'+
-        '<td class="num">'+ex.length+'</td>'+
-        '<td><button class="toggle-btn" type="button" data-base-save="'+escapeHtmlProv(x.key)+'">Guardar</button><button class="link-btn" type="button" data-base-ex="'+escapeHtmlProv(x.key)+'" style="margin-top:5px;">+ Excepción</button></td>'+
-      '</tr>';
-    }).join('') : '<tr><td colspan="7" class="card-note">Sin productos para mostrar.</td></tr>';
-
-    tbody.querySelectorAll('[data-base-save]').forEach(btn => btn.addEventListener('click', () => {
-      const key = btn.getAttribute('data-base-save'), row=btn.closest('tr');
-      const tapa=Number(row?.querySelector('[data-base-tapa]')?.value), recargo=Number(row?.querySelector('[data-base-recargo]')?.value), vig=row?.querySelector('[data-base-vig]')?.value||hoy;
-      const prod=productos.find(x=>x.key===key);
-      if(!prod || !isFinite(tapa) || tapa<0 || !isFinite(recargo) || recargo<0 || !vig){alert('Completá precio de tapa, recargo y fecha de vigencia.');return;}
-      const reg={id:'pv_'+Date.now()+'_'+Math.random().toString(36).slice(2,8),key,proveedorKey:prov.key,descripcion:prod.descripcion,edicion:'*',tapa,recargo,vigenteDesde:vig,vigenteDesdeInt:fechaAIntProv(vig),creado:new Date().toISOString()};
-      const idx=preciosVenta.findIndex(r=>r.key===key && r.vigenteDesde===vig);
-      if(idx>=0) preciosVenta[idx]=reg; else preciosVenta.push(reg);
-      guardarPreciosVenta(); renderPreciosVenta(); renderRentabilidad();
-    }));
-
-    tbody.querySelectorAll('[data-base-ex]').forEach(btn => btn.addEventListener('click', () => {
-      const key=btn.getAttribute('data-base-ex'), prod=productos.find(x=>x.key===key); if(!prod)return;
-      const ed=prompt('Edición específica (por ejemplo 20260815).\nDejá vacío si el cambio vale para ese producto en una fecha puntual.'); if(ed===null)return;
-      const fecha=prompt('Fecha desde la que rige el precio (AAAA-MM-DD):', hoy); if(!fecha)return;
-      const tapaRaw=prompt('Precio de tapa:', ''); if(tapaRaw===null)return;
-      const recRaw=prompt('Recargo para el proveedor:', ''); if(recRaw===null)return;
-      const tapa=Number(tapaRaw), recargo=Number(recRaw);
-      if(!isFinite(tapa)||tapa<0||!isFinite(recargo)||recargo<0||!/^\d{4}-\d{2}-\d{2}$/.test(fecha)){alert('Datos inválidos.');return;}
-      const k=ed.trim()?precioKey(prov.key,prod.descripcion,ed.trim()):precioBaseKey(prov.key,prod.descripcion);
-      const reg={id:'pv_'+Date.now()+'_'+Math.random().toString(36).slice(2,8),key:k,proveedorKey:prov.key,descripcion:prod.descripcion,edicion:ed.trim()||'*',tapa,recargo,vigenteDesde:fecha,vigenteDesdeInt:fechaAIntProv(fecha),creado:new Date().toISOString()};
-      const idx=preciosVenta.findIndex(r=>r.key===k && r.vigenteDesde===fecha);
-      if(idx>=0)preciosVenta[idx]=reg;else preciosVenta.push(reg);
-      guardarPreciosVenta(); renderPreciosVenta(); renderRentabilidad();
-    }));
-  }
-
-  function calcularRentabilidad(provKey){
-    const desdeF = document.getElementById('ganSemFiltroDesde')?.value || '';
-    const hastaF = document.getElementById('ganSemFiltroHasta')?.value || '';
-    const desdeInt = desdeF ? fechaAIntProv(desdeF) : null;
-    const hastaInt = hastaF ? fechaAIntProv(hastaF) : null;
-    const mapa = Object.create(null);
-    facturas.filter(f=>f.proveedorKey===provKey && Array.isArray(f.items)).forEach(f=>{
-      const esNC = f.tipo === 'nota_credito';
-      f.items.forEach(it=>{
-        const monto = Number(it.monto)||0;
-        if (!monto) return;
-        if (ganSemTipo === 'diario' && !esItemDiario(it)) return;
-        if (ganSemTipo === 'revista' && esItemDiario(it)) return;
-        const fecha = fechaEfectivaItemProv(it,f);
-        const fi = fechaAIntProv(fecha);
-        if (fi===null || (desdeInt!==null && fi<desdeInt) || (hastaInt!==null && fi>hastaInt)) return;
-        const desc = String(it.descripcion||'').trim(), ed=String(it.edicion||'').trim();
-        const key=precioKey(provKey,desc,ed);
-        if(!mapa[key]) mapa[key]={key,descripcion:desc||'—',edicion:ed||'—',qty:0,costo:0,ingreso:0,ganancia:0,recargo:0,sinPrecio:0};
-        const q0=Number(it.cantidad); const q=isFinite(q0)&&q0>0?q0:1;
-        const sign=esNC?-1:1;
-        mapa[key].qty += sign*q;
-        mapa[key].costo += sign*monto;
-        const pv=precioVigente(provKey,desc,ed,fecha);
-        if(pv){
-          mapa[key].ingreso += sign*q*Number(pv.tapa||0);
-          mapa[key].recargo += sign*q*Number(pv.recargo||0);
-        } else mapa[key].sinPrecio += q;
-      });
-    });
-    return Object.values(mapa).map(x=>{ x.ganancia=x.ingreso-x.costo; x.margen=x.ingreso?x.ganancia/x.ingreso*100:0; return x; }).filter(x=>Math.abs(x.qty)>0.000001 || Math.abs(x.costo)>0.009).sort((a,b)=>b.ganancia-a.ganancia);
-  }
-
-  function renderRentabilidad(){
-    const prov = PROVEEDORES.find(p => p.key === provState.prov) || PROVEEDORES[0];
-    const rows=calcularRentabilidad(prov.key);
-    const tbody=document.querySelector('#rentabilidadTable tbody');
-    const kpis=document.getElementById('rentabilidadKpis');
-    if(!tbody||!kpis)return;
-    const totalCosto=rows.reduce((s,x)=>s+x.costo,0), totalIngreso=rows.reduce((s,x)=>s+x.ingreso,0), totalGan=totalIngreso-totalCosto, totalRec=rows.reduce((s,x)=>s+x.recargo,0);
-    const conPrecio=rows.filter(x=>x.ingreso||x.sinPrecio===0).length;
-    const sinPrecio=rows.reduce((s,x)=>s+x.sinPrecio,0);
-    kpis.innerHTML = kpi('Costo neto',fmtARS(totalCosto)) + kpi('Ingreso tuyo',fmtARS(totalIngreso), 'Precio de tapa, sin recargo proveedor') + kpi('Ganancia bruta',fmtARS(totalGan), totalIngreso ? ((totalGan/totalIngreso)*100).toLocaleString('es-AR',{minimumFractionDigits:1,maximumFractionDigits:1})+'% de margen' : 'Sin precios cargados', totalGan>=0?'pos':'neg') + kpi('Recargo proveedor',fmtARS(totalRec),'No se considera ganancia tuya') + (sinPrecio ? kpi('Productos sin precio',String(Math.ceil(sinPrecio)),'Cargá precio de tapa para completar') : '');
-    tbody.innerHTML=rows.length?rows.map(x=>'<tr><td><strong>'+escapeHtmlProv(x.descripcion)+'</strong><div class="card-note" style="margin:2px 0 0">'+escapeHtmlProv(x.edicion)+'</div></td><td class="num">'+(x.qty.toLocaleString('es-AR',{maximumFractionDigits:2}))+'</td><td class="num">'+fmtARS(x.costo)+'</td><td class="num">'+fmtARS(x.ingreso)+'</td><td class="num '+(x.ganancia>=0?'pos':'neg')+'">'+fmtARS(x.ganancia)+'</td><td class="num">'+(x.ingreso ? x.margen.toLocaleString('es-AR',{minimumFractionDigits:1,maximumFractionDigits:1})+'%' : '—')+'</td></tr>').join(''):'<tr><td colspan="6" class="card-note">No hay movimientos de productos en el período seleccionado.</td></tr>';
-  }
-
-  const precioBuscarEl=document.getElementById('precioBuscar');
-  if(precioBuscarEl) precioBuscarEl.addEventListener('input',renderPreciosVenta);
-  const precioLimpiarEl=document.getElementById('precioLimpiar');
-  if(precioLimpiarEl) precioLimpiarEl.addEventListener('click',()=>{ if(precioBuscarEl) precioBuscarEl.value=''; renderPreciosVenta(); });
-
   /* ---- Ganancia semanal por proveedor (NUEVO, independiente del Desglose de arriba) ----
      Agrupa cargas (facturas/notas de débito, +) menos notas de crédito (−) por semana
      (lunes a domingo), usando la fecha efectiva de cada item: la propia del diario si
@@ -11211,14 +11011,13 @@ renderAutoConclusions();
   const elGanSemFiltroHasta = document.getElementById('ganSemFiltroHasta');
   const elGanSemFiltroLimpiar = document.getElementById('ganSemFiltroLimpiar');
   [elGanSemFiltroDesde, elGanSemFiltroHasta].forEach(el => {
-    if (el) el.addEventListener('input', () => { renderGananciaSemanal(); renderRentabilidad(); });
+    if (el) el.addEventListener('input', renderGananciaSemanal);
   });
   if (elGanSemFiltroLimpiar){
     elGanSemFiltroLimpiar.addEventListener('click', () => {
       if (elGanSemFiltroDesde) elGanSemFiltroDesde.value = '';
       if (elGanSemFiltroHasta) elGanSemFiltroHasta.value = '';
       renderGananciaSemanal();
-      renderRentabilidad();
     });
   }
 
@@ -11240,7 +11039,6 @@ renderAutoConclusions();
         ganSemTipo = btn.dataset.tipo;
         elGanSemTipoToggle.querySelectorAll('.toggle-btn').forEach(b => b.classList.toggle('active', b === btn));
         renderGananciaSemanal();
-        renderRentabilidad();
       });
     });
   }
@@ -18765,94 +18563,5 @@ document.getElementById('panelMenuFlotanteOverlay').addEventListener('click', fu
     <div id="ganSemFacturaModalBody"></div>
   </div>
 </div>
-
-<section id="configPreciosVenta" class="card" style="margin-top:16px;">
-  <h2 style="margin:0;">💰 Precios de venta</h2>
-  <p style="font-size:12px;color:var(--texto-suave);margin:5px 0 12px;">
-    Los diarios usan precios distintos para lunes-viernes, sábado y domingo.
-    Revistas y colecciones usan un precio normal. Los precios se guardan por fecha de vigencia.
-  </p>
-  <button type="button" onclick="pvNuevo()">＋ Agregar producto</button>
-
-  <div id="pvForm" style="display:none;margin-top:12px;padding:12px;border:1px solid var(--gris-borde);border-radius:10px;">
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:8px;">
-      <label>Producto<input id="pvNombre" placeholder="Ej.: La Nación"></label>
-      <label>Tipo<select id="pvTipo" onchange="pvTipoChange()">
-        <option value="diario">Diario</option>
-        <option value="revista">Revista / colección</option>
-      </select></label>
-      <label>Desde<input id="pvFecha" type="date"></label>
-      <label>Recargo proveedor<input id="pvRecargo" type="number" step="0.01" value="0"></label>
-      <label id="pvLVL">Lunes a viernes<input id="pvLV" type="number" step="0.01" value="0"></label>
-      <label id="pvSabL">Sábado<input id="pvSab" type="number" step="0.01" value="0"></label>
-      <label id="pvDomL">Domingo<input id="pvDom" type="number" step="0.01" value="0"></label>
-    </div>
-    <div style="margin-top:10px;">
-      <button type="button" onclick="pvGuardar()">Guardar</button>
-      <button type="button" onclick="pvCancelar()">Cancelar</button>
-    </div>
-  </div>
-  <div id="pvLista" style="margin-top:12px;"></div>
-</section>
-
-<style>
-#configPreciosVenta input,#configPreciosVenta select{padding:8px;border:1px solid var(--gris-borde);border-radius:8px;margin-top:4px;width:100%;box-sizing:border-box}
-#configPreciosVenta label{font-size:12px;font-weight:600}
-#configPreciosVenta button{padding:8px 11px;border:1px solid var(--gris-borde);border-radius:8px;background:var(--fondo,white);cursor:pointer}
-</style>
-
-<script>
-(function(){
-const KEY='pv_precios_v3';
-const $=id=>document.getElementById(id);
-const ars=n=>Number(n||0).toLocaleString('es-AR',{style:'currency',currency:'ARS'});
-function get(){try{return JSON.parse(localStorage.getItem(KEY)||'[]')}catch(e){return[]}}
-function set(a){localStorage.setItem(KEY,JSON.stringify(a))}
-window.pvTipoChange=function(){
-  const diario=$('pvTipo').value==='diario';
-  $('pvSabL').style.display=diario?'block':'none';
-  $('pvDomL').style.display=diario?'block':'none';
-}
-window.pvNuevo=function(){
-  $('pvForm').style.display='block';
-  $('pvNombre').value='';
-  $('pvFecha').value=new Date().toISOString().slice(0,10);
-  $('pvRecargo').value=0;$('pvLV').value=0;$('pvSab').value=0;$('pvDom').value=0;
-  $('pvTipo').value='diario';pvTipoChange();$('pvNombre').focus();
-}
-window.pvCancelar=function(){$('pvForm').style.display='none'}
-window.pvGuardar=function(){
-  const nombre=$('pvNombre').value.trim(), fecha=$('pvFecha').value;
-  if(!nombre||!fecha){alert('Completá producto y fecha.');return}
-  const a=get();
-  a.push({id:Date.now(),nombre,tipo:$('pvTipo').value,fecha,
-    recargo:+$('pvRecargo').value||0,lv:+$('pvLV').value||0,
-    sab:+$('pvSab').value||0,dom:+$('pvDom').value||0});
-  a.sort((a,b)=>a.nombre.localeCompare(b.nombre,'es')||a.fecha.localeCompare(b.fecha));
-  set(a);pvCancelar();pvRender();
-}
-window.pvEliminar=function(id){if(confirm('¿Eliminar este precio?')){set(get().filter(x=>x.id!==id));pvRender()}}
-window.precioVentaParaFecha=function(nombre,fecha){
-  const a=get().filter(x=>x.nombre===nombre&&x.fecha<=fecha).sort((a,b)=>b.fecha.localeCompare(a.fecha));
-  if(!a.length)return null;
-  const x=a[0], d=new Date(fecha+'T12:00:00').getDay();
-  const tapa=x.tipo==='diario'?(d===6?x.sab:d===0?x.dom:x.lv):x.lv;
-  return {tapa,recargo:x.recargo,cobrado:tapa+x.recargo,ingresoPropio:tapa};
-}
-window.pvRender=function(){
-  const a=get(),box=$('pvLista');
-  if(!a.length){box.innerHTML='<small style="color:var(--texto-suave)">No hay precios cargados.</small>';return}
-  box.innerHTML=a.map(x=>`<div style="padding:9px 0;border-top:1px solid var(--gris-borde)">
-    <b>${x.nombre}</b> · ${x.tipo==='diario'?'📰 Diario':'📚 Revista/colección'} · desde ${x.fecha}
-    <br><small>${x.tipo==='diario'
-      ?`L-V ${ars(x.lv)} · Sáb ${ars(x.sab)} · Dom ${ars(x.dom)}`
-      :`Precio ${ars(x.lv)}`} · Recargo proveedor ${ars(x.recargo)}</small>
-    <button type="button" onclick="pvEliminar(${x.id})" style="float:right">Eliminar</button>
-  </div>`).join('')
-}
-document.addEventListener('DOMContentLoaded',()=>{pvTipoChange();pvRender()});
-})();
-</script>
-
 </body>
 </html>
