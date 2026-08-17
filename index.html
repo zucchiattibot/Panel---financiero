@@ -10756,19 +10756,61 @@ renderAutoConclusions();
   // Fila de detalle expandible para cada comprobante: muestra los datos completos
   // y, sobre todo, los títulos/productos cargados en el detalle de esa factura
   // (o un aviso si ese comprobante no tiene items cargados).
+  // Busca si ya existe, para el mismo proveedor, una nota de crédito que
+  // corresponda al mismo título y a la misma edición (o, si no hay edición
+  // cargada en alguno de los dos, a la misma fecha efectiva) que este ítem
+  // de una factura de compra. Sirve para saber si una devolución ya fue
+  // reconocida por el proveedor (ya tiene su NC) o todavía está pendiente.
+  function buscarNotaCreditoParaItem(it, f){
+    if (!it || !f || f.tipo === 'nota_credito') return null;
+    const titulosProv = titulosDe(f.proveedorKey);
+    const titMatch = matchTitulo(titulosProv, it.descripcion);
+    const edicionNorm = normTxtProv(it.edicion || '');
+    const fechaEf = fechaEfectivaItemProv(it, f);
+    let encontrada = null;
+    facturas.forEach(fNC => {
+      if (encontrada || fNC.proveedorKey !== f.proveedorKey || fNC.tipo !== 'nota_credito' || !Array.isArray(fNC.items)) return;
+      fNC.items.forEach(itNC => {
+        if (encontrada) return;
+        const titNCMatch = matchTitulo(titulosProv, itNC.descripcion);
+        const mismoTitulo = (titMatch && titNCMatch)
+          ? titMatch.id === titNCMatch.id
+          : normTxtProv(itNC.descripcion || '') === normTxtProv(it.descripcion || '');
+        if (!mismoTitulo) return;
+        const edicionNCNorm = normTxtProv(itNC.edicion || '');
+        const mismaEdicion = (edicionNorm && edicionNCNorm) ? (edicionNorm === edicionNCNorm) : null;
+        const fechaEfNC = fechaEfectivaItemProv(itNC, fNC);
+        const mismaFecha = (fechaEf && fechaEfNC) ? (fechaEf === fechaEfNC) : null;
+        const coincide = (mismaEdicion !== null) ? mismaEdicion : (mismaFecha !== null ? mismaFecha : false);
+        if (coincide) encontrada = fNC;
+      });
+    });
+    return encontrada;
+  }
+  function badgeNC(it, f){
+    if (!f || f.tipo === 'nota_credito') return '';
+    const nc = buscarNotaCreditoParaItem(it, f);
+    return nc
+      ? '<span title="Ya tiene nota de crédito' + (nc.numeroFactura ? ' N° ' + escapeHtmlProv(nc.numeroFactura) : '') + '" style="color:var(--green-pos);font-weight:700;white-space:nowrap;">✔️ Con NC</span>'
+      : '<span title="Todavía no se cargó una nota de crédito para este título/edición" style="color:var(--gold);font-weight:700;white-space:nowrap;">⏳ Sin NC</span>';
+  }
+
   function filaDetalleFactura(f){
     const items = Array.isArray(f.items) ? f.items : [];
     let itemsHtml;
     if (items.length){
+      const esNC = f.tipo === 'nota_credito';
       itemsHtml = '<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;font-size:11.5px;"><thead><tr>' +
         '<th style="text-align:left;padding:4px;">Título / producto</th><th style="text-align:left;padding:4px;">Edición</th>' +
         '<th style="text-align:right;padding:4px;">Cant.</th><th style="text-align:right;padding:4px;">Monto</th>' +
+        (esNC ? '' : '<th style="text-align:center;padding:4px;">NC</th>') +
         '</tr></thead><tbody>' +
         items.map(it => '<tr>' +
           '<td style="padding:4px;">' + escapeHtmlProv(it.descripcion || '—') + '</td>' +
           '<td style="padding:4px;">' + (it.edicion ? escapeHtmlProv(it.edicion) : '—') + '</td>' +
           '<td class="num" style="padding:4px;">' + (it.cantidad != null ? it.cantidad.toLocaleString('es-AR', {maximumFractionDigits:2}) : '—') + '</td>' +
           '<td class="num" style="padding:4px;">' + (it.monto != null ? fmtARS(it.monto) : '—') + '</td>' +
+          (esNC ? '' : '<td style="padding:4px;text-align:center;">' + badgeNC(it, f) + '</td>') +
         '</tr>').join('') +
         '</tbody></table></div>';
     } else {
@@ -11674,7 +11716,7 @@ renderAutoConclusions();
         if (!semanas[sem.key]) semanas[sem.key] = { key: sem.key, lunesIso: sem.lunesIso, domingoIso: sem.domingoIso, cargas: 0, nc: 0, ventas: 0, movimientos: [] };
         let mov = semanas[sem.key].movimientos.find(x => x.id === f.id);
         if (!mov){
-          mov = { id:f.id, fecha:f.fecha||'', tipo:f.tipo||'', numeroFactura:f.numeroFactura||'', estado:f.estado||'', montoComprobante:Number(f.monto||0), montoItems:0, items:[] };
+          mov = { id:f.id, fecha:f.fecha||'', tipo:f.tipo||'', numeroFactura:f.numeroFactura||'', estado:f.estado||'', proveedorKey:f.proveedorKey, montoComprobante:Number(f.monto||0), montoItems:0, items:[] };
           semanas[sem.key].movimientos.push(mov);
         }
         mov.montoItems += monto;
@@ -11726,6 +11768,7 @@ renderAutoConclusions();
                   '<td style="padding:4px 6px;text-align:right;">' + fmtARS(it.monto) + '</td>' +
                   '<td style="padding:4px 6px;text-align:right;">' + (it.venta ? fmtARS(it.venta) : '—') + '</td>' +
                   '<td style="padding:4px 6px;">' + (it.fechaEfectiva ? fmtFechaItemProv(it.fechaEfectiva) : '—') + '</td>' +
+                  (esCredito ? '' : '<td style="padding:4px 6px;text-align:center;">' + badgeNC(it, m) + '</td>') +
                 '</tr>'
               ).join('');
               return '<div style="border:1px solid var(--line);border-radius:8px;padding:8px;margin:7px 0;background:rgba(0,0,0,.08);">' +
@@ -11734,7 +11777,7 @@ renderAutoConclusions();
                   (m.montoComprobante && Math.abs(m.montoComprobante - m.montoItems) > 0.009 ? ' · Comprobante: ' + (esCredito ? '−' : '') + fmtARS(m.montoComprobante) : '') +
                 '</div>' +
                 '<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;font-size:11.5px;"><thead><tr>' +
-                  '<th style="text-align:left;padding:4px 6px;">Título / producto</th><th style="text-align:left;padding:4px 6px;">Edición</th><th style="text-align:right;padding:4px 6px;">Cant.</th><th style="text-align:right;padding:4px 6px;">Monto</th><th style="text-align:right;padding:4px 6px;">Venta</th><th style="text-align:left;padding:4px 6px;">Fecha aplicada</th>' +
+                  '<th style="text-align:left;padding:4px 6px;">Título / producto</th><th style="text-align:left;padding:4px 6px;">Edición</th><th style="text-align:right;padding:4px 6px;">Cant.</th><th style="text-align:right;padding:4px 6px;">Monto</th><th style="text-align:right;padding:4px 6px;">Venta</th><th style="text-align:left;padding:4px 6px;">Fecha aplicada</th>' + (esCredito ? '' : '<th style="text-align:center;padding:4px 6px;">NC</th>') +
                 '</tr></thead><tbody>' + itemsHtml + '</tbody></table></div>' +
               '</div>';
             }).join('');
