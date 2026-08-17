@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 4,
-  "exportadoEl": "2026-08-17T14:00:15.631Z",
+  "exportadoEl": "2026-08-17T14:34:49.285Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -1418,6 +1418,16 @@
       "account": "alquileres",
       "id": "m_mswgowwo03wot4",
       "modificadoEl": "2026-08-16T23:54:29.400Z"
+    },
+    {
+      "date": "2026-08-17",
+      "type": "ingreso",
+      "amount": 46000,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "efectivo",
+      "id": "m_msxc50zn2cvtid",
+      "modificadoEl": "2026-08-17T14:34:49.283Z"
     }
   ],
   "categoriasCustom": [
