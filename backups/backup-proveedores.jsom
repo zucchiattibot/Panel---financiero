@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup-proveedores",
   "version": 1,
-  "exportadoEl": "2026-08-16T15:24:30.430Z",
+  "exportadoEl": "2026-08-17T19:19:13.170Z",
   "facturasProveedores": [
     {
       "id": "f_1786288479789_g5a9h",
@@ -12,7 +12,7 @@
       "vencimiento": "2026-08-17",
       "monto": 406163,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "items": [
         {
           "descripcion": "AUDI QUATTRO (DGP)",
@@ -166,7 +166,7 @@
       "vencimiento": null,
       "monto": 77490.7,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "items": [
         {
           "descripcion": "EL MUEBLE (BRI) (DGP)",
@@ -4518,7 +4518,7 @@
       "vencimiento": "2026-08-13",
       "monto": 8925,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T12:05:37.245Z"
     },
     {
@@ -4530,7 +4530,7 @@
       "vencimiento": null,
       "monto": 129948,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "items": [
         {
           "descripcion": "ARCHIVADOR AVIONES II",
@@ -4622,7 +4622,7 @@
       "vencimiento": "2026-08-20",
       "monto": 13800,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "items": [
         {
           "descripcion": "JOKER (PERFIL INT)",
@@ -5944,196 +5944,1094 @@
       "cargadaEl": "2026-08-16T13:20:47.888Z"
     },
     {
-      "id": "f_1786458388929_2_q5nre",
-      "proveedorKey": "clarin",
+      "id": "f_1786977812718_v80q2",
+      "proveedorKey": "silmar",
       "tipo": "factura",
-      "numeroFactura": "0132A01342596",
-      "fecha": "2026-08-07",
-      "vencimiento": "2026-09-11",
-      "monto": 74817.66,
+      "numeroFactura": "00004-00016909",
+      "fecha": "2026-08-17",
+      "vencimiento": "2026-08-27",
+      "monto": 91914,
       "moneda": "ARS",
       "estado": "pendiente",
-      "cargadaEl": "2026-08-11T14:26:28.931Z"
+      "items": [
+        {
+          "descripcion": "TODOS L/DIAS CURSIVA (",
+          "edicion": "1",
+          "cantidad": 1,
+          "monto": 10190,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "QUIJOTE SOPITAS ESPECI",
+          "edicion": "10020",
+          "cantidad": 1,
+          "monto": 3939,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "CRUCIGRAMA DE ORO (PER",
+          "edicion": "266",
+          "cantidad": 1,
+          "monto": 6099,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "SANTOKU+CUCHILLO ORO (",
+          "edicion": "5",
+          "cantidad": 1,
+          "monto": 15820,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "NOTICIAS (11)",
+          "edicion": "2590",
+          "cantidad": 1,
+          "monto": 8925,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "CARAS (11)",
+          "edicion": "2325",
+          "cantidad": 1,
+          "monto": 8175,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "SEMANARIO (PERFIL)",
+          "edicion": "2261",
+          "cantidad": 6,
+          "monto": 21750,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "PARABRISAS (1)",
+          "edicion": "574",
+          "cantidad": 1,
+          "monto": 12450,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "JOKER CRUZADEX (PERFIL",
+          "edicion": "295",
+          "cantidad": 1,
+          "monto": 4566,
+          "fechaItem": null
+        }
+      ],
+      "cargadaEl": "2026-08-17T14:43:32.720Z"
     },
     {
-      "id": "f_1786458388933_3_fpx6o",
-      "proveedorKey": "clarin",
-      "tipo": "factura",
-      "numeroFactura": "0132A01342596",
-      "fecha": "2026-08-07",
-      "vencimiento": "2026-09-21",
-      "monto": 49878.44,
+      "id": "f_1786977814725_rzei9",
+      "proveedorKey": "silmar",
+      "tipo": "nota_credito",
+      "numeroFactura": "00004-00009664",
+      "fecha": "2026-08-17",
+      "vencimiento": null,
+      "monto": 121875,
       "moneda": "ARS",
       "estado": "pendiente",
-      "cargadaEl": "2026-08-11T14:26:28.933Z"
+      "items": [
+        {
+          "descripcion": "AUTOS INOLV ARGENTINOS",
+          "edicion": "7",
+          "cantidad": 3,
+          "monto": 76800,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "AUDIOCUENTOS MAGICOS D",
+          "edicion": "8",
+          "cantidad": 1,
+          "monto": 18800,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "QUIJOTE SOPAMANIA POCK",
+          "edicion": "11000",
+          "cantidad": 1,
+          "monto": 3600,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "CARAS (11)",
+          "edicion": "2323",
+          "cantidad": 1,
+          "monto": 8175,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "SEMANARIO (PERFIL)",
+          "edicion": "2259",
+          "cantidad": 1,
+          "monto": 3625,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "SEMANARIO (PERFIL)",
+          "edicion": "2260",
+          "cantidad": 3,
+          "monto": 10875,
+          "fechaItem": null
+        }
+      ],
+      "cargadaEl": "2026-08-17T14:43:34.725Z"
     },
     {
-      "id": "f_1786458388934_4_yl26s",
+      "id": "f_1786994204428_5f0kn",
       "proveedorKey": "clarin",
       "tipo": "factura",
-      "numeroFactura": "0132A01342597",
+      "numeroFactura": "0132-01342596",
+      "referenciaFactura": null,
+      "fecha": "2026-08-07",
+      "vencimiento": "2026-08-17",
+      "monto": 124696.1,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "ELLE MODA 388 - 08/2026",
+          "edicion": "388",
+          "codigoPublicacion": "EMODA388",
+          "cantidad": 4,
+          "monto": 30040,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "JARDIN CON LOGO 279 AGOSTO",
+          "edicion": "279",
+          "codigoPublicacion": "JCLO260801",
+          "cantidad": 7,
+          "monto": 19008.8,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "LIB JARDIN CON LOGO 279 AGOSTO",
+          "edicion": "279",
+          "codigoPublicacion": "JLIC260801",
+          "cantidad": 7,
+          "monto": 11067.3,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "Ñ REVISTA CULT - 01.08.2026 - 1119/2026",
+          "edicion": "1119",
+          "codigoPublicacion": "REÑE010826",
+          "cantidad": 2,
+          "monto": 19900,
+          "fechaItem": "2026-08-01"
+        },
+        {
+          "descripcion": "ARQUITECTURA - 04.08.2026 - 1217/2026",
+          "edicion": "1217",
+          "codigoPublicacion": "SCAR040826",
+          "cantidad": 4,
+          "monto": 44680,
+          "fechaItem": "2026-08-04"
+        }
+      ],
+      "cargadaEl": "2026-08-17T19:16:44.428Z"
+    },
+    {
+      "id": "f_1786994208498_y5erh",
+      "proveedorKey": "clarin",
+      "tipo": "factura",
+      "numeroFactura": "0132-01342597",
+      "referenciaFactura": null,
       "fecha": "2026-08-07",
       "vencimiento": "2026-08-14",
       "monto": 665136,
       "moneda": "ARS",
       "estado": "pendiente",
-      "cargadaEl": "2026-08-11T14:26:28.934Z"
+      "items": [
+        {
+          "descripcion": "CLARIN BASE 10 - 01.08.2026 - 28977/2026",
+          "edicion": "10",
+          "codigoPublicacion": "CBAS010826",
+          "cantidad": 18,
+          "monto": 81216,
+          "fechaItem": "2026-08-01"
+        },
+        {
+          "descripcion": "CLARIN BASE 11 - 02.08.2026 - 28978/2026",
+          "edicion": "11",
+          "codigoPublicacion": "CBAS020826",
+          "cantidad": 45,
+          "monto": 223920,
+          "fechaItem": "2026-08-02"
+        },
+        {
+          "descripcion": "CLARIN BASE 05 - 03.08.2026 - 28979/2026",
+          "edicion": "05",
+          "codigoPublicacion": "CBAS030826",
+          "cantidad": 15,
+          "monto": 49410,
+          "fechaItem": "2026-08-03"
+        },
+        {
+          "descripcion": "CLARIN BASE 06 - 04.08.2026 - 28980/2026",
+          "edicion": "06",
+          "codigoPublicacion": "CBAS040826",
+          "cantidad": 15,
+          "monto": 49410,
+          "fechaItem": "2026-08-04"
+        },
+        {
+          "descripcion": "CLARIN BASE 07 - 05.08.2026 - 28981/2026",
+          "edicion": "07",
+          "codigoPublicacion": "CBAS050826",
+          "cantidad": 15,
+          "monto": 49410,
+          "fechaItem": "2026-08-05"
+        },
+        {
+          "descripcion": "CLARIN BASE 08 - 06.08.2026 - 28982/2026",
+          "edicion": "08",
+          "codigoPublicacion": "CBAS060826",
+          "cantidad": 20,
+          "monto": 65880,
+          "fechaItem": "2026-08-06"
+        },
+        {
+          "descripcion": "CLARIN BASE 09 - 07.08.2026 - 28983/2026",
+          "edicion": "09",
+          "codigoPublicacion": "CBAS070826",
+          "cantidad": 15,
+          "monto": 49410,
+          "fechaItem": "2026-08-07"
+        },
+        {
+          "descripcion": "OLE NACIONAL - 01.08.2026 - 10899/2026",
+          "edicion": null,
+          "codigoPublicacion": "ONAC010826",
+          "cantidad": 10,
+          "monto": 19180,
+          "fechaItem": "2026-08-01"
+        },
+        {
+          "descripcion": "OLE NACIONAL - 02.08.2026 - 10900/2026",
+          "edicion": null,
+          "codigoPublicacion": "ONAC020826",
+          "cantidad": 5,
+          "monto": 9880,
+          "fechaItem": "2026-08-02"
+        },
+        {
+          "descripcion": "OLE NACIONAL - 03.08.2026 - 10901/2026",
+          "edicion": null,
+          "codigoPublicacion": "ONAC030826",
+          "cantidad": 5,
+          "monto": 9880,
+          "fechaItem": "2026-08-03"
+        },
+        {
+          "descripcion": "OLE NACIONAL - 04.08.2026 - 10902/2026",
+          "edicion": null,
+          "codigoPublicacion": "ONAC040826",
+          "cantidad": 5,
+          "monto": 9590,
+          "fechaItem": "2026-08-04"
+        },
+        {
+          "descripcion": "OLE NACIONAL - 05.08.2026 - 10903/2026",
+          "edicion": null,
+          "codigoPublicacion": "ONAC050826",
+          "cantidad": 5,
+          "monto": 9590,
+          "fechaItem": "2026-08-05"
+        },
+        {
+          "descripcion": "OLE NACIONAL - 06.08.2026 - 10904/2026",
+          "edicion": null,
+          "codigoPublicacion": "ONAC060826",
+          "cantidad": 10,
+          "monto": 19180,
+          "fechaItem": "2026-08-06"
+        },
+        {
+          "descripcion": "OLE NACIONAL - 07.08.2026 - 10905/2026",
+          "edicion": null,
+          "codigoPublicacion": "ONAC070826",
+          "cantidad": 10,
+          "monto": 19180,
+          "fechaItem": "2026-08-07"
+        }
+      ],
+      "cargadaEl": "2026-08-17T19:16:48.498Z"
     },
     {
-      "id": "f_1786458388934_5_bz2kn",
+      "id": "f_1786994210616_qmwk4",
       "proveedorKey": "clarin",
       "tipo": "factura",
-      "numeroFactura": "0132A01342598",
+      "numeroFactura": "0132-01342598",
+      "referenciaFactura": null,
       "fecha": "2026-08-07",
       "vencimiento": "2026-08-17",
-      "monto": 24422.95,
+      "monto": 40704.92,
       "moneda": "ARS",
       "estado": "pendiente",
-      "cargadaEl": "2026-08-11T14:26:28.934Z"
+      "items": [
+        {
+          "descripcion": "GENIOS CON LIB - 03.08.2026 - 1479/2026",
+          "edicion": "1479/2026",
+          "codigoPublicacion": "GCLI030826",
+          "cantidad": 10,
+          "monto": 23555.56,
+          "fechaItem": "2026-08-03"
+        },
+        {
+          "descripcion": "PACK GENIOS - 03.08.2026 - 1479/2026",
+          "edicion": "1479/2026",
+          "codigoPublicacion": "GLIC030826",
+          "cantidad": 10,
+          "monto": 17149.36,
+          "fechaItem": "2026-08-03"
+        }
+      ],
+      "cargadaEl": "2026-08-17T19:16:50.616Z"
     },
     {
-      "id": "f_1786458388934_6_mfsxq",
+      "id": "f_1786994227734_oub6w",
       "proveedorKey": "clarin",
       "tipo": "factura",
-      "numeroFactura": "0132A01342598",
+      "numeroFactura": "0132-01342599",
+      "referenciaFactura": null,
       "fecha": "2026-08-07",
-      "vencimiento": "2026-09-01",
-      "monto": 16281.97,
+      "vencimiento": "2026-08-17",
+      "monto": 112000.32,
       "moneda": "ARS",
       "estado": "pendiente",
-      "cargadaEl": "2026-08-11T14:26:28.934Z"
+      "items": [
+        {
+          "descripcion": "HELLO KITTY 2026 - KITTY ARTISTA",
+          "edicion": null,
+          "codigoPublicacion": "HKARTISTA",
+          "cantidad": 10,
+          "monto": 112000.32,
+          "fechaItem": null
+        }
+      ],
+      "cargadaEl": "2026-08-17T19:17:07.734Z"
     },
     {
-      "id": "f_1786458388934_7_ld9rr",
+      "id": "f_1786994229179_am6tj",
       "proveedorKey": "clarin",
       "tipo": "factura",
-      "numeroFactura": "0132A01342599",
-      "fecha": "2026-08-07",
-      "vencimiento": "2026-08-27",
-      "monto": 67200.19,
-      "moneda": "ARS",
-      "estado": "pendiente",
-      "cargadaEl": "2026-08-11T14:26:28.934Z"
-    },
-    {
-      "id": "f_1786458388934_8_9zlb8",
-      "proveedorKey": "clarin",
-      "tipo": "factura",
-      "numeroFactura": "0132A01342599",
-      "fecha": "2026-08-07",
-      "vencimiento": "2026-09-06",
-      "monto": 44800.13,
-      "moneda": "ARS",
-      "estado": "pendiente",
-      "cargadaEl": "2026-08-11T14:26:28.934Z"
-    },
-    {
-      "id": "f_1786458388934_9_ggsy3",
-      "proveedorKey": "clarin",
-      "tipo": "factura",
-      "numeroFactura": "0132A01342600",
+      "numeroFactura": "0132-01342600",
+      "referenciaFactura": null,
       "fecha": "2026-08-07",
       "vencimiento": "2026-09-03",
       "monto": 49000.16,
       "moneda": "ARS",
       "estado": "pendiente",
-      "cargadaEl": "2026-08-11T14:26:28.934Z"
+      "items": [
+        {
+          "descripcion": "PEQ ORQUESTA 12 - LAS MATRACAS",
+          "edicion": null,
+          "codigoPublicacion": "PORQMATRAC",
+          "cantidad": 5,
+          "monto": 49000.16,
+          "fechaItem": null
+        }
+      ],
+      "cargadaEl": "2026-08-17T19:17:09.179Z"
     },
     {
-      "id": "f_1786458388934_10_44skl",
+      "id": "f_1786994230842_sgwcf",
       "proveedorKey": "clarin",
       "tipo": "factura",
-      "numeroFactura": "0132A01342689",
+      "numeroFactura": "0132-01342689",
+      "referenciaFactura": null,
       "fecha": "2026-08-07",
       "vencimiento": "2026-08-27",
       "monto": 46172.09,
       "moneda": "ARS",
       "estado": "pendiente",
-      "cargadaEl": "2026-08-11T14:26:28.934Z"
+      "items": [
+        {
+          "descripcion": "CAMP DE MUNDO - ENZO FERNANDEZ",
+          "edicion": null,
+          "codigoPublicacion": "CMFERNANDE",
+          "cantidad": 1,
+          "monto": 12200.03,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "CAMP DE MUNDO - ALEXIS MAC ALLISTER",
+          "edicion": null,
+          "codigoPublicacion": "CMMACALLIS",
+          "cantidad": 1,
+          "monto": 12200.03,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "CAMP DE MUNDO - NAHUEL MOLINA",
+          "edicion": null,
+          "codigoPublicacion": "CMMOLINA",
+          "cantidad": 1,
+          "monto": 12200.03,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "GENIOS PACK RASTI TRANSPORTES - ONE SHOT",
+          "edicion": null,
+          "codigoPublicacion": "GENPARASTI",
+          "cantidad": 1,
+          "monto": 9572,
+          "fechaItem": null
+        }
+      ],
+      "cargadaEl": "2026-08-17T19:17:10.842Z"
     },
     {
-      "id": "f_1786458388934_11_jfsyk",
+      "id": "f_1786994232860_knbrl",
+      "proveedorKey": "clarin",
+      "tipo": "factura",
+      "numeroFactura": "00132-01343103",
+      "referenciaFactura": null,
+      "fecha": "2026-08-14",
+      "vencimiento": "2026-08-21",
+      "monto": 665136,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "CLARIN BASE 10 - 08.08.2026 - 28984/2026",
+          "edicion": "28984/2026",
+          "codigoPublicacion": "CBAS080826",
+          "cantidad": 18,
+          "monto": 81216,
+          "fechaItem": "2026-08-08"
+        },
+        {
+          "descripcion": "CLARIN BASE 11 - 09.08.2026 - 28985/2026",
+          "edicion": "28985/2026",
+          "codigoPublicacion": "CBAS090826",
+          "cantidad": 45,
+          "monto": 223920,
+          "fechaItem": "2026-08-09"
+        },
+        {
+          "descripcion": "CLARIN BASE 05 - 10.08.2026 - 28986/2026",
+          "edicion": "28986/2026",
+          "codigoPublicacion": "CBAS100826",
+          "cantidad": 15,
+          "monto": 49410,
+          "fechaItem": "2026-08-10"
+        },
+        {
+          "descripcion": "CLARIN BASE 06 - 11.08.2026 - 28987/2026",
+          "edicion": "28987/2026",
+          "codigoPublicacion": "CBAS110826",
+          "cantidad": 15,
+          "monto": 49410,
+          "fechaItem": "2026-08-11"
+        },
+        {
+          "descripcion": "CLARIN BASE 07 - 12.08.2026 - 28988/2026",
+          "edicion": "28988/2026",
+          "codigoPublicacion": "CBAS120826",
+          "cantidad": 15,
+          "monto": 49410,
+          "fechaItem": "2026-08-12"
+        },
+        {
+          "descripcion": "CLARIN BASE 08 - 13.08.2026 - 28989/2026",
+          "edicion": "28989/2026",
+          "codigoPublicacion": "CBAS130826",
+          "cantidad": 20,
+          "monto": 65880,
+          "fechaItem": "2026-08-13"
+        },
+        {
+          "descripcion": "CLARIN BASE 09 - 14.08.2026 - 28990/2026",
+          "edicion": "28990/2026",
+          "codigoPublicacion": "CBAS140826",
+          "cantidad": 15,
+          "monto": 49410,
+          "fechaItem": "2026-08-14"
+        },
+        {
+          "descripcion": "OLE NACIONAL - 08.08.2026 - 10906/2026",
+          "edicion": "10906/2026",
+          "codigoPublicacion": "ONAC080826",
+          "cantidad": 10,
+          "monto": 19180,
+          "fechaItem": "2026-08-08"
+        },
+        {
+          "descripcion": "OLE NACIONAL - 09.08.2026 - 10907/2026",
+          "edicion": "10907/2026",
+          "codigoPublicacion": "ONAC090826",
+          "cantidad": 5,
+          "monto": 9880,
+          "fechaItem": "2026-08-09"
+        },
+        {
+          "descripcion": "OLE NACIONAL - 10.08.2026 - 10908/2026",
+          "edicion": "10908/2026",
+          "codigoPublicacion": "ONAC100826",
+          "cantidad": 5,
+          "monto": 9880,
+          "fechaItem": "2026-08-10"
+        },
+        {
+          "descripcion": "OLE NACIONAL - 11.08.2026 - 10909/2026",
+          "edicion": "10909/2026",
+          "codigoPublicacion": "ONAC110826",
+          "cantidad": 5,
+          "monto": 9590,
+          "fechaItem": "2026-08-11"
+        },
+        {
+          "descripcion": "OLE NACIONAL - 12.08.2026 - 10910/2026",
+          "edicion": "10910/2026",
+          "codigoPublicacion": "ONAC120826",
+          "cantidad": 5,
+          "monto": 9590,
+          "fechaItem": "2026-08-12"
+        },
+        {
+          "descripcion": "OLE NACIONAL - 13.08.2026 - 10911/2026",
+          "edicion": "10911/2026",
+          "codigoPublicacion": "ONAC130826",
+          "cantidad": 10,
+          "monto": 19180,
+          "fechaItem": "2026-08-13"
+        },
+        {
+          "descripcion": "OLE NACIONAL - 14.08.2026 - 10912/2026",
+          "edicion": "10912/2026",
+          "codigoPublicacion": "ONAC140826",
+          "cantidad": 10,
+          "monto": 19180,
+          "fechaItem": "2026-08-14"
+        }
+      ],
+      "cargadaEl": "2026-08-17T19:17:12.860Z"
+    },
+    {
+      "id": "f_1786994234563_avayq",
+      "proveedorKey": "clarin",
+      "tipo": "factura",
+      "numeroFactura": "0132-01343104",
+      "referenciaFactura": null,
+      "fecha": "2026-08-14",
+      "vencimiento": "2026-08-24",
+      "monto": 40704.92,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "GENIOS CON LIB - 10.08.2026 - 1480/2026",
+          "edicion": "1480/2026",
+          "codigoPublicacion": "GCLI100826",
+          "cantidad": 10,
+          "monto": 23555.56,
+          "fechaItem": "2026-08-10"
+        },
+        {
+          "descripcion": "PACK GENIOS - 10.08.2026 - 1480/2026",
+          "edicion": "1480/2026",
+          "codigoPublicacion": "GLIC100826",
+          "cantidad": 10,
+          "monto": 17149.36,
+          "fechaItem": "2026-08-10"
+        }
+      ],
+      "cargadaEl": "2026-08-17T19:17:14.563Z"
+    },
+    {
+      "id": "f_1786994236278_1465x",
+      "proveedorKey": "clarin",
+      "tipo": "factura",
+      "numeroFactura": "0132-01343105",
+      "referenciaFactura": null,
+      "fecha": "2026-08-14",
+      "vencimiento": "2026-08-24",
+      "monto": 27800,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "GENIOS PREES - N°25 + UTIL ESCOLAR",
+          "edicion": "25",
+          "codigoPublicacion": "GENPREE25",
+          "cantidad": 5,
+          "monto": 27800,
+          "fechaItem": null
+        }
+      ],
+      "cargadaEl": "2026-08-17T19:17:16.278Z"
+    },
+    {
+      "id": "f_1786994237950_g7tp2",
+      "proveedorKey": "clarin",
+      "tipo": "factura",
+      "numeroFactura": "0132-01343106",
+      "referenciaFactura": null,
+      "fecha": "2026-08-14",
+      "vencimiento": "2026-08-24",
+      "monto": 224000.64,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "HELLO KITTY 2026 - KITTY CANTANTE",
+          "edicion": null,
+          "codigoPublicacion": "HKCANTANTE",
+          "cantidad": 10,
+          "monto": 112000.32,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "HELLO KITTY 2026 - KITTY MARINERA",
+          "edicion": null,
+          "codigoPublicacion": "HKMARINERA",
+          "cantidad": 10,
+          "monto": 112000.32,
+          "fechaItem": null
+        }
+      ],
+      "cargadaEl": "2026-08-17T19:17:17.950Z"
+    },
+    {
+      "id": "f_1786994239800_bwoye",
+      "proveedorKey": "clarin",
+      "tipo": "factura",
+      "numeroFactura": "0132-01343184",
+      "referenciaFactura": null,
+      "fecha": "2026-08-14",
+      "vencimiento": "2026-09-03",
+      "monto": 82280.18,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "AUDIOCU LGZ 2026 - BETO",
+          "edicion": null,
+          "codigoPublicacion": "AUBETO",
+          "cantidad": 1,
+          "monto": 11840.03,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "AUDIOCU LGZ 2026 - MARGARITA",
+          "edicion": null,
+          "codigoPublicacion": "AUMARGARIT",
+          "cantidad": 1,
+          "monto": 11840.03,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "AUDIOCU LGZ 2026 - PANCHA",
+          "edicion": null,
+          "codigoPublicacion": "AUPANCHA",
+          "cantidad": 1,
+          "monto": 11840.03,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "AUDIOCU LGZ 2026 - PEPE",
+          "edicion": null,
+          "codigoPublicacion": "AUPEPE",
+          "cantidad": 1,
+          "monto": 11840.03,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "FIESTAS 2025 - FASC RUTAS + VINO + 2 COP",
+          "edicion": null,
+          "codigoPublicacion": "FIESTA06OS",
+          "cantidad": 2,
+          "monto": 34920.06,
+          "fechaItem": null
+        }
+      ],
+      "cargadaEl": "2026-08-17T19:17:19.800Z"
+    },
+    {
+      "id": "f_1786994241572_6qj2f",
       "proveedorKey": "clarin",
       "tipo": "nota_credito",
-      "numeroFactura": "0132A01362375",
+      "numeroFactura": "0132-01362375",
+      "referenciaFactura": "0132A01341841",
       "fecha": "2026-08-07",
-      "vencimiento": "2026-08-07",
+      "vencimiento": "2026-08-14",
       "monto": 245854,
       "moneda": "ARS",
       "estado": "pendiente",
-      "cargadaEl": "2026-08-11T14:26:28.934Z"
+      "items": [
+        {
+          "descripcion": "CLARIN BASE 07 - 22.07.2026 - 28967/2026",
+          "edicion": "28967",
+          "codigoPublicacion": "CBAS220726",
+          "cantidad": 5,
+          "monto": 16470,
+          "fechaItem": "2026-07-22"
+        },
+        {
+          "descripcion": "CLARIN BASE 08 - 23.07.2026 - 28968/2026",
+          "edicion": "28968",
+          "codigoPublicacion": "CBAS230726",
+          "cantidad": 8,
+          "monto": 26352,
+          "fechaItem": "2026-07-23"
+        },
+        {
+          "descripcion": "CLARIN BASE 09 - 24.07.2026 - 28969/2026",
+          "edicion": "28969",
+          "codigoPublicacion": "CBAS240726",
+          "cantidad": 4,
+          "monto": 13176,
+          "fechaItem": "2026-07-24"
+        },
+        {
+          "descripcion": "CLARIN BASE 10 - 25.07.2026 - 28970/2026",
+          "edicion": "28970",
+          "codigoPublicacion": "CBAS250726",
+          "cantidad": 7,
+          "monto": 31584,
+          "fechaItem": "2026-07-25"
+        },
+        {
+          "descripcion": "CLARIN BASE 11 - 26.07.2026 - 28971/2026",
+          "edicion": "28971",
+          "codigoPublicacion": "CBAS260726",
+          "cantidad": 11,
+          "monto": 54736,
+          "fechaItem": "2026-07-26"
+        },
+        {
+          "descripcion": "CLARIN BASE 05 - 27.07.2026 - 28972/2026",
+          "edicion": "28972",
+          "codigoPublicacion": "CBAS270726",
+          "cantidad": 4,
+          "monto": 13176,
+          "fechaItem": "2026-07-27"
+        },
+        {
+          "descripcion": "CLARIN BASE 06 - 28.07.2026 - 28973/2026",
+          "edicion": "28973",
+          "codigoPublicacion": "CBAS280726",
+          "cantidad": 4,
+          "monto": 13176,
+          "fechaItem": "2026-07-28"
+        },
+        {
+          "descripcion": "OLE NACIONAL - 22.07.2026 - 10889/2026",
+          "edicion": "10889",
+          "codigoPublicacion": "ONAC220726",
+          "cantidad": 3,
+          "monto": 5754,
+          "fechaItem": "2026-07-22"
+        },
+        {
+          "descripcion": "OLE NACIONAL - 23.07.2026 - 10890/2026",
+          "edicion": "10890",
+          "codigoPublicacion": "ONAC230726",
+          "cantidad": 8,
+          "monto": 15344,
+          "fechaItem": "2026-07-23"
+        },
+        {
+          "descripcion": "OLE NACIONAL - 24.07.2026 - 10891/2026",
+          "edicion": "10891",
+          "codigoPublicacion": "ONAC240726",
+          "cantidad": 9,
+          "monto": 17262,
+          "fechaItem": "2026-07-24"
+        },
+        {
+          "descripcion": "OLE NACIONAL - 25.07.2026 - 10892/2026",
+          "edicion": "10892",
+          "codigoPublicacion": "ONAC250726",
+          "cantidad": 8,
+          "monto": 15344,
+          "fechaItem": "2026-07-25"
+        },
+        {
+          "descripcion": "OLE NACIONAL - 26.07.2026 - 10893/2026",
+          "edicion": "10893",
+          "codigoPublicacion": "ONAC260726",
+          "cantidad": 4,
+          "monto": 7904,
+          "fechaItem": "2026-07-26"
+        },
+        {
+          "descripcion": "OLE NACIONAL - 27.07.2026 - 10894/2026",
+          "edicion": "10894",
+          "codigoPublicacion": "ONAC270726",
+          "cantidad": 4,
+          "monto": 7904,
+          "fechaItem": "2026-07-27"
+        },
+        {
+          "descripcion": "OLE NACIONAL - 28.07.2026 - 10895/2026",
+          "edicion": "10895",
+          "codigoPublicacion": "ONAC280726",
+          "cantidad": 4,
+          "monto": 7672,
+          "fechaItem": "2026-07-28"
+        }
+      ],
+      "cargadaEl": "2026-08-17T19:17:21.572Z"
     },
     {
-      "id": "f_1786458388934_12_q93ze",
+      "id": "f_1786994243357_z32nv",
       "proveedorKey": "clarin",
       "tipo": "nota_credito",
-      "numeroFactura": "0132A01362376",
-      "fecha": "2026-08-07",
-      "vencimiento": "2026-08-10",
-      "monto": 20214.59,
-      "moneda": "ARS",
-      "estado": "pendiente",
-      "cargadaEl": "2026-08-11T14:26:28.934Z"
-    },
-    {
-      "id": "f_1786458388934_13_h0yef",
-      "proveedorKey": "clarin",
-      "tipo": "nota_credito",
-      "numeroFactura": "0132A01362376",
-      "fecha": "2026-08-07",
-      "vencimiento": "2026-08-25",
-      "monto": 13476.39,
-      "moneda": "ARS",
-      "estado": "pendiente",
-      "cargadaEl": "2026-08-11T14:26:28.934Z"
-    },
-    {
-      "id": "f_1786458388934_14_8n8yw",
-      "proveedorKey": "clarin",
-      "tipo": "nota_credito",
-      "numeroFactura": "0132A01362377",
-      "fecha": "2026-08-07",
-      "vencimiento": "2026-08-11",
-      "monto": 31563.66,
-      "moneda": "ARS",
-      "estado": "pendiente",
-      "cargadaEl": "2026-08-11T14:26:28.934Z"
-    },
-    {
-      "id": "f_1786458388934_15_bjruc",
-      "proveedorKey": "clarin",
-      "tipo": "nota_credito",
-      "numeroFactura": "0132A01362377",
-      "fecha": "2026-08-07",
-      "vencimiento": "2026-08-21",
-      "monto": 21042.44,
-      "moneda": "ARS",
-      "estado": "pendiente",
-      "cargadaEl": "2026-08-11T14:26:28.935Z"
-    },
-    {
-      "id": "f_1786458388935_16_vavju",
-      "proveedorKey": "clarin",
-      "tipo": "nota_credito",
-      "numeroFactura": "0132A01362378",
+      "numeroFactura": "0132-01362377",
+      "referenciaFactura": "0132A01339851",
       "fecha": "2026-08-07",
       "vencimiento": "2026-08-17",
-      "monto": 29280.07,
+      "monto": 52606.1,
       "moneda": "ARS",
       "estado": "pendiente",
-      "cargadaEl": "2026-08-11T14:26:28.935Z"
+      "items": [
+        {
+          "descripcion": "ELLE MODA 387 - 07/2026",
+          "edicion": "387",
+          "codigoPublicacion": "EMODA387",
+          "cantidad": 3,
+          "monto": 22530,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "JARDIN CON LOGO 278 JULIO",
+          "edicion": "278",
+          "codigoPublicacion": "JCLO260701",
+          "cantidad": 7,
+          "monto": 19008.8,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "LIB JARDIN CON LOGO 278 JULIO",
+          "edicion": "278",
+          "codigoPublicacion": "JLIC260701",
+          "cantidad": 7,
+          "monto": 11067.3,
+          "fechaItem": null
+        }
+      ],
+      "cargadaEl": "2026-08-17T19:17:23.357Z"
     },
     {
-      "id": "f_1786458388935_17_hcvvj",
+      "id": "f_1786994244296_58qz7",
       "proveedorKey": "clarin",
       "tipo": "nota_credito",
-      "numeroFactura": "0132A01362378",
+      "numeroFactura": "0132-01362376",
+      "referenciaFactura": "0132A01341844",
       "fecha": "2026-08-07",
-      "vencimiento": "2026-09-01",
-      "monto": 19520.05,
+      "vencimiento": "2026-08-17",
+      "monto": 33690.98,
       "moneda": "ARS",
       "estado": "pendiente",
-      "cargadaEl": "2026-08-11T14:26:28.935Z"
+      "items": [
+        {
+          "descripcion": "GENIOS CON LIB - 27.07.2026 - 1478/2026",
+          "edicion": "1478/2026",
+          "codigoPublicacion": "GCL270726",
+          "cantidad": 9,
+          "monto": 19800,
+          "fechaItem": "2026-07-27"
+        },
+        {
+          "descripcion": "PACK GENIOS - 27.07.2026 - 1478/2026",
+          "edicion": "1478/2026",
+          "codigoPublicacion": "GLIC270726",
+          "cantidad": 9,
+          "monto": 13890.98,
+          "fechaItem": "2026-07-27"
+        }
+      ],
+      "cargadaEl": "2026-08-17T19:17:24.296Z"
+    },
+    {
+      "id": "f_1786994245244_0svs9",
+      "proveedorKey": "clarin",
+      "tipo": "nota_credito",
+      "numeroFactura": "0132-01362378",
+      "referenciaFactura": "0132A01339851",
+      "fecha": "2026-08-07",
+      "vencimiento": "2026-09-01",
+      "monto": 48800.12,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "CAMP DE MUNDO - JULIAN ALVAREZ",
+          "edicion": null,
+          "codigoPublicacion": "CMALVAREZ",
+          "cantidad": 2,
+          "monto": 24400.06,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "CAMP DE MUNDO - DIBU MARTINEZ",
+          "edicion": null,
+          "codigoPublicacion": "CMDIBU",
+          "cantidad": 2,
+          "monto": 24400.06,
+          "fechaItem": null
+        }
+      ],
+      "cargadaEl": "2026-08-17T19:17:25.244Z"
     }
-  ]
+  ],
+  "preciosProveedores": {
+    "clarin": [
+      {
+        "id": "msxizh04i7r5gc",
+        "nombre": "CLARIN BASE 05 - 10.08.2026 - 28986/2026",
+        "alias": "CLARIN BASE",
+        "historial": [
+          {
+            "desde": "2026-08-01",
+            "tapa": [
+              7200,
+              4300,
+              4300,
+              4300,
+              4300,
+              4300,
+              6400
+            ],
+            "recargo": [
+              800,
+              800,
+              800,
+              800,
+              800,
+              800,
+              800
+            ]
+          }
+        ],
+        "feriadoTapa": 0,
+        "feriadoRecargo": 0
+      }
+    ],
+    "lanacion": [
+      {
+        "id": "mswjajxusycfvw",
+        "nombre": "Nacion",
+        "alias": "",
+        "historial": [
+          {
+            "desde": "2026-08-01",
+            "tapa": [
+              7200,
+              4300,
+              4300,
+              4300,
+              4300,
+              4300,
+              6400
+            ],
+            "recargo": [
+              830,
+              830,
+              830,
+              830,
+              830,
+              830,
+              830
+            ]
+          }
+        ],
+        "feriadoTapa": 0,
+        "feriadoRecargo": 0
+      },
+      {
+        "id": "mswk1p6nmht3i6",
+        "nombre": "POPULAR",
+        "alias": "Popular",
+        "historial": [
+          {
+            "desde": "2026-08-01",
+            "tapa": [
+              2000,
+              1800,
+              1800,
+              1800,
+              1800,
+              1800,
+              1800
+            ],
+            "recargo": [
+              500,
+              500,
+              500,
+              500,
+              500,
+              500,
+              500
+            ]
+          }
+        ],
+        "feriadoTapa": 0,
+        "feriadoRecargo": 0
+      },
+      {
+        "id": "mswkgeog025cfd",
+        "nombre": "200440 ORGULLO ARGEN\nNero-Nakiri + Fascículo",
+        "alias": "",
+        "historial": [
+          {
+            "desde": "2026-08-01",
+            "tapa": [
+              24990,
+              24990,
+              24990,
+              24990,
+              24990,
+              24990,
+              24990
+            ],
+            "recargo": [
+              1600,
+              1600,
+              1600,
+              1600,
+              1600,
+              1600,
+              1600
+            ]
+          }
+        ],
+        "feriadoTapa": 0,
+        "feriadoRecargo": 0
+      },
+      {
+        "id": "msx9hlmiab4auu",
+        "nombre": "HOLA",
+        "alias": "",
+        "historial": [
+          {
+            "desde": "2026-08-01",
+            "tapa": [
+              9500,
+              9500,
+              9500,
+              9500,
+              9500,
+              9500,
+              9500
+            ],
+            "recargo": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          }
+        ],
+        "feriadoTapa": 0,
+        "feriadoRecargo": 0
+      }
+    ]
+  }
 }
