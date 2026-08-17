@@ -946,7 +946,13 @@ try {
 <div class="card-head"><h2>Precio de venta — <span id="ventaProvNombre"></span></h2><button type="button" class="card-colapsar-btn" title="Mostrar/ocultar esta sección">▾</button></div>
 <div class="card-body">
 <p class="card-note">Cargá acá el precio de tapa y el recargo interior de cada diario/publicación de este proveedor — el recargo interior es 100% ganancia del proveedor (vos no ganás nada de esa parte), así que se resta sola al calcular tu ganancia real más abajo. Con esto cargado, "Ganancia semanal" te va a mostrar cuánto ganaste de verdad, no solo lo facturado. Se carga una vez y se actualiza con cada aumento, sin perder el precio anterior (para que las semanas pasadas se sigan calculando con el precio que regía en ese momento).</p>
-<div id="ventaCatalogo" style="display:flex;flex-direction:column;gap:10px;margin-bottom:14px;"></div>
+<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:6px;">
+<input id="ventaCatalogoBuscar" placeholder="🔎 Buscar título en la lista…" style="flex:1;min-width:180px;background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:8px 10px;border-radius:8px;font-size:13.5px;box-sizing:border-box;" type="text"/>
+<button class="link-btn" id="ventaCatalogoExpandirTodo" type="button">Expandir todo</button>
+<button class="link-btn" id="ventaCatalogoColapsarTodo" type="button">Colapsar todo</button>
+</div>
+<p class="card-note" id="ventaCatalogoContador" style="margin-top:6px;"></p>
+<div id="ventaCatalogo" style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px;margin-top:10px;"></div>
 <details class="cargar-advanced">
 <summary>+ Agregar título nuevo</summary>
 <div class="cargar-grid-2">
@@ -11387,6 +11393,16 @@ renderAutoConclusions();
     toggleNuevoNombreManual();
   }
 
+  // ---- Estado de expandido/colapsado por título, y texto de búsqueda, para
+  // que la lista de "Precio de venta" no sea interminable cuando hay muchos
+  // títulos cargados. Colapsado = solo se ve el nombre y el precio actual. ----
+  const ventaCatalogoAbiertos = new Set();
+  let ventaCatalogoBuscarTexto = '';
+  function resumenPrecioActual(actual){
+    const vals = (actual.tapa || []).map(v => Number(v) || 0);
+    const min = Math.min(...vals), max = Math.max(...vals);
+    return (min === max) ? fmtARS(min) : (fmtARS(min) + '–' + fmtARS(max));
+  }
   function renderCatalogoPrecios(){
     const prov = PROVEEDORES.find(p => p.key === provState.prov) || PROVEEDORES[0];
     const nombreEl = document.getElementById('ventaProvNombre');
@@ -11395,16 +11411,38 @@ renderAutoConclusions();
     const wrap = document.getElementById('ventaCatalogo');
     if (!wrap) return;
     const titulos = titulosDe(prov.key);
+    const contadorEl = document.getElementById('ventaCatalogoContador');
     if (!titulos.length){
       wrap.innerHTML = '<p class="card-note" style="margin:0;">Todavía no cargaste ningún título de ' + escapeHtmlProv(prov.label) + '.</p>';
+      if (contadorEl) contadorEl.textContent = '';
       return;
     }
-    wrap.innerHTML = titulos.map(tit => {
+    const q = normTxtProv(ventaCatalogoBuscarTexto || '');
+    const titulosFiltrados = q ? titulos.filter(t => normTxtProv(t.nombre + ' ' + (t.alias||'')).includes(q)) : titulos;
+    if (contadorEl){
+      contadorEl.textContent = q
+        ? (titulosFiltrados.length + ' de ' + titulos.length + ' título(s) coinciden con "' + ventaCatalogoBuscarTexto + '".')
+        : (titulos.length + ' título(s) cargado(s) para ' + prov.label + '.');
+    }
+    if (!titulosFiltrados.length){
+      wrap.innerHTML = '<p class="card-note" style="margin:0;">Ningún título coincide con "' + escapeHtmlProv(ventaCatalogoBuscarTexto) + '".</p>';
+      return;
+    }
+    wrap.innerHTML = titulosFiltrados.map(tit => {
       const hist = tit.historial.slice().sort((a,b) => a.desde < b.desde ? 1 : -1); // más reciente primero
       const actual = hist[0] || { tapa:[0,0,0,0,0,0,0], recargo:[0,0,0,0,0,0,0], desde:'' };
       const abierto = ventaAumentoAbierto === tit.id;
+      const expandido = ventaCatalogoAbiertos.has(tit.id) || abierto;
+      const header = '<button type="button" class="ventaTitHeaderBtn" data-id="' + tit.id + '" style="width:100%;display:flex;justify-content:space-between;align-items:center;gap:10px;background:none;border:none;color:var(--cream);cursor:pointer;padding:0;text-align:left;">' +
+          '<span style="font-weight:700;font-size:14px;">' + (expandido ? '▾' : '▸') + ' ' + escapeHtmlProv(tit.nombre) + '</span>' +
+          '<span class="card-note" style="margin:0;white-space:nowrap;">Tapa: ' + resumenPrecioActual(actual) + '</span>' +
+        '</button>';
+      if (!expandido){
+        return '<div class="card" style="margin:0;padding:11px 14px;background:rgba(0,0,0,.16);">' + header + '</div>';
+      }
       return '<div class="card" style="margin:0;padding:14px 14px;background:rgba(0,0,0,.16);">' +
-        '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;gap:8px;">' +
+        header +
+        '<div style="display:flex;justify-content:space-between;align-items:center;margin:12px 0 8px 0;gap:8px;">' +
           '<input type="text" class="ventaNombreInput" data-id="' + tit.id + '" value="' + escapeHtmlProv(tit.nombre) + '" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:8px 10px;border-radius:8px;font-size:14px;font-weight:700;flex:1;">' +
           '<button type="button" class="ventaBtnQuitar" data-id="' + tit.id + '" style="background:none;border:none;color:var(--red-neg);cursor:pointer;font-size:15px;font-weight:900;">✕</button>' +
         '</div>' +
@@ -11434,6 +11472,11 @@ renderAutoConclusions();
         '</div>';
     }).join('');
 
+    wrap.querySelectorAll('.ventaTitHeaderBtn').forEach(b => b.addEventListener('click', () => {
+      const id = b.dataset.id;
+      if (ventaCatalogoAbiertos.has(id)) ventaCatalogoAbiertos.delete(id); else ventaCatalogoAbiertos.add(id);
+      renderCatalogoPrecios();
+    }));
     wrap.querySelectorAll('.ventaNombreInput').forEach(inp => inp.addEventListener('change', async () => {
       const tit = titulos.find(x => x.id === inp.dataset.id);
       if (tit){ tit.nombre = inp.value.trim() || tit.nombre; await saveProvPrecios(); mostrarMsgVenta('Guardado ✔️'); }
@@ -11527,6 +11570,29 @@ renderAutoConclusions();
     m.textContent = texto;
   }
 
+  const elVentaCatalogoBuscar = document.getElementById('ventaCatalogoBuscar');
+  if (elVentaCatalogoBuscar){
+    elVentaCatalogoBuscar.addEventListener('input', () => {
+      ventaCatalogoBuscarTexto = elVentaCatalogoBuscar.value;
+      renderCatalogoPrecios();
+    });
+  }
+  const elVentaCatalogoExpandirTodo = document.getElementById('ventaCatalogoExpandirTodo');
+  if (elVentaCatalogoExpandirTodo){
+    elVentaCatalogoExpandirTodo.addEventListener('click', () => {
+      const prov = PROVEEDORES.find(p => p.key === provState.prov) || PROVEEDORES[0];
+      titulosDe(prov.key).forEach(t => ventaCatalogoAbiertos.add(t.id));
+      renderCatalogoPrecios();
+    });
+  }
+  const elVentaCatalogoColapsarTodo = document.getElementById('ventaCatalogoColapsarTodo');
+  if (elVentaCatalogoColapsarTodo){
+    elVentaCatalogoColapsarTodo.addEventListener('click', () => {
+      ventaCatalogoAbiertos.clear();
+      renderCatalogoPrecios();
+    });
+  }
+
   const elVentaBtnAgregarTitulo = document.getElementById('ventaBtnAgregarTitulo');
   if (elVentaBtnAgregarTitulo){
     buildVentaNuevoPreciosInputs();
@@ -11540,8 +11606,9 @@ renderAutoConclusions();
       const alias = (document.getElementById('ventaNuevoAlias').value || '').trim();
       const desde = document.getElementById('ventaNuevoDesde').value || new Date().toISOString().slice(0,10);
       const prov = PROVEEDORES.find(p => p.key === provState.prov) || PROVEEDORES[0];
+      const nuevoId = uidProv();
       titulosDe(prov.key).push({
-        id: uidProv(),
+        id: nuevoId,
         nombre: nombre,
         alias: alias,
         historial: [{ desde: desde, tapa: ventaNuevoPrecios.map(x=>x.tapa), recargo: ventaNuevoPrecios.map(x=>x.recargo) }],
@@ -11549,6 +11616,7 @@ renderAutoConclusions();
         feriadoRecargo: ventaNuevoFeriadoRecargo || 0
       });
       await saveProvPrecios();
+      ventaCatalogoAbiertos.add(nuevoId);
       document.getElementById('ventaNuevoNombreManual').value = '';
       document.getElementById('ventaNuevoAlias').value = '';
       ventaNuevoPrecios = [800,700,700,700,700,700,900].map(v => ({tapa:v, recargo:0}));
