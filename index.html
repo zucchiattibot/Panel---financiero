@@ -999,6 +999,14 @@ try {
 <div style="overflow-x:auto;margin-top:14px;">
 <table id="ganSemTable"><thead><tr><th>Semana</th><th style="text-align:right">Cargas</th><th style="text-align:right">Notas de crédito</th><th style="text-align:right">Facturado neto</th><th style="text-align:right">Ventas</th><th style="text-align:right">Ganancia real</th></tr></thead><tbody></tbody></table>
 </div>
+<button class="link-btn" id="ganSemResumenBtn" style="margin-top:10px;" type="button">📋 Generar resumen por título</button>
+<div id="ganSemResumenWrap" style="display:none;margin-top:10px;">
+<p class="card-note" style="margin:0 0 8px 0;">Mismo período y mismo filtro (Todo / Solo diarios / Solo revistas y colecciones) elegidos arriba, pero desglosado título por título en vez de semana por semana — cantidades sumando facturas y restando notas de crédito, y la ganancia real de cada uno.</p>
+<div style="overflow-x:auto;">
+<table id="ganSemResumenTable"><thead><tr><th>Título</th><th style="text-align:right">Cantidad</th><th style="text-align:right">Facturado neto</th><th style="text-align:right">Ventas</th><th style="text-align:right">Ganancia real</th></tr></thead><tbody></tbody></table>
+</div>
+<p class="card-note" id="ganSemResumenNota" style="margin-top:8px;"></p>
+</div>
 </div>
 <div class="card">
 <h2>Deuda total con proveedores</h2>
@@ -11695,6 +11703,104 @@ renderAutoConclusions();
         });
       });
     }
+    renderResumenPorTitulo();
+  }
+
+  // ---- Resumen por título (bajo demanda, con el botón "Generar resumen
+  // por título"): mismo período/filtro que Ganancia semanal de arriba, pero
+  // agrupado por título en vez de por semana — cantidad (facturas menos NC),
+  // facturado neto, ventas y ganancia real de cada diario/revista/colección. ----
+  let ganSemResumenAbierto = false;
+  function renderResumenPorTitulo(){
+    const wrap = document.getElementById('ganSemResumenWrap');
+    const btn = document.getElementById('ganSemResumenBtn');
+    if (btn) btn.textContent = ganSemResumenAbierto ? '✕ Ocultar resumen por título' : '📋 Generar resumen por título';
+    if (!wrap) return;
+    wrap.style.display = ganSemResumenAbierto ? '' : 'none';
+    if (!ganSemResumenAbierto) return;
+
+    const prov = PROVEEDORES.find(p => p.key === provState.prov) || PROVEEDORES[0];
+    const desdeF = elGanSemFiltroDesde ? elGanSemFiltroDesde.value : '';
+    const hastaF = elGanSemFiltroHasta ? elGanSemFiltroHasta.value : '';
+    const desdeInt = desdeF ? fechaAIntProv(desdeF) : null;
+    const hastaInt = hastaF ? fechaAIntProv(hastaF) : null;
+    const conItems = facturas.filter(f => f.proveedorKey === prov.key && Array.isArray(f.items) && f.items.length);
+    const titulosProv = titulosDe(prov.key);
+    const porTitulo = Object.create(null);
+    let itemsSinPrecio = 0;
+
+    conItems.forEach(f => {
+      const esNC = f.tipo === 'nota_credito';
+      f.items.forEach(it => {
+        const monto = (it.monto != null && !isNaN(it.monto)) ? Number(it.monto) : 0;
+        if (!monto) return;
+        const esDiario = esItemDiario(it);
+        if (ganSemTipo === 'diario' && !esDiario) return;
+        if (ganSemTipo === 'revista' && esDiario) return;
+        const fechaEf = fechaEfectivaItemProv(it, f);
+        const fInt = fechaAIntProv(fechaEf);
+        if (fInt === null) return;
+        if (desdeInt !== null && fInt < desdeInt) return;
+        if (hastaInt !== null && fInt > hastaInt) return;
+        const cantidad = (it.cantidad != null && !isNaN(it.cantidad)) ? Number(it.cantidad) : 0;
+        const titMatch = matchTitulo(titulosProv, it.descripcion);
+        const precio = titMatch ? precioTituloEnFecha(titMatch, fechaEf) : null;
+        let venta = 0;
+        if (titMatch && precio && it.cantidad != null){
+          venta = precio.total * cantidad;
+        } else {
+          itemsSinPrecio++;
+        }
+        const key = titMatch ? ('t_' + titMatch.id) : ('s_' + normTxtProv(it.descripcion || '(sin descripción)'));
+        if (!porTitulo[key]){
+          porTitulo[key] = {
+            nombre: titMatch ? titMatch.nombre : ((it.descripcion || '(sin descripción)').trim() || '(sin descripción)'),
+            sinPrecio: !titMatch,
+            tipo: esDiario ? 'diario' : 'revista',
+            cantidad: 0, cargas: 0, nc: 0, ventas: 0
+          };
+        }
+        const fila = porTitulo[key];
+        if (esNC){ fila.cantidad -= cantidad; fila.nc += monto; fila.ventas -= venta; }
+        else { fila.cantidad += cantidad; fila.cargas += monto; fila.ventas += venta; }
+      });
+    });
+
+    const filas = Object.values(porTitulo).sort((a,b) => {
+      if (a.tipo !== b.tipo) return a.tipo === 'diario' ? -1 : 1;
+      return b.ventas - a.ventas;
+    });
+
+    const tbody = document.querySelector('#ganSemResumenTable tbody');
+    if (tbody){
+      tbody.innerHTML = filas.length
+        ? filas.map(fila => {
+            const neto = fila.cargas - fila.nc;
+            const ganancia = fila.ventas - neto;
+            const etiqueta = (fila.tipo === 'diario' ? '📰 ' : '📚 ') + escapeHtmlProv(fila.nombre) + (fila.sinPrecio ? ' <span class="card-note" style="margin:0;">(sin precio cargado)</span>' : '');
+            return '<tr>' +
+              '<td>' + etiqueta + '</td>' +
+              '<td class="num">' + fila.cantidad.toLocaleString('es-AR',{maximumFractionDigits:2}) + '</td>' +
+              '<td class="num">' + fmtARS(neto) + '</td>' +
+              '<td class="num">' + (fila.sinPrecio ? '—' : fmtARS(fila.ventas)) + '</td>' +
+              '<td class="num">' + (fila.sinPrecio ? '—' : fmtARS(ganancia)) + '</td>' +
+            '</tr>';
+          }).join('')
+        : '<tr><td colspan="5" class="card-note">Sin datos para este período/filtro.</td></tr>';
+    }
+    const notaEl = document.getElementById('ganSemResumenNota');
+    if (notaEl){
+      notaEl.textContent = itemsSinPrecio > 0
+        ? '⚠️ Hay ítems marcados "(sin precio cargado)": no se les pudo calcular Ventas ni Ganancia porque ningún título del catálogo matchea esa descripción. La cantidad y lo facturado sí se muestran.'
+        : '';
+    }
+  }
+  const elGanSemResumenBtn = document.getElementById('ganSemResumenBtn');
+  if (elGanSemResumenBtn){
+    elGanSemResumenBtn.addEventListener('click', () => {
+      ganSemResumenAbierto = !ganSemResumenAbierto;
+      renderResumenPorTitulo();
+    });
   }
 
   function renderCuentaCorriente(){
