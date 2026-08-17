@@ -904,6 +904,10 @@ try {
 <input id="facFiltroMontoMax" placeholder="Monto máx." style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:8px;border-radius:6px;font-size:13px;width:110px;" type="number"/>
 <button class="link-btn" id="facFiltroLimpiar" type="button">Limpiar filtro</button>
 </div>
+<label style="display:flex;align-items:center;gap:7px;margin-top:8px;font-size:13px;color:var(--cream-dim);cursor:pointer;">
+<input id="facOrdenVencimientoChk" type="checkbox" style="width:16px;height:16px;accent-color:var(--gold);"/>
+Ordenar por fecha de vencimiento (las que vencen antes, primero — las sin fecha de vencimiento quedan al final)
+</label>
 <p class="card-note" id="facFiltroNota" style="margin-top:6px;"></p>
 <p class="card-note" id="facRangoNota" style="margin-top:14px;font-weight:600;"></p>
 <div class="kpi-grid" id="facRangoKpis"></div>
@@ -10103,6 +10107,7 @@ renderAutoConclusions();
   let facturas = [];
   let facMostrarTodos = false; // false = mostrar solo los últimos 10 del historial filtrado
   const FAC_LIMITE_HISTORIAL = 10;
+  let facOrdenVencimiento = false; // false = orden por fecha (más nuevas primero); true = por vencimiento (las que vencen antes, primero)
 
   function fileToBase64Prov(file){
     return new Promise((resolve, reject) => {
@@ -10437,6 +10442,14 @@ renderAutoConclusions();
       if (elFacFiltroHasta) elFacFiltroHasta.value = '';
       if (elFacFiltroMontoMin) elFacFiltroMontoMin.value = '';
       if (elFacFiltroMontoMax) elFacFiltroMontoMax.value = '';
+      facMostrarTodos = false;
+      renderFacturas();
+    });
+  }
+  const elFacOrdenVencimientoChk = document.getElementById('facOrdenVencimientoChk');
+  if (elFacOrdenVencimientoChk){
+    elFacOrdenVencimientoChk.addEventListener('change', () => {
+      facOrdenVencimiento = elFacOrdenVencimientoChk.checked;
       facMostrarTodos = false;
       renderFacturas();
     });
@@ -11303,9 +11316,25 @@ renderAutoConclusions();
           kpi('Diferencia', fmtARS(diferenciaRango), notaDifRango, clsDifRango);
       }
 
+      // Orden de la tabla: por defecto, fecha de emisión (más nuevas primero, ya
+      // viene así desde "propias"/"propiasFiltradas"). Si se tildó "Ordenar por
+      // vencimiento", se reordena por fecha de vencimiento ascendente (las que
+      // vencen antes, primero) — las que no tienen vencimiento cargado quedan
+      // al final, en su orden por fecha original.
+      const propiasOrdenadas = facOrdenVencimiento
+        ? propiasFiltradas.slice().sort((a, b) => {
+            const va = fechaAIntProv(a.vencimiento);
+            const vb = fechaAIntProv(b.vencimiento);
+            if (va === null && vb === null) return 0;
+            if (va === null) return 1;
+            if (vb === null) return -1;
+            return va - vb;
+          })
+        : propiasFiltradas;
+
       // Historial: por defecto solo los últimos 10 comprobantes (del resultado ya filtrado); "Ver todos" para el resto.
-      const totalFiltradas = propiasFiltradas.length;
-      const mostrar = facMostrarTodos ? propiasFiltradas : propiasFiltradas.slice(0, FAC_LIMITE_HISTORIAL);
+      const totalFiltradas = propiasOrdenadas.length;
+      const mostrar = facMostrarTodos ? propiasOrdenadas : propiasOrdenadas.slice(0, FAC_LIMITE_HISTORIAL);
 
       elTbody.innerHTML = mostrar.length
         ? mostrar.map(f => {
