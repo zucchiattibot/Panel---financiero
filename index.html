@@ -908,6 +908,13 @@ try {
 <input id="facOrdenVencimientoChk" type="checkbox" style="width:16px;height:16px;accent-color:var(--gold);"/>
 Ordenar por fecha de vencimiento (las que vencen antes, primero — las sin fecha de vencimiento quedan al final)
 </label>
+<p class="card-note" style="margin-top:14px;">¿Cuánto vence entre dos fechas? (independiente del filtro de arriba, mira todo lo pendiente por su fecha de vencimiento):</p>
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;">
+<input id="facVenceDesde" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:8px;border-radius:6px;font-size:13px;" type="date"/>
+<input id="facVenceHasta" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:8px;border-radius:6px;font-size:13px;" type="date"/>
+<button class="link-btn" id="facVenceLimpiar" type="button">Limpiar</button>
+</div>
+<p class="card-note" id="facVenceNota" style="margin-top:6px;font-weight:600;"></p>
 <p class="card-note" id="facFiltroNota" style="margin-top:6px;"></p>
 <p class="card-note" id="facRangoNota" style="margin-top:14px;font-weight:600;"></p>
 <div class="kpi-grid" id="facRangoKpis"></div>
@@ -10454,6 +10461,19 @@ renderAutoConclusions();
       renderFacturas();
     });
   }
+  const elFacVenceDesde = document.getElementById('facVenceDesde');
+  const elFacVenceHasta = document.getElementById('facVenceHasta');
+  const elFacVenceLimpiar = document.getElementById('facVenceLimpiar');
+  [elFacVenceDesde, elFacVenceHasta].forEach(el => {
+    if (el) el.addEventListener('input', renderFacturas);
+  });
+  if (elFacVenceLimpiar){
+    elFacVenceLimpiar.addEventListener('click', () => {
+      if (elFacVenceDesde) elFacVenceDesde.value = '';
+      if (elFacVenceHasta) elFacVenceHasta.value = '';
+      renderFacturas();
+    });
+  }
   const elFacBuscarDupBtn = document.getElementById('facBuscarDupBtn');
   if (elFacBuscarDupBtn) elFacBuscarDupBtn.addEventListener('click', renderBuscarDuplicados);
 
@@ -11252,6 +11272,37 @@ renderAutoConclusions();
         kpi('Facturas vencidas', vencidas.length.toLocaleString('es-AR'), vencidas.length ? fmtARS(vencidas.reduce((s,f)=>s+montoConSigno(f),0)) : '', vencidas.length?'neg':'') +
         kpi('Próxima a vencer', proximaVencer ? fmtFechaCorta(fechaAIntProv(proximaVencer.vencimiento)) : '—', proximaVencer ? fmtARS(proximaVencer.monto||0) : '') +
         kpi('Comprobantes cargados', propias.length.toLocaleString('es-AR'));
+    }
+
+    // "¿Cuánto vence entre dos fechas?" — mira SOLO lo pendiente de este
+    // proveedor, filtrado por fecha de vencimiento (no por fecha de emisión,
+    // que es lo que filtra el bloque de arriba), y suma el monto. Es
+    // independiente del filtro de fecha/monto de la tabla de historial.
+    const elFacVenceNota = document.getElementById('facVenceNota');
+    if (elFacVenceNota){
+      const venceDesdeF = elFacVenceDesde ? elFacVenceDesde.value : '';
+      const venceHastaF = elFacVenceHasta ? elFacVenceHasta.value : '';
+      if (!venceDesdeF && !venceHastaF){
+        elFacVenceNota.textContent = '';
+      } else {
+        const venceDesdeInt = venceDesdeF ? fechaAIntProv(venceDesdeF) : null;
+        const venceHastaInt = venceHastaF ? fechaAIntProv(venceHastaF) : null;
+        const pendVencenEnRango = pendientes.filter(f => {
+          const v = fechaAIntProv(f.vencimiento);
+          if (v === null) return false;
+          if (venceDesdeInt !== null && v < venceDesdeInt) return false;
+          if (venceHastaInt !== null && v > venceHastaInt) return false;
+          return true;
+        });
+        const montoVenceEnRango = pendVencenEnRango.reduce((s,f) => s + montoConSigno(f), 0);
+        let rangoTxt;
+        if (venceDesdeF && venceHastaF) rangoTxt = 'entre el ' + fmtFechaCorta(venceDesdeInt) + ' y el ' + fmtFechaCorta(venceHastaInt);
+        else if (venceDesdeF) rangoTxt = 'desde el ' + fmtFechaCorta(venceDesdeInt);
+        else rangoTxt = 'hasta el ' + fmtFechaCorta(venceHastaInt);
+        elFacVenceNota.textContent = pendVencenEnRango.length
+          ? 'Vencen ' + rangoTxt + ': ' + pendVencenEnRango.length + (pendVencenEnRango.length===1?' comprobante':' comprobantes') + ' por ' + fmtARS(montoVenceEnRango) + '.'
+          : 'No hay comprobantes pendientes que venzan ' + rangoTxt + '.';
+      }
     }
 
     const elTbody = document.querySelector('#facturaTable tbody');
