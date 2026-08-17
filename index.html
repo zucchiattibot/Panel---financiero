@@ -950,8 +950,16 @@ try {
 <input id="ventaCatalogoBuscar" placeholder="🔎 Buscar título en la lista…" style="flex:1;min-width:180px;background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:8px 10px;border-radius:8px;font-size:13.5px;box-sizing:border-box;" type="text"/>
 <button class="link-btn" id="ventaCatalogoExpandirTodo" type="button">Expandir todo</button>
 <button class="link-btn" id="ventaCatalogoColapsarTodo" type="button">Colapsar todo</button>
+<button class="link-btn" id="ventaCatalogoSeleccionMultiple" type="button">☑️ Selección múltiple</button>
 </div>
 <p class="card-note" id="ventaCatalogoContador" style="margin-top:6px;"></p>
+<div id="ventaSeleccionBarra" style="display:none;align-items:center;gap:8px;flex-wrap:wrap;background:rgba(211,181,106,.12);border:1px solid var(--gold);border-radius:8px;padding:9px 10px;margin-top:8px;">
+<span class="card-note" id="ventaSeleccionContador" style="margin:0;color:var(--gold);font-weight:700;"></span>
+<button class="link-btn" id="ventaSeleccionTodos" type="button">Marcar todos los visibles</button>
+<button class="link-btn" id="ventaSeleccionNinguno" type="button">Ninguno</button>
+<button class="tab-btn" id="ventaBtnAplicarLote" style="border-radius:8px;margin-left:auto;" type="button">💲 Aplicar mismo precio</button>
+</div>
+<div id="ventaLoteFormWrap"></div>
 <div id="ventaCatalogo" style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px;margin-top:10px;"></div>
 <details class="cargar-advanced">
 <summary>+ Agregar título nuevo</summary>
@@ -11440,6 +11448,11 @@ renderAutoConclusions();
   // títulos cargados. Colapsado = solo se ve el nombre y el precio actual. ----
   const ventaCatalogoAbiertos = new Set();
   let ventaCatalogoBuscarTexto = '';
+  let ventaSeleccionActiva = false;
+  const ventaSeleccionIds = new Set();
+  let ventaLoteAbierto = false;
+  let ventaLotePrecios = [800,700,700,700,700,700,900].map(v => ({tapa:v, recargo:0}));
+  let ventaLoteMismoTodosDias = false;
   function resumenPrecioActual(actual){
     const vals = (actual.tapa || []).map(v => Number(v) || 0);
     const min = Math.min(...vals), max = Math.max(...vals);
@@ -11457,6 +11470,7 @@ renderAutoConclusions();
     if (!titulos.length){
       wrap.innerHTML = '<p class="card-note" style="margin:0;">Todavía no cargaste ningún título de ' + escapeHtmlProv(prov.label) + '.</p>';
       if (contadorEl) contadorEl.textContent = '';
+      renderBarraSeleccionLote([]);
       return;
     }
     const q = normTxtProv(ventaCatalogoBuscarTexto || '');
@@ -11466,6 +11480,7 @@ renderAutoConclusions();
         ? (titulosFiltrados.length + ' de ' + titulos.length + ' título(s) coinciden con "' + ventaCatalogoBuscarTexto + '".')
         : (titulos.length + ' título(s) cargado(s) para ' + prov.label + '.');
     }
+    renderBarraSeleccionLote(titulosFiltrados);
     if (!titulosFiltrados.length){
       wrap.innerHTML = '<p class="card-note" style="margin:0;">Ningún título coincide con "' + escapeHtmlProv(ventaCatalogoBuscarTexto) + '".</p>';
       return;
@@ -11474,13 +11489,17 @@ renderAutoConclusions();
       const hist = tit.historial.slice().sort((a,b) => a.desde < b.desde ? 1 : -1); // más reciente primero
       const actual = hist[0] || { tapa:[0,0,0,0,0,0,0], recargo:[0,0,0,0,0,0,0], desde:'' };
       const abierto = ventaAumentoAbierto === tit.id;
-      const expandido = ventaCatalogoAbiertos.has(tit.id) || abierto;
+      const expandido = !ventaSeleccionActiva && (ventaCatalogoAbiertos.has(tit.id) || abierto);
+      const marcado = ventaSeleccionIds.has(tit.id);
+      const checkbox = ventaSeleccionActiva
+        ? '<input type="checkbox" class="ventaSeleccionCheck" data-id="' + tit.id + '" ' + (marcado ? 'checked' : '') + ' style="width:18px;height:18px;flex:0 0 auto;">'
+        : '';
       const header = '<button type="button" class="ventaTitHeaderBtn" data-id="' + tit.id + '" style="width:100%;display:flex;justify-content:space-between;align-items:center;gap:10px;background:none;border:none;color:var(--cream);cursor:pointer;padding:0;text-align:left;">' +
-          '<span style="font-weight:700;font-size:14px;">' + (expandido ? '▾' : '▸') + ' ' + escapeHtmlProv(tit.nombre) + '</span>' +
+          '<span style="display:flex;align-items:center;gap:8px;font-weight:700;font-size:14px;">' + checkbox + (ventaSeleccionActiva ? '' : (expandido ? '▾' : '▸') + ' ') + escapeHtmlProv(tit.nombre) + '</span>' +
           '<span class="card-note" style="margin:0;white-space:nowrap;">Tapa: ' + resumenPrecioActual(actual) + '</span>' +
         '</button>';
       if (!expandido){
-        return '<div class="card" style="margin:0;padding:11px 14px;background:rgba(0,0,0,.16);">' + header + '</div>';
+        return '<div class="card" style="margin:0;padding:11px 14px;background:rgba(0,0,0,.16);' + (marcado ? 'box-shadow:0 0 0 2px var(--gold) inset;' : '') + '">' + header + '</div>';
       }
       return '<div class="card" style="margin:0;padding:14px 14px;background:rgba(0,0,0,.16);">' +
         header +
@@ -11516,9 +11535,15 @@ renderAutoConclusions();
 
     wrap.querySelectorAll('.ventaTitHeaderBtn').forEach(b => b.addEventListener('click', () => {
       const id = b.dataset.id;
+      if (ventaSeleccionActiva){
+        if (ventaSeleccionIds.has(id)) ventaSeleccionIds.delete(id); else ventaSeleccionIds.add(id);
+        renderCatalogoPrecios();
+        return;
+      }
       if (ventaCatalogoAbiertos.has(id)) ventaCatalogoAbiertos.delete(id); else ventaCatalogoAbiertos.add(id);
       renderCatalogoPrecios();
     }));
+    wrap.querySelectorAll('.ventaSeleccionCheck').forEach(c => c.addEventListener('click', (ev) => ev.stopPropagation()));
     wrap.querySelectorAll('.ventaNombreInput').forEach(inp => inp.addEventListener('change', async () => {
       const tit = titulos.find(x => x.id === inp.dataset.id);
       if (tit){ tit.nombre = inp.value.trim() || tit.nombre; await saveProvPrecios(); mostrarMsgVenta('Guardado ✔️'); }
@@ -11612,6 +11637,106 @@ renderAutoConclusions();
     m.textContent = texto;
   }
 
+  // ---------- Aplicar el mismo precio a varios títulos a la vez ----------
+  function renderBarraSeleccionLote(titulosVisibles){
+    const barra = document.getElementById('ventaSeleccionBarra');
+    const contadorEl = document.getElementById('ventaSeleccionContador');
+    if (!barra) return;
+    barra.style.display = ventaSeleccionActiva ? 'flex' : 'none';
+    if (!ventaSeleccionActiva){
+      const formWrap = document.getElementById('ventaLoteFormWrap');
+      if (formWrap) formWrap.innerHTML = '';
+      ventaLoteAbierto = false;
+      return;
+    }
+    // Descarta de la selección los títulos que ya no están visibles/existentes
+    const idsVisibles = new Set((titulosVisibles||[]).map(t => t.id));
+    Array.from(ventaSeleccionIds).forEach(id => { if (!idsVisibles.has(id)) ventaSeleccionIds.delete(id); });
+    if (contadorEl) contadorEl.textContent = ventaSeleccionIds.size + ' título(s) seleccionado(s)';
+    renderFormLote();
+  }
+
+  function renderFormLote(){
+    const formWrap = document.getElementById('ventaLoteFormWrap');
+    if (!formWrap) return;
+    if (!ventaLoteAbierto || ventaSeleccionIds.size === 0){ formWrap.innerHTML = ''; return; }
+    formWrap.innerHTML = '<div class="card" style="margin-top:10px;padding:12px;background:rgba(211,181,106,.08);border-color:var(--gold);">' +
+      '<p class="card-note" style="margin:0 0 8px 0;">Este precio se va a guardar como nuevo precio vigente para los <strong>' + ventaSeleccionIds.size + '</strong> título(s) marcados, cada uno con su propio historial (no pisa el precio que regía antes de la fecha elegida).</p>' +
+      '<div class="range-group"><div class="range-label">Precio vigente desde</div>' +
+      '<input type="date" id="ventaLoteDesde" value="' + new Date().toISOString().slice(0,10) + '" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:8px 10px;border-radius:8px;font-size:14px;"></div>' +
+      '<label style="display:flex;align-items:center;gap:8px;margin-top:10px;font-size:13px;color:var(--cream-dim);cursor:pointer;">' +
+      '<input type="checkbox" id="ventaLoteMismoTodos" ' + (ventaLoteMismoTodosDias ? 'checked' : '') + ' style="width:16px;height:16px;">Usar el mismo precio todos los días de la semana' +
+      '</label>' +
+      '<div id="ventaLotePreciosWrap" style="display:flex;flex-direction:column;gap:6px;margin-top:8px;"></div>' +
+      '<div class="card-note" style="display:grid;grid-template-columns:70px 1fr 1fr;gap:6px;margin-top:2px;"><div></div><div>Tapa</div><div>Recargo interior</div></div>' +
+      '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;">' +
+      '<button type="button" class="tab-btn" id="ventaBtnGuardarLote" style="border-radius:8px;">Guardar para los seleccionados</button>' +
+      '<button type="button" class="link-btn" id="ventaBtnCancelarLote">✕ Cancelar</button>' +
+      '</div></div>';
+    buildVentaLotePreciosInputs();
+    document.getElementById('ventaLoteMismoTodos').addEventListener('change', (ev) => {
+      ventaLoteMismoTodosDias = ev.target.checked;
+      buildVentaLotePreciosInputs();
+    });
+    document.getElementById('ventaBtnGuardarLote').addEventListener('click', guardarPrecioLote);
+    document.getElementById('ventaBtnCancelarLote').addEventListener('click', () => {
+      ventaLoteAbierto = false;
+      renderFormLote();
+    });
+  }
+
+  function buildVentaLotePreciosInputs(){
+    const wrap = document.getElementById('ventaLotePreciosWrap');
+    if (!wrap) return;
+    if (ventaLoteMismoTodosDias){
+      const base = ventaLotePrecios[0] || {tapa:0, recargo:0};
+      wrap.innerHTML =
+        '<div style="display:grid;grid-template-columns:70px 1fr 1fr;gap:6px;align-items:center;">' +
+        '<div class="range-label" style="margin:0;">Todos</div>' +
+        '<input type="number" min="0" step="0.01" id="ventaLoteTapaUnica" placeholder="Tapa" value="' + (base.tapa||0) + '" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:8px 10px;border-radius:8px;font-size:13.5px;width:100%;box-sizing:border-box;">' +
+        '<input type="number" min="0" step="0.01" id="ventaLoteRecargoUnica" placeholder="Recargo interior" value="' + (base.recargo||0) + '" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:8px 10px;border-radius:8px;font-size:13.5px;width:100%;box-sizing:border-box;">' +
+        '</div>';
+      const tInp = document.getElementById('ventaLoteTapaUnica'), rInp = document.getElementById('ventaLoteRecargoUnica');
+      if (tInp) tInp.addEventListener('input', () => { ventaLotePrecios = ventaLotePrecios.map(() => ({tapa: parseFloat(tInp.value)||0, recargo: parseFloat(rInp.value)||0})); });
+      if (rInp) rInp.addEventListener('input', () => { ventaLotePrecios = ventaLotePrecios.map(() => ({tapa: parseFloat(tInp.value)||0, recargo: parseFloat(rInp.value)||0})); });
+      return;
+    }
+    wrap.innerHTML = DIAS_PROV.map((d,i) =>
+      '<div style="display:grid;grid-template-columns:70px 1fr 1fr;gap:6px;align-items:center;">' +
+      '<div class="range-label" style="margin:0;">' + d + '</div>' +
+      '<input type="number" min="0" step="0.01" class="ventaLoteTapaInput" data-idx="' + i + '" value="' + (ventaLotePrecios[i].tapa||0) + '" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:8px 10px;border-radius:8px;font-size:13.5px;width:100%;box-sizing:border-box;">' +
+      '<input type="number" min="0" step="0.01" class="ventaLoteRecargoInput" data-idx="' + i + '" value="' + (ventaLotePrecios[i].recargo||0) + '" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:8px 10px;border-radius:8px;font-size:13.5px;width:100%;box-sizing:border-box;">' +
+      '</div>'
+    ).join('');
+    wrap.querySelectorAll('.ventaLoteTapaInput').forEach(inp => inp.addEventListener('input', () => { ventaLotePrecios[parseInt(inp.dataset.idx)].tapa = parseFloat(inp.value) || 0; }));
+    wrap.querySelectorAll('.ventaLoteRecargoInput').forEach(inp => inp.addEventListener('input', () => { ventaLotePrecios[parseInt(inp.dataset.idx)].recargo = parseFloat(inp.value) || 0; }));
+  }
+
+  async function guardarPrecioLote(){
+    const desdeInp = document.getElementById('ventaLoteDesde');
+    const desde = desdeInp ? desdeInp.value : '';
+    if (!desde){ mostrarMsgVenta('Elegí la fecha desde la que rige el precio.', true); return; }
+    if (ventaSeleccionIds.size === 0){ mostrarMsgVenta('No hay títulos seleccionados.', true); return; }
+    const tapa = ventaLotePrecios.map(x => x.tapa || 0);
+    const recargo = ventaLotePrecios.map(x => x.recargo || 0);
+    const prov = PROVEEDORES.find(p => p.key === provState.prov) || PROVEEDORES[0];
+    const titulos = titulosDe(prov.key);
+    let aplicados = 0;
+    ventaSeleccionIds.forEach(id => {
+      const tit = titulos.find(x => x.id === id);
+      if (!tit) return;
+      tit.historial = tit.historial.filter(h => h.desde !== desde);
+      tit.historial.push({ desde: desde, tapa: tapa.slice(), recargo: recargo.slice() });
+      aplicados++;
+    });
+    await saveProvPrecios();
+    ventaLoteAbierto = false;
+    ventaSeleccionActiva = false;
+    ventaSeleccionIds.clear();
+    renderCatalogoPrecios(); renderGananciaSemanal();
+    mostrarMsgVenta('Precio aplicado a ' + aplicados + ' título(s) ✔️');
+  }
+
   const elVentaCatalogoBuscar = document.getElementById('ventaCatalogoBuscar');
   if (elVentaCatalogoBuscar){
     elVentaCatalogoBuscar.addEventListener('input', () => {
@@ -11632,6 +11757,41 @@ renderAutoConclusions();
     elVentaCatalogoColapsarTodo.addEventListener('click', () => {
       ventaCatalogoAbiertos.clear();
       renderCatalogoPrecios();
+    });
+  }
+  const elVentaCatalogoSeleccionMultiple = document.getElementById('ventaCatalogoSeleccionMultiple');
+  if (elVentaCatalogoSeleccionMultiple){
+    elVentaCatalogoSeleccionMultiple.addEventListener('click', () => {
+      ventaSeleccionActiva = !ventaSeleccionActiva;
+      if (!ventaSeleccionActiva){ ventaSeleccionIds.clear(); ventaLoteAbierto = false; }
+      elVentaCatalogoSeleccionMultiple.textContent = ventaSeleccionActiva ? '✕ Cancelar selección' : '☑️ Selección múltiple';
+      renderCatalogoPrecios();
+    });
+  }
+  const elVentaSeleccionTodos = document.getElementById('ventaSeleccionTodos');
+  if (elVentaSeleccionTodos){
+    elVentaSeleccionTodos.addEventListener('click', () => {
+      const prov = PROVEEDORES.find(p => p.key === provState.prov) || PROVEEDORES[0];
+      const q = normTxtProv(ventaCatalogoBuscarTexto || '');
+      const titulos = titulosDe(prov.key);
+      const visibles = q ? titulos.filter(t => normTxtProv(t.nombre + ' ' + (t.alias||'')).includes(q)) : titulos;
+      visibles.forEach(t => ventaSeleccionIds.add(t.id));
+      renderCatalogoPrecios();
+    });
+  }
+  const elVentaSeleccionNinguno = document.getElementById('ventaSeleccionNinguno');
+  if (elVentaSeleccionNinguno){
+    elVentaSeleccionNinguno.addEventListener('click', () => {
+      ventaSeleccionIds.clear();
+      renderCatalogoPrecios();
+    });
+  }
+  const elVentaBtnAplicarLote = document.getElementById('ventaBtnAplicarLote');
+  if (elVentaBtnAplicarLote){
+    elVentaBtnAplicarLote.addEventListener('click', () => {
+      if (ventaSeleccionIds.size === 0){ mostrarMsgVenta('Marcá al menos un título para aplicar el precio en lote.', true); return; }
+      ventaLoteAbierto = true;
+      renderFormLote();
     });
   }
 
