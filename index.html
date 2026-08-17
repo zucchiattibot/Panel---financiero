@@ -10101,6 +10101,21 @@ renderAutoConclusions();
   // use esto debe caer de vuelta a la fecha de emisión del comprobante, tal cual hace
   // hoy todo lo demás del panel.
   function detectarFechaItemDesdeTexto(textos, fechaComprobanteIso){
+    // NUEVO — formato AAAAMMDD sin separadores (típico del campo "Edición" de
+    // proveedores con AFIP, ej. "20260722"). Se prueba primero porque trae año
+    // propio y es inequívoco, a diferencia del patrón DD/MM de más abajo.
+    const regexCompacta = /\b(\d{4})(\d{2})(\d{2})\b/;
+    for (let i=0; i<textos.length; i++){
+      const t = textos[i];
+      if (!t) continue;
+      const m = regexCompacta.exec(String(t));
+      if (!m) continue;
+      const yyyy = parseInt(m[1],10), mm = parseInt(m[2],10), dd = parseInt(m[3],10);
+      if (yyyy < 2000 || yyyy > 2100 || mm < 1 || mm > 12 || dd < 1 || dd > 31) continue;
+      const chequeo = new Date(yyyy, mm-1, dd);
+      if (chequeo.getFullYear()!==yyyy || chequeo.getMonth()!==mm-1 || chequeo.getDate()!==dd) continue;
+      return yyyy + '-' + String(mm).padStart(2,'0') + '-' + String(dd).padStart(2,'0');
+    }
     const regex = /\b(\d{1,2})[\/\-.](\d{1,2})(?:[\/\-.](\d{2,4}))?\b/;
     for (let i=0; i<textos.length; i++){
       const t = textos[i];
@@ -10528,6 +10543,7 @@ renderAutoConclusions();
     return '<tr data-item-idx="' + idx + '">' +
       '<td style="padding:4px 4px 4px 0;"><input type="text" data-item-campo="descripcion" value="' + escapeHtmlProv(it.descripcion!=null?it.descripcion:'') + '" placeholder="Título / descripción del producto" style="' + inputCss + '"></td>' +
       '<td style="padding:4px 4px 4px 0;width:74px;"><input type="text" data-item-campo="edicion" value="' + escapeHtmlProv(it.edicion!=null?it.edicion:'') + '" placeholder="N° ed." style="' + inputCss + '"></td>' +
+      '<td style="padding:4px 4px 4px 0;width:74px;"><input type="text" data-item-campo="codigoPublicacion" value="' + escapeHtmlProv(it.codigoPublicacion!=null?it.codigoPublicacion:'') + '" placeholder="Cód. public." title="Código de publicación del proveedor (si lo trae) — más confiable que el título para vincular con notas de crédito." style="' + inputCss + '"></td>' +
       '<td style="padding:4px 4px 4px 0;width:64px;"><input type="text" data-item-campo="cantidad" value="' + escapeHtmlProv(it.cantidad!=null?it.cantidad:'') + '" style="' + inputCss + 'text-align:right;"></td>' +
       '<td style="padding:4px 4px 4px 0;width:92px;"><input type="text" data-item-campo="monto" value="' + escapeHtmlProv(it.monto!=null?it.monto:'') + '" style="' + inputCss + 'text-align:right;"></td>' +
       '<td style="padding:4px 4px 4px 0;width:88px;"><input type="text" data-item-campo="fechaItem" value="' + escapeHtmlProv(it.fechaItem!=null?it.fechaItem:'') + '" placeholder="AAAA-MM-DD" title="Fecha del diario/edición (vacío = usa la fecha de emisión). Se detecta sola si está escrita en el título o en N° ed." style="' + inputCss + '"></td>' +
@@ -10540,6 +10556,7 @@ renderAutoConclusions();
     let itemsLocal = Array.isArray(datos.items) ? datos.items.map(it => ({
       descripcion: (it && it.descripcion != null) ? it.descripcion : '',
       edicion: (it && it.numero_edicion != null) ? it.numero_edicion : '',
+      codigoPublicacion: (it && it.codigo_publicacion != null) ? it.codigo_publicacion : '',
       cantidad: (it && it.cantidad != null) ? it.cantidad : '',
       monto: formatMontoParaRevision((it && it.monto != null) ? it.monto
         : ((it && it.cantidad != null && it.precio_unitario != null) ? (Number(it.cantidad) * Number(it.precio_unitario)) : '')),
@@ -10556,13 +10573,14 @@ renderAutoConclusions();
       '<div data-aviso-suma style="display:none;background:rgba(211,181,106,.15);border:1px solid var(--gold);color:var(--gold);border-radius:8px;padding:8px 10px;font-size:12px;margin-bottom:8px;"></div>' +
       campoTipoDocRevision(datos.tipo_documento) +
       campoRevision('numero', 'N° de comprobante', datos.numero_factura) +
+      campoRevision('referencia', 'Referencia a factura (si es NC/ND)', datos.referencia_factura) +
       campoRevision('fecha', 'Fecha de emisión (AAAA-MM-DD)', datos.fecha_emision) +
       campoRevision('vencimiento', 'Fecha de vencimiento (AAAA-MM-DD)', datos.fecha_vencimiento) +
       campoRevision('monto', 'Monto total (siempre positivo)', datos.monto_total != null ? datos.monto_total : '') +
       '<div style="margin-top:8px;">' +
         '<label class="card-note" style="display:block;margin-bottom:4px;">Productos/conceptos detectados (editá, agregá o quitá filas — esto alimenta el desglose por título de la pestaña):</label>' +
         '<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;font-size:12px;"><thead><tr>' +
-          '<th style="text-align:left;padding:0 4px 4px 0;">Título / descripción</th><th style="text-align:left;padding:0 4px 4px 0;">N° ed.</th><th style="text-align:right;padding:0 4px 4px 0;">Cant.</th><th style="text-align:right;padding:0 4px 4px 0;">Monto</th><th style="text-align:left;padding:0 4px 4px 0;" title="Fecha del diario (vacío = fecha de emisión)">Fecha ítem</th><th></th>' +
+          '<th style="text-align:left;padding:0 4px 4px 0;">Título / descripción</th><th style="text-align:left;padding:0 4px 4px 0;">N° ed.</th><th style="text-align:left;padding:0 4px 4px 0;" title="Código de publicación del proveedor, si lo trae — más confiable que el título para vincular con notas de crédito.">Cód. public.</th><th style="text-align:right;padding:0 4px 4px 0;">Cant.</th><th style="text-align:right;padding:0 4px 4px 0;">Monto</th><th style="text-align:left;padding:0 4px 4px 0;" title="Fecha del diario (vacío = fecha de emisión)">Fecha ítem</th><th></th>' +
         '</tr></thead><tbody data-items-body></tbody></table></div>' +
         '<button type="button" class="link-btn" data-accion="agregar-item" style="margin-top:4px;">+ Agregar producto</button>' +
       '</div>' +
@@ -10630,6 +10648,7 @@ renderAutoConclusions();
       const itemsGuardar = itemsLocal.map(it => {
         const descripcion = String(it.descripcion||'').trim();
         const edicion = String(it.edicion||'').trim();
+        const codigoPublicacion = String(it.codigoPublicacion||'').trim();
         const cantTxt = String(it.cantidad!=null?it.cantidad:'').trim();
         const cantNum = cantTxt !== '' ? parseFloat(cantTxt.replace(',', '.')) : null;
         const montoTxtIt = String(it.monto!=null?it.monto:'').trim();
@@ -10639,6 +10658,7 @@ renderAutoConclusions();
         return {
           descripcion,
           edicion: edicion || null,
+          codigoPublicacion: codigoPublicacion || null,
           cantidad: (cantNum != null && !isNaN(cantNum)) ? cantNum : null,
           monto: (montoNum != null && !isNaN(montoNum)) ? montoNum : null,
           fechaItem: fechaItemOk
@@ -10649,6 +10669,7 @@ renderAutoConclusions();
         proveedorKey: prov.key,
         tipo: get('tipo') || 'factura',
         numeroFactura: get('numero') || null,
+        referenciaFactura: get('referencia') || null,
         fecha: get('fecha') || null,
         vencimiento: get('vencimiento') || null,
         monto: monto,
@@ -10775,11 +10796,34 @@ renderAutoConclusions();
     const titMatch = matchTitulo(titulosProv, it.descripcion);
     const edicionNorm = normTxtProv(it.edicion || '');
     const fechaEf = fechaEfectivaItemProv(it, f);
+    const codigoNorm = normTxtProv(it.codigoPublicacion || '');
+    const numFacturaNorm = normTxtProv(f.numeroFactura || '');
+
+    // NUEVO — si alguna NC del proveedor declara "referenciaFactura" apuntando
+    // exactamente al N° de esta factura (dato que el proveedor imprime directo,
+    // sin ambigüedad), acotamos la búsqueda a esas NC. Si ninguna NC referencia
+    // esta factura (proveedor que no imprime esa referencia), se barren todas
+    // las NC del proveedor como antes.
+    let candidatas = facturas.filter(fNC => fNC.proveedorKey === f.proveedorKey && fNC.tipo === 'nota_credito' && Array.isArray(fNC.items));
+    if (numFacturaNorm){
+      const referenciadas = candidatas.filter(fNC => normTxtProv(fNC.referenciaFactura || '') === numFacturaNorm);
+      if (referenciadas.length) candidatas = referenciadas;
+    }
+
     let encontrada = null;
-    facturas.forEach(fNC => {
-      if (encontrada || fNC.proveedorKey !== f.proveedorKey || fNC.tipo !== 'nota_credito' || !Array.isArray(fNC.items)) return;
+    candidatas.forEach(fNC => {
+      if (encontrada) return;
       fNC.items.forEach(itNC => {
         if (encontrada) return;
+        // NUEVO — si ambos ítems traen "Cód. Publicación", ese código manda:
+        // identifica la publicación sin ambigüedad, a diferencia del texto libre
+        // de la descripción (que puede variar entre factura y NC). Si el código
+        // no coincide, esta itNC queda descartada (no cae al match por texto).
+        const codigoNCNorm = normTxtProv(itNC.codigoPublicacion || '');
+        if (codigoNorm && codigoNCNorm){
+          if (codigoNorm === codigoNCNorm) encontrada = fNC;
+          return;
+        }
         const titNCMatch = matchTitulo(titulosProv, itNC.descripcion);
         const mismoTitulo = (titMatch && titNCMatch)
           ? titMatch.id === titNCMatch.id
@@ -12666,13 +12710,14 @@ renderAutoConclusions();
     if (!iaApiKey) throw new Error('Primero configurá tu clave de API de Gemini en la pestaña Asistente IA.');
     const promptTexto = 'Sos un asistente que extrae datos de comprobantes argentinos de proveedores: pueden ser facturas, notas de crédito o notas de débito (imagen o PDF). ' +
       'Devolvé SOLO un objeto JSON, sin texto adicional, sin backticks de markdown, con estas claves exactas:\n' +
-      '{"tipo_documento": "factura"|"nota_credito"|"nota_debito", "numero_factura": string|null, "fecha_emision": "YYYY-MM-DD"|null, "fecha_vencimiento": "YYYY-MM-DD"|null, ' +
+      '{"tipo_documento": "factura"|"nota_credito"|"nota_debito", "numero_factura": string|null, "referencia_factura": string|null, "fecha_emision": "YYYY-MM-DD"|null, "fecha_vencimiento": "YYYY-MM-DD"|null, ' +
       '"monto_total": number|null, "moneda": "ARS"|"USD"|null, "proveedor_detectado": string|null, "resumen_items": string|null, ' +
-      '"items": [{"descripcion": string, "numero_edicion": string|null, "cantidad": number|null, "precio_unitario": number|null, "monto": number|null}]|null}\n' +
+      '"items": [{"descripcion": string, "numero_edicion": string|null, "codigo_publicacion": string|null, "cantidad": number|null, "precio_unitario": number|null, "monto": number|null}]|null}\n' +
       'Para "tipo_documento": fijate en el encabezado del comprobante — "Nota de Crédito" (o "NC") significa que el proveedor te está devolviendo o descontando plata (baja tu deuda); "Nota de Débito" (o "ND") significa que te suma un cargo (sube tu deuda); si no dice nada de eso, es una "factura" común. Si tenés dudas, usá "factura". ' +
       'Si un dato no aparece en el comprobante, usá null. "monto_total" siempre va como número positivo (con punto decimal, sin separador de miles), no un string — el signo (si suma o resta a la deuda) lo determina "tipo_documento", no el número. ' +
       'Si hay varias fechas, "fecha_emision" es la fecha de emisión del comprobante y "fecha_vencimiento" es la fecha límite de pago si figura (las notas de crédito/débito normalmente no tienen vencimiento). ' +
-      'Además, en "items" desglosá cada producto, servicio o concepto que figure en el detalle/cuerpo del comprobante, uno por línea, en el orden en que aparecen: "descripcion" es el texto tal cual figura (sin inventar ni resumir; si es una publicación, poné ahí el título), "numero_edicion" es el número de edición/número de ejemplar de la publicación si figura en esa línea o cerca del título (por ej. "Edición 4521", "N° 128", "Ed. 45") — si no aparece, usá null, "cantidad" y "precio_unitario" si están (si no, null), y "monto" el importe de esa línea siempre como número positivo (si no figura el importe de la línea pero sí cantidad y precio unitario, calculalo multiplicando). Si el comprobante no desglosa productos línea por línea (por ejemplo, es un servicio único sin detalle), devolvé "items" como un array vacío []. No inventes items que no estén escritos en el comprobante.';
+      'Si el comprobante es una nota de crédito o nota de débito y menciona explícitamente el número de la factura original que corrige o anula (por ej. "Referencia a Factura 00450A00580459", "Comprobante asociado", "Cbte. asociado Nº..."), poné ese número tal cual en "referencia_factura"; si no hay ninguna mención así, usá null. ' +
+      'Además, en "items" desglosá cada producto, servicio o concepto que figure en el detalle/cuerpo del comprobante, uno por línea, en el orden en que aparecen: "descripcion" es el texto tal cual figura (sin inventar ni resumir; si es una publicación, poné ahí el título), "numero_edicion" es el número de edición/número de ejemplar de la publicación si figura en esa línea o cerca del título (por ej. "Edición 4521", "N° 128", "Ed. 45") — si no aparece, usá null, "codigo_publicacion" es un código corto (por ej. "000003", "110604") que identifique esa publicación/producto en sí (no el ejemplar) si figura en esa línea, distinto del número de edición — si no aparece, usá null, "cantidad" y "precio_unitario" si están (si no, null), y "monto" el importe de esa línea siempre como número positivo (si no figura el importe de la línea pero sí cantidad y precio unitario, calculalo multiplicando). Si el comprobante no desglosa productos línea por línea (por ejemplo, es un servicio único sin detalle), devolvé "items" como un array vacío []. No inventes items que no estén escritos en el comprobante.';
     const body = {
       contents: [{
         role: 'user',
