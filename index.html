@@ -881,6 +881,11 @@ try {
 <div id="facDupResultado" style="margin-top:10px;"></div>
 </div>
 <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--line);">
+<button class="toggle-btn" id="facAlertasBtn" type="button">⚠️ Ver alertas</button>
+<p class="card-note" style="margin-top:6px;">Devoluciones que el proveedor todavía no te acreditó hace más de 15 días, e ítems facturados con un precio distinto al último cargado o al precio de venta del catálogo (de todos los proveedores).</p>
+<div id="facAlertasResultado" style="margin-top:10px;"></div>
+</div>
+<div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--line);">
 <p class="card-note" style="font-weight:600;color:var(--cream);margin-bottom:6px;">Backup solo de Proveedores</p>
 <p class="card-note">Exporta o restaura SOLO las facturas/notas de crédito y débito cargadas en esta pestaña (de todos los proveedores), sin tocar movimientos, clientes ni el resto del panel. Útil si solo querés pasar o respaldar esto puntualmente.</p>
 <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;">
@@ -921,6 +926,27 @@ try {
 <div class="kpi-grid" id="ccKpis" style="margin-top:10px;"></div>
 <div style="overflow-x:auto;margin-top:14px;">
 <table id="ccTable"><thead><tr><th>Fecha</th><th>Movimiento</th><th style="text-align:right">Debe</th><th style="text-align:right">Haber</th><th style="text-align:right">Saldo</th></tr></thead><tbody></tbody></table>
+</div>
+</div>
+</div>
+<div class="card" data-card-colapsable="prov-resumen-enviar">
+<div class="card-head"><h2>Resumen para enviar — <span id="envioProvNombre"></span></h2><button type="button" class="card-colapsar-btn" title="Mostrar/ocultar esta sección">▾</button></div>
+<div class="card-body">
+<p class="card-note">Elegí un rango de fechas y armá el resumen completo de este proveedor para copiar, mandar por WhatsApp o por mail: cada factura y nota de crédito del período, desglosada en sus ítems (título, cantidad, precio unitario e importe), más los totales del período.</p>
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;">
+<input id="envioFiltroDesde" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:8px;border-radius:6px;font-size:13px;" type="date"/>
+<input id="envioFiltroHasta" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:8px;border-radius:6px;font-size:13px;" type="date"/>
+<button class="link-btn" id="envioFiltroLimpiar" type="button">Limpiar filtro</button>
+</div>
+<button class="cargar-submit-btn" id="envioGenerarBtn" style="margin-top:10px;width:auto;" type="button">📝 Generar resumen</button>
+<div id="envioResultadoWrap" style="display:none;margin-top:12px;">
+<textarea id="envioTextoResumen" readonly="" style="width:100%;box-sizing:border-box;min-height:220px;background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px;border-radius:8px;font-size:12px;font-family:monospace;white-space:pre-wrap;"></textarea>
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;">
+<button class="toggle-btn" id="envioCopiarBtn" type="button">📋 Copiar texto</button>
+<button class="toggle-btn" id="envioWABtn" style="background:var(--green-pos);" type="button">📱 Enviar por WhatsApp</button>
+<button class="toggle-btn" id="envioMailBtn" type="button">📧 Enviar por mail</button>
+</div>
+<p class="card-note" id="envioMsg" style="margin-top:6px;min-height:14px;"></p>
 </div>
 </div>
 </div>
@@ -1017,9 +1043,10 @@ try {
 <div id="ganSemResumenWrap" style="display:none;margin-top:10px;">
 <p class="card-note" style="margin:0 0 8px 0;">Mismo período y mismo filtro (Todo / Solo diarios / Solo revistas y colecciones) elegidos arriba, pero desglosado título por título en vez de semana por semana — cantidades sumando facturas y restando notas de crédito, y la ganancia real de cada uno.</p>
 <div style="overflow-x:auto;">
-<table id="ganSemResumenTable"><thead><tr><th>Título</th><th style="text-align:right">Cantidad</th><th style="text-align:right">Facturado neto</th><th style="text-align:right">Ventas</th><th style="text-align:right">Ganancia real</th></tr></thead><tbody></tbody></table>
+<table id="ganSemResumenTable"><thead><tr><th>Título</th><th style="text-align:right">Cantidad</th><th style="text-align:right">Facturado neto</th><th style="text-align:right">Ventas</th><th style="text-align:right">Ganancia real</th><th style="text-align:right">% Devol.</th></tr></thead><tbody></tbody></table>
 </div>
 <p class="card-note" id="ganSemResumenNota" style="margin-top:8px;"></p>
+<button class="link-btn" id="ganSemResumenExportarBtn" style="margin-top:8px;" type="button">⬇️ Exportar CSV</button>
 </div>
 </div>
 <div class="card">
@@ -10042,6 +10069,10 @@ renderAutoConclusions();
     renderDesgloseItems();
     renderCatalogoPrecios();
     renderGananciaSemanal();
+    const nombreEnvioEl = document.getElementById('envioProvNombre');
+    if (nombreEnvioEl) nombreEnvioEl.textContent = prov.label;
+    const wrapEnvio = document.getElementById('envioResultadoWrap');
+    if (wrapEnvio) wrapEnvio.style.display = 'none';
   }
 
   function renderFacturadoVsPagado(prov, desdeInt, hastaInt, totalPagadoPeriodo){
@@ -10432,6 +10463,118 @@ renderAutoConclusions();
       if (elCcFiltroDesde) elCcFiltroDesde.value = '';
       if (elCcFiltroHasta) elCcFiltroHasta.value = '';
       renderCuentaCorriente();
+    });
+  }
+
+  // ---- Resumen para enviar (WhatsApp / mail): mismo proveedor elegido arriba,
+  // rango de fechas propio, texto plano con cada factura/NC y sus ítems ----
+  const elEnvioFiltroDesde = document.getElementById('envioFiltroDesde');
+  const elEnvioFiltroHasta = document.getElementById('envioFiltroHasta');
+  const elEnvioFiltroLimpiar = document.getElementById('envioFiltroLimpiar');
+  if (elEnvioFiltroLimpiar){
+    elEnvioFiltroLimpiar.addEventListener('click', () => {
+      if (elEnvioFiltroDesde) elEnvioFiltroDesde.value = '';
+      if (elEnvioFiltroHasta) elEnvioFiltroHasta.value = '';
+      const wrap = document.getElementById('envioResultadoWrap');
+      if (wrap) wrap.style.display = 'none';
+    });
+  }
+
+  function generarTextoResumenProveedor(){
+    const prov = PROVEEDORES.find(p => p.key === provState.prov) || PROVEEDORES[0];
+    const desdeF = elEnvioFiltroDesde ? elEnvioFiltroDesde.value : '';
+    const hastaF = elEnvioFiltroHasta ? elEnvioFiltroHasta.value : '';
+    const lista = facturas
+      .filter(f => f.proveedorKey === prov.key)
+      .filter(f => (!desdeF || f.fecha >= desdeF) && (!hastaF || f.fecha <= hastaF))
+      .sort((a,b) => (a.fecha||'').localeCompare(b.fecha||''));
+
+    const lineas = [];
+    lineas.push('RESUMEN — ' + prov.label);
+    lineas.push('Período: ' + (desdeF ? fmtFechaCorta(fechaAIntProv(desdeF)) : 'inicio') + ' a ' + (hastaF ? fmtFechaCorta(fechaAIntProv(hastaF)) : 'hoy'));
+    lineas.push('');
+
+    if (!lista.length){
+      lineas.push('No hay comprobantes cargados de este proveedor en ese período.');
+      return lineas.join('\n');
+    }
+
+    let totalFacturado = 0, totalNC = 0, totalND = 0;
+    lista.forEach(f => {
+      const monto = f.monto || 0;
+      if (f.tipo === 'nota_credito') totalNC += monto;
+      else if (f.tipo === 'nota_debito') totalND += monto;
+      else totalFacturado += monto;
+
+      lineas.push('• ' + etiquetaTipo(f.tipo).toUpperCase() + (f.numeroFactura ? ' N° ' + f.numeroFactura : '') + ' — ' + f.fecha + ' — ' + fmtARS(monto));
+      const items = Array.isArray(f.items) ? f.items : [];
+      items.forEach(it => {
+        const cant = (it.cantidad != null && !isNaN(it.cantidad)) ? it.cantidad.toLocaleString('es-AR',{maximumFractionDigits:2}) : '—';
+        const unit = precioUnitarioItem(it);
+        const unitTxt = unit != null ? fmtARS(unit) : '—';
+        const montoTxt = (it.monto != null) ? fmtARS(it.monto) : '—';
+        lineas.push('   - ' + (it.descripcion || '(sin descripción)') + (it.edicion ? ' (' + it.edicion + ')' : '') + ': ' + cant + ' x ' + unitTxt + ' = ' + montoTxt);
+      });
+      if (!items.length) lineas.push('   (sin ítems desglosados)');
+      lineas.push('');
+    });
+
+    const neto = totalFacturado - totalNC + totalND;
+    lineas.push('—————————————');
+    lineas.push('Total facturado: ' + fmtARS(totalFacturado));
+    if (totalNC) lineas.push('Total notas de crédito: -' + fmtARS(totalNC));
+    if (totalND) lineas.push('Total notas de débito: +' + fmtARS(totalND));
+    lineas.push('NETO: ' + fmtARS(neto));
+    return lineas.join('\n');
+  }
+
+  const elEnvioGenerarBtn = document.getElementById('envioGenerarBtn');
+  const elEnvioTextoResumen = document.getElementById('envioTextoResumen');
+  if (elEnvioGenerarBtn){
+    elEnvioGenerarBtn.addEventListener('click', () => {
+      const texto = generarTextoResumenProveedor();
+      if (elEnvioTextoResumen) elEnvioTextoResumen.value = texto;
+      const wrap = document.getElementById('envioResultadoWrap');
+      if (wrap) wrap.style.display = '';
+      const msg = document.getElementById('envioMsg');
+      if (msg){ msg.style.color = 'var(--muted)'; msg.textContent = texto.length > 3500 ? 'Resumen largo (' + texto.length + ' caracteres): si WhatsApp/mail lo cortan, usá "Copiar texto" y pegalo directamente en el chat.' : ''; }
+    });
+  }
+  const elEnvioCopiarBtn = document.getElementById('envioCopiarBtn');
+  if (elEnvioCopiarBtn){
+    elEnvioCopiarBtn.addEventListener('click', async () => {
+      const msg = document.getElementById('envioMsg');
+      const texto = elEnvioTextoResumen ? elEnvioTextoResumen.value : '';
+      if (!texto) return;
+      try{
+        if (navigator.clipboard && navigator.clipboard.writeText){
+          await navigator.clipboard.writeText(texto);
+        } else {
+          elEnvioTextoResumen.select();
+          document.execCommand('copy');
+        }
+        if (msg){ msg.style.color = 'var(--green-pos)'; msg.textContent = 'Copiado ✔️'; }
+      }catch(e){
+        if (msg){ msg.style.color = 'var(--red-neg)'; msg.textContent = 'No se pudo copiar automáticamente. Seleccioná el texto a mano y copialo.'; }
+      }
+    });
+  }
+  const elEnvioWABtn = document.getElementById('envioWABtn');
+  if (elEnvioWABtn){
+    elEnvioWABtn.addEventListener('click', () => {
+      const texto = elEnvioTextoResumen ? elEnvioTextoResumen.value : '';
+      if (!texto) return;
+      window.open('https://wa.me/?text=' + encodeURIComponent(texto), '_blank');
+    });
+  }
+  const elEnvioMailBtn = document.getElementById('envioMailBtn');
+  if (elEnvioMailBtn){
+    elEnvioMailBtn.addEventListener('click', () => {
+      const prov = PROVEEDORES.find(p => p.key === provState.prov) || PROVEEDORES[0];
+      const texto = elEnvioTextoResumen ? elEnvioTextoResumen.value : '';
+      if (!texto) return;
+      const asunto = 'Resumen ' + prov.label;
+      window.open('mailto:?subject=' + encodeURIComponent(asunto) + '&body=' + encodeURIComponent(texto), '_blank');
     });
   }
 
@@ -10846,6 +10989,147 @@ renderAutoConclusions();
       ? '<span title="Ya tiene nota de crédito' + (nc.numeroFactura ? ' N° ' + escapeHtmlProv(nc.numeroFactura) : '') + '" style="color:var(--green-pos);font-weight:700;white-space:nowrap;">✔️ Con NC</span>'
       : '<span title="Todavía no se cargó una nota de crédito para este título/edición" style="color:var(--gold);font-weight:700;white-space:nowrap;">⏳ Sin NC</span>';
   }
+
+  // ---- Alertas: faltantes de NC (15+ días) y precio distinto al histórico/catálogo ----
+  const DIAS_FALTANTE_NC = 15;
+  const PCT_ALERTA_PRECIO = 10; // % de diferencia vs. el último precio facturado de ese título/proveedor
+  const PCT_MARGEN_BAJO = 15; // % de margen mínimo esperado sobre el precio de venta del catálogo
+
+  // Precio unitario implícito de un ítem (lo que costó cada unidad), a partir
+  // de monto y cantidad — los ítems no guardan un campo de precio unitario propio.
+  function precioUnitarioItem(it){
+    if (!it || it.monto == null || !it.cantidad) return null;
+    const u = Number(it.monto) / Number(it.cantidad);
+    return isNaN(u) || !isFinite(u) ? null : u;
+  }
+
+  // Último precio unitario facturado (no NC) para el mismo título/proveedor,
+  // anterior a esta factura — para detectar cambios de precio o errores de tipeo.
+  function ultimoPrecioUnitarioTitulo(provKey, titMatch, descripcionSinMatch, fInt){
+    let mejor = null, mejorFInt = -1;
+    facturas.forEach(f => {
+      if (f.proveedorKey !== provKey || f.tipo === 'nota_credito' || !Array.isArray(f.items)) return;
+      const titulosProv = titulosDe(provKey);
+      f.items.forEach(it => {
+        const fEf = fechaEfectivaItemProv(it, f);
+        const fI = fechaAIntProv(fEf);
+        if (fI === null || (fInt != null && fI >= fInt)) return; // solo anteriores
+        const titItMatch = matchTitulo(titulosProv, it.descripcion);
+        const mismo = titMatch ? (titItMatch && titItMatch.id === titMatch.id) : (normTxtProv(it.descripcion||'') === normTxtProv(descripcionSinMatch||''));
+        if (!mismo) return;
+        const u = precioUnitarioItem(it);
+        if (u == null) return;
+        if (fI > mejorFInt){ mejorFInt = fI; mejor = u; }
+      });
+    });
+    return mejor;
+  }
+
+  // Recorre TODAS las facturas de TODOS los proveedores y arma la lista de
+  // alertas: ítems facturados hace 15+ días que siguen sin nota de crédito, e
+  // ítems cuyo precio implícito difiere del último facturado o come casi todo
+  // el margen contra el precio de venta cargado en el catálogo.
+  // Días corridos reales entre una fecha ISO (AAAA-MM-DD) y hoy — a diferencia
+  // de comparar los enteros AAAAMMDD (que no da días reales cuando cruza de mes).
+  function diasDesdeIso(fechaIso){
+    const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(fechaIso || '');
+    if (!m) return null;
+    const fecha = new Date(parseInt(m[1],10), parseInt(m[2],10)-1, parseInt(m[3],10));
+    const hoy = new Date();
+    hoy.setHours(0,0,0,0);
+    return Math.floor((hoy - fecha) / 86400000);
+  }
+  function calcularAlertasProveedores(){
+    const faltantes = [];
+    const precios = [];
+    facturas.forEach(f => {
+      if (!Array.isArray(f.items) || !f.items.length) return;
+      const prov = PROVEEDORES.find(p => p.key === f.proveedorKey);
+      const nombreProv = prov ? prov.label : f.proveedorKey;
+      const titulosProv = titulosDe(f.proveedorKey);
+      f.items.forEach(it => {
+        const fEf = fechaEfectivaItemProv(it, f);
+        const fInt = fechaAIntProv(fEf);
+        const titMatch = matchTitulo(titulosProv, it.descripcion);
+
+        if (f.tipo !== 'nota_credito'){
+          // Faltantes de NC
+          const dias = diasDesdeIso(fEf);
+          if (dias !== null && dias >= DIAS_FALTANTE_NC){
+            const nc = buscarNotaCreditoParaItem(it, f);
+            if (!nc) faltantes.push({ proveedor: nombreProv, factura: f, item: it, fechaEf: fEf, dias: dias });
+          }
+          // Precio distinto al último facturado / al catálogo
+          const u = precioUnitarioItem(it);
+          if (u != null){
+            const avisos = [];
+            const ultimo = ultimoPrecioUnitarioTitulo(f.proveedorKey, titMatch, it.descripcion, fInt);
+            if (ultimo != null && ultimo > 0){
+              const diffPct = ((u - ultimo) / ultimo) * 100;
+              if (Math.abs(diffPct) >= PCT_ALERTA_PRECIO){
+                avisos.push((diffPct > 0 ? 'Subió ' : 'Bajó ') + Math.abs(diffPct).toLocaleString('es-AR',{maximumFractionDigits:1}) + '% vs. el último precio facturado (' + fmtARS(ultimo) + ' → ' + fmtARS(u) + ')');
+              }
+            }
+            if (titMatch && fEf){
+              const catalogo = precioTituloEnFecha(titMatch, fEf);
+              if (catalogo && catalogo.total > 0){
+                if (u > catalogo.total){
+                  avisos.push('El costo (' + fmtARS(u) + ') es MAYOR al precio de venta del catálogo (' + fmtARS(catalogo.total) + '): estarías perdiendo dinero en cada unidad.');
+                } else {
+                  const margenPct = ((catalogo.total - u) / catalogo.total) * 100;
+                  if (margenPct < PCT_MARGEN_BAJO){
+                    avisos.push('Margen bajo: solo ' + margenPct.toLocaleString('es-AR',{maximumFractionDigits:1}) + '% sobre el precio de venta del catálogo (' + fmtARS(catalogo.total) + ').');
+                  }
+                }
+              }
+            }
+            if (avisos.length){
+              precios.push({ proveedor: nombreProv, factura: f, item: it, fechaEf: fEf, avisos: avisos });
+            }
+          }
+        }
+      });
+    });
+    faltantes.sort((a,b) => (a.fechaEf||'').localeCompare(b.fechaEf||''));
+    precios.sort((a,b) => (b.fechaEf||'').localeCompare(a.fechaEf||''));
+    return { faltantes, precios };
+  }
+
+  function renderAlertasProveedores(){
+    const cont = document.getElementById('facAlertasResultado');
+    if (!cont) return;
+    const { faltantes, precios } = calcularAlertasProveedores();
+    if (!faltantes.length && !precios.length){
+      cont.innerHTML = '<p class="card-note" style="margin:0;">No encontré faltantes de NC ni precios llamativos por ahora. 👍</p>';
+      return;
+    }
+    let html = '';
+    if (faltantes.length){
+      html += '<div class="card-note" style="font-weight:700;color:var(--cream);margin:4px 0 6px 0;">⏳ Facturado hace ' + DIAS_FALTANTE_NC + '+ días, sin nota de crédito (' + faltantes.length + ')</div>' +
+        '<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;font-size:11.5px;margin-bottom:14px;"><thead><tr>' +
+        '<th style="text-align:left;padding:4px;">Proveedor</th><th style="text-align:left;padding:4px;">Título</th><th style="text-align:left;padding:4px;">Fecha</th><th style="text-align:right;padding:4px;">Días</th><th style="text-align:right;padding:4px;">Monto</th><th style="text-align:left;padding:4px;">Factura N°</th>' +
+        '</tr></thead><tbody>' +
+        faltantes.map(al => '<tr>' +
+          '<td style="padding:4px;">' + escapeHtmlProv(al.proveedor) + '</td>' +
+          '<td style="padding:4px;">' + escapeHtmlProv(al.item.descripcion||'—') + '</td>' +
+          '<td style="padding:4px;">' + escapeHtmlProv(al.fechaEf||'—') + '</td>' +
+          '<td class="num" style="padding:4px;color:var(--gold);font-weight:700;">' + al.dias + '</td>' +
+          '<td class="num" style="padding:4px;">' + (al.item.monto!=null ? fmtARS(al.item.monto) : '—') + '</td>' +
+          '<td style="padding:4px;">' + escapeHtmlProv(al.factura.numeroFactura||'—') + '</td>' +
+        '</tr>').join('') +
+        '</tbody></table></div>';
+    }
+    if (precios.length){
+      html += '<div class="card-note" style="font-weight:700;color:var(--cream);margin:4px 0 6px 0;">💲 Precios distintos al histórico o al catálogo (' + precios.length + ')</div>' +
+        precios.map(al => '<div style="border:1px solid var(--line);border-radius:8px;padding:8px 10px;margin-bottom:8px;background:rgba(0,0,0,.15);">' +
+          '<div class="card-note" style="margin:0 0 4px 0;"><b style="color:var(--cream);">' + escapeHtmlProv(al.proveedor) + '</b> — ' + escapeHtmlProv(al.item.descripcion||'—') + ' (' + escapeHtmlProv(al.fechaEf||'—') + (al.factura.numeroFactura ? ', factura N° ' + escapeHtmlProv(al.factura.numeroFactura) : '') + ')</div>' +
+          al.avisos.map(a => '<div class="card-note" style="margin:0;color:var(--gold);">⚠️ ' + escapeHtmlProv(a) + '</div>').join('') +
+        '</div>').join('');
+    }
+    cont.innerHTML = html;
+  }
+  const elFacAlertasBtn = document.getElementById('facAlertasBtn');
+  if (elFacAlertasBtn) elFacAlertasBtn.addEventListener('click', renderAlertasProveedores);
 
   function filaDetalleFactura(f){
     const items = Array.isArray(f.items) ? f.items : [];
@@ -12085,6 +12369,11 @@ renderAutoConclusions();
       if (a.tipo !== b.tipo) return a.tipo === 'diario' ? -1 : 1;
       return b.ventas - a.ventas;
     });
+    // % de devolución (rotación): cuánto de lo facturado volvió como NC. Es el
+    // mismo criterio para colorear la fila (semáforo) y para el CSV, así los
+    // dos coinciden siempre.
+    filas.forEach(fila => { fila.pctDevol = fila.cargas > 0 ? (fila.nc / fila.cargas) * 100 : null; });
+    ganSemResumenFilasActuales = filas;
 
     const tbody = document.querySelector('#ganSemResumenTable tbody');
     if (tbody){
@@ -12093,23 +12382,61 @@ renderAutoConclusions();
             const neto = fila.cargas - fila.nc;
             const ganancia = fila.ventas - neto;
             const etiqueta = (fila.tipo === 'diario' ? '📰 ' : '📚 ') + escapeHtmlProv(fila.nombre) + (fila.sinPrecio ? ' <span class="card-note" style="margin:0;">(sin precio cargado)</span>' : '');
+            let devolHtml = '—';
+            if (fila.pctDevol != null){
+              const color = fila.pctDevol > 30 ? 'var(--red-neg)' : (fila.pctDevol >= 15 ? 'var(--gold)' : 'var(--green-pos)');
+              const punto = fila.pctDevol > 30 ? '🔴' : (fila.pctDevol >= 15 ? '🟡' : '🟢');
+              devolHtml = '<span style="color:' + color + ';font-weight:700;" title="Devolución sobre lo facturado en el período">' + punto + ' ' + fila.pctDevol.toLocaleString('es-AR',{maximumFractionDigits:1}) + '%</span>';
+            }
             return '<tr>' +
               '<td>' + etiqueta + '</td>' +
               '<td class="num">' + fila.cantidad.toLocaleString('es-AR',{maximumFractionDigits:2}) + '</td>' +
               '<td class="num">' + fmtARS(neto) + '</td>' +
               '<td class="num">' + (fila.sinPrecio ? '—' : fmtARS(fila.ventas)) + '</td>' +
               '<td class="num">' + (fila.sinPrecio ? '—' : fmtARS(ganancia)) + '</td>' +
+              '<td class="num">' + devolHtml + '</td>' +
             '</tr>';
           }).join('')
-        : '<tr><td colspan="5" class="card-note">Sin datos para este período/filtro.</td></tr>';
+        : '<tr><td colspan="6" class="card-note">Sin datos para este período/filtro.</td></tr>';
     }
     const notaEl = document.getElementById('ganSemResumenNota');
     if (notaEl){
       notaEl.textContent = itemsSinPrecio > 0
-        ? '⚠️ Hay ítems marcados "(sin precio cargado)": no se les pudo calcular Ventas ni Ganancia porque ningún título del catálogo matchea esa descripción. La cantidad y lo facturado sí se muestran.'
-        : '';
+        ? '⚠️ Hay ítems marcados "(sin precio cargado)": no se les pudo calcular Ventas ni Ganancia porque ningún título del catálogo matchea esa descripción. La cantidad y lo facturado sí se muestran. El % Devol. es rotación: 🟢 menos del 15% vuelve como devolución, 🟡 entre 15% y 30%, 🔴 más del 30% (conviene pedir menos de ese título).'
+        : 'El % Devol. es rotación: 🟢 menos del 15% vuelve como devolución, 🟡 entre 15% y 30%, 🔴 más del 30% (conviene pedir menos de ese título).';
     }
   }
+  let ganSemResumenFilasActuales = [];
+  function exportarResumenPorTituloCsv(){
+    if (!ganSemResumenFilasActuales.length){ alert('Primero generá el resumen por título.'); return; }
+    const sep = ';';
+    const filas = [['Título','Tipo','Cantidad','Facturado neto','Ventas','Ganancia real','% Devolución']];
+    ganSemResumenFilasActuales.forEach(fila => {
+      const neto = fila.cargas - fila.nc;
+      const ganancia = fila.ventas - neto;
+      filas.push([
+        fila.nombre,
+        fila.tipo === 'diario' ? 'Diario' : 'Revista',
+        fila.cantidad.toLocaleString('es-AR',{maximumFractionDigits:2}),
+        neto.toFixed(2).replace('.',','),
+        fila.sinPrecio ? '' : fila.ventas.toFixed(2).replace('.',','),
+        fila.sinPrecio ? '' : ganancia.toFixed(2).replace('.',','),
+        fila.pctDevol != null ? fila.pctDevol.toFixed(1).replace('.',',') + '%' : ''
+      ]);
+    });
+    const csv = filas.map(fila => fila.map(campo => '"' + String(campo).replace(/"/g,'""') + '"').join(sep)).join('\r\n');
+    const blob = new Blob(['\uFEFF'+csv], {type:'text/csv;charset=utf-8;'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'resumen-por-titulo.csv';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  }
+  const elGanSemResumenExportarBtn = document.getElementById('ganSemResumenExportarBtn');
+  if (elGanSemResumenExportarBtn) elGanSemResumenExportarBtn.addEventListener('click', exportarResumenPorTituloCsv);
   const elGanSemResumenBtn = document.getElementById('ganSemResumenBtn');
   if (elGanSemResumenBtn){
     elGanSemResumenBtn.addEventListener('click', () => {
