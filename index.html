@@ -934,6 +934,42 @@ try {
 <button class="link-btn" id="itemsVerMasBtn" style="margin-top:10px;display:none;" type="button"></button>
 </div>
 <div class="card">
+<h2>Precio de venta — <span id="ventaProvNombre"></span></h2>
+<p class="card-note">Cargá acá el precio de tapa y el recargo interior de cada diario/publicación de este proveedor — el recargo interior es 100% ganancia del proveedor (vos no ganás nada de esa parte), así que se resta sola al calcular tu ganancia real más abajo. Con esto cargado, "Ganancia semanal" te va a mostrar cuánto ganaste de verdad, no solo lo facturado. Se carga una vez y se actualiza con cada aumento, sin perder el precio anterior (para que las semanas pasadas se sigan calculando con el precio que regía en ese momento).</p>
+<div id="ventaCatalogo" style="display:flex;flex-direction:column;gap:10px;margin-bottom:14px;"></div>
+<details class="cargar-advanced">
+<summary>+ Agregar título nuevo</summary>
+<div class="cargar-grid-2">
+<div class="range-group">
+<div class="range-label">Nombre (como figura en la factura)</div>
+<input id="ventaNuevoNombre" placeholder="Ej: Clarín" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;width:100%;box-sizing:border-box;" type="text"/>
+</div>
+<div class="range-group">
+<div class="range-label">Otros nombres con que puede aparecer (opcional, separados por coma)</div>
+<input id="ventaNuevoAlias" placeholder="Ej: clarin, diario clarin" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;width:100%;box-sizing:border-box;" type="text"/>
+</div>
+</div>
+<div class="range-group" style="margin-top:8px;">
+<div class="range-label">Vigente desde</div>
+<input id="ventaNuevoDesde" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;" type="date"/>
+</div>
+<div class="range-label" style="margin-top:10px;">Precio por día (tapa / recargo interior)</div>
+<div id="ventaNuevoPrecios" style="display:flex;flex-direction:column;gap:6px;margin-bottom:10px;"></div>
+<div class="cargar-grid-2">
+<div class="range-group">
+<div class="range-label" style="color:var(--gold);">Tapa en feriado/elección (opcional, 0 = precio normal del día)</div>
+<div id="ventaNuevoFeriadoTapaWrap"></div>
+</div>
+<div class="range-group">
+<div class="range-label" style="color:var(--gold);">Recargo en feriado/elección (opcional, 0 = precio normal del día)</div>
+<div id="ventaNuevoFeriadoRecargoWrap"></div>
+</div>
+</div>
+<button class="tab-btn" id="ventaBtnAgregarTitulo" style="border-radius:8px;margin-top:6px;" type="button">+ Agregar título</button>
+</details>
+<p class="card-note" id="ventaCatalogoMsg" style="min-height:14px;margin-top:8px;"></p>
+</div>
+<div class="card">
 <h2>Ganancia semanal — <span id="ganSemProvNombre"></span></h2>
 <p class="card-note">Cargas de facturas menos notas de crédito, semana por semana — pero no por la fecha en que se emitió el comprobante, sino por la fecha del diario/edición de cada producto (si no se cargó o no se pudo detectar esa fecha en el ítem, usa la de emisión del comprobante, como las revistas). Así una nota de crédito emitida el 16 pero que corrige un diario del 6 impacta en la semana del 6, no en la del 16. Si el proveedor no pone fecha sino el nombre del día (Lunes a Domingo), también se detecta: se usa la ocurrencia de ese día más cercana hacia atrás desde la fecha de emisión del comprobante.</p>
 <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;">
@@ -949,7 +985,7 @@ try {
 <p class="card-note" id="ganSemNota" style="margin-top:6px;"></p>
 <div class="kpi-grid" id="ganSemKpis" style="margin-top:10px;"></div>
 <div style="overflow-x:auto;margin-top:14px;">
-<table id="ganSemTable"><thead><tr><th>Semana</th><th style="text-align:right">Cargas</th><th style="text-align:right">Notas de crédito</th><th style="text-align:right">Diferencia neta</th></tr></thead><tbody></tbody></table>
+<table id="ganSemTable"><thead><tr><th>Semana</th><th style="text-align:right">Cargas</th><th style="text-align:right">Notas de crédito</th><th style="text-align:right">Facturado neto</th><th style="text-align:right">Ventas</th><th style="text-align:right">Ganancia real</th></tr></thead><tbody></tbody></table>
 </div>
 </div>
 <div class="card">
@@ -7290,6 +7326,7 @@ function armarBackupTexto(){
     categoriasBaseEliminadas: categoriasBaseEliminadas,
     categoriasBaseRenombres: categoriasBaseRenombres,
     facturasProveedores: (typeof window.getFacturasProveedores === 'function') ? window.getFacturasProveedores() : [],
+    preciosProveedores: (typeof window.getPreciosProveedores === 'function') ? window.getPreciosProveedores() : {},
     clientesReparto: (typeof window.getClientesRepartoBackup === 'function') ? window.getClientesRepartoBackup() : null,
     vencimientos: (typeof window.getVencimientosBackup === 'function') ? window.getVencimientosBackup() : null,
     reservasColecciones: (typeof window.getColeccionesBackup === 'function') ? window.getColeccionesBackup() : null
@@ -7397,6 +7434,9 @@ async function deshacerUltimaImportacion(){
     await storageSet('categorias-base-renombres', JSON.stringify(categoriasBaseRenombres));
     if (Array.isArray(data.facturasProveedores) && typeof window.restaurarFacturasProveedores === 'function'){
       await window.restaurarFacturasProveedores(data.facturasProveedores);
+    }
+    if (data.preciosProveedores && typeof window.restaurarPreciosProveedores === 'function'){
+      await window.restaurarPreciosProveedores(data.preciosProveedores);
     }
     if (data.clientesReparto && typeof window.restaurarClientesRepartoBackup === 'function'){
       await window.restaurarClientesRepartoBackup(data.clientesReparto);
@@ -7549,6 +7589,10 @@ async function procesarBackupTexto(texto, msgEl){
   if (Array.isArray(data.facturasProveedores) && typeof window.importarFacturasProveedores === 'function'){
     facturasAgregadas = await window.importarFacturasProveedores(data.facturasProveedores);
   }
+  let preciosAgregados = 0;
+  if (data.preciosProveedores && typeof window.importarPreciosProveedores === 'function'){
+    preciosAgregados = await window.importarPreciosProveedores(data.preciosProveedores);
+  }
   if (cr && typeof window.importarClientesRepartoBackup === 'function'){
     await window.importarClientesRepartoBackup(cr);
   }
@@ -7558,7 +7602,7 @@ async function procesarBackupTexto(texto, msgEl){
   if (rcBackup && typeof window.importarColeccionesBackup === 'function'){
     await window.importarColeccionesBackup(rcBackup);
   }
-  msgEl.textContent = `Importando ${nuevosMov} movimiento(s) nuevo(s)${actualizadosMov ? ` y ${actualizadosMov} editado(s)` : ''}${facturasAgregadas ? ` y ${facturasAgregadas} comprobante(s) de proveedores` : ''}${nuevosClientes ? ` y ${nuevosClientes} cliente(s) de reparto` : ''}${nuevosVencimientos ? ` y ${nuevosVencimientos} vencimiento(s) de servicio` : ''}${nuevosClientesColecciones ? ` y ${nuevosClientesColecciones} cliente(s) de colecciones` : ''}${repetidosMov ? ` (${repetidosMov} movimiento(s) ya estaban)` : ''}…`;
+  msgEl.textContent = `Importando ${nuevosMov} movimiento(s) nuevo(s)${actualizadosMov ? ` y ${actualizadosMov} editado(s)` : ''}${facturasAgregadas ? ` y ${facturasAgregadas} comprobante(s) de proveedores` : ''}${preciosAgregados ? ` y ${preciosAgregados} título(s) de precio de venta` : ''}${nuevosClientes ? ` y ${nuevosClientes} cliente(s) de reparto` : ''}${nuevosVencimientos ? ` y ${nuevosVencimientos} vencimiento(s) de servicio` : ''}${nuevosClientesColecciones ? ` y ${nuevosClientesColecciones} cliente(s) de colecciones` : ''}${repetidosMov ? ` (${repetidosMov} movimiento(s) ya estaban)` : ''}…`;
   const okMov = await storageSet('manual-entries', JSON.stringify(manualEntries));
   await storageSet('categorias-personalizadas', JSON.stringify(categoriasCustom));
   await storageSet('categorias-base-eliminadas', JSON.stringify(categoriasBaseEliminadas));
@@ -7616,7 +7660,8 @@ function armarBackupProveedoresTexto(){
     tipo: 'panel-agencia-backup-proveedores',
     version: 1,
     exportadoEl: new Date().toISOString(),
-    facturasProveedores: (typeof window.getFacturasProveedores === 'function') ? window.getFacturasProveedores() : []
+    facturasProveedores: (typeof window.getFacturasProveedores === 'function') ? window.getFacturasProveedores() : [],
+    preciosProveedores: (typeof window.getPreciosProveedores === 'function') ? window.getPreciosProveedores() : {}
   };
   return JSON.stringify(backup, null, 2);
 }
@@ -7659,14 +7704,22 @@ async function procesarBackupProveedoresTexto(texto, msgEl){
     const idsExistentes = new Set(window.getFacturasProveedores().map(f=>f.id));
     data.facturasProveedores.forEach(f=>{ if (f && f.id && !idsExistentes.has(f.id)) nuevasFacturas++; });
   }
-  if (nuevasFacturas === 0){
-    msgEl.textContent = 'Ese backup no tenía comprobantes nuevos para agregar (los que trae ya estaban cargados). No se cambió nada.';
+  let nuevosPrecios = 0;
+  if (data.preciosProveedores && typeof window.getPreciosProveedores === 'function'){
+    const actuales = window.getPreciosProveedores();
+    Object.keys(data.preciosProveedores).forEach(k => {
+      const idsExistentes = new Set(((actuales[k])||[]).map(t=>t.id));
+      (data.preciosProveedores[k]||[]).forEach(t => { if (t && t.id && !idsExistentes.has(t.id)) nuevosPrecios++; });
+    });
+  }
+  if (nuevasFacturas === 0 && nuevosPrecios === 0){
+    msgEl.textContent = 'Ese backup no tenía comprobantes ni precios nuevos para agregar (lo que trae ya estaba cargado). No se cambió nada.';
     return;
   }
   const fechaBackup = data.exportadoEl ? new Date(data.exportadoEl) : null;
   const fechaTxt = fechaBackup && !isNaN(fechaBackup) ? fechaBackup.toLocaleString('es-AR') : 'fecha desconocida';
   const resumen = `Este backup de Proveedores es del ${fechaTxt}.\n\n` +
-    `Se van a AGREGAR ${nuevasFacturas} comprobante(s) de proveedores nuevo(s). No se toca ni se reemplaza nada de lo que ya tenés cargado.\n\n` +
+    `Se van a AGREGAR ${nuevasFacturas} comprobante(s) y ${nuevosPrecios} título(s) de precio de venta nuevo(s). No se toca ni se reemplaza nada de lo que ya tenés cargado.\n\n` +
     `¿Confirmás la importación?`;
   if (!window.confirm(resumen)){
     msgEl.textContent = 'Importación cancelada. No se cambió nada.';
@@ -7677,7 +7730,9 @@ async function procesarBackupProveedoresTexto(texto, msgEl){
     return;
   }
   const agregadas = await window.importarFacturasProveedores(data.facturasProveedores);
-  msgEl.textContent = `Listo: se agregaron ${agregadas} comprobante(s) de proveedores nuevo(s).`;
+  const agregadosPrecios = (data.preciosProveedores && typeof window.importarPreciosProveedores === 'function')
+    ? await window.importarPreciosProveedores(data.preciosProveedores) : 0;
+  msgEl.textContent = `Listo: se agregaron ${agregadas} comprobante(s) y ${agregadosPrecios} título(s) de precio de venta nuevo(s).`;
 }
 
 async function importarBackupProveedoresArchivo(file){
@@ -9912,6 +9967,7 @@ renderAutoConclusions();
     renderResumenDeuda();
     renderCuentaCorriente();
     renderDesgloseItems();
+    renderCatalogoPrecios();
     renderGananciaSemanal();
   }
 
@@ -11107,6 +11163,289 @@ renderAutoConclusions();
     if (modal && e.target === modal) cerrarGanSemFacturaModal();
   });
 
+  /* ---- Precio de venta (tapa + recargo interior) por proveedor ----
+     Catálogo de títulos (diarios/revistas) de cada proveedor, con historial
+     de precios por día de la semana (para poder cargar aumentos sin perder
+     el precio que regía antes de esa fecha) y un precio especial opcional
+     para feriados/elecciones (reusa las fechas ya cargadas en "Clientes
+     reparto › Feriados con precio especial", si existen). Se usa para
+     calcular la Ganancia real más abajo: Ventas (según este catálogo) menos
+     lo Facturado neto por el proveedor. El recargo interior es 100% del
+     proveedor, así que ya queda descontado solo: si el catálogo está bien
+     cargado, la parte del recargo se cancela entre Ventas y Facturado. */
+  const K_PROV_PRECIOS = 'proveedores-precios-v1';
+  let provPrecios = {}; // { [proveedorKey]: [ {id,nombre,alias,historial:[{desde,tapa:[7],recargo:[7]}],feriadoTapa,feriadoRecargo} ] }
+  const DIAS_PROV = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+  let ventaNuevoPrecios = [800,700,700,700,700,700,900].map(v => ({tapa:v, recargo:0}));
+  let ventaNuevoFeriadoTapa = 0, ventaNuevoFeriadoRecargo = 0;
+  let ventaAumentoAbierto = null; // id de título con el formulario de aumento abierto
+
+  function uidProv(){ return Date.now().toString(36) + Math.random().toString(36).slice(2,8); }
+  function normTxtProv(s){ return String(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim(); }
+  function titulosDe(provKey){ if (!provPrecios[provKey]) provPrecios[provKey] = []; return provPrecios[provKey]; }
+
+  async function loadProvPrecios(){
+    try { const raw = await storageGet(K_PROV_PRECIOS); if (raw) provPrecios = JSON.parse(raw) || {}; } catch(e){ provPrecios = {}; }
+    renderCatalogoPrecios();
+    renderGananciaSemanal();
+  }
+  function saveProvPrecios(){ storageSet(K_PROV_PRECIOS, JSON.stringify(provPrecios)); }
+  // Distinta de importarFacturasProveedores: esta REEMPLAZA todo el objeto
+  // (se usa solo para "deshacer última importación").
+  window.restaurarPreciosProveedores = async function(obj){
+    provPrecios = (obj && typeof obj === 'object') ? obj : {};
+    await storageSet(K_PROV_PRECIOS, JSON.stringify(provPrecios));
+    renderCatalogoPrecios();
+    renderGananciaSemanal();
+  };
+  window.getPreciosProveedores = function(){ return provPrecios; };
+  window.importarPreciosProveedores = async function(obj){
+    if (!obj || typeof obj !== 'object') return 0;
+    let agregados = 0;
+    Object.keys(obj).forEach(provKey => {
+      const entrantes = Array.isArray(obj[provKey]) ? obj[provKey] : [];
+      const destino = titulosDe(provKey);
+      const idsExistentes = new Set(destino.map(t => t.id));
+      entrantes.forEach(t => { if (t && t.id && !idsExistentes.has(t.id)){ destino.push(t); idsExistentes.add(t.id); agregados++; } });
+    });
+    if (agregados > 0){ await storageSet(K_PROV_PRECIOS, JSON.stringify(provPrecios)); renderCatalogoPrecios(); renderGananciaSemanal(); }
+    return agregados;
+  };
+
+  // Vigencia aplicable a una fecha dada: la de "desde" más reciente que sea
+  // menor o igual a la fecha; si ninguna es anterior, usa la más antigua.
+  function historialVigente(titulo, fechaIso){
+    const hist = (titulo.historial || []).slice().sort((a,b) => a.desde < b.desde ? -1 : 1);
+    if (!hist.length) return null;
+    let elegido = hist.filter(h => h.desde <= fechaIso).pop();
+    if (!elegido) elegido = hist[0];
+    return elegido;
+  }
+  function esFechaFeriadoProv(fechaIso){
+    const feriados = (typeof window.getFcFeriados === 'function') ? window.getFcFeriados() : [];
+    return feriados.some(f => f.fecha === fechaIso);
+  }
+  function precioTituloEnFecha(titulo, fechaIso){
+    const hist = historialVigente(titulo, fechaIso);
+    if (!hist) return null;
+    const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(fechaIso || '');
+    if (!m) return null;
+    const dow = new Date(parseInt(m[1],10), parseInt(m[2],10)-1, parseInt(m[3],10)).getDay();
+    let tapa = Number(hist.tapa[dow]) || 0;
+    let recargo = Number(hist.recargo[dow]) || 0;
+    if (esFechaFeriadoProv(fechaIso)){
+      if (titulo.feriadoTapa) tapa = Number(titulo.feriadoTapa) || tapa;
+      if (titulo.feriadoRecargo) recargo = Number(titulo.feriadoRecargo) || recargo;
+    }
+    return { tapa: tapa, recargo: recargo, total: tapa + recargo };
+  }
+  // Empareja la descripción de un ítem de factura con un título del catálogo,
+  // por nombre o por alias (coincidencia de texto, sin importar tildes/mayúsculas).
+  // Si varios matchean, gana el alias más largo (más específico).
+  function matchTitulo(titulos, descripcion){
+    const t = normTxtProv(descripcion);
+    if (!t) return null;
+    let mejor = null, mejorLen = 0;
+    (titulos || []).forEach(tit => {
+      const candidatos = [tit.nombre].concat((tit.alias || '').split(',')).map(normTxtProv).filter(Boolean);
+      candidatos.forEach(c => { if (t.indexOf(c) !== -1 && c.length > mejorLen){ mejor = tit; mejorLen = c.length; } });
+    });
+    return mejor;
+  }
+
+  function buildVentaNuevoPreciosInputs(){
+    const wrap = document.getElementById('ventaNuevoPrecios');
+    if (!wrap) return;
+    wrap.innerHTML = DIAS_PROV.map((d,i) =>
+      '<div style="display:grid;grid-template-columns:70px 1fr 1fr;gap:6px;align-items:center;">' +
+      '<div class="range-label" style="margin:0;">' + d + '</div>' +
+      '<input type="number" min="0" step="0.01" class="ventaNuevoTapaInput" data-idx="' + i + '" placeholder="Tapa" value="' + (ventaNuevoPrecios[i].tapa || 0) + '" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:8px 10px;border-radius:8px;font-size:13.5px;width:100%;box-sizing:border-box;">' +
+      '<input type="number" min="0" step="0.01" class="ventaNuevoRecargoInput" data-idx="' + i + '" placeholder="Recargo interior" value="' + (ventaNuevoPrecios[i].recargo || 0) + '" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:8px 10px;border-radius:8px;font-size:13.5px;width:100%;box-sizing:border-box;">' +
+      '</div>'
+    ).join('');
+    wrap.querySelectorAll('.ventaNuevoTapaInput').forEach(inp => inp.addEventListener('input', () => { ventaNuevoPrecios[parseInt(inp.dataset.idx)].tapa = parseFloat(inp.value) || 0; }));
+    wrap.querySelectorAll('.ventaNuevoRecargoInput').forEach(inp => inp.addEventListener('input', () => { ventaNuevoPrecios[parseInt(inp.dataset.idx)].recargo = parseFloat(inp.value) || 0; }));
+    const wrapFT = document.getElementById('ventaNuevoFeriadoTapaWrap');
+    if (wrapFT){
+      wrapFT.innerHTML = '<input type="number" min="0" step="0.01" id="ventaNuevoFeriadoTapaInput" value="' + (ventaNuevoFeriadoTapa||0) + '" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:9px 10px;border-radius:8px;font-size:14px;width:100%;box-sizing:border-box;">';
+      document.getElementById('ventaNuevoFeriadoTapaInput').addEventListener('input', function(){ ventaNuevoFeriadoTapa = parseFloat(this.value) || 0; });
+    }
+    const wrapFR = document.getElementById('ventaNuevoFeriadoRecargoWrap');
+    if (wrapFR){
+      wrapFR.innerHTML = '<input type="number" min="0" step="0.01" id="ventaNuevoFeriadoRecargoInput" value="' + (ventaNuevoFeriadoRecargo||0) + '" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:9px 10px;border-radius:8px;font-size:14px;width:100%;box-sizing:border-box;">';
+      document.getElementById('ventaNuevoFeriadoRecargoInput').addEventListener('input', function(){ ventaNuevoFeriadoRecargo = parseFloat(this.value) || 0; });
+    }
+    const desdeEl = document.getElementById('ventaNuevoDesde');
+    if (desdeEl && !desdeEl.value) desdeEl.value = new Date().toISOString().slice(0,10);
+  }
+
+  function renderCatalogoPrecios(){
+    const prov = PROVEEDORES.find(p => p.key === provState.prov) || PROVEEDORES[0];
+    const nombreEl = document.getElementById('ventaProvNombre');
+    if (nombreEl) nombreEl.textContent = prov.label;
+    const wrap = document.getElementById('ventaCatalogo');
+    if (!wrap) return;
+    const titulos = titulosDe(prov.key);
+    if (!titulos.length){
+      wrap.innerHTML = '<p class="card-note" style="margin:0;">Todavía no cargaste ningún título de ' + escapeHtmlProv(prov.label) + '.</p>';
+      return;
+    }
+    wrap.innerHTML = titulos.map(tit => {
+      const hist = tit.historial.slice().sort((a,b) => a.desde < b.desde ? 1 : -1); // más reciente primero
+      const actual = hist[0] || { tapa:[0,0,0,0,0,0,0], recargo:[0,0,0,0,0,0,0], desde:'' };
+      const abierto = ventaAumentoAbierto === tit.id;
+      return '<div class="card" style="margin:0;padding:14px 14px;background:rgba(0,0,0,.16);">' +
+        '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;gap:8px;">' +
+          '<input type="text" class="ventaNombreInput" data-id="' + tit.id + '" value="' + escapeHtmlProv(tit.nombre) + '" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:8px 10px;border-radius:8px;font-size:14px;font-weight:700;flex:1;">' +
+          '<button type="button" class="ventaBtnQuitar" data-id="' + tit.id + '" style="background:none;border:none;color:var(--red-neg);cursor:pointer;font-size:15px;font-weight:900;">✕</button>' +
+        '</div>' +
+        '<input type="text" class="ventaAliasInput" data-id="' + tit.id + '" placeholder="Otros nombres con que puede aparecer en la factura (opcional, separados por coma)" value="' + escapeHtmlProv(tit.alias||'') + '" style="background:rgba(0,0,0,.15);border:1px solid var(--line);color:var(--cream-dim);padding:6px 9px;border-radius:8px;font-size:12.5px;width:100%;box-sizing:border-box;margin-bottom:10px;">' +
+        '<p class="card-note" style="margin:0 0 6px 0;">Precio vigente desde el ' + fmtFechaItemProv(actual.desde) + ':</p>' +
+        '<div style="display:flex;flex-direction:column;gap:6px;">' +
+        DIAS_PROV.map((d,i) =>
+          '<div style="display:grid;grid-template-columns:70px 1fr 1fr;gap:6px;align-items:center;">' +
+          '<div class="range-label" style="margin:0;">' + d + '</div>' +
+          '<input type="number" min="0" step="0.01" class="ventaTapaInput" data-id="' + tit.id + '" data-idx="' + i + '" value="' + (actual.tapa[i]||0) + '" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:7px 9px;border-radius:8px;font-size:13px;width:100%;box-sizing:border-box;">' +
+          '<input type="number" min="0" step="0.01" class="ventaRecargoInput" data-id="' + tit.id + '" data-idx="' + i + '" value="' + (actual.recargo[i]||0) + '" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:7px 9px;border-radius:8px;font-size:13px;width:100%;box-sizing:border-box;">' +
+          '</div>'
+        ).join('') +
+        '</div>' +
+        '<div class="card-note" style="display:grid;grid-template-columns:70px 1fr 1fr;gap:6px;margin-top:2px;"><div></div><div>Tapa</div><div>Recargo interior</div></div>' +
+        '<div class="cargar-grid-2" style="margin-top:10px;">' +
+          '<div class="range-group"><div class="range-label" style="color:var(--gold);">Tapa en feriado/elección (0 = normal)</div>' +
+          '<input type="number" min="0" step="0.01" class="ventaFeriadoTapaInput" data-id="' + tit.id + '" value="' + (tit.feriadoTapa||0) + '" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:8px 10px;border-radius:8px;font-size:13.5px;width:100%;box-sizing:border-box;"></div>' +
+          '<div class="range-group"><div class="range-label" style="color:var(--gold);">Recargo en feriado/elección (0 = normal)</div>' +
+          '<input type="number" min="0" step="0.01" class="ventaFeriadoRecargoInput" data-id="' + tit.id + '" value="' + (tit.feriadoRecargo||0) + '" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:8px 10px;border-radius:8px;font-size:13.5px;width:100%;box-sizing:border-box;"></div>' +
+        '</div>' +
+        '<div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;">' +
+          '<button type="button" class="link-btn ventaBtnToggleAumento" data-id="' + tit.id + '">' + (abierto ? '✕ Cancelar aumento' : '📈 Registrar aumento desde una fecha') + '</button>' +
+          (hist.length > 1 ? '<button type="button" class="link-btn ventaBtnToggleHistorial" data-id="' + tit.id + '">Ver historial de precios (' + hist.length + ')</button>' : '') +
+        '</div>' +
+        (abierto ? renderFormAumento(tit, actual) : '') +
+        '</div>';
+    }).join('');
+
+    wrap.querySelectorAll('.ventaNombreInput').forEach(inp => inp.addEventListener('change', async () => {
+      const tit = titulos.find(x => x.id === inp.dataset.id);
+      if (tit){ tit.nombre = inp.value.trim() || tit.nombre; await saveProvPrecios(); mostrarMsgVenta('Guardado ✔️'); }
+    }));
+    wrap.querySelectorAll('.ventaAliasInput').forEach(inp => inp.addEventListener('change', async () => {
+      const tit = titulos.find(x => x.id === inp.dataset.id);
+      if (tit){ tit.alias = inp.value.trim(); await saveProvPrecios(); mostrarMsgVenta('Guardado ✔️'); renderGananciaSemanal(); }
+    }));
+    wrap.querySelectorAll('.ventaTapaInput, .ventaRecargoInput').forEach(inp => inp.addEventListener('change', async () => {
+      const tit = titulos.find(x => x.id === inp.dataset.id);
+      if (!tit) return;
+      const hist = tit.historial.slice().sort((a,b) => a.desde < b.desde ? 1 : -1)[0];
+      if (!hist) return;
+      const campo = inp.classList.contains('ventaTapaInput') ? 'tapa' : 'recargo';
+      hist[campo][parseInt(inp.dataset.idx)] = parseFloat(inp.value) || 0;
+      await saveProvPrecios(); mostrarMsgVenta('Guardado ✔️'); renderGananciaSemanal();
+    }));
+    wrap.querySelectorAll('.ventaFeriadoTapaInput').forEach(inp => inp.addEventListener('change', async () => {
+      const tit = titulos.find(x => x.id === inp.dataset.id);
+      if (tit){ tit.feriadoTapa = parseFloat(inp.value) || 0; await saveProvPrecios(); mostrarMsgVenta('Guardado ✔️'); renderGananciaSemanal(); }
+    }));
+    wrap.querySelectorAll('.ventaFeriadoRecargoInput').forEach(inp => inp.addEventListener('change', async () => {
+      const tit = titulos.find(x => x.id === inp.dataset.id);
+      if (tit){ tit.feriadoRecargo = parseFloat(inp.value) || 0; await saveProvPrecios(); mostrarMsgVenta('Guardado ✔️'); renderGananciaSemanal(); }
+    }));
+    wrap.querySelectorAll('.ventaBtnQuitar').forEach(b => b.addEventListener('click', async () => {
+      const tit = titulos.find(x => x.id === b.dataset.id);
+      if (!tit) return;
+      if (!confirm('¿Eliminar "' + tit.nombre + '" del catálogo de precios? No borra ninguna factura, solo el precio de referencia.')) return;
+      provPrecios[prov.key] = titulos.filter(x => x.id !== b.dataset.id);
+      await saveProvPrecios(); renderCatalogoPrecios(); renderGananciaSemanal();
+    }));
+    wrap.querySelectorAll('.ventaBtnToggleAumento').forEach(b => b.addEventListener('click', () => {
+      ventaAumentoAbierto = (ventaAumentoAbierto === b.dataset.id) ? null : b.dataset.id;
+      renderCatalogoPrecios();
+    }));
+    wrap.querySelectorAll('.ventaBtnToggleHistorial').forEach(b => b.addEventListener('click', () => {
+      const el = wrap.querySelector('[data-historial-de="' + b.dataset.id + '"]');
+      if (el) el.style.display = (el.style.display === 'none') ? '' : 'none';
+    }));
+    wireFormsAumento(prov.key, titulos);
+  }
+
+  function renderFormAumento(tit, actual){
+    return '<div class="card" style="margin-top:10px;padding:12px;background:rgba(0,0,0,.22);">' +
+      '<div class="range-group"><div class="range-label">Nuevo precio vigente desde</div>' +
+      '<input type="date" class="ventaAumentoDesde" data-id="' + tit.id + '" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:8px 10px;border-radius:8px;font-size:14px;"></div>' +
+      '<div style="display:flex;flex-direction:column;gap:6px;margin-top:8px;">' +
+      DIAS_PROV.map((d,i) =>
+        '<div style="display:grid;grid-template-columns:70px 1fr 1fr;gap:6px;align-items:center;">' +
+        '<div class="range-label" style="margin:0;">' + d + '</div>' +
+        '<input type="number" min="0" step="0.01" class="ventaAumentoTapa" data-id="' + tit.id + '" data-idx="' + i + '" value="' + (actual.tapa[i]||0) + '" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:7px 9px;border-radius:8px;font-size:13px;width:100%;box-sizing:border-box;">' +
+        '<input type="number" min="0" step="0.01" class="ventaAumentoRecargo" data-id="' + tit.id + '" data-idx="' + i + '" value="' + (actual.recargo[i]||0) + '" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:7px 9px;border-radius:8px;font-size:13px;width:100%;box-sizing:border-box;">' +
+        '</div>'
+      ).join('') +
+      '</div>' +
+      '<button type="button" class="tab-btn ventaBtnGuardarAumento" data-id="' + tit.id + '" style="border-radius:8px;margin-top:10px;">Guardar aumento</button>' +
+      '<p class="card-note" data-historial-de="' + tit.id + '" style="display:none;margin-top:10px;">' + renderHistorialTexto(tit) + '</p>' +
+      '</div>';
+  }
+  function renderHistorialTexto(tit){
+    const hist = tit.historial.slice().sort((a,b) => a.desde < b.desde ? 1 : -1);
+    return hist.map(h => 'Desde ' + fmtFechaItemProv(h.desde) + ': ' + DIAS_PROV.map((d,i) => d.slice(0,3) + ' tapa ' + fmtARS(h.tapa[i]||0) + ' + rec. ' + fmtARS(h.recargo[i]||0)).join(' · ')).join('<br>');
+  }
+  function wireFormsAumento(provKey, titulos){
+    document.querySelectorAll('.ventaBtnGuardarAumento').forEach(b => b.addEventListener('click', async () => {
+      const tit = titulos.find(x => x.id === b.dataset.id);
+      if (!tit) return;
+      const desdeInp = document.querySelector('.ventaAumentoDesde[data-id="' + tit.id + '"]');
+      const desde = desdeInp ? desdeInp.value : '';
+      if (!desde){ mostrarMsgVenta('Elegí la fecha desde la que rige el aumento.', true); return; }
+      const tapa = [], recargo = [];
+      DIAS_PROV.forEach((d,i) => {
+        const tInp = document.querySelector('.ventaAumentoTapa[data-id="' + tit.id + '"][data-idx="' + i + '"]');
+        const rInp = document.querySelector('.ventaAumentoRecargo[data-id="' + tit.id + '"][data-idx="' + i + '"]');
+        tapa.push(parseFloat(tInp && tInp.value) || 0);
+        recargo.push(parseFloat(rInp && rInp.value) || 0);
+      });
+      tit.historial = tit.historial.filter(h => h.desde !== desde);
+      tit.historial.push({ desde: desde, tapa: tapa, recargo: recargo });
+      ventaAumentoAbierto = null;
+      await saveProvPrecios();
+      renderCatalogoPrecios(); renderGananciaSemanal();
+      mostrarMsgVenta('Aumento guardado ✔️');
+    }));
+  }
+  function mostrarMsgVenta(texto, esError){
+    const m = document.getElementById('ventaCatalogoMsg');
+    if (!m) return;
+    m.style.color = esError ? 'var(--red-neg)' : 'var(--green-pos)';
+    m.textContent = texto;
+  }
+
+  const elVentaBtnAgregarTitulo = document.getElementById('ventaBtnAgregarTitulo');
+  if (elVentaBtnAgregarTitulo){
+    buildVentaNuevoPreciosInputs();
+    elVentaBtnAgregarTitulo.addEventListener('click', async () => {
+      const nombre = (document.getElementById('ventaNuevoNombre').value || '').trim();
+      if (!nombre){ mostrarMsgVenta('Poné un nombre para el título.', true); return; }
+      const alias = (document.getElementById('ventaNuevoAlias').value || '').trim();
+      const desde = document.getElementById('ventaNuevoDesde').value || new Date().toISOString().slice(0,10);
+      const prov = PROVEEDORES.find(p => p.key === provState.prov) || PROVEEDORES[0];
+      titulosDe(prov.key).push({
+        id: uidProv(),
+        nombre: nombre,
+        alias: alias,
+        historial: [{ desde: desde, tapa: ventaNuevoPrecios.map(x=>x.tapa), recargo: ventaNuevoPrecios.map(x=>x.recargo) }],
+        feriadoTapa: ventaNuevoFeriadoTapa || 0,
+        feriadoRecargo: ventaNuevoFeriadoRecargo || 0
+      });
+      await saveProvPrecios();
+      document.getElementById('ventaNuevoNombre').value = '';
+      document.getElementById('ventaNuevoAlias').value = '';
+      ventaNuevoPrecios = [800,700,700,700,700,700,900].map(v => ({tapa:v, recargo:0}));
+      ventaNuevoFeriadoTapa = 0; ventaNuevoFeriadoRecargo = 0;
+      buildVentaNuevoPreciosInputs();
+      renderCatalogoPrecios(); renderGananciaSemanal();
+      mostrarMsgVenta('Título agregado ✔️');
+    });
+  }
+
   function renderGananciaSemanal(){
     const prov = PROVEEDORES.find(p => p.key === provState.prov) || PROVEEDORES[0];
     const nombreEl = document.getElementById('ganSemProvNombre');
@@ -11119,8 +11458,10 @@ renderAutoConclusions();
 
     const conItems = facturas.filter(f => f.proveedorKey === prov.key && Array.isArray(f.items) && f.items.length);
 
+    const titulosProv = titulosDe(prov.key);
     const semanas = Object.create(null);
-    let totalCargas = 0, totalNC = 0;
+    let totalCargas = 0, totalNC = 0, totalVentas = 0, itemsSinPrecio = 0;
+    const sinPrecioNombres = new Set();
     conItems.forEach(f => {
       const esNC = f.tipo === 'nota_credito';
       f.items.forEach(it => {
@@ -11135,16 +11476,30 @@ renderAutoConclusions();
         if (hastaInt !== null && fInt > hastaInt) return;
         const sem = semanaDeFechaProv(fechaEf);
         if (!sem) return;
-        if (!semanas[sem.key]) semanas[sem.key] = { key: sem.key, lunesIso: sem.lunesIso, domingoIso: sem.domingoIso, cargas: 0, nc: 0, movimientos: [] };
+        // Venta según el catálogo de precios: cantidad × (tapa+recargo) del
+        // título y día que corresponda. Si no hay título cargado que matchee
+        // la descripción, o no se cargó cantidad, no se suma a Ventas (no
+        // hay forma de saber cuánto se cobró) y se avisa aparte.
+        let venta = 0;
+        const cantidad = (it.cantidad != null && !isNaN(it.cantidad)) ? Number(it.cantidad) : null;
+        const titMatch = matchTitulo(titulosProv, it.descripcion);
+        const precio = titMatch ? precioTituloEnFecha(titMatch, fechaEf) : null;
+        if (titMatch && precio && cantidad != null){
+          venta = precio.total * cantidad;
+        } else {
+          itemsSinPrecio++;
+          sinPrecioNombres.add((it.descripcion || '(sin descripción)').trim());
+        }
+        if (!semanas[sem.key]) semanas[sem.key] = { key: sem.key, lunesIso: sem.lunesIso, domingoIso: sem.domingoIso, cargas: 0, nc: 0, ventas: 0, movimientos: [] };
         let mov = semanas[sem.key].movimientos.find(x => x.id === f.id);
         if (!mov){
           mov = { id:f.id, fecha:f.fecha||'', tipo:f.tipo||'', numeroFactura:f.numeroFactura||'', estado:f.estado||'', montoComprobante:Number(f.monto||0), montoItems:0, items:[] };
           semanas[sem.key].movimientos.push(mov);
         }
         mov.montoItems += monto;
-        mov.items.push({ descripcion:it.descripcion||'', edicion:it.edicion||'', cantidad:it.cantidad, monto:monto, fechaEfectiva:fechaEf||'' });
-        if (esNC){ semanas[sem.key].nc += monto; totalNC += monto; }
-        else { semanas[sem.key].cargas += monto; totalCargas += monto; }
+        mov.items.push({ descripcion:it.descripcion||'', edicion:it.edicion||'', cantidad:it.cantidad, monto:monto, fechaEfectiva:fechaEf||'', venta:venta });
+        if (esNC){ semanas[sem.key].nc += monto; totalNC += monto; semanas[sem.key].ventas -= venta; totalVentas -= venta; }
+        else { semanas[sem.key].cargas += monto; totalCargas += monto; semanas[sem.key].ventas += venta; totalVentas += venta; }
       });
     });
 
@@ -11153,9 +11508,14 @@ renderAutoConclusions();
     const notaEl = document.getElementById('ganSemNota');
     if (notaEl){
       const recorteTxt = ganSemTipo === 'diario' ? ' (solo diarios)' : (ganSemTipo === 'revista' ? ' (solo revistas y colecciones)' : '');
-      notaEl.textContent = conItems.length
+      let txt = conItems.length
         ? filas.length + (filas.length===1 ? ' semana con movimiento' : ' semanas con movimiento') + ' para ' + prov.label + recorteTxt + '.'
         : 'Todavía no hay productos con monto detectados en las facturas cargadas de ' + prov.label + ' (se completa al cargar comprobantes individuales con detalle de ítems).';
+      if (itemsSinPrecio > 0){
+        txt += ' ⚠️ ' + itemsSinPrecio + ' ítem(s) sin precio de venta cargado en el catálogo de arriba (no se sumaron a Ventas ni a Ganancia real): ' +
+          Array.from(sinPrecioNombres).slice(0,6).map(escapeHtmlProv).join(', ') + (sinPrecioNombres.size>6 ? '…' : '') + '.';
+      }
+      notaEl.textContent = txt;
     }
 
     const elKpis = document.getElementById('ganSemKpis');
@@ -11163,7 +11523,9 @@ renderAutoConclusions();
       elKpis.innerHTML =
         kpi('Cargas', fmtARS(totalCargas)) +
         kpi('Notas de crédito', fmtARS(totalNC)) +
-        kpi('Neto', fmtARS(totalCargas - totalNC));
+        kpi('Facturado neto', fmtARS(totalCargas - totalNC)) +
+        kpi('Ventas (según precio de venta)', fmtARS(totalVentas)) +
+        kpi('Ganancia real', fmtARS(totalVentas - (totalCargas - totalNC)), 'Ventas menos lo facturado neto. El recargo interior ya queda descontado solo.');
     }
 
     const elTbody = document.querySelector('#ganSemTable tbody');
@@ -11181,6 +11543,7 @@ renderAutoConclusions();
                   '<td style="padding:4px 6px;">' + escapeHtmlProv(it.edicion || '—') + '</td>' +
                   '<td style="padding:4px 6px;text-align:right;">' + (it.cantidad != null ? Number(it.cantidad).toLocaleString('es-AR',{maximumFractionDigits:2}) : '—') + '</td>' +
                   '<td style="padding:4px 6px;text-align:right;">' + fmtARS(it.monto) + '</td>' +
+                  '<td style="padding:4px 6px;text-align:right;">' + (it.venta ? fmtARS(it.venta) : '—') + '</td>' +
                   '<td style="padding:4px 6px;">' + (it.fechaEfectiva ? fmtFechaItemProv(it.fechaEfectiva) : '—') + '</td>' +
                 '</tr>'
               ).join('');
@@ -11190,22 +11553,25 @@ renderAutoConclusions();
                   (m.montoComprobante && Math.abs(m.montoComprobante - m.montoItems) > 0.009 ? ' · Comprobante: ' + (esCredito ? '−' : '') + fmtARS(m.montoComprobante) : '') +
                 '</div>' +
                 '<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;font-size:11.5px;"><thead><tr>' +
-                  '<th style="text-align:left;padding:4px 6px;">Título / producto</th><th style="text-align:left;padding:4px 6px;">Edición</th><th style="text-align:right;padding:4px 6px;">Cant.</th><th style="text-align:right;padding:4px 6px;">Monto</th><th style="text-align:left;padding:4px 6px;">Fecha aplicada</th>' +
+                  '<th style="text-align:left;padding:4px 6px;">Título / producto</th><th style="text-align:left;padding:4px 6px;">Edición</th><th style="text-align:right;padding:4px 6px;">Cant.</th><th style="text-align:right;padding:4px 6px;">Monto</th><th style="text-align:right;padding:4px 6px;">Venta</th><th style="text-align:left;padding:4px 6px;">Fecha aplicada</th>' +
                 '</tr></thead><tbody>' + itemsHtml + '</tbody></table></div>' +
               '</div>';
             }).join('');
+            const gananciaSem = s.ventas - neto;
             return '<tr data-gan-sem-row="' + s.key + '" style="cursor:pointer;">' +
               '<td><span data-gan-sem-arrow="' + s.key + '">▸</span> ' + fmtFechaItemProv(s.lunesIso) + ' – ' + fmtFechaItemProv(s.domingoIso) + '</td>' +
               '<td class="num">' + fmtARS(s.cargas) + '</td>' +
               '<td class="num">' + (s.nc ? fmtARS(s.nc) : '—') + '</td>' +
               '<td class="num">' + fmtARS(neto) + '</td>' +
+              '<td class="num">' + (s.ventas ? fmtARS(s.ventas) : '—') + '</td>' +
+              '<td class="num">' + (s.ventas ? fmtARS(gananciaSem) : '—') + '</td>' +
             '</tr>' +
-            '<tr data-gan-sem-detalle="' + s.key + '" style="display:none;"><td colspan="4" style="padding:8px 4px 12px 4px;background:rgba(0,0,0,.10);">' +
+            '<tr data-gan-sem-detalle="' + s.key + '" style="display:none;"><td colspan="6" style="padding:8px 4px 12px 4px;background:rgba(0,0,0,.10);">' +
               '<div class="card-note" style="margin-bottom:6px;">Comprobantes e ítems que forman esta semana según el filtro seleccionado.</div>' +
               (detalleHtml || '<div class="card-note">Sin detalle de comprobantes.</div>') +
             '</td></tr>';
           }).join('')
-        : '<tr><td colspan="4" class="card-note">Sin datos para mostrar en este rango.</td></tr>';
+        : '<tr><td colspan="6" class="card-note">Sin datos para mostrar en este rango.</td></tr>';
       elTbody.querySelectorAll('[data-gan-sem-row]').forEach(row => {
         row.addEventListener('click', () => {
           const id = row.getAttribute('data-gan-sem-row');
@@ -11316,6 +11682,7 @@ renderAutoConclusions();
 
   renderProveedores();
   loadFacturas();
+  loadProvPrecios();
 })();
 
 /* ---------------- ASISTENTE IA (Gemini gratis) ---------------- */
@@ -12370,6 +12737,10 @@ var fc = {
   diasSinReparto: [],
   feriados: []
 };
+// Expuesto para que el catálogo de "Precio de venta" en Proveedores pueda
+// reusar las mismas fechas de feriados/elecciones cargadas acá, sin tener
+// que cargarlas dos veces.
+window.getFcFeriados = function(){ return (fc.feriados||[]).map(function(f){ return {fecha:f.fecha, motivo:f.motivo}; }); };
 var fcEditingId = null;
 var fcUltimaLiquidacion = null;
 var fcDiasDiario = [];
