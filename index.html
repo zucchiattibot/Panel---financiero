@@ -941,8 +941,9 @@ try {
 <summary>+ Agregar título nuevo</summary>
 <div class="cargar-grid-2">
 <div class="range-group">
-<div class="range-label">Nombre (como figura en la factura)</div>
-<input id="ventaNuevoNombre" placeholder="Ej: Clarín" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;width:100%;box-sizing:border-box;" type="text"/>
+<div class="range-label">Nombre (elegilo de lo ya cargado en facturas, o escribilo a mano)</div>
+<select id="ventaNuevoNombre" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;width:100%;box-sizing:border-box;"></select>
+<input id="ventaNuevoNombreManual" placeholder="Ej: Clarín" style="display:none;margin-top:6px;background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;width:100%;box-sizing:border-box;" type="text"/>
 </div>
 <div class="range-group">
 <div class="range-label">Otros nombres con que puede aparecer (opcional, separados por coma)</div>
@@ -10263,6 +10264,7 @@ renderAutoConclusions();
     renderFacturas();
     renderResumenDeuda();
     renderCuentaCorriente();
+    if (typeof renderCatalogoPrecios === 'function') renderCatalogoPrecios();
   }
   function saveFacturas(){ storageSet(K_FACTURAS, JSON.stringify(facturas)); }
 
@@ -10587,6 +10589,7 @@ renderAutoConclusions();
       renderFacturas();
       renderResumenDeuda();
       renderCuentaCorriente();
+      renderCatalogoPrecios();
       div.remove();
     });
     div.querySelector('[data-accion="descartar"]').addEventListener('click', () => div.remove());
@@ -10677,6 +10680,7 @@ renderAutoConclusions();
       if (guardadas > 0){
         saveFacturas();
         renderFacturas();
+        renderCatalogoPrecios();
         renderResumenDeuda();
         renderCuentaCorriente();
       }
@@ -11279,10 +11283,57 @@ renderAutoConclusions();
     if (desdeEl && !desdeEl.value) desdeEl.value = new Date().toISOString().slice(0,10);
   }
 
+  // Nombres distintos que aparecen en las facturas/notas ya cargadas de un
+  // proveedor, para ofrecerlos como opciones al agregar un título nuevo en
+  // vez de tener que escribirlos de memoria. Se excluyen los que ya matchean
+  // con un título existente del catálogo (ya tienen precio cargado).
+  function listaTitulosSinPrecioDeFacturas(prov, titulosActuales){
+    const vistos = new Set();
+    const out = [];
+    facturas.filter(f => f.proveedorKey === prov.key && Array.isArray(f.items)).forEach(f => {
+      f.items.forEach(it => {
+        const desc = String(it.descripcion || '').trim();
+        if (!desc) return;
+        const norm = normTxtProv(desc);
+        if (vistos.has(norm)) return;
+        if (matchTitulo(titulosActuales, desc)) return;
+        vistos.add(norm);
+        out.push(desc);
+      });
+    });
+    out.sort((a,b) => a.localeCompare(b, 'es'));
+    return out;
+  }
+  function toggleNuevoNombreManual(){
+    const sel = document.getElementById('ventaNuevoNombre');
+    const manual = document.getElementById('ventaNuevoNombreManual');
+    if (!sel || !manual) return;
+    const esOtro = sel.value === '__otro__';
+    manual.style.display = esOtro ? 'block' : 'none';
+    if (esOtro) manual.focus();
+  }
+  function poblarSelectNuevoTitulo(){
+    const prov = PROVEEDORES.find(p => p.key === provState.prov) || PROVEEDORES[0];
+    const sel = document.getElementById('ventaNuevoNombre');
+    if (!sel) return;
+    const opciones = listaTitulosSinPrecioDeFacturas(prov, titulosDe(prov.key));
+    const valorPrevio = sel.value;
+    sel.innerHTML = '<option value="">' + (opciones.length ? '— Elegí un título de las facturas —' : '(No hay títulos sin precio en las facturas cargadas)') + '</option>' +
+      opciones.map(o => '<option value="' + escapeHtmlProv(o) + '">' + escapeHtmlProv(o) + '</option>').join('') +
+      '<option value="__otro__">✎ Escribir otro nombre manualmente…</option>';
+    if (valorPrevio && Array.from(sel.options).some(o => o.value === valorPrevio)) sel.value = valorPrevio;
+    if (!sel.dataset.wired){
+      sel.dataset.wired = '1';
+      sel.addEventListener('change', toggleNuevoNombreManual);
+    }
+    toggleNuevoNombreManual();
+  }
+
   function renderCatalogoPrecios(){
     const prov = PROVEEDORES.find(p => p.key === provState.prov) || PROVEEDORES[0];
     const nombreEl = document.getElementById('ventaProvNombre');
     if (nombreEl) nombreEl.textContent = prov.label;
+    poblarSelectNuevoTitulo();
     const wrap = document.getElementById('ventaCatalogo');
     if (!wrap) return;
     const titulos = titulosDe(prov.key);
@@ -11422,8 +11473,12 @@ renderAutoConclusions();
   if (elVentaBtnAgregarTitulo){
     buildVentaNuevoPreciosInputs();
     elVentaBtnAgregarTitulo.addEventListener('click', async () => {
-      const nombre = (document.getElementById('ventaNuevoNombre').value || '').trim();
-      if (!nombre){ mostrarMsgVenta('Poné un nombre para el título.', true); return; }
+      const selEl = document.getElementById('ventaNuevoNombre');
+      const esOtro = selEl.value === '__otro__';
+      const nombre = esOtro
+        ? (document.getElementById('ventaNuevoNombreManual').value || '').trim()
+        : (selEl.value || '').trim();
+      if (!nombre){ mostrarMsgVenta(esOtro ? 'Poné un nombre para el título.' : 'Elegí un título de la lista (o "Escribir otro nombre manualmente…").', true); return; }
       const alias = (document.getElementById('ventaNuevoAlias').value || '').trim();
       const desde = document.getElementById('ventaNuevoDesde').value || new Date().toISOString().slice(0,10);
       const prov = PROVEEDORES.find(p => p.key === provState.prov) || PROVEEDORES[0];
@@ -11436,7 +11491,7 @@ renderAutoConclusions();
         feriadoRecargo: ventaNuevoFeriadoRecargo || 0
       });
       await saveProvPrecios();
-      document.getElementById('ventaNuevoNombre').value = '';
+      document.getElementById('ventaNuevoNombreManual').value = '';
       document.getElementById('ventaNuevoAlias').value = '';
       ventaNuevoPrecios = [800,700,700,700,700,700,900].map(v => ({tapa:v, recargo:0}));
       ventaNuevoFeriadoTapa = 0; ventaNuevoFeriadoRecargo = 0;
