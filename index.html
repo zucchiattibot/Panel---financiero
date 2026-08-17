@@ -10928,59 +10928,104 @@ renderAutoConclusions();
   // Fila de detalle expandible para cada comprobante: muestra los datos completos
   // y, sobre todo, los títulos/productos cargados en el detalle de esa factura
   // (o un aviso si ese comprobante no tiene items cargados).
+  // Arma, en una sola pasada, la asignación 1 a 1 entre ítems de carga
+  // (facturas de compra) e ítems de NC: cada ítem de NC solo puede cubrir
+  // UNA carga, nunca varias. Antes, buscarNotaCreditoParaItem() volvía a
+  // barrer todas las NC desde cero en cada llamada, sin recordar que una NC
+  // ya había sido usada para "tapar" otra factura con el mismo título+edición
+  // (o título+fecha) — eso hacía que una sola NC pudiera aparecer como
+  // "✔️ Con NC" en dos o más facturas distintas al mismo tiempo. Ahora cada
+  // ítem de NC se marca como usado apenas se asigna a una carga, y no vuelve
+  // a estar disponible para las demás.
+  // Orden de asignación: cargas de más antigua a más nueva, así — ante
+  // ambigüedad — la NC disponible se asigna primero a la factura más vieja
+  // pendiente, que es la que cronológicamente corresponde.
+  // Se recalcula por completo en cada llamada (no se cachea entre llamadas)
+  // para evitar quedar desactualizada cuando se agrega, edita o borra una
+  // factura o NC.
+  function construirAsignacionNC(){
+    const ncDisponibles = [];
+    facturas.forEach(fNC => {
+      if (fNC.tipo !== 'nota_credito' || !Array.isArray(fNC.items)) return;
+      fNC.items.forEach((itNC, idx) => {
+        ncDisponibles.push({ factura: fNC, item: itNC, key: fNC.id + '::' + idx, usado: false });
+      });
+    });
+
+    const cargasItems = [];
+    facturas.forEach(f => {
+      if (f.tipo === 'nota_credito' || !Array.isArray(f.items)) return;
+      f.items.forEach((it, idx) => {
+        cargasItems.push({ factura: f, item: it, key: f.id + '::' + idx, fEf: fechaEfectivaItemProv(it, f) });
+      });
+    });
+    cargasItems.sort((a, b) => (a.fEf || '').localeCompare(b.fEf || ''));
+
+    const asignacion = Object.create(null);
+    cargasItems.forEach(c => {
+      const titulosProv = titulosDe(c.factura.proveedorKey);
+      const titMatch = matchTitulo(titulosProv, c.item.descripcion);
+      const edicionNorm = normTxtProv(c.item.edicion || '');
+      const codigoNorm = normTxtProv(c.item.codigoPublicacion || '');
+      const numFacturaNorm = normTxtProv(c.factura.numeroFactura || '');
+
+      // NUEVO — si alguna NC del proveedor declara "referenciaFactura" apuntando
+      // exactamente al N° de esta factura (dato que el proveedor imprime directo,
+      // sin ambigüedad), acotamos la búsqueda a esas NC. Si ninguna NC referencia
+      // esta factura (proveedor que no imprime esa referencia), se barren todas
+      // las NC disponibles del proveedor como antes.
+      let candidatas = ncDisponibles.filter(n => !n.usado && n.factura.proveedorKey === c.factura.proveedorKey);
+      if (numFacturaNorm){
+        const referenciadas = candidatas.filter(n => normTxtProv(n.factura.referenciaFactura || '') === numFacturaNorm);
+        if (referenciadas.length) candidatas = referenciadas;
+      }
+
+      let encontrada = null;
+      candidatas.forEach(n => {
+        if (encontrada) return;
+        // NUEVO — si ambos ítems traen "Cód. Publicación", ese código manda:
+        // identifica la publicación sin ambigüedad, a diferencia del texto libre
+        // de la descripción (que puede variar entre factura y NC). Si el código
+        // no coincide, este ítem de NC queda descartado (no cae al match por texto).
+        const codigoNCNorm = normTxtProv(n.item.codigoPublicacion || '');
+        if (codigoNorm && codigoNCNorm){
+          if (codigoNorm === codigoNCNorm) encontrada = n;
+          return;
+        }
+        const titNCMatch = matchTitulo(titulosProv, n.item.descripcion);
+        const mismoTitulo = (titMatch && titNCMatch)
+          ? titMatch.id === titNCMatch.id
+          : normTxtProv(n.item.descripcion || '') === normTxtProv(c.item.descripcion || '');
+        if (!mismoTitulo) return;
+        const edicionNCNorm = normTxtProv(n.item.edicion || '');
+        const mismaEdicion = (edicionNorm && edicionNCNorm) ? (edicionNorm === edicionNCNorm) : null;
+        const fechaEfNC = fechaEfectivaItemProv(n.item, n.factura);
+        const mismaFecha = (c.fEf && fechaEfNC) ? (c.fEf === fechaEfNC) : null;
+        const coincide = (mismaEdicion !== null) ? mismaEdicion : (mismaFecha !== null ? mismaFecha : false);
+        if (coincide) encontrada = n;
+      });
+
+      if (encontrada){
+        encontrada.usado = true;
+        asignacion[c.key] = encontrada.factura;
+      }
+    });
+
+    return asignacion;
+  }
+
   // Busca si ya existe, para el mismo proveedor, una nota de crédito que
   // corresponda al mismo título y a la misma edición (o, si no hay edición
   // cargada en alguno de los dos, a la misma fecha efectiva) que este ítem
   // de una factura de compra. Sirve para saber si una devolución ya fue
   // reconocida por el proveedor (ya tiene su NC) o todavía está pendiente.
+  // Cada NC solo cubre UNA carga (ver construirAsignacionNC).
   function buscarNotaCreditoParaItem(it, f){
-    if (!it || !f || f.tipo === 'nota_credito') return null;
-    const titulosProv = titulosDe(f.proveedorKey);
-    const titMatch = matchTitulo(titulosProv, it.descripcion);
-    const edicionNorm = normTxtProv(it.edicion || '');
-    const fechaEf = fechaEfectivaItemProv(it, f);
-    const codigoNorm = normTxtProv(it.codigoPublicacion || '');
-    const numFacturaNorm = normTxtProv(f.numeroFactura || '');
-
-    // NUEVO — si alguna NC del proveedor declara "referenciaFactura" apuntando
-    // exactamente al N° de esta factura (dato que el proveedor imprime directo,
-    // sin ambigüedad), acotamos la búsqueda a esas NC. Si ninguna NC referencia
-    // esta factura (proveedor que no imprime esa referencia), se barren todas
-    // las NC del proveedor como antes.
-    let candidatas = facturas.filter(fNC => fNC.proveedorKey === f.proveedorKey && fNC.tipo === 'nota_credito' && Array.isArray(fNC.items));
-    if (numFacturaNorm){
-      const referenciadas = candidatas.filter(fNC => normTxtProv(fNC.referenciaFactura || '') === numFacturaNorm);
-      if (referenciadas.length) candidatas = referenciadas;
-    }
-
-    let encontrada = null;
-    candidatas.forEach(fNC => {
-      if (encontrada) return;
-      fNC.items.forEach(itNC => {
-        if (encontrada) return;
-        // NUEVO — si ambos ítems traen "Cód. Publicación", ese código manda:
-        // identifica la publicación sin ambigüedad, a diferencia del texto libre
-        // de la descripción (que puede variar entre factura y NC). Si el código
-        // no coincide, esta itNC queda descartada (no cae al match por texto).
-        const codigoNCNorm = normTxtProv(itNC.codigoPublicacion || '');
-        if (codigoNorm && codigoNCNorm){
-          if (codigoNorm === codigoNCNorm) encontrada = fNC;
-          return;
-        }
-        const titNCMatch = matchTitulo(titulosProv, itNC.descripcion);
-        const mismoTitulo = (titMatch && titNCMatch)
-          ? titMatch.id === titNCMatch.id
-          : normTxtProv(itNC.descripcion || '') === normTxtProv(it.descripcion || '');
-        if (!mismoTitulo) return;
-        const edicionNCNorm = normTxtProv(itNC.edicion || '');
-        const mismaEdicion = (edicionNorm && edicionNCNorm) ? (edicionNorm === edicionNCNorm) : null;
-        const fechaEfNC = fechaEfectivaItemProv(itNC, fNC);
-        const mismaFecha = (fechaEf && fechaEfNC) ? (fechaEf === fechaEfNC) : null;
-        const coincide = (mismaEdicion !== null) ? mismaEdicion : (mismaFecha !== null ? mismaFecha : false);
-        if (coincide) encontrada = fNC;
-      });
-    });
-    return encontrada;
+    if (!it || !f || f.tipo === 'nota_credito' || !Array.isArray(f.items)) return null;
+    const idx = f.items.indexOf(it);
+    if (idx === -1) return null;
+    const asignacion = construirAsignacionNC();
+    return asignacion[f.id + '::' + idx] || null;
   }
   function badgeNC(it, f){
     if (!f || f.tipo === 'nota_credito') return '';
