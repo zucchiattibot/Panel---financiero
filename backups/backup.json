@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 4,
-  "exportadoEl": "2026-08-17T19:19:06.026Z",
+  "exportadoEl": "2026-08-18T13:04:54.786Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -1438,6 +1438,16 @@
       "detalle": "Grido helado almuerzo",
       "id": "m_msxe2lpa9c60wc",
       "modificadoEl": "2026-08-17T15:28:55.390Z"
+    },
+    {
+      "date": "2026-08-18",
+      "type": "egreso",
+      "amount": 64100,
+      "category": "Impuestos",
+      "account": "alquileres",
+      "detalle": "Municipal",
+      "id": "m_msyoczncp00gs0",
+      "modificadoEl": "2026-08-18T13:04:42.360Z"
     }
   ],
   "categoriasCustom": [
@@ -8371,6 +8381,276 @@
         ],
         "feriadoTapa": 0,
         "feriadoRecargo": 0
+      },
+      {
+        "id": "msxmkdbibcwqqz",
+        "nombre": "CAMP DE MUNDO - ENZO FERNANDEZ",
+        "alias": "CAMP DE MUND",
+        "historial": [
+          {
+            "desde": "2026-08-01",
+            "tapa": [
+              14000,
+              14000,
+              14000,
+              14000,
+              14000,
+              14000,
+              14000
+            ],
+            "recargo": [
+              3000,
+              3000,
+              3000,
+              3000,
+              3000,
+              3000,
+              3000
+            ]
+          }
+        ],
+        "feriadoTapa": 0,
+        "feriadoRecargo": 0
+      },
+      {
+        "id": "msxmp4yquqqodw",
+        "nombre": "HELLO KITTY 2026 - KITTY ARTISTA",
+        "alias": "HELLO KITTY",
+        "historial": [
+          {
+            "desde": "2026-08-01",
+            "tapa": [
+              15000,
+              15000,
+              15000,
+              15000,
+              15000,
+              15000,
+              15000
+            ],
+            "recargo": [
+              1000,
+              1000,
+              1000,
+              1000,
+              1000,
+              1000,
+              1000
+            ]
+          }
+        ],
+        "feriadoTapa": 0,
+        "feriadoRecargo": 0
+      },
+      {
+        "id": "msxmrgiup5vaue",
+        "nombre": "AUDIOCU LGZ 2026 - BETO",
+        "alias": "AUDIOCU LGZ",
+        "historial": [
+          {
+            "desde": "2026-08-01",
+            "tapa": [
+              15000,
+              15000,
+              15000,
+              15000,
+              15000,
+              15000,
+              15000
+            ],
+            "recargo": [
+              1000,
+              1000,
+              1000,
+              1000,
+              1000,
+              1000,
+              1000
+            ]
+          }
+        ],
+        "feriadoTapa": 0,
+        "feriadoRecargo": 0
+      },
+      {
+        "id": "msxmsoalxmowlz",
+        "nombre": "PEQ ORQUESTA 12 - LAS MATRACAS",
+        "alias": "PEQ ORQUESTA",
+        "historial": [
+          {
+            "desde": "2026-08-01",
+            "tapa": [
+              9990,
+              9990,
+              9990,
+              9990,
+              9990,
+              9990,
+              9990
+            ],
+            "recargo": [
+              3000,
+              3000,
+              3000,
+              3000,
+              3000,
+              3000,
+              3000
+            ]
+          }
+        ],
+        "feriadoTapa": 0,
+        "feriadoRecargo": 0
+      },
+      {
+        "id": "msxmwxobt2t0qa",
+        "nombre": "OLE NACIONAL - 04.08.2026 - 10902/2026",
+        "alias": "OLE NACIONAL",
+        "historial": [
+          {
+            "desde": "2026-08-01",
+            "tapa": [
+              2200,
+              2200,
+              2100,
+              2100,
+              2100,
+              2100,
+              2100
+            ],
+            "recargo": [
+              700,
+              700,
+              700,
+              700,
+              700,
+              700,
+              700
+            ]
+          }
+        ],
+        "feriadoTapa": 2400,
+        "feriadoRecargo": 700
+      },
+      {
+        "id": "msxmy7q6gmrhvv",
+        "nombre": "GENIOS CON LIB - 03.08.2026 - 1479/2026",
+        "alias": "GENIOS CON LIB",
+        "historial": [
+          {
+            "desde": "2026-08-01",
+            "tapa": [
+              5000,
+              5000,
+              5000,
+              5000,
+              5000,
+              5000,
+              5000
+            ],
+            "recargo": [
+              800,
+              800,
+              800,
+              800,
+              800,
+              800,
+              800
+            ]
+          }
+        ],
+        "feriadoTapa": 0,
+        "feriadoRecargo": 0
+      },
+      {
+        "id": "msxmzfjk2aa0yz",
+        "nombre": "JARDIN CON LOGO 279 AGOSTO",
+        "alias": "",
+        "historial": [
+          {
+            "desde": "2026-08-01",
+            "tapa": [
+              5500,
+              5500,
+              5500,
+              5500,
+              5500,
+              5500,
+              5500
+            ],
+            "recargo": [
+              800,
+              800,
+              800,
+              800,
+              800,
+              800,
+              800
+            ]
+          }
+        ],
+        "feriadoTapa": 0,
+        "feriadoRecargo": 0
+      },
+      {
+        "id": "msxn0k3mg7gadp",
+        "nombre": "PACK GENIOS - 03.08.2026 - 1479/2026",
+        "alias": "PACK GENIOS",
+        "historial": [
+          {
+            "desde": "2026-08-01",
+            "tapa": [
+              5000,
+              5000,
+              5000,
+              5000,
+              5000,
+              5000,
+              5000
+            ],
+            "recargo": [
+              800,
+              800,
+              800,
+              800,
+              800,
+              800,
+              800
+            ]
+          }
+        ],
+        "feriadoTapa": 0,
+        "feriadoRecargo": 0
+      },
+      {
+        "id": "msxn1pkpyshk2b",
+        "nombre": "ELLE MODA 387 - 07/2026",
+        "alias": "ELLE MODA",
+        "historial": [
+          {
+            "desde": "2026-08-01",
+            "tapa": [
+              11000,
+              11000,
+              11000,
+              11000,
+              11000,
+              11000,
+              11000
+            ],
+            "recargo": [
+              800,
+              800,
+              800,
+              800,
+              800,
+              800,
+              800
+            ]
+          }
+        ],
+        "feriadoTapa": 0,
+        "feriadoRecargo": 0
       }
     ],
     "lanacion": [
@@ -8494,7 +8774,8 @@
         "feriadoTapa": 0,
         "feriadoRecargo": 0
       }
-    ]
+    ],
+    "silmar": []
   },
   "clientesReparto": {
     "nombreReparto": "Agencia Albor",
@@ -8560,7 +8841,7 @@
         "precioFeriado": 3100
       }
     ],
-    "nextFacturaNum": 35,
+    "nextFacturaNum": 37,
     "clientes": [
       {
         "id": "msnrvzg8wadclt",
@@ -8810,9 +9091,64 @@
         ],
         "revistas": [],
         "suspensiones": [],
-        "facturas": [],
-        "proximoDesde": "2026-08-11",
-        "pagos": []
+        "facturas": [
+          {
+            "id": "msymr39t1dpc1r",
+            "numero": 36,
+            "fechaEmision": "2026-08-18",
+            "tipo": "rango",
+            "desde": "2026-08-11",
+            "hasta": "2026-08-17",
+            "items": [
+              {
+                "fecha": "2026-08-11",
+                "concepto": "Popular",
+                "cantidad": 1,
+                "precio": 2300,
+                "subtotal": 2300
+              },
+              {
+                "fecha": "2026-08-12",
+                "concepto": "Popular",
+                "cantidad": 1,
+                "precio": 2300,
+                "subtotal": 2300
+              },
+              {
+                "fecha": "2026-08-13",
+                "concepto": "Popular",
+                "cantidad": 1,
+                "precio": 2300,
+                "subtotal": 2300
+              },
+              {
+                "fecha": "2026-08-14",
+                "concepto": "Popular",
+                "cantidad": 1,
+                "precio": 2300,
+                "subtotal": 2300
+              },
+              {
+                "fecha": "2026-08-15",
+                "concepto": "Popular",
+                "cantidad": 1,
+                "precio": 2300,
+                "subtotal": 2300
+              },
+              {
+                "fecha": "2026-08-17",
+                "concepto": "Popular (feriado)",
+                "cantidad": 1,
+                "precio": 2500,
+                "subtotal": 2500
+              }
+            ],
+            "total": 14000,
+            "detallado": true
+          }
+        ],
+        "pagos": [],
+        "proximoDesde": "2026-08-18"
       },
       {
         "id": "msopstv7i0xdvh",
@@ -9538,7 +9874,9 @@
           }
         ],
         "enviosFoto": {
-          "rcmsx72b0vq7ohww": []
+          "rcmsx72b0vq7ohww": [
+            "rcmsx6ym4ko73b8u"
+          ]
         }
       },
       {
