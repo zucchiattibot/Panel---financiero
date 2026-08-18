@@ -105,6 +105,7 @@
   #panelCustomizeBox > .link-btn:last-of-type{border-bottom:none;}
 
   .panel{display:none;} .panel.active{display:block;}
+  .provsub-view{display:none;} .provsub-view.active{display:block;}
   .fc-view{display:none;} .fc-view.active{display:block;}
   .rc-view{display:none;} .rc-view.active{display:block;}
   #fcFacturaContenido table{width:100%;border-collapse:collapse;font-size:13px;}
@@ -823,6 +824,13 @@ try {
 </div>
 </div>
 <div class="panel" id="tab-proveedores">
+<div class="toggle-row" id="provSubTabs" style="margin-bottom:14px;">
+<button class="toggle-btn active" data-provsub="general" type="button">📊 General</button>
+<button class="toggle-btn" data-provsub="comprobantes" type="button">🧾 Comprobantes</button>
+<button class="toggle-btn" data-provsub="devoluciones" type="button">📦 Devoluciones</button>
+<button class="toggle-btn" data-provsub="analisis" type="button">📈 Análisis</button>
+</div>
+<div class="provsub-view active" id="provsub-general">
 <div class="card">
 <h2>Proveedores</h2>
 <p class="card-note">Pagos a cada proveedor/distribuidor, identificados por categoría en tus movimientos. "Más Logística" y "Cronista" no aparecen como categorías en tus datos cargados — si les pagás con otro nombre (por ej. dentro de "Varios"), avisame y lo ajusto. Mientras tanto sumé Página 12 y Perfil, que sí están.</p>
@@ -871,6 +879,15 @@ try {
 <p class="card-note">Compara, en el período elegido arriba ("Período y precios"), lo que sumaron las facturas/notas cargadas contra lo que efectivamente salió en tus movimientos bancarios a este proveedor.</p>
 <div class="kpi-grid" id="facVsPagKpis"></div>
 </div>
+<div class="card">
+<h2>Deuda total con proveedores</h2>
+<p class="card-note">Suma de las facturas cargadas y marcadas como pendientes, por proveedor — todas las categorías de esta pestaña.</p>
+<div style="overflow-x:auto;">
+<table id="facturaResumenTable"><thead><tr><th>Proveedor</th><th style="text-align:right">Deuda pendiente</th><th style="text-align:right">Vencidas</th></tr></thead><tbody></tbody></table>
+</div>
+</div>
+</div>
+<div class="provsub-view" id="provsub-comprobantes">
 <div class="card">
 <h2>Facturas y deudas — <span id="facProvNombre"></span></h2>
 <p class="card-note">Subí una foto o un PDF de cada comprobante de este proveedor: factura, nota de crédito o nota de débito. La IA (la misma clave de Gemini configurada en Asistente IA) identifica el tipo de documento, el número, las fechas y el monto — las notas de crédito descuentan de la deuda en vez de sumar. Vos revisás y confirmás antes de que quede guardado.</p>
@@ -989,6 +1006,46 @@ Ordenar por fecha de vencimiento (las que vencen antes, primero — las sin fech
 </div>
 </div>
 </div>
+</div>
+<div class="provsub-view" id="provsub-devoluciones">
+<div class="card">
+<h2>Devoluciones — <span id="devProvNombre"></span></h2>
+<p class="card-note">Registrá acá las devoluciones que hacés a cada proveedor (ejemplares no vendidos que le entregás de vuelta), con foto o archivo como respaldo. Después el panel las compara contra las notas de crédito que ya cargaste en "Comprobantes" para avisarte cuáles ya te acreditaron y cuáles todavía faltan.</p>
+<div class="toggle-row" id="devModoToggle" style="margin-top:10px;">
+<button class="toggle-btn active" data-modo="item" type="button">➕ Ítem individual</button>
+<button class="toggle-btn" data-modo="completa" type="button">📎 Devolución completa (remito)</button>
+</div>
+<p class="card-note" id="devModoNota" style="margin-top:6px;"></p>
+<div style="display:flex;gap:20px;flex-wrap:wrap;align-items:flex-start;margin:12px 0;">
+<label style="display:flex;flex-direction:column;gap:4px;">
+<span class="card-note" style="font-size:12px;">📷 Foto</span>
+<input accept="image/*" id="devFileInputFoto" multiple="" style="color:var(--cream);" type="file"/>
+</label>
+<label style="display:flex;flex-direction:column;gap:4px;">
+<span class="card-note" style="font-size:12px;">📄 Archivo (PDF)</span>
+<input accept="application/pdf,.pdf" id="devFileInputPdf" multiple="" style="color:var(--cream);" type="file"/>
+</label>
+</div>
+<button class="link-btn" id="devManualBtn" type="button">✏️ Cargar a mano, sin foto ni archivo</button>
+<p class="card-note" id="devEstado" style="margin-top:8px;"></p>
+<div id="devRevision" style="display:flex;flex-direction:column;gap:12px;margin-top:8px;"></div>
+</div>
+<div class="card">
+<h2>Historial de devoluciones — <span id="devHistProvNombre"></span></h2>
+<p class="card-note">Cada devolución cargada, con su estado frente a las notas de crédito. Tocá "🔄 Verificar" para volver a buscar coincidencias contra lo cargado en Comprobantes.</p>
+<div class="toggle-row" id="devFiltroEstado" style="margin-top:6px;">
+<button class="toggle-btn active" data-estado="todas" type="button">Todas</button>
+<button class="toggle-btn" data-estado="pendiente" type="button">⏳ Pendientes</button>
+<button class="toggle-btn" data-estado="aceptada" type="button">✔️ Acreditadas</button>
+</div>
+<div class="kpi-grid" id="devKpis" style="margin-top:10px;"></div>
+<div id="devLista" style="display:flex;flex-direction:column;gap:10px;margin-top:12px;"></div>
+<button class="link-btn" id="devVerificarTodasBtn" style="margin-top:10px;" type="button">🔄 Verificar todas contra notas de crédito</button>
+<button class="link-btn" id="devEliminarAcreditadasBtn" style="margin-top:10px;margin-left:14px;" type="button">🗑️ Eliminar todas las ya acreditadas</button>
+<p class="card-note" id="devListaMsg" style="min-height:14px;margin-top:6px;"></p>
+</div>
+</div>
+<div class="provsub-view" id="provsub-analisis">
 <div class="card" data-card-colapsable="prov-desglose">
 <div class="card-head"><h2>Desglose de productos — <span id="itemsProvNombre"></span></h2><button type="button" class="card-colapsar-btn" title="Mostrar/ocultar esta sección">▾</button></div>
 <div class="card-body">
@@ -1087,12 +1144,6 @@ Ordenar por fecha de vencimiento (las que vencen antes, primero — las sin fech
 <p class="card-note" id="ganSemResumenNota" style="margin-top:8px;"></p>
 <button class="link-btn" id="ganSemResumenExportarBtn" style="margin-top:8px;" type="button">⬇️ Exportar CSV</button>
 </div>
-</div>
-<div class="card">
-<h2>Deuda total con proveedores</h2>
-<p class="card-note">Suma de las facturas cargadas y marcadas como pendientes, por proveedor — todas las categorías de esta pestaña.</p>
-<div style="overflow-x:auto;">
-<table id="facturaResumenTable"><thead><tr><th>Proveedor</th><th style="text-align:right">Deuda pendiente</th><th style="text-align:right">Vencidas</th></tr></thead><tbody></tbody></table>
 </div>
 </div>
 </div>
@@ -10079,6 +10130,21 @@ renderAutoConclusions();
     provTabsWrap.appendChild(b);
   });
 
+  // ---- Subpestañas de la pestaña Proveedores (General / Comprobantes / Devoluciones / Análisis) ----
+  // Agrupa las muchas tarjetas de esta pestaña para que no haya que scrollear
+  // todo hacia abajo: se recuerda la última subpestaña elegida (por dispositivo).
+  const K_PROVSUB = 'proveedores-subtab-v1';
+  function provSubIrA(id, guardar){
+    document.querySelectorAll('#provSubTabs .toggle-btn[data-provsub]').forEach(b => b.classList.toggle('active', b.dataset.provsub === id));
+    document.querySelectorAll('.provsub-view').forEach(v => v.classList.toggle('active', v.id === 'provsub-' + id));
+    if (guardar !== false) storageSet(K_PROVSUB, id);
+    if (id === 'devoluciones' && typeof renderDevoluciones === 'function') renderDevoluciones();
+  }
+  document.querySelectorAll('#provSubTabs .toggle-btn[data-provsub]').forEach(btn => {
+    btn.addEventListener('click', () => { provSubIrA(btn.dataset.provsub); window.scrollTo({top:0, behavior:'smooth'}); });
+  });
+  storageGet(K_PROVSUB).then(id => { if (id && document.getElementById('provsub-' + id)) provSubIrA(id, false); });
+
   document.querySelectorAll('#provAdjToggle .toggle-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       provState.adj = btn.dataset.adj;
@@ -10176,6 +10242,7 @@ renderAutoConclusions();
     renderDesgloseItems();
     renderCatalogoPrecios();
     renderGananciaSemanal();
+    if (typeof renderDevoluciones === 'function') renderDevoluciones();
     const nombreEnvioEl = document.getElementById('envioProvNombre');
     if (nombreEnvioEl) nombreEnvioEl.textContent = prov.label;
     const wrapEnvio = document.getElementById('envioResultadoWrap');
@@ -12754,9 +12821,398 @@ renderAutoConclusions();
     ).join('');
   }
 
+  /* ---------------------------------------------------------------------
+     DEVOLUCIONES a proveedores — registro propio (independiente de lo que
+     el proveedor facture) de los ejemplares que se le devuelven, con foto
+     o archivo como respaldo. Se compara contra las notas de crédito ya
+     cargadas en "Comprobantes" (mismo array `facturas`) para avisar cuáles
+     ya fueron acreditadas y cuáles todavía faltan.
+     --------------------------------------------------------------------- */
+  const K_DEVOLUCIONES = 'devoluciones-proveedores-v1';
+  let devoluciones = [];
+  let devModoActual = 'item';
+  let devFiltroEstadoActual = 'todas';
+
+  async function loadDevoluciones(){
+    try { const raw = await storageGet(K_DEVOLUCIONES); if (raw) devoluciones = JSON.parse(raw) || []; } catch(e){ devoluciones = []; }
+    if (!Array.isArray(devoluciones)) devoluciones = [];
+    renderDevoluciones();
+  }
+  function saveDevoluciones(){ storageSet(K_DEVOLUCIONES, JSON.stringify(devoluciones)); }
+  window.getDevolucionesProveedores = function(){ return devoluciones; };
+
+  // ---- Adjuntos (fotos/archivos) en IndexedDB — mismo patrón que el resto del panel ----
+  const DEV_DB_NAME = 'devoluciones-adjuntos-db';
+  const DEV_DB_STORE = 'archivos';
+  let devDbPromise = null;
+  function devOpenDb(){
+    if (devDbPromise) return devDbPromise;
+    devDbPromise = new Promise((resolve, reject) => {
+      try {
+        if (!window.indexedDB){ reject(new Error('IndexedDB no disponible')); return; }
+        const req = indexedDB.open(DEV_DB_NAME, 1);
+        req.onupgradeneeded = () => { const db = req.result; if (!db.objectStoreNames.contains(DEV_DB_STORE)) db.createObjectStore(DEV_DB_STORE); };
+        req.onsuccess = () => resolve(req.result);
+        req.onerror = () => reject(req.error || new Error('No se pudo abrir IndexedDB'));
+      } catch(e){ reject(e); }
+    });
+    return devDbPromise;
+  }
+  function devDbPut(id, blob){
+    return devOpenDb().then(db => new Promise((resolve, reject) => {
+      const tx = db.transaction(DEV_DB_STORE, 'readwrite'); tx.objectStore(DEV_DB_STORE).put(blob, id);
+      tx.oncomplete = () => resolve(true); tx.onerror = () => reject(tx.error || new Error('No se pudo guardar el adjunto'));
+    }));
+  }
+  function devDbGet(id){
+    return devOpenDb().then(db => new Promise((resolve, reject) => {
+      const tx = db.transaction(DEV_DB_STORE, 'readonly'); const req = tx.objectStore(DEV_DB_STORE).get(id);
+      req.onsuccess = () => resolve(req.result || null); req.onerror = () => reject(req.error || new Error('No se pudo leer el adjunto'));
+    }));
+  }
+  function devDbDelete(id){
+    return devOpenDb().then(db => new Promise(resolve => {
+      const tx = db.transaction(DEV_DB_STORE, 'readwrite'); tx.objectStore(DEV_DB_STORE).delete(id);
+      tx.oncomplete = () => resolve(true); tx.onerror = () => resolve(false);
+    })).catch(() => false);
+  }
+
+  // ---- Matcheo contra notas de crédito ----
+  // Igual idea que construirAsignacionNC() (más arriba, para facturas), pero
+  // acá el "otro lado" son los ítems de las devoluciones cargadas a mano, no
+  // los ítems facturados. Cada ítem de NC solo puede cubrir UNA devolución.
+  function construirAsignacionNCDev(){
+    const ncDisponibles = [];
+    facturas.forEach(fNC => {
+      if (fNC.tipo !== 'nota_credito' || !Array.isArray(fNC.items)) return;
+      fNC.items.forEach((itNC, idx) => { ncDisponibles.push({ factura: fNC, item: itNC, key: fNC.id + '::' + idx, usado: false }); });
+    });
+    const devItems = [];
+    devoluciones.forEach(d => {
+      (d.items || []).forEach((it, idx) => { devItems.push({ dev: d, item: it, key: d.id + '::' + idx, fecha: d.fecha || '' }); });
+    });
+    devItems.sort((a, b) => (a.fecha || '').localeCompare(b.fecha || ''));
+    const asignacion = Object.create(null);
+    devItems.forEach(c => {
+      const titulosProv = titulosDe(c.dev.proveedorKey);
+      const titMatch = matchTitulo(titulosProv, c.item.descripcion);
+      const edicionNorm = normTxtProv(c.item.edicion || '');
+      const codigoNorm = normTxtProv(c.item.codigoPublicacion || '');
+      const candidatas = ncDisponibles.filter(n => !n.usado && n.factura.proveedorKey === c.dev.proveedorKey);
+      let encontrada = null;
+      candidatas.forEach(n => {
+        if (encontrada) return;
+        const codigoNCNorm = normTxtProv(n.item.codigoPublicacion || '');
+        if (codigoNorm && codigoNCNorm){ if (codigoNorm === codigoNCNorm) encontrada = n; return; }
+        const titNCMatch = matchTitulo(titulosProv, n.item.descripcion);
+        const mismoTitulo = (titMatch && titNCMatch) ? (titMatch.id === titNCMatch.id) : (normTxtProv(n.item.descripcion || '') === normTxtProv(c.item.descripcion || ''));
+        if (!mismoTitulo) return;
+        const edicionNCNorm = normTxtProv(n.item.edicion || '');
+        const mismaEdicion = (edicionNorm && edicionNCNorm) ? (edicionNorm === edicionNCNorm) : true;
+        if (mismaEdicion) encontrada = n;
+      });
+      if (encontrada){ encontrada.usado = true; asignacion[c.key] = encontrada; }
+    });
+    return asignacion;
+  }
+  // Recalcula, para UNA devolución, qué ítems ya tienen NC y cuáles faltan, y
+  // el estado general ('pendiente' | 'parcial' | 'aceptada'). Usa la asignación
+  // completa (todas las devoluciones a la vez) para no asignar la misma NC dos veces.
+  function recalcularEstadoDevolucion(d, asignacion){
+    const items = Array.isArray(d.items) ? d.items : [];
+    let acreditados = 0;
+    items.forEach((it, idx) => {
+      const enc = asignacion[d.id + '::' + idx];
+      if (enc){
+        it.ncFacturaId = enc.factura.id;
+        it.ncNumero = enc.factura.numeroFactura || null;
+        it.faltante = false;
+        acreditados++;
+      } else {
+        it.ncFacturaId = null;
+        it.ncNumero = null;
+        it.faltante = true;
+      }
+    });
+    const estadoAnterior = d.estado;
+    if (!items.length) d.estado = 'pendiente';
+    else if (acreditados === items.length) d.estado = 'aceptada';
+    else if (acreditados > 0) d.estado = 'parcial';
+    else d.estado = 'pendiente';
+    if (d.estado === 'aceptada' && estadoAnterior !== 'aceptada') d.acreditadaEl = new Date().toISOString();
+    if (d.estado !== 'aceptada') d.acreditadaEl = null;
+  }
+  function verificarTodasDevoluciones(){
+    const asignacion = construirAsignacionNCDev();
+    devoluciones.forEach(d => recalcularEstadoDevolucion(d, asignacion));
+    saveDevoluciones();
+  }
+
+  // ---- Carga (foto/archivo + IA, o a mano) ----
+  function devNuevoItem(){ return { descripcion:'', edicion:'', codigoPublicacion:'', cantidad:'', motivo:'', ncFacturaId:null, ncNumero:null, faltante:true }; }
+  function filaItemDevolucion(it, idx){
+    const inputCss = 'width:100%;box-sizing:border-box;background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:6px;border-radius:5px;font-size:12px;';
+    return '<tr data-item-idx="' + idx + '">' +
+      '<td style="padding:4px 4px 4px 0;"><input type="text" data-item-campo="descripcion" value="' + escapeHtmlProv(it.descripcion!=null?it.descripcion:'') + '" placeholder="Título / descripción" style="' + inputCss + '"></td>' +
+      '<td style="padding:4px 4px 4px 0;width:70px;"><input type="text" data-item-campo="edicion" value="' + escapeHtmlProv(it.edicion!=null?it.edicion:'') + '" placeholder="N° ed." style="' + inputCss + '"></td>' +
+      '<td style="padding:4px 4px 4px 0;width:70px;"><input type="text" data-item-campo="codigoPublicacion" value="' + escapeHtmlProv(it.codigoPublicacion!=null?it.codigoPublicacion:'') + '" placeholder="Cód. public." style="' + inputCss + '"></td>' +
+      '<td style="padding:4px 4px 4px 0;width:56px;"><input type="text" data-item-campo="cantidad" value="' + escapeHtmlProv(it.cantidad!=null?it.cantidad:'') + '" placeholder="Cant." style="' + inputCss + '"></td>' +
+      '<td style="padding:4px 0 4px 0;"><input type="text" data-item-campo="motivo" value="' + escapeHtmlProv(it.motivo!=null?it.motivo:'') + '" placeholder="Motivo (opcional)" style="' + inputCss + '"></td>' +
+      '<td style="padding:4px 0 4px 4px;"><button type="button" class="link-btn" data-item-del="' + idx + '" style="padding:2px 6px;">✕</button></td>' +
+      '</tr>';
+  }
+  function selectorProveedorDevolucion(valorActual){
+    return '<select data-campo="proveedor" style="width:100%;box-sizing:border-box;background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:8px;border-radius:6px;font-size:13.5px;">' +
+      PROVEEDORES.map(p => '<option value="' + p.key + '"' + (p.key===valorActual?' selected':'') + '>' + p.label + '</option>').join('') +
+      '</select>';
+  }
+  // Arma la tarjeta de revisión (previa a guardar) para una devolución nueva —
+  // sea que venga de un archivo leído por IA o de "cargar a mano". `archivosPendientes`
+  // son los File originales (foto/PDF) que se guardan en IndexedDB recién al confirmar.
+  function agregarRevisionDevolucion(datos, archivosPendientes, nombreArchivo){
+    const elRevision = document.getElementById('devRevision');
+    if (!elRevision) return;
+    const itemsLocal = (datos.items && datos.items.length ? datos.items.map(it => ({
+      descripcion: it.descripcion || '',
+      edicion: it.numero_edicion != null ? it.numero_edicion : (it.edicion||''),
+      codigoPublicacion: it.codigo_publicacion != null ? it.codigo_publicacion : (it.codigoPublicacion||''),
+      cantidad: it.cantidad != null ? it.cantidad : 1,
+      motivo: it.motivo || ''
+    })) : [devNuevoItem()]);
+    const div = document.createElement('div');
+    div.style.cssText = 'background:rgba(0,0,0,.18);border:1px solid var(--line);border-radius:12px;padding:14px;';
+    div.innerHTML =
+      (nombreArchivo ? '<div class="card-note" style="margin-bottom:8px;">Revisá lo que leyó la IA de "' + escapeHtmlProv(nombreArchivo) + '" y corregí lo que haga falta antes de guardar:</div>' : '<div class="card-note" style="margin-bottom:8px;">Cargá los datos de la devolución:</div>') +
+      '<div style="margin-bottom:6px;"><label class="card-note" style="display:block;margin-bottom:3px;">Proveedor</label>' + selectorProveedorDevolucion(datos.proveedorKey || provState.prov) + '</div>' +
+      campoRevision('fecha', 'Fecha de la devolución (AAAA-MM-DD)', datos.fecha || new Date().toISOString().slice(0,10)) +
+      campoRevision('numeroRemito', 'N° de remito (opcional)', datos.numero_remito || datos.numeroRemito || '') +
+      '<div style="margin-top:8px;">' +
+        '<label class="card-note" style="display:block;margin-bottom:4px;">Ítems devueltos:</label>' +
+        '<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;font-size:12px;"><thead><tr>' +
+          '<th style="text-align:left;padding:0 4px 4px 0;">Título / descripción</th><th style="text-align:left;padding:0 4px 4px 0;">N° ed.</th><th style="text-align:left;padding:0 4px 4px 0;">Cód. public.</th><th style="text-align:right;padding:0 4px 4px 0;">Cant.</th><th style="text-align:left;padding:0 4px 4px 0;">Motivo</th><th></th>' +
+        '</tr></thead><tbody data-items-body></tbody></table></div>' +
+        '<button type="button" class="link-btn" data-accion="agregar-item" style="margin-top:4px;">+ Agregar ítem</button>' +
+      '</div>' +
+      (archivosPendientes && archivosPendientes.length ? '<p class="card-note" style="margin-top:8px;">📎 ' + archivosPendientes.length + ' adjunto(s) se guardan junto con esta devolución.</p>' : '<p class="card-note" style="margin-top:8px;color:var(--gold);">Sin foto ni archivo adjunto.</p>') +
+      '<div style="display:flex;gap:8px;margin-top:10px;">' +
+        '<button type="button" class="toggle-btn" data-accion="guardar" style="flex:1;">Guardar</button>' +
+        '<button type="button" class="toggle-btn" data-accion="descartar" style="flex:1;">Descartar</button>' +
+      '</div>';
+    elRevision.appendChild(div);
+    const itemsBody = div.querySelector('[data-items-body]');
+    function pintarItems(){
+      itemsBody.innerHTML = itemsLocal.map((it, idx) => filaItemDevolucion(it, idx)).join('');
+      itemsBody.querySelectorAll('[data-item-del]').forEach(b => {
+        b.addEventListener('click', () => { const i = parseInt(b.getAttribute('data-item-del'),10); itemsLocal.splice(i,1); pintarItems(); });
+      });
+      itemsBody.querySelectorAll('[data-item-campo]').forEach(inp => {
+        inp.addEventListener('input', () => {
+          const tr = inp.closest('tr'); const idx = parseInt(tr.getAttribute('data-item-idx'),10);
+          itemsLocal[idx][inp.getAttribute('data-item-campo')] = inp.value;
+        });
+      });
+    }
+    pintarItems();
+    div.querySelector('[data-accion="agregar-item"]').addEventListener('click', () => { itemsLocal.push(devNuevoItem()); pintarItems(); });
+    div.querySelector('[data-accion="descartar"]').addEventListener('click', () => div.remove());
+    div.querySelector('[data-accion="guardar"]').addEventListener('click', async () => {
+      const get = (campo) => { const e = div.querySelector('[data-campo="' + campo + '"]'); return e ? e.value.trim() : ''; };
+      const proveedorKey = get('proveedor') || provState.prov;
+      const fecha = get('fecha') || null;
+      const numeroRemito = get('numeroRemito') || null;
+      const itemsGuardar = itemsLocal.map(it => {
+        const cantTxt = String(it.cantidad!=null?it.cantidad:'').trim();
+        const cantNum = cantTxt !== '' ? parseFloat(cantTxt.replace(',', '.')) : 1;
+        return {
+          descripcion: String(it.descripcion||'').trim(),
+          edicion: String(it.edicion||'').trim() || null,
+          codigoPublicacion: String(it.codigoPublicacion||'').trim() || null,
+          cantidad: (!isNaN(cantNum) && cantNum) ? cantNum : 1,
+          motivo: String(it.motivo||'').trim() || null,
+          ncFacturaId: null, ncNumero: null, faltante: true
+        };
+      }).filter(it => it.descripcion);
+      if (!itemsGuardar.length){ alert('Cargá al menos un ítem con título antes de guardar.'); return; }
+      const id = 'dev_' + Date.now() + '_' + Math.random().toString(36).slice(2,7);
+      const adjuntos = [];
+      if (archivosPendientes && archivosPendientes.length){
+        for (const a of archivosPendientes){
+          const adjId = id + '_a' + adjuntos.length;
+          try { await devDbPut(adjId, a.file); adjuntos.push({ id: adjId, nombre: a.file.name, mime: a.file.type || 'application/octet-stream', bytes: a.file.size }); }
+          catch(e){ /* si falla el guardado del adjunto, seguimos igual guardando los datos */ }
+        }
+      }
+      devoluciones.push({
+        id, proveedorKey, fecha, numeroRemito, modo: devModoActual,
+        items: itemsGuardar, adjuntos, estado: 'pendiente', acreditadaEl: null,
+        cargadaEl: new Date().toISOString()
+      });
+      verificarTodasDevoluciones();
+      renderDevoluciones();
+      div.remove();
+    });
+  }
+  function manejarSeleccionDevolucion(inputEl){
+    if (!inputEl) return;
+    inputEl.addEventListener('change', async () => {
+      const files = Array.from(inputEl.files || []);
+      inputEl.value = '';
+      if (!files.length) return;
+      const elEstado = document.getElementById('devEstado');
+      if (typeof window.extraerDevolucionConIA !== 'function'){
+        if (elEstado) elEstado.textContent = 'El módulo de IA todavía no cargó. Recargá la página e intentá de nuevo.';
+        return;
+      }
+      for (const file of files){
+        if (file.size > 15*1024*1024){
+          if (elEstado) elEstado.textContent = '"' + file.name + '" pesa demasiado (más de 15 MB).';
+          continue;
+        }
+        if (elEstado) elEstado.textContent = 'Analizando "' + file.name + '" con IA...';
+        try {
+          const base64 = await fileToBase64Prov(file);
+          const datos = await window.extraerDevolucionConIA(base64, file.type || 'image/jpeg');
+          datos.proveedorKey = provState.prov;
+          agregarRevisionDevolucion(datos, [{ file, base64, mimeType: file.type || 'image/jpeg' }], file.name);
+          if (elEstado) elEstado.textContent = '';
+        } catch(err){
+          if (elEstado) elEstado.textContent = '⚠️ "' + file.name + '": ' + (err && err.message ? err.message : 'no se pudo analizar.');
+        }
+      }
+    });
+  }
+
+  // ---- Historial / listado ----
+  function fmtDevAdjuntos(d){
+    if (!d.adjuntos || !d.adjuntos.length) return '<span style="color:var(--muted);">Sin adjunto</span>';
+    return d.adjuntos.map(a => '<a href="#" data-ver-adjunto="' + a.id + '" style="color:var(--blue);text-decoration:underline;">' + (a.mime && a.mime.indexOf('pdf')>=0 ? '📄' : '📷') + ' ' + escapeHtmlProv(a.nombre||'adjunto') + '</a>').join(', ');
+  }
+  function badgeEstadoDev(d){
+    if (d.estado === 'aceptada') return '<span style="color:var(--green-pos);font-weight:700;">✔️ Acreditada</span>';
+    if (d.estado === 'parcial') return '<span style="color:var(--gold);font-weight:700;">⚠️ Parcial — falta acreditar algún ítem</span>';
+    return '<span style="color:var(--red-neg);font-weight:700;">⏳ Pendiente de acreditar</span>';
+  }
+  function renderDevoluciones(){
+    const elKpis = document.getElementById('devKpis');
+    const elLista = document.getElementById('devLista');
+    const elNombre1 = document.getElementById('devProvNombre');
+    const elNombre2 = document.getElementById('devHistProvNombre');
+    if (!elLista) return; // la sección todavía no se pintó en el DOM
+    const prov = PROVEEDORES.find(p => p.key === provState.prov) || PROVEEDORES[0];
+    if (elNombre1) elNombre1.textContent = prov.label;
+    if (elNombre2) elNombre2.textContent = prov.label;
+
+    const delProv = devoluciones.filter(d => d.proveedorKey === provState.prov);
+    const pendientes = delProv.filter(d => d.estado !== 'aceptada').length;
+    const aceptadas = delProv.filter(d => d.estado === 'aceptada').length;
+    if (elKpis){
+      elKpis.innerHTML = kpi('Devoluciones cargadas', String(delProv.length)) +
+        kpi('Pendientes / parciales', String(pendientes)) +
+        kpi('Acreditadas', String(aceptadas));
+    }
+
+    let lista = delProv;
+    if (devFiltroEstadoActual === 'pendiente') lista = lista.filter(d => d.estado !== 'aceptada');
+    else if (devFiltroEstadoActual === 'aceptada') lista = lista.filter(d => d.estado === 'aceptada');
+    lista = [...lista].sort((a,b) => (b.fecha||'').localeCompare(a.fecha||'') || (b.cargadaEl||'').localeCompare(a.cargadaEl||''));
+
+    elLista.innerHTML = lista.length ? lista.map(d => {
+      const itemsHtml = (d.items||[]).map(it =>
+        '<div style="display:flex;justify-content:space-between;gap:8px;padding:3px 0;font-size:12.5px;border-bottom:1px solid var(--line);">' +
+          '<span>' + escapeHtmlProv(it.descripcion) + (it.edicion?' · Ed. '+escapeHtmlProv(it.edicion):'') + ' × ' + (it.cantidad||1) + (it.motivo?' <span style="color:var(--muted);">('+escapeHtmlProv(it.motivo)+')</span>':'') + '</span>' +
+          '<span>' + (it.faltante ? '<span style="color:var(--red-neg);">⏳ sin NC</span>' : '<span style="color:var(--green-pos);">✔️'+(it.ncNumero?' NC '+escapeHtmlProv(it.ncNumero):'')+'</span>') + '</span>' +
+        '</div>'
+      ).join('');
+      return '<div style="background:rgba(0,0,0,.18);border:1px solid var(--line);border-radius:12px;padding:12px 14px;" data-dev-id="' + d.id + '">' +
+        '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;flex-wrap:wrap;">' +
+          '<div><strong>' + (d.fecha ? fmtFechaCorta(fechaAIntProv(d.fecha)) : 'Sin fecha') + '</strong>' + (d.numeroRemito ? ' · Remito ' + escapeHtmlProv(d.numeroRemito) : '') + (d.modo==='completa' ? ' · <span class="card-note" style="margin:0;">remito completo</span>' : '') + '</div>' +
+          '<div>' + badgeEstadoDev(d) + '</div>' +
+        '</div>' +
+        '<div style="margin-top:8px;">' + itemsHtml + '</div>' +
+        '<div class="card-note" style="margin-top:8px;">' + fmtDevAdjuntos(d) + '</div>' +
+        '<div style="display:flex;gap:14px;margin-top:8px;">' +
+          '<button type="button" class="link-btn" data-dev-verificar="' + d.id + '">🔄 Verificar</button>' +
+          '<button type="button" class="link-btn" data-dev-eliminar="' + d.id + '" style="color:var(--red-neg);">🗑️ Eliminar' + (d.estado==='aceptada' ? ' (ya acreditada)' : '') + '</button>' +
+        '</div>' +
+      '</div>';
+    }).join('') : '<p class="card-note">Sin devoluciones cargadas' + (devFiltroEstadoActual!=='todas' ? ' con este filtro' : '') + ' para ' + escapeHtmlProv(prov.label) + '.</p>';
+
+    elLista.querySelectorAll('[data-dev-verificar]').forEach(b => {
+      b.addEventListener('click', () => { verificarTodasDevoluciones(); renderDevoluciones(); });
+    });
+    elLista.querySelectorAll('[data-dev-eliminar]').forEach(b => {
+      b.addEventListener('click', async () => {
+        const id = b.getAttribute('data-dev-eliminar');
+        const d = devoluciones.find(x => x.id === id);
+        if (!d) return;
+        if (!confirm('¿Eliminar esta devolución' + (d.estado==='aceptada' ? ' ya acreditada' : '') + '? No se puede deshacer.')) return;
+        for (const a of (d.adjuntos||[])) { try { await devDbDelete(a.id); } catch(e){} }
+        devoluciones = devoluciones.filter(x => x.id !== id);
+        saveDevoluciones();
+        renderDevoluciones();
+      });
+    });
+    elLista.querySelectorAll('[data-ver-adjunto]').forEach(a => {
+      a.addEventListener('click', async (ev) => {
+        ev.preventDefault();
+        const id = a.getAttribute('data-ver-adjunto');
+        try {
+          const blob = await devDbGet(id);
+          if (!blob){ alert('No se pudo encontrar el adjunto.'); return; }
+          const url = URL.createObjectURL(blob);
+          window.open(url, '_blank');
+          setTimeout(() => URL.revokeObjectURL(url), 30000);
+        } catch(e){ alert('No se pudo abrir el adjunto.'); }
+      });
+    });
+  }
+
+  // ---- Wiring de la sección Devoluciones (una sola vez) ----
+  document.querySelectorAll('#devModoToggle .toggle-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      devModoActual = btn.dataset.modo;
+      document.querySelectorAll('#devModoToggle .toggle-btn').forEach(b => b.classList.toggle('active', b === btn));
+      const nota = document.getElementById('devModoNota');
+      if (nota) nota.textContent = devModoActual === 'completa'
+        ? 'Subí la foto o el PDF del remito completo: la IA separa todos los ítems devueltos de una vez.'
+        : 'Subí la foto o el archivo de un solo ítem devuelto (por ej. la portada del ejemplar), o agregalo a mano.';
+    });
+  });
+  manejarSeleccionDevolucion(document.getElementById('devFileInputFoto'));
+  manejarSeleccionDevolucion(document.getElementById('devFileInputPdf'));
+  const elDevManualBtn = document.getElementById('devManualBtn');
+  if (elDevManualBtn) elDevManualBtn.addEventListener('click', () => {
+    agregarRevisionDevolucion({ proveedorKey: provState.prov, fecha: new Date().toISOString().slice(0,10), items: [] }, [], null);
+  });
+  document.querySelectorAll('#devFiltroEstado .toggle-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      devFiltroEstadoActual = btn.dataset.estado;
+      document.querySelectorAll('#devFiltroEstado .toggle-btn').forEach(b => b.classList.toggle('active', b === btn));
+      renderDevoluciones();
+    });
+  });
+  const elDevVerificarTodasBtn = document.getElementById('devVerificarTodasBtn');
+  if (elDevVerificarTodasBtn) elDevVerificarTodasBtn.addEventListener('click', () => {
+    verificarTodasDevoluciones();
+    renderDevoluciones();
+    const msg = document.getElementById('devListaMsg'); if (msg){ msg.textContent = 'Verificado ✔️'; setTimeout(()=>{ if (msg.textContent==='Verificado ✔️') msg.textContent=''; }, 2500); }
+  });
+  const elDevEliminarAcreditadasBtn = document.getElementById('devEliminarAcreditadasBtn');
+  if (elDevEliminarAcreditadasBtn) elDevEliminarAcreditadasBtn.addEventListener('click', async () => {
+    const delProv = devoluciones.filter(d => d.proveedorKey === provState.prov && d.estado === 'aceptada');
+    if (!delProv.length){ const msg = document.getElementById('devListaMsg'); if (msg) msg.textContent = 'No hay devoluciones acreditadas de ' + (PROVEEDORES.find(p=>p.key===provState.prov)||{}).label + ' para eliminar.'; return; }
+    if (!confirm('¿Eliminar ' + delProv.length + ' devolución(es) ya acreditada(s) de este proveedor? No se puede deshacer.')) return;
+    for (const d of delProv){ for (const a of (d.adjuntos||[])) { try { await devDbDelete(a.id); } catch(e){} } }
+    const idsBorrar = new Set(delProv.map(d => d.id));
+    devoluciones = devoluciones.filter(d => !idsBorrar.has(d.id));
+    saveDevoluciones();
+    renderDevoluciones();
+  });
+
   renderProveedores();
   loadFacturas();
   loadProvPrecios();
+  loadDevoluciones();
 })();
 
 /* ---------------- ASISTENTE IA (Gemini gratis) ---------------- */
@@ -13294,6 +13750,51 @@ renderAutoConclusions();
     texto = texto.replace(/^```json/i,'').replace(/^```/,'').replace(/```$/,'').trim();
     let parsed;
     try { parsed = JSON.parse(texto); } catch(e){ throw new Error('La IA no devolvió un JSON válido. Probá subir la foto de nuevo, más nítida o con mejor luz.'); }
+    return parsed;
+  };
+
+  // Usada por la pestaña Proveedores → Devoluciones para leer una foto o archivo de
+  // un remito/nota de devolución a un proveedor (ejemplares no vendidos que se le
+  // entregan de vuelta). A diferencia de extraerFacturaConIA, acá no hay "tipo de
+  // comprobante" ni monto total obligatorio: lo que importa es la lista de ítems
+  // devueltos. El usuario siempre revisa/corrige antes de guardar nada.
+  window.extraerDevolucionConIA = async function(base64Data, mimeType){
+    if (!iaApiKey) throw new Error('Primero configurá tu clave de API de Gemini en la pestaña Asistente IA.');
+    const promptTexto = 'Sos un asistente que extrae datos de un REMITO O NOTA DE DEVOLUCIÓN a un proveedor argentino (foto o PDF): un kiosquero/agencia le devuelve al proveedor ejemplares no vendidos de diarios, revistas o colecciones. ' +
+      'Devolvé SOLO un objeto JSON, sin texto adicional, sin backticks de markdown, con estas claves exactas:\n' +
+      '{"fecha": "YYYY-MM-DD"|null, "numero_remito": string|null, "proveedor_detectado": string|null, ' +
+      '"items": [{"descripcion": string, "numero_edicion": string|null, "codigo_publicacion": string|null, "cantidad": number|null}]}\n' +
+      'En "items" desglosá cada título/producto devuelto, uno por línea, en el orden en que aparecen: "descripcion" es el título tal cual figura (sin inventar ni resumir), "numero_edicion" es el número de edición/ejemplar si figura (por ej. "Edición 4521", "N° 128") — si no aparece, usá null, "codigo_publicacion" es un código corto que identifique la publicación en sí (no el ejemplar) si figura, distinto del número de edición — si no aparece, usá null, y "cantidad" la cantidad de ejemplares devueltos de esa línea (si no figura, usá 1). No inventes ítems que no estén escritos en el documento. Si no podés leer ningún ítem con claridad, devolvé "items" como un array vacío [].';
+    const body = {
+      contents: [{
+        role: 'user',
+        parts: [
+          { text: promptTexto },
+          { inline_data: { mime_type: mimeType, data: base64Data } }
+        ]
+      }]
+    };
+    const url = 'https://generativelanguage.googleapis.com/v1beta/models/' + IA_MODEL + ':generateContent?key=' + encodeURIComponent(iaApiKey);
+    let resp;
+    try {
+      resp = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+    } catch(e){
+      throw new Error('No se pudo conectar con Gemini. Revisá tu conexión a internet.');
+    }
+    if (!resp.ok){
+      let detalle = '';
+      try { const j = await resp.json(); detalle = (j && j.error && j.error.message) || ''; } catch(e){}
+      throw new Error('Error de Gemini (' + resp.status + '). ' + (detalle || 'Sin más detalle.'));
+    }
+    const data = await resp.json();
+    const candidate = data && data.candidates && data.candidates[0];
+    const parts = (candidate && candidate.content && candidate.content.parts) || [];
+    let texto = parts.map(p => p.text || '').join('').trim();
+    texto = texto.replace(/^```json/i,'').replace(/^```/,'').replace(/```$/,'').trim();
+    let parsed;
+    try { parsed = JSON.parse(texto); } catch(e){ throw new Error('La IA no devolvió un JSON válido. Probá subir la foto de nuevo, más nítida o con mejor luz.'); }
+    if (!parsed || typeof parsed !== 'object') parsed = {};
+    if (!Array.isArray(parsed.items)) parsed.items = [];
     return parsed;
   };
 
