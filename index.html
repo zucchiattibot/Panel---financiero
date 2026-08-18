@@ -2752,8 +2752,15 @@ Ordenar por fecha de vencimiento (las que vencen antes, primero — las sin fech
 <datalist id="rcMatProveedorList"></datalist>
 </div>
 <div class="range-group">
-<div class="range-label">Foto o video</div>
-<input id="rcMatArchivoInput" accept="image/*,video/*" style="margin-bottom:8px;" type="file"/>
+<div class="range-label">Elegir material</div>
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px;">
+<label for="rcMatFotoInput" class="tab-btn" style="border-radius:8px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;min-height:42px;box-sizing:border-box;">📷 Elegir foto</label>
+<label for="rcMatVideoInput" class="tab-btn" style="border-radius:8px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;min-height:42px;box-sizing:border-box;">🎬 Elegir video</label>
+</div>
+<input id="rcMatFotoInput" accept="image/*" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;" type="file"/>
+<input id="rcMatVideoInput" accept="video/*" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;" type="file"/>
+<input id="rcMatArchivoInput" accept="image/*,video/*" style="display:none;" type="file"/>
+<p class="card-note" id="rcMatArchivoElegido" style="min-height:14px;margin:4px 0 0 0;">No elegiste ningún archivo.</p>
 </div>
 <input type="file" id="rcMatVideoPickInput" accept="video/*" style="display:none;"/>
 <input id="rcMatNota" placeholder="Nota (opcional, ej: nombre de la colección, tapa N°30)" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;width:100%;box-sizing:border-box;margin-bottom:8px;" type="text"/>
@@ -15889,12 +15896,30 @@ function rcRenderMatGaleria(){
   });
 }
 document.getElementById('rcMatBuscarProveedor').addEventListener('input', rcRenderMatGaleria);
+function rcMatUsarArchivoSeleccionado(file){
+  var input=document.getElementById('rcMatArchivoInput');
+  var elegido=document.getElementById('rcMatArchivoElegido');
+  if(!file) return;
+  /* Guardamos el File en el input principal mediante DataTransfer cuando Android/WebView lo permite.
+     Si no lo permite, usamos una referencia temporal para el botón Guardar. */
+  window.rcMatArchivoTemporal=file;
+  if(elegido){ elegido.textContent='Elegido: '+(file.name||'archivo')+' ('+(file.type||'archivo')+')'; }
+}
+document.getElementById('rcMatFotoInput').addEventListener('change',function(){
+  rcMatUsarArchivoSeleccionado(this.files&&this.files[0]);
+  this.value='';
+});
+document.getElementById('rcMatVideoInput').addEventListener('change',function(){
+  rcMatUsarArchivoSeleccionado(this.files&&this.files[0]);
+  this.value='';
+});
+
 document.getElementById('rcBtnSubirMaterial').addEventListener('click', function(){
   var proveedor = document.getElementById('rcMatProveedor').value.trim();
   var input = document.getElementById('rcMatArchivoInput');
   var nota = document.getElementById('rcMatNota').value.trim();
   var msgEl = document.getElementById('rcMatSubeMsg');
-  var file = input.files && input.files[0];
+  var file = window.rcMatArchivoTemporal || (input.files && input.files[0]);
   msgEl.style.color='var(--red-neg)';
   if (!proveedor){ msgEl.textContent='Escribí el proveedor primero.'; return; }
   if (!file){ msgEl.textContent='Elegí una foto o video primero.'; return; }
@@ -15916,8 +15941,10 @@ document.getElementById('rcBtnSubirMaterial').addEventListener('click', function
       }
       msgEl.style.color='var(--green-pos)';
       msgEl.textContent = esVideo ? 'Catalogado en '+proveedor+'. El video en sí queda en la galería de tu celular — acá guardamos una miniatura para reconocerlo.' : 'Guardado en '+proveedor+'.';
+      window.rcMatArchivoTemporal=null;
       document.getElementById('rcMatArchivoInput').value='';
       document.getElementById('rcMatNota').value='';
+      var elegido=document.getElementById('rcMatArchivoElegido'); if(elegido) elegido.textContent='No elegiste ningún archivo.';
       rcRenderMatGaleria();
     });
   }
