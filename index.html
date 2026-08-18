@@ -7,6 +7,10 @@
 <title>Agencia · Panel financiero</title>
 <link href="manifest.json" rel="manifest"/>
 <meta content="#081711" name="theme-color"/>
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+<link rel="preconnect" href="https://api.argentinadatos.com" crossorigin>
+<link rel="preconnect" href="https://dolarapi.com" crossorigin>
+<link rel="preconnect" href="https://api.coingecko.com" crossorigin>
 <style>
   :root{
     --bg-0:#081711; --bg-1:#0d2018; --bg-2:#122a20;
@@ -274,7 +278,23 @@
   #ganSemFacturaModal th,#ganSemFacturaModal td{padding:6px;border-bottom:1px solid var(--line);}
   @media(max-width:520px){#ganSemFacturaModal{padding:8px;}#ganSemFacturaModal .gsm-grid{grid-template-columns:1fr 1fr;}#ganSemFacturaModal .gsm-box{padding:12px;}}
 </style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+<script>
+/* Rendimiento: html2pdf pesa bastante y solo se necesita al generar/compartir un PDF.
+   Se carga bajo demanda para no hacer esperar al panel al abrirlo. */
+window.__loadHtml2Pdf = window.__loadHtml2Pdf || function(){
+  if (typeof window.html2pdf === 'function') return Promise.resolve();
+  if (window.__html2pdfPromise) return window.__html2pdfPromise;
+  window.__html2pdfPromise = new Promise(function(resolve, reject){
+    var sc = document.createElement('script');
+    sc.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js';
+    sc.async = true;
+    sc.onload = function(){ resolve(); };
+    sc.onerror = function(){ window.__html2pdfPromise = null; reject(new Error('No se pudo cargar html2pdf')); };
+    document.head.appendChild(sc);
+  });
+  return window.__html2pdfPromise;
+};
+</script>
 <style>
 /* ===== PEDIDOS IA: estilos aislados del panel principal ===== */
 
@@ -503,7 +523,13 @@
     background:rgba(0,0,0,.25);color:var(--cream);font-size:20px;text-align:center;letter-spacing:6px;}
   #agPinLock button{background:var(--gold);color:#1a2a1f;border:none;padding:12px 24px;border-radius:10px;font-weight:700;cursor:pointer;font-size:14px;}
   #agPinLockMsg{color:var(--red-neg);font-size:12.5px;min-height:16px;}
-</style></head>
+</style><style>
+/* Optimización de primer pintado: evita animaciones/transiciones durante el arranque.
+   Se desactiva automáticamente al terminar de cargar. */
+html.ag-booting *, html.ag-booting *::before, html.ag-booting *::after{animation:none !important;transition:none !important;}
+</style>
+<script>document.documentElement.classList.add('ag-booting'); window.addEventListener('load',function(){ setTimeout(function(){ document.documentElement.classList.remove('ag-booting'); },80); },{once:true});</script>
+</head>
 <body>
 <script>
 // Aplica densidad/tema guardados ANTES de que se dibuje el resto del panel,
@@ -5996,7 +6022,8 @@ async function loadInflation() {
   }
 }
 retryBtn.addEventListener('click', loadInflation);
-loadInflation();
+// Rendimiento: primero dibujamos el panel; el IPC se actualiza automáticamente apenas queda libre el hilo.
+(function(fn){ var run=function(){ fn(); }; if(window.requestIdleCallback) requestIdleCallback(run,{timeout:1800}); else setTimeout(run,1200); })(loadInflation);
 
 /* ---------------- DÓLAR OFICIAL (live fetch) ---------------- */
 async function loadUSD() {
@@ -6038,7 +6065,8 @@ async function loadUSD() {
     // muestran su propio aviso ("todavía no cargó") si esto falla.
   }
 }
-loadUSD();
+// Rendimiento: el dólar no bloquea el primer pintado del panel.
+(function(fn){ var run=function(){ fn(); }; if(window.requestIdleCallback) requestIdleCallback(run,{timeout:1800}); else setTimeout(run,1200); })(loadUSD);
 
 /* ---------------- COMPARADOR DE PRECIOS (INFLACIÓN) ---------------- */
 let cmpPrecioItems = [];
@@ -15045,7 +15073,7 @@ function fcCardNombreArchivo(titulo){
   return (titulo||'Panel').replace(/[^a-z0-9]+/gi,'_').slice(0,60)+'.pdf';
 }
 async function fcCardDescargarPDF(cardEl, titulo, msgEl){
-  if (typeof window.html2pdf !== 'function'){ msgEl.style.color='var(--red-neg)'; msgEl.textContent='No se pudo cargar el generador de PDF (revisá tu conexión).'; return; }
+  try { await window.__loadHtml2Pdf(); } catch(e) { msgEl.style.color='var(--red-neg)'; msgEl.textContent='No se pudo cargar el generador de PDF (revisá tu conexión).'; return; }
   msgEl.style.color='var(--muted)'; msgEl.textContent='Generando PDF…';
   try{
     var blob = await fcCardPDFBlob(cardEl).outputPdf('blob');
@@ -15056,7 +15084,7 @@ async function fcCardDescargarPDF(cardEl, titulo, msgEl){
 }
 async function fcCardCompartirWA(cardEl, titulo, msgEl){
   var nombreArchivo = fcCardNombreArchivo(titulo);
-  if (typeof window.html2pdf !== 'function'){ msgEl.style.color='var(--red-neg)'; msgEl.textContent='No se pudo cargar el generador de PDF (revisá tu conexión).'; return; }
+  try { await window.__loadHtml2Pdf(); } catch(e) { msgEl.style.color='var(--red-neg)'; msgEl.textContent='No se pudo cargar el generador de PDF (revisá tu conexión).'; return; }
   msgEl.style.color='var(--muted)'; msgEl.textContent='Generando PDF para compartir…';
   var blob;
   try{ blob = await fcCardPDFBlob(cardEl).outputPdf('blob'); }
@@ -15104,7 +15132,7 @@ function fcInyectarExportEnPaneles(){
 document.getElementById('fcBtnDescargarPDF').addEventListener('click', async function(){
   if (!fcUltimaLiquidacion) return;
   var msg = document.getElementById('fcFacturaMsg');
-  if (typeof window.html2pdf !== 'function'){ msg.style.color='var(--red-neg)'; msg.textContent='No se pudo cargar el generador de PDF (revisá tu conexión).'; return; }
+  try { await window.__loadHtml2Pdf(); } catch(e) { msg.style.color='var(--red-neg)'; msg.textContent='No se pudo cargar el generador de PDF (revisá tu conexión).'; return; }
   msg.style.color='var(--muted)'; msg.textContent='Generando PDF…';
   try{
     var blob = await fcGenerarPDFBlob().outputPdf('blob');
@@ -15120,7 +15148,7 @@ async function fcCompartirPDF(destino){
   var tel = (l.cliente.telefono||'').replace(/[^0-9]/g,'');
   var nombreArchivo = fcNombreArchivoFactura(l);
   var tituloShare = 'Factura '+fcNumFactura(l.numero)+' · '+l.cliente.nombre;
-  if (typeof window.html2pdf !== 'function'){ msg.style.color='var(--red-neg)'; msg.textContent='No se pudo cargar el generador de PDF (revisá tu conexión).'; return; }
+  try { await window.__loadHtml2Pdf(); } catch(e) { msg.style.color='var(--red-neg)'; msg.textContent='No se pudo cargar el generador de PDF (revisá tu conexión).'; return; }
   msg.style.color='var(--muted)'; msg.textContent='Generando PDF para compartir…';
   var blob;
   try{ blob = await fcGenerarPDFBlob().outputPdf('blob'); }
@@ -15272,7 +15300,7 @@ function fcRenderExtracto(){
 }
 document.getElementById('fcExtBtnDescargarResumenPDF').addEventListener('click', async function(){
   var msg = document.getElementById('fcExtResumenMsg');
-  if (typeof window.html2pdf !== 'function'){ msg.style.color='var(--red-neg)'; msg.textContent='No se pudo cargar el generador de PDF (revisá tu conexión).'; return; }
+  try { await window.__loadHtml2Pdf(); } catch(e) { msg.style.color='var(--red-neg)'; msg.textContent='No se pudo cargar el generador de PDF (revisá tu conexión).'; return; }
   var box = document.getElementById('fcExtResumenPrintBox');
   box.style.display='block';
   msg.style.color='var(--muted)'; msg.textContent='Generando PDF…';
@@ -15443,7 +15471,7 @@ function fcExtTextoCliente(c){
 document.getElementById('fcExtBtnDescargarPDF').addEventListener('click', async function(){
   if (!fcExtClienteActual) return;
   var msg = document.getElementById('fcExtMsg');
-  if (typeof window.html2pdf !== 'function'){ msg.style.color='var(--red-neg)'; msg.textContent='No se pudo cargar el generador de PDF (revisá tu conexión).'; return; }
+  try { await window.__loadHtml2Pdf(); } catch(e) { msg.style.color='var(--red-neg)'; msg.textContent='No se pudo cargar el generador de PDF (revisá tu conexión).'; return; }
   msg.style.color='var(--muted)'; msg.textContent='Generando PDF…';
   try{
     var blob = await fcExtGenerarPDFBlob('fcExtPrintBox','a5').outputPdf('blob');
