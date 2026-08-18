@@ -3049,13 +3049,23 @@ function withTimeout(promise, ms){
   ]);
 }
 async function storageGet(key){
+  // ARRANQUE RÁPIDO: en GitHub/WebView localStorage es la copia local inmediata.
+  // storageSet() mantiene esta copia sincronizada, por lo que no necesitamos
+  // esperar al puente window.storage para leer cada dato al iniciar.
+  try {
+    const local = localStorage.getItem(key);
+    if (local !== null) return local;
+  } catch(e) {}
+  // Solo acudimos al storage externo si realmente no existe una copia local.
+  // Esto conserva compatibilidad con el visor que usa window.storage sin
+  // introducir esperas de 1 segundo por cada lectura durante el arranque.
   try {
     if (window.storage && typeof window.storage.get === 'function'){
       const r = await withTimeout(window.storage.get(key, false), STORAGE_TIMEOUT_MS);
       return r ? r.value : null;
     }
-  } catch(e) { /* seguimos con localStorage */ }
-  try { return localStorage.getItem(key); } catch(e) { return null; }
+  } catch(e) {}
+  return null;
 }
 async function storageSet(key, val){
   let ok = false;
