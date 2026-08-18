@@ -235,6 +235,11 @@
   .print-btn{background:var(--blue);color:#12222f;border:none;padding:10px 16px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;margin-top:10px;}
   .informe-header{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap;}
 
+  /* ---------- Teclado Android/WebView: mantener el campo activo visible ---------- */
+  html{scroll-padding-bottom:45vh;}
+  body.rc-teclado-abierto{padding-bottom:45vh;}
+  input:focus, textarea:focus, select:focus{scroll-margin-bottom:35vh;}
+
   @media print{
     body{background:#fff;color:#111;}
     .tabs, .tabs-reorder-toggle, .tabs-reorder-bar, .toggle-row, .print-btn, .status, #retryIpc, .link-btn, form, .foot, .card-note.hide-print{display:none !important;}
@@ -470,6 +475,21 @@
   #pedidosIAModule .ped-stock-badge.out{background:#FDECEA;color:#C0392B;}
   #pedidosIAModule .ped-photo-count{font-size:11px;color:var(--texto-suave);margin-top:8px;min-height:15px;}
   @media(max-width:620px){#pedidosIAModule .ped-flow{grid-template-columns:1fr;}#pedidosIAModule .ped-client-row{grid-template-columns:1fr;}}
+
+  /* ---------- Publicidad: pestañas por proveedor + texto opcional ---------- */
+  #rcMatProveedorTabs{display:flex;gap:7px;overflow-x:auto;padding:2px 0 9px;margin-bottom:4px;-webkit-overflow-scrolling:touch;}
+  #rcMatProveedorTabs::-webkit-scrollbar{display:none;}
+  #rcMatProveedorTabs .rc-prov-tab{flex:0 0 auto;background:var(--bg-2);border:1px solid var(--line);color:var(--cream-dim);
+    padding:8px 13px;border-radius:999px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;}
+  #rcMatProveedorTabs .rc-prov-tab.active{background:var(--gold);color:#1a2a1f;border-color:var(--gold);}
+  #rcMatTextoModal{display:none;position:fixed;inset:0;z-index:100001;background:rgba(0,0,0,.72);padding:18px;align-items:center;justify-content:center;}
+  #rcMatTextoModal.active{display:flex;}
+  #rcMatTextoModal .rc-mat-texto-box{width:min(520px,100%);background:var(--bg-1);border:1px solid var(--line);border-radius:16px;padding:16px;box-shadow:0 20px 60px rgba(0,0,0,.5);}
+  #rcMatTextoModal textarea{width:100%;min-height:110px;box-sizing:border-box;background:rgba(0,0,0,.2);border:1px solid var(--line);
+    color:var(--cream);border-radius:10px;padding:10px 12px;font:inherit;font-size:14px;resize:vertical;}
+  #rcMatTextoModal .rc-mat-texto-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
+  #rcMatTextoModal .rc-mat-texto-actions button{flex:1 1 120px;}
+
 
   @media print{
     #pedidosIAModule{background:#fff;}
@@ -2724,7 +2744,7 @@ Ordenar por fecha de vencimiento (las que vencen antes, primero — las sin fech
 <div class="card">
 <h2>🎬 Material publicitario</h2>
 <p class="card-note">Guardá acá las fotos y videos que le sacás a cada colección para publicidad (lo mismo que hoy guardás en WhatsApp), catalogados por proveedor.</p>
-<p class="card-note" style="color:var(--gold);">📷 Las fotos se guardan completas acá adentro (comprimidas, livianas) — para reenviarlas tocás 📤 y listo. 🎬 Los videos <strong>no se guardan completos</strong> (ocuparían demasiado): guardamos una miniatura para reconocerlos y catalogarlos por proveedor, y cuando querés reenviar uno tocás "🔎 Elegir en galería y enviar" — el panel te abre la galería del celular, lo elegís vos mismo (te mostramos la miniatura, la fecha y el nombre de archivo para reconocerlo fácil) y ahí sale el selector para mandarlo por WhatsApp. Así podés catalogar todos los que quieras, sin límite práctico.</p>
+<p class="card-note" style="color:var(--gold);">📷 Las fotos se guardan completas acá adentro (comprimidas, livianas) — para reenviarlas tocás 📤 y listo. 🎬 Los videos nuevos se guardan también dentro del almacenamiento de la app, para que al tocar <strong>🎬 Compartir video</strong> se comparta directamente ese video, sin buscarlo en toda la galería. Los videos que ya estaban catalogados antes de esta mejora siguen usando 🔎 para elegirlos en la galería.</p>
 <div id="rcMatEspacio" style="font-size:12px;color:var(--cream-dim);margin-bottom:10px;"></div>
 <div class="range-group">
 <div class="range-label">Proveedor</div>
@@ -2742,9 +2762,25 @@ Ordenar por fecha de vencimiento (las que vencen antes, primero — las sin fech
 </div>
 <div class="card">
 <h2>Por proveedor</h2>
-<input id="rcMatBuscarProveedor" placeholder="Buscar proveedor..." style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;width:100%;box-sizing:border-box;margin-bottom:12px;" type="text"/>
+<p class="card-note">Elegí una pestaña para ver solamente la publicidad de ese proveedor.</p>
+<div id="rcMatProveedorTabs"></div>
+<input id="rcMatBuscarProveedor" placeholder="🔍 Buscar dentro de este proveedor..." style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;width:100%;box-sizing:border-box;margin-bottom:12px;" type="text"/>
 <div id="rcMatGaleria"></div>
 </div>
+</div>
+<!-- MODAL: texto opcional al compartir publicidad -->
+<div id="rcMatTextoModal">
+  <div class="rc-mat-texto-box">
+    <h2 style="margin:0 0 5px;">💬 Texto para WhatsApp</h2>
+    <p class="card-note" style="margin-bottom:10px;">Por defecto la publicidad se comparte <strong>sin ningún texto</strong>. Acá podés elegir la nota guardada o escribir otro texto.</p>
+    <textarea id="rcMatTextoInput" placeholder="Escribí el texto que querés enviar junto con la foto o video..."></textarea>
+    <div class="rc-mat-texto-actions">
+      <button class="tab-btn" id="rcMatTextoUsarNota" style="border-radius:8px;">Usar nota guardada</button>
+      <button class="tab-btn" id="rcMatTextoSinTexto" style="border-radius:8px;">Sin texto</button>
+      <button class="tab-btn" id="rcMatTextoCancelar" style="border-radius:8px;">Cancelar</button>
+      <button class="tab-btn" id="rcMatTextoEnviar" style="border-radius:8px;background:var(--gold);color:#1a2a1f;font-weight:700;">📤 Compartir</button>
+    </div>
+  </div>
 </div>
 <!-- POR COLECCIÓN: detalle -->
 <div class="rc-view" data-rcview="coleccionDetalle">
@@ -15534,14 +15570,19 @@ if (document.readyState === 'loading'){
 "use strict";
 var RC_KEY = 'rc_colecciones_v1';
 var RC_MAT_KEY = 'rc_material_pub_v1'; /* clave APARTE para fotos/videos publicitarios, para que si se llena de espacio no arriesgue los datos de clientes/entregas */
-var RC_MAT_MAX_TOTAL_BYTES = 20*1024*1024; /* tope total, pero ahora solo pesan las FOTOS (completas) y las miniaturas de video (chiquitas) — el video completo no se guarda acá, así que esto alcanza para miles de catalogaciones */
+var RC_MAT_MAX_TOTAL_BYTES = 20*1024*1024; /* tope para los metadatos/fotos del catálogo. Los videos nuevos se guardan aparte en IndexedDB para poder compartir el archivo exacto sin buscarlo en la galería. */
+var RC_MAT_DB_NAME = 'rc_material_pub_files_v1';
+var RC_MAT_DB_STORE = 'videos';
 var RC_MENSAJE_DEFAULT = 'Hola! Te escribo porque llegó tu colección "{coleccion}"{nota}. Te mando la foto de la publicación en este chat.';
 var rc = { clientes: [], colecciones: [], mensajePlantilla: RC_MENSAJE_DEFAULT };
-var rcMat = { items: [] }; /* [{id, proveedor, tipo:'foto'|'video', dataUrl, nombreArchivo, nota, fecha, bytes}] */
+var rcMat = { items: [] }; /* [{id, proveedor, tipo:'foto'|'video', dataUrl, thumbDataUrl, nombreArchivo, nota, fecha, bytes, videoGuardado}] */
 var rcEditingId = null;
 var rcColeccionActualNombre = null;
 var rcColFotoSeleccionadaId = null; /* qué foto de la colección se va a enviar */
 var rcFiltroActual = 'todos';
+var rcMatProveedorActivo = 'todos';
+var rcMatTextoCallback = null;
+var rcMatTextoItem = null;
 var rcEstadoLabel = {reservado:'Reservado', entregado:'Entregado', pausado:'Pausado'};
 var rcEstadoColor = {reservado:'var(--gold)', entregado:'var(--green-pos)', pausado:'var(--muted)'};
 
@@ -15619,6 +15660,51 @@ async function rcMatSave(){
   }catch(e){ console.error('rcMatSave', e); }
   return false;
 }
+
+/* ---------- Videos publicitarios: archivo original en IndexedDB ----------
+   Esto permite que los videos nuevos puedan compartirse directamente desde
+   el panel, sin volver a recorrer la galería. Los videos antiguos, que fueron
+   catalogados antes de este cambio, siguen usando el selector de galería. */
+var rcMatDbPromise = null;
+function rcMatOpenDb(){
+  if (rcMatDbPromise) return rcMatDbPromise;
+  rcMatDbPromise = new Promise(function(resolve,reject){
+    try{
+      if (!window.indexedDB){ reject(new Error('IndexedDB no disponible')); return; }
+      var req = indexedDB.open(RC_MAT_DB_NAME, 1);
+      req.onupgradeneeded = function(){
+        var db = req.result;
+        if (!db.objectStoreNames.contains(RC_MAT_DB_STORE)) db.createObjectStore(RC_MAT_DB_STORE);
+      };
+      req.onsuccess = function(){ resolve(req.result); };
+      req.onerror = function(){ reject(req.error || new Error('No se pudo abrir IndexedDB')); };
+    }catch(e){ reject(e); }
+  });
+  return rcMatDbPromise;
+}
+function rcMatDbPut(id, file){
+  return rcMatOpenDb().then(function(db){
+    return new Promise(function(resolve,reject){
+      var tx=db.transaction(RC_MAT_DB_STORE,'readwrite'), st=tx.objectStore(RC_MAT_DB_STORE);
+      st.put(file,id); tx.oncomplete=function(){resolve(true)}; tx.onerror=function(){reject(tx.error||new Error('No se pudo guardar el video'))};
+    });
+  });
+}
+function rcMatDbGet(id){
+  return rcMatOpenDb().then(function(db){
+    return new Promise(function(resolve,reject){
+      var tx=db.transaction(RC_MAT_DB_STORE,'readonly'), req=tx.objectStore(RC_MAT_DB_STORE).get(id);
+      req.onsuccess=function(){resolve(req.result||null)}; req.onerror=function(){reject(req.error||new Error('No se pudo leer el video'))};
+    });
+  });
+}
+function rcMatDbDelete(id){
+  return rcMatOpenDb().then(function(db){
+    return new Promise(function(resolve){
+      var tx=db.transaction(RC_MAT_DB_STORE,'readwrite'); tx.objectStore(RC_MAT_DB_STORE).delete(id); tx.oncomplete=function(){resolve(true)}; tx.onerror=function(){resolve(false)};
+    });
+  }).catch(function(){return false;});
+}
 function rcMatBytesUsados(){
   return rcMat.items.reduce(function(s,it){ return s + (it.bytes||0); }, 0);
 }
@@ -15638,26 +15724,78 @@ function rcMatProveedoresDistintos(){
   rcMat.items.forEach(function(it){ if (it.proveedor) set[it.proveedor]=true; });
   return Object.keys(set).sort(function(a,b){ return a.localeCompare(b,'es',{sensitivity:'base'}); });
 }
+function rcRenderMatProveedorTabs(){
+  var cont = document.getElementById('rcMatProveedorTabs');
+  if (!cont) return;
+  var proveedores = rcMatProveedoresDistintos();
+  var tabs = ['todos'].concat(proveedores);
+  if (tabs.indexOf(rcMatProveedorActivo)===-1) rcMatProveedorActivo='todos';
+  cont.innerHTML = tabs.map(function(p){
+    var label = p==='todos' ? 'Todos' : p;
+    var count = p==='todos' ? rcMat.items.length : rcMat.items.filter(function(it){return it.proveedor===p;}).length;
+    return '<button type="button" class="rc-prov-tab '+(p===rcMatProveedorActivo?'active':'')+'" data-rcprov="'+rcEsc(p)+'">'+rcEsc(label)+' ('+count+')</button>';
+  }).join('');
+  cont.querySelectorAll('.rc-prov-tab').forEach(function(b){
+    b.addEventListener('click', function(){
+      rcMatProveedorActivo = b.dataset.rcprov;
+      document.getElementById('rcMatBuscarProveedor').value='';
+      rcRenderMatGaleria();
+    });
+  });
+}
 function rcRenderMatProveedorDatalist(){
   var dl = document.getElementById('rcMatProveedorList');
   if (!dl) return;
   dl.innerHTML = rcMatProveedoresDistintos().map(function(p){ return '<option value="'+rcEsc(p)+'"></option>'; }).join('');
 }
+function rcMatAbrirTexto(it, compartirFn){
+  rcMatTextoItem = it;
+  rcMatTextoCallback = compartirFn;
+  var modal = document.getElementById('rcMatTextoModal');
+  var ta = document.getElementById('rcMatTextoInput');
+  ta.value = '';
+  modal.classList.add('active');
+}
+function rcMatCerrarTexto(){
+  document.getElementById('rcMatTextoModal').classList.remove('active');
+  rcMatTextoCallback = null;
+  rcMatTextoItem = null;
+}
+document.getElementById('rcMatTextoCancelar').addEventListener('click', rcMatCerrarTexto);
+document.getElementById('rcMatTextoSinTexto').addEventListener('click', function(){
+  if (rcMatTextoCallback) rcMatTextoCallback('');
+  rcMatCerrarTexto();
+});
+document.getElementById('rcMatTextoUsarNota').addEventListener('click', function(){
+  document.getElementById('rcMatTextoInput').value = rcMatTextoItem && rcMatTextoItem.nota ? rcMatTextoItem.nota : '';
+});
+document.getElementById('rcMatTextoEnviar').addEventListener('click', function(){
+  if (rcMatTextoCallback) rcMatTextoCallback(document.getElementById('rcMatTextoInput').value.trim());
+  rcMatCerrarTexto();
+});
+document.getElementById('rcMatTextoModal').addEventListener('click', function(e){
+  if (e.target===this) rcMatCerrarTexto();
+});
+
 function rcRenderMatGaleria(){
   var cont = document.getElementById('rcMatGaleria');
   if (!cont) return;
   var filtro = (document.getElementById('rcMatBuscarProveedor').value||'').toLowerCase();
   rcRenderMatEspacio();
+  rcRenderMatProveedorTabs();
   rcRenderMatProveedorDatalist();
   if (rcMat.items.length===0){ cont.innerHTML = '<p class="card-note" style="margin:0;">Todavía no subiste nada. Elegí un proveedor y una foto o video arriba.</p>'; return; }
+  var itemsVisibles = rcMatProveedorActivo==='todos'
+    ? rcMat.items.slice()
+    : rcMat.items.filter(function(it){ return it.proveedor===rcMatProveedorActivo; });
   var porProveedor = {};
-  rcMat.items.forEach(function(it){
+  itemsVisibles.forEach(function(it){
     var key = it.proveedor || 'Sin proveedor';
+    if (filtro && key.toLowerCase().indexOf(filtro)===-1 && (it.nota||'').toLowerCase().indexOf(filtro)===-1 && (it.nombreArchivo||'').toLowerCase().indexOf(filtro)===-1) return;
     porProveedor[key] = porProveedor[key] || [];
     porProveedor[key].push(it);
   });
   var proveedores = Object.keys(porProveedor).sort(function(a,b){ return a.localeCompare(b,'es',{sensitivity:'base'}); });
-  if (filtro) proveedores = proveedores.filter(function(p){ return p.toLowerCase().indexOf(filtro)>-1; });
   if (proveedores.length===0){ cont.innerHTML = '<p class="card-note" style="margin:0;">Sin coincidencias.</p>'; return; }
   cont.innerHTML = proveedores.map(function(prov){
     var items = porProveedor[prov].slice().sort(function(a,b){ return (b.fecha||'').localeCompare(a.fecha||''); });
@@ -15674,8 +15812,12 @@ function rcRenderMatGaleria(){
           previsualiz = '<img src="'+it.dataUrl+'" style="width:140px;height:140px;object-fit:cover;border-radius:8px;"/>';
         }
         var accionCompartir = it.tipo==='video'
-          ? '<button data-mid-buscar="'+it.id+'" class="tab-btn rc-mat-buscar-video" style="border-radius:6px;padding:4px 6px;font-size:10.5px;flex:1;" type="button">🔎 Elegir en galería y enviar</button>'
-          : '<button data-mid-compartir="'+it.id+'" class="tab-btn rc-mat-compartir-foto" style="border-radius:6px;padding:4px 8px;font-size:11px;color:var(--green-pos);" type="button">📤</button>'+
+          ? (it.videoGuardado
+            ? '<button data-mid-video="'+it.id+'" class="tab-btn rc-mat-video-directo" style="border-radius:6px;padding:4px 6px;font-size:10.5px;flex:1;color:var(--green-pos);" type="button">🎬 Compartir video</button>'
+            : '<button data-mid-buscar="'+it.id+'" class="tab-btn rc-mat-buscar-video" style="border-radius:6px;padding:4px 6px;font-size:10.5px;flex:1;" type="button">🔎 Buscar video y enviar</button>')+
+            '<button data-mid-texto="'+it.id+'" class="tab-btn rc-mat-texto" style="border-radius:6px;padding:4px 7px;font-size:11px;" type="button">💬</button>'
+          : '<button data-mid-compartir="'+it.id+'" class="tab-btn rc-mat-compartir-foto" style="border-radius:6px;padding:4px 8px;font-size:11px;color:var(--green-pos);" type="button">📤 Sin texto</button>'+
+            '<button data-mid-texto="'+it.id+'" class="tab-btn rc-mat-texto" style="border-radius:6px;padding:4px 7px;font-size:11px;" type="button">💬</button>'+
             '<a href="'+it.dataUrl+'" download="'+rcEsc(prov)+'-'+(it.fecha||'')+'.jpg" class="tab-btn" style="border-radius:6px;padding:4px 8px;font-size:11px;">⬇️</a>';
         return '<div data-mid="'+it.id+'" style="border:1px solid var(--line);border-radius:10px;padding:8px;width:156px;">'+
           previsualiz+
@@ -15693,8 +15835,10 @@ function rcRenderMatGaleria(){
   cont.querySelectorAll('.rc-mat-borrar').forEach(function(b){
     b.addEventListener('click', function(){
       if (!confirm('¿Eliminar este ítem del catálogo? '+(rcMat.items.find(function(it){return it.id===b.dataset.midDel;}).tipo==='video' ? 'El video en sí no se toca, solo se borra del catálogo del panel.' : 'No se puede deshacer.')+'')) return;
+      var eliminado = rcMat.items.find(function(it){return it.id===b.dataset.midDel;});
       rcMat.items = rcMat.items.filter(function(it){ return it.id!==b.dataset.midDel; });
-      rcMatSave().then(rcRenderMatGaleria);
+      var borrarArchivo = (eliminado && eliminado.tipo==='video' && eliminado.videoGuardado) ? rcMatDbDelete(eliminado.id) : Promise.resolve(true);
+      borrarArchivo.then(function(){ return rcMatSave(); }).then(rcRenderMatGaleria);
     });
   });
   cont.querySelectorAll('.rc-mat-compartir-foto').forEach(function(b){
@@ -15702,7 +15846,20 @@ function rcRenderMatGaleria(){
       var it = rcMat.items.find(function(x){return x.id===b.dataset.midCompartir;});
       if (!it || !it.dataUrl) return;
       var file = rcDataUrlToFile(it.dataUrl, (it.proveedor||'material')+'-'+(it.fecha||'')+'.jpg');
-      rcMatCompartirArchivo(file, it.nota||('Material de '+it.proveedor), it.proveedor);
+      rcMatCompartirArchivo(file, '', it.proveedor);
+    });
+  });
+  cont.querySelectorAll('.rc-mat-video-directo').forEach(function(b){
+    b.addEventListener('click', function(){
+      var it = rcMat.items.find(function(x){return x.id===b.dataset.midVideo;});
+      if (!it) return;
+      rcMatDbGet(it.id).then(function(blob){
+        if (!blob) throw new Error('No se encontró el archivo guardado');
+        var file = blob instanceof File ? blob : new File([blob], it.nombreArchivo||'video.mp4', {type:blob.type||'video/mp4'});
+        rcMatCompartirArchivo(file, '', it.proveedor);
+      }).catch(function(){
+        rcMatMostrarMensaje('No pude recuperar este video guardado. Usá 🔎 para elegirlo en la galería.', true);
+      });
     });
   });
   cont.querySelectorAll('.rc-mat-buscar-video').forEach(function(b){
@@ -15710,9 +15867,24 @@ function rcRenderMatGaleria(){
       var it = rcMat.items.find(function(x){return x.id===b.dataset.midBuscar;});
       if (!it) return;
       rcMatPickCallback = function(file){
-        rcMatCompartirArchivo(file, it.nota||('Material de '+it.proveedor), it.proveedor);
+        rcMatCompartirArchivo(file, '', it.proveedor);
       };
       document.getElementById('rcMatVideoPickInput').click();
+    });
+  });
+  cont.querySelectorAll('.rc-mat-texto').forEach(function(b){
+    b.addEventListener('click', function(){
+      var it = rcMat.items.find(function(x){return x.id===b.dataset.midTexto;});
+      if (!it) return;
+      rcMatAbrirTexto(it, function(caption){
+        if (it.tipo==='video'){
+          rcMatPickCallback = function(file){ rcMatCompartirArchivo(file, caption, it.proveedor); };
+          document.getElementById('rcMatVideoPickInput').click();
+        } else {
+          var file = rcDataUrlToFile(it.dataUrl, (it.proveedor||'material')+'-'+(it.fecha||'')+'.jpg');
+          rcMatCompartirArchivo(file, caption, it.proveedor);
+        }
+      });
     });
   });
 }
@@ -15750,17 +15922,23 @@ document.getElementById('rcBtnSubirMaterial').addEventListener('click', function
     });
   }
   if (esVideo){
-    /* El video NO se guarda completo acá (ocuparía demasiado); solo se
-       cataloga con una miniatura tomada del propio video, el nombre de
-       archivo, la fecha y el proveedor — datos que después sirven para
-       reconocerlo y encontrarlo en la galería del celular al reenviarlo. */
+    /* Los videos nuevos se guardan en IndexedDB. Así el panel conserva el
+       archivo original y puede compartir exactamente ese video sin obligarte
+       a buscarlo nuevamente en la galería. Si Android/WebView no permite
+       IndexedDB para archivos, se conserva el comportamiento anterior como
+       respaldo. */
     rcMatVideoThumbnail(file).then(function(thumb){
       var item = {
         id: rcUid(), proveedor: proveedor, tipo: 'video',
         thumbDataUrl: thumb, dataUrl: null, nombreArchivo: file.name, nota: nota,
-        fecha: new Date().toISOString().slice(0,10)
+        fecha: new Date().toISOString().slice(0,10), videoGuardado:false
       };
-      guardarItem(item, thumb ? Math.round(thumb.length*0.75) : 200);
+      return rcMatDbPut(item.id, file).then(function(){
+        item.videoGuardado = true;
+        guardarItem(item, thumb ? Math.round(thumb.length*0.75) : 200);
+      }).catch(function(){
+        guardarItem(item, thumb ? Math.round(thumb.length*0.75) : 200);
+      });
     });
   } else {
     var reader2 = new FileReader();
@@ -15834,6 +16012,11 @@ function rcMatVideoThumbnail(file){
    seleccionado de la galería) usando el selector nativo del celular, con el
    texto/nota como mensaje. Es lo mismo que ya usamos para las fotos de
    entrega, reutilizado acá para el material publicitario. */
+function rcMatMostrarMensaje(texto, error){
+  var msgEl = document.getElementById('rcMatSubeMsg');
+  if (msgEl){ msgEl.style.color = error ? 'var(--red-neg)' : 'var(--green-pos)'; msgEl.textContent = texto; }
+}
+
 async function rcMatCompartirArchivo(file, caption, tituloProveedor){
   var msgEl = document.getElementById('rcMatSubeMsg');
   if (navigator.canShare && navigator.share){
@@ -20352,6 +20535,37 @@ document.getElementById('panelMenuFlotanteOverlay').addEventListener('click', fu
   if (document.readyState === 'loading'){
     document.addEventListener('DOMContentLoaded', function(){ setTimeout(boot, 0); });
   } else { setTimeout(boot, 0); }
+})();
+</script>
+
+<script>
+/* ---------- Ajuste de teclado en Android/WebView ---------- */
+(function(){
+  function campoActivo(){
+    var el=document.activeElement;
+    return el && (el.tagName==='INPUT'||el.tagName==='TEXTAREA'||el.tagName==='SELECT') ? el : null;
+  }
+  function acomodarCampo(){
+    var el=campoActivo(); if(!el) return;
+    document.body.classList.add('rc-teclado-abierto');
+    setTimeout(function(){ try{ el.scrollIntoView({behavior:'smooth',block:'center',inline:'nearest'}); }catch(e){ el.scrollIntoView(false); } },80);
+    setTimeout(function(){ try{ el.scrollIntoView({behavior:'smooth',block:'center',inline:'nearest'}); }catch(e){} },320);
+  }
+  document.addEventListener('focusin',function(e){
+    if(e.target && (e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA'||e.target.tagName==='SELECT')) acomodarCampo();
+  },true);
+  document.addEventListener('focusout',function(e){
+    setTimeout(function(){ if(!campoActivo()) document.body.classList.remove('rc-teclado-abierto'); },180);
+  },true);
+  if(window.visualViewport){
+    var lastH=window.visualViewport.height;
+    window.visualViewport.addEventListener('resize',function(){
+      var h=window.visualViewport.height;
+      if(h < lastH-80 && campoActivo()) acomodarCampo();
+      if(h > lastH+80 && !campoActivo()) document.body.classList.remove('rc-teclado-abierto');
+      lastH=h;
+    });
+  }
 })();
 </script>
 </body>
