@@ -1047,6 +1047,7 @@ Ordenar por fecha de vencimiento (las que vencen antes, primero — las sin fech
 <div class="kpi-grid" id="devKpis" style="margin-top:10px;"></div>
 <div id="devLista" style="display:flex;flex-direction:column;gap:10px;margin-top:12px;"></div>
 <button class="link-btn" id="devVerificarTodasBtn" style="margin-top:10px;" type="button">🔄 Verificar todas contra notas de crédito</button>
+<button class="link-btn" id="devCompletarMontosBtn" style="margin-top:10px;margin-left:14px;" type="button">🧮 Completar montos con precios de facturas</button>
 <button class="link-btn" id="devEliminarAcreditadasBtn" style="margin-top:10px;margin-left:14px;" type="button">🗑️ Eliminar todas las ya acreditadas</button>
 <p class="card-note" id="devListaMsg" style="min-height:14px;margin-top:6px;"></p>
 <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--line);">
@@ -12913,7 +12914,15 @@ renderAutoConclusions();
     const ncDisponibles = [];
     facturas.forEach(fNC => {
       if (fNC.tipo !== 'nota_credito' || !Array.isArray(fNC.items)) return;
-      fNC.items.forEach((itNC, idx) => { ncDisponibles.push({ factura: fNC, item: itNC, key: fNC.id + '::' + idx, usado: false }); });
+      fNC.items.forEach((itNC, idx) => {
+        // Si la NC trae cantidad explícita por ítem, la usamos como "cupo" que se
+        // puede ir repartiendo entre varias devoluciones (o cubrir solo una parte
+        // de una devolución más grande). Si no trae cantidad (dato faltante en el
+        // comprobante), no podemos saber cuánto cubre: se comporta como antes,
+        // cubriendo por completo la PRIMERA devolución con la que matchee.
+        const cantNC = (itNC.cantidad != null && !isNaN(itNC.cantidad) && Number(itNC.cantidad) > 0) ? Number(itNC.cantidad) : null;
+        ncDisponibles.push({ factura: fNC, item: itNC, key: fNC.id + '::' + idx, restante: cantNC, cantidadTotal: cantNC });
+      });
     });
     const devItems = [];
     devoluciones.forEach(d => {
@@ -12926,20 +12935,37 @@ renderAutoConclusions();
       const titMatch = matchTitulo(titulosProv, c.item.descripcion);
       const edicionNorm = normTxtProv(c.item.edicion || '');
       const codigoNorm = normTxtProv(c.item.codigoPublicacion || '');
-      const candidatas = ncDisponibles.filter(n => !n.usado && n.factura.proveedorKey === c.dev.proveedorKey);
-      let encontrada = null;
-      candidatas.forEach(n => {
-        if (encontrada) return;
-        const codigoNCNorm = normTxtProv(n.item.codigoPublicacion || '');
-        if (codigoNorm && codigoNCNorm){ if (codigoNorm === codigoNCNorm) encontrada = n; return; }
-        const titNCMatch = matchTitulo(titulosProv, n.item.descripcion);
-        const mismoTitulo = (titMatch && titNCMatch) ? (titMatch.id === titNCMatch.id) : (normTxtProv(n.item.descripcion || '') === normTxtProv(c.item.descripcion || ''));
-        if (!mismoTitulo) return;
-        const edicionNCNorm = normTxtProv(n.item.edicion || '');
-        const mismaEdicion = (edicionNorm && edicionNCNorm) ? (edicionNorm === edicionNCNorm) : true;
-        if (mismaEdicion) encontrada = n;
-      });
-      if (encontrada){ encontrada.usado = true; asignacion[c.key] = encontrada; }
+      const devCant = (c.item.cantidad != null && !isNaN(c.item.cantidad) && Number(c.item.cantidad) > 0) ? Number(c.item.cantidad) : 1;
+      let faltaCubrir = devCant;
+      const cubiertoPor = [];
+      // Un mismo ítem devuelto puede terminar cubierto por más de una NC
+      // (ej: devolví 10, una NC trae 5 y otra trae 3 del mismo título → quedan
+      // 2 sin acreditar). Seguimos buscando NC candidatas hasta cubrir todo
+      // lo devuelto o hasta que no quede ninguna que matchee.
+      while (faltaCubrir > 0){
+        const candidatas = ncDisponibles.filter(n => (n.restante === null || n.restante > 0) && n.factura.proveedorKey === c.dev.proveedorKey);
+        let encontrada = null;
+        candidatas.forEach(n => {
+          if (encontrada) return;
+          const codigoNCNorm = normTxtProv(n.item.codigoPublicacion || '');
+          if (codigoNorm && codigoNCNorm){ if (codigoNorm === codigoNCNorm) encontrada = n; return; }
+          const titNCMatch = matchTitulo(titulosProv, n.item.descripcion);
+          const mismoTitulo = (titMatch && titNCMatch) ? (titMatch.id === titNCMatch.id) : (normTxtProv(n.item.descripcion || '') === normTxtProv(c.item.descripcion || ''));
+          if (!mismoTitulo) return;
+          const edicionNCNorm = normTxtProv(n.item.edicion || '');
+          const mismaEdicion = (edicionNorm && edicionNCNorm) ? (edicionNorm === edicionNCNorm) : true;
+          if (mismaEdicion) encontrada = n;
+        });
+        if (!encontrada) break;
+        const usar = (encontrada.restante === null) ? faltaCubrir : Math.min(encontrada.restante, faltaCubrir);
+        if (encontrada.restante === null) encontrada.restante = 0; else encontrada.restante -= usar;
+        faltaCubrir -= usar;
+        cubiertoPor.push({ factura: encontrada.factura, item: encontrada.item, cantidad: usar });
+      }
+      if (cubiertoPor.length){
+        const cantidadAcreditada = cubiertoPor.reduce((s, x) => s + x.cantidad, 0);
+        asignacion[c.key] = { cubiertoPor, cantidadAcreditada, cantidadFaltante: Math.max(0, devCant - cantidadAcreditada) };
+      }
     });
     return asignacion;
   }
@@ -12948,24 +12974,33 @@ renderAutoConclusions();
   // completa (todas las devoluciones a la vez) para no asignar la misma NC dos veces.
   function recalcularEstadoDevolucion(d, asignacion){
     const items = Array.isArray(d.items) ? d.items : [];
-    let acreditados = 0;
+    let completos = 0;
+    let algoAcreditado = false;
     items.forEach((it, idx) => {
       const enc = asignacion[d.id + '::' + idx];
-      if (enc){
-        it.ncFacturaId = enc.factura.id;
-        it.ncNumero = enc.factura.numeroFactura || null;
-        it.faltante = false;
-        acreditados++;
+      const devCant = (it.cantidad != null && !isNaN(it.cantidad) && Number(it.cantidad) > 0) ? Number(it.cantidad) : 1;
+      if (enc && enc.cubiertoPor && enc.cubiertoPor.length){
+        it.ncFacturaId = enc.cubiertoPor[0].factura.id;
+        it.ncNumero = enc.cubiertoPor.map(x => x.factura.numeroFactura).filter(Boolean).join(', ') || null;
+        it.ncDetalle = enc.cubiertoPor.map(x => ({ facturaId: x.factura.id, numero: x.factura.numeroFactura || null, cantidad: x.cantidad }));
+        it.cantidadAcreditada = enc.cantidadAcreditada;
+        it.cantidadFaltante = enc.cantidadFaltante;
+        it.faltante = enc.cantidadFaltante > 0;
       } else {
         it.ncFacturaId = null;
         it.ncNumero = null;
+        it.ncDetalle = [];
+        it.cantidadAcreditada = 0;
+        it.cantidadFaltante = devCant;
         it.faltante = true;
       }
+      if (it.cantidadAcreditada > 0) algoAcreditado = true;
+      if (!it.faltante) completos++;
     });
     const estadoAnterior = d.estado;
     if (!items.length) d.estado = 'pendiente';
-    else if (acreditados === items.length) d.estado = 'aceptada';
-    else if (acreditados > 0) d.estado = 'parcial';
+    else if (completos === items.length) d.estado = 'aceptada';
+    else if (algoAcreditado) d.estado = 'parcial';
     else d.estado = 'pendiente';
     if (d.estado === 'aceptada' && estadoAnterior !== 'aceptada') d.acreditadaEl = new Date().toISOString();
     if (d.estado !== 'aceptada') d.acreditadaEl = null;
@@ -12977,6 +13012,36 @@ renderAutoConclusions();
   }
 
   // ---- Carga (foto/archivo + IA, o a mano) ----
+  // Estima el monto de un ítem devuelto usando el último precio facturado
+  // (no NC) de ese mismo título para este proveedor, cargado en Comprobantes.
+  // Los remitos de devolución casi nunca traen precio, así que esto evita
+  // tener que tipearlo a mano cada vez.
+  function estimarMontoItemDevolucion(proveedorKey, descripcion, cantidad){
+    if (!descripcion) return null;
+    const titulosProv = titulosDe(proveedorKey);
+    const titMatch = matchTitulo(titulosProv, descripcion);
+    const unit = ultimoPrecioUnitarioTitulo(proveedorKey, titMatch, descripcion, null);
+    if (unit == null) return null;
+    const cant = Number(cantidad) || 1;
+    const monto = unit * cant;
+    return isNaN(monto) ? null : Math.round(monto * 100) / 100;
+  }
+  // Recorre TODAS las devoluciones ya guardadas y completa el monto de los
+  // ítems que todavía no lo tienen, usando el último precio facturado de ese
+  // título para el proveedor correspondiente. No pisa montos ya cargados.
+  function completarMontosFaltantesDev(){
+    let actualizados = 0;
+    devoluciones.forEach(d => {
+      (d.items||[]).forEach(it => {
+        if (it.monto == null){
+          const est = estimarMontoItemDevolucion(d.proveedorKey, it.descripcion, it.cantidad);
+          if (est != null){ it.monto = est; actualizados++; }
+        }
+      });
+    });
+    if (actualizados > 0) saveDevoluciones();
+    return actualizados;
+  }
   function devNuevoItem(){ return { descripcion:'', edicion:'', codigoPublicacion:'', cantidad:'', motivo:'', monto:'', ncFacturaId:null, ncNumero:null, faltante:true }; }
   function filaItemDevolucion(it, idx){
     const inputCss = 'width:100%;box-sizing:border-box;background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:6px;border-radius:5px;font-size:12px;';
@@ -13001,14 +13066,25 @@ renderAutoConclusions();
   function agregarRevisionDevolucion(datos, archivosPendientes, nombreArchivo){
     const elRevision = document.getElementById('devRevision');
     if (!elRevision) return;
+    const proveedorInicial = datos.proveedorKey || provState.prov;
     const itemsLocal = (datos.items && datos.items.length ? datos.items.map(it => ({
       descripcion: it.descripcion || '',
       edicion: it.numero_edicion != null ? it.numero_edicion : (it.edicion||''),
       codigoPublicacion: it.codigo_publicacion != null ? it.codigo_publicacion : (it.codigoPublicacion||''),
       cantidad: it.cantidad != null ? it.cantidad : 1,
       monto: it.monto != null ? it.monto : '',
-      motivo: it.motivo || ''
+      motivo: it.motivo || '',
+      montoManual: it.monto != null
     })) : [devNuevoItem()]);
+    // Si algún ítem vino sin monto (lo más común: los remitos de devolución
+    // no traen precio), lo estimamos con el último precio facturado de ese
+    // título para este proveedor.
+    itemsLocal.forEach(it => {
+      if ((it.monto === '' || it.monto == null) && it.descripcion){
+        const est = estimarMontoItemDevolucion(proveedorInicial, it.descripcion, it.cantidad);
+        if (est != null) it.monto = est;
+      }
+    });
     const div = document.createElement('div');
     div.style.cssText = 'background:rgba(0,0,0,.18);border:1px solid var(--line);border-radius:12px;padding:14px;';
     div.innerHTML =
@@ -13018,6 +13094,7 @@ renderAutoConclusions();
       campoRevision('numeroRemito', 'N° de remito (opcional)', datos.numero_remito || datos.numeroRemito || '') +
       '<div style="margin-top:8px;">' +
         '<label class="card-note" style="display:block;margin-bottom:4px;">Ítems devueltos:</label>' +
+        '<p class="card-note" style="margin:0 0 6px 0;">💡 El monto se completa solo con el último precio facturado de ese título en Comprobantes. Si no encuentra el título o el precio no es el correcto, corregilo a mano.</p>' +
         '<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;font-size:12px;"><thead><tr>' +
           '<th style="text-align:left;padding:0 4px 4px 0;">Título / descripción</th><th style="text-align:left;padding:0 4px 4px 0;">N° ed.</th><th style="text-align:left;padding:0 4px 4px 0;">Cód. public.</th><th style="text-align:right;padding:0 4px 4px 0;">Cant.</th><th style="text-align:right;padding:0 4px 4px 0;">Monto $</th><th style="text-align:left;padding:0 4px 4px 0;">Motivo</th><th></th>' +
         '</tr></thead><tbody data-items-body></tbody></table></div>' +
@@ -13038,10 +13115,26 @@ renderAutoConclusions();
         b.addEventListener('click', () => { const i = parseInt(b.getAttribute('data-item-del'),10); itemsLocal.splice(i,1); pintarItems(); });
       });
       itemsBody.querySelectorAll('[data-item-campo]').forEach(inp => {
+        const campo = inp.getAttribute('data-item-campo');
         inp.addEventListener('input', () => {
           const tr = inp.closest('tr'); const idx = parseInt(tr.getAttribute('data-item-idx'),10);
-          itemsLocal[idx][inp.getAttribute('data-item-campo')] = inp.value;
+          itemsLocal[idx][campo] = inp.value;
+          if (campo === 'monto') itemsLocal[idx].montoManual = true;
         });
+        if (campo === 'descripcion' || campo === 'cantidad'){
+          inp.addEventListener('blur', () => {
+            const tr = inp.closest('tr'); const idx = parseInt(tr.getAttribute('data-item-idx'),10);
+            const it = itemsLocal[idx];
+            if (it.montoManual) return; // el usuario ya tipeó un monto a mano: no lo pisamos
+            const proveedorKey = (div.querySelector('[data-campo="proveedor"]')||{}).value || provState.prov;
+            const est = estimarMontoItemDevolucion(proveedorKey, it.descripcion, it.cantidad);
+            if (est != null){
+              it.monto = est;
+              const montoInput = tr.querySelector('[data-item-campo="monto"]');
+              if (montoInput) montoInput.value = est;
+            }
+          });
+        }
       });
     }
     pintarItems();
@@ -13144,7 +13237,13 @@ renderAutoConclusions();
   // Monto pendiente de acreditar de una devolución: suma de los ítems que
   // todavía no tienen NC asignada.
   function montoPendienteDev(d){
-    return (d.items||[]).reduce((s, it) => s + (it.faltante && it.monto != null ? Number(it.monto) : 0), 0);
+    return (d.items||[]).reduce((s, it) => {
+      if (!it.faltante || it.monto == null) return s;
+      const devCant = (it.cantidad != null && !isNaN(it.cantidad) && Number(it.cantidad) > 0) ? Number(it.cantidad) : 1;
+      const cantFaltante = it.cantidadFaltante != null ? it.cantidadFaltante : devCant;
+      const proporcion = devCant > 0 ? Math.min(1, cantFaltante / devCant) : 1;
+      return s + Number(it.monto) * proporcion;
+    }, 0);
   }
   // Resumen de $ pendiente de acreditar agrupado por proveedor, sin importar
   // cuál esté seleccionado — para ver de un vistazo dónde reclamar primero.
@@ -13198,9 +13297,14 @@ renderAutoConclusions();
       const dias = diasDevolucion(d);
       lineas.push('• ' + (d.fecha || 'sin fecha') + (d.numeroRemito ? ' — Remito ' + d.numeroRemito : '') + (dias!=null ? ' — ' + dias + ' días de espera' : ''));
       (d.items||[]).filter(it => it.faltante).forEach(it => {
-        const montoTxt = it.monto != null ? ' = ' + fmtARS(it.monto) : '';
-        lineas.push('   - ' + (it.descripcion || '(sin descripción)') + (it.edicion ? ' (' + it.edicion + ')' : '') + ' × ' + (it.cantidad||1) + montoTxt);
-        if (it.monto != null) total += Number(it.monto);
+        const devCant = (it.cantidad != null && !isNaN(it.cantidad) && Number(it.cantidad) > 0) ? Number(it.cantidad) : 1;
+        const cantFaltante = it.cantidadFaltante != null ? it.cantidadFaltante : devCant;
+        const proporcion = devCant > 0 ? Math.min(1, cantFaltante / devCant) : 1;
+        const montoFaltante = it.monto != null ? Number(it.monto) * proporcion : null;
+        const cantTxt = (it.cantidadAcreditada > 0) ? (cantFaltante + ' (devolví ' + devCant + ', me acreditaron solo ' + it.cantidadAcreditada + ')') : String(devCant);
+        const montoTxt = montoFaltante != null ? ' = ' + fmtARS(montoFaltante) : '';
+        lineas.push('   - ' + (it.descripcion || '(sin descripción)') + (it.edicion ? ' (' + it.edicion + ')' : '') + ' × ' + cantTxt + montoTxt);
+        if (montoFaltante != null) total += montoFaltante;
       });
     });
     lineas.push('');
@@ -13293,12 +13397,22 @@ renderAutoConclusions();
     lista = [...lista].sort((a,b) => (b.fecha||'').localeCompare(a.fecha||'') || (b.cargadaEl||'').localeCompare(a.cargadaEl||''));
 
     elLista.innerHTML = lista.length ? lista.map(d => {
-      const itemsHtml = (d.items||[]).map(it =>
-        '<div style="display:flex;justify-content:space-between;gap:8px;padding:3px 0;font-size:12.5px;border-bottom:1px solid var(--line);">' +
-          '<span>' + escapeHtmlProv(it.descripcion) + (it.edicion?' · Ed. '+escapeHtmlProv(it.edicion):'') + ' × ' + (it.cantidad||1) + (it.monto!=null?' · '+fmtARS(it.monto):'') + (it.motivo?' <span style="color:var(--muted);">('+escapeHtmlProv(it.motivo)+')</span>':'') + '</span>' +
-          '<span>' + (it.faltante ? '<span style="color:var(--red-neg);">⏳ sin NC</span>' : '<span style="color:var(--green-pos);">✔️'+(it.ncNumero?' NC '+escapeHtmlProv(it.ncNumero):'')+'</span>') + '</span>' +
-        '</div>'
-      ).join('');
+      const itemsHtml = (d.items||[]).map(it => {
+        const devCant = it.cantidad || 1;
+        let estadoItemHtml;
+        if (!it.faltante){
+          estadoItemHtml = '<span style="color:var(--green-pos);">✔️'+(it.ncNumero?' NC '+escapeHtmlProv(it.ncNumero):'')+'</span>';
+        } else if (it.cantidadAcreditada > 0){
+          // Acá está el caso puntual: hay NC, pero cubre menos ejemplares de los devueltos.
+          estadoItemHtml = '<span style="color:var(--gold);">⚠️ te acreditaron ' + it.cantidadAcreditada + ' de ' + devCant + (it.ncNumero?' (NC '+escapeHtmlProv(it.ncNumero)+')':'') + ' — faltan ' + it.cantidadFaltante + '</span>';
+        } else {
+          estadoItemHtml = '<span style="color:var(--red-neg);">⏳ sin NC</span>';
+        }
+        return '<div style="display:flex;justify-content:space-between;gap:8px;padding:3px 0;font-size:12.5px;border-bottom:1px solid var(--line);">' +
+          '<span>' + escapeHtmlProv(it.descripcion) + (it.edicion?' · Ed. '+escapeHtmlProv(it.edicion):'') + ' × ' + devCant + (it.monto!=null?' · '+fmtARS(it.monto):'') + (it.motivo?' <span style="color:var(--muted);">('+escapeHtmlProv(it.motivo)+')</span>':'') + '</span>' +
+          '<span>' + estadoItemHtml + '</span>' +
+        '</div>';
+      }).join('');
       const montoPend = montoPendienteDev(d);
       return '<div style="background:rgba(0,0,0,.18);border:1px solid var(--line);border-radius:12px;padding:12px 14px;" data-dev-id="' + d.id + '">' +
         '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;flex-wrap:wrap;">' +
@@ -13374,6 +13488,16 @@ renderAutoConclusions();
     verificarTodasDevoluciones();
     renderDevoluciones();
     const msg = document.getElementById('devListaMsg'); if (msg){ msg.textContent = 'Verificado ✔️'; setTimeout(()=>{ if (msg.textContent==='Verificado ✔️') msg.textContent=''; }, 2500); }
+  });
+  const elDevCompletarMontosBtn = document.getElementById('devCompletarMontosBtn');
+  if (elDevCompletarMontosBtn) elDevCompletarMontosBtn.addEventListener('click', () => {
+    const n = completarMontosFaltantesDev();
+    renderDevoluciones();
+    const msg = document.getElementById('devListaMsg');
+    if (msg){
+      msg.textContent = n > 0 ? ('Se completaron ' + n + ' ítem(s) con precio estimado de Comprobantes ✔️') : 'No encontré ítems sin monto que matcheen con algún título facturado. Revisá que el título esté bien escrito o cargado en Comprobantes.';
+      setTimeout(()=>{ if (msg.textContent.indexOf('completaron')>=0 || msg.textContent.indexOf('No encontré')>=0) msg.textContent=''; }, 4500);
+    }
   });
   const elDevEliminarAcreditadasBtn = document.getElementById('devEliminarAcreditadasBtn');
   if (elDevEliminarAcreditadasBtn) elDevEliminarAcreditadasBtn.addEventListener('click', async () => {
