@@ -1027,7 +1027,7 @@ Ordenar por fecha de vencimiento (las que vencen antes, primero — las sin fech
 </label>
 </div>
 <button class="link-btn" id="devManualBtn" type="button">✏️ Cargar a mano, sin foto ni archivo</button>
-<p class="card-note" id="devEstado" style="margin-top:8px;"></p>
+<p class="card-note" id="devEstado" style="margin-top:8px;font-weight:600;font-size:13px;min-height:16px;"></p>
 <div id="devRevision" style="display:flex;flex-direction:column;gap:12px;margin-top:8px;"></div>
 </div>
 <div class="card">
@@ -12994,11 +12994,13 @@ renderAutoConclusions();
         '<button type="button" class="link-btn" data-accion="agregar-item" style="margin-top:4px;">+ Agregar ítem</button>' +
       '</div>' +
       (archivosPendientes && archivosPendientes.length ? '<p class="card-note" style="margin-top:8px;">📎 ' + archivosPendientes.length + ' adjunto(s) se guardan junto con esta devolución.</p>' : '<p class="card-note" style="margin-top:8px;color:var(--gold);">Sin foto ni archivo adjunto.</p>') +
+      '<p style="margin-top:10px;font-weight:700;color:var(--gold);font-size:12.5px;">👇 Todavía no se guardó nada — revisá los datos y tocá "Guardar devolución" abajo.</p>' +
       '<div style="display:flex;gap:8px;margin-top:10px;">' +
-        '<button type="button" class="toggle-btn" data-accion="guardar" style="flex:1;">Guardar</button>' +
+        '<button type="button" class="toggle-btn" data-accion="guardar" style="flex:1;">💾 Guardar devolución</button>' +
         '<button type="button" class="toggle-btn" data-accion="descartar" style="flex:1;">Descartar</button>' +
       '</div>';
     elRevision.appendChild(div);
+    setTimeout(() => { try { div.scrollIntoView({behavior:'smooth', block:'center'}); } catch(e){} }, 50);
     const itemsBody = div.querySelector('[data-items-body]');
     function pintarItems(){
       itemsBody.innerHTML = itemsLocal.map((it, idx) => filaItemDevolucion(it, idx)).join('');
@@ -13069,6 +13071,7 @@ renderAutoConclusions();
           continue;
         }
         if (elEstado) elEstado.textContent = 'Analizando "' + file.name + '" con IA...';
+        if (elEstado) elEstado.style.color = 'var(--cream-dim)';
         try {
           const base64 = await fileToBase64Prov(file);
           const datos = await window.extraerDevolucionConIA(base64, file.type || 'image/jpeg');
@@ -13076,7 +13079,7 @@ renderAutoConclusions();
           agregarRevisionDevolucion(datos, [{ file, base64, mimeType: file.type || 'image/jpeg' }], file.name);
           if (elEstado) elEstado.textContent = '';
         } catch(err){
-          if (elEstado) elEstado.textContent = '⚠️ "' + file.name + '": ' + (err && err.message ? err.message : 'no se pudo analizar.');
+          if (elEstado){ elEstado.style.color = 'var(--red-neg)'; elEstado.textContent = '⚠️ "' + file.name + '": ' + (err && err.message ? err.message : 'no se pudo analizar.'); }
         }
       }
     });
@@ -13135,7 +13138,7 @@ renderAutoConclusions();
           '<button type="button" class="link-btn" data-dev-eliminar="' + d.id + '" style="color:var(--red-neg);">🗑️ Eliminar' + (d.estado==='aceptada' ? ' (ya acreditada)' : '') + '</button>' +
         '</div>' +
       '</div>';
-    }).join('') : '<p class="card-note">Sin devoluciones cargadas' + (devFiltroEstadoActual!=='todas' ? ' con este filtro' : '') + ' para ' + escapeHtmlProv(prov.label) + '.</p>';
+    }).join('') : '<p class="card-note">Todavía no hay devoluciones guardadas' + (devFiltroEstadoActual!=='todas' ? ' con este filtro' : '') + ' para ' + escapeHtmlProv(prov.label) + '. Subí una foto o archivo arriba (o "Cargar a mano") y acordate de tocar <strong>"💾 Guardar devolución"</strong> en la tarjeta que aparece — recién ahí queda cargada y se verifica sola contra las notas de crédito.</p>';
 
     elLista.querySelectorAll('[data-dev-verificar]').forEach(b => {
       b.addEventListener('click', () => { verificarTodasDevoluciones(); renderDevoluciones(); });
