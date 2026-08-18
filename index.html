@@ -13401,12 +13401,12 @@ renderAutoConclusions();
         const devCant = it.cantidad || 1;
         let estadoItemHtml;
         if (!it.faltante){
-          estadoItemHtml = '<span style="color:var(--green-pos);">✔️'+(it.ncNumero?' NC '+escapeHtmlProv(it.ncNumero):'')+'</span>';
+          estadoItemHtml = '<span style="color:var(--green-pos);">✔️ ' + devCant + ' de ' + devCant + (it.ncNumero?' · NC '+escapeHtmlProv(it.ncNumero):'') + '</span>';
         } else if (it.cantidadAcreditada > 0){
           // Acá está el caso puntual: hay NC, pero cubre menos ejemplares de los devueltos.
-          estadoItemHtml = '<span style="color:var(--gold);">⚠️ te acreditaron ' + it.cantidadAcreditada + ' de ' + devCant + (it.ncNumero?' (NC '+escapeHtmlProv(it.ncNumero)+')':'') + ' — faltan ' + it.cantidadFaltante + '</span>';
+          estadoItemHtml = '<span style="color:var(--gold);">⚠️ ' + it.cantidadAcreditada + ' de ' + devCant + (it.ncNumero?' · NC '+escapeHtmlProv(it.ncNumero):'') + ' — faltan ' + it.cantidadFaltante + '</span>';
         } else {
-          estadoItemHtml = '<span style="color:var(--red-neg);">⏳ sin NC</span>';
+          estadoItemHtml = '<span style="color:var(--red-neg);">⏳ 0 de ' + devCant + ' — sin NC</span>';
         }
         return '<div style="display:flex;justify-content:space-between;gap:8px;padding:3px 0;font-size:12.5px;border-bottom:1px solid var(--line);">' +
           '<span>' + escapeHtmlProv(it.descripcion) + (it.edicion?' · Ed. '+escapeHtmlProv(it.edicion):'') + ' × ' + devCant + (it.monto!=null?' · '+fmtARS(it.monto):'') + (it.motivo?' <span style="color:var(--muted);">('+escapeHtmlProv(it.motivo)+')</span>':'') + '</span>' +
