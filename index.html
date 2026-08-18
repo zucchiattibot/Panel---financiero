@@ -826,8 +826,21 @@ try {
 <div class="card">
 <h2>Proveedores</h2>
 <p class="card-note">Pagos a cada proveedor/distribuidor, identificados por categoría en tus movimientos. "Más Logística" y "Cronista" no aparecen como categorías en tus datos cargados — si les pagás con otro nombre (por ej. dentro de "Varios"), avisame y lo ajusto. Mientras tanto sumé Página 12 y Perfil, que sí están.</p>
-<div class="toggle-row" id="provTabs"></div>
+
+<!-- SUB-PESTAÑAS PROVEEDORES -->
+<div style="display:flex;gap:6px;margin:0 0 18px 0;overflow-x:auto;-webkit-overflow-scrolling:touch;">
+<button class="tab-btn provSubTab active" data-prov-subtab="facturas" style="flex:0 0 auto;">📋 Facturas</button>
+<button class="tab-btn provSubTab" data-prov-subtab="devoluciones" style="flex:0 0 auto;">↩️ Devoluciones</button>
+<button class="tab-btn provSubTab" data-prov-subtab="notascredito" style="flex:0 0 auto;">✅ Notas de Crédito</button>
+<button class="tab-btn provSubTab" data-prov-subtab="analisis" style="flex:0 0 auto;">📊 Análisis</button>
 </div>
+
+<!-- CONTENEDOR DE SUB-PESTAÑAS -->
+<div id="provSubTabsContainer">
+
+<!-- ========== TAB: FACTURAS ========== -->
+<div class="provSubTabContent active" data-prov-subtab="facturas">
+
 <div class="card">
 <h2>Período y precios</h2>
 <p class="card-note">Elegí el rango de fechas y si ver los pagos en pesos de cada momento o llevados a precios de hoy.</p>
@@ -1095,6 +1108,97 @@ Ordenar por fecha de vencimiento (las que vencen antes, primero — las sin fech
 <table id="facturaResumenTable"><thead><tr><th>Proveedor</th><th style="text-align:right">Deuda pendiente</th><th style="text-align:right">Vencidas</th></tr></thead><tbody></tbody></table>
 </div>
 </div>
+
+</div><!-- FIN TAB FACTURAS -->
+
+<!-- ========== TAB: DEVOLUCIONES ========== -->
+<div class="provSubTabContent" data-prov-subtab="devoluciones">
+
+<div class="card">
+<h2>Registrar devoluciones</h2>
+<p class="card-note">Cargá fotos o archivos de las devoluciones que realizaste. La IA identifica el proveedor, fecha, items y cantidades. Luego podés marcar si fue aceptada en nota de crédito o si falta algo.</p>
+<div style="display:flex;gap:20px;flex-wrap:wrap;align-items:flex-start;margin:10px 0;">
+<label style="display:flex;flex-direction:column;gap:4px;">
+<span class="card-note" style="font-size:12px;">📷 Foto</span>
+<input accept="image/*" id="devFileInputFoto" multiple="" style="color:var(--cream);" type="file"/>
+</label>
+<label style="display:flex;flex-direction:column;gap:4px;">
+<span class="card-note" style="font-size:12px;">📄 PDF</span>
+<input accept="application/pdf,.pdf" id="devFileInputPdf" multiple="" style="color:var(--cream);" type="file"/>
+</label>
+</div>
+<p class="card-note" id="devEstado"></p>
+<div id="devRevision" style="display:flex;flex-direction:column;gap:12px;margin-top:8px;"></div>
+</div>
+
+<div class="card">
+<h2>Devoluciones registradas</h2>
+<p class="card-note">Todas las devoluciones cargadas. Filtrá por proveedor, estado o rango de fechas.</p>
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;">
+<select id="devFiltroProveedor" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:8px;border-radius:6px;font-size:13px;">
+<option value="">— Todos los proveedores —</option>
+</select>
+<select id="devFiltroEstado" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:8px;border-radius:6px;font-size:13px;">
+<option value="">— Todos los estados —</option>
+<option value="pendiente">Pendiente de acreitar</option>
+<option value="acreditada">Acreditada (con NC)</option>
+<option value="parcial">Parcialmente acreditada</option>
+<option value="rechazada">Rechazada/Devuelta</option>
+</select>
+<input id="devFiltroDesde" type="date" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:8px;border-radius:6px;font-size:13px;"/>
+<input id="devFiltroHasta" type="date" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:8px;border-radius:6px;font-size:13px;"/>
+<button class="link-btn" id="devFiltroLimpiar">Limpiar filtros</button>
+</div>
+<div id="devListadoResultado" style="margin-top:14px;"></div>
+</div>
+
+</div><!-- FIN TAB DEVOLUCIONES -->
+
+<!-- ========== TAB: NOTAS DE CRÉDITO ========== -->
+<div class="provSubTabContent" data-prov-subtab="notascredito">
+
+<div class="card">
+<h2>Reconciliación de devoluciones</h2>
+<p class="card-note">Compara las devoluciones registradas contra las notas de crédito cargadas. Identifica qué devoluciones no fueron acreditadas y detecta items faltantes.</p>
+<button class="toggle-btn" id="devReconciliarBtn" type="button">🔍 Ejecutar reconciliación</button>
+<div id="devReconciliacionResultado" style="margin-top:14px;"></div>
+</div>
+
+<div class="card">
+<h2>Notas de crédito por proveedor</h2>
+<p class="card-note">Todas las notas de crédito cargadas y cómo se relacionan con las devoluciones registradas.</p>
+<div id="devNotasCreditoLista" style="margin-top:14px;"></div>
+</div>
+
+</div><!-- FIN TAB NOTAS DE CRÉDITO -->
+
+<!-- ========== TAB: ANÁLISIS ========== -->
+<div class="provSubTabContent" data-prov-subtab="analisis">
+
+<div class="card">
+<h2>Resumen de devoluciones por proveedor</h2>
+<p class="card-note">Total de montos devueltos, acreditados y pendientes de acreitar.</p>
+<div style="overflow-x:auto;">
+<table id="devResumenTable"><thead><tr><th>Proveedor</th><th style="text-align:right">Devuelto</th><th style="text-align:right">Acreditado</th><th style="text-align:right">Pendiente</th><th style="text-align:right">% Acred.</th></tr></thead><tbody></tbody></table>
+</div>
+</div>
+
+<div class="card">
+<h2>Detalles de faltantes y diferencias</h2>
+<p class="card-note">Items reportados como devueltos pero que no aparecen en las notas de crédito, o montos que no coinciden.</p>
+<div id="devFaltantesResultado" style="margin-top:14px;"></div>
+</div>
+
+<div class="card">
+<h2>Timeline de devoluciones</h2>
+<p class="card-note">Historial cronológico: cuándo se devolvió, cuándo se acreditó y cuántos días tardó.</p>
+<div id="devTimelineResultado" style="margin-top:14px;"></div>
+</div>
+
+</div><!-- FIN TAB ANÁLISIS -->
+
+</div><!-- FIN CONTENEDOR SUB-PESTAÑAS -->
+
 </div>
 <div class="panel" id="tab-comparar">
 <div class="note-box">Estos gráficos usan pesos nominales de cada momento. Para comparar años ajustando por inflación o por dólar, andá a la pestaña <strong>Inflación</strong> → "Comparar años".</div>
@@ -7492,6 +7596,7 @@ function armarBackupTexto(){
     categoriasBaseEliminadas: categoriasBaseEliminadas,
     categoriasBaseRenombres: categoriasBaseRenombres,
     facturasProveedores: (typeof window.getFacturasProveedores === 'function') ? window.getFacturasProveedores() : [],
+    devoluciones: (typeof window.getDevoluciones === 'function') ? window.getDevoluciones() : [],
     preciosProveedores: (typeof window.getPreciosProveedores === 'function') ? window.getPreciosProveedores() : {},
     clientesReparto: (typeof window.getClientesRepartoBackup === 'function') ? window.getClientesRepartoBackup() : null,
     vencimientos: (typeof window.getVencimientosBackup === 'function') ? window.getVencimientosBackup() : null,
@@ -7650,6 +7755,12 @@ async function procesarBackupTexto(texto, msgEl){
     const idsExistentes = new Set(window.getFacturasProveedores().map(f=>f.id));
     data.facturasProveedores.forEach(f=>{ if (f && f.id && !idsExistentes.has(f.id)) nuevasFacturas++; });
   }
+  
+  let nuevasDevoluciones = 0;
+  if (Array.isArray(data.devoluciones) && typeof window.getDevoluciones === 'function'){
+    const idsExistentes = new Set(window.getDevoluciones().map(d=>d.id));
+    data.devoluciones.forEach(d=>{ if (d && d.id && !idsExistentes.has(d.id)) nuevasDevoluciones++; });
+  }
 
   // --- Clientes reparto (pestaña "Clientes"): se agregan solo los que no existan ya (por id). ---
   let nuevosClientes = 0, nuevosDiarios = 0, nuevosExtras = 0;
@@ -7688,7 +7799,7 @@ async function procesarBackupTexto(texto, msgEl){
     rcBackup.clientes.forEach(c=>{ if (c && c.id && !idsRcExistentes.has(c.id)) nuevosClientesColecciones++; });
   }
 
-  if (nuevosMov === 0 && actualizadosMov === 0 && nuevasFacturas === 0 && nuevosClientes === 0 && nuevosDiarios === 0 && nuevosExtras === 0 && nuevosVencimientos === 0 && nuevosClientesColecciones === 0){
+  if (nuevosMov === 0 && actualizadosMov === 0 && nuevasFacturas === 0 && nuevasDevoluciones === 0 && nuevosClientes === 0 && nuevosDiarios === 0 && nuevosExtras === 0 && nuevosVencimientos === 0 && nuevosClientesColecciones === 0){
     msgEl.textContent = repetidosMov > 0
       ? `Ese backup ya estaba cargado acá (${repetidosMov} repetido(s), 0 nuevos). No se cambió nada.`
       : 'El backup no tenía movimientos, comprobantes ni datos de clientes nuevos para agregar. No se cambió nada.';
@@ -7703,6 +7814,7 @@ async function procesarBackupTexto(texto, msgEl){
     `• ${nuevosMov} movimiento(s) nuevo(s)${repetidosMov ? ` (${repetidosMov} ya estaban igual y se van a ignorar)` : ''}\n` +
     (actualizadosMov ? `• ${actualizadosMov} movimiento(s) editado(s) en otro dispositivo (se va a reemplazar la versión vieja por la editada)\n` : '') +
     (nuevasFacturas ? `• ${nuevasFacturas} comprobante(s) de proveedores nuevo(s)\n` : '') +
+    (nuevasDevoluciones ? `• ${nuevasDevoluciones} devolución(es) de proveedor(es) nueva(s)\n` : '') +
     (nuevosClientes ? `• ${nuevosClientes} cliente(s) de reparto nuevo(s)\n` : '') +
     (nuevosDiarios ? `• ${nuevosDiarios} diario(s)/producto(s) nuevo(s)\n` : '') +
     (nuevosExtras ? `• ${nuevosExtras} extra(s) de reparto nuevo(s)\n` : '') +
@@ -7756,6 +7868,10 @@ async function procesarBackupTexto(texto, msgEl){
   if (Array.isArray(data.facturasProveedores) && typeof window.importarFacturasProveedores === 'function'){
     facturasAgregadas = await window.importarFacturasProveedores(data.facturasProveedores);
   }
+  let devolucionesAgregadas = 0;
+  if (Array.isArray(data.devoluciones) && typeof window.importarDevoluciones === 'function'){
+    devolucionesAgregadas = await window.importarDevoluciones(data.devoluciones);
+  }
   let preciosAgregados = 0;
   if (data.preciosProveedores && typeof window.importarPreciosProveedores === 'function'){
     preciosAgregados = await window.importarPreciosProveedores(data.preciosProveedores);
@@ -7769,7 +7885,7 @@ async function procesarBackupTexto(texto, msgEl){
   if (rcBackup && typeof window.importarColeccionesBackup === 'function'){
     await window.importarColeccionesBackup(rcBackup);
   }
-  msgEl.textContent = `Importando ${nuevosMov} movimiento(s) nuevo(s)${actualizadosMov ? ` y ${actualizadosMov} editado(s)` : ''}${facturasAgregadas ? ` y ${facturasAgregadas} comprobante(s) de proveedores` : ''}${preciosAgregados ? ` y ${preciosAgregados} título(s) de precio de venta` : ''}${nuevosClientes ? ` y ${nuevosClientes} cliente(s) de reparto` : ''}${nuevosVencimientos ? ` y ${nuevosVencimientos} vencimiento(s) de servicio` : ''}${nuevosClientesColecciones ? ` y ${nuevosClientesColecciones} cliente(s) de colecciones` : ''}${repetidosMov ? ` (${repetidosMov} movimiento(s) ya estaban)` : ''}…`;
+  msgEl.textContent = `Importando ${nuevosMov} movimiento(s) nuevo(s)${actualizadosMov ? ` y ${actualizadosMov} editado(s)` : ''}${facturasAgregadas ? ` y ${facturasAgregadas} comprobante(s) de proveedores` : ''}${devolucionesAgregadas ? ` y ${devolucionesAgregadas} devolución(es)` : ''}${preciosAgregados ? ` y ${preciosAgregados} título(s) de precio de venta` : ''}${nuevosClientes ? ` y ${nuevosClientes} cliente(s) de reparto` : ''}${nuevosVencimientos ? ` y ${nuevosVencimientos} vencimiento(s) de servicio` : ''}${nuevosClientesColecciones ? ` y ${nuevosClientesColecciones} cliente(s) de colecciones` : ''}${repetidosMov ? ` (${repetidosMov} movimiento(s) ya estaban)` : ''}…`;
   const okMov = await storageSet('manual-entries', JSON.stringify(manualEntries));
   await storageSet('categorias-personalizadas', JSON.stringify(categoriasCustom));
   await storageSet('categorias-base-eliminadas', JSON.stringify(categoriasBaseEliminadas));
@@ -7828,6 +7944,7 @@ function armarBackupProveedoresTexto(){
     version: 1,
     exportadoEl: new Date().toISOString(),
     facturasProveedores: (typeof window.getFacturasProveedores === 'function') ? window.getFacturasProveedores() : [],
+    devoluciones: (typeof window.getDevoluciones === 'function') ? window.getDevoluciones() : [],
     preciosProveedores: (typeof window.getPreciosProveedores === 'function') ? window.getPreciosProveedores() : {}
   };
   return JSON.stringify(backup, null, 2);
@@ -20593,6 +20710,541 @@ document.getElementById('panelMenuFlotanteOverlay').addEventListener('click', fu
       lastH=h;
     });
   }
+})();
+
+/* ========== MÓDULO DEVOLUCIONES ========== */
+(function(){
+  "use strict";
+  
+  const K_DEVOLUCIONES = 'devoluciones_v1';
+  const K_GGEMINI_KEY = 'ia-gemini-api-key';
+  
+  let devoluciones = [];
+  
+  // Estructura de cada devolución:
+  // {
+  //   id: string,
+  //   fecha: 'YYYY-MM-DD',
+  //   proveedorKey: string,
+  //   items: [{titulo: string, cantidad: number, monto: number}, ...],
+  //   montoTotal: number,
+  //   estado: 'pendiente' | 'acreditada' | 'parcial' | 'rechazada',
+  //   notasCreditoAsociadas: [id, ...], // IDs de NCs que se acreditaron contra esto
+  //   faltantes: [{titulo: string, cantidad: number, motivo: string}, ...],
+  //   observaciones: string,
+  //   fechaAcreditacion: 'YYYY-MM-DD' | null,
+  //   imagen: string // base64 de la foto/pdf
+  // }
+  
+  function uid(){ return Date.now().toString(36) + Math.random().toString(36).slice(2,8); }
+  function hoy(){ return new Date().toISOString().slice(0,10); }
+  function esc(s){ const d=document.createElement('div'); d.textContent=s==null?'':s; return d.innerHTML; }
+  function fmt(n){ try { return (typeof fmtARS === 'function') ? fmtARS(n) : ('$' + Number(n).toLocaleString('es-AR')); } catch(e){ return '$' + n; } }
+  
+  // Obtener lista de proveedores desde el módulo de Facturas
+  function getProveedoresDisponibles(){
+    if (typeof window.getProveedoresList === 'function'){
+      return window.getProveedoresList();
+    }
+    return [];
+  }
+  
+  // Actualizar select de filtro de proveedor
+  function actualizarSelectProveedores(){
+    const select = document.getElementById('devFiltroProveedor');
+    if (!select) return;
+    const provs = getProveedoresDisponibles();
+    const actual = select.value;
+    select.innerHTML = '<option value="">— Todos los proveedores —</option>' +
+      provs.map(p => '<option value="' + esc(p.key) + '">' + esc(p.label) + '</option>').join('');
+    select.value = actual;
+  }
+  
+  function getProveedorLabel(key){
+    const provs = getProveedoresDisponibles();
+    const p = provs.find(x => x.key === key);
+    return p ? p.label : key;
+  }
+  
+  async function loadDevoluciones(){
+    try {
+      const raw = await storageGet(K_DEVOLUCIONES);
+      if (raw) devoluciones = JSON.parse(raw) || [];
+    } catch(e){
+      devoluciones = [];
+    }
+    actualizarSelectProveedores();
+    renderDevoluciones();
+    renderResumenDevoluciones();
+    renderReconciliacion();
+  }
+  
+  function saveDevoluciones(){
+    storageSet(K_DEVOLUCIONES, JSON.stringify(devoluciones));
+  }
+  
+  async function procesarArchivoDevolucion(file){
+    const msg = document.getElementById('devEstado');
+    if (!msg) return null;
+    
+    msg.innerHTML = '<span style="color:var(--blue);">⏳ Procesando...</span>';
+    
+    try {
+      const apiKey = await storageGet(K_GGEMINI_KEY);
+      if (!apiKey) {
+        msg.innerHTML = '<span style="color:var(--red-neg);">❌ Clave de Gemini no configurada. Andá a Asistente IA → Configuración.</span>';
+        return null;
+      }
+      
+      let base64Data;
+      if (file.type.startsWith('image/')){
+        base64Data = await new Promise((res, rej) => {
+          const r = new FileReader();
+          r.onload = () => res(r.result.split(',')[1]);
+          r.onerror = () => rej(e);
+          r.readAsDataURL(file);
+        });
+      } else if (file.type === 'application/pdf'){
+        // Para PDF, intentar extraer texto; si falla, usar imagen
+        base64Data = await new Promise((res, rej) => {
+          const r = new FileReader();
+          r.onload = () => res(r.result.split(',')[1]);
+          r.onerror = () => rej(e);
+          r.readAsDataURL(file);
+        });
+      }
+      
+      const mediaType = file.type.startsWith('image/') ? file.type : 'application/pdf';
+      const prompt = `Sos un experto en lectura de comprobantes de devoluciones.
+Analiza esta imagen/documento de devolución y extrae:
+1. PROVEEDOR: (identifica cuál es: Clarín, La Nación, Silmar, Ámbito, Página 12, Perfil)
+2. FECHA: (formato YYYY-MM-DD)
+3. ITEMS: lista de items devueltos con:
+   - TITULO: nombre de la publicación
+   - CANTIDAD: número de ejemplares
+   - MONTO: precio unitario o total si está
+4. MONTO TOTAL: total devuelto (si figura)
+5. OBSERVACIONES: cualquier nota importante (falta algún ejemplar, condición, etc.)
+
+Responde SOLO en JSON, sin backticks, con esta estructura exacta:
+{
+  "proveedor": "clave|nombre",
+  "fecha": "YYYY-MM-DD",
+  "items": [{"titulo": "...", "cantidad": 0, "monto": 0}, ...],
+  "montoTotal": 0,
+  "observaciones": "..."
+}`;
+      
+      const resp = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + apiKey, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{
+            parts: [
+              { text: prompt },
+              { inlineData: { mimeType: mediaType, data: base64Data } }
+            ]
+          }],
+          generationConfig: { temperature: 0, maxOutputTokens: 1000 }
+        })
+      });
+      
+      if (!resp.ok){
+        msg.innerHTML = '<span style="color:var(--red-neg);">❌ Error de API Gemini: ' + resp.status + '</span>';
+        return null;
+      }
+      
+      const data = await resp.json();
+      const texto = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+      const limpio = texto.replace(/```json|```/g, '').trim();
+      const parsed = JSON.parse(limpio);
+      
+      return { ...parsed, imagen: base64Data };
+      
+    } catch(e){
+      msg.innerHTML = '<span style="color:var(--red-neg);">❌ Error: ' + esc(e.message) + '</span>';
+      return null;
+    }
+  }
+  
+  function renderDevoluciones(){
+    const cont = document.getElementById('devListadoResultado');
+    if (!cont) return;
+    
+    const filtroProveedor = document.getElementById('devFiltroProveedor')?.value || '';
+    const filtroEstado = document.getElementById('devFiltroEstado')?.value || '';
+    const filtroDesde = document.getElementById('devFiltroDesde')?.value || '';
+    const filtroHasta = document.getElementById('devFiltroHasta')?.value || '';
+    
+    let filtered = devoluciones.slice();
+    if (filtroProveedor) filtered = filtered.filter(d => d.proveedorKey === filtroProveedor);
+    if (filtroEstado) filtered = filtered.filter(d => d.estado === filtroEstado);
+    if (filtroDesde) filtered = filtered.filter(d => d.fecha >= filtroDesde);
+    if (filtroHasta) filtered = filtered.filter(d => d.fecha <= filtroHasta);
+    filtered.sort((a, b) => (b.fecha || '').localeCompare(a.fecha || ''));
+    
+    if (!filtered.length){
+      cont.innerHTML = '<p class="card-note" style="margin:0;">No hay devoluciones registradas con los filtros aplicados.</p>';
+      return;
+    }
+    
+    cont.innerHTML = filtered.map(dev => {
+      const prov = getProveedorLabel(dev.proveedorKey);
+      const estadoLabel = { 'pendiente': 'Pendiente', 'acreditada': 'Acreditada', 'parcial': 'Parcial', 'rechazada': 'Rechazada' }[dev.estado] || dev.estado;
+      const estadoColor = { 'pendiente': 'var(--blue)', 'acreditada': 'var(--green-pos)', 'parcial': 'var(--gold)', 'rechazada': 'var(--red-neg)' }[dev.estado] || 'var(--cream)';
+      
+      return `<div style="border:1px solid var(--line);border-radius:10px;padding:12px;margin-bottom:10px;background:rgba(0,0,0,.1);">
+        <div style="display:flex;justify-content:space-between;align-items:start;gap:10px;margin-bottom:8px;">
+          <div>
+            <div style="font-weight:700;color:var(--gold);">${esc(prov)}</div>
+            <div style="font-size:12px;color:var(--cream-dim);">${dev.fecha || '—'}</div>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-size:13px;font-weight:700;color:${estadoColor};">${estadoLabel}</div>
+            <div style="font-size:13px;color:var(--green-pos);">${fmt(dev.montoTotal || 0)}</div>
+          </div>
+        </div>
+        ${dev.items && dev.items.length ? '<div style="font-size:12px;color:var(--cream-dim);margin:8px 0;"><strong>Items:</strong> ' + dev.items.map(it => `${it.titulo} (${it.cantidad} ej.)`).join(', ') + '</div>' : ''}
+        ${dev.observaciones ? '<div style="font-size:12px;color:var(--cream-dim);margin:8px 0;"><strong>Obs:</strong> ' + esc(dev.observaciones) + '</div>' : ''}
+        ${dev.faltantes && dev.faltantes.length ? '<div style="font-size:12px;color:var(--red-neg);margin:8px 0;"><strong>⚠️ Faltantes:</strong> ' + dev.faltantes.map(f => `${f.titulo} (${f.cantidad})`).join(', ') + '</div>' : ''}
+        <div style="display:flex;gap:6px;margin-top:10px;flex-wrap:wrap;">
+          <button class="link-btn" data-dev-edit="${dev.id}" type="button">Editar estado</button>
+          <button class="link-btn" data-dev-del="${dev.id}" type="button">Eliminar</button>
+        </div>
+      </div>`;
+    }).join('');
+    
+    // Event listeners
+    cont.querySelectorAll('[data-dev-edit]').forEach(btn => {
+      btn.addEventListener('click', () => editarEstadoDevolucion(btn.getAttribute('data-dev-edit')));
+    });
+    cont.querySelectorAll('[data-dev-del]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.getAttribute('data-dev-del');
+        if (!confirm('¿Eliminar esta devolución? No se puede deshacer.')) return;
+        devoluciones = devoluciones.filter(d => d.id !== id);
+        saveDevoluciones();
+        renderDevoluciones();
+        renderResumenDevoluciones();
+        renderReconciliacion();
+      });
+    });
+  }
+  
+  function editarEstadoDevolucion(id){
+    const dev = devoluciones.find(d => d.id === id);
+    if (!dev) return;
+    
+    const nuevoEstado = prompt('Estado actual: ' + dev.estado + '\n\nNuevo estado (pendiente/acreditada/parcial/rechazada):', dev.estado);
+    if (!nuevoEstado) return;
+    
+    if (!['pendiente', 'acreditada', 'parcial', 'rechazada'].includes(nuevoEstado)){
+      alert('Estado no válido.');
+      return;
+    }
+    
+    dev.estado = nuevoEstado;
+    if (nuevoEstado === 'acreditada' && !dev.fechaAcreditacion){
+      dev.fechaAcreditacion = hoy();
+    }
+    
+    const obs = prompt('Observaciones adicionales:', dev.observaciones || '');
+    if (obs !== null) dev.observaciones = obs;
+    
+    saveDevoluciones();
+    renderDevoluciones();
+    renderResumenDevoluciones();
+    renderReconciliacion();
+  }
+  
+  function renderResumenDevoluciones(){
+    const tabla = document.getElementById('devResumenTable');
+    if (!tabla) return;
+    
+    const porProveedor = {};
+    devoluciones.forEach(dev => {
+      if (!porProveedor[dev.proveedorKey]) porProveedor[dev.proveedorKey] = { devuelto: 0, acreditado: 0, pendiente: 0, count: 0 };
+      const p = porProveedor[dev.proveedorKey];
+      p.devuelto += dev.montoTotal || 0;
+      p.count++;
+      if (dev.estado === 'acreditada') p.acreditado += dev.montoTotal || 0;
+      else if (dev.estado === 'pendiente') p.pendiente += dev.montoTotal || 0;
+    });
+    
+    const filas = Object.keys(porProveedor).map(key => {
+      const p = porProveedor[key];
+      const pct = p.devuelto ? ((p.acreditado / p.devuelto) * 100).toFixed(1) : 0;
+      return `<tr>
+        <td>${esc(getProveedorLabel(key))}</td>
+        <td style="text-align:right;">${fmt(p.devuelto)}</td>
+        <td style="text-align:right;color:var(--green-pos);">${fmt(p.acreditado)}</td>
+        <td style="text-align:right;color:var(--blue);">${fmt(p.pendiente)}</td>
+        <td style="text-align:right;color:var(--gold);">${pct}%</td>
+      </tr>`;
+    }).join('');
+    
+    tabla.querySelector('tbody').innerHTML = filas || '<tr><td colspan="5" style="text-align:center;padding:20px;color:var(--cream-dim);">Sin devoluciones registradas</td></tr>';
+  }
+  
+  function renderReconciliacion(){
+    const cont = document.getElementById('devReconciliacionResultado');
+    const listaNC = document.getElementById('devNotasCreditoLista');
+    const faltantes = document.getElementById('devFaltantesResultado');
+    const timeline = document.getElementById('devTimelineResultado');
+    if (!cont && !listaNC) return;
+    
+    // Obtener todas las NC del módulo de Facturas
+    const allFacturas = (typeof window.getFacturasProveedores === 'function') ? window.getFacturasProveedores() : [];
+    const notasCredito = allFacturas.filter(f => f.tipo === 'nota_credito');
+    
+    // Asociar devoluciones con NCs
+    const reporteRecon = [];
+    devoluciones.forEach(dev => {
+      const ncsAsociadas = notasCredito.filter(nc => {
+        if (nc.proveedorKey !== dev.proveedorKey) return false;
+        const ncFecha = new Date(nc.fecha || '');
+        const devFecha = new Date(dev.fecha || '');
+        const diasDiff = Math.floor((ncFecha - devFecha) / (1000*60*60*24));
+        return diasDiff >= 0 && diasDiff <= 30; // NC dentro de 30 días de la devolución
+      });
+      
+      const acreditado = ncsAsociadas.reduce((s, nc) => s + (nc.monto || 0), 0);
+      const estado = dev.montoTotal ? (acreditado >= dev.montoTotal * 0.95 ? 'acreditada' : acreditado > 0 ? 'parcial' : 'pendiente') : 'pendiente';
+      
+      if (estado !== dev.estado && dev.estado === 'pendiente'){
+        dev.estado = estado;
+        dev.notasCreditoAsociadas = ncsAsociadas.map(nc => nc.id);
+        if (ncsAsociadas.length > 0 && !dev.fechaAcreditacion){
+          dev.fechaAcreditacion = ncsAsociadas[0].fecha;
+        }
+      }
+      
+      reporteRecon.push({ dev, ncsAsociadas, acreditado });
+    });
+    
+    if (cont){
+      const pendientes = reporteRecon.filter(r => r.ncsAsociadas.length === 0 && r.dev.estado === 'pendiente');
+      if (!pendientes.length){
+        cont.innerHTML = '<p class="card-note" style="margin:0;color:var(--green-pos);">✅ Todas las devoluciones fueron acreditadas.</p>';
+      } else {
+        cont.innerHTML = '<div style="padding:10px;background:rgba(224,139,120,.08);border:1px solid var(--red-neg);border-radius:8px;">' +
+          '<p class="card-note" style="margin:0;color:var(--red-neg);">⚠️ ' + pendientes.length + ' devolución(es) sin acreditar:</p>' +
+          '<ul style="margin:8px 0 0 0;padding-left:20px;color:var(--cream-dim);font-size:12px;">' +
+          pendientes.map(r => `<li>${esc(getProveedorLabel(r.dev.proveedorKey))} - ${r.dev.fecha} (${fmt(r.dev.montoTotal)})</li>`).join('') +
+          '</ul></div>';
+      }
+    }
+    
+    if (listaNC){
+      listaNC.innerHTML = notasCredito.length ? notasCredito.map(nc => {
+        const relacionadas = reporteRecon.filter(r => r.ncsAsociadas.some(a => a.id === nc.id));
+        return `<div style="border:1px solid var(--line);border-radius:8px;padding:10px;margin-bottom:8px;background:rgba(0,0,0,.1);">
+          <div style="font-weight:700;color:var(--gold);">${esc(getProveedorLabel(nc.proveedorKey))} - NC ${esc(nc.numeroFactura || '—')}</div>
+          <div style="font-size:12px;color:var(--cream-dim);">${nc.fecha || '—'} · ${fmt(nc.monto)}</div>
+          ${relacionadas.length ? '<div style="font-size:12px;color:var(--green-pos);margin-top:4px;">✓ Acredita ' + relacionadas.length + ' devolución(es)</div>' : '<div style="font-size:12px;color:var(--blue);margin-top:4px;">⚠️ No asociada a devolución registrada</div>'}
+        </div>`;
+      }).join('') : '<p class="card-note">No hay notas de crédito cargadas.</p>';
+    }
+    
+    if (faltantes){
+      const conFaltantes = devoluciones.filter(d => d.faltantes && d.faltantes.length);
+      faltantes.innerHTML = conFaltantes.length ? conFaltantes.map(dev => `<div style="border:1px solid var(--orange);border-radius:8px;padding:10px;margin-bottom:8px;background:rgba(255,165,0,.05);">
+        <div style="font-weight:700;color:var(--gold);">${esc(getProveedorLabel(dev.proveedorKey))} - ${dev.fecha}</div>
+        <div style="font-size:12px;color:var(--red-neg);margin-top:4px;">Faltantes reportados:</div>
+        <ul style="margin:4px 0 0 0;padding-left:20px;color:var(--cream-dim);font-size:12px;">
+          ${dev.faltantes.map(f => `<li>${esc(f.titulo)} (${f.cantidad} ej.)</li>`).join('')}
+        </ul>
+      </div>`).join('') : '<p class="card-note">No hay faltantes reportados.</p>';
+    }
+    
+    if (timeline){
+      const conAcred = devoluciones.filter(d => d.fechaAcreditacion);
+      timeline.innerHTML = conAcred.length ? conAcred.map(dev => {
+        const devFecha = new Date(dev.fecha);
+        const acredFecha = new Date(dev.fechaAcreditacion);
+        const diasTardanza = Math.floor((acredFecha - devFecha) / (1000*60*60*24));
+        return `<div style="padding:10px;border-left:3px solid var(--green-pos);background:rgba(0,0,0,.1);margin-bottom:8px;">
+          <div style="font-weight:700;color:var(--cream);">${esc(getProveedorLabel(dev.proveedorKey))}</div>
+          <div style="font-size:12px;color:var(--cream-dim);">Devuelto: ${dev.fecha} → Acreditado: ${dev.fechaAcreditacion} (${diasTardanza} días)</div>
+          <div style="font-size:12px;color:var(--green-pos);">${fmt(dev.montoTotal)}</div>
+        </div>`;
+      }).join('') : '<p class="card-note">No hay devoluciones acreditadas.</p>';
+    }
+    
+    saveDevoluciones();
+  }
+  
+  // Event listeners para carga de archivos
+  const elDevFoto = document.getElementById('devFileInputFoto');
+  const elDevPdf = document.getElementById('devFileInputPdf');
+  
+  async function procesarFilesDevolucion(files){
+    const msg = document.getElementById('devEstado');
+    const revision = document.getElementById('devRevision');
+    if (!msg || !revision) return;
+    
+    for (const file of files){
+      const resultado = await procesarArchivoDevolucion(file);
+      if (!resultado) continue;
+      
+      // Mostrar para revisión
+      const provLabel = getProveedorLabel(resultado.proveedor) || resultado.proveedor;
+      const html = `<div style="border:1px solid var(--gold);border-radius:10px;padding:12px;background:rgba(211,181,106,.08);margin-bottom:10px;">
+        <div style="display:flex;justify-content:space-between;align-items:start;gap:10px;margin-bottom:8px;">
+          <div>
+            <div style="font-weight:700;color:var(--gold);">Proveedor: ${esc(provLabel)}</div>
+            <div style="font-size:12px;color:var(--cream-dim);">Fecha: ${resultado.fecha || '—'}</div>
+            <div style="font-size:12px;color:var(--cream-dim);">Total: ${fmt(resultado.montoTotal || 0)}</div>
+          </div>
+          <div>
+            ${resultado.items && resultado.items.length ? '<div style="font-size:12px;color:var(--cream-dim);"><strong>Items:</strong>' + resultado.items.length + '</div>' : ''}
+          </div>
+        </div>
+        ${resultado.observaciones ? '<div style="font-size:12px;color:var(--cream-dim);margin:8px 0;"><strong>Obs:</strong> ' + esc(resultado.observaciones) + '</div>' : ''}
+        <table style="width:100%;font-size:11px;margin:8px 0;border-collapse:collapse;">
+          <thead><tr style="border-bottom:1px solid var(--line);"><th style="text-align:left;padding:4px;">Título</th><th style="text-align:right;padding:4px;">Cant.</th><th style="text-align:right;padding:4px;">Monto</th></tr></thead>
+          <tbody>
+            ${(resultado.items || []).map(it => `<tr style="border-bottom:1px solid var(--line);"><td style="padding:4px;">${esc(it.titulo)}</td><td style="text-align:right;padding:4px;">${it.cantidad}</td><td style="text-align:right;padding:4px;">${fmt(it.monto || 0)}</td></tr>`).join('')}
+          </tbody>
+        </table>
+        <div style="display:flex;gap:6px;margin-top:8px;">
+          <button class="toggle-btn" data-dev-guardar-idx="${revision.children.length}" type="button">✓ Guardar</button>
+          <button class="toggle-btn" data-dev-descartar-idx="${revision.children.length}" type="button">✗ Descartar</button>
+        </div>
+      </div>`;
+      
+      const div = document.createElement('div');
+      div.innerHTML = html;
+      div.dataset.devData = JSON.stringify(resultado);
+      revision.appendChild(div);
+    }
+    
+    if (revision.children.length > 0){
+      msg.innerHTML = '<span style="color:var(--green-pos);">✓ Revisá y confirma cada devolución</span>';
+      wireDevRevision();
+    }
+  }
+  
+  function wireDevRevision(){
+    const revision = document.getElementById('devRevision');
+    if (!revision) return;
+    
+    revision.querySelectorAll('[data-dev-guardar-idx]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const idx = parseInt(btn.getAttribute('data-dev-guardar-idx'));
+        const div = revision.children[idx];
+        const data = JSON.parse(div.dataset.devData);
+        
+        const nuevaDev = {
+          id: uid(),
+          fecha: data.fecha,
+          proveedorKey: data.proveedor.split('|')[0] || data.proveedor,
+          items: data.items || [],
+          montoTotal: data.montoTotal || 0,
+          estado: 'pendiente',
+          notasCreditoAsociadas: [],
+          faltantes: [],
+          observaciones: data.observaciones || '',
+          fechaAcreditacion: null,
+          imagen: data.imagen || ''
+        };
+        
+        devoluciones.push(nuevaDev);
+        saveDevoluciones();
+        div.remove();
+        
+        if (revision.children.length === 0){
+          renderDevoluciones();
+          renderResumenDevoluciones();
+          renderReconciliacion();
+          document.getElementById('devEstado').innerHTML = '<span style="color:var(--green-pos);">✓ Devoluciones guardadas</span>';
+        }
+      });
+    });
+    
+    revision.querySelectorAll('[data-dev-descartar-idx]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const idx = parseInt(btn.getAttribute('data-dev-descartar-idx'));
+        revision.children[idx].remove();
+        if (revision.children.length === 0) document.getElementById('devEstado').innerHTML = '';
+      });
+    });
+  }
+  
+  if (elDevFoto) elDevFoto.addEventListener('change', (e) => procesarFilesDevolucion(e.target.files));
+  if (elDevPdf) elDevPdf.addEventListener('change', (e) => procesarFilesDevolucion(e.target.files));
+  
+  // Filtros
+  document.getElementById('devFiltroProveedor')?.addEventListener('change', renderDevoluciones);
+  document.getElementById('devFiltroEstado')?.addEventListener('change', renderDevoluciones);
+  document.getElementById('devFiltroDesde')?.addEventListener('change', renderDevoluciones);
+  document.getElementById('devFiltroHasta')?.addEventListener('change', renderDevoluciones);
+  document.getElementById('devFiltroLimpiar')?.addEventListener('click', () => {
+    document.getElementById('devFiltroProveedor').value = '';
+    document.getElementById('devFiltroEstado').value = '';
+    document.getElementById('devFiltroDesde').value = '';
+    document.getElementById('devFiltroHasta').value = '';
+    renderDevoluciones();
+  });
+  
+  document.getElementById('devReconciliarBtn')?.addEventListener('click', renderReconciliacion);
+  
+  // Boot
+  loadDevoluciones();
+  
+  // Exponer para backup
+  window.getDevoluciones = function(){ return devoluciones; };
+  window.restaurarDevoluciones = async function(arr){
+    devoluciones = Array.isArray(arr) ? arr : [];
+    await storageSet(K_DEVOLUCIONES, JSON.stringify(devoluciones));
+    loadDevoluciones();
+  };
+  window.importarDevoluciones = async function(arr){
+    if (!Array.isArray(arr)) return 0;
+    const idsExistentes = new Set(devoluciones.map(d => d.id));
+    let agregadas = 0;
+    arr.forEach(d => {
+      if (!d || !d.id || idsExistentes.has(d.id)) return;
+      devoluciones.push(d);
+      idsExistentes.add(d.id);
+      agregadas++;
+    });
+    if (agregadas > 0){
+      await storageSet(K_DEVOLUCIONES, JSON.stringify(devoluciones));
+      loadDevoluciones();
+    }
+    return agregadas;
+  };
+})();
+
+/* ========== SUB-PESTAÑAS PROVEEDORES ========== */
+(function(){
+  const tabs = document.querySelectorAll('.provSubTab');
+  const contenedor = document.getElementById('provSubTabsContainer');
+  
+  if (!tabs.length || !contenedor) return;
+  
+  tabs.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const tabName = btn.getAttribute('data-prov-subtab');
+      
+      // Actualizar botones
+      tabs.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      
+      // Actualizar contenido
+      contenedor.querySelectorAll('.provSubTabContent').forEach(c => {
+        c.classList.remove('active');
+      });
+      const target = contenedor.querySelector('[data-prov-subtab="' + tabName + '"]');
+      if (target) target.classList.add('active');
+      
+      // Scroll a top
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  });
+})();
+
 })();
 </script>
 </body>
