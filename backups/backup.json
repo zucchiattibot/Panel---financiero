@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 4,
-  "exportadoEl": "2026-08-18T13:04:54.786Z",
+  "exportadoEl": "2026-08-18T15:26:36.214Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -1448,6 +1448,26 @@
       "detalle": "Municipal",
       "id": "m_msyoczncp00gs0",
       "modificadoEl": "2026-08-18T13:04:42.360Z"
+    },
+    {
+      "date": "2026-08-18",
+      "type": "egreso",
+      "amount": 16739.58,
+      "category": "Impuestos",
+      "account": "alquileres",
+      "detalle": "Municipal",
+      "id": "m_msyph8wtskgy0q",
+      "modificadoEl": "2026-08-18T13:36:00.605Z"
+    },
+    {
+      "date": "2026-08-18",
+      "type": "ingreso",
+      "amount": 33499,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "transferencia",
+      "id": "m_msys9v6lcwcrzx",
+      "modificadoEl": "2026-08-18T14:54:15.069Z"
     }
   ],
   "categoriasCustom": [
