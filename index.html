@@ -1008,6 +1008,12 @@ Ordenar por fecha de vencimiento (las que vencen antes, primero — las sin fech
 </div>
 </div>
 <div class="provsub-view" id="provsub-devoluciones">
+<div class="card" id="devResumenGlobalCard">
+<h2>Pendiente de acreditar — todos los proveedores</h2>
+<p class="card-note">Cuánto tenés trabado en devoluciones que el proveedor todavía no te acreditó, sumando todos los proveedores. Tocá uno para ir directo a su historial.</p>
+<div class="kpi-grid" id="devResumenGlobalKpis" style="margin-top:6px;"></div>
+<div id="devResumenGlobalLista" style="margin-top:12px;display:flex;flex-direction:column;gap:6px;"></div>
+</div>
 <div class="card">
 <h2>Devoluciones — <span id="devProvNombre"></span></h2>
 <p class="card-note">Registrá acá las devoluciones que hacés a cada proveedor (ejemplares no vendidos que le entregás de vuelta), con foto o archivo como respaldo. Después el panel las compara contra las notas de crédito que ya cargaste en "Comprobantes" para avisarte cuáles ya te acreditaron y cuáles todavía faltan.</p>
@@ -1043,6 +1049,20 @@ Ordenar por fecha de vencimiento (las que vencen antes, primero — las sin fech
 <button class="link-btn" id="devVerificarTodasBtn" style="margin-top:10px;" type="button">🔄 Verificar todas contra notas de crédito</button>
 <button class="link-btn" id="devEliminarAcreditadasBtn" style="margin-top:10px;margin-left:14px;" type="button">🗑️ Eliminar todas las ya acreditadas</button>
 <p class="card-note" id="devListaMsg" style="min-height:14px;margin-top:6px;"></p>
+<div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--line);">
+<p class="card-note" style="font-weight:600;color:var(--cream);margin-bottom:6px;">Reclamar devoluciones pendientes a este proveedor</p>
+<p class="card-note">Arma un mensaje con las devoluciones pendientes o parciales de <span id="devReclamoProvNombre"></span>, con los días de espera de cada una, listo para copiar o mandar por WhatsApp/mail.</p>
+<button class="cargar-submit-btn" id="devReclamoGenerarBtn" style="margin-top:8px;width:auto;" type="button">📝 Generar reclamo</button>
+<div id="devReclamoResultadoWrap" style="display:none;margin-top:12px;">
+<textarea id="devReclamoTexto" readonly="" style="width:100%;box-sizing:border-box;min-height:160px;background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px;border-radius:8px;font-size:12px;font-family:monospace;white-space:pre-wrap;"></textarea>
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;">
+<button class="toggle-btn" id="devReclamoCopiarBtn" type="button">📋 Copiar texto</button>
+<button class="toggle-btn" id="devReclamoWABtn" style="background:var(--green-pos);" type="button">📱 Enviar por WhatsApp</button>
+<button class="toggle-btn" id="devReclamoMailBtn" type="button">📧 Enviar por mail</button>
+</div>
+<p class="card-note" id="devReclamoMsg" style="margin-top:6px;min-height:14px;"></p>
+</div>
+</div>
 </div>
 </div>
 <div class="provsub-view" id="provsub-analisis">
@@ -10559,7 +10579,13 @@ renderAutoConclusions();
     renderCuentaCorriente();
     if (typeof renderCatalogoPrecios === 'function') renderCatalogoPrecios();
   }
-  function saveFacturas(){ storageSet(K_FACTURAS, JSON.stringify(facturas)); }
+  // Cada vez que se guardan facturas/NC/ND, si ya está cargado el módulo de
+  // Devoluciones, volvemos a cruzar automáticamente contra las notas de
+  // crédito — así no hace falta entrar a Devoluciones y tocar "Verificar".
+  function saveFacturas(){
+    storageSet(K_FACTURAS, JSON.stringify(facturas));
+    if (typeof verificarTodasDevoluciones === 'function') verificarTodasDevoluciones();
+  }
 
   // Expuestas para que el backup general del panel (Exportar/Importar backup)
   // incluya también las facturas/notas cargadas acá.
@@ -10579,6 +10605,7 @@ renderAutoConclusions();
       renderFacturas();
       renderResumenDeuda();
       renderCuentaCorriente();
+      if (typeof verificarTodasDevoluciones === 'function') verificarTodasDevoluciones();
     }
     return agregadas;
   };
@@ -10591,6 +10618,7 @@ renderAutoConclusions();
     renderFacturas();
     renderResumenDeuda();
     renderCuentaCorriente();
+    if (typeof verificarTodasDevoluciones === 'function') verificarTodasDevoluciones();
   };
 
   const elFacInputFoto = document.getElementById('facturaFileInputFoto');
@@ -12949,7 +12977,7 @@ renderAutoConclusions();
   }
 
   // ---- Carga (foto/archivo + IA, o a mano) ----
-  function devNuevoItem(){ return { descripcion:'', edicion:'', codigoPublicacion:'', cantidad:'', motivo:'', ncFacturaId:null, ncNumero:null, faltante:true }; }
+  function devNuevoItem(){ return { descripcion:'', edicion:'', codigoPublicacion:'', cantidad:'', motivo:'', monto:'', ncFacturaId:null, ncNumero:null, faltante:true }; }
   function filaItemDevolucion(it, idx){
     const inputCss = 'width:100%;box-sizing:border-box;background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:6px;border-radius:5px;font-size:12px;';
     return '<tr data-item-idx="' + idx + '">' +
@@ -12957,6 +12985,7 @@ renderAutoConclusions();
       '<td style="padding:4px 4px 4px 0;width:70px;"><input type="text" data-item-campo="edicion" value="' + escapeHtmlProv(it.edicion!=null?it.edicion:'') + '" placeholder="N° ed." style="' + inputCss + '"></td>' +
       '<td style="padding:4px 4px 4px 0;width:70px;"><input type="text" data-item-campo="codigoPublicacion" value="' + escapeHtmlProv(it.codigoPublicacion!=null?it.codigoPublicacion:'') + '" placeholder="Cód. public." style="' + inputCss + '"></td>' +
       '<td style="padding:4px 4px 4px 0;width:56px;"><input type="text" data-item-campo="cantidad" value="' + escapeHtmlProv(it.cantidad!=null?it.cantidad:'') + '" placeholder="Cant." style="' + inputCss + '"></td>' +
+      '<td style="padding:4px 4px 4px 0;width:80px;"><input type="text" data-item-campo="monto" value="' + escapeHtmlProv(it.monto!=null?it.monto:'') + '" placeholder="Monto $" style="' + inputCss + '"></td>' +
       '<td style="padding:4px 0 4px 0;"><input type="text" data-item-campo="motivo" value="' + escapeHtmlProv(it.motivo!=null?it.motivo:'') + '" placeholder="Motivo (opcional)" style="' + inputCss + '"></td>' +
       '<td style="padding:4px 0 4px 4px;"><button type="button" class="link-btn" data-item-del="' + idx + '" style="padding:2px 6px;">✕</button></td>' +
       '</tr>';
@@ -12977,6 +13006,7 @@ renderAutoConclusions();
       edicion: it.numero_edicion != null ? it.numero_edicion : (it.edicion||''),
       codigoPublicacion: it.codigo_publicacion != null ? it.codigo_publicacion : (it.codigoPublicacion||''),
       cantidad: it.cantidad != null ? it.cantidad : 1,
+      monto: it.monto != null ? it.monto : '',
       motivo: it.motivo || ''
     })) : [devNuevoItem()]);
     const div = document.createElement('div');
@@ -12989,7 +13019,7 @@ renderAutoConclusions();
       '<div style="margin-top:8px;">' +
         '<label class="card-note" style="display:block;margin-bottom:4px;">Ítems devueltos:</label>' +
         '<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;font-size:12px;"><thead><tr>' +
-          '<th style="text-align:left;padding:0 4px 4px 0;">Título / descripción</th><th style="text-align:left;padding:0 4px 4px 0;">N° ed.</th><th style="text-align:left;padding:0 4px 4px 0;">Cód. public.</th><th style="text-align:right;padding:0 4px 4px 0;">Cant.</th><th style="text-align:left;padding:0 4px 4px 0;">Motivo</th><th></th>' +
+          '<th style="text-align:left;padding:0 4px 4px 0;">Título / descripción</th><th style="text-align:left;padding:0 4px 4px 0;">N° ed.</th><th style="text-align:left;padding:0 4px 4px 0;">Cód. public.</th><th style="text-align:right;padding:0 4px 4px 0;">Cant.</th><th style="text-align:right;padding:0 4px 4px 0;">Monto $</th><th style="text-align:left;padding:0 4px 4px 0;">Motivo</th><th></th>' +
         '</tr></thead><tbody data-items-body></tbody></table></div>' +
         '<button type="button" class="link-btn" data-accion="agregar-item" style="margin-top:4px;">+ Agregar ítem</button>' +
       '</div>' +
@@ -13025,11 +13055,14 @@ renderAutoConclusions();
       const itemsGuardar = itemsLocal.map(it => {
         const cantTxt = String(it.cantidad!=null?it.cantidad:'').trim();
         const cantNum = cantTxt !== '' ? parseFloat(cantTxt.replace(',', '.')) : 1;
+        const montoTxt = String(it.monto!=null?it.monto:'').trim();
+        const montoNum = montoTxt !== '' ? parseFloat(montoTxt.replace(',', '.')) : null;
         return {
           descripcion: String(it.descripcion||'').trim(),
           edicion: String(it.edicion||'').trim() || null,
           codigoPublicacion: String(it.codigoPublicacion||'').trim() || null,
           cantidad: (!isNaN(cantNum) && cantNum) ? cantNum : 1,
+          monto: (montoNum!=null && !isNaN(montoNum)) ? montoNum : null,
           motivo: String(it.motivo||'').trim() || null,
           ncFacturaId: null, ncNumero: null, faltante: true
         };
@@ -13095,6 +13128,141 @@ renderAutoConclusions();
     if (d.estado === 'parcial') return '<span style="color:var(--gold);font-weight:700;">⚠️ Parcial — falta acreditar algún ítem</span>';
     return '<span style="color:var(--red-neg);font-weight:700;">⏳ Pendiente de acreditar</span>';
   }
+  // Días corridos desde la fecha de la devolución (o desde que se cargó, si no
+  // tiene fecha) — para priorizar reclamos. null si no hay ninguna fecha usable.
+  function diasDevolucion(d){
+    const iso = d.fecha || (d.cargadaEl ? d.cargadaEl.slice(0,10) : null);
+    return diasDesdeIso(iso);
+  }
+  function badgeDiasDev(d){
+    if (d.estado === 'aceptada') return '';
+    const dias = diasDevolucion(d);
+    if (dias === null) return '';
+    const color = dias >= DIAS_FALTANTE_NC ? 'var(--red-neg)' : 'var(--muted)';
+    return ' <span style="color:' + color + ';font-weight:700;">· ' + dias + ' día' + (dias===1?'':'s') + (dias >= DIAS_FALTANTE_NC ? ' sin acreditar ⏳' : '') + '</span>';
+  }
+  // Monto pendiente de acreditar de una devolución: suma de los ítems que
+  // todavía no tienen NC asignada.
+  function montoPendienteDev(d){
+    return (d.items||[]).reduce((s, it) => s + (it.faltante && it.monto != null ? Number(it.monto) : 0), 0);
+  }
+  // Resumen de $ pendiente de acreditar agrupado por proveedor, sin importar
+  // cuál esté seleccionado — para ver de un vistazo dónde reclamar primero.
+  function renderDevolucionesResumenGlobal(){
+    const elKpis = document.getElementById('devResumenGlobalKpis');
+    const elLista = document.getElementById('devResumenGlobalLista');
+    if (!elKpis || !elLista) return;
+    const porProveedor = {};
+    let totalPend = 0, totalCant = 0;
+    devoluciones.forEach(d => {
+      if (d.estado === 'aceptada') return;
+      const m = montoPendienteDev(d);
+      totalPend += m; totalCant++;
+      porProveedor[d.proveedorKey] = (porProveedor[d.proveedorKey] || 0) + m;
+    });
+    elKpis.innerHTML = kpi('Devoluciones pendientes/parciales', String(totalCant)) +
+      kpi('$ total pendiente de acreditar', fmtARS(totalPend));
+    const filas = Object.keys(porProveedor)
+      .filter(k => porProveedor[k] > 0)
+      .sort((a,b) => porProveedor[b] - porProveedor[a]);
+    elLista.innerHTML = filas.length ? filas.map(k => {
+      const prov = PROVEEDORES.find(p => p.key === k);
+      return '<div data-devglobal-prov="' + k + '" style="display:flex;justify-content:space-between;gap:8px;padding:8px 10px;background:rgba(0,0,0,.15);border:1px solid var(--line);border-radius:8px;cursor:pointer;">' +
+        '<span>' + escapeHtmlProv(prov ? prov.label : k) + '</span>' +
+        '<span style="font-weight:700;color:var(--gold);">' + fmtARS(porProveedor[k]) + '</span>' +
+      '</div>';
+    }).join('') : '<p class="card-note" style="margin:0;">No hay montos pendientes cargados por ahora.</p>';
+    elLista.querySelectorAll('[data-devglobal-prov]').forEach(row => {
+      row.addEventListener('click', () => {
+        const key = row.getAttribute('data-devglobal-prov');
+        const btnProv = provTabsWrap ? provTabsWrap.querySelector('.toggle-btn[data-prov="' + key + '"]') : null;
+        if (btnProv) btnProv.click(); // ya dispara renderProveedores(), que a su vez llama renderDevoluciones()
+        else { provState.prov = key; renderDevoluciones(); }
+      });
+    });
+  }
+
+  // Arma el texto de reclamo con las devoluciones pendientes/parciales del
+  // proveedor actualmente seleccionado, con días de espera de cada una.
+  function generarTextoReclamoDevoluciones(){
+    const prov = PROVEEDORES.find(p => p.key === provState.prov) || PROVEEDORES[0];
+    const pendientes = devoluciones.filter(d => d.proveedorKey === provState.prov && d.estado !== 'aceptada');
+    if (!pendientes.length) return null;
+    const ordenadas = [...pendientes].sort((a,b) => (diasDevolucion(b)||0) - (diasDevolucion(a)||0));
+    const lineas = [];
+    lineas.push('Reclamo de devoluciones pendientes — ' + prov.label);
+    lineas.push('Fecha: ' + new Date().toISOString().slice(0,10));
+    lineas.push('');
+    let total = 0;
+    ordenadas.forEach(d => {
+      const dias = diasDevolucion(d);
+      lineas.push('• ' + (d.fecha || 'sin fecha') + (d.numeroRemito ? ' — Remito ' + d.numeroRemito : '') + (dias!=null ? ' — ' + dias + ' días de espera' : ''));
+      (d.items||[]).filter(it => it.faltante).forEach(it => {
+        const montoTxt = it.monto != null ? ' = ' + fmtARS(it.monto) : '';
+        lineas.push('   - ' + (it.descripcion || '(sin descripción)') + (it.edicion ? ' (' + it.edicion + ')' : '') + ' × ' + (it.cantidad||1) + montoTxt);
+        if (it.monto != null) total += Number(it.monto);
+      });
+    });
+    lineas.push('');
+    lineas.push('—————————————');
+    lineas.push('Total pendiente de acreditar: ' + fmtARS(total));
+    return lineas.join('\n');
+  }
+  const elDevReclamoGenerarBtn = document.getElementById('devReclamoGenerarBtn');
+  const elDevReclamoTexto = document.getElementById('devReclamoTexto');
+  if (elDevReclamoGenerarBtn){
+    elDevReclamoGenerarBtn.addEventListener('click', () => {
+      const texto = generarTextoReclamoDevoluciones();
+      const wrap = document.getElementById('devReclamoResultadoWrap');
+      const msg = document.getElementById('devReclamoMsg');
+      if (!texto){
+        if (wrap) wrap.style.display = 'none';
+        if (msg){ msg.style.color = 'var(--muted)'; msg.textContent = 'No hay devoluciones pendientes o parciales cargadas para este proveedor.'; }
+        return;
+      }
+      if (elDevReclamoTexto) elDevReclamoTexto.value = texto;
+      if (wrap) wrap.style.display = '';
+      if (msg){ msg.style.color = 'var(--muted)'; msg.textContent = ''; }
+    });
+  }
+  const elDevReclamoCopiarBtn = document.getElementById('devReclamoCopiarBtn');
+  if (elDevReclamoCopiarBtn){
+    elDevReclamoCopiarBtn.addEventListener('click', async () => {
+      const msg = document.getElementById('devReclamoMsg');
+      const texto = elDevReclamoTexto ? elDevReclamoTexto.value : '';
+      if (!texto) return;
+      try{
+        if (navigator.clipboard && navigator.clipboard.writeText){
+          await navigator.clipboard.writeText(texto);
+        } else {
+          elDevReclamoTexto.select();
+          document.execCommand('copy');
+        }
+        if (msg){ msg.style.color = 'var(--green-pos)'; msg.textContent = 'Copiado ✔️'; }
+      }catch(e){
+        if (msg){ msg.style.color = 'var(--red-neg)'; msg.textContent = 'No se pudo copiar automáticamente. Seleccioná el texto a mano y copialo.'; }
+      }
+    });
+  }
+  const elDevReclamoWABtn = document.getElementById('devReclamoWABtn');
+  if (elDevReclamoWABtn){
+    elDevReclamoWABtn.addEventListener('click', () => {
+      const texto = elDevReclamoTexto ? elDevReclamoTexto.value : '';
+      if (!texto) return;
+      window.open('https://wa.me/?text=' + encodeURIComponent(texto), '_blank');
+    });
+  }
+  const elDevReclamoMailBtn = document.getElementById('devReclamoMailBtn');
+  if (elDevReclamoMailBtn){
+    elDevReclamoMailBtn.addEventListener('click', () => {
+      const prov = PROVEEDORES.find(p => p.key === provState.prov) || PROVEEDORES[0];
+      const texto = elDevReclamoTexto ? elDevReclamoTexto.value : '';
+      if (!texto) return;
+      const asunto = 'Reclamo de devoluciones pendientes — ' + prov.label;
+      window.open('mailto:?subject=' + encodeURIComponent(asunto) + '&body=' + encodeURIComponent(texto), '_blank');
+    });
+  }
+
   function renderDevoluciones(){
     const elKpis = document.getElementById('devKpis');
     const elLista = document.getElementById('devLista');
@@ -13104,15 +13272,20 @@ renderAutoConclusions();
     const prov = PROVEEDORES.find(p => p.key === provState.prov) || PROVEEDORES[0];
     if (elNombre1) elNombre1.textContent = prov.label;
     if (elNombre2) elNombre2.textContent = prov.label;
+    const elNombreReclamo = document.getElementById('devReclamoProvNombre');
+    if (elNombreReclamo) elNombreReclamo.textContent = prov.label;
 
     const delProv = devoluciones.filter(d => d.proveedorKey === provState.prov);
     const pendientes = delProv.filter(d => d.estado !== 'aceptada').length;
     const aceptadas = delProv.filter(d => d.estado === 'aceptada').length;
+    const montoPendProv = delProv.reduce((s, d) => s + montoPendienteDev(d), 0);
     if (elKpis){
       elKpis.innerHTML = kpi('Devoluciones cargadas', String(delProv.length)) +
         kpi('Pendientes / parciales', String(pendientes)) +
-        kpi('Acreditadas', String(aceptadas));
+        kpi('Acreditadas', String(aceptadas)) +
+        kpi('$ pendiente de acreditar', fmtARS(montoPendProv));
     }
+    renderDevolucionesResumenGlobal();
 
     let lista = delProv;
     if (devFiltroEstadoActual === 'pendiente') lista = lista.filter(d => d.estado !== 'aceptada');
@@ -13122,16 +13295,18 @@ renderAutoConclusions();
     elLista.innerHTML = lista.length ? lista.map(d => {
       const itemsHtml = (d.items||[]).map(it =>
         '<div style="display:flex;justify-content:space-between;gap:8px;padding:3px 0;font-size:12.5px;border-bottom:1px solid var(--line);">' +
-          '<span>' + escapeHtmlProv(it.descripcion) + (it.edicion?' · Ed. '+escapeHtmlProv(it.edicion):'') + ' × ' + (it.cantidad||1) + (it.motivo?' <span style="color:var(--muted);">('+escapeHtmlProv(it.motivo)+')</span>':'') + '</span>' +
+          '<span>' + escapeHtmlProv(it.descripcion) + (it.edicion?' · Ed. '+escapeHtmlProv(it.edicion):'') + ' × ' + (it.cantidad||1) + (it.monto!=null?' · '+fmtARS(it.monto):'') + (it.motivo?' <span style="color:var(--muted);">('+escapeHtmlProv(it.motivo)+')</span>':'') + '</span>' +
           '<span>' + (it.faltante ? '<span style="color:var(--red-neg);">⏳ sin NC</span>' : '<span style="color:var(--green-pos);">✔️'+(it.ncNumero?' NC '+escapeHtmlProv(it.ncNumero):'')+'</span>') + '</span>' +
         '</div>'
       ).join('');
+      const montoPend = montoPendienteDev(d);
       return '<div style="background:rgba(0,0,0,.18);border:1px solid var(--line);border-radius:12px;padding:12px 14px;" data-dev-id="' + d.id + '">' +
         '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;flex-wrap:wrap;">' +
-          '<div><strong>' + (d.fecha ? fmtFechaCorta(fechaAIntProv(d.fecha)) : 'Sin fecha') + '</strong>' + (d.numeroRemito ? ' · Remito ' + escapeHtmlProv(d.numeroRemito) : '') + (d.modo==='completa' ? ' · <span class="card-note" style="margin:0;">remito completo</span>' : '') + '</div>' +
+          '<div><strong>' + (d.fecha ? fmtFechaCorta(fechaAIntProv(d.fecha)) : 'Sin fecha') + '</strong>' + (d.numeroRemito ? ' · Remito ' + escapeHtmlProv(d.numeroRemito) : '') + (d.modo==='completa' ? ' · <span class="card-note" style="margin:0;">remito completo</span>' : '') + badgeDiasDev(d) + '</div>' +
           '<div>' + badgeEstadoDev(d) + '</div>' +
         '</div>' +
         '<div style="margin-top:8px;">' + itemsHtml + '</div>' +
+        (montoPend > 0 ? '<div class="card-note" style="margin-top:6px;color:var(--gold);font-weight:700;">$ pendiente de acreditar: ' + fmtARS(montoPend) + '</div>' : '') +
         '<div class="card-note" style="margin-top:8px;">' + fmtDevAdjuntos(d) + '</div>' +
         '<div style="display:flex;gap:14px;margin-top:8px;">' +
           '<button type="button" class="link-btn" data-dev-verificar="' + d.id + '">🔄 Verificar</button>' +
@@ -13766,8 +13941,8 @@ renderAutoConclusions();
     const promptTexto = 'Sos un asistente que extrae datos de un REMITO O NOTA DE DEVOLUCIÓN a un proveedor argentino (foto o PDF): un kiosquero/agencia le devuelve al proveedor ejemplares no vendidos de diarios, revistas o colecciones. ' +
       'Devolvé SOLO un objeto JSON, sin texto adicional, sin backticks de markdown, con estas claves exactas:\n' +
       '{"fecha": "YYYY-MM-DD"|null, "numero_remito": string|null, "proveedor_detectado": string|null, ' +
-      '"items": [{"descripcion": string, "numero_edicion": string|null, "codigo_publicacion": string|null, "cantidad": number|null}]}\n' +
-      'En "items" desglosá cada título/producto devuelto, uno por línea, en el orden en que aparecen: "descripcion" es el título tal cual figura (sin inventar ni resumir), "numero_edicion" es el número de edición/ejemplar si figura (por ej. "Edición 4521", "N° 128") — si no aparece, usá null, "codigo_publicacion" es un código corto que identifique la publicación en sí (no el ejemplar) si figura, distinto del número de edición — si no aparece, usá null, y "cantidad" la cantidad de ejemplares devueltos de esa línea (si no figura, usá 1). No inventes ítems que no estén escritos en el documento. Si no podés leer ningún ítem con claridad, devolvé "items" como un array vacío [].';
+      '"items": [{"descripcion": string, "numero_edicion": string|null, "codigo_publicacion": string|null, "cantidad": number|null, "monto": number|null}]}\n' +
+      'En "items" desglosá cada título/producto devuelto, uno por línea, en el orden en que aparecen: "descripcion" es el título tal cual figura (sin inventar ni resumir), "numero_edicion" es el número de edición/ejemplar si figura (por ej. "Edición 4521", "N° 128") — si no aparece, usá null, "codigo_publicacion" es un código corto que identifique la publicación en sí (no el ejemplar) si figura, distinto del número de edición — si no aparece, usá null, "cantidad" la cantidad de ejemplares devueltos de esa línea (si no figura, usá 1), y "monto" el importe en pesos que representa esa línea devuelta si figura en el remito (precio x cantidad) — si no aparece, usá null. No inventes ítems que no estén escritos en el documento. Si no podés leer ningún ítem con claridad, devolvé "items" como un array vacío [].';
     const body = {
       contents: [{
         role: 'user',
