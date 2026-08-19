@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup-proveedores",
   "version": 1,
-  "exportadoEl": "2026-08-19T11:24:48.330Z",
+  "exportadoEl": "2026-08-19T16:39:53.365Z",
   "facturasProveedores": [
     {
       "id": "f_1786288479789_g5a9h",
@@ -6908,7 +6908,10 @@
           }
         ],
         "feriadoTapa": 0,
-        "feriadoRecargo": 0
+        "feriadoRecargo": 0,
+        "tipoProducto": "diario",
+        "precioUnico": 0,
+        "recargoUnico": 0
       },
       {
         "id": "msxmkdbibcwqqz",
@@ -6938,7 +6941,10 @@
           }
         ],
         "feriadoTapa": 0,
-        "feriadoRecargo": 0
+        "feriadoRecargo": 0,
+        "tipoProducto": "diario",
+        "precioUnico": 0,
+        "recargoUnico": 0
       },
       {
         "id": "msxmp4yquqqodw",
@@ -6968,7 +6974,10 @@
           }
         ],
         "feriadoTapa": 0,
-        "feriadoRecargo": 0
+        "feriadoRecargo": 0,
+        "tipoProducto": "diario",
+        "precioUnico": 0,
+        "recargoUnico": 0
       },
       {
         "id": "msxmrgiup5vaue",
@@ -6998,7 +7007,10 @@
           }
         ],
         "feriadoTapa": 0,
-        "feriadoRecargo": 0
+        "feriadoRecargo": 0,
+        "tipoProducto": "diario",
+        "precioUnico": 0,
+        "recargoUnico": 0
       },
       {
         "id": "msxmsoalxmowlz",
@@ -7028,7 +7040,10 @@
           }
         ],
         "feriadoTapa": 0,
-        "feriadoRecargo": 0
+        "feriadoRecargo": 0,
+        "tipoProducto": "diario",
+        "precioUnico": 0,
+        "recargoUnico": 0
       },
       {
         "id": "msxmwxobt2t0qa",
@@ -7058,7 +7073,10 @@
           }
         ],
         "feriadoTapa": 2400,
-        "feriadoRecargo": 700
+        "feriadoRecargo": 700,
+        "tipoProducto": "diario",
+        "precioUnico": 0,
+        "recargoUnico": 0
       },
       {
         "id": "msxmy7q6gmrhvv",
@@ -7088,7 +7106,10 @@
           }
         ],
         "feriadoTapa": 0,
-        "feriadoRecargo": 0
+        "feriadoRecargo": 0,
+        "tipoProducto": "diario",
+        "precioUnico": 0,
+        "recargoUnico": 0
       },
       {
         "id": "msxmzfjk2aa0yz",
@@ -7118,7 +7139,10 @@
           }
         ],
         "feriadoTapa": 0,
-        "feriadoRecargo": 0
+        "feriadoRecargo": 0,
+        "tipoProducto": "diario",
+        "precioUnico": 0,
+        "recargoUnico": 0
       },
       {
         "id": "msxn0k3mg7gadp",
@@ -7148,7 +7172,10 @@
           }
         ],
         "feriadoTapa": 0,
-        "feriadoRecargo": 0
+        "feriadoRecargo": 0,
+        "tipoProducto": "diario",
+        "precioUnico": 0,
+        "recargoUnico": 0
       },
       {
         "id": "msxn1pkpyshk2b",
@@ -7178,7 +7205,76 @@
           }
         ],
         "feriadoTapa": 0,
-        "feriadoRecargo": 0
+        "feriadoRecargo": 0,
+        "tipoProducto": "diario",
+        "precioUnico": 0,
+        "recargoUnico": 0
+      },
+      {
+        "id": "mt07f84tnoyy8z",
+        "nombre": "LIB JARDIN CON LOGO 278 JULIO",
+        "alias": "JARDIN GENIOS",
+        "historial": [
+          {
+            "desde": "2026-08-01",
+            "tapa": [
+              5500,
+              5500,
+              5500,
+              5500,
+              5500,
+              5500,
+              5500
+            ],
+            "recargo": [
+              800,
+              800,
+              800,
+              800,
+              800,
+              800,
+              800
+            ]
+          }
+        ],
+        "feriadoTapa": 0,
+        "feriadoRecargo": 0,
+        "tipoProducto": "diario",
+        "precioUnico": 0,
+        "recargoUnico": 0
+      },
+      {
+        "id": "mt07hi2wau94el",
+        "nombre": "GENIOS PREES - N°25 + UTIL ESCOLAR",
+        "alias": "GENIOS PREESCOLAR",
+        "historial": [
+          {
+            "desde": "2026-08-01",
+            "tapa": [
+              7000,
+              7000,
+              7000,
+              7000,
+              7000,
+              7000,
+              7000
+            ],
+            "recargo": [
+              800,
+              800,
+              800,
+              800,
+              800,
+              800,
+              800
+            ]
+          }
+        ],
+        "feriadoTapa": 0,
+        "feriadoRecargo": 0,
+        "tipoProducto": "diario",
+        "precioUnico": 0,
+        "recargoUnico": 0
       }
     ],
     "lanacion": [
@@ -7210,7 +7306,10 @@
           }
         ],
         "feriadoTapa": 0,
-        "feriadoRecargo": 0
+        "feriadoRecargo": 0,
+        "tipoProducto": "diario",
+        "precioUnico": 0,
+        "recargoUnico": 0
       },
       {
         "id": "mswk1p6nmht3i6",
@@ -7240,7 +7339,10 @@
           }
         ],
         "feriadoTapa": 0,
-        "feriadoRecargo": 0
+        "feriadoRecargo": 0,
+        "tipoProducto": "diario",
+        "precioUnico": 0,
+        "recargoUnico": 0
       },
       {
         "id": "mswkgeog025cfd",
@@ -7270,7 +7372,10 @@
           }
         ],
         "feriadoTapa": 0,
-        "feriadoRecargo": 0
+        "feriadoRecargo": 0,
+        "tipoProducto": "diario",
+        "precioUnico": 0,
+        "recargoUnico": 0
       },
       {
         "id": "msx9hlmiab4auu",
@@ -7300,9 +7405,479 @@
           }
         ],
         "feriadoTapa": 0,
-        "feriadoRecargo": 0
+        "feriadoRecargo": 0,
+        "tipoProducto": "diario",
+        "precioUnico": 0,
+        "recargoUnico": 0
+      },
+      {
+        "id": "mt07latuufolp1",
+        "nombre": "OHLALÁ",
+        "alias": "OHLALA",
+        "historial": [
+          {
+            "desde": "2026-08-19",
+            "tapa": [
+              13800,
+              13800,
+              13800,
+              13800,
+              13800,
+              13800,
+              13800
+            ],
+            "recargo": [
+              1100,
+              1100,
+              1100,
+              1100,
+              1100,
+              1100,
+              1100
+            ]
+          }
+        ],
+        "feriadoTapa": 0,
+        "feriadoRecargo": 0,
+        "tipoProducto": "diario",
+        "precioUnico": 0,
+        "recargoUnico": 0
+      },
+      {
+        "id": "mt07mlddya1rum",
+        "nombre": "LIVING",
+        "alias": "",
+        "historial": [
+          {
+            "desde": "2026-08-19",
+            "tapa": [
+              13800,
+              13800,
+              13800,
+              13800,
+              13800,
+              13800,
+              13800
+            ],
+            "recargo": [
+              1100,
+              1100,
+              1100,
+              1100,
+              1100,
+              1100,
+              1100
+            ]
+          }
+        ],
+        "feriadoTapa": 0,
+        "feriadoRecargo": 0,
+        "tipoProducto": "diario",
+        "precioUnico": 0,
+        "recargoUnico": 0
+      },
+      {
+        "id": "mt07nj3pmah0o2",
+        "nombre": "JARDÍN",
+        "alias": "JARDIN",
+        "historial": [
+          {
+            "desde": "2026-08-19",
+            "tapa": [
+              13800,
+              13800,
+              13800,
+              13800,
+              13800,
+              13800,
+              13800
+            ],
+            "recargo": [
+              1100,
+              1100,
+              1100,
+              1100,
+              1100,
+              1100,
+              1100
+            ]
+          }
+        ],
+        "feriadoTapa": 0,
+        "feriadoRecargo": 0,
+        "tipoProducto": "diario",
+        "precioUnico": 0,
+        "recargoUnico": 0
       }
     ],
     "silmar": []
-  }
+  },
+  "devolucionesProveedores": [
+    {
+      "id": "dev_1787148480862_1qggb",
+      "proveedorKey": "clarin",
+      "fecha": "2026-08-19",
+      "numeroRemito": "545307",
+      "modo": "item",
+      "items": [
+        {
+          "descripcion": "CLARIN BASE 05 - 17.08.2026 - 28993/2026",
+          "edicion": "28993",
+          "codigoPublicacion": null,
+          "cantidad": 7,
+          "monto": 23058,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 7
+        },
+        {
+          "descripcion": "CLARIN BASE 06 - 18.08.2026 - 28994/2026",
+          "edicion": "28994",
+          "codigoPublicacion": null,
+          "cantidad": 2,
+          "monto": 6588,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 2
+        },
+        {
+          "descripcion": "CLARIN BASE 07 - 12.08.2026 - 28988/2026",
+          "edicion": "28988",
+          "codigoPublicacion": null,
+          "cantidad": 5,
+          "monto": 16470,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 5
+        },
+        {
+          "descripcion": "CLARIN BASE 08 - 13.08.2026 - 28989/2026",
+          "edicion": "28989",
+          "codigoPublicacion": null,
+          "cantidad": 7,
+          "monto": 23058,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 7
+        },
+        {
+          "descripcion": "CLARIN BASE 09 - 14.08.2026 - 28990/2026",
+          "edicion": "28990",
+          "codigoPublicacion": null,
+          "cantidad": 2,
+          "monto": 6588,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 2
+        },
+        {
+          "descripcion": "CLARIN BASE 10 - 15.08.2026 - 28991/2026",
+          "edicion": "28991",
+          "codigoPublicacion": null,
+          "cantidad": 4,
+          "monto": 13176,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 4
+        }
+      ],
+      "adjuntos": [
+        {
+          "id": "dev_1787148480862_1qggb_a0",
+          "nombre": "1000824826.jpg",
+          "mime": "image/jpeg",
+          "bytes": 258355
+        }
+      ],
+      "estado": "pendiente",
+      "acreditadaEl": null,
+      "cargadaEl": "2026-08-19T14:08:00.929Z"
+    },
+    {
+      "id": "dev_1787148490161_59wsp",
+      "proveedorKey": "clarin",
+      "fecha": "2026-08-19",
+      "numeroRemito": "545307",
+      "modo": "item",
+      "items": [
+        {
+          "descripcion": "CLARIN BASE 11 - 16.08.2026 - 28992/2026",
+          "edicion": "28992",
+          "codigoPublicacion": null,
+          "cantidad": 11,
+          "monto": 36234,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 11
+        },
+        {
+          "descripcion": "OLE NACIONAL - 12.08.2026 - 10910/2026",
+          "edicion": "10910",
+          "codigoPublicacion": null,
+          "cantidad": 3,
+          "monto": 5754,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 3
+        },
+        {
+          "descripcion": "OLE NACIONAL - 13.08.2026 - 10911/2026",
+          "edicion": "10911",
+          "codigoPublicacion": null,
+          "cantidad": 9,
+          "monto": 17262,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 9
+        },
+        {
+          "descripcion": "OLE NACIONAL - 14.08.2026 - 10912/2026",
+          "edicion": "10912",
+          "codigoPublicacion": null,
+          "cantidad": 9,
+          "monto": 17262,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 9
+        },
+        {
+          "descripcion": "OLE NACIONAL - 15.08.2026 - 10913/2026",
+          "edicion": "10913",
+          "codigoPublicacion": null,
+          "cantidad": 9,
+          "monto": 17262,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 9
+        },
+        {
+          "descripcion": "OLE NACIONAL - 16.08.2026 - 10914/2026",
+          "edicion": "10914",
+          "codigoPublicacion": null,
+          "cantidad": 5,
+          "monto": 9590,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 5
+        },
+        {
+          "descripcion": "OLE NACIONAL - 17.08.2026 - 10915/2026",
+          "edicion": "10915",
+          "codigoPublicacion": null,
+          "cantidad": 3,
+          "monto": 5754,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 3
+        }
+      ],
+      "adjuntos": [
+        {
+          "id": "dev_1787148490161_59wsp_a0",
+          "nombre": "1000824827.jpg",
+          "mime": "image/jpeg",
+          "bytes": 262735
+        }
+      ],
+      "estado": "pendiente",
+      "acreditadaEl": null,
+      "cargadaEl": "2026-08-19T14:08:10.197Z"
+    },
+    {
+      "id": "dev_1787148505154_t4e0h",
+      "proveedorKey": "clarin",
+      "fecha": "2026-08-18",
+      "numeroRemito": "5119976",
+      "modo": "item",
+      "items": [
+        {
+          "descripcion": "OLE NACIONAL",
+          "edicion": "10916",
+          "codigoPublicacion": "9167",
+          "cantidad": 3,
+          "monto": 5754,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 3
+        }
+      ],
+      "adjuntos": [
+        {
+          "id": "dev_1787148505154_t4e0h_a0",
+          "nombre": "1000824829.jpg",
+          "mime": "image/jpeg",
+          "bytes": 75904
+        }
+      ],
+      "estado": "pendiente",
+      "acreditadaEl": null,
+      "cargadaEl": "2026-08-19T14:08:25.198Z"
+    },
+    {
+      "id": "dev_1787148514334_i1cug",
+      "proveedorKey": "clarin",
+      "fecha": "2026-08-17",
+      "numeroRemito": "545308",
+      "modo": "item",
+      "items": [
+        {
+          "descripcion": "GENIOS CON LIB",
+          "edicion": "1481/2026",
+          "codigoPublicacion": null,
+          "cantidad": 9,
+          "monto": 21200,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 9
+        }
+      ],
+      "adjuntos": [
+        {
+          "id": "dev_1787148514334_i1cug_a0",
+          "nombre": "1000824830.jpg",
+          "mime": "image/jpeg",
+          "bytes": 170488
+        }
+      ],
+      "estado": "pendiente",
+      "acreditadaEl": null,
+      "cargadaEl": "2026-08-19T14:08:34.368Z"
+    },
+    {
+      "id": "dev_1787148523126_lxv5l",
+      "proveedorKey": "clarin",
+      "fecha": "2026-08-19",
+      "numeroRemito": "545309",
+      "modo": "item",
+      "items": [
+        {
+          "descripcion": "HELLO KITTY 2026 - KITTY ARTISTA",
+          "edicion": "7",
+          "codigoPublicacion": null,
+          "cantidad": 9,
+          "monto": 100800.29,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 9
+        },
+        {
+          "descripcion": "HELLO KITTY 2026 - KITTY MARINERA",
+          "edicion": "8",
+          "codigoPublicacion": null,
+          "cantidad": 9,
+          "monto": 100800.29,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 9
+        },
+        {
+          "descripcion": "PEQ ORQUESTA 11 - EL RAKATAK",
+          "edicion": "11",
+          "codigoPublicacion": null,
+          "cantidad": 3,
+          "monto": 29400.1,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 3
+        },
+        {
+          "descripcion": "PEQ ORQUESTA 12 - LAS MATRACAS",
+          "edicion": "12",
+          "codigoPublicacion": null,
+          "cantidad": 4,
+          "monto": 39200.13,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 4
+        }
+      ],
+      "adjuntos": [
+        {
+          "id": "dev_1787148523126_lxv5l_a0",
+          "nombre": "1000824831.jpg",
+          "mime": "image/jpeg",
+          "bytes": 246413
+        }
+      ],
+      "estado": "pendiente",
+      "acreditadaEl": null,
+      "cargadaEl": "2026-08-19T14:08:43.198Z"
+    }
+  ]
 }
