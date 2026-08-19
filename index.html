@@ -524,7 +524,98 @@
     background:rgba(0,0,0,.25);color:var(--cream);font-size:20px;text-align:center;letter-spacing:6px;}
   #agPinLock button{background:var(--gold);color:#1a2a1f;border:none;padding:12px 24px;border-radius:10px;font-weight:700;cursor:pointer;font-size:14px;}
   #agPinLockMsg{color:var(--red-neg);font-size:12.5px;min-height:16px;}
-</style></head>
+</style>
+<style id="ag-modern-ui-v2">
+:root{
+  --m-bg:#07120f; --m-surface:#0d1e18; --m-surface2:#11271f; --m-border:#23483a;
+  --m-text:#f4f1e7; --m-muted:#9aab9f; --m-accent:#d7b86a; --m-accent2:#7fd4a0;
+  --m-danger:#e28b78; --m-info:#8fb8d9; --m-shadow:0 12px 34px rgba(0,0,0,.22);
+}
+body{
+  background:
+    radial-gradient(900px 380px at 50% -120px, rgba(215,184,106,.13), transparent 65%),
+    radial-gradient(700px 420px at 100% 0, rgba(127,212,160,.07), transparent 65%),
+    var(--m-bg);
+  color:var(--m-text);
+}
+.wrap{max-width:980px;padding:18px 14px 70px;}
+.top-header{padding:4px 2px 10px;}
+.top-header h1{font-size:30px;letter-spacing:-.04em;}
+.top-header .eyebrow{color:var(--m-accent);font-weight:700;}
+.card{
+  background:linear-gradient(145deg,rgba(17,39,31,.96),rgba(10,28,22,.96));
+  border:1px solid rgba(127,212,160,.13);
+  border-radius:18px;
+  box-shadow:0 8px 28px rgba(0,0,0,.12);
+}
+.tabs{
+  position:sticky;top:0;z-index:100;
+  padding:8px 0 10px;margin:0 -4px 14px;
+  background:rgba(7,18,15,.90);backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(127,212,160,.10);
+}
+.tabs .tab-btn{
+  border-radius:12px;padding:9px 12px;
+  background:rgba(17,39,31,.8);border-color:rgba(127,212,160,.14);
+  transition:.18s ease;
+}
+.tabs .tab-btn.active{
+  background:linear-gradient(135deg,var(--m-accent),#b99545);
+  box-shadow:0 5px 18px rgba(215,184,106,.16);
+}
+.modern-nav{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:9px;
+  margin:2px 0 14px;
+}
+.modern-nav button{
+  border:1px solid rgba(127,212,160,.14);background:var(--m-surface2);color:var(--m-text);
+  border-radius:15px;padding:12px 9px;text-align:left;cursor:pointer;min-height:64px;
+  box-shadow:0 5px 16px rgba(0,0,0,.10);font-weight:700;
+}
+.modern-nav button span{display:block;font-size:10.5px;color:var(--m-muted);font-weight:500;margin-top:3px;}
+.modern-nav button.primary{border-color:rgba(215,184,106,.42);background:linear-gradient(145deg,rgba(215,184,106,.16),rgba(17,39,31,.96));}
+.modern-nav button:active{transform:scale(.985)}
+.modern-section-title{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--m-muted);margin:8px 2px 7px;}
+.modern-more{
+  position:fixed;inset:0;z-index:10050;background:rgba(0,0,0,.68);display:none;
+  align-items:flex-end;padding:10px;
+}
+.modern-more.active{display:flex}
+.modern-more-box{width:min(680px,100%);max-height:82vh;overflow:auto;margin:0 auto;background:var(--m-surface);border:1px solid var(--m-border);border-radius:22px 22px 12px 12px;padding:16px;box-shadow:var(--m-shadow);}
+.modern-more-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.modern-more-grid button{padding:12px;border:1px solid var(--m-border);background:var(--m-surface2);color:var(--m-text);border-radius:11px;text-align:left;font-weight:600;}
+.modern-close{width:100%;margin-top:10px;padding:11px;border:0;border-radius:11px;background:var(--m-accent);color:#182116;font-weight:800;}
+.prov-dashboard{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-bottom:12px;
+}
+.prov-dash-kpi{background:rgba(0,0,0,.18);border:1px solid var(--m-border);border-radius:14px;padding:11px 10px;}
+.prov-dash-kpi .lab{font-size:9.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--m-muted);}
+.prov-dash-kpi .num{font-size:18px;font-weight:800;margin-top:5px;font-variant-numeric:tabular-nums;}
+.prov-insights{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:12px;}
+.prov-insight{border-radius:14px;padding:12px 13px;background:rgba(127,212,160,.07);border:1px solid rgba(127,212,160,.14);font-size:12px;line-height:1.45;}
+.prov-insight.warn{background:rgba(224,139,120,.08);border-color:rgba(224,139,120,.18);}
+.price-type-row{display:flex;gap:7px;flex-wrap:wrap;margin:10px 0 12px;}
+.price-type-pill{border:1px solid var(--m-border);background:rgba(0,0,0,.16);color:var(--m-muted);padding:7px 10px;border-radius:999px;font-size:11px;font-weight:700;}
+.price-type-pill.active{background:var(--m-accent);border-color:var(--m-accent);color:#182116;}
+.price-simple-box{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:10px;padding:11px;border:1px solid rgba(215,184,106,.25);background:rgba(215,184,106,.06);border-radius:12px;}
+.price-simple-box .range-label{margin-bottom:5px;}
+.price-simple-note{font-size:10.5px;color:var(--m-muted);margin-top:6px;line-height:1.4;}
+@media(max-width:700px){
+  .prov-dashboard{grid-template-columns:1fr 1fr}
+}
+@media(max-width:520px){
+  .modern-nav{grid-template-columns:repeat(2,1fr)}
+  .modern-more-grid{grid-template-columns:1fr 1fr}
+  .prov-insights{grid-template-columns:1fr}
+  .price-simple-box{grid-template-columns:1fr}
+}
+body.tema-claro .tabs{background:rgba(247,243,230,.92)}
+body.tema-claro .modern-nav button{background:#fff}
+body.tema-claro .modern-more{background:rgba(0,0,0,.35)}
+body.tema-claro .modern-more-box{background:#fff}
+body.tema-claro .prov-dash-kpi{background:#fff}
+</style>
+</head>
 <body>
 <script>
 // Aplica densidad/tema guardados ANTES de que se dibuje el resto del panel,
@@ -568,6 +659,27 @@ try {
 <div class="card" style="padding:10px 12px;margin-bottom:10px;">
 <input id="panelBuscarSeccion" type="text" placeholder="🔍 Buscar una pestaña (ej: proveedores, dólar, colecciones, vencimientos...)" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;width:100%;box-sizing:border-box;"/>
 <div id="panelBuscarResultados" style="margin-top:8px;display:none;"></div>
+</div>
+
+<div class="modern-section-title">Accesos rápidos</div>
+<div class="modern-nav" id="agModernNav">
+  <button class="primary" data-modern-tab="resumen">📊 Resumen<span>Cómo está el negocio</span></button>
+  <button class="primary" data-modern-tab="proveedores">🧾 Proveedores<span>Costos, ventas y margen</span></button>
+  <button data-modern-tab="cargar">➕ Cargar datos<span>Ingresos y egresos</span></button>
+  <button data-modern-tab="clientes">📰 Reparto<span>Clientes y liquidaciones</span></button>
+  <button data-modern-tab="colecciones">📦 Colecciones<span>Reservas y entregas</span></button>
+  <button data-modern-tab="vencimientos">⏰ Vencimientos<span>Lo que está por vencer</span></button>
+  <button data-modern-more="1">☰ Más herramientas<span>Todo el resto del panel</span></button>
+</div>
+<div class="modern-more" id="agModernMore">
+  <div class="modern-more-box">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;">
+      <div><h2 style="margin:0;">Todas las herramientas</h2><p class="card-note" style="margin:4px 0 12px;">No se elimina ninguna función. Elegí a dónde ir.</p></div>
+      <button id="agModernMoreCloseTop" class="tab-btn" type="button" style="border-radius:10px;">✕</button>
+    </div>
+    <div class="modern-more-grid" id="agModernMoreGrid"></div>
+    <button class="modern-close" id="agModernMoreClose" type="button">Cerrar</button>
+  </div>
 </div>
 <div class="tabs">
 <button class="tab-btn active" data-tab="resumen">Resumen</button>
@@ -1057,6 +1169,17 @@ Ordenar por fecha de vencimiento (las que vencen antes, primero — las sin fech
 </div>
 </div>
 <div class="provsub-view" id="provsub-analisis">
+
+<div class="prov-dashboard" id="provModernDashboard">
+  <div class="prov-dash-kpi"><div class="lab">Facturado neto</div><div class="num" id="provDashFacturado">—</div></div>
+  <div class="prov-dash-kpi"><div class="lab">Ventas</div><div class="num pos" id="provDashVentas">—</div></div>
+  <div class="prov-dash-kpi"><div class="lab">Ganancia real</div><div class="num" id="provDashGanancia">—</div></div>
+  <div class="prov-dash-kpi"><div class="lab">Margen</div><div class="num" id="provDashMargen">—</div></div>
+</div>
+<div class="prov-insights">
+  <div class="prov-insight" id="provDashInsight">💡 Seleccioná un proveedor y un período para ver las conclusiones.</div>
+  <div class="prov-insight warn" id="provDashWarn">⚠️ Acá van alertas de costo, margen o devoluciones.</div>
+</div>
 <div class="card" data-card-colapsable="prov-desglose">
 <div class="card-head"><h2>Desglose de productos — <span id="itemsProvNombre"></span></h2><button type="button" class="card-colapsar-btn" title="Mostrar/ocultar esta sección">▾</button></div>
 <div class="card-body">
@@ -12101,6 +12224,13 @@ renderAutoConclusions();
 
   async function loadProvPrecios(){
     try { const raw = await storageGet(K_PROV_PRECIOS); if (raw) provPrecios = JSON.parse(raw) || {}; } catch(e){ provPrecios = {}; }
+    Object.keys(provPrecios||{}).forEach(function(pk){
+      (provPrecios[pk]||[]).forEach(function(t){
+        if (!t.tipoProducto) t.tipoProducto='diario';
+        if (t.precioUnico==null) t.precioUnico=0;
+        if (t.recargoUnico==null) t.recargoUnico=0;
+      });
+    });
     renderCatalogoPrecios();
     renderGananciaSemanal();
   }
@@ -12141,6 +12271,11 @@ renderAutoConclusions();
     return feriados.some(f => f.fecha === fechaIso);
   }
   function precioTituloEnFecha(titulo, fechaIso){
+    if (titulo && titulo.tipoProducto && titulo.tipoProducto !== 'diario'){
+      const pu = Number(titulo.precioUnico)||0;
+      const ru = Number(titulo.recargoUnico)||0;
+      if (pu || ru) return {tapa:pu, recargo:ru, total:pu+ru};
+    }
     const hist = historialVigente(titulo, fechaIso);
     if (!hist) return null;
     const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(fechaIso || '');
@@ -12305,8 +12440,19 @@ renderAutoConclusions();
           '<button type="button" class="ventaBtnQuitar" data-id="' + tit.id + '" style="background:none;border:none;color:var(--red-neg);cursor:pointer;font-size:15px;font-weight:900;">✕</button>' +
         '</div>' +
         '<input type="text" class="ventaAliasInput" data-id="' + tit.id + '" placeholder="Otros nombres con que puede aparecer en la factura (opcional, separados por coma)" value="' + escapeHtmlProv(tit.alias||'') + '" style="background:rgba(0,0,0,.15);border:1px solid var(--line);color:var(--cream-dim);padding:6px 9px;border-radius:8px;font-size:12.5px;width:100%;box-sizing:border-box;margin-bottom:10px;">' +
-        '<p class="card-note" style="margin:0 0 6px 0;">Precio vigente desde el ' + fmtFechaItemProv(actual.desde) + ':</p>' +
-        '<div style="display:flex;flex-direction:column;gap:6px;">' +
+        '<div class="price-type-row">' +
+          '<button type="button" class="price-type-pill ' + ((tit.tipoProducto||'diario')==='diario'?'active':'') + '" data-price-type="diario" data-id="' + tit.id + '">📰 Diario</button>' +
+          '<button type="button" class="price-type-pill ' + ((tit.tipoProducto||'diario')!=='diario'?'active':'') + '" data-price-type="periodico" data-id="' + tit.id + '">📚 Revista / colección</button>' +
+        '</div>' +
+        (((tit.tipoProducto||'diario')!=='diario') ?
+          '<div class="price-simple-box">' +
+            '<div><div class="range-label">Precio de venta</div><input type="number" min="0" step="0.01" class="ventaSimpleTapaInput" data-id="' + tit.id + '" value="' + (Number(tit.precioUnico)||0) + '" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:9px 10px;border-radius:8px;font-size:15px;width:100%;box-sizing:border-box;"></div>' +
+            '<div><div class="range-label">Recargo interior (opcional)</div><input type="number" min="0" step="0.01" class="ventaSimpleRecargoInput" data-id="' + tit.id + '" value="' + (Number(tit.recargoUnico)||0) + '" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:9px 10px;border-radius:8px;font-size:15px;width:100%;box-sizing:border-box;"></div>' +
+            '<div class="price-simple-note" style="grid-column:1/-1;">Un solo precio. No depende de lunes, martes, sábados, domingos ni de cuándo llegue la publicación.</div>' +
+          '</div>'
+        : '') +
+        '<p class="card-note" style="margin:10px 0 6px 0;">' + (((tit.tipoProducto||'diario')!=='diario') ? 'Precio único vigente desde el ' : 'Precio por día vigente desde el ') + fmtFechaItemProv(actual.desde) + ':</p>' +
+        ((tit.tipoProducto||'diario')==='diario' ? '<div style="display:flex;flex-direction:column;gap:6px;">' +
         DIAS_PROV.map((d,i) =>
           '<div style="display:grid;grid-template-columns:70px 1fr 1fr;gap:6px;align-items:center;">' +
           '<div class="range-label" style="margin:0;">' + d + '</div>' +
@@ -12314,8 +12460,8 @@ renderAutoConclusions();
           '<input type="number" min="0" step="0.01" class="ventaRecargoInput" data-id="' + tit.id + '" data-idx="' + i + '" value="' + (actual.recargo[i]||0) + '" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:7px 9px;border-radius:8px;font-size:13px;width:100%;box-sizing:border-box;">' +
           '</div>'
         ).join('') +
-        '</div>' +
-        '<div class="card-note" style="display:grid;grid-template-columns:70px 1fr 1fr;gap:6px;margin-top:2px;"><div></div><div>Tapa</div><div>Recargo interior</div></div>' +
+        '</div>' : '') +
+        ((tit.tipoProducto||'diario')==='diario' ? '<div class="card-note" style="display:grid;grid-template-columns:70px 1fr 1fr;gap:6px;margin-top:2px;"><div></div><div>Tapa</div><div>Recargo interior</div></div>' : '') +
         '<div class="cargar-grid-2" style="margin-top:10px;">' +
           '<div class="range-group"><div class="range-label" style="color:var(--gold);">Tapa en feriado/elección (0 = normal)</div>' +
           '<input type="number" min="0" step="0.01" class="ventaFeriadoTapaInput" data-id="' + tit.id + '" value="' + (tit.feriadoTapa||0) + '" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:8px 10px;border-radius:8px;font-size:13.5px;width:100%;box-sizing:border-box;"></div>' +
@@ -12348,6 +12494,25 @@ renderAutoConclusions();
     wrap.querySelectorAll('.ventaAliasInput').forEach(inp => inp.addEventListener('change', async () => {
       const tit = titulos.find(x => x.id === inp.dataset.id);
       if (tit){ tit.alias = inp.value.trim(); await saveProvPrecios(); mostrarMsgVenta('Guardado ✔️'); renderGananciaSemanal(); }
+    }));
+    wrap.querySelectorAll('.price-type-pill').forEach(b => b.addEventListener('click', async (ev) => {
+      ev.preventDefault();
+      const tit = titulos.find(x => x.id === b.dataset.id);
+      if (!tit) return;
+      tit.tipoProducto = b.dataset.priceType;
+      if (tit.tipoProducto !== 'diario'){
+        const hist = tit.historial && tit.historial.length ? tit.historial.slice().sort((a,c)=>a.desde<c.desde?1:-1)[0] : null;
+        if (tit.precioUnico == null) tit.precioUnico = hist ? (Number(hist.tapa?.[1])||0) : 0;
+        if (tit.recargoUnico == null) tit.recargoUnico = hist ? (Number(hist.recargo?.[1])||0) : 0;
+      }
+      await saveProvPrecios(); renderCatalogoPrecios(); renderGananciaSemanal(); actualizarPanelAnalisisModerno();
+    }));
+    wrap.querySelectorAll('.ventaSimpleTapaInput, .ventaSimpleRecargoInput').forEach(inp => inp.addEventListener('change', async () => {
+      const tit = titulos.find(x => x.id === inp.dataset.id);
+      if (!tit) return;
+      if (inp.classList.contains('ventaSimpleTapaInput')) tit.precioUnico = parseFloat(inp.value)||0;
+      else tit.recargoUnico = parseFloat(inp.value)||0;
+      await saveProvPrecios(); mostrarMsgVenta('Precio único guardado ✔️'); renderGananciaSemanal(); actualizarPanelAnalisisModerno();
     }));
     wrap.querySelectorAll('.ventaTapaInput, .ventaRecargoInput').forEach(inp => inp.addEventListener('change', async () => {
       const tit = titulos.find(x => x.id === inp.dataset.id);
@@ -12626,6 +12791,35 @@ renderAutoConclusions();
     });
   }
 
+
+  window.actualizarPanelAnalisisModerno = function(){
+    try{
+      const prov = PROVEEDORES.find(p=>p.key===provState.prov) || PROVEEDORES[0];
+      const desde = document.getElementById('ganSemFiltroDesde')?.value || '';
+      const hasta = document.getElementById('ganSemFiltroHasta')?.value || '';
+      const fs = desde ? fechaAIntProv(desde) : null, fh = hasta ? fechaAIntProv(hasta) : null;
+      let fact=0, nc=0, ventas=0, unidades=0, sinPrecio=0, devol=0;
+      const titulos=titulosDe(prov.key);
+      facturas.filter(f=>f.proveedorKey===prov.key && Array.isArray(f.items)).forEach(f=>{
+        (f.items||[]).forEach(it=>{
+          const fe=fechaEfectivaItemProv(it,f), fi=fechaAIntProv(fe);
+          if(fi===null || (fs!==null&&fi<fs) || (fh!==null&&fi>fh)) return;
+          const monto=Number(it.monto)||0, cant=Number(it.cantidad)||0;
+          const tm=matchTitulo(titulos,it.descripcion), pr=tm?precioTituloEnFecha(tm,fe):null;
+          if(f.tipo==='nota_credito') nc+=monto; else fact+=monto;
+          if(pr) ventas += (pr.total*cant)*(f.tipo==='nota_credito'?-1:1); else if(monto) sinPrecio++;
+          unidades += cant*(f.tipo==='nota_credito'?-1:1);
+        });
+      });
+      const net=fact-nc, gan=ventas-net, margen=ventas?gan/ventas*100:0;
+      const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};
+      set('provDashFacturado',fmtARS(net)); set('provDashVentas',fmtARS(ventas)); set('provDashGanancia',fmtARS(gan));
+      set('provDashMargen',ventas?margen.toLocaleString('es-AR',{maximumFractionDigits:1})+'%':'—');
+      const ins=document.getElementById('provDashInsight'), warn=document.getElementById('provDashWarn');
+      if(ins) ins.innerHTML='💡 <strong>'+escapeHtmlProv(prov.label)+'</strong>: '+unidades.toLocaleString('es-AR')+' unidades netas analizadas. '+(ventas?'La venta estimada supera el costo neto en '+fmtARS(gan)+'.':'Cargá precios de venta para medir la ganancia real.');
+      if(warn) warn.innerHTML=sinPrecio?'⚠️ Hay <strong>'+sinPrecio+'</strong> ítem(s) sin precio de venta. No entran en Ventas/Ganancia hasta completar el catálogo.':'✅ No hay ítems sin precio en el período elegido.';
+    }catch(e){}
+  }
   function renderGananciaSemanal(){
     const prov = PROVEEDORES.find(p => p.key === provState.prov) || PROVEEDORES[0];
     const nombreEl = document.getElementById('ganSemProvNombre');
@@ -13023,6 +13217,7 @@ renderAutoConclusions();
   let devoluciones = [];
   let devModoActual = 'item';
   let devFiltroEstadoActual = 'todas';
+  let devFechasAbiertas = new Set();
 
   async function loadDevoluciones(){
     try { const raw = await storageGet(K_DEVOLUCIONES); if (raw) devoluciones = JSON.parse(raw) || []; } catch(e){ devoluciones = []; }
@@ -13645,12 +13840,29 @@ renderAutoConclusions();
 
     elLista.innerHTML = lista.length ? clavesOrdenadas.map(key => {
       const etiqueta = key === 'sin-fecha' ? 'Sin fecha de carga' : ('Cargado el ' + fmtFechaCorta(fechaAIntProv(key)));
-      return '<div style="margin-bottom:14px;">' +
-        '<div class="card-note" style="text-transform:uppercase;letter-spacing:.06em;font-weight:700;color:var(--muted);margin:14px 0 6px 0;">' + etiqueta + ' · ' + gruposPorCarga[key].length + '</div>' +
-        '<div style="display:flex;flex-direction:column;gap:10px;">' + gruposPorCarga[key].map(tarjetaDev).join('') + '</div>' +
+      const abierta = devFechasAbiertas.has(key);
+      const grupo = gruposPorCarga[key];
+      const montoPendGrupo = grupo.reduce((s, d) => s + montoPendienteDev(d), 0);
+      return '<div style="margin-bottom:10px;">' +
+        '<button type="button" class="dev-fecha-toggle" data-dev-fecha-toggle="' + key + '" style="display:flex;justify-content:space-between;align-items:center;gap:8px;width:100%;text-align:left;padding:11px 13px;background:rgba(0,0,0,.18);border:1px solid var(--line);border-radius:10px;color:var(--cream);font-size:13px;font-weight:700;cursor:pointer;">' +
+          '<span>' + etiqueta + '</span>' +
+          '<span style="display:flex;align-items:center;gap:8px;font-weight:500;color:var(--muted);">' +
+            grupo.length + (grupo.length===1?' devolución':' devoluciones') +
+            (montoPendGrupo > 0 ? ' · <span style="color:var(--gold);">' + fmtARS(montoPendGrupo) + '</span>' : '') +
+            '<span style="display:inline-block;transition:transform .15s;transform:rotate(' + (abierta?90:0) + 'deg);">▸</span>' +
+          '</span>' +
+        '</button>' +
+        '<div data-dev-fecha-body="' + key + '" style="display:' + (abierta?'flex':'none') + ';flex-direction:column;gap:10px;margin-top:8px;">' + grupo.map(tarjetaDev).join('') + '</div>' +
       '</div>';
     }).join('') : '<p class="card-note">Todavía no hay devoluciones guardadas' + (devFiltroEstadoActual!=='todas' ? ' con este filtro' : '') + ' para ' + escapeHtmlProv(prov.label) + '. Subí una foto o archivo arriba (o "Cargar a mano") y acordate de tocar <strong>"💾 Guardar devolución"</strong> en la tarjeta que aparece — recién ahí queda cargada y se verifica sola contra las notas de crédito.</p>';
 
+    elLista.querySelectorAll('[data-dev-fecha-toggle]').forEach(b => {
+      b.addEventListener('click', () => {
+        const key = b.getAttribute('data-dev-fecha-toggle');
+        if (devFechasAbiertas.has(key)) devFechasAbiertas.delete(key); else devFechasAbiertas.add(key);
+        renderDevoluciones();
+      });
+    });
     elLista.querySelectorAll('[data-dev-verificar]').forEach(b => {
       b.addEventListener('click', () => { verificarTodasDevoluciones(); renderDevoluciones(); });
     });
@@ -21815,6 +22027,57 @@ document.getElementById('panelMenuFlotanteOverlay').addEventListener('click', fu
       lastH=h;
     });
   }
+})();
+</script>
+
+<script id="ag-modern-ui-js-v2">
+(function(){
+  'use strict';
+  function initModern(){
+    var more=document.getElementById('agModernMore'), grid=document.getElementById('agModernMoreGrid');
+    var oldBtns=[].slice.call(document.querySelectorAll('.tabs .tab-btn[data-tab]'));
+    var labels={};
+    oldBtns.forEach(function(b){labels[b.dataset.tab]=b.textContent.trim();});
+    function go(tab){
+      var b=document.querySelector('.tabs .tab-btn[data-tab="'+tab+'"]');
+      if(b){ b.click(); window.scrollTo({top:0,behavior:'smooth'}); }
+      if(more) more.classList.remove('active');
+      setTimeout(function(){ if(typeof window.actualizarPanelAnalisisModerno==='function') window.actualizarPanelAnalisisModerno(); },80);
+    }
+    document.querySelectorAll('[data-modern-tab]').forEach(function(b){
+      b.addEventListener('click',function(){go(b.dataset.modernTab);});
+    });
+    if(grid){
+      grid.innerHTML=oldBtns.map(function(b){
+        return '<button type="button" data-more-tab="'+b.dataset.tab+'">'+b.textContent.trim()+'</button>';
+      }).join('');
+      grid.querySelectorAll('[data-more-tab]').forEach(function(b){b.addEventListener('click',function(){go(b.dataset.moreTab);});});
+    }
+    document.querySelectorAll('[data-modern-more]').forEach(function(b){b.addEventListener('click',function(){if(more)more.classList.add('active');});});
+    ['agModernMoreClose','agModernMoreCloseTop'].forEach(function(id){
+      var b=document.getElementById(id); if(b)b.addEventListener('click',function(){more.classList.remove('active');});
+    });
+    if(more) more.addEventListener('click',function(e){if(e.target===more)more.classList.remove('active');});
+    document.addEventListener('click',function(e){
+      if(e.target.closest && e.target.closest('#provTabs .toggle-btn')){
+        setTimeout(function(){ if(typeof window.actualizarPanelAnalisisModerno==='function') window.actualizarPanelAnalisisModerno(); },80);
+      }
+    });
+    // Keep modern navigation compact: the legacy tab strip remains in DOM and works,
+    // but is hidden from the main visual interface. "Más herramientas" exposes it all.
+    var legacy=document.querySelector('.tabs');
+    if(legacy) legacy.style.display='none';
+    var oldReorder=document.getElementById('tabsReorderToggle'), oldHide=document.getElementById('tabsHideToggle');
+    if(oldReorder) oldReorder.style.display='none';
+    if(oldHide) oldHide.style.display='none';
+    // Provider analysis refreshes whenever its subtab is selected.
+    document.addEventListener('click',function(e){
+      if(e.target.closest && e.target.closest('[data-provsub="analisis"]')){
+        setTimeout(function(){ if(typeof window.actualizarPanelAnalisisModerno==='function') window.actualizarPanelAnalisisModerno(); },100);
+      }
+    });
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',initModern); else initModern();
 })();
 </script>
 </body>
