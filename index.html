@@ -7795,7 +7795,12 @@ function backupEntryKey(en){
     en.medio || en.detalle || ''].join('|');
 }
 
-function armarBackupTexto(){
+async function armarBackupTexto(){
+  // Antes de armar el backup, nos aseguramos de que Proveedores (facturas,
+  // NC/ND, devoluciones) ya haya terminado de leer sus datos en memoria —
+  // aunque el usuario nunca haya entrado a esa pestaña (ver lazy load en
+  // el módulo de Proveedores).
+  if (window.provDatosListos) { try { await window.provDatosListos; } catch(e){} }
   const backup = {
     tipo: 'panel-agencia-backup',
     version: 4,
@@ -7860,8 +7865,8 @@ function cerrarModalBackup(){
   document.getElementById('backupModalOverlay').style.display = 'none';
 }
 
-function exportarBackup(){
-  const texto = armarBackupTexto();
+async function exportarBackup(){
+  const texto = await armarBackupTexto();
   const fecha = new Date().toISOString().slice(0, 10);
   intentarDescargaArchivo(texto, `panel-backup-${fecha}.json`);
   try { window.storageSet('agencia-last-backup-any', String(Date.now())); } catch(e){}
@@ -7882,11 +7887,9 @@ function exportarBackup(){
   });
 }
 
-function guardarSnapshotPreImport(){
+async function guardarSnapshotPreImport(){
   try {
-    const snap = armarBackupTexto();
-    // No usamos storageSet (async) para no demorar el flujo de confirmación:
-    // esto es una copia de seguridad de un solo nivel, se sobreescribe en cada importación.
+    const snap = await armarBackupTexto();
     return storageSet('snapshot-pre-import', snap);
   } catch(e) { return Promise.resolve(false); }
 }
@@ -7933,6 +7936,7 @@ async function deshacerUltimaImportacion(){
 }
 
 async function procesarBackupTexto(texto, msgEl){
+  if (window.provDatosListos) { try { await window.provDatosListos; } catch(e){} }
   let data;
   try {
     data = JSON.parse(texto);
@@ -8149,7 +8153,8 @@ document.getElementById('inputImportarBackup').addEventListener('change', (e)=>{
    acotado a lo cargado en la pestaña Proveedores: no toca movimientos, categorías,
    clientes de reparto, vencimientos ni reservas de colecciones. Pensado para cuando
    solo se quiere pasar o respaldar los comprobantes de proveedores. */
-function armarBackupProveedoresTexto(){
+async function armarBackupProveedoresTexto(){
+  if (window.provDatosListos) { try { await window.provDatosListos; } catch(e){} }
   const backup = {
     tipo: 'panel-agencia-backup-proveedores',
     version: 1,
@@ -8161,8 +8166,8 @@ function armarBackupProveedoresTexto(){
   return JSON.stringify(backup, null, 2);
 }
 
-function exportarBackupProveedores(){
-  const texto = armarBackupProveedoresTexto();
+async function exportarBackupProveedores(){
+  const texto = await armarBackupProveedoresTexto();
   const fecha = new Date().toISOString().slice(0, 10);
   intentarDescargaArchivo(texto, `panel-backup-proveedores-${fecha}.json`);
   const cant = (typeof window.getFacturasProveedores === 'function') ? window.getFacturasProveedores().length : 0;
@@ -8183,6 +8188,7 @@ function exportarBackupProveedores(){
 }
 
 async function procesarBackupProveedoresTexto(texto, msgEl, modoReemplazar){
+  if (window.provDatosListos) { try { await window.provDatosListos; } catch(e){} }
   let data;
   try {
     data = JSON.parse(texto);
@@ -8360,7 +8366,7 @@ async function subirBackupAGithub(silencioso){
   }
   if (msgEl && !silencioso) msgEl.textContent = 'Subiendo a GitHub…';
   try {
-    await subirTextoAGithub(cfg, cfg.path, armarBackupTexto(), 'Backup automático');
+    await subirTextoAGithub(cfg, cfg.path, await armarBackupTexto(), 'Backup automático');
     try { await window.storageSet('agencia-last-backup-any', String(Date.now())); } catch(e){}
     if (msgEl) msgEl.textContent = `Backup subido a GitHub ✔️ (${new Date().toLocaleTimeString()})`;
     return true;
@@ -8438,7 +8444,7 @@ async function subirBackupProveedoresAGithub(silencioso){
   }
   if (msgEl && !silencioso) msgEl.textContent = 'Subiendo backup de Proveedores a GitHub…';
   try {
-    await subirTextoAGithub(cfg, cfg.pathProveedores, armarBackupProveedoresTexto(), 'Backup de Proveedores');
+    await subirTextoAGithub(cfg, cfg.pathProveedores, await armarBackupProveedoresTexto(), 'Backup de Proveedores');
     if (msgEl) msgEl.textContent = `Backup de Proveedores subido a GitHub ✔️ (${new Date().toLocaleTimeString()})`;
     return true;
   } catch(e){
@@ -8643,7 +8649,7 @@ async function subirBackupADrive(silencioso){
     const token = await obtenerTokenDrive(cfg, !silencioso);
     if (msgEl && !silencioso) msgEl.textContent = 'Subiendo a Drive…';
     let fileId = cfg.fileId || await buscarArchivoEnDrive(token, cfg.fileName);
-    const contenido = armarBackupTexto();
+    const contenido = await armarBackupTexto();
     let data;
     try {
       data = await multipartDriveRequest(token, {
@@ -14405,23 +14411,57 @@ renderAutoConclusions();
     renderDevoluciones();
   });
 
-  // El arranque de Proveedores (facturas, notas de crédito/débito,
-  // devoluciones, catálogo de precios) crece con el tiempo: cada factura o
-  // NC cargada a mano suma trabajo de render y de cruce (ej. verificar
-  // devoluciones contra NC) que antes, con poca data, no se notaba. Todo
-  // esto se ejecutaba de forma síncrona apenas cargaba la página, bloqueando
-  // la pintura inicial del panel aunque el usuario arrancara en otra
-  // pestaña (Resumen, etc.). Se difiere un tick (setTimeout 0) para que el
-  // panel se pinte primero y esto se termine de cargar apenas después, sin
-  // que el usuario note el bloqueo. No cambia qué se carga ni el orden,
-  // solo cuándo: sigue listo antes de que el usuario llegue a tocar
-  // Proveedores, Asistente IA o Backups.
-  setTimeout(function(){
+  // LAZY LOAD real de Proveedores: con miles de facturas/NC (1000+ por año)
+  // no alcanza con diferir un tick — renderProveedores() y los load*()
+  // arman de una TODAS las tablas (facturas, cuenta corriente, catálogo de
+  // precios, cruce de cada devolución contra las NC), y eso pesa cada vez
+  // más aunque se corra un instante después. La solución real es no
+  // dibujar nada de esto hasta que el usuario entra a la pestaña
+  // Proveedores por primera vez.
+  //
+  // provDatosListos: promesa que resuelve cuando facturas/precios/
+  // devoluciones ya están LEÍDOS en memoria (storageGet + JSON.parse, que
+  // es barato) — sin dibujar ninguna tabla todavía. La necesitan Backups y
+  // el Asistente IA, que leen estos datos aunque el usuario nunca haya
+  // abierto la pestaña Proveedores.
+  //
+  // provRenderizado: se vuelve true recién cuando se dibuja todo por
+  // primera vez (al entrar a la pestaña, o si Backups/IA lo piden antes).
+  var provRenderizado = false;
+  function asegurarProveedoresRenderizado(){
+    if (provRenderizado) return;
+    provRenderizado = true;
     renderProveedores();
-    loadFacturas();
-    loadProvPrecios();
-    loadDevoluciones();
-  }, 0);
+  }
+  window.asegurarProveedoresRenderizado = asegurarProveedoresRenderizado;
+
+  var __btnTabProveedores = document.querySelector('.tab-btn[data-tab="proveedores"]');
+  if (__btnTabProveedores) __btnTabProveedores.addEventListener('click', asegurarProveedoresRenderizado);
+
+  var provDatosListos = (async function(){
+    // Solo la lectura de datos (liviana): sin llamar a ningún render.
+    try { const raw = await storageGet(K_FACTURAS); if (raw) facturas = JSON.parse(raw) || []; } catch(e){ facturas = []; }
+    try {
+      const raw2 = await storageGet(K_PROV_PRECIOS);
+      if (raw2) provPrecios = JSON.parse(raw2) || {};
+      Object.keys(provPrecios||{}).forEach(function(pk){
+        (provPrecios[pk]||[]).forEach(function(t){
+          if (!t.tipoProducto) t.tipoProducto='diario';
+          if (t.precioUnico==null) t.precioUnico=0;
+          if (t.recargoUnico==null) t.recargoUnico=0;
+        });
+      });
+    } catch(e){ provPrecios = {}; }
+    try { const raw3 = await storageGet(K_DEVOLUCIONES); if (raw3) devoluciones = JSON.parse(raw3) || []; } catch(e){ devoluciones = []; }
+    if (!Array.isArray(devoluciones)) devoluciones = [];
+    // Si para cuando termina esta lectura la pestaña Proveedores YA estaba
+    // abierta (usuario rápido, o conexión de storage lenta), dibujamos
+    // recién ahora — así nunca se queda en blanco.
+    if (document.getElementById('tab-proveedores') && document.getElementById('tab-proveedores').classList.contains('active')){
+      asegurarProveedoresRenderizado();
+    }
+  })();
+  window.provDatosListos = provDatosListos;
 })();
 
 /* ---------------- ASISTENTE IA (Gemini gratis) ---------------- */
@@ -15095,6 +15135,7 @@ renderAutoConclusions();
 
 
   async function llamarGemini(pregunta){
+    if (window.provDatosListos) { try { await window.provDatosListos; } catch(e){} }
     await refrescarDatosVivo();
     const contexto = construirContexto();
     const contents = iaContents.slice();
