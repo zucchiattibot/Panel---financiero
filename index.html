@@ -280,26 +280,8 @@
   #ganSemFacturaModal th,#ganSemFacturaModal td{padding:6px;border-bottom:1px solid var(--line);}
   @media(max-width:520px){#ganSemFacturaModal{padding:8px;}#ganSemFacturaModal .gsm-grid{grid-template-columns:1fr 1fr;}#ganSemFacturaModal .gsm-box{padding:12px;}}
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
 <script async defer src="https://accounts.google.com/gsi/client"></script>
-<script>
-/* ---------- Carga diferida de html2pdf.js ----------
-   Antes se cargaba de forma bloqueante en el <head>, frenando toda la
-   apertura del panel aunque no se fuera a exportar ningún PDF. Ahora se
-   pide recién cuando hace falta (primer intento de exportar), y mientras
-   tanto queda cacheada la promesa para no pedirla dos veces. */
-window.__cargarHtml2pdf = function(){
-  if (window.__html2pdfPromise) return window.__html2pdfPromise;
-  window.__html2pdfPromise = new Promise(function(resolve, reject){
-    if (window.html2pdf) { resolve(window.html2pdf); return; }
-    var s = document.createElement('script');
-    s.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js';
-    s.onload = function(){ resolve(window.html2pdf); };
-    s.onerror = function(){ window.__html2pdfPromise = null; reject(new Error('No se pudo cargar html2pdf.js (revisá tu conexión)')); };
-    document.head.appendChild(s);
-  });
-  return window.__html2pdfPromise;
-};
-</script>
 <style>
 /* ===== PEDIDOS IA: estilos aislados del panel principal ===== */
 
@@ -3966,7 +3948,7 @@ function renderRentDiscriminado(){
     groupedBarChart('chartYearlyRentCompare', years2, years2.map(y=>agenciaByYear2[y]||0), years2.map(y=>rentByYear2[y]||0), 'var(--red-neg)', 'var(--gold)');
   }
 }
-renderRentDiscriminado();
+setTimeout(function(){ renderRentDiscriminado(); }, 0);
 
 /* ---------------- TABS ---------------- */
 document.querySelectorAll('.tab-btn[data-tab]').forEach(btn=>{
@@ -4457,7 +4439,7 @@ document.getElementById('resRangoAplicar').addEventListener('click', ()=>{
 wirePeriodModeToggle('resPeriodModeToggle', {anual:'resAnualWrap', mensual:'resMensualWrap', rango:'resRangoWrap'}, (mode)=>{
   renderResumen(currentMetric, mode, resCurrentParam());
 });
-renderResumen('neto', 'anual', null);
+setTimeout(function(){ renderResumen('neto', 'anual', null); }, 0);
 
 /* ---------------- RESUMEN — BALANCE ACUMULADO DE ALQUILERES ---------------- */
 const lastAlq = RENT_MONTHLY[RENT_MONTHLY.length-1];
@@ -4580,7 +4562,7 @@ document.getElementById('resAlqRangoAplicar').addEventListener('click', ()=>{
 wirePeriodModeToggle('resAlqPeriodModeToggle', {anual:'resAlqAnualWrap', mensual:'resAlqMensualWrap', rango:'resAlqRangoWrap'}, (mode)=>{
   renderResumenAlq(currentMetricAlq, mode, resAlqCurrentParam());
 });
-renderResumenAlq('neto', 'anual', null);
+setTimeout(function(){ renderResumenAlq('neto', 'anual', null); }, 0);
 
 /* ---------------- SELECTOR DE MES/AÑO (reemplaza <input type=month>) ---------------- */
 // Algunos navegadores/webviews embebidos no muestran el picker nativo de
@@ -4717,7 +4699,7 @@ document.getElementById('catMesActualBtn').addEventListener('click', ()=>{
   document.getElementById('catHasta').value = ymInput;
   renderCategorias();
 });
-renderCategorias();
+setTimeout(function(){ renderCategorias(); }, 0);
 
 /* ---------------- COMPARAR AÑOS ---------------- */
 function renderYearlyChart(metric){
@@ -4742,7 +4724,7 @@ document.querySelectorAll('#yearlyMetricToggle .toggle-btn').forEach(btn=>{
     renderYearlyChart(btn.dataset.metric);
   });
 });
-renderYearlyChart('todo');
+setTimeout(function(){ renderYearlyChart('todo'); }, 0);
 function renderYearlyNet(metric){
   const titles = {neto:'Resultado neto por año', ingresos:'Ingresos por año', egresos:'Egresos por año'};
   const notes = {
@@ -4767,7 +4749,7 @@ document.querySelectorAll('#netYearMetricToggle .toggle-btn').forEach(btn=>{
     renderYearlyNet(btn.dataset.metric);
   });
 });
-renderYearlyNet('neto');
+setTimeout(function(){ renderYearlyNet('neto'); }, 0);
 
 const yearlyTbody = document.querySelector('#yearlyTable tbody');
 YEARLY.forEach((y,i)=>{
@@ -4826,7 +4808,7 @@ document.querySelectorAll('#monthCompareMetricToggle .toggle-btn').forEach(btn=>
     renderMonthCompare();
   });
 });
-renderMonthCompare();
+setTimeout(function(){ renderMonthCompare(); }, 0);
 
 /* ---------------- PROYECCION ---------------- */
 const lastDateStr = DAILY.last_date;
@@ -5670,7 +5652,7 @@ projDateClearEl.addEventListener('click', ()=>{
   renderProjection(30, projState.metric, projState.window);
 });
 
-renderProjection(30, 'neto', 3);
+setTimeout(function(){ renderProjection(30, 'neto', 3); }, 0);
 
 /* ---------------- RANGO DE FECHAS PERSONALIZADO ---------------- */
 let IPC_INDEX = null, IPC_LAST_YM = null, IPC_LAST_IDX = null;
@@ -7450,7 +7432,7 @@ document.getElementById('cargarVerMasBtn').addEventListener('click', ()=>{
   cargarMostrarTodo = !cargarMostrarTodo;
   renderManualList();
 });
-renderManualList();
+setTimeout(function(){ renderManualList(); }, 0);
 
 async function deleteManualEntry(idx){
   const enBorrar = manualEntries[idx];
@@ -7629,7 +7611,7 @@ async function eliminarCategoria(nombreMostrado, esBase, nombreOriginalBase){
   renderGestionCategorias();
 }
 
-renderGestionCategorias();
+setTimeout(function(){ renderGestionCategorias(); }, 0);
 
 let cargarTipo = 'ingreso';
 let cargarMedio = 'efectivo';
@@ -8980,7 +8962,7 @@ function renderAutoConclusions(){
   }
   listEl.innerHTML = items.map(it => `<li class="${it.cls}">${it.html}</li>`).join('');
 }
-renderAutoConclusions();
+setTimeout(function(){ renderAutoConclusions(); }, 0);
 
 /* ---------------- UI del toggle de sueldo ---------------- */
 (function(){
@@ -13143,10 +13125,10 @@ renderAutoConclusions();
   // Devoluciones). Sirve para ubicar la NC en la semana de la devolución
   // original en vez de la semana en que el proveedor emitió el papel, que
   // suele ser mucho más tarde.
-  function mapaDevolucionPorNCItem(asignacionPrevia){
+  function mapaDevolucionPorNCItem(){
     const mapa = Object.create(null);
     if (typeof construirAsignacionNCDev !== 'function') return mapa;
-    const asignacion = asignacionPrevia || construirAsignacionNCDev();
+    const asignacion = construirAsignacionNCDev();
     Object.keys(asignacion).forEach(devKey => {
       const info = asignacion[devKey];
       if (!info || !Array.isArray(info.cubiertoPor)) return;
@@ -13202,14 +13184,8 @@ renderAutoConclusions();
     const semanas = Object.create(null);
     let totalCargas = 0, totalNC = 0, totalVentas = 0, itemsSinPrecio = 0;
     const sinPrecioNombres = new Set();
-    if (typeof construirAsignacionNCDev === 'function'){
-      const asignacionUnica = construirAsignacionNCDev();
-      if (typeof verificarTodasDevoluciones === 'function') verificarTodasDevoluciones(asignacionUnica);
-      var mapaDevPorNC = mapaDevolucionPorNCItem(asignacionUnica);
-    } else {
-      if (typeof verificarTodasDevoluciones === 'function') verificarTodasDevoluciones();
-      var mapaDevPorNC = mapaDevolucionPorNCItem();
-    }
+    if (typeof verificarTodasDevoluciones === 'function') verificarTodasDevoluciones();
+    const mapaDevPorNC = mapaDevolucionPorNCItem();
 
     conItems.forEach(f => {
       const esNC = f.tipo === 'nota_credito';
@@ -13431,14 +13407,8 @@ renderAutoConclusions();
     const porTitulo = Object.create(null);
     let itemsSinPrecio = 0;
 
-    if (typeof construirAsignacionNCDev === 'function'){
-      const asignacionUnica = construirAsignacionNCDev();
-      if (typeof verificarTodasDevoluciones === 'function') verificarTodasDevoluciones(asignacionUnica);
-      var mapaDevPorNCResumen = mapaDevolucionPorNCItem(asignacionUnica);
-    } else {
-      if (typeof verificarTodasDevoluciones === 'function') verificarTodasDevoluciones();
-      var mapaDevPorNCResumen = mapaDevolucionPorNCItem();
-    }
+    if (typeof verificarTodasDevoluciones === 'function') verificarTodasDevoluciones();
+    const mapaDevPorNCResumen = mapaDevolucionPorNCItem();
 
     conItems.forEach(f => {
       const esNC = f.tipo === 'nota_credito';
@@ -13883,23 +13853,10 @@ renderAutoConclusions();
     if (d.estado === 'aceptada' && estadoAnterior !== 'aceptada') d.acreditadaEl = new Date().toISOString();
     if (d.estado !== 'aceptada') d.acreditadaEl = null;
   }
-  function verificarTodasDevoluciones(asignacionPrevia){
-    const asignacion = asignacionPrevia || construirAsignacionNCDev();
-    // Antes esto guardaba (rcSave de devoluciones) en CADA render de Ganancia
-    // semanal / Resumen por título, aunque nada hubiera cambiado — con
-    // muchas facturas cargadas eso significaba re-serializar y re-escribir
-    // todas las devoluciones una y otra vez solo por abrir una pestaña.
-    // Ahora comparamos antes/después y solo escribimos si de verdad se
-    // movió algo (una NC nueva que cubrió una devolución, un estado que
-    // cambió, etc.).
-    let cambioAlgo = false;
-    devoluciones.forEach(d => {
-      const antes = JSON.stringify({estado: d.estado, items: (d.items||[]).map(it => ({ncFacturaId: it.ncFacturaId, cantidadAcreditada: it.cantidadAcreditada, cantidadFaltante: it.cantidadFaltante, faltante: it.faltante}))});
-      recalcularEstadoDevolucion(d, asignacion);
-      const despues = JSON.stringify({estado: d.estado, items: (d.items||[]).map(it => ({ncFacturaId: it.ncFacturaId, cantidadAcreditada: it.cantidadAcreditada, cantidadFaltante: it.cantidadFaltante, faltante: it.faltante}))});
-      if (antes !== despues) cambioAlgo = true;
-    });
-    if (cambioAlgo) saveDevoluciones();
+  function verificarTodasDevoluciones(){
+    const asignacion = construirAsignacionNCDev();
+    devoluciones.forEach(d => recalcularEstadoDevolucion(d, asignacion));
+    saveDevoluciones();
   }
 
   // ---- Carga (foto/archivo + IA, o a mano) ----
@@ -16845,8 +16802,7 @@ document.getElementById('fcBtnGenerarFactura').addEventListener('click', async f
 function fcNombreArchivoFactura(l){
   return 'Factura_'+fcNumFactura(l.numero)+'_'+l.cliente.nombre.replace(/[^a-z0-9]+/gi,'_')+'.pdf';
 }
-async function fcGenerarPDFBlob(){
-  await window.__cargarHtml2pdf();
+function fcGenerarPDFBlob(){
   var el = document.getElementById('fcFacturaContenido');
   window.scrollTo(0, 0);
   return window.html2pdf().set({
@@ -16897,8 +16853,7 @@ async function fcGuardarPDFConDestino(blob, nombreArchivo, msg){
    Estadísticas y Estadísticas Alquileres, un botón para exportar esa tarjeta
    puntual a PDF y otro para compartirla directo por WhatsApp. Reutiliza el
    mismo mecanismo (html2pdf + fcGuardarPDFConDestino) que ya usa la factura. */
-async function fcCardPDFBlob(cardEl){
-  await window.__cargarHtml2pdf();
+function fcCardPDFBlob(cardEl){
   window.scrollTo(0, 0);
   return window.html2pdf().set({
     margin: 6,
@@ -16937,7 +16892,7 @@ async function fcCardDescargarPDF(cardEl, titulo, msgEl){
   if (typeof window.html2pdf !== 'function'){ msgEl.style.color='var(--red-neg)'; msgEl.textContent='No se pudo cargar el generador de PDF (revisá tu conexión).'; return; }
   msgEl.style.color='var(--muted)'; msgEl.textContent='Generando PDF…';
   try{
-    var blob = await (await fcCardPDFBlob(cardEl)).outputPdf('blob');
+    var blob = await fcCardPDFBlob(cardEl).outputPdf('blob');
     await fcGuardarPDFConDestino(blob, fcCardNombreArchivo(titulo), msgEl);
   }catch(e){
     msgEl.style.color='var(--red-neg)'; msgEl.textContent='Hubo un error generando el PDF.';
@@ -16948,7 +16903,7 @@ async function fcCardCompartirWA(cardEl, titulo, msgEl){
   if (typeof window.html2pdf !== 'function'){ msgEl.style.color='var(--red-neg)'; msgEl.textContent='No se pudo cargar el generador de PDF (revisá tu conexión).'; return; }
   msgEl.style.color='var(--muted)'; msgEl.textContent='Generando PDF para compartir…';
   var blob;
-  try{ blob = await (await fcCardPDFBlob(cardEl)).outputPdf('blob'); }
+  try{ blob = await fcCardPDFBlob(cardEl).outputPdf('blob'); }
   catch(e){ msgEl.style.color='var(--red-neg)'; msgEl.textContent='Hubo un error generando el PDF.'; return; }
   var file = new File([blob], nombreArchivo, {type:'application/pdf'});
   if (navigator.canShare && navigator.canShare({files:[file]})){
@@ -16963,7 +16918,7 @@ async function fcCardCompartirWA(cardEl, titulo, msgEl){
   }
   // Fallback: no se puede adjuntar el PDF directo a WhatsApp vía enlace, así
   // que lo descargamos y guiamos al usuario para adjuntarlo a mano.
-  await (await fcCardPDFBlob(cardEl)).set({filename:nombreArchivo}).save();
+  await fcCardPDFBlob(cardEl).set({filename:nombreArchivo}).save();
   var textoWA = 'Te descargué "'+titulo+'" en PDF ("'+nombreArchivo+'"). Abrí WhatsApp y adjuntalo desde tus descargas.';
   msgEl.style.color='var(--muted)'; msgEl.textContent='PDF descargado. Adjuntalo manualmente en WhatsApp.';
   window.open('https://wa.me/?text='+encodeURIComponent(textoWA), '_blank');
@@ -16996,7 +16951,7 @@ document.getElementById('fcBtnDescargarPDF').addEventListener('click', async fun
   if (typeof window.html2pdf !== 'function'){ msg.style.color='var(--red-neg)'; msg.textContent='No se pudo cargar el generador de PDF (revisá tu conexión).'; return; }
   msg.style.color='var(--muted)'; msg.textContent='Generando PDF…';
   try{
-    var blob = await (await fcGenerarPDFBlob()).outputPdf('blob');
+    var blob = await fcGenerarPDFBlob().outputPdf('blob');
     await fcGuardarPDFConDestino(blob, fcNombreArchivoFactura(fcUltimaLiquidacion), msg);
   }catch(e){
     msg.style.color='var(--red-neg)'; msg.textContent='Hubo un error generando el PDF.';
@@ -17012,7 +16967,7 @@ async function fcCompartirPDF(destino){
   if (typeof window.html2pdf !== 'function'){ msg.style.color='var(--red-neg)'; msg.textContent='No se pudo cargar el generador de PDF (revisá tu conexión).'; return; }
   msg.style.color='var(--muted)'; msg.textContent='Generando PDF para compartir…';
   var blob;
-  try{ blob = await (await fcGenerarPDFBlob()).outputPdf('blob'); }
+  try{ blob = await fcGenerarPDFBlob().outputPdf('blob'); }
   catch(e){ msg.style.color='var(--red-neg)'; msg.textContent='Hubo un error generando el PDF.'; return; }
   var file = new File([blob], nombreArchivo, {type:'application/pdf'});
   if (navigator.canShare && navigator.canShare({files:[file]})){
@@ -17027,7 +16982,7 @@ async function fcCompartirPDF(destino){
   }
   // Fallback: el navegador no puede adjuntar archivos directo a WhatsApp/Mail vía enlace,
   // así que descargamos el PDF y guiamos al usuario para adjuntarlo a mano.
-  await (await fcGenerarPDFBlob()).set({filename:nombreArchivo}).save();
+  await fcGenerarPDFBlob().set({filename:nombreArchivo}).save();
   if (destino==='whatsapp'){
     var textoWA = 'Te descargué la factura en PDF ("'+nombreArchivo+'"). Abrí WhatsApp y adjuntala desde tus descargas para enviarla a '+l.cliente.nombre+'.';
     msg.style.color='var(--muted)'; msg.textContent='PDF descargado. Adjuntalo manualmente en WhatsApp.';
@@ -17096,8 +17051,7 @@ document.getElementById('fcBtnCopiarTexto').addEventListener('click', function()
 /* ---------- Cuenta corriente / Extracto ---------- */
 var fcExtClienteActual = null;
 
-async function fcExtGenerarPDFBlob(elId, formato){
-  await window.__cargarHtml2pdf();
+function fcExtGenerarPDFBlob(elId, formato){
   var el = document.getElementById(elId);
   window.scrollTo(0, 0);
   return window.html2pdf().set({
@@ -17167,7 +17121,7 @@ document.getElementById('fcExtBtnDescargarResumenPDF').addEventListener('click',
   box.style.display='block';
   msg.style.color='var(--muted)'; msg.textContent='Generando PDF…';
   try{
-    var blob = await (await fcExtGenerarPDFBlob('fcExtResumenPrintBox','a4')).outputPdf('blob');
+    var blob = await fcExtGenerarPDFBlob('fcExtResumenPrintBox','a4').outputPdf('blob');
     await fcGuardarPDFConDestino(blob, 'Cuenta_corriente_general.pdf', msg);
   }catch(e){ msg.style.color='var(--red-neg)'; msg.textContent='Hubo un error generando el PDF.'; }
   finally{ box.style.display='none'; }
@@ -17336,7 +17290,7 @@ document.getElementById('fcExtBtnDescargarPDF').addEventListener('click', async 
   if (typeof window.html2pdf !== 'function'){ msg.style.color='var(--red-neg)'; msg.textContent='No se pudo cargar el generador de PDF (revisá tu conexión).'; return; }
   msg.style.color='var(--muted)'; msg.textContent='Generando PDF…';
   try{
-    var blob = await (await fcExtGenerarPDFBlob('fcExtPrintBox','a5')).outputPdf('blob');
+    var blob = await fcExtGenerarPDFBlob('fcExtPrintBox','a5').outputPdf('blob');
     var nombre = 'Cuenta_corriente_'+fcExtClienteActual.nombre.replace(/[^a-z0-9]+/gi,'_')+'.pdf';
     await fcGuardarPDFConDestino(blob, nombre, msg);
   }catch(e){ msg.style.color='var(--red-neg)'; msg.textContent='Hubo un error generando el PDF.'; }
@@ -19924,12 +19878,14 @@ const invTabBtn = document.querySelector('.tab-btn[data-tab="inversiones"]');
 if (invTabBtn){
   invTabBtn.addEventListener('click', invInit);
 }
-// Antes esta pestaña arrancaba sola apenas cargaba la página entera (aunque no
-// se fuera a abrir), pidiendo dólar/bitcoin/riesgo país de una y probando varios
-// proxies en cadena si el primero fallaba — eso hacía lenta la apertura del panel
-// para todo el mundo, no solo para quien usa Inversiones. Ahora arranca recién
-// al tocar la solapa (el botón "modern" también dispara un click real sobre
-// invTabBtn, así que el listener de arriba lo cubre igual).
+// No dependemos solo del clic en la solapa (por si esa escucha no llegara a dispararse en algún
+// navegador/WebView): arrancamos directo apenas termina de cargar la página, igual que el resto
+// de los módulos (Clientes, Vencimientos) hacen con su propio Init.
+if (document.readyState === 'loading'){
+  document.addEventListener('DOMContentLoaded', invInit);
+} else {
+  invInit();
+}
 
 })();
 </script>
