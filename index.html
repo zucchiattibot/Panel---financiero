@@ -1266,7 +1266,7 @@ Ordenar por fecha de vencimiento (las que vencen antes, primero — las sin fech
 </div>
 <div class="card">
 <h2>Ganancia semanal — <span id="ganSemProvNombre"></span></h2>
-<p class="card-note">Cargas de facturas menos notas de crédito, semana por semana — pero no por la fecha en que se emitió el comprobante, sino por la fecha del diario/edición de cada producto (si no se cargó o no se pudo detectar esa fecha en el ítem, usa la de emisión del comprobante, como las revistas). Así una nota de crédito emitida el 16 pero que corrige un diario del 6 impacta en la semana del 6, no en la del 16. Si el proveedor no pone fecha sino el nombre del día (Lunes a Domingo), también se detecta: se usa la ocurrencia de ese día más cercana hacia atrás desde la fecha de emisión del comprobante.</p>
+<p class="card-note">Cargas de facturas menos notas de crédito, semana por semana — pero no por la fecha en que se emitió el comprobante, sino por la fecha del diario/edición de cada producto (si no se cargó o no se pudo detectar esa fecha en el ítem, usa la de emisión del comprobante, como las revistas). Así una nota de crédito emitida el 16 pero que corrige un diario del 6 impacta en la semana del 6, no en la del 16. Si el proveedor no pone fecha sino el nombre del día (Lunes a Domingo), también se detecta: se usa la ocurrencia de ese día más cercana hacia atrás desde la fecha de emisión del comprobante. Si esa NC corresponde a una devolución ya cargada en el módulo Devoluciones, se prioriza la fecha de esa devolución por sobre la del comprobante. Además, las devoluciones cargadas que el proveedor todavía no acreditó con NC ya se restan de Ventas como estimado (📦), sin esperar el papel.</p>
 <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;">
 <input id="ganSemFiltroDesde" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:8px;border-radius:6px;font-size:13px;" type="date"/>
 <input id="ganSemFiltroHasta" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:8px;border-radius:6px;font-size:13px;" type="date"/>
@@ -13118,6 +13118,56 @@ renderAutoConclusions();
       if(warn) warn.innerHTML=sinPrecio?'⚠️ Hay <strong>'+sinPrecio+'</strong> ítem(s) sin precio de venta. No entran en Ventas/Ganancia hasta completar el catálogo.':'✅ No hay ítems sin precio en el período elegido.';
     }catch(e){}
   }
+  // ---- NUEVO: cruce entre Ganancia semanal y el módulo de Devoluciones ----
+  // Devuelve, para cada ítem de nota de crédito ya cargado en Comprobantes
+  // (clave "facturaId::idxItem"), la fecha de la devolución física que ese
+  // ítem de NC terminó cubriendo (según el cruce que ya hace el módulo
+  // Devoluciones). Sirve para ubicar la NC en la semana de la devolución
+  // original en vez de la semana en que el proveedor emitió el papel, que
+  // suele ser mucho más tarde.
+  function mapaDevolucionPorNCItem(){
+    const mapa = Object.create(null);
+    if (typeof construirAsignacionNCDev !== 'function') return mapa;
+    const asignacion = construirAsignacionNCDev();
+    Object.keys(asignacion).forEach(devKey => {
+      const info = asignacion[devKey];
+      if (!info || !Array.isArray(info.cubiertoPor)) return;
+      const devId = devKey.split('::')[0];
+      const dev = devoluciones.find(d => d.id === devId);
+      if (!dev || !dev.fecha) return;
+      info.cubiertoPor.forEach(cp => {
+        if (!cp.key) return;
+        const actual = mapa[cp.key];
+        // Si un mismo ítem de NC terminó cubriendo más de una devolución (raro),
+        // nos quedamos con la fecha más antigua — es el criterio más conservador.
+        if (!actual || dev.fecha < actual.fecha) mapa[cp.key] = { fecha: dev.fecha, devId: dev.id };
+      });
+    });
+    return mapa;
+  }
+  // Fecha efectiva de un ítem de NOTA DE CRÉDITO para Ganancia semanal: mismo
+  // criterio que fechaEfectivaItemProv (fecha propia del ítem si se detecta
+  // en el texto), pero si no hay fecha en el texto, en vez de caer directo a
+  // la fecha de emisión de la NC, primero probamos con la fecha de la
+  // devolución física que esta NC terminó cubriendo (si hay alguna
+  // matcheada) — mucho más cercana a la semana real de la venta que se está
+  // corrigiendo. Si no hay devolución matcheada, se comporta igual que antes
+  // (fecha de emisión de la NC).
+  function fechaEfectivaNCItemProv(it, f, devInfo){
+    if (it && it.fechaItem) return it.fechaItem;
+    const fechaRef = (devInfo && devInfo.fecha) ? devInfo.fecha : ((f && f.fecha) || null);
+    const detectada = detectarFechaItemDesdeTexto([(it && it.descripcion), (it && it.edicion)], fechaRef);
+    return detectada || fechaRef;
+  }
+  // Fecha efectiva de un ítem devuelto (registrado en Devoluciones), mismo
+  // criterio: fecha propia si se detecta en el texto (edición/descripción de
+  // ese ítem), y si no, la fecha en que se cargó la devolución.
+  function fechaEfectivaItemDevolucion(it, d){
+    if (it && it.fechaItem) return it.fechaItem;
+    const fechaRef = (d && d.fecha) || null;
+    const detectada = detectarFechaItemDesdeTexto([(it && it.descripcion), (it && it.edicion)], fechaRef);
+    return detectada || fechaRef;
+  }
   function renderGananciaSemanal(){
     const prov = PROVEEDORES.find(p => p.key === provState.prov) || PROVEEDORES[0];
     const nombreEl = document.getElementById('ganSemProvNombre');
@@ -13134,14 +13184,21 @@ renderAutoConclusions();
     const semanas = Object.create(null);
     let totalCargas = 0, totalNC = 0, totalVentas = 0, itemsSinPrecio = 0;
     const sinPrecioNombres = new Set();
+    if (typeof verificarTodasDevoluciones === 'function') verificarTodasDevoluciones();
+    const mapaDevPorNC = mapaDevolucionPorNCItem();
+
     conItems.forEach(f => {
       const esNC = f.tipo === 'nota_credito';
-      f.items.forEach(it => {
+      f.items.forEach((it, idxIt) => {
         const monto = (it.monto != null && !isNaN(it.monto)) ? Number(it.monto) : 0;
         if (!monto) return;
         if (ganSemTipo === 'diario' && !esItemDiario(it)) return;
         if (ganSemTipo === 'revista' && esItemDiario(it)) return;
-        const fechaEf = fechaEfectivaItemProv(it, f);
+        // Si es NC, primero probamos ubicarla en la semana de la devolución
+        // física que cubre (más precisa que la fecha de emisión de la NC).
+        const fechaEf = esNC
+          ? fechaEfectivaNCItemProv(it, f, mapaDevPorNC[f.id + '::' + idxIt])
+          : fechaEfectivaItemProv(it, f);
         const fInt = fechaAIntProv(fechaEf);
         if (fInt === null) return;
         if (desdeInt !== null && fInt < desdeInt) return;
@@ -13162,7 +13219,7 @@ renderAutoConclusions();
           itemsSinPrecio++;
           sinPrecioNombres.add((it.descripcion || '(sin descripción)').trim());
         }
-        if (!semanas[sem.key]) semanas[sem.key] = { key: sem.key, lunesIso: sem.lunesIso, domingoIso: sem.domingoIso, cargas: 0, nc: 0, ventas: 0, movimientos: [] };
+        if (!semanas[sem.key]) semanas[sem.key] = { key: sem.key, lunesIso: sem.lunesIso, domingoIso: sem.domingoIso, cargas: 0, nc: 0, ventas: 0, movimientos: [], devolPendiente: 0, devolDetalle: [] };
         let mov = semanas[sem.key].movimientos.find(x => x.id === f.id);
         if (!mov){
           mov = { id:f.id, fecha:f.fecha||'', tipo:f.tipo||'', numeroFactura:f.numeroFactura||'', estado:f.estado||'', proveedorKey:f.proveedorKey, montoComprobante:Number(f.monto||0), montoItems:0, items:[] };
@@ -13172,6 +13229,40 @@ renderAutoConclusions();
         mov.items.push({ descripcion:it.descripcion||'', edicion:it.edicion||'', cantidad:it.cantidad, monto:monto, fechaEfectiva:fechaEf||'', venta:venta });
         if (esNC){ semanas[sem.key].nc += monto; totalNC += monto; semanas[sem.key].ventas -= venta; totalVentas -= venta; }
         else { semanas[sem.key].cargas += monto; totalCargas += monto; semanas[sem.key].ventas += venta; totalVentas += venta; }
+      });
+    });
+
+    // ---- NUEVO: devoluciones cargadas en el módulo Devoluciones que el
+    // proveedor todavía no acreditó del todo con nota de crédito — se restan
+    // de Ventas en la semana de la devolución, sin esperar a que llegue la
+    // NC. La parte ya acreditada (si la devolución es "parcial") NO se toca
+    // acá: esa ya se restó arriba, con la NC real que ya está cargada.
+    let totalDevolPendiente = 0;
+    const devsProvGanSem = devoluciones.filter(d => d.proveedorKey === prov.key && Array.isArray(d.items) && d.items.length);
+    devsProvGanSem.forEach(d => {
+      d.items.forEach(it => {
+        const cantOriginal = (it.cantidad != null && !isNaN(it.cantidad) && Number(it.cantidad) > 0) ? Number(it.cantidad) : 1;
+        const faltante = (it.cantidadFaltante != null && !isNaN(it.cantidadFaltante)) ? Number(it.cantidadFaltante) : cantOriginal;
+        if (!faltante || faltante <= 0) return;
+        if (ganSemTipo === 'diario' && !esItemDiario(it)) return;
+        if (ganSemTipo === 'revista' && esItemDiario(it)) return;
+        const fechaEf = fechaEfectivaItemDevolucion(it, d);
+        const fInt = fechaAIntProv(fechaEf);
+        if (fInt === null) return;
+        if (desdeInt !== null && fInt < desdeInt) return;
+        if (hastaInt !== null && fInt > hastaInt) return;
+        const sem = semanaDeFechaProv(fechaEf);
+        if (!sem) return;
+        const titMatch = matchTitulo(titulosProv, it.descripcion);
+        const precio = titMatch ? precioTituloEnFecha(titMatch, fechaEf) : null;
+        if (!titMatch || !precio) return; // sin precio de venta cargado: no se puede estimar, no resta ni de más ni de menos
+        const venta = precio.total * faltante;
+        if (!semanas[sem.key]) semanas[sem.key] = { key: sem.key, lunesIso: sem.lunesIso, domingoIso: sem.domingoIso, cargas: 0, nc: 0, ventas: 0, movimientos: [], devolPendiente: 0, devolDetalle: [] };
+        semanas[sem.key].ventas -= venta;
+        semanas[sem.key].devolPendiente += venta;
+        semanas[sem.key].devolDetalle.push({ descripcion: it.descripcion || '', edicion: it.edicion || '', cantidad: faltante, venta: venta, fechaEfectiva: fechaEf, numeroRemito: d.numeroRemito || '' });
+        totalVentas -= venta;
+        totalDevolPendiente += venta;
       });
     });
 
@@ -13187,6 +13278,9 @@ renderAutoConclusions();
         txt += ' ⚠️ ' + itemsSinPrecio + ' ítem(s) sin precio de venta cargado en el catálogo de arriba (no se sumaron a Ventas ni a Ganancia real): ' +
           Array.from(sinPrecioNombres).slice(0,6).map(escapeHtmlProv).join(', ') + (sinPrecioNombres.size>6 ? '…' : '') + '.';
       }
+      if (totalDevolPendiente > 0){
+        txt += ' 📦 Se descontaron ' + fmtARS(totalDevolPendiente) + ' de Ventas por devoluciones ya cargadas en el módulo Devoluciones que el proveedor todavía no acreditó con nota de crédito (detalle abierto dentro de cada semana).';
+      }
       notaEl.textContent = txt;
     }
 
@@ -13198,8 +13292,9 @@ renderAutoConclusions();
         kpi('Notas de crédito', fmtARS(totalNC)) +
         kpi('Facturado neto', fmtARS(totalCargas - totalNC)) +
         kpi('Ventas (según precio de venta)', fmtARS(totalVentas)) +
-        kpi('Ganancia real', fmtARS(totalVentas - (totalCargas - totalNC)), 'Ventas menos lo facturado neto. El recargo interior ya queda descontado solo.') +
-        kpi('% de ganancia real', pctGananciaReal != null ? pctGananciaReal.toLocaleString('es-AR',{maximumFractionDigits:1}) + '%' : '—', 'Ganancia real sobre las Ventas (precio de tapa + recargo interior). Es tu margen neto real, ya con el costo de compra al proveedor y el recargo interior descontados.');
+        kpi('Devoluciones cargadas, pend. de NC', totalDevolPendiente > 0 ? ('−' + fmtARS(totalDevolPendiente)) : '—', 'Ejemplares que ya devolviste (cargados en el módulo Devoluciones) pero que el proveedor todavía no te acreditó con nota de crédito. Se restan de Ventas para que la ganancia no espere al papel del proveedor. Cuando llegue la NC, este monto baja solo y pasa a "Notas de crédito" — no se descuenta dos veces.') +
+        kpi('Ganancia real', fmtARS(totalVentas - (totalCargas - totalNC)), 'Ventas menos lo facturado neto. El recargo interior y las devoluciones ya cargadas (aunque falte la NC) ya quedan descontados solos.') +
+        kpi('% de ganancia real', pctGananciaReal != null ? pctGananciaReal.toLocaleString('es-AR',{maximumFractionDigits:1}) + '%' : '—', 'Ganancia real sobre las Ventas (precio de tapa + recargo interior). Es tu margen neto real, ya con el costo de compra al proveedor, el recargo interior y las devoluciones pendientes de NC descontados.');
     }
 
     const elTbody = document.querySelector('#ganSemTable tbody');
@@ -13232,10 +13327,29 @@ renderAutoConclusions();
                 '</tr></thead><tbody>' + itemsHtml + '</tbody></table></div>' +
               '</div>';
             }).join('');
+            const devolHtml = (s.devolDetalle && s.devolDetalle.length) ? (
+              '<div style="border:1px dashed var(--gold);border-radius:8px;padding:8px;margin:7px 0;background:rgba(0,0,0,.08);">' +
+                '<div style="font-weight:800;margin-bottom:6px;color:var(--gold);">📦 Devoluciones cargadas, pendientes de nota de crédito</div>' +
+                '<div class="card-note" style="margin-bottom:5px;">Ya se restaron de Ventas como estimado — el proveedor todavía no las acreditó formalmente:</div>' +
+                '<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;font-size:11.5px;"><thead><tr>' +
+                  '<th style="text-align:left;padding:4px 6px;">Título / producto</th><th style="text-align:left;padding:4px 6px;">Edición</th><th style="text-align:right;padding:4px 6px;">Cant. pend.</th><th style="text-align:right;padding:4px 6px;">Venta descontada</th><th style="text-align:left;padding:4px 6px;">Fecha</th>' +
+                '</tr></thead><tbody>' +
+                s.devolDetalle.map(dd =>
+                  '<tr>' +
+                    '<td style="padding:4px 6px;">' + escapeHtmlProv(dd.descripcion || '—') + (dd.numeroRemito ? ' <span class="card-note" style="margin:0;">(remito ' + escapeHtmlProv(dd.numeroRemito) + ')</span>' : '') + '</td>' +
+                    '<td style="padding:4px 6px;">' + escapeHtmlProv(dd.edicion || '—') + '</td>' +
+                    '<td style="padding:4px 6px;text-align:right;">' + Number(dd.cantidad).toLocaleString('es-AR',{maximumFractionDigits:2}) + '</td>' +
+                    '<td style="padding:4px 6px;text-align:right;">' + fmtARS(dd.venta) + '</td>' +
+                    '<td style="padding:4px 6px;">' + (dd.fechaEfectiva ? fmtFechaItemProv(dd.fechaEfectiva) : '—') + '</td>' +
+                  '</tr>'
+                ).join('') +
+                '</tbody></table></div>' +
+              '</div>'
+            ) : '';
             const gananciaSem = s.ventas - neto;
             const pctSem = s.ventas > 0 ? (gananciaSem / s.ventas * 100) : null;
             return '<tr data-gan-sem-row="' + s.key + '" style="cursor:pointer;">' +
-              '<td><span data-gan-sem-arrow="' + s.key + '">▸</span> ' + fmtFechaItemProv(s.lunesIso) + ' – ' + fmtFechaItemProv(s.domingoIso) + '</td>' +
+              '<td><span data-gan-sem-arrow="' + s.key + '">▸</span> ' + fmtFechaItemProv(s.lunesIso) + ' – ' + fmtFechaItemProv(s.domingoIso) + (s.devolPendiente ? ' <span title="Incluye devoluciones cargadas pendientes de nota de crédito" style="color:var(--gold);">📦</span>' : '') + '</td>' +
               '<td class="num">' + fmtARS(s.cargas) + '</td>' +
               '<td class="num">' + (s.nc ? fmtARS(s.nc) : '—') + '</td>' +
               '<td class="num">' + fmtARS(neto) + '</td>' +
@@ -13245,7 +13359,7 @@ renderAutoConclusions();
             '</tr>' +
             '<tr data-gan-sem-detalle="' + s.key + '" style="display:none;"><td colspan="7" style="padding:8px 4px 12px 4px;background:rgba(0,0,0,.10);">' +
               '<div class="card-note" style="margin-bottom:6px;">Comprobantes e ítems que forman esta semana según el filtro seleccionado.</div>' +
-              (detalleHtml || '<div class="card-note">Sin detalle de comprobantes.</div>') +
+              ((detalleHtml + devolHtml) || '<div class="card-note">Sin detalle de comprobantes.</div>') +
             '</td></tr>';
           }).join('')
         : '<tr><td colspan="7" class="card-note">Sin datos para mostrar en este rango.</td></tr>';
@@ -13293,15 +13407,20 @@ renderAutoConclusions();
     const porTitulo = Object.create(null);
     let itemsSinPrecio = 0;
 
+    if (typeof verificarTodasDevoluciones === 'function') verificarTodasDevoluciones();
+    const mapaDevPorNCResumen = mapaDevolucionPorNCItem();
+
     conItems.forEach(f => {
       const esNC = f.tipo === 'nota_credito';
-      f.items.forEach(it => {
+      f.items.forEach((it, idxIt) => {
         const monto = (it.monto != null && !isNaN(it.monto)) ? Number(it.monto) : 0;
         if (!monto) return;
         const esDiario = esItemDiario(it);
         if (ganSemTipo === 'diario' && !esDiario) return;
         if (ganSemTipo === 'revista' && esDiario) return;
-        const fechaEf = fechaEfectivaItemProv(it, f);
+        const fechaEf = esNC
+          ? fechaEfectivaNCItemProv(it, f, mapaDevPorNCResumen[f.id + '::' + idxIt])
+          : fechaEfectivaItemProv(it, f);
         const fInt = fechaAIntProv(fechaEf);
         if (fInt === null) return;
         if (desdeInt !== null && fInt < desdeInt) return;
@@ -13327,6 +13446,38 @@ renderAutoConclusions();
         const fila = porTitulo[key];
         if (esNC){ fila.cantidad -= cantidad; fila.nc += monto; fila.ventas -= venta; }
         else { fila.cantidad += cantidad; fila.cargas += monto; fila.ventas += venta; }
+      });
+    });
+
+    // ---- NUEVO: mismo criterio que en Ganancia semanal — devoluciones
+    // cargadas y todavía sin NC (o solo parcialmente acreditadas) restan de
+    // Cantidad y Ventas del título correspondiente, sin esperar el papel.
+    let algunaDevolPendienteResumen = false;
+    const devsProvResumen = devoluciones.filter(d => d.proveedorKey === prov.key && Array.isArray(d.items) && d.items.length);
+    devsProvResumen.forEach(d => {
+      d.items.forEach(it => {
+        const cantOriginal = (it.cantidad != null && !isNaN(it.cantidad) && Number(it.cantidad) > 0) ? Number(it.cantidad) : 1;
+        const faltante = (it.cantidadFaltante != null && !isNaN(it.cantidadFaltante)) ? Number(it.cantidadFaltante) : cantOriginal;
+        if (!faltante || faltante <= 0) return;
+        const esDiario = esItemDiario(it);
+        if (ganSemTipo === 'diario' && !esDiario) return;
+        if (ganSemTipo === 'revista' && esDiario) return;
+        const fechaEf = fechaEfectivaItemDevolucion(it, d);
+        const fInt = fechaAIntProv(fechaEf);
+        if (fInt === null) return;
+        if (desdeInt !== null && fInt < desdeInt) return;
+        if (hastaInt !== null && fInt > hastaInt) return;
+        const titMatch = matchTitulo(titulosProv, it.descripcion);
+        const precio = titMatch ? precioTituloEnFecha(titMatch, fechaEf) : null;
+        if (!titMatch || !precio) return;
+        const venta = precio.total * faltante;
+        const key = 't_' + titMatch.id;
+        if (!porTitulo[key]){
+          porTitulo[key] = { nombre: titMatch.nombre, sinPrecio: false, tipo: esDiario ? 'diario' : 'revista', cantidad: 0, cargas: 0, nc: 0, ventas: 0 };
+        }
+        porTitulo[key].cantidad -= faltante;
+        porTitulo[key].ventas -= venta;
+        algunaDevolPendienteResumen = true;
       });
     });
 
@@ -13371,9 +13522,13 @@ renderAutoConclusions();
     }
     const notaEl = document.getElementById('ganSemResumenNota');
     if (notaEl){
-      notaEl.textContent = itemsSinPrecio > 0
+      let txtResumen = itemsSinPrecio > 0
         ? '⚠️ Hay ítems marcados "(sin precio cargado)": no se les pudo calcular Ventas, Ganancia ni % Ganancia porque ningún título del catálogo matchea esa descripción. La cantidad y lo facturado sí se muestran. El % Ganancia es la ganancia real sobre las Ventas (precio de tapa + recargo interior, ya con el costo de compra descontado). El % Devol. es rotación: 🟢 menos del 15% vuelve como devolución, 🟡 entre 15% y 30%, 🔴 más del 30% (conviene pedir menos de ese título).'
         : 'El % Ganancia es la ganancia real sobre las Ventas (precio de tapa + recargo interior, ya con el costo de compra descontado). El % Devol. es rotación: 🟢 menos del 15% vuelve como devolución, 🟡 entre 15% y 30%, 🔴 más del 30% (conviene pedir menos de ese título).';
+      if (algunaDevolPendienteResumen){
+        txtResumen += ' 📦 Cantidad y Ventas ya restan las devoluciones cargadas en el módulo Devoluciones que el proveedor todavía no acreditó con nota de crédito.';
+      }
+      notaEl.textContent = txtResumen;
     }
   }
   let ganSemResumenFilasActuales = [];
@@ -13653,7 +13808,7 @@ renderAutoConclusions();
         const usar = (encontrada.restante === null) ? faltaCubrir : Math.min(encontrada.restante, faltaCubrir);
         if (encontrada.restante === null) encontrada.restante = 0; else encontrada.restante -= usar;
         faltaCubrir -= usar;
-        cubiertoPor.push({ factura: encontrada.factura, item: encontrada.item, cantidad: usar });
+        cubiertoPor.push({ factura: encontrada.factura, item: encontrada.item, cantidad: usar, key: encontrada.key });
       }
       if (cubiertoPor.length){
         const cantidadAcreditada = cubiertoPor.reduce((s, x) => s + x.cantidad, 0);
