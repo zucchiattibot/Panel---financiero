@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 4,
-  "exportadoEl": "2026-08-18T18:51:23.673Z",
+  "exportadoEl": "2026-08-19T11:24:43.126Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -1478,6 +1478,26 @@
       "medio": "efectivo",
       "id": "m_msyubskvtkacj7",
       "modificadoEl": "2026-08-18T15:51:44.239Z"
+    },
+    {
+      "date": "2026-08-18",
+      "type": "egreso",
+      "amount": 10000,
+      "category": "Chiara",
+      "account": "alquileres",
+      "detalle": "Apple",
+      "id": "m_msz1520onb6mki",
+      "modificadoEl": "2026-08-18T19:02:27.192Z"
+    },
+    {
+      "date": "2026-08-19",
+      "type": "egreso",
+      "amount": 39500,
+      "category": "Varios",
+      "account": "alquileres",
+      "detalle": "Farmacia",
+      "id": "m_mt001o9eblj4gh",
+      "modificadoEl": "2026-08-19T11:22:34.419Z"
     }
   ],
   "categoriasCustom": [
@@ -9823,7 +9843,15 @@
         "telefono": "2396611988",
         "direccion": "",
         "notas": "",
-        "colecciones": []
+        "colecciones": [
+          {
+            "id": "rcmsz34zwrwesoe3",
+            "nombre": "Disney sonidos",
+            "cantidad": 1,
+            "estado": "reservado",
+            "notas": ""
+          }
+        ]
       },
       {
         "id": "rcmsva65f9kpo75v",
@@ -9874,6 +9902,38 @@
           {
             "id": "rcmsx7mx6x8glfmm",
             "nombre": "Rápido y furioso Armar",
+            "cantidad": 1,
+            "estado": "reservado",
+            "notas": ""
+          }
+        ]
+      },
+      {
+        "id": "rcmsz332qj5gmb3k",
+        "nombre": "Tiziana Gomez",
+        "telefono": "2395432333",
+        "direccion": "",
+        "notas": "",
+        "colecciones": [
+          {
+            "id": "rcmsz34n43j1jrd6",
+            "nombre": "Disney sonidos",
+            "cantidad": 1,
+            "estado": "reservado",
+            "notas": ""
+          }
+        ]
+      },
+      {
+        "id": "rcmsz36dacphethy",
+        "nombre": "Patricia Libro",
+        "telefono": "1134591615",
+        "direccion": "",
+        "notas": "",
+        "colecciones": [
+          {
+            "id": "rcmsz36jb7kw1ow8",
+            "nombre": "Disney sonidos",
             "cantidad": 1,
             "estado": "reservado",
             "notas": ""
