@@ -3948,7 +3948,7 @@ function renderRentDiscriminado(){
     groupedBarChart('chartYearlyRentCompare', years2, years2.map(y=>agenciaByYear2[y]||0), years2.map(y=>rentByYear2[y]||0), 'var(--red-neg)', 'var(--gold)');
   }
 }
-setTimeout(function(){ renderRentDiscriminado(); }, 0);
+renderRentDiscriminado();
 
 /* ---------------- TABS ---------------- */
 document.querySelectorAll('.tab-btn[data-tab]').forEach(btn=>{
@@ -4439,7 +4439,7 @@ document.getElementById('resRangoAplicar').addEventListener('click', ()=>{
 wirePeriodModeToggle('resPeriodModeToggle', {anual:'resAnualWrap', mensual:'resMensualWrap', rango:'resRangoWrap'}, (mode)=>{
   renderResumen(currentMetric, mode, resCurrentParam());
 });
-setTimeout(function(){ renderResumen('neto', 'anual', null); }, 0);
+renderResumen('neto', 'anual', null);
 
 /* ---------------- RESUMEN — BALANCE ACUMULADO DE ALQUILERES ---------------- */
 const lastAlq = RENT_MONTHLY[RENT_MONTHLY.length-1];
@@ -4562,7 +4562,7 @@ document.getElementById('resAlqRangoAplicar').addEventListener('click', ()=>{
 wirePeriodModeToggle('resAlqPeriodModeToggle', {anual:'resAlqAnualWrap', mensual:'resAlqMensualWrap', rango:'resAlqRangoWrap'}, (mode)=>{
   renderResumenAlq(currentMetricAlq, mode, resAlqCurrentParam());
 });
-setTimeout(function(){ renderResumenAlq('neto', 'anual', null); }, 0);
+renderResumenAlq('neto', 'anual', null);
 
 /* ---------------- SELECTOR DE MES/AÑO (reemplaza <input type=month>) ---------------- */
 // Algunos navegadores/webviews embebidos no muestran el picker nativo de
@@ -4699,7 +4699,7 @@ document.getElementById('catMesActualBtn').addEventListener('click', ()=>{
   document.getElementById('catHasta').value = ymInput;
   renderCategorias();
 });
-setTimeout(function(){ renderCategorias(); }, 0);
+renderCategorias();
 
 /* ---------------- COMPARAR AÑOS ---------------- */
 function renderYearlyChart(metric){
@@ -4724,7 +4724,7 @@ document.querySelectorAll('#yearlyMetricToggle .toggle-btn').forEach(btn=>{
     renderYearlyChart(btn.dataset.metric);
   });
 });
-setTimeout(function(){ renderYearlyChart('todo'); }, 0);
+renderYearlyChart('todo');
 function renderYearlyNet(metric){
   const titles = {neto:'Resultado neto por año', ingresos:'Ingresos por año', egresos:'Egresos por año'};
   const notes = {
@@ -4749,7 +4749,7 @@ document.querySelectorAll('#netYearMetricToggle .toggle-btn').forEach(btn=>{
     renderYearlyNet(btn.dataset.metric);
   });
 });
-setTimeout(function(){ renderYearlyNet('neto'); }, 0);
+renderYearlyNet('neto');
 
 const yearlyTbody = document.querySelector('#yearlyTable tbody');
 YEARLY.forEach((y,i)=>{
@@ -4808,7 +4808,7 @@ document.querySelectorAll('#monthCompareMetricToggle .toggle-btn').forEach(btn=>
     renderMonthCompare();
   });
 });
-setTimeout(function(){ renderMonthCompare(); }, 0);
+renderMonthCompare();
 
 /* ---------------- PROYECCION ---------------- */
 const lastDateStr = DAILY.last_date;
@@ -5652,7 +5652,7 @@ projDateClearEl.addEventListener('click', ()=>{
   renderProjection(30, projState.metric, projState.window);
 });
 
-setTimeout(function(){ renderProjection(30, 'neto', 3); }, 0);
+renderProjection(30, 'neto', 3);
 
 /* ---------------- RANGO DE FECHAS PERSONALIZADO ---------------- */
 let IPC_INDEX = null, IPC_LAST_YM = null, IPC_LAST_IDX = null;
@@ -7432,7 +7432,7 @@ document.getElementById('cargarVerMasBtn').addEventListener('click', ()=>{
   cargarMostrarTodo = !cargarMostrarTodo;
   renderManualList();
 });
-setTimeout(function(){ renderManualList(); }, 0);
+renderManualList();
 
 async function deleteManualEntry(idx){
   const enBorrar = manualEntries[idx];
@@ -7611,7 +7611,7 @@ async function eliminarCategoria(nombreMostrado, esBase, nombreOriginalBase){
   renderGestionCategorias();
 }
 
-setTimeout(function(){ renderGestionCategorias(); }, 0);
+renderGestionCategorias();
 
 let cargarTipo = 'ingreso';
 let cargarMedio = 'efectivo';
@@ -8962,7 +8962,7 @@ function renderAutoConclusions(){
   }
   listEl.innerHTML = items.map(it => `<li class="${it.cls}">${it.html}</li>`).join('');
 }
-setTimeout(function(){ renderAutoConclusions(); }, 0);
+renderAutoConclusions();
 
 /* ---------------- UI del toggle de sueldo ---------------- */
 (function(){
@@ -14405,10 +14405,23 @@ setTimeout(function(){ renderAutoConclusions(); }, 0);
     renderDevoluciones();
   });
 
-  renderProveedores();
-  loadFacturas();
-  loadProvPrecios();
-  loadDevoluciones();
+  // El arranque de Proveedores (facturas, notas de crédito/débito,
+  // devoluciones, catálogo de precios) crece con el tiempo: cada factura o
+  // NC cargada a mano suma trabajo de render y de cruce (ej. verificar
+  // devoluciones contra NC) que antes, con poca data, no se notaba. Todo
+  // esto se ejecutaba de forma síncrona apenas cargaba la página, bloqueando
+  // la pintura inicial del panel aunque el usuario arrancara en otra
+  // pestaña (Resumen, etc.). Se difiere un tick (setTimeout 0) para que el
+  // panel se pinte primero y esto se termine de cargar apenas después, sin
+  // que el usuario note el bloqueo. No cambia qué se carga ni el orden,
+  // solo cuándo: sigue listo antes de que el usuario llegue a tocar
+  // Proveedores, Asistente IA o Backups.
+  setTimeout(function(){
+    renderProveedores();
+    loadFacturas();
+    loadProvPrecios();
+    loadDevoluciones();
+  }, 0);
 })();
 
 /* ---------------- ASISTENTE IA (Gemini gratis) ---------------- */
