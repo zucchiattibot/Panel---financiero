@@ -589,6 +589,7 @@ try {
 <button class="tab-btn" data-tab="vencimientos">⏰ Vencimientos</button>
 <button class="tab-btn" data-tab="inversiones">📈 Inversiones</button>
 <button class="tab-btn" data-tab="pedidos-ia">🛒 Pedidos IA</button>
+<button class="tab-btn" data-tab="backups">💾 Backups</button>
 <button class="tab-btn" data-tab="configuracion">⚙️ Configuración</button></div>
 <button class="tabs-reorder-toggle" id="tabsReorderToggle" type="button">↕ Reordenar pestañas</button>
 <button class="tabs-reorder-toggle" id="tabsHideToggle" type="button">👁 Ocultar pestañas</button>
@@ -930,17 +931,6 @@ try {
 <p class="card-note" style="margin-top:6px;">Devoluciones que el proveedor todavía no te acreditó hace más de 15 días, e ítems facturados con un precio distinto al último cargado o al precio de venta del catálogo (de todos los proveedores).</p>
 <div id="facAlertasResultado" style="margin-top:10px;"></div>
 </div>
-<div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--line);">
-<p class="card-note" style="font-weight:600;color:var(--cream);margin-bottom:6px;">Backup solo de Proveedores</p>
-<p class="card-note">Exporta o restaura SOLO las facturas/notas de crédito y débito cargadas en esta pestaña (de todos los proveedores), sin tocar movimientos, clientes ni el resto del panel. Útil si solo querés pasar o respaldar esto puntualmente.</p>
-<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;">
-<button class="tab-btn" id="btnExportarBackupProveedores" style="border-radius:8px;" type="button">⬇️ Exportar solo Proveedores</button>
-<button class="tab-btn" id="btnPegarBackupProveedores" style="border-radius:8px;" type="button">📋 Pegar backup de Proveedores</button>
-<label class="tab-btn" for="inputImportarBackupProveedores" style="border-radius:8px;cursor:pointer;margin:0;display:inline-flex;align-items:center;">⬆️ Importar backup de Proveedores (archivo)</label>
-<input accept="application/json,.json" id="inputImportarBackupProveedores" style="display:none;" type="file"/>
-</div>
-<p class="card-note" id="backupProveedoresMsg" style="min-height:14px;margin-top:6px;"></p>
-</div>
 <p class="card-note" style="margin-top:16px;">Historial — elegí una fecha "entre" y "entre" (por ej. del 1 al 8 de agosto) o un monto para ver los comprobantes de ese período y sus estadísticas: cuánto facturaste, cuánto queda pendiente y cuánto pagaste realmente según tus movimientos bancarios en esas mismas fechas (esto solo afecta esta sección, no los totales generales de arriba):</p>
 <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;">
 <input id="facFiltroDesde" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:8px;border-radius:6px;font-size:13px;" type="date"/>
@@ -1085,6 +1075,16 @@ Ordenar por fecha de vencimiento (las que vencen antes, primero — las sin fech
 <button class="link-btn" id="itemsVerMasBtn" style="margin-top:10px;display:none;" type="button"></button>
 </div>
 </div>
+<div class="card" data-card-colapsable="prov-pct-devolucion">
+<div class="card-head"><h2>% de devolución por título — <span id="pctDevProvNombre"></span></h2><button type="button" class="card-colapsar-btn" title="Mostrar/ocultar esta sección">▾</button></div>
+<div class="card-body">
+<p class="card-note">Compara, título por título, cuánto le compraste a este proveedor (todo lo cargado en Comprobantes) contra cuánto le devolviste (todo lo cargado en Devoluciones). Sirve para detectar qué títulos convendría pedir en menor cantidad.</p>
+<p class="card-note" id="pctDevNota" style="margin-top:6px;"></p>
+<div style="overflow-x:auto;margin-top:10px;">
+<table id="pctDevTable"><thead><tr><th>Título</th><th style="text-align:right">Comprado</th><th style="text-align:right">Devuelto</th><th style="text-align:right">% devolución</th></tr></thead><tbody></tbody></table>
+</div>
+</div>
+</div>
 <div class="card" data-card-colapsable="prov-precio-venta">
 <div class="card-head"><h2>Precio de venta — <span id="ventaProvNombre"></span></h2><button type="button" class="card-colapsar-btn" title="Mostrar/ocultar esta sección">▾</button></div>
 <div class="card-body">
@@ -1154,13 +1154,13 @@ Ordenar por fecha de vencimiento (las que vencen antes, primero — las sin fech
 <p class="card-note" id="ganSemNota" style="margin-top:6px;"></p>
 <div class="kpi-grid" id="ganSemKpis" style="margin-top:10px;"></div>
 <div style="overflow-x:auto;margin-top:14px;">
-<table id="ganSemTable"><thead><tr><th>Semana</th><th style="text-align:right">Cargas</th><th style="text-align:right">Notas de crédito</th><th style="text-align:right">Facturado neto</th><th style="text-align:right">Ventas</th><th style="text-align:right">Ganancia real</th></tr></thead><tbody></tbody></table>
+<table id="ganSemTable"><thead><tr><th>Semana</th><th style="text-align:right">Cargas</th><th style="text-align:right">Notas de crédito</th><th style="text-align:right">Facturado neto</th><th style="text-align:right">Ventas</th><th style="text-align:right">Ganancia real</th><th style="text-align:right">% Ganancia</th></tr></thead><tbody></tbody></table>
 </div>
 <button class="link-btn" id="ganSemResumenBtn" style="margin-top:10px;" type="button">📋 Generar resumen por título</button>
 <div id="ganSemResumenWrap" style="display:none;margin-top:10px;">
 <p class="card-note" style="margin:0 0 8px 0;">Mismo período y mismo filtro (Todo / Solo diarios / Solo revistas y colecciones) elegidos arriba, pero desglosado título por título en vez de semana por semana — cantidades sumando facturas y restando notas de crédito, y la ganancia real de cada uno.</p>
 <div style="overflow-x:auto;">
-<table id="ganSemResumenTable"><thead><tr><th>Título</th><th style="text-align:right">Cantidad</th><th style="text-align:right">Facturado neto</th><th style="text-align:right">Ventas</th><th style="text-align:right">Ganancia real</th><th style="text-align:right">% Devol.</th></tr></thead><tbody></tbody></table>
+<table id="ganSemResumenTable"><thead><tr><th>Título</th><th style="text-align:right">Cantidad</th><th style="text-align:right">Facturado neto</th><th style="text-align:right">Ventas</th><th style="text-align:right">Ganancia real</th><th style="text-align:right">% Ganancia</th><th style="text-align:right">% Devol.</th></tr></thead><tbody></tbody></table>
 </div>
 <p class="card-note" id="ganSemResumenNota" style="margin-top:8px;"></p>
 <button class="link-btn" id="ganSemResumenExportarBtn" style="margin-top:8px;" type="button">⬇️ Exportar CSV</button>
@@ -2159,14 +2159,6 @@ Ordenar por fecha de vencimiento (las que vencen antes, primero — las sin fech
 <div class="card">
 <h2>Movimientos cargados a mano</h2>
 <p class="card-note">Los que agregaste vos manualmente (no vienen del export original), de las dos cuentas por separado. Se pueden borrar.</p>
-<div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;">
-<button class="tab-btn" id="btnExportarBackup" style="border-radius:8px;" type="button">⬇️ Exportar backup</button>
-<button class="tab-btn" id="btnPegarBackup" style="border-radius:8px;" type="button">📋 Pegar backup</button>
-<label class="tab-btn" for="inputImportarBackup" style="border-radius:8px;cursor:pointer;margin:0;display:inline-flex;align-items:center;">⬆️ Importar backup (archivo)</label>
-<input accept="application/json,.json" id="inputImportarBackup" style="display:none;" type="file"/>
-<button class="tab-btn" id="btnDeshacerImport" style="border-radius:8px;" type="button">↩️ Deshacer última importación</button>
-</div>
-<p class="card-note" id="backupMsg" style="min-height:14px;"></p>
 <p class="card-note" id="cargarCount" style="margin-bottom:6px;"></p>
 <div style="overflow-x:auto;overflow-y:auto;max-height:340px;border:1px solid var(--line);border-radius:10px;">
 <table id="cargarTable"><thead><tr><th style="position:sticky;top:0;background:var(--bg-2);">Fecha</th><th style="position:sticky;top:0;background:var(--bg-2);">Cuenta</th><th style="position:sticky;top:0;background:var(--bg-2);">Tipo</th><th style="position:sticky;top:0;background:var(--bg-2);">Categoría</th><th style="position:sticky;top:0;background:var(--bg-2);text-align:right">Monto</th><th style="position:sticky;top:0;background:var(--bg-2);"></th></tr></thead><tbody></tbody></table>
@@ -2176,7 +2168,28 @@ Ordenar por fecha de vencimiento (las que vencen antes, primero — las sin fech
 </div>
 <p class="card-note" id="cargarEmpty" style="display:none;">Todavía no cargaste ningún movimiento manual.</p>
 </div>
-<div class="note-box">Esto se guarda en este dispositivo/instalación (localStorage si abrís el panel como app o página suelta; window.storage si lo abrís dentro de Claude). No viaja solo a otros celulares ni sobrevive a un "borrar datos" o desinstalar la app. Por eso: <strong>Exportar backup</strong> intenta descargar un archivo .json Y además siempre te muestra el backup como texto en pantalla con un botón para copiarlo — usá ese texto (pegalo en Notas, WhatsApp a vos mismo, etc.) si la descarga de archivo no funciona dentro de la app. El backup incluye también las facturas/notas de crédito y débito cargadas en Proveedores. Para recuperarlo después: <strong>Pegar backup</strong> (pegando ese texto) o <strong>Importar backup (archivo)</strong> si tenés el .json guardado. <strong>Importar nunca borra ni reemplaza lo que ya tenés cargado</strong> — solo agrega lo que falte, y siempre te muestra antes qué se va a agregar y te pide confirmar. Si igual te arrepentís de una importación, usá <strong>↩️ Deshacer última importación</strong> para volver a como estaba justo antes.</div>
+</details>
+</div>
+<div class="panel" id="tab-backups">
+<p class="eyebrow sec-desc">Todo junto, en un solo lugar</p>
+<h2>💾 Backups</h2>
+<p class="card-note">Todas las formas de exportar, restaurar y respaldar los datos del panel, reunidas acá. Antes estaban repartidas entre Proveedores, Cargar datos y Configuración.</p>
+
+<div class="card">
+<h2 style="font-size:14px;">Backup completo del panel</h2>
+<p class="card-note">Exporta o restaura TODO lo cargado (movimientos, categorías, facturas de proveedores, clientes de reparto, vencimientos) en un solo paso.</p>
+<button class="cargar-submit-btn" id="btnExportarBackup" style="margin-bottom:10px;" type="button">⬇️ Exportar backup</button>
+<div style="display:flex;gap:10px;flex-wrap:wrap;">
+<button class="tab-btn" id="btnPegarBackup" style="border-radius:8px;" type="button">📋 Pegar backup</button>
+<label class="tab-btn" for="inputImportarBackup" style="border-radius:8px;cursor:pointer;margin:0;display:inline-flex;align-items:center;">⬆️ Importar backup (archivo)</label>
+<input accept="application/json,.json" id="inputImportarBackup" style="display:none;" type="file"/>
+<button class="tab-btn" id="btnDeshacerImport" style="border-radius:8px;" type="button">↩️ Deshacer última importación</button>
+</div>
+<p class="card-note" id="backupMsg" style="min-height:14px;margin-top:8px;"></p>
+</div>
+
+<div class="note-box">Esto se guarda en este dispositivo/instalación (localStorage si abrís el panel como app o página suelta; window.storage si lo abrís dentro de Claude). No viaja solo a otros celulares ni sobrevive a un "borrar datos" o desinstalar la app. Por eso: <strong>Exportar backup</strong> intenta descargar un archivo .json Y además siempre te muestra el backup como texto en pantalla con un botón para copiarlo — usá ese texto (pegalo en Notas, WhatsApp a vos mismo, etc.) si la descarga de archivo no funciona dentro de la app. El backup incluye también las facturas/notas de crédito y débito y las devoluciones cargadas en Proveedores (⚠️ las fotos/remitos adjuntos de las devoluciones NO viajan en el backup, quedan solo en el dispositivo donde se cargaron). Para recuperarlo después: <strong>Pegar backup</strong> (pegando ese texto) o <strong>Importar backup (archivo)</strong> si tenés el .json guardado. <strong>Importar nunca borra ni reemplaza lo que ya tenés cargado</strong> — solo agrega lo que falte, y siempre te muestra antes qué se va a agregar y te pide confirmar. Si igual te arrepentís de una importación, usá <strong>↩️ Deshacer última importación</strong> para volver a como estaba justo antes.</div>
+
 <div class="card">
 <h2>Backup automático a GitHub</h2>
 <p class="card-note">Sube el backup directo a un archivo del repo del panel, sin copiar ni pegar nada. Podés usar la primera ruta para el backup completo (movimientos cargados a mano, proveedores, clientes, etc.) y, si querés, la segunda ruta para subir/traer SOLO los comprobantes de Proveedores por separado, en su propio archivo. Necesita un token de acceso personal de GitHub con permiso sobre ese repo. El token queda guardado solo en este dispositivo, nunca en el código del panel.</p>
@@ -2203,15 +2216,45 @@ Ordenar por fecha de vencimiento (las que vencen antes, primero — las sin fech
 <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:8px;">
 <button class="tab-btn" id="btnSubirGhAhoraProveedores" style="border-radius:8px;" type="button">☁️ Subir solo Proveedores a GitHub</button>
 <button class="tab-btn" id="btnTraerGhAhoraProveedores" style="border-radius:8px;" type="button">⬇️ Traer backup de Proveedores desde GitHub</button>
+<button class="tab-btn" id="btnReemplazarGhProveedores" style="border-radius:8px;color:var(--red-neg);" type="button">🔁 Reemplazar TODO de Proveedores con GitHub (borra lo que sobre acá)</button>
 </div>
 <p class="card-note" id="ghMsg" style="min-height:14px;margin-top:8px;"></p>
 </div>
-</details>
+
+<div class="card">
+<h2 style="font-size:14px;">Backup solo de Proveedores</h2>
+<p class="card-note">Exporta o restaura SOLO las facturas/notas de crédito y débito cargadas en la pestaña Proveedores (de todos los proveedores), sin tocar movimientos, clientes ni el resto del panel. Útil si solo querés pasar o respaldar esto puntualmente.</p>
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;">
+<button class="tab-btn" id="btnExportarBackupProveedores" style="border-radius:8px;" type="button">⬇️ Exportar solo Proveedores</button>
+<button class="tab-btn" id="btnPegarBackupProveedores" style="border-radius:8px;" type="button">📋 Pegar backup de Proveedores</button>
+<label class="tab-btn" for="inputImportarBackupProveedores" style="border-radius:8px;cursor:pointer;margin:0;display:inline-flex;align-items:center;">⬆️ Importar backup de Proveedores (archivo)</label>
+<input accept="application/json,.json" id="inputImportarBackupProveedores" style="display:none;" type="file"/>
+<button class="tab-btn" id="btnReemplazarPegarProveedores" style="border-radius:8px;color:var(--red-neg);" type="button">🔁 Pegar y reemplazar TODO de Proveedores</button>
+</div>
+<p class="card-note" id="backupProveedoresMsg" style="min-height:14px;margin-top:6px;"></p>
+</div>
+
+<div class="card">
+<h2 style="font-size:14px;">Solo mis preferencias de vista</h2>
+<p class="card-note">Exporta o importa ÚNICAMENTE lo de la pestaña "⚙️ Configuración" (formato de números, tema, densidad, pestaña de inicio, avisos, etc.), sin movimientos ni datos cargados. Útil para pasar tus preferencias a otro dispositivo sin duplicar información.</p>
+<div style="display:flex;gap:10px;flex-wrap:wrap;">
+<button class="tab-btn" id="cfgExportarPrefs" style="border-radius:8px;" type="button">⬇️ Exportar mis preferencias</button>
+<label class="tab-btn" for="cfgInputImportarPrefs" style="border-radius:8px;cursor:pointer;margin:0;display:inline-flex;align-items:center;">⬆️ Importar preferencias</label>
+<input accept="application/json,.json" id="cfgInputImportarPrefs" style="display:none;" type="file"/>
+</div>
+<p class="card-note" id="cfgPrefsMsg" style="min-height:14px;margin-top:8px;"></p>
+</div>
+
+<div class="card">
+<h2 style="font-size:14px;">Exportar a Excel / CSV</h2>
+<p class="card-note">Los movimientos cargados a mano (Agencia y Alquileres) en un .csv, para abrir en Excel/Sheets o mandarle al contador. El backup completo de arriba sigue siendo el que hay que usar para restaurar datos en el panel.</p>
+<button class="tab-btn" id="cfgExportarCsv" style="width:100%;border-radius:8px;padding:12px;" type="button">⬇️ Exportar movimientos a CSV</button>
+</div>
 </div>
 <div class="panel" id="tab-configuracion">
 <p class="eyebrow sec-desc">Ajustes generales</p>
 <h2>⚙️ Configuración</h2>
-<p class="card-note">Formato de números, pestaña de inicio, densidad, tema y copias de seguridad. Separado de "Personalizar panel" (que es lo visual/prolijidad). Nada de esto toca los datos cargados.</p>
+<p class="card-note">Formato de números, pestaña de inicio, densidad, tema, notificaciones y seguridad. Separado de "Personalizar panel" (que es lo visual/prolijidad). Nada de esto toca los datos cargados. Las copias de seguridad ahora viven todas juntas en la pestaña "💾 Backups".</p>
 
 <div class="card">
 <h2 style="font-size:14px;">Moneda / formato de números</h2>
@@ -2307,7 +2350,17 @@ Ordenar por fecha de vencimiento (las que vencen antes, primero — las sin fech
 <input id="cfgAvisoInactividadDias" min="0" style="width:100%;padding:10px 12px;border-radius:8px;border:1px solid var(--line);background:rgba(0,0,0,.18);color:var(--cream);font-size:14px;" type="number"/>
 <div class="range-label">Avisar si pasaron muchos días sin hacer una copia de seguridad</div>
 <input id="cfgAvisoBackupDias" min="0" style="width:100%;padding:10px 12px;border-radius:8px;border:1px solid var(--line);background:rgba(0,0,0,.18);color:var(--cream);font-size:14px;" type="number"/>
-<p class="card-note" style="margin:8px 0 0 0;">Poné 0 para desactivar cualquiera de los avisos. Este último cuenta cualquier "Copia de seguridad completa" o subida a GitHub, sea automática o manual.</p>
+<div class="range-label">Avisar de cambios de precio de tapa registrados en los últimos (días)</div>
+<input id="cfgAvisoPrecioDias" min="0" style="width:100%;padding:10px 12px;border-radius:8px;border:1px solid var(--line);background:rgba(0,0,0,.18);color:var(--cream);font-size:14px;" type="number"/>
+<div class="range-label">Avisar de devoluciones sin acreditar hace más de (días)</div>
+<input id="cfgAvisoDevolucionDias" min="0" style="width:100%;padding:10px 12px;border-radius:8px;border:1px solid var(--line);background:rgba(0,0,0,.18);color:var(--cream);font-size:14px;" type="number"/>
+<p class="card-note" style="margin:8px 0 0 0;">Poné 0 para desactivar cualquiera de los avisos. El de backup cuenta cualquier backup completo (pestaña "💾 Backups") o subida a GitHub, sea automática o manual. El de precios avisa cuando cargás un precio de tapa nuevo distinto al anterior en la pestaña Proveedores; el de devoluciones, cuando una devolución sigue sin nota de crédito pasado ese plazo.</p>
+</div>
+
+<div class="card">
+<h2 style="font-size:14px;">Mostrar / ocultar pestañas</h2>
+<p class="card-note">Tildá las que no querés ver por ahora — no borra nada de lo cargado ahí, solo la saca de la barra de arriba. Es lo mismo que "👁 Ocultar pestañas" arriba de las pestañas, acá para tenerlo más a mano. Siempre queda al menos una visible.</p>
+<div id="cfgTabsHideList" style="display:flex;flex-direction:column;gap:2px;"></div>
 </div>
 
 <div class="card">
@@ -2349,34 +2402,6 @@ Ordenar por fecha de vencimiento (las que vencen antes, primero — las sin fech
 </div>
 
 <div class="card">
-<h2 style="font-size:14px;">Copia de seguridad completa</h2>
-<p class="card-note">Exporta o restaura TODO lo cargado (movimientos, categorías, facturas de proveedores, clientes de reparto, vencimientos) en un solo paso, sin tener que buscarlo dentro de "Cargar datos".</p>
-<button class="cargar-submit-btn" id="cfgBackupCompleto" style="margin-bottom:10px;" type="button">💾 Copia de seguridad completa</button>
-<div style="display:flex;gap:10px;flex-wrap:wrap;">
-<button class="tab-btn" id="cfgPegarBackup" style="border-radius:8px;" type="button">📋 Restaurar pegando backup</button>
-<label class="tab-btn" for="cfgInputImportarBackup" style="border-radius:8px;cursor:pointer;margin:0;display:inline-flex;align-items:center;">⬆️ Restaurar desde archivo</label>
-<input accept="application/json,.json" id="cfgInputImportarBackup" style="display:none;" type="file"/>
-</div>
-</div>
-
-<div class="card">
-<h2 style="font-size:14px;">Solo mis preferencias de vista</h2>
-<p class="card-note">Exporta o importa ÚNICAMENTE lo de esta pestaña "⚙️ Configuración" (formato de números, tema, densidad, pestaña de inicio, avisos, etc.), sin movimientos ni datos cargados. Útil para pasar tus preferencias a otro dispositivo sin duplicar información.</p>
-<div style="display:flex;gap:10px;flex-wrap:wrap;">
-<button class="tab-btn" id="cfgExportarPrefs" style="border-radius:8px;" type="button">⬇️ Exportar mis preferencias</button>
-<label class="tab-btn" for="cfgInputImportarPrefs" style="border-radius:8px;cursor:pointer;margin:0;display:inline-flex;align-items:center;">⬆️ Importar preferencias</label>
-<input accept="application/json,.json" id="cfgInputImportarPrefs" style="display:none;" type="file"/>
-</div>
-<p class="card-note" id="cfgPrefsMsg" style="min-height:14px;margin-top:8px;"></p>
-</div>
-
-<div class="card">
-<h2 style="font-size:14px;">Exportar a Excel / CSV</h2>
-<p class="card-note">Los movimientos cargados a mano (Agencia y Alquileres) en un .csv, para abrir en Excel/Sheets o mandarle al contador. El backup completo de arriba sigue siendo el que hay que usar para restaurar datos en el panel.</p>
-<button class="tab-btn" id="cfgExportarCsv" style="width:100%;border-radius:8px;padding:12px;" type="button">⬇️ Exportar movimientos a CSV</button>
-</div>
-
-<div class="card">
 <h2 style="font-size:14px;">Restablecer vista</h2>
 <p class="card-note">Vuelve el orden de pestañas, las pestañas ocultas, los nombres personalizados (pestañas y cuentas), el orden de paneles y el menú "⚙️ Personalizar panel" a como vienen por defecto. <strong>No borra ningún dato cargado.</strong></p>
 <button class="tab-btn" id="cfgResetVista" style="width:100%;border-radius:8px;padding:12px;" type="button">↺ Restablecer vista a valores por defecto</button>
@@ -2385,7 +2410,7 @@ Ordenar por fecha de vencimiento (las que vencen antes, primero — las sin fech
 
 <div class="card" style="border-color:rgba(224,139,120,.5);">
 <h2 style="font-size:14px;color:var(--red-neg);">Zona de riesgo</h2>
-<p class="card-note">Borra TODO lo cargado en este dispositivo (movimientos, categorías, facturas, clientes, vencimientos, inversiones, configuración, PIN, backup de GitHub guardado — todo). Es un reset de fábrica del panel. No se puede deshacer. Hacé antes una "Copia de seguridad completa" si por las dudas.</p>
+<p class="card-note">Borra TODO lo cargado en este dispositivo (movimientos, categorías, facturas, clientes, vencimientos, inversiones, configuración, PIN, backup de GitHub guardado — todo). Es un reset de fábrica del panel. No se puede deshacer. Hacé antes un backup completo (pestaña "💾 Backups") si por las dudas.</p>
 <button class="tab-btn" id="cfgBorrarTodo" style="width:100%;border-radius:8px;padding:12px;border-color:var(--red-neg);color:var(--red-neg);" type="button">🗑️ Borrar todos los datos</button>
 <p class="card-note" id="cfgBorrarTodoMsg" style="margin-top:8px;min-height:14px;"></p>
 </div>
@@ -3776,14 +3801,15 @@ var PANEL_BUSCAR_KEYWORDS = {
   'buscar': ['movimiento','busqueda','transaccion'],
   'estadisticas': ['graficos','metricas'],
   'estadisticas-alquileres': ['alquiler','renta','inquilino'],
-  'cargar': ['importar','csv','excel','movimientos','subir datos'],
+  'cargar': ['movimientos','carga manual','categorias'],
   'ia': ['gemini','api key','asistente','ocr','clave'],
   'clientes': ['diarios','revistas','kioscos','reparto','repartidor'],
   'colecciones': ['fasciculos','figuras','laminas','coleccionable','reservas'],
   'vencimientos': ['servicios','pago de servicios','luz','gas','agua'],
   'inversiones': ['dolar','acciones','etf','spy','qqq','broker','cartera'],
   'pedidos-ia': ['pedidos','compra'],
-  'configuracion': ['backup','exportar','importar backup','ajustes','pin','seguridad']
+  'backups': ['backup','exportar','importar','copia de seguridad','github','proveedores','preferencias','csv','excel','restaurar'],
+  'configuracion': ['ajustes','pin','seguridad','tema','notificaciones']
 };
 function panelBuscarNorm(s){ return (s||'').toString().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,''); }
 function panelBuscarEsc(s){ var d=document.createElement('div'); d.textContent = s==null?'':s; return d.innerHTML; }
@@ -4034,7 +4060,29 @@ document.getElementById('panelBuscarSeccion').addEventListener('focus', panelBus
   (async function init(){
     await loadHidden();
     applyHidden();
+    if (typeof window.onTabsHiddenReady === 'function') window.onTabsHiddenReady();
   })();
+
+  // Expuesto para poder ofrecer el mismo control (mostrar/ocultar pestañas)
+  // desde dentro de la pestaña Configuración, además del botón de arriba.
+  window.tabsHiddenApi = {
+    getTabs: function(){ return getTabBtns().map(function(b){ return { id: b.dataset.tab, label: b.textContent.trim() }; }); },
+    isHidden: function(id){ return hiddenSet.has(id); },
+    setHidden: function(id, val){
+      var antes = hiddenSet.has(id);
+      if (val) hiddenSet.add(id); else hiddenSet.delete(id);
+      const allBtns = getTabBtns();
+      if (val && allBtns.length && allBtns.every(function(b){ return hiddenSet.has(b.dataset.tab); })){
+        // No permitir ocultar la última pestaña visible.
+        hiddenSet.delete(id);
+        applyHidden();
+        return false;
+      }
+      applyHidden();
+      saveHidden();
+      return true;
+    }
+  };
 })();
 
 /* ---------------- RESUMEN: helpers compartidos para modo Anual/Mensual/Rango ---------------- */
@@ -7565,6 +7613,7 @@ function armarBackupTexto(){
     categoriasBaseRenombres: categoriasBaseRenombres,
     facturasProveedores: (typeof window.getFacturasProveedores === 'function') ? window.getFacturasProveedores() : [],
     preciosProveedores: (typeof window.getPreciosProveedores === 'function') ? window.getPreciosProveedores() : {},
+    devolucionesProveedores: (typeof window.getDevolucionesProveedores === 'function') ? window.getDevolucionesProveedores() : [],
     clientesReparto: (typeof window.getClientesRepartoBackup === 'function') ? window.getClientesRepartoBackup() : null,
     vencimientos: (typeof window.getVencimientosBackup === 'function') ? window.getVencimientosBackup() : null,
     reservasColecciones: (typeof window.getColeccionesBackup === 'function') ? window.getColeccionesBackup() : null
@@ -7677,6 +7726,9 @@ async function deshacerUltimaImportacion(){
     if (data.preciosProveedores && typeof window.restaurarPreciosProveedores === 'function'){
       await window.restaurarPreciosProveedores(data.preciosProveedores);
     }
+    if (Array.isArray(data.devolucionesProveedores) && typeof window.restaurarDevolucionesProveedores === 'function'){
+      await window.restaurarDevolucionesProveedores(data.devolucionesProveedores);
+    }
     if (data.clientesReparto && typeof window.restaurarClientesRepartoBackup === 'function'){
       await window.restaurarClientesRepartoBackup(data.clientesReparto);
     }
@@ -7722,6 +7774,11 @@ async function procesarBackupTexto(texto, msgEl){
     const idsExistentes = new Set(window.getFacturasProveedores().map(f=>f.id));
     data.facturasProveedores.forEach(f=>{ if (f && f.id && !idsExistentes.has(f.id)) nuevasFacturas++; });
   }
+  let nuevasDevoluciones = 0;
+  if (Array.isArray(data.devolucionesProveedores) && typeof window.getDevolucionesProveedores === 'function'){
+    const idsDevExistentes = new Set(window.getDevolucionesProveedores().map(d=>d.id));
+    data.devolucionesProveedores.forEach(d=>{ if (d && d.id && !idsDevExistentes.has(d.id)) nuevasDevoluciones++; });
+  }
 
   // --- Clientes reparto (pestaña "Clientes"): se agregan solo los que no existan ya (por id). ---
   let nuevosClientes = 0, nuevosDiarios = 0, nuevosExtras = 0;
@@ -7760,7 +7817,7 @@ async function procesarBackupTexto(texto, msgEl){
     rcBackup.clientes.forEach(c=>{ if (c && c.id && !idsRcExistentes.has(c.id)) nuevosClientesColecciones++; });
   }
 
-  if (nuevosMov === 0 && actualizadosMov === 0 && nuevasFacturas === 0 && nuevosClientes === 0 && nuevosDiarios === 0 && nuevosExtras === 0 && nuevosVencimientos === 0 && nuevosClientesColecciones === 0){
+  if (nuevosMov === 0 && actualizadosMov === 0 && nuevasFacturas === 0 && nuevasDevoluciones === 0 && nuevosClientes === 0 && nuevosDiarios === 0 && nuevosExtras === 0 && nuevosVencimientos === 0 && nuevosClientesColecciones === 0){
     msgEl.textContent = repetidosMov > 0
       ? `Ese backup ya estaba cargado acá (${repetidosMov} repetido(s), 0 nuevos). No se cambió nada.`
       : 'El backup no tenía movimientos, comprobantes ni datos de clientes nuevos para agregar. No se cambió nada.';
@@ -7775,6 +7832,7 @@ async function procesarBackupTexto(texto, msgEl){
     `• ${nuevosMov} movimiento(s) nuevo(s)${repetidosMov ? ` (${repetidosMov} ya estaban igual y se van a ignorar)` : ''}\n` +
     (actualizadosMov ? `• ${actualizadosMov} movimiento(s) editado(s) en otro dispositivo (se va a reemplazar la versión vieja por la editada)\n` : '') +
     (nuevasFacturas ? `• ${nuevasFacturas} comprobante(s) de proveedores nuevo(s)\n` : '') +
+    (nuevasDevoluciones ? `• ${nuevasDevoluciones} devolución(es) nueva(s) (sin la foto/remito adjunto: eso queda solo en el dispositivo donde se cargó)\n` : '') +
     (nuevosClientes ? `• ${nuevosClientes} cliente(s) de reparto nuevo(s)\n` : '') +
     (nuevosDiarios ? `• ${nuevosDiarios} diario(s)/producto(s) nuevo(s)\n` : '') +
     (nuevosExtras ? `• ${nuevosExtras} extra(s) de reparto nuevo(s)\n` : '') +
@@ -7832,6 +7890,10 @@ async function procesarBackupTexto(texto, msgEl){
   if (data.preciosProveedores && typeof window.importarPreciosProveedores === 'function'){
     preciosAgregados = await window.importarPreciosProveedores(data.preciosProveedores);
   }
+  let devolucionesAgregadas = 0;
+  if (Array.isArray(data.devolucionesProveedores) && typeof window.importarDevolucionesProveedores === 'function'){
+    devolucionesAgregadas = await window.importarDevolucionesProveedores(data.devolucionesProveedores);
+  }
   if (cr && typeof window.importarClientesRepartoBackup === 'function'){
     await window.importarClientesRepartoBackup(cr);
   }
@@ -7841,7 +7903,7 @@ async function procesarBackupTexto(texto, msgEl){
   if (rcBackup && typeof window.importarColeccionesBackup === 'function'){
     await window.importarColeccionesBackup(rcBackup);
   }
-  msgEl.textContent = `Importando ${nuevosMov} movimiento(s) nuevo(s)${actualizadosMov ? ` y ${actualizadosMov} editado(s)` : ''}${facturasAgregadas ? ` y ${facturasAgregadas} comprobante(s) de proveedores` : ''}${preciosAgregados ? ` y ${preciosAgregados} título(s) de precio de venta` : ''}${nuevosClientes ? ` y ${nuevosClientes} cliente(s) de reparto` : ''}${nuevosVencimientos ? ` y ${nuevosVencimientos} vencimiento(s) de servicio` : ''}${nuevosClientesColecciones ? ` y ${nuevosClientesColecciones} cliente(s) de colecciones` : ''}${repetidosMov ? ` (${repetidosMov} movimiento(s) ya estaban)` : ''}…`;
+  msgEl.textContent = `Importando ${nuevosMov} movimiento(s) nuevo(s)${actualizadosMov ? ` y ${actualizadosMov} editado(s)` : ''}${facturasAgregadas ? ` y ${facturasAgregadas} comprobante(s) de proveedores` : ''}${preciosAgregados ? ` y ${preciosAgregados} título(s) de precio de venta` : ''}${devolucionesAgregadas ? ` y ${devolucionesAgregadas} devolución(es)` : ''}${nuevosClientes ? ` y ${nuevosClientes} cliente(s) de reparto` : ''}${nuevosVencimientos ? ` y ${nuevosVencimientos} vencimiento(s) de servicio` : ''}${nuevosClientesColecciones ? ` y ${nuevosClientesColecciones} cliente(s) de colecciones` : ''}${repetidosMov ? ` (${repetidosMov} movimiento(s) ya estaban)` : ''}…`;
   const okMov = await storageSet('manual-entries', JSON.stringify(manualEntries));
   await storageSet('categorias-personalizadas', JSON.stringify(categoriasCustom));
   await storageSet('categorias-base-eliminadas', JSON.stringify(categoriasBaseEliminadas));
@@ -7900,7 +7962,8 @@ function armarBackupProveedoresTexto(){
     version: 1,
     exportadoEl: new Date().toISOString(),
     facturasProveedores: (typeof window.getFacturasProveedores === 'function') ? window.getFacturasProveedores() : [],
-    preciosProveedores: (typeof window.getPreciosProveedores === 'function') ? window.getPreciosProveedores() : {}
+    preciosProveedores: (typeof window.getPreciosProveedores === 'function') ? window.getPreciosProveedores() : {},
+    devolucionesProveedores: (typeof window.getDevolucionesProveedores === 'function') ? window.getDevolucionesProveedores() : []
   };
   return JSON.stringify(backup, null, 2);
 }
@@ -7926,7 +7989,7 @@ function exportarBackupProveedores(){
   });
 }
 
-async function procesarBackupProveedoresTexto(texto, msgEl){
+async function procesarBackupProveedoresTexto(texto, msgEl, modoReemplazar){
   let data;
   try {
     data = JSON.parse(texto);
@@ -7938,6 +8001,35 @@ async function procesarBackupProveedoresTexto(texto, msgEl){
     msgEl.textContent = 'Ese texto/archivo no tiene el formato de un backup de Proveedores de este panel.';
     return;
   }
+
+  // ---- Modo REEMPLAZAR: para cuando este dispositivo tiene datos de
+  // Proveedores de más/erróneos y lo que hace falta es que quede EXACTAMENTE
+  // como el backup, no que se le sumen cosas nuevas. Reemplaza facturas,
+  // precios y devoluciones enteros — no toca movimientos, clientes, etc. ----
+  if (modoReemplazar){
+    const cantFacturasBackup = data.facturasProveedores.length;
+    const cantDevBackup = Array.isArray(data.devolucionesProveedores) ? data.devolucionesProveedores.length : 0;
+    const cantFacturasActual = (typeof window.getFacturasProveedores === 'function') ? window.getFacturasProveedores().length : 0;
+    const cantDevActual = (typeof window.getDevolucionesProveedores === 'function') ? window.getDevolucionesProveedores().length : 0;
+    const fechaBackupR = data.exportadoEl ? new Date(data.exportadoEl) : null;
+    const fechaTxtR = fechaBackupR && !isNaN(fechaBackupR) ? fechaBackupR.toLocaleString('es-AR') : 'fecha desconocida';
+    const okR = window.confirm(
+      `⚠️ REEMPLAZAR (no agregar) — este backup de Proveedores es del ${fechaTxtR}.\n\n` +
+      `Este dispositivo tiene ahora mismo ${cantFacturasActual} comprobante(s) y ${cantDevActual} devolución(es) en Proveedores.\n` +
+      `Van a quedar reemplazados por los ${cantFacturasBackup} comprobante(s) y ${cantDevBackup} devolución(es) del backup — lo que este dispositivo tenga de más o distinto en Proveedores SE BORRA.\n\n` +
+      `Movimientos, clientes, vencimientos y el resto de las pestañas NO se tocan.\n\n` +
+      `¿Confirmás el reemplazo?`
+    );
+    if (!okR){ msgEl.textContent = 'Reemplazo cancelado. No se cambió nada.'; return; }
+    // Guardamos cómo estaba antes, por si hace falta deshacer con el mismo botón de siempre.
+    await guardarSnapshotPreImport();
+    if (typeof window.restaurarFacturasProveedores === 'function') await window.restaurarFacturasProveedores(data.facturasProveedores);
+    if (typeof window.restaurarPreciosProveedores === 'function') await window.restaurarPreciosProveedores(data.preciosProveedores || {});
+    if (typeof window.restaurarDevolucionesProveedores === 'function') await window.restaurarDevolucionesProveedores(data.devolucionesProveedores || []);
+    msgEl.textContent = `Listo: Proveedores quedó reemplazado por el backup (${cantFacturasBackup} comprobante(s), ${cantDevBackup} devolución(es)). Podés usar "↩️ Deshacer última importación" si te arrepentís.`;
+    return;
+  }
+
   let nuevasFacturas = 0;
   if (typeof window.getFacturasProveedores === 'function'){
     const idsExistentes = new Set(window.getFacturasProveedores().map(f=>f.id));
@@ -7951,14 +8043,19 @@ async function procesarBackupProveedoresTexto(texto, msgEl){
       (data.preciosProveedores[k]||[]).forEach(t => { if (t && t.id && !idsExistentes.has(t.id)) nuevosPrecios++; });
     });
   }
-  if (nuevasFacturas === 0 && nuevosPrecios === 0){
-    msgEl.textContent = 'Ese backup no tenía comprobantes ni precios nuevos para agregar (lo que trae ya estaba cargado). No se cambió nada.';
+  let nuevasDevolucionesProv = 0;
+  if (Array.isArray(data.devolucionesProveedores) && typeof window.getDevolucionesProveedores === 'function'){
+    const idsDevExistentes = new Set(window.getDevolucionesProveedores().map(d=>d.id));
+    data.devolucionesProveedores.forEach(d=>{ if (d && d.id && !idsDevExistentes.has(d.id)) nuevasDevolucionesProv++; });
+  }
+  if (nuevasFacturas === 0 && nuevosPrecios === 0 && nuevasDevolucionesProv === 0){
+    msgEl.textContent = 'Ese backup no tenía comprobantes, devoluciones ni precios nuevos para agregar (lo que trae ya estaba cargado). No se cambió nada.';
     return;
   }
   const fechaBackup = data.exportadoEl ? new Date(data.exportadoEl) : null;
   const fechaTxt = fechaBackup && !isNaN(fechaBackup) ? fechaBackup.toLocaleString('es-AR') : 'fecha desconocida';
   const resumen = `Este backup de Proveedores es del ${fechaTxt}.\n\n` +
-    `Se van a AGREGAR ${nuevasFacturas} comprobante(s) y ${nuevosPrecios} título(s) de precio de venta nuevo(s). No se toca ni se reemplaza nada de lo que ya tenés cargado.\n\n` +
+    `Se van a AGREGAR ${nuevasFacturas} comprobante(s), ${nuevosPrecios} título(s) de precio de venta y ${nuevasDevolucionesProv} devolución(es) nueva(s)${nuevasDevolucionesProv ? ' (sin la foto/remito adjunto de cada una: eso queda solo en el dispositivo donde se cargó)' : ''}. No se toca ni se reemplaza nada de lo que ya tenés cargado.\n\n` +
     `¿Confirmás la importación?`;
   if (!window.confirm(resumen)){
     msgEl.textContent = 'Importación cancelada. No se cambió nada.';
@@ -7971,7 +8068,9 @@ async function procesarBackupProveedoresTexto(texto, msgEl){
   const agregadas = await window.importarFacturasProveedores(data.facturasProveedores);
   const agregadosPrecios = (data.preciosProveedores && typeof window.importarPreciosProveedores === 'function')
     ? await window.importarPreciosProveedores(data.preciosProveedores) : 0;
-  msgEl.textContent = `Listo: se agregaron ${agregadas} comprobante(s) y ${agregadosPrecios} título(s) de precio de venta nuevo(s).`;
+  const agregadasDevoluciones = (Array.isArray(data.devolucionesProveedores) && typeof window.importarDevolucionesProveedores === 'function')
+    ? await window.importarDevolucionesProveedores(data.devolucionesProveedores) : 0;
+  msgEl.textContent = `Listo: se agregaron ${agregadas} comprobante(s), ${agregadosPrecios} título(s) de precio de venta y ${agregadasDevoluciones} devolución(es) nueva(s).`;
 }
 
 async function importarBackupProveedoresArchivo(file){
@@ -7986,22 +8085,25 @@ async function importarBackupProveedoresArchivo(file){
   }
 }
 
-function abrirModalPegarBackupProveedores(){
+function abrirModalPegarBackupProveedores(modoReemplazar){
   abrirModalBackup({
-    titulo: 'Pegar backup de Proveedores',
-    ayuda: 'Pegá acá el texto completo que copiaste antes con "Exportar solo Proveedores" (mantené presionado sobre el recuadro y elegí Pegar).',
+    titulo: modoReemplazar ? '🔁 Pegar y REEMPLAZAR TODO de Proveedores' : 'Pegar backup de Proveedores',
+    ayuda: (modoReemplazar
+      ? '⚠️ Esto reemplaza (no suma) los comprobantes, precios y devoluciones de Proveedores de este dispositivo por los del texto que pegues. '
+      : '') + 'Pegá acá el texto completo que copiaste antes con "Exportar solo Proveedores" (mantené presionado sobre el recuadro y elegí Pegar).',
     texto: '',
     soloLectura: false,
-    etiquetaBoton: 'Importar este texto',
+    etiquetaBoton: modoReemplazar ? 'Reemplazar con este texto' : 'Importar este texto',
     alAccionar: ()=>{
       const texto = document.getElementById('backupModalTextarea').value;
-      procesarBackupProveedoresTexto(texto, document.getElementById('backupModalMsg'));
+      procesarBackupProveedoresTexto(texto, document.getElementById('backupModalMsg'), !!modoReemplazar);
     }
   });
 }
 
 document.getElementById('btnExportarBackupProveedores').addEventListener('click', exportarBackupProveedores);
-document.getElementById('btnPegarBackupProveedores').addEventListener('click', abrirModalPegarBackupProveedores);
+document.getElementById('btnPegarBackupProveedores').addEventListener('click', ()=> abrirModalPegarBackupProveedores(false));
+document.getElementById('btnReemplazarPegarProveedores').addEventListener('click', ()=> abrirModalPegarBackupProveedores(true));
 document.getElementById('inputImportarBackupProveedores').addEventListener('change', (e)=>{
   const file = e.target.files && e.target.files[0];
   importarBackupProveedoresArchivo(file);
@@ -8152,7 +8254,7 @@ async function subirBackupProveedoresAGithub(silencioso){
   }
 }
 
-async function traerBackupProveedoresDesdeGithub(){
+async function traerBackupProveedoresDesdeGithub(modoReemplazar){
   const msgEl = document.getElementById('ghMsg');
   const cfg = await cargarGhConfig();
   if (!cfg || !cfg.owner || !cfg.repo || !cfg.pathProveedores || !cfg.token){
@@ -8162,7 +8264,7 @@ async function traerBackupProveedoresDesdeGithub(){
   if (msgEl) msgEl.textContent = 'Trayendo backup de Proveedores desde GitHub…';
   try {
     const texto = await traerTextoDesdeGithub(cfg, cfg.pathProveedores);
-    await procesarBackupProveedoresTexto(texto, msgEl);
+    await procesarBackupProveedoresTexto(texto, msgEl, modoReemplazar);
   } catch(e){
     if (msgEl) msgEl.textContent = `No se pudo traer el backup de Proveedores: ${e.message || e}`;
   }
@@ -8192,7 +8294,8 @@ document.getElementById('btnGuardarGhConfig').addEventListener('click', async ()
 document.getElementById('btnSubirGhAhora').addEventListener('click', ()=> subirBackupAGithub(false));
 document.getElementById('btnTraerGhAhora').addEventListener('click', traerBackupDesdeGithub);
 document.getElementById('btnSubirGhAhoraProveedores').addEventListener('click', ()=> subirBackupProveedoresAGithub(false));
-document.getElementById('btnTraerGhAhoraProveedores').addEventListener('click', traerBackupProveedoresDesdeGithub);
+document.getElementById('btnTraerGhAhoraProveedores').addEventListener('click', ()=> traerBackupProveedoresDesdeGithub(false));
+document.getElementById('btnReemplazarGhProveedores').addEventListener('click', ()=> traerBackupProveedoresDesdeGithub(true));
 precargarGhForm();
 
 /* ---------------- EN CRIOLLO / INFORME EJECUTIVO / RATIO / ESTACIONALIDAD ---------------- */
@@ -10264,6 +10367,7 @@ renderAutoConclusions();
     renderCatalogoPrecios();
     renderGananciaSemanal();
     if (typeof renderDevoluciones === 'function') renderDevoluciones();
+    if (typeof renderPctDevolucionTitulo === 'function') renderPctDevolucionTitulo();
     const nombreEnvioEl = document.getElementById('envioProvNombre');
     if (nombreEnvioEl) nombreEnvioEl.textContent = prov.label;
     const wrapEnvio = document.getElementById('envioResultadoWrap');
@@ -11720,6 +11824,54 @@ renderAutoConclusions();
   // Permite buscar por texto (título, edición, o cualquier palabra de la descripción)
   // y ver el detalle de cada ocurrencia (fecha, N° de comprobante, cantidad, monto)
   // tocando una fila. La lista se recorta a ITEMS_LIMITE filas con un botón "Ver más".
+  // % de devolución por título, para el proveedor actualmente seleccionado:
+  // compara lo comprado (facturas/notas de débito, no notas de crédito) contra
+  // lo devuelto (todo lo cargado en Devoluciones), agrupando por título del
+  // catálogo de precios cuando matchea, o por descripción tal cual si no.
+  function renderPctDevolucionTitulo(){
+    const prov = PROVEEDORES.find(p => p.key === provState.prov) || PROVEEDORES[0];
+    const elTbody = document.querySelector('#pctDevTable tbody');
+    const elNota = document.getElementById('pctDevNota');
+    const elNombre = document.getElementById('pctDevProvNombre');
+    if (!elTbody) return;
+    if (elNombre) elNombre.textContent = prov.label;
+    const titulosProv = titulosDe(prov.key);
+    function claveYEtiqueta(desc){
+      const m = matchTitulo(titulosProv, desc);
+      return m ? { key: 't:' + m.id, label: m.nombre } : { key: 'd:' + normTxtProv(desc||''), label: (desc||'Sin descripción').trim() || 'Sin descripción' };
+    }
+    const grupos = Object.create(null);
+    facturas.filter(f => f.proveedorKey === prov.key && f.tipo !== 'nota_credito' && Array.isArray(f.items)).forEach(f => {
+      f.items.forEach(it => {
+        if (it.cantidad == null || isNaN(it.cantidad)) return;
+        const ce = claveYEtiqueta(it.descripcion);
+        if (!grupos[ce.key]) grupos[ce.key] = { label: ce.label, comprado: 0, devuelto: 0 };
+        grupos[ce.key].comprado += Number(it.cantidad);
+      });
+    });
+    (typeof devoluciones !== 'undefined' ? devoluciones : []).filter(d => d.proveedorKey === prov.key && Array.isArray(d.items)).forEach(d => {
+      d.items.forEach(it => {
+        const cant = (it.cantidad != null && !isNaN(it.cantidad) && Number(it.cantidad) > 0) ? Number(it.cantidad) : 1;
+        const ce = claveYEtiqueta(it.descripcion);
+        if (!grupos[ce.key]) grupos[ce.key] = { label: ce.label, comprado: 0, devuelto: 0 };
+        grupos[ce.key].devuelto += cant;
+      });
+    });
+    const filas = Object.values(grupos)
+      .filter(g => g.comprado > 0 || g.devuelto > 0)
+      .map(g => Object.assign({}, g, { pct: g.comprado > 0 ? (g.devuelto / g.comprado * 100) : null }))
+      .sort((a,b) => (b.pct != null ? b.pct : -1) - (a.pct != null ? a.pct : -1));
+    if (elNota) elNota.textContent = filas.length
+      ? ('Comparando todo lo cargado hasta ahora de ' + prov.label + ' (comprobantes + devoluciones).')
+      : ('Todavía no hay comprobantes o devoluciones cargados de ' + prov.label + ' para calcular esto.');
+    elTbody.innerHTML = filas.length ? filas.map(g =>
+      '<tr><td>' + escapeHtmlProv(g.label) + '</td>' +
+      '<td class="num">' + g.comprado.toLocaleString('es-AR', {maximumFractionDigits:2}) + '</td>' +
+      '<td class="num">' + g.devuelto.toLocaleString('es-AR', {maximumFractionDigits:2}) + '</td>' +
+      '<td class="num ' + (g.pct != null && g.pct >= 20 ? 'neg' : '') + '">' + (g.pct != null ? g.pct.toFixed(1) + '%' : '—') + '</td></tr>'
+    ).join('') : '<tr><td colspan="4" class="card-note">Sin datos para mostrar todavía.</td></tr>';
+  }
+
   function renderDesgloseItems(){
     const prov = PROVEEDORES.find(p => p.key === provState.prov) || PROVEEDORES[0];
     const nombreEl = document.getElementById('itemsProvNombre');
@@ -12548,12 +12700,14 @@ renderAutoConclusions();
 
     const elKpis = document.getElementById('ganSemKpis');
     if (elKpis){
+      const pctGananciaReal = totalVentas > 0 ? ((totalVentas - (totalCargas - totalNC)) / totalVentas * 100) : null;
       elKpis.innerHTML =
         kpi('Cargas', fmtARS(totalCargas)) +
         kpi('Notas de crédito', fmtARS(totalNC)) +
         kpi('Facturado neto', fmtARS(totalCargas - totalNC)) +
         kpi('Ventas (según precio de venta)', fmtARS(totalVentas)) +
-        kpi('Ganancia real', fmtARS(totalVentas - (totalCargas - totalNC)), 'Ventas menos lo facturado neto. El recargo interior ya queda descontado solo.');
+        kpi('Ganancia real', fmtARS(totalVentas - (totalCargas - totalNC)), 'Ventas menos lo facturado neto. El recargo interior ya queda descontado solo.') +
+        kpi('% de ganancia real', pctGananciaReal != null ? pctGananciaReal.toLocaleString('es-AR',{maximumFractionDigits:1}) + '%' : '—', 'Ganancia real sobre las Ventas (precio de tapa + recargo interior). Es tu margen neto real, ya con el costo de compra al proveedor y el recargo interior descontados.');
     }
 
     const elTbody = document.querySelector('#ganSemTable tbody');
@@ -12587,6 +12741,7 @@ renderAutoConclusions();
               '</div>';
             }).join('');
             const gananciaSem = s.ventas - neto;
+            const pctSem = s.ventas > 0 ? (gananciaSem / s.ventas * 100) : null;
             return '<tr data-gan-sem-row="' + s.key + '" style="cursor:pointer;">' +
               '<td><span data-gan-sem-arrow="' + s.key + '">▸</span> ' + fmtFechaItemProv(s.lunesIso) + ' – ' + fmtFechaItemProv(s.domingoIso) + '</td>' +
               '<td class="num">' + fmtARS(s.cargas) + '</td>' +
@@ -12594,13 +12749,14 @@ renderAutoConclusions();
               '<td class="num">' + fmtARS(neto) + '</td>' +
               '<td class="num">' + (s.ventas ? fmtARS(s.ventas) : '—') + '</td>' +
               '<td class="num">' + (s.ventas ? fmtARS(gananciaSem) : '—') + '</td>' +
+              '<td class="num">' + (pctSem != null ? pctSem.toLocaleString('es-AR',{maximumFractionDigits:1}) + '%' : '—') + '</td>' +
             '</tr>' +
-            '<tr data-gan-sem-detalle="' + s.key + '" style="display:none;"><td colspan="6" style="padding:8px 4px 12px 4px;background:rgba(0,0,0,.10);">' +
+            '<tr data-gan-sem-detalle="' + s.key + '" style="display:none;"><td colspan="7" style="padding:8px 4px 12px 4px;background:rgba(0,0,0,.10);">' +
               '<div class="card-note" style="margin-bottom:6px;">Comprobantes e ítems que forman esta semana según el filtro seleccionado.</div>' +
               (detalleHtml || '<div class="card-note">Sin detalle de comprobantes.</div>') +
             '</td></tr>';
           }).join('')
-        : '<tr><td colspan="6" class="card-note">Sin datos para mostrar en este rango.</td></tr>';
+        : '<tr><td colspan="7" class="card-note">Sin datos para mostrar en este rango.</td></tr>';
       elTbody.querySelectorAll('[data-gan-sem-row]').forEach(row => {
         row.addEventListener('click', () => {
           const id = row.getAttribute('data-gan-sem-row');
@@ -12690,6 +12846,10 @@ renderAutoConclusions();
     // mismo criterio para colorear la fila (semáforo) y para el CSV, así los
     // dos coinciden siempre.
     filas.forEach(fila => { fila.pctDevol = fila.cargas > 0 ? (fila.nc / fila.cargas) * 100 : null; });
+    filas.forEach(fila => {
+      const netoFila = fila.cargas - fila.nc;
+      fila.pctGanancia = (!fila.sinPrecio && fila.ventas > 0) ? ((fila.ventas - netoFila) / fila.ventas * 100) : null;
+    });
     ganSemResumenFilasActuales = filas;
 
     const tbody = document.querySelector('#ganSemResumenTable tbody');
@@ -12711,23 +12871,24 @@ renderAutoConclusions();
               '<td class="num">' + fmtARS(neto) + '</td>' +
               '<td class="num">' + (fila.sinPrecio ? '—' : fmtARS(fila.ventas)) + '</td>' +
               '<td class="num">' + (fila.sinPrecio ? '—' : fmtARS(ganancia)) + '</td>' +
+              '<td class="num">' + (fila.pctGanancia != null ? fila.pctGanancia.toLocaleString('es-AR',{maximumFractionDigits:1}) + '%' : '—') + '</td>' +
               '<td class="num">' + devolHtml + '</td>' +
             '</tr>';
           }).join('')
-        : '<tr><td colspan="6" class="card-note">Sin datos para este período/filtro.</td></tr>';
+        : '<tr><td colspan="7" class="card-note">Sin datos para este período/filtro.</td></tr>';
     }
     const notaEl = document.getElementById('ganSemResumenNota');
     if (notaEl){
       notaEl.textContent = itemsSinPrecio > 0
-        ? '⚠️ Hay ítems marcados "(sin precio cargado)": no se les pudo calcular Ventas ni Ganancia porque ningún título del catálogo matchea esa descripción. La cantidad y lo facturado sí se muestran. El % Devol. es rotación: 🟢 menos del 15% vuelve como devolución, 🟡 entre 15% y 30%, 🔴 más del 30% (conviene pedir menos de ese título).'
-        : 'El % Devol. es rotación: 🟢 menos del 15% vuelve como devolución, 🟡 entre 15% y 30%, 🔴 más del 30% (conviene pedir menos de ese título).';
+        ? '⚠️ Hay ítems marcados "(sin precio cargado)": no se les pudo calcular Ventas, Ganancia ni % Ganancia porque ningún título del catálogo matchea esa descripción. La cantidad y lo facturado sí se muestran. El % Ganancia es la ganancia real sobre las Ventas (precio de tapa + recargo interior, ya con el costo de compra descontado). El % Devol. es rotación: 🟢 menos del 15% vuelve como devolución, 🟡 entre 15% y 30%, 🔴 más del 30% (conviene pedir menos de ese título).'
+        : 'El % Ganancia es la ganancia real sobre las Ventas (precio de tapa + recargo interior, ya con el costo de compra descontado). El % Devol. es rotación: 🟢 menos del 15% vuelve como devolución, 🟡 entre 15% y 30%, 🔴 más del 30% (conviene pedir menos de ese título).';
     }
   }
   let ganSemResumenFilasActuales = [];
   function exportarResumenPorTituloCsv(){
     if (!ganSemResumenFilasActuales.length){ alert('Primero generá el resumen por título.'); return; }
     const sep = ';';
-    const filas = [['Título','Tipo','Cantidad','Facturado neto','Ventas','Ganancia real','% Devolución']];
+    const filas = [['Título','Tipo','Cantidad','Facturado neto','Ventas','Ganancia real','% Ganancia','% Devolución']];
     ganSemResumenFilasActuales.forEach(fila => {
       const neto = fila.cargas - fila.nc;
       const ganancia = fila.ventas - neto;
@@ -12738,6 +12899,7 @@ renderAutoConclusions();
         neto.toFixed(2).replace('.',','),
         fila.sinPrecio ? '' : fila.ventas.toFixed(2).replace('.',','),
         fila.sinPrecio ? '' : ganancia.toFixed(2).replace('.',','),
+        fila.pctGanancia != null ? fila.pctGanancia.toFixed(1).replace('.',',') + '%' : '',
         fila.pctDevol != null ? fila.pctDevol.toFixed(1).replace('.',',') + '%' : ''
       ]);
     });
@@ -12869,6 +13031,44 @@ renderAutoConclusions();
   }
   function saveDevoluciones(){ storageSet(K_DEVOLUCIONES, JSON.stringify(devoluciones)); }
   window.getDevolucionesProveedores = function(){ return devoluciones; };
+  // Se agregan solo las que no existan ya (por id) — mismo patrón que
+  // importarFacturasProveedores. OJO: esto trae los datos de la devolución
+  // (fecha, ítems, estado, vínculo con NC), pero NO la foto/remito adjunto:
+  // esos archivos quedan guardados en este mismo dispositivo (IndexedDB) y
+  // no viajan en el backup. Del otro lado va a aparecer "Sin adjunto" aunque
+  // acá sí tenga foto cargada.
+  // Se agregan solo las que no existan ya (por id) — mismo patrón que
+  // importarFacturasProveedores. OJO: si la devolución viene de OTRO
+  // dispositivo, su array "adjuntos" apunta a fotos que están en el
+  // IndexedDB de ese otro dispositivo, no acá — el link va a decir "no se
+  // pudo encontrar el adjunto" si se toca. No lo pisamos por si el backup
+  // es del mismo dispositivo (undo), donde sí son válidos.
+  window.importarDevolucionesProveedores = async function(arr){
+    if (!Array.isArray(arr)) return 0;
+    const idsExistentes = new Set(devoluciones.map(d => d.id));
+    let agregadas = 0;
+    arr.forEach(d => {
+      if (!d || !d.id || idsExistentes.has(d.id)) return;
+      devoluciones.push(d);
+      idsExistentes.add(d.id);
+      agregadas++;
+    });
+    if (agregadas > 0){
+      saveDevoluciones();
+      if (typeof verificarTodasDevoluciones === 'function') verificarTodasDevoluciones();
+      renderDevoluciones();
+    }
+    return agregadas;
+  };
+  // Distinta de importarDevolucionesProveedores: esta REEMPLAZA todo el
+  // array (se usa para "↩️ Deshacer última importación" y para el modo
+  // "Reemplazar" del backup de Proveedores).
+  window.restaurarDevolucionesProveedores = async function(arr){
+    devoluciones = Array.isArray(arr) ? arr : [];
+    saveDevoluciones();
+    if (typeof verificarTodasDevoluciones === 'function') verificarTodasDevoluciones();
+    renderDevoluciones();
+  };
 
   // ---- Adjuntos (fotos/archivos) en IndexedDB — mismo patrón que el resto del panel ----
   const DEV_DB_NAME = 'devoluciones-adjuntos-db';
@@ -13399,12 +13599,13 @@ renderAutoConclusions();
     elLista.innerHTML = lista.length ? lista.map(d => {
       const itemsHtml = (d.items||[]).map(it => {
         const devCant = it.cantidad || 1;
+        const ncLink = it.ncFacturaId ? ' · <a href="#" data-dev-ver-nc="' + it.ncFacturaId + '" style="color:var(--blue);text-decoration:underline;">NC ' + escapeHtmlProv(it.ncNumero || 'ver') + '</a>' : '';
         let estadoItemHtml;
         if (!it.faltante){
-          estadoItemHtml = '<span style="color:var(--green-pos);">✔️ ' + devCant + ' de ' + devCant + (it.ncNumero?' · NC '+escapeHtmlProv(it.ncNumero):'') + '</span>';
+          estadoItemHtml = '<span style="color:var(--green-pos);">✔️ ' + devCant + ' de ' + devCant + '</span>' + ncLink;
         } else if (it.cantidadAcreditada > 0){
           // Acá está el caso puntual: hay NC, pero cubre menos ejemplares de los devueltos.
-          estadoItemHtml = '<span style="color:var(--gold);">⚠️ ' + it.cantidadAcreditada + ' de ' + devCant + (it.ncNumero?' · NC '+escapeHtmlProv(it.ncNumero):'') + ' — faltan ' + it.cantidadFaltante + '</span>';
+          estadoItemHtml = '<span style="color:var(--gold);">⚠️ ' + it.cantidadAcreditada + ' de ' + devCant + ' — faltan ' + it.cantidadFaltante + '</span>' + ncLink;
         } else {
           estadoItemHtml = '<span style="color:var(--red-neg);">⏳ 0 de ' + devCant + ' — sin NC</span>';
         }
@@ -13432,6 +13633,12 @@ renderAutoConclusions();
     elLista.querySelectorAll('[data-dev-verificar]').forEach(b => {
       b.addEventListener('click', () => { verificarTodasDevoluciones(); renderDevoluciones(); });
     });
+    elLista.querySelectorAll('[data-dev-ver-nc]').forEach(a => {
+      a.addEventListener('click', (ev) => {
+        ev.preventDefault();
+        abrirFacturaDesdeGanSem(a.getAttribute('data-dev-ver-nc'));
+      });
+    });
     elLista.querySelectorAll('[data-dev-eliminar]').forEach(b => {
       b.addEventListener('click', async () => {
         const id = b.getAttribute('data-dev-eliminar');
@@ -13457,6 +13664,7 @@ renderAutoConclusions();
         } catch(e){ alert('No se pudo abrir el adjunto.'); }
       });
     });
+    if (typeof renderPctDevolucionTitulo === 'function') renderPctDevolucionTitulo();
   }
 
   // ---- Wiring de la sección Devoluciones (una sola vez) ----
@@ -14437,10 +14645,111 @@ renderAutoConclusions();
       buildPanelReorderControls();
     });
   }
+
+  /* ---------- Ocultar paneles (cards) dentro de una pestaña ----------
+     Independiente de "Ocultar pestañas" (que oculta la pestaña entera).
+     Acá se oculta un card puntual (ej: "Ganancia semanal" dentro de
+     Proveedores) sin tocar el resto de esa misma pestaña. Se guarda una
+     lista chata de blockId ocultos (el mismo id que usa "Mover paneles",
+     que ya incluye el id de la pestaña, así que no hace falta agrupar
+     por pestaña aparte). */
+  var K_PANELSHIDDEN = 'customPanelesOcultos';
+  var panelsHidden = [];
+  async function loadPanelsHidden(){
+    try { var raw = await storageGet(K_PANELSHIDDEN); if (raw) panelsHidden = JSON.parse(raw) || []; } catch(e){}
+    if (!Array.isArray(panelsHidden)) panelsHidden = [];
+  }
+  function savePanelsHidden(){ storageSet(K_PANELSHIDDEN, JSON.stringify(panelsHidden)); }
+  function isPanelHidden(blockId){ return panelsHidden.indexOf(blockId) !== -1; }
+  function setPanelHidden(blockId, val){
+    var idx = panelsHidden.indexOf(blockId);
+    if (val && idx === -1) panelsHidden.push(blockId);
+    if (!val && idx !== -1) panelsHidden.splice(idx, 1);
+    savePanelsHidden();
+  }
+  function applyHiddenPanels(panel){
+    var blocks = assignBlockIds(panel);
+    blocks.forEach(function(el){
+      var hidden = isPanelHidden(el.dataset.blockId);
+      el.style.display = (hidden && !panelHideMode) ? 'none' : '';
+      if (!panelHideMode) el.style.opacity = '';
+    });
+  }
+  function applyHiddenPanelsAll(){
+    document.querySelectorAll('.panel[id^="tab-"]').forEach(applyHiddenPanels);
+  }
+
+  var panelHideMode = false;
+  function clearHideControls(){
+    document.querySelectorAll('.panel-hide-controls').forEach(function(el){ el.remove(); });
+  }
+  function buildPanelHideControls(){
+    clearHideControls();
+    if (!panelHideMode) return;
+    var activePanel = document.querySelector('.panel.active[id^="tab-"]');
+    if (!activePanel) return;
+    var blocks = assignBlockIds(activePanel);
+    blocks.forEach(function(el){ el.style.display = ''; }); // en modo edición se ven todos, marcados
+    if (!blocks.length){
+      var msg = document.createElement('div');
+      msg.className = 'panel-hide-controls card-note';
+      msg.style.cssText = 'margin:-6px 0 10px 3px;';
+      msg.textContent = 'Esta pestaña no tiene paneles para ocultar.';
+      activePanel.insertBefore(msg, activePanel.firstChild);
+      return;
+    }
+    blocks.forEach(function(el){
+      var hidden = isPanelHidden(el.dataset.blockId);
+      el.style.opacity = hidden ? '0.4' : '';
+      var ctrl = document.createElement('div');
+      ctrl.className = 'panel-hide-controls';
+      ctrl.style.cssText = 'display:flex;justify-content:flex-end;margin:-6px 0 6px 0;';
+      var hbtn = document.createElement('button');
+      hbtn.type = 'button';
+      hbtn.className = 'toggle-btn';
+      hbtn.style.cssText = 'font-size:11px;padding:4px 9px;';
+      hbtn.textContent = hidden ? '🙈 Oculto — tocá para mostrar' : '👁 Visible — tocá para ocultar';
+      hbtn.addEventListener('click', function(){
+        var hOld = isPanelHidden(el.dataset.blockId);
+        setPanelHidden(el.dataset.blockId, !hOld);
+        buildPanelHideControls();
+      });
+      ctrl.appendChild(hbtn);
+      el.parentNode.insertBefore(ctrl, el);
+    });
+  }
+  function buildPanelHideToggle(){
+    var tabsEl = document.querySelector('.tabs');
+    if (!tabsEl) return;
+    var refBtn = document.getElementById('panelReorderToggle');
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.id = 'panelHideToggle';
+    btn.className = 'tabs-reorder-toggle';
+    btn.style.cssText = 'display:block;margin:-8px 0 16px 3px;';
+    btn.textContent = '🙈 Ocultar paneles de esta pestaña';
+    if (refBtn && refBtn.parentNode) refBtn.insertAdjacentElement('afterend', btn);
+    else tabsEl.insertAdjacentElement('afterend', btn);
+    btn.addEventListener('click', function(){
+      panelHideMode = !panelHideMode;
+      btn.textContent = panelHideMode ? '✓ Listo (ocultando paneles)' : '🙈 Ocultar paneles de esta pestaña';
+      btn.style.color = panelHideMode ? 'var(--green-pos)' : 'var(--gold)';
+      if (panelHideMode){
+        buildPanelHideControls();
+      } else {
+        clearHideControls();
+        applyHiddenPanelsAll();
+      }
+    });
+  }
   document.addEventListener('click', function(e){
     var btn = e.target.closest('.tab-btn[data-tab]');
     if (!btn || renameMode) return;
-    setTimeout(function(){ if (panelReorderMode) buildPanelReorderControls(); }, 0);
+    setTimeout(function(){
+      if (panelReorderMode) buildPanelReorderControls();
+      if (panelHideMode) buildPanelHideControls();
+      else applyHiddenPanelsAll();
+    }, 0);
   }, false);
 
   /* ---------- Nombres de cuentas y de la agencia ---------- */
@@ -14577,11 +14886,14 @@ renderAutoConclusions();
   async function initCustomization(){
     try { buildSettingsUI(); } catch(e){ console.error('buildSettingsUI', e); }
     try { await loadAll(); } catch(e){ console.error('loadAll', e); }
+    try { await loadPanelsHidden(); } catch(e){ console.error('loadPanelsHidden', e); }
     try { applyAccountNames(); } catch(e){ console.error('applyAccountNames', e); }
     try { buildRenameButton(); } catch(e){ console.error('buildRenameButton', e); }
     try { applyTabNames(); } catch(e){ console.error('applyTabNames', e); }
     try { buildPanelReorderToggle(); } catch(e){ console.error('buildPanelReorderToggle', e); }
+    try { buildPanelHideToggle(); } catch(e){ console.error('buildPanelHideToggle', e); }
     try { initAllPanels(); } catch(e){ console.error('initAllPanels', e); }
+    try { applyHiddenPanelsAll(); } catch(e){ console.error('applyHiddenPanelsAll', e); }
     try { relabelObserver.observe(document.body, { childList: true, subtree: true, characterData: true }); } catch(e){ console.error('relabelObserver', e); }
   }
 
@@ -20309,13 +20621,13 @@ pintarPickerStock();
   // Claves que forman "la vista" (orden/ocultas/nombres/menú personalizar).
   // A propósito NO incluye datos cargados (movimientos, categorías, etc.)
   // ni las claves de este mismo objeto de Configuración.
-  var VIEW_RESET_KEYS = ['agencia-tab-order','agencia-tabs-hidden','customTabNames','customAccountNames','customPanelOrder','panelCustomizePrefs'];
+  var VIEW_RESET_KEYS = ['agencia-tab-order','agencia-tabs-hidden','customTabNames','customAccountNames','customPanelOrder','customPanelesOcultos','panelCustomizePrefs'];
 
   var DEFAULTS = { decimales:0, formatoMiles:'es-AR', pestanaInicio:'resumen', recordarUltima:true, recordarFechas:true, densidad:'normal', tema:'dark',
     // Comportamiento
     cuentaDefaultCarga:'agencia', formatoFecha:'DMY',
     // Notificaciones
-    avisoVencDias:3, avisoInactividadDias:7, avisoBackupDias:0,
+    avisoVencDias:3, avisoInactividadDias:7, avisoBackupDias:0, avisoPrecioDias:7, avisoDevolucionDias:15,
     // Seguridad
     modoDiscreto:false,
     // Cotizaciones / moneda
@@ -20463,26 +20775,9 @@ pintarPickerStock();
       });
     }
 
-    document.getElementById('cfgBackupCompleto').addEventListener('click', function(){
-      if (typeof window.exportarBackup === 'function') window.exportarBackup();
-      else if (typeof exportarBackup === 'function') exportarBackup();
-    });
-    document.getElementById('cfgPegarBackup').addEventListener('click', function(){
-      if (typeof window.abrirModalPegarBackup === 'function') window.abrirModalPegarBackup();
-      else if (typeof abrirModalPegarBackup === 'function') abrirModalPegarBackup();
-    });
-    document.getElementById('cfgInputImportarBackup').addEventListener('change', function(e){
-      var file = e.target.files && e.target.files[0];
-      if (file){
-        if (typeof window.importarBackupArchivo === 'function') window.importarBackupArchivo(file);
-        else if (typeof importarBackupArchivo === 'function') importarBackupArchivo(file);
-      }
-      e.target.value = '';
-    });
-
     document.getElementById('cfgResetVista').addEventListener('click', function(){
       var msg = document.getElementById('cfgResetVistaMsg');
-      if (!confirm('¿Restablecer el orden de pestañas, pestañas ocultas, nombres personalizados y el menú "Personalizar panel" a como vienen por defecto?\n\nEsto NO borra ningún dato cargado.')) return;
+      if (!confirm('¿Restablecer el orden de pestañas, pestañas ocultas, paneles ocultos, nombres personalizados y el menú "Personalizar panel" a como vienen por defecto?\n\nEsto NO borra ningún dato cargado.')) return;
       msg.textContent = 'Restableciendo...';
       Promise.all(VIEW_RESET_KEYS.map(function(k){ return ss(k, ''); })).then(function(){
         msg.textContent = 'Listo, recargando...';
@@ -20568,6 +20863,18 @@ pintarPickerStock();
       avisoBackup.value = cfg.avisoBackupDias || '';
       avisoBackup.addEventListener('change', function(){ cfg.avisoBackupDias = Math.max(0, parseInt(this.value,10)||0); saveCfg(); renderAvisos(); });
     }
+    var avisoPrecio = document.getElementById('cfgAvisoPrecioDias');
+    if (avisoPrecio){
+      avisoPrecio.value = cfg.avisoPrecioDias;
+      avisoPrecio.addEventListener('change', function(){ cfg.avisoPrecioDias = Math.max(0, parseInt(this.value,10)||0); saveCfg(); renderAvisos(); });
+    }
+    var avisoDevolucion = document.getElementById('cfgAvisoDevolucionDias');
+    if (avisoDevolucion){
+      avisoDevolucion.value = cfg.avisoDevolucionDias;
+      avisoDevolucion.addEventListener('change', function(){ cfg.avisoDevolucionDias = Math.max(0, parseInt(this.value,10)||0); saveCfg(); renderAvisos(); });
+    }
+
+    renderCfgTabsHideList();
 
     // -- Backup --
     var ghDias = document.getElementById('cfgGhAutoDias');
@@ -20597,6 +20904,36 @@ pintarPickerStock();
       cfg.modoDiscreto = !cfg.modoDiscreto;
       applyVisualCfg();
       saveCfg();
+    });
+  }
+
+  // Lista de checkboxes en Configuración para mostrar/ocultar pestañas —
+  // usa la misma API (window.tabsHiddenApi) que el botón "👁 Ocultar pestañas"
+  // de arriba de las pestañas, así que ambos quedan siempre sincronizados.
+  function renderCfgTabsHideList(){
+    var box = document.getElementById('cfgTabsHideList');
+    if (!box) return;
+    if (!window.tabsHiddenApi){
+      box.innerHTML = '<p class="card-note" style="margin:0;">Cargando…</p>';
+      setTimeout(renderCfgTabsHideList, 300);
+      return;
+    }
+    var tabs = window.tabsHiddenApi.getTabs();
+    box.innerHTML = '';
+    tabs.forEach(function(t){
+      var row = document.createElement('label');
+      row.className = 'cz-row';
+      var chk = document.createElement('input');
+      chk.type = 'checkbox';
+      chk.checked = window.tabsHiddenApi.isHidden(t.id);
+      var span = document.createElement('span');
+      span.textContent = t.label;
+      row.appendChild(chk); row.appendChild(span);
+      box.appendChild(row);
+      chk.addEventListener('change', function(){
+        var ok = window.tabsHiddenApi.setHidden(t.id, chk.checked);
+        if (!ok){ chk.checked = false; alert('Tiene que quedar al menos una pestaña visible.'); }
+      });
     });
   }
 
@@ -20646,6 +20983,67 @@ pintarPickerStock();
           avisos.push({tipo:'alerta', texto: diasSinBackup === null
             ? '💾 Todavía no hiciste ninguna copia de seguridad desde este dispositivo.'
             : '💾 Hace ' + diasSinBackup + ' día(s) que no hacés una copia de seguridad.'});
+        }
+      }
+    } catch(e){}
+
+    try {
+      if (cfg.avisoPrecioDias > 0 && typeof window.getPreciosProveedores === 'function'){
+        var preciosObj = window.getPreciosProveedores() || {};
+        var hoyPrecio = new Date(); hoyPrecio.setHours(0,0,0,0);
+        var cambiosPrecio = [];
+        Object.keys(preciosObj).forEach(function(provKey){
+          (preciosObj[provKey] || []).forEach(function(t){
+            var hist = Array.isArray(t.historial) ? t.historial.slice().sort(function(a,b){ return (a.desde||'').localeCompare(b.desde||''); }) : [];
+            if (hist.length < 2) return;
+            var ultimo = hist[hist.length - 1];
+            var anterior = hist[hist.length - 2];
+            if (!ultimo || !ultimo.desde) return;
+            var fUlt = new Date(ultimo.desde + 'T00:00:00');
+            var diasUlt = Math.round((hoyPrecio - fUlt) / 86400000);
+            if (diasUlt < 0 || diasUlt > cfg.avisoPrecioDias) return;
+            var idxDia = -1;
+            for (var i = 0; i < 7; i++){
+              if (ultimo.tapa && ultimo.tapa[i] != null && anterior.tapa && anterior.tapa[i] != null){ idxDia = i; break; }
+            }
+            if (idxDia === -1) return;
+            var antesVal = anterior.tapa[idxDia], despuesVal = ultimo.tapa[idxDia];
+            if (antesVal === despuesVal) return;
+            cambiosPrecio.push((t.nombre || 'Título') + ': $' + antesVal + ' → $' + despuesVal);
+          });
+        });
+        if (cambiosPrecio.length){
+          var mostrarCambios = cambiosPrecio.slice(0,4).join(', ') + (cambiosPrecio.length > 4 ? ' y ' + (cambiosPrecio.length - 4) + ' más' : '');
+          avisos.push({tipo:'normal', texto:'📈 ' + cambiosPrecio.length + ' cambio(s) de precio de tapa en los últimos ' + cfg.avisoPrecioDias + ' día(s): ' + mostrarCambios + '.'});
+        }
+      }
+    } catch(e){}
+
+    try {
+      if (typeof window.getDevolucionesProveedores === 'function'){
+        var devsAviso = window.getDevolucionesProveedores() || [];
+        if (cfg.avisoDevolucionDias > 0){
+          var hoyDev = new Date(); hoyDev.setHours(0,0,0,0);
+          var vencidasDev = 0;
+          devsAviso.forEach(function(d){
+            if (!d || d.estado === 'aceptada') return;
+            var isoDev = d.fecha || (d.cargadaEl ? d.cargadaEl.slice(0,10) : null);
+            if (!isoDev) return;
+            var fDev = new Date(isoDev + 'T00:00:00');
+            var diasDev = Math.round((hoyDev - fDev) / 86400000);
+            if (diasDev >= cfg.avisoDevolucionDias) vencidasDev++;
+          });
+          if (vencidasDev){
+            avisos.push({tipo:'alerta', texto:'📦 Tenés ' + vencidasDev + ' devolución(es) sin acreditar hace ' + cfg.avisoDevolucionDias + '+ día(s). Revisalas en Proveedores › Devoluciones.'});
+          }
+        }
+        var sinAdjunto = 0;
+        devsAviso.forEach(function(d){
+          if (!d || d.estado === 'aceptada') return;
+          if (!d.adjuntos || !d.adjuntos.length) sinAdjunto++;
+        });
+        if (sinAdjunto){
+          avisos.push({tipo:'normal', texto:'📎 ' + sinAdjunto + ' devolución(es) sin foto/remito adjunto todavía. Si el proveedor te discute el reclamo, te conviene tener el respaldo cargado.'});
         }
       }
     } catch(e){}
@@ -20728,7 +21126,7 @@ pintarPickerStock();
   async function borrarTodosLosDatos(){
     var msg = document.getElementById('cfgBorrarTodoMsg');
     if (!confirm('Esto borra TODOS los datos cargados en este dispositivo (movimientos, categorías, facturas, clientes, vencimientos, inversiones, configuración, PIN, backup de GitHub guardado). No se puede deshacer.\n\n¿Confirmás?')) return;
-    if (!confirm('Última confirmación: ¿estás 100% seguro? Si tenés dudas, cancelá y hacé antes una Copia de seguridad completa.')) return;
+    if (!confirm('Última confirmación: ¿estás 100% seguro? Si tenés dudas, cancelá y hacé antes un backup completo (pestaña "💾 Backups").')) return;
     if (msg) msg.textContent = 'Borrando...';
     try { Object.keys(localStorage).forEach(function(k){ localStorage.removeItem(k); }); } catch(e){}
     try {
