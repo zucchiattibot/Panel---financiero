@@ -13594,9 +13594,9 @@ renderAutoConclusions();
     let lista = delProv;
     if (devFiltroEstadoActual === 'pendiente') lista = lista.filter(d => d.estado !== 'aceptada');
     else if (devFiltroEstadoActual === 'aceptada') lista = lista.filter(d => d.estado === 'aceptada');
-    lista = [...lista].sort((a,b) => (b.fecha||'').localeCompare(a.fecha||'') || (b.cargadaEl||'').localeCompare(a.cargadaEl||''));
+    lista = [...lista].sort((a,b) => (b.cargadaEl||'').localeCompare(a.cargadaEl||'') || (b.fecha||'').localeCompare(a.fecha||''));
 
-    elLista.innerHTML = lista.length ? lista.map(d => {
+    const tarjetaDev = (d) => {
       const itemsHtml = (d.items||[]).map(it => {
         const devCant = it.cantidad || 1;
         const ncLink = it.ncFacturaId ? ' · <a href="#" data-dev-ver-nc="' + it.ncFacturaId + '" style="color:var(--blue);text-decoration:underline;">NC ' + escapeHtmlProv(it.ncNumero || 'ver') + '</a>' : '';
@@ -13627,6 +13627,27 @@ renderAutoConclusions();
           '<button type="button" class="link-btn" data-dev-verificar="' + d.id + '">🔄 Verificar</button>' +
           '<button type="button" class="link-btn" data-dev-eliminar="' + d.id + '" style="color:var(--red-neg);">🗑️ Eliminar' + (d.estado==='aceptada' ? ' (ya acreditada)' : '') + '</button>' +
         '</div>' +
+      '</div>';
+    };
+
+    // Agrupamos por fecha de carga (día en que se guardó la devolución en el
+    // panel, d.cargadaEl), no por la fecha del remito (d.fecha).
+    const gruposPorCarga = {};
+    lista.forEach(d => {
+      const key = d.cargadaEl ? d.cargadaEl.slice(0,10) : 'sin-fecha';
+      (gruposPorCarga[key] = gruposPorCarga[key] || []).push(d);
+    });
+    const clavesOrdenadas = Object.keys(gruposPorCarga).sort((a,b) => {
+      if (a === 'sin-fecha') return 1;
+      if (b === 'sin-fecha') return -1;
+      return b.localeCompare(a);
+    });
+
+    elLista.innerHTML = lista.length ? clavesOrdenadas.map(key => {
+      const etiqueta = key === 'sin-fecha' ? 'Sin fecha de carga' : ('Cargado el ' + fmtFechaCorta(fechaAIntProv(key)));
+      return '<div style="margin-bottom:14px;">' +
+        '<div class="card-note" style="text-transform:uppercase;letter-spacing:.06em;font-weight:700;color:var(--muted);margin:14px 0 6px 0;">' + etiqueta + ' · ' + gruposPorCarga[key].length + '</div>' +
+        '<div style="display:flex;flex-direction:column;gap:10px;">' + gruposPorCarga[key].map(tarjetaDev).join('') + '</div>' +
       '</div>';
     }).join('') : '<p class="card-note">Todavía no hay devoluciones guardadas' + (devFiltroEstadoActual!=='todas' ? ' con este filtro' : '') + ' para ' + escapeHtmlProv(prov.label) + '. Subí una foto o archivo arriba (o "Cargar a mano") y acordate de tocar <strong>"💾 Guardar devolución"</strong> en la tarjeta que aparece — recién ahí queda cargada y se verifica sola contra las notas de crédito.</p>';
 
