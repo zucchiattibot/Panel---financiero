@@ -281,6 +281,7 @@
   @media(max-width:520px){#ganSemFacturaModal{padding:8px;}#ganSemFacturaModal .gsm-grid{grid-template-columns:1fr 1fr;}#ganSemFacturaModal .gsm-box{padding:12px;}}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+<script async defer src="https://accounts.google.com/gsi/client"></script>
 <style>
 /* ===== PEDIDOS IA: estilos aislados del panel principal ===== */
 
@@ -699,6 +700,7 @@ try {
 <button class="tab-btn" data-tab="clientes">📰 Clientes reparto</button>
 <button class="tab-btn" data-tab="colecciones">📦 Reservas colecciones</button>
 <button class="tab-btn" data-tab="vencimientos">⏰ Vencimientos</button>
+<button class="tab-btn" data-tab="mails">📧 Mails</button>
 <button class="tab-btn" data-tab="inversiones">📈 Inversiones</button>
 <button class="tab-btn" data-tab="pedidos-ia">🛒 Pedidos IA</button>
 <button class="tab-btn" data-tab="backups">💾 Backups</button>
@@ -717,6 +719,7 @@ try {
 </div>
 <div class="panel active" id="tab-resumen">
 <p class="plain-summary" id="resumenPlainText" style="display:none;">…</p>
+<div id="mailAlertaResumen"></div>
 <div class="card" id="resCardBalanceNegocio">
 <h2>Balance acumulado del negocio</h2>
 <p class="card-note" id="res-date">al último movimiento cargado</p>
@@ -2345,6 +2348,26 @@ Ordenar por fecha de vencimiento (las que vencen antes, primero — las sin fech
 </div>
 
 <div class="card">
+<h2>Backup automático a Google Drive</h2>
+<p class="card-note">Sube el backup completo directo a un archivo en tu Google Drive (cuenta agencialbor@gmail.com), sin copiar ni pegar nada. A diferencia de GitHub, Google no tiene un "token para pegar y listo": hay que crear un Client ID gratis en Google Cloud Console (una sola vez) y después conectarte tocando el botón de abajo, que te pide iniciar sesión con Google y aceptar el permiso.</p>
+<div class="note-box" style="margin-bottom:12px;">Cómo conseguir el Client ID (una sola vez, ~5 minutos, con la cuenta agencialbor@gmail.com): 1) Entrá a <a href="https://console.cloud.google.com/" rel="noopener" target="_blank">console.cloud.google.com</a> y creá un proyecto nuevo. 2) En "APIs y servicios → Biblioteca" buscá "Google Drive API" y activala. 3) En "APIs y servicios → Pantalla de consentimiento OAuth" elegí "Externo", completá los datos básicos y en "Usuarios de prueba" agregá agencialbor@gmail.com (así lo podés usar ya mismo, sin esperar que Google revise la app). 4) En "APIs y servicios → Credenciales → Crear credenciales → ID de cliente de OAuth" elegí tipo "Aplicación web" y en "Orígenes autorizados de JavaScript" agregá la URL exacta desde donde abrís este panel. 5) Copiá el Client ID (termina en ".apps.googleusercontent.com") y pegalo abajo. El panel nunca ve ni guarda tu contraseña de Google: solo pide permiso para crear/editar ese único archivo de backup, no el resto de tu Drive. Importante: el login de Google no funciona dentro del visor propio de WhatsApp/Instagram — abrí el panel en Chrome/Safari o como app instalada para que el botón de conectar funcione.</div>
+<div style="display:flex;flex-direction:column;gap:8px;margin-bottom:12px;">
+<input id="driveClientId" placeholder="Client ID de Google (termina en .apps.googleusercontent.com)" style="padding:10px 12px;border-radius:8px;border:1px solid var(--line);background:rgba(0,0,0,.18);color:var(--cream);font-size:14px;" type="text"/>
+<input id="driveFileName" placeholder="Nombre del archivo en Drive (ej: panel-agencia-backup.json)" style="padding:10px 12px;border-radius:8px;border:1px solid var(--line);background:rgba(0,0,0,.18);color:var(--cream);font-size:14px;" type="text"/>
+<label style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--cream-dim);">
+<input id="driveAuto" type="checkbox"/> Subir automático cada vez que cargo un movimiento nuevo a mano
+          </label>
+</div>
+<div style="display:flex;gap:10px;flex-wrap:wrap;">
+<button class="tab-btn" id="btnGuardarDriveConfig" style="border-radius:8px;" type="button">💾 Guardar configuración</button>
+<button class="tab-btn" id="btnConectarDrive" style="border-radius:8px;" type="button">🔐 Conectar con Google</button>
+<button class="tab-btn" id="btnSubirDriveAhora" style="border-radius:8px;" type="button">☁️ Subir backup ahora</button>
+<button class="tab-btn" id="btnTraerDriveAhora" style="border-radius:8px;" type="button">⬇️ Traer backup desde Drive</button>
+</div>
+<p class="card-note" id="driveMsg" style="min-height:14px;margin-top:8px;"></p>
+</div>
+
+<div class="card">
 <h2 style="font-size:14px;">Backup solo de Proveedores</h2>
 <p class="card-note">Exporta o restaura SOLO las facturas/notas de crédito y débito cargadas en la pestaña Proveedores (de todos los proveedores), sin tocar movimientos, clientes ni el resto del panel. Útil si solo querés pasar o respaldar esto puntualmente.</p>
 <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;">
@@ -3097,6 +3120,44 @@ Ordenar por fecha de vencimiento (las que vencen antes, primero — las sin fech
 <div class="card">
 <h2>Servicios cargados</h2>
 <div id="vzListaServicios"></div>
+</div>
+</div>
+<div class="panel" id="tab-mails">
+<div class="card">
+<p class="eyebrow sec-desc">agencialbor@gmail.com</p>
+<h2>Mails importantes</h2>
+<p class="card-note">Lee tu casilla con IA y te muestra acá los mails que considera importantes (además de los vencimientos de servicios, que siguen apareciendo en la pestaña Vencimientos). Necesita que conectes abajo la URL de tu Apps Script una vez que esté publicado.</p>
+<div id="mailEstadoConexion"></div>
+<button class="tab-btn" id="mailBtnActualizar" style="border-radius:8px;margin-top:6px;" type="button">🔄 Actualizar mails</button>
+</div>
+<div class="card">
+<div id="mailLista"></div>
+</div>
+<div class="card">
+<h2>Configuración</h2>
+<p class="card-note">Definí acá qué considerás "importante". Podés dejarlo vacío por ahora y volver más adelante — mientras tanto la IA del lado del servidor usa un criterio general (evita spam/promociones, prioriza lo que parece requerir tu atención).</p>
+<div class="range-group">
+<div class="range-label">URL de tu Apps Script (Web App)</div>
+<input id="mailWebAppUrl" placeholder="https://script.google.com/macros/s/.../exec" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;width:100%;box-sizing:border-box;" type="text"/>
+<button class="tab-btn" id="mailBtnGuardarUrl" style="border-radius:8px;margin-top:8px;" type="button">Guardar URL</button>
+</div>
+<div class="range-group" style="margin-top:16px;">
+<div class="range-label">Remitentes que siempre son importantes</div>
+<p class="card-note" style="margin:0 0 8px 0;">Ej: un mail o dominio (banco, ARCA, un cliente puntual). Cualquier mail de estos remitentes se marca importante sin depender de la IA.</p>
+<div id="mailRemitentesLista"></div>
+<div class="cargar-grid-2" style="margin-top:8px;">
+<input id="mailRemitenteNuevo" placeholder="Ej: arca.gob.ar o alguien@mail.com" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;width:100%;box-sizing:border-box;" type="text"/>
+<button class="tab-btn" id="mailBtnAgregarRemitente" style="border-radius:8px;" type="button">+ Agregar</button>
+</div>
+</div>
+<div class="range-group" style="margin-top:16px;">
+<div class="range-label">Palabras clave a ignorar (spam / promociones)</div>
+<div id="mailPalabrasLista"></div>
+<div class="cargar-grid-2" style="margin-top:8px;">
+<input id="mailPalabraNueva" placeholder="Ej: descuento, oferta, newsletter" style="background:rgba(0,0,0,.2);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;width:100%;box-sizing:border-box;" type="text"/>
+<button class="tab-btn" id="mailBtnAgregarPalabra" style="border-radius:8px;" type="button">+ Agregar</button>
+</div>
+</div>
 </div>
 </div>
 <div class="panel" id="tab-inversiones">
@@ -3929,9 +3990,10 @@ var PANEL_BUSCAR_KEYWORDS = {
   'clientes': ['diarios','revistas','kioscos','reparto','repartidor'],
   'colecciones': ['fasciculos','figuras','laminas','coleccionable','reservas'],
   'vencimientos': ['servicios','pago de servicios','luz','gas','agua'],
+  'mails': ['email','gmail','correo','importantes','avisos','notificaciones','agencialbor'],
   'inversiones': ['dolar','acciones','etf','spy','qqq','broker','cartera'],
   'pedidos-ia': ['pedidos','compra'],
-  'backups': ['backup','exportar','importar','copia de seguridad','github','proveedores','preferencias','csv','excel','restaurar'],
+  'backups': ['backup','exportar','importar','copia de seguridad','github','drive','google drive','proveedores','preferencias','csv','excel','restaurar'],
   'configuracion': ['ajustes','pin','seguridad','tema','notificaciones']
 };
 function panelBuscarNorm(s){ return (s||'').toString().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,''); }
@@ -7382,6 +7444,10 @@ async function deleteManualEntry(idx){
     const ghCfg = await cargarGhConfig();
     if (ghCfg && ghCfg.auto) await subirBackupAGithub(true);
   } catch(e) { /* si falla el auto-backup, igual seguimos: el borrado ya quedó guardado local */ }
+  try {
+    const driveCfg = await cargarDriveConfig();
+    if (driveCfg && driveCfg.auto) await subirBackupADrive(true);
+  } catch(e) { /* si falla el auto-backup a Drive, igual seguimos: el borrado ya quedó guardado local */ }
   location.reload();
 }
 
@@ -7693,6 +7759,10 @@ document.getElementById('cargarForm').addEventListener('submit', async (e)=>{
       const ghCfg = await cargarGhConfig();
       if (ghCfg && ghCfg.auto) await subirBackupAGithub(true);
     } catch(e) { /* si falla el auto-backup, igual seguimos: el movimiento ya quedó guardado local */ }
+    try {
+      const driveCfg = await cargarDriveConfig();
+      if (driveCfg && driveCfg.auto) await subirBackupADrive(true);
+    } catch(e) { /* si falla el auto-backup a Drive, igual seguimos: el movimiento ya quedó guardado local */ }
     cargarEditIndex = null;
     location.reload();
   } else {
@@ -8420,6 +8490,234 @@ document.getElementById('btnSubirGhAhoraProveedores').addEventListener('click', 
 document.getElementById('btnTraerGhAhoraProveedores').addEventListener('click', ()=> traerBackupProveedoresDesdeGithub(false));
 document.getElementById('btnReemplazarGhProveedores').addEventListener('click', ()=> traerBackupProveedoresDesdeGithub(true));
 precargarGhForm();
+
+/* ---------------- BACKUP AUTOMÁTICO A GOOGLE DRIVE (Drive API v3 + Google Identity Services) ---------------- */
+// A diferencia de GitHub (token pegado y listo), Drive exige que el usuario
+// inicie sesión con su cuenta de Google y apruebe el permiso (OAuth). Se usa
+// el scope 'drive.file': el panel SOLO puede ver/editar el archivo que él
+// mismo crea, nunca el resto del Drive. El token de acceso dura ~1 hora y se
+// guarda solo en memoria (nunca en storage) — hay que volver a conectar cada
+// vez que se abre el panel de nuevo. El fileId del backup sí se guarda, para
+// no tener que buscarlo por nombre en cada subida.
+let driveTokenClient = null;
+let driveTokenClientId = null;
+let driveAccessToken = null;
+let driveTokenExpiry = 0;
+
+async function cargarDriveConfig(){
+  const raw = await storageGet('drive-backup-config');
+  if (!raw) return null;
+  try { return JSON.parse(raw); } catch(e) { return null; }
+}
+
+async function guardarDriveConfigDesdeForm(){
+  const anterior = await cargarDriveConfig();
+  const cfg = {
+    clientId: document.getElementById('driveClientId').value.trim(),
+    fileName: document.getElementById('driveFileName').value.trim() || 'panel-agencia-backup.json',
+    auto: document.getElementById('driveAuto').checked,
+    fileId: (anterior && anterior.fileId) || null
+  };
+  // Si cambió el nombre de archivo, el fileId guardado ya no sirve.
+  if (anterior && anterior.fileName && anterior.fileName !== cfg.fileName) cfg.fileId = null;
+  return { cfg, ok: await storageSet('drive-backup-config', JSON.stringify(cfg)) };
+}
+
+async function precargarDriveForm(){
+  const cfg = await cargarDriveConfig();
+  document.getElementById('driveClientId').value = (cfg && cfg.clientId) || '';
+  document.getElementById('driveFileName').value = (cfg && cfg.fileName) || 'panel-agencia-backup.json';
+  document.getElementById('driveAuto').checked = !!(cfg && cfg.auto);
+}
+
+// Pide (o reusa, si todavía no expiró) un access token de Google para el
+// Client ID guardado. interactivo=true puede abrir un popup de login; con
+// interactivo=false se intenta sin mostrar nada (solo funciona si ya había
+// una sesión de Google activa y el permiso ya estaba concedido antes).
+function obtenerTokenDrive(cfg, interactivo){
+  return new Promise((resolve, reject) => {
+    if (!window.google || !google.accounts || !google.accounts.oauth2){
+      reject(new Error('No cargó el login de Google. Revisá tu conexión, y que el panel esté abierto en un navegador normal (no en el visor de WhatsApp/Instagram).'));
+      return;
+    }
+    if (driveAccessToken && driveTokenClientId === cfg.clientId && Date.now() < driveTokenExpiry - 30000){
+      resolve(driveAccessToken);
+      return;
+    }
+    if (!driveTokenClient || driveTokenClientId !== cfg.clientId){
+      driveTokenClient = google.accounts.oauth2.initTokenClient({
+        client_id: cfg.clientId,
+        scope: 'https://www.googleapis.com/auth/drive.file',
+        hint: 'agencialbor@gmail.com',
+        callback: () => {}
+      });
+      driveTokenClientId = cfg.clientId;
+    }
+    driveTokenClient.callback = (resp) => {
+      if (!resp || resp.error){
+        reject(new Error('Google no dio el permiso' + (resp && resp.error ? ` (${resp.error})` : '') + '.'));
+        return;
+      }
+      driveAccessToken = resp.access_token;
+      driveTokenExpiry = Date.now() + ((resp.expires_in || 3600) * 1000);
+      resolve(driveAccessToken);
+    };
+    try {
+      driveTokenClient.requestAccessToken({ prompt: interactivo ? 'consent' : '' });
+    } catch(e){ reject(e); }
+  });
+}
+
+async function buscarArchivoEnDrive(token, fileName){
+  const nombreEsc = fileName.replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+  const q = encodeURIComponent(`name='${nombreEsc}' and trashed=false`);
+  const resp = await fetch(`https://www.googleapis.com/drive/v3/files?q=${q}&fields=files(id,name)&spaces=drive&_=${Date.now()}`, {
+    headers: { 'Authorization': 'Bearer ' + token },
+    cache: 'no-store'
+  });
+  if (!resp.ok){
+    const errBody = await resp.text().catch(()=> '');
+    throw new Error(`No se pudo buscar el archivo en Drive (HTTP ${resp.status}). ${errBody.slice(0,200)}`);
+  }
+  const data = await resp.json();
+  return (data.files && data.files.length) ? data.files[0].id : null;
+}
+
+// Sube metadata + contenido en un solo pedido multipart (crear si no hay
+// fileId, o actualizar el existente). Lo usan tanto subirBackupADrive como
+// el reintento cuando el archivo cacheado ya no existe en Drive.
+async function multipartDriveRequest(token, {method, url, fileName, contenido}){
+  const boundary = 'panelagenciaboundary' + Date.now();
+  const metadata = fileName ? { name: fileName, mimeType: 'application/json' } : {};
+  const body = [
+    `--${boundary}`,
+    'Content-Type: application/json; charset=UTF-8',
+    '',
+    JSON.stringify(metadata),
+    `--${boundary}`,
+    'Content-Type: application/json; charset=UTF-8',
+    '',
+    contenido,
+    `--${boundary}--`,
+    ''
+  ].join('\r\n');
+  const resp = await fetch(url, {
+    method,
+    headers: {
+      'Authorization': 'Bearer ' + token,
+      'Content-Type': `multipart/related; boundary=${boundary}`
+    },
+    body,
+    cache: 'no-store'
+  });
+  if (!resp.ok){
+    const errBody = await resp.text().catch(()=> '');
+    const err = new Error(`Drive devolvió HTTP ${resp.status}. ${errBody.slice(0,200)}`);
+    err.status = resp.status;
+    throw err;
+  }
+  return resp.json();
+}
+
+async function traerTextoDesdeDrive(token, fileId){
+  const resp = await fetch(`https://www.googleapis.com/drive/v3/files/${fileId}?alt=media&_=${Date.now()}`, {
+    headers: { 'Authorization': 'Bearer ' + token },
+    cache: 'no-store'
+  });
+  if (resp.status === 404) throw new Error('Ese archivo ya no está en Drive (¿lo borraste a mano?). Subí un backup nuevo primero.');
+  if (!resp.ok){
+    const errBody = await resp.text().catch(()=> '');
+    throw new Error(`Drive devolvió HTTP ${resp.status}. ${errBody.slice(0,200)}`);
+  }
+  return resp.text();
+}
+
+async function subirBackupADrive(silencioso){
+  const msgEl = document.getElementById('driveMsg');
+  const cfg = await cargarDriveConfig();
+  if (!cfg || !cfg.clientId || !cfg.fileName){
+    if (!silencioso && msgEl) msgEl.textContent = 'Falta completar el Client ID o el nombre del archivo. Guardá la configuración primero.';
+    return false;
+  }
+  try {
+    const token = await obtenerTokenDrive(cfg, !silencioso);
+    if (msgEl && !silencioso) msgEl.textContent = 'Subiendo a Drive…';
+    let fileId = cfg.fileId || await buscarArchivoEnDrive(token, cfg.fileName);
+    const contenido = armarBackupTexto();
+    let data;
+    try {
+      data = await multipartDriveRequest(token, {
+        method: fileId ? 'PATCH' : 'POST',
+        url: fileId
+          ? `https://www.googleapis.com/upload/drive/v3/files/${fileId}?uploadType=multipart`
+          : 'https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart',
+        fileName: cfg.fileName,
+        contenido
+      });
+    } catch(e){
+      // El archivo cacheado ya no existe en Drive (por ej. lo borraron a mano): creamos uno nuevo.
+      if (fileId && e.status === 404){
+        fileId = null;
+        data = await multipartDriveRequest(token, { method: 'POST', url: 'https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart', fileName: cfg.fileName, contenido });
+      } else throw e;
+    }
+    if (data && data.id && data.id !== cfg.fileId){
+      cfg.fileId = data.id;
+      await storageSet('drive-backup-config', JSON.stringify(cfg));
+    }
+    try { await window.storageSet('agencia-last-backup-any', String(Date.now())); } catch(e){}
+    if (msgEl) msgEl.textContent = `Backup subido a Drive ✔️ (${new Date().toLocaleTimeString()})`;
+    return true;
+  } catch(e){
+    if (msgEl) msgEl.textContent = `No se pudo subir a Drive: ${e.message || e}`;
+    return false;
+  }
+}
+
+async function traerBackupDesdeDrive(){
+  const msgEl = document.getElementById('driveMsg');
+  const cfg = await cargarDriveConfig();
+  if (!cfg || !cfg.clientId || !cfg.fileName){
+    if (msgEl) msgEl.textContent = 'Falta completar el Client ID o el nombre del archivo. Guardá la configuración primero.';
+    return;
+  }
+  if (msgEl) msgEl.textContent = 'Conectando con Google Drive…';
+  try {
+    const token = await obtenerTokenDrive(cfg, true);
+    let fileId = cfg.fileId || await buscarArchivoEnDrive(token, cfg.fileName);
+    if (!fileId) throw new Error('Todavía no hay ningún backup subido a Drive con ese nombre.');
+    if (fileId !== cfg.fileId){
+      cfg.fileId = fileId;
+      await storageSet('drive-backup-config', JSON.stringify(cfg));
+    }
+    if (msgEl) msgEl.textContent = 'Trayendo backup desde Drive…';
+    const texto = await traerTextoDesdeDrive(token, fileId);
+    await procesarBackupTexto(texto, msgEl);
+  } catch(e){
+    if (msgEl) msgEl.textContent = `No se pudo traer el backup: ${e.message || e}`;
+  }
+}
+
+document.getElementById('btnGuardarDriveConfig').addEventListener('click', async ()=>{
+  const msgEl = document.getElementById('driveMsg');
+  const { ok } = await guardarDriveConfigDesdeForm();
+  msgEl.textContent = ok ? 'Configuración guardada ✔️' : 'No se pudo guardar la configuración. Probá de nuevo.';
+});
+document.getElementById('btnConectarDrive').addEventListener('click', async ()=>{
+  const msgEl = document.getElementById('driveMsg');
+  const cfg = await cargarDriveConfig();
+  if (!cfg || !cfg.clientId){ msgEl.textContent = 'Pegá primero el Client ID de Google y guardá la configuración.'; return; }
+  msgEl.textContent = 'Abriendo el login de Google…';
+  try {
+    await obtenerTokenDrive(cfg, true);
+    msgEl.textContent = 'Conectado con Google ✔️. Ahora podés subir o traer el backup.';
+  } catch(e){
+    msgEl.textContent = `No se pudo conectar: ${e.message || e}`;
+  }
+});
+document.getElementById('btnSubirDriveAhora').addEventListener('click', ()=> subirBackupADrive(false));
+document.getElementById('btnTraerDriveAhora').addEventListener('click', traerBackupDesdeDrive);
+precargarDriveForm();
 
 /* ---------------- EN CRIOLLO / INFORME EJECUTIVO / RATIO / ESTACIONALIDAD ---------------- */
 (function(){
@@ -18681,6 +18979,233 @@ if (document.readyState === 'loading'){
   document.addEventListener('DOMContentLoaded', vzInit);
 } else {
   vzInit();
+}
+})();
+</script>
+<script>
+/* ==================== MAILS IMPORTANTES ====================
+   Módulo independiente. Lee (vía GET) la lista de mails importantes desde
+   una Apps Script Web App conectada a agencialbor@gmail.com (a publicar por
+   fuera de este panel — acá solo se consume el resultado). El backend es el
+   que corre la IA sobre los mails; este módulo solo guarda config local
+   (URL, remitentes fijos, palabras a ignorar) y qué mails ya se vieron. */
+(function(){
+var MAIL_CFG_KEY = 'mail_importantes_cfg_v1';
+var MAIL_STATE_KEY = 'mail_importantes_estado_v1';
+var mailCfg = { webAppUrl:'', remitentes:[], palabrasClave:[] };
+var mailState = { vistos:[], cache:[], ultimaActualizacion:null };
+
+function mailEsc(s){ var d=document.createElement('div'); d.textContent = s==null?'':s; return d.innerHTML; }
+function mailUidFromItem(item, i){
+  return (item && (item.id || item.messageId)) ? String(item.id || item.messageId) : 'mail-'+i+'-'+(item&&item.fecha||'');
+}
+function mailFmtFecha(iso){
+  if (!iso) return '';
+  var d = new Date(iso);
+  if (isNaN(d.getTime())) return iso;
+  return d.toLocaleDateString('es-AR', {day:'2-digit', month:'2-digit', year:'numeric'}) + ' ' + d.toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'});
+}
+
+async function mailLoad(){
+  try{
+    var sg = window.storageGet;
+    if (typeof sg === 'function'){
+      var rawCfg = await sg(MAIL_CFG_KEY);
+      if (rawCfg) mailCfg = Object.assign(mailCfg, JSON.parse(rawCfg));
+      var rawState = await sg(MAIL_STATE_KEY);
+      if (rawState) mailState = Object.assign(mailState, JSON.parse(rawState));
+    }
+  }catch(e){ console.error('mailLoad', e); }
+}
+async function mailSaveCfg(){
+  try{ var ss = window.storageSet; if (typeof ss === 'function') await ss(MAIL_CFG_KEY, JSON.stringify(mailCfg)); }catch(e){ console.error('mailSaveCfg', e); }
+}
+async function mailSaveState(){
+  try{ var ss = window.storageSet; if (typeof ss === 'function') await ss(MAIL_STATE_KEY, JSON.stringify(mailState)); }catch(e){ console.error('mailSaveState', e); }
+}
+
+function mailRenderEstadoConexion(msg, esError){
+  var el = document.getElementById('mailEstadoConexion');
+  if (!el) return;
+  if (!mailCfg.webAppUrl){
+    el.innerHTML = '<p class="card-note" style="color:var(--gold);">⚠️ Todavía no conectaste la URL de tu Apps Script. Configurala abajo en "Configuración" para que empiecen a aparecer acá los mails importantes.</p>';
+    return;
+  }
+  if (msg){
+    el.innerHTML = '<p class="card-note" style="color:'+(esError?'var(--red-neg)':'var(--muted)')+';">'+mailEsc(msg)+'</p>';
+  } else {
+    el.innerHTML = '';
+  }
+}
+
+async function mailActualizar(){
+  var btn = document.getElementById('mailBtnActualizar');
+  if (!mailCfg.webAppUrl){ mailRenderEstadoConexion(); return; }
+  if (btn) btn.disabled = true;
+  mailRenderEstadoConexion('Buscando mails nuevos…');
+  try{
+    var url = mailCfg.webAppUrl + (mailCfg.webAppUrl.indexOf('?')>-1 ? '&' : '?') + 'accion=mailsImportantes'
+      + '&remitentes=' + encodeURIComponent((mailCfg.remitentes||[]).join(','))
+      + '&palabras=' + encodeURIComponent((mailCfg.palabrasClave||[]).join(','));
+    var resp = await fetch(url);
+    if (!resp.ok) throw new Error('El servidor respondió '+resp.status);
+    var data = await resp.json();
+    var lista = Array.isArray(data) ? data : (Array.isArray(data && data.mails) ? data.mails : null);
+    if (!lista) throw new Error('La respuesta no tiene el formato esperado (se esperaba una lista de mails).');
+    mailState.cache = lista;
+    mailState.ultimaActualizacion = Date.now();
+    await mailSaveState();
+    mailRenderEstadoConexion('Actualizado · '+new Date(mailState.ultimaActualizacion).toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'}));
+    mailRenderLista();
+    mailRenderAlertaResumen();
+  }catch(e){
+    console.error('mailActualizar', e);
+    mailRenderEstadoConexion('⚠️ No se pudo actualizar: ' + (e && e.message ? e.message : 'error desconocido') + '. Se muestra la última lista guardada.', true);
+  }finally{
+    if (btn) btn.disabled = false;
+  }
+}
+
+function mailRenderLista(){
+  var el = document.getElementById('mailLista');
+  if (!el) return;
+  var lista = mailState.cache.slice().map(function(m,i){ m.__id = mailUidFromItem(m,i); return m; })
+    .sort(function(a,b){ return (b.fecha||'').localeCompare(a.fecha||''); });
+  if (lista.length === 0){
+    el.innerHTML = '<p class="card-note">'+(mailCfg.webAppUrl ? 'Todavía no hay mails cargados. Tocá "Actualizar mails".' : 'Conectá la URL de tu Apps Script en "Configuración" para empezar a ver mails acá.')+'</p>';
+    return;
+  }
+  el.innerHTML = lista.map(function(m){
+    var visto = mailState.vistos.indexOf(m.__id) > -1;
+    return '<div style="padding:12px 0;border-bottom:1px solid var(--line);'+(visto?'opacity:.55;':'')+'">'+
+      '<div style="display:flex;justify-content:space-between;gap:8px;">'+
+        '<b style="min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+mailEsc(m.asunto||'(sin asunto)')+'</b>'+
+        (!visto ? '<span style="flex-shrink:0;color:var(--gold);font-size:11px;font-weight:700;">● NUEVO</span>' : '') +
+      '</div>'+
+      '<div class="card-note" style="margin:2px 0;">'+mailEsc(m.remitente||'')+(m.fecha?' · '+mailFmtFecha(m.fecha):'')+'</div>'+
+      (m.resumen ? '<div style="font-size:13.5px;margin-top:4px;">'+mailEsc(m.resumen)+'</div>' : '')+
+      (m.motivo ? '<div class="card-note" style="margin-top:4px;">Por qué es importante: '+mailEsc(m.motivo)+'</div>' : '')+
+      '<button type="button" data-mailvisto="'+mailEsc(m.__id)+'" class="tab-btn" style="border-radius:8px;margin-top:8px;padding:5px 12px;font-size:12px;">'+(visto?'Marcar como no leído':'✓ Marcar como leído')+'</button>'+
+      '</div>';
+  }).join('');
+  el.querySelectorAll('[data-mailvisto]').forEach(function(btn){
+    btn.addEventListener('click', async function(){
+      var id = btn.getAttribute('data-mailvisto');
+      var idx = mailState.vistos.indexOf(id);
+      if (idx > -1) mailState.vistos.splice(idx,1); else mailState.vistos.push(id);
+      await mailSaveState();
+      mailRenderLista();
+      mailRenderAlertaResumen();
+    });
+  });
+}
+
+function mailRenderAlertaResumen(){
+  var el = document.getElementById('mailAlertaResumen');
+  if (!el) return;
+  var pendientes = mailState.cache.filter(function(m,i){ return mailState.vistos.indexOf(mailUidFromItem(m,i)) === -1; });
+  if (pendientes.length === 0){ el.innerHTML = ''; return; }
+  el.innerHTML = '<div class="card" id="mailAlertaCard" style="cursor:pointer;padding:14px 18px;display:flex;align-items:center;gap:10px;">'+
+    '<span style="font-size:20px;">📧</span>'+
+    '<span style="flex:1;font-size:14px;">Tenés <b>'+pendientes.length+'</b> mail(s) importante(s) sin leer</span>'+
+    '<span style="color:var(--gold);font-weight:700;">Ver →</span>'+
+    '</div>';
+  var card = document.getElementById('mailAlertaCard');
+  if (card) card.addEventListener('click', function(){
+    var btn = document.querySelector('.tab-btn[data-tab="mails"]');
+    if (btn) btn.click();
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+}
+
+function mailRenderRemitentes(){
+  var el = document.getElementById('mailRemitentesLista');
+  if (!el) return;
+  if (mailCfg.remitentes.length === 0){ el.innerHTML = '<p class="card-note">Ninguno cargado todavía.</p>'; return; }
+  el.innerHTML = mailCfg.remitentes.map(function(r,i){
+    return '<span style="display:inline-flex;align-items:center;gap:6px;background:var(--bg-2);border:1px solid var(--line);border-radius:999px;padding:5px 10px;margin:0 6px 6px 0;font-size:12.5px;">'+mailEsc(r)+
+      '<button type="button" data-mailremdel="'+i+'" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:13px;line-height:1;">✕</button></span>';
+  }).join('');
+  el.querySelectorAll('[data-mailremdel]').forEach(function(btn){
+    btn.addEventListener('click', async function(){
+      mailCfg.remitentes.splice(parseInt(btn.getAttribute('data-mailremdel'),10), 1);
+      await mailSaveCfg();
+      mailRenderRemitentes();
+    });
+  });
+}
+function mailRenderPalabras(){
+  var el = document.getElementById('mailPalabrasLista');
+  if (!el) return;
+  if (mailCfg.palabrasClave.length === 0){ el.innerHTML = '<p class="card-note">Ninguna cargada todavía.</p>'; return; }
+  el.innerHTML = mailCfg.palabrasClave.map(function(p,i){
+    return '<span style="display:inline-flex;align-items:center;gap:6px;background:var(--bg-2);border:1px solid var(--line);border-radius:999px;padding:5px 10px;margin:0 6px 6px 0;font-size:12.5px;">'+mailEsc(p)+
+      '<button type="button" data-mailpaldel="'+i+'" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:13px;line-height:1;">✕</button></span>';
+  }).join('');
+  el.querySelectorAll('[data-mailpaldel]').forEach(function(btn){
+    btn.addEventListener('click', async function(){
+      mailCfg.palabrasClave.splice(parseInt(btn.getAttribute('data-mailpaldel'),10), 1);
+      await mailSaveCfg();
+      mailRenderPalabras();
+    });
+  });
+}
+
+function mailWireEvents(){
+  var btnAct = document.getElementById('mailBtnActualizar');
+  if (btnAct) btnAct.addEventListener('click', mailActualizar);
+
+  var btnUrl = document.getElementById('mailBtnGuardarUrl');
+  if (btnUrl) btnUrl.addEventListener('click', async function(){
+    mailCfg.webAppUrl = (document.getElementById('mailWebAppUrl').value||'').trim();
+    await mailSaveCfg();
+    mailRenderEstadoConexion();
+    if (mailCfg.webAppUrl) mailActualizar();
+  });
+
+  var btnRem = document.getElementById('mailBtnAgregarRemitente');
+  var inputRem = document.getElementById('mailRemitenteNuevo');
+  function agregarRemitente(){
+    var v = (inputRem.value||'').trim();
+    if (!v) return;
+    mailCfg.remitentes.push(v);
+    inputRem.value = '';
+    mailSaveCfg();
+    mailRenderRemitentes();
+  }
+  if (btnRem) btnRem.addEventListener('click', agregarRemitente);
+  if (inputRem) inputRem.addEventListener('keydown', function(e){ if (e.key==='Enter'){ e.preventDefault(); agregarRemitente(); } });
+
+  var btnPal = document.getElementById('mailBtnAgregarPalabra');
+  var inputPal = document.getElementById('mailPalabraNueva');
+  function agregarPalabra(){
+    var v = (inputPal.value||'').trim();
+    if (!v) return;
+    mailCfg.palabrasClave.push(v);
+    inputPal.value = '';
+    mailSaveCfg();
+    mailRenderPalabras();
+  }
+  if (btnPal) btnPal.addEventListener('click', agregarPalabra);
+  if (inputPal) inputPal.addEventListener('keydown', function(e){ if (e.key==='Enter'){ e.preventDefault(); agregarPalabra(); } });
+}
+
+async function mailInit(){
+  await mailLoad();
+  var urlInput = document.getElementById('mailWebAppUrl');
+  if (urlInput) urlInput.value = mailCfg.webAppUrl || '';
+  mailWireEvents();
+  mailRenderEstadoConexion();
+  mailRenderLista();
+  mailRenderRemitentes();
+  mailRenderPalabras();
+  mailRenderAlertaResumen();
+  if (mailCfg.webAppUrl) mailActualizar();
+}
+if (document.readyState === 'loading'){
+  document.addEventListener('DOMContentLoaded', mailInit);
+} else {
+  mailInit();
 }
 })();
 </script>
