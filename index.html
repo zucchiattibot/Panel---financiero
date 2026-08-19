@@ -13143,10 +13143,10 @@ renderAutoConclusions();
   // Devoluciones). Sirve para ubicar la NC en la semana de la devolución
   // original en vez de la semana en que el proveedor emitió el papel, que
   // suele ser mucho más tarde.
-  function mapaDevolucionPorNCItem(){
+  function mapaDevolucionPorNCItem(asignacionPrevia){
     const mapa = Object.create(null);
     if (typeof construirAsignacionNCDev !== 'function') return mapa;
-    const asignacion = construirAsignacionNCDev();
+    const asignacion = asignacionPrevia || construirAsignacionNCDev();
     Object.keys(asignacion).forEach(devKey => {
       const info = asignacion[devKey];
       if (!info || !Array.isArray(info.cubiertoPor)) return;
@@ -13202,8 +13202,14 @@ renderAutoConclusions();
     const semanas = Object.create(null);
     let totalCargas = 0, totalNC = 0, totalVentas = 0, itemsSinPrecio = 0;
     const sinPrecioNombres = new Set();
-    if (typeof verificarTodasDevoluciones === 'function') verificarTodasDevoluciones();
-    const mapaDevPorNC = mapaDevolucionPorNCItem();
+    if (typeof construirAsignacionNCDev === 'function'){
+      const asignacionUnica = construirAsignacionNCDev();
+      if (typeof verificarTodasDevoluciones === 'function') verificarTodasDevoluciones(asignacionUnica);
+      var mapaDevPorNC = mapaDevolucionPorNCItem(asignacionUnica);
+    } else {
+      if (typeof verificarTodasDevoluciones === 'function') verificarTodasDevoluciones();
+      var mapaDevPorNC = mapaDevolucionPorNCItem();
+    }
 
     conItems.forEach(f => {
       const esNC = f.tipo === 'nota_credito';
@@ -13425,8 +13431,14 @@ renderAutoConclusions();
     const porTitulo = Object.create(null);
     let itemsSinPrecio = 0;
 
-    if (typeof verificarTodasDevoluciones === 'function') verificarTodasDevoluciones();
-    const mapaDevPorNCResumen = mapaDevolucionPorNCItem();
+    if (typeof construirAsignacionNCDev === 'function'){
+      const asignacionUnica = construirAsignacionNCDev();
+      if (typeof verificarTodasDevoluciones === 'function') verificarTodasDevoluciones(asignacionUnica);
+      var mapaDevPorNCResumen = mapaDevolucionPorNCItem(asignacionUnica);
+    } else {
+      if (typeof verificarTodasDevoluciones === 'function') verificarTodasDevoluciones();
+      var mapaDevPorNCResumen = mapaDevolucionPorNCItem();
+    }
 
     conItems.forEach(f => {
       const esNC = f.tipo === 'nota_credito';
@@ -13871,10 +13883,23 @@ renderAutoConclusions();
     if (d.estado === 'aceptada' && estadoAnterior !== 'aceptada') d.acreditadaEl = new Date().toISOString();
     if (d.estado !== 'aceptada') d.acreditadaEl = null;
   }
-  function verificarTodasDevoluciones(){
-    const asignacion = construirAsignacionNCDev();
-    devoluciones.forEach(d => recalcularEstadoDevolucion(d, asignacion));
-    saveDevoluciones();
+  function verificarTodasDevoluciones(asignacionPrevia){
+    const asignacion = asignacionPrevia || construirAsignacionNCDev();
+    // Antes esto guardaba (rcSave de devoluciones) en CADA render de Ganancia
+    // semanal / Resumen por título, aunque nada hubiera cambiado — con
+    // muchas facturas cargadas eso significaba re-serializar y re-escribir
+    // todas las devoluciones una y otra vez solo por abrir una pestaña.
+    // Ahora comparamos antes/después y solo escribimos si de verdad se
+    // movió algo (una NC nueva que cubrió una devolución, un estado que
+    // cambió, etc.).
+    let cambioAlgo = false;
+    devoluciones.forEach(d => {
+      const antes = JSON.stringify({estado: d.estado, items: (d.items||[]).map(it => ({ncFacturaId: it.ncFacturaId, cantidadAcreditada: it.cantidadAcreditada, cantidadFaltante: it.cantidadFaltante, faltante: it.faltante}))});
+      recalcularEstadoDevolucion(d, asignacion);
+      const despues = JSON.stringify({estado: d.estado, items: (d.items||[]).map(it => ({ncFacturaId: it.ncFacturaId, cantidadAcreditada: it.cantidadAcreditada, cantidadFaltante: it.cantidadFaltante, faltante: it.faltante}))});
+      if (antes !== despues) cambioAlgo = true;
+    });
+    if (cambioAlgo) saveDevoluciones();
   }
 
   // ---- Carga (foto/archivo + IA, o a mano) ----
