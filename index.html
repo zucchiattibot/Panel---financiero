@@ -22009,8 +22009,8 @@ document.getElementById('panelMenuFlotanteOverlay').addEventListener('click', fu
   function acomodarCampo(){
     var el=campoActivo(); if(!el) return;
     document.body.classList.add('rc-teclado-abierto');
-    setTimeout(function(){ try{ el.scrollIntoView({behavior:'smooth',block:'center',inline:'nearest'}); }catch(e){ el.scrollIntoView(false); } },80);
-    setTimeout(function(){ try{ el.scrollIntoView({behavior:'smooth',block:'center',inline:'nearest'}); }catch(e){} },320);
+    setTimeout(function(){ try{ el.scrollIntoView({behavior:'smooth',block:'start',inline:'nearest'}); }catch(e){ el.scrollIntoView(false); } },80);
+    setTimeout(function(){ try{ el.scrollIntoView({behavior:'smooth',block:'start',inline:'nearest'}); }catch(e){} },320);
   }
   document.addEventListener('focusin',function(e){
     if(e.target && (e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA'||e.target.tagName==='SELECT')) acomodarCampo();
