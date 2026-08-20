@@ -17769,7 +17769,7 @@ document.querySelectorAll('#rcNav .toggle-btn').forEach(function(btn){
     if (btn.dataset.rcview==='lista') rcRenderLista();
     if (btn.dataset.rcview==='nuevo' && !rcEditingId) rcResetForm();
     if (btn.dataset.rcview==='porcoleccion'){ rcRenderColeccionesLista(); rcRenderPlantillaConfig(); }
-    if (btn.dataset.rcview==='publicidad') rcRenderMatGaleria();
+    if (btn.dataset.rcview==='publicidad') rcMatLoadLazy().then(rcRenderMatGaleria);
   });
 });
 
@@ -18523,9 +18523,22 @@ document.getElementById('rcBtnAdjuntarFotoEnviar').addEventListener('click', asy
 });
 
 /* ---------- Init ---------- */
+// OPTIMIZACIÓN: rcMatLoad() puede tener que parsear hasta 20 MB de fotos en
+// base64 (el tope declarado en RC_MAT_MAX_TOTAL_BYTES) y antes se esperaba
+// SIEMPRE al arrancar el panel, aunque el usuario nunca abriera la pestaña
+// "Colecciones" ni la vista "📷 Material publicitario". Ahora se carga recién
+// la primera vez que se abre esa vista puntual, no en cada apertura del panel.
+var __rcMatLoaded = false;
+var __rcMatLoadingPromise = null;
+function rcMatLoadLazy(){
+  if (__rcMatLoaded) return Promise.resolve();
+  if (!__rcMatLoadingPromise){
+    __rcMatLoadingPromise = rcMatLoad().then(function(){ __rcMatLoaded = true; });
+  }
+  return __rcMatLoadingPromise;
+}
 async function rcInit(){
   await rcLoad();
-  await rcMatLoad();
   rcResetForm();
   rcRenderLista();
   rcRenderPlantillaConfig();
