@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup-proveedores",
   "version": 1,
-  "exportadoEl": "2026-08-19T16:39:53.365Z",
+  "exportadoEl": "2026-08-21T14:47:46.591Z",
   "facturasProveedores": [
     {
       "id": "f_1786288479789_g5a9h",
@@ -6876,6 +6876,590 @@
         }
       ],
       "cargadaEl": "2026-08-17T19:17:25.244Z"
+    },
+    {
+      "id": "f_1787174085155_ebetg",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00584879",
+      "referenciaFactura": null,
+      "fecha": "2026-08-18",
+      "vencimiento": "2026-09-29",
+      "monto": 40359.6,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "200236 MON Y BILL 20 \nBillete Bosnia",
+          "edicion": "0000038",
+          "codigoPublicacion": "200236",
+          "cantidad": 3,
+          "monto": 40359.6,
+          "fechaItem": null
+        }
+      ],
+      "cargadaEl": "2026-08-19T21:14:45.155Z"
+    },
+    {
+      "id": "f_1787174087146_6pqln",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00584933",
+      "referenciaFactura": null,
+      "fecha": "2026-08-18",
+      "vencimiento": "2026-09-01",
+      "monto": 58416,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "LA NACION MAR",
+          "edicion": "20260818",
+          "codigoPublicacion": "000002",
+          "cantidad": 12,
+          "monto": 39888,
+          "fechaItem": "2026-08-18"
+        },
+        {
+          "descripcion": "POPULAR MAR",
+          "edicion": "20260818",
+          "codigoPublicacion": "110602",
+          "cantidad": 12,
+          "monto": 18528,
+          "fechaItem": "2026-08-18"
+        }
+      ],
+      "cargadaEl": "2026-08-19T21:14:47.146Z"
+    },
+    {
+      "id": "f_1787174090850_pwrhz",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00584836",
+      "referenciaFactura": null,
+      "fecha": "2026-08-17",
+      "vencimiento": "2026-08-31",
+      "monto": 65064,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "LA NACION LUN",
+          "edicion": "20260817",
+          "codigoPublicacion": "000001",
+          "cantidad": 14,
+          "monto": 46536,
+          "fechaItem": "2026-08-17"
+        },
+        {
+          "descripcion": "POPULAR LUN",
+          "edicion": "20260817",
+          "codigoPublicacion": "110601",
+          "cantidad": 12,
+          "monto": 18528,
+          "fechaItem": "2026-08-17"
+        }
+      ],
+      "cargadaEl": "2026-08-19T21:14:50.850Z"
+    },
+    {
+      "id": "f_1787174092930_02wg8",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00584759",
+      "referenciaFactura": null,
+      "fecha": "2026-08-16",
+      "vencimiento": "2026-08-30",
+      "monto": 74960,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "LA NACION DOM",
+          "edicion": "20260816",
+          "codigoPublicacion": "000007",
+          "cantidad": 10,
+          "monto": 50060,
+          "fechaItem": "2026-08-16"
+        },
+        {
+          "descripcion": "POPULAR DOM",
+          "edicion": "20260816",
+          "codigoPublicacion": "110607",
+          "cantidad": 15,
+          "monto": 24900,
+          "fechaItem": "2026-08-16"
+        }
+      ],
+      "cargadaEl": "2026-08-19T21:14:52.930Z"
+    },
+    {
+      "id": "f_1787174094449_joduz",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00584654",
+      "referenciaFactura": null,
+      "fecha": "2026-08-15",
+      "vencimiento": "2026-10-10",
+      "monto": 86932,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "DINOSAURIOS 2 DILOPHOSAURUS + FASCÍCULO",
+          "edicion": "0000003",
+          "codigoPublicacion": "200219",
+          "cantidad": 5,
+          "monto": 43466,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "DINOSAURIOS 2 DILOPHOSAURUS + FASCÍCULO",
+          "edicion": "0000008",
+          "codigoPublicacion": "200219",
+          "cantidad": 5,
+          "monto": 43466,
+          "fechaItem": null
+        }
+      ],
+      "cargadaEl": "2026-08-19T21:14:54.449Z"
+    },
+    {
+      "id": "f_1787174095695_jwq1e",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00584655",
+      "referenciaFactura": null,
+      "fecha": "2026-08-15",
+      "vencimiento": "2026-09-26",
+      "monto": 188932,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "AUTOS ALEMANE PORSCHE 917K + Fascículo",
+          "edicion": "0000011",
+          "codigoPublicacion": "200423",
+          "cantidad": 2,
+          "monto": 37786.4,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "ORGULLO ARGEN PORSCHE 917K + Fascículo",
+          "edicion": "0000005",
+          "codigoPublicacion": "200440",
+          "cantidad": 8,
+          "monto": 151145.6,
+          "fechaItem": null
+        }
+      ],
+      "cargadaEl": "2026-08-19T21:14:55.695Z"
+    },
+    {
+      "id": "f_1787174096944_myisy",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00584656",
+      "referenciaFactura": null,
+      "fecha": "2026-08-15",
+      "vencimiento": "2026-10-24",
+      "monto": 10606.4,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "120477 ACTIVITY COLO 0000005 Carga PAW PATROL",
+          "edicion": "0000005",
+          "codigoPublicacion": "120477",
+          "cantidad": 1,
+          "monto": 5303.2,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "120478 ACTIVITY COLO 0000004 Carga PAW PATROL",
+          "edicion": "0000004",
+          "codigoPublicacion": "120478",
+          "cantidad": 1,
+          "monto": 5303.2,
+          "fechaItem": null
+        }
+      ],
+      "cargadaEl": "2026-08-19T21:14:56.944Z"
+    },
+    {
+      "id": "f_1787174098002_ntu99",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00584381",
+      "referenciaFactura": null,
+      "fecha": "2026-08-14",
+      "vencimiento": "2026-08-28",
+      "monto": 51768,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "LA NACION VIE",
+          "edicion": "20260814",
+          "codigoPublicacion": "000005",
+          "cantidad": 10,
+          "monto": 33240,
+          "fechaItem": "2026-08-14"
+        },
+        {
+          "descripcion": "POPULAR VIE",
+          "edicion": "20260814",
+          "codigoPublicacion": "110605",
+          "cantidad": 12,
+          "monto": 18528,
+          "fechaItem": "2026-08-14"
+        }
+      ],
+      "cargadaEl": "2026-08-19T21:14:58.002Z"
+    },
+    {
+      "id": "f_1787174100803_z83wk",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00584444",
+      "referenciaFactura": null,
+      "fecha": "2026-08-14",
+      "vencimiento": "2026-10-23",
+      "monto": 47387.2,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "COLORES Y JUE SPIDEY",
+          "edicion": "0000040",
+          "codigoPublicacion": "120377",
+          "cantidad": 1,
+          "monto": 2583.2,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "COLORING CON SPIDEY",
+          "edicion": "0000007",
+          "codigoPublicacion": "120387",
+          "cantidad": 1,
+          "monto": 3535.2,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "LIBROS INFANT SPIDEY",
+          "edicion": "0000004",
+          "codigoPublicacion": "120460",
+          "cantidad": 1,
+          "monto": 3603.2,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "MEGA COLOR SPIDEY",
+          "edicion": "0000001",
+          "codigoPublicacion": "120461",
+          "cantidad": 1,
+          "monto": 7343.2,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "LIBROS INFANT SPIDEY",
+          "edicion": "0000091",
+          "codigoPublicacion": "120465",
+          "cantidad": 1,
+          "monto": 3263.2,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "LIBROS INFANT SPIDEY",
+          "edicion": "0000091",
+          "codigoPublicacion": "120466",
+          "cantidad": 1,
+          "monto": 3263.2,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "LIBROS INFANT SPIDEY",
+          "edicion": "0000091",
+          "codigoPublicacion": "120467",
+          "cantidad": 1,
+          "monto": 3263.2,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "COL.PINTA Y B SPIDEY",
+          "edicion": "0000008",
+          "codigoPublicacion": "120476",
+          "cantidad": 1,
+          "monto": 4623.2,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "ACTIVITY COLO SPIDEY",
+          "edicion": "0000001",
+          "codigoPublicacion": "120477",
+          "cantidad": 1,
+          "monto": 5303.2,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "ACTIVITY COLO SPIDEY",
+          "edicion": "0000007",
+          "codigoPublicacion": "120478",
+          "cantidad": 1,
+          "monto": 5303.2,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "ACTIVITY COLO SPIDEY",
+          "edicion": "0000008",
+          "codigoPublicacion": "120478",
+          "cantidad": 1,
+          "monto": 5303.2,
+          "fechaItem": null
+        }
+      ],
+      "cargadaEl": "2026-08-19T21:15:00.803Z"
+    },
+    {
+      "id": "f_1787174104497_pqz44",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00584324",
+      "referenciaFactura": null,
+      "fecha": "2026-08-13",
+      "vencimiento": "2026-10-08",
+      "monto": 42693.2,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "ROCK DE ACA DIVIDIDOS",
+          "edicion": "0000005",
+          "codigoPublicacion": "200406",
+          "cantidad": 1,
+          "monto": 42693.2,
+          "fechaItem": null
+        }
+      ],
+      "cargadaEl": "2026-08-19T21:15:04.497Z"
+    },
+    {
+      "id": "f_1787174113782_5d4s6",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00584508",
+      "referenciaFactura": null,
+      "fecha": "2026-08-15",
+      "vencimiento": "2026-08-29",
+      "monto": 95742,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "LA NACION SAB",
+          "edicion": "20260815",
+          "codigoPublicacion": "000006",
+          "cantidad": 17,
+          "monto": 77214,
+          "fechaItem": "2026-08-15"
+        },
+        {
+          "descripcion": "POPULAR SAB",
+          "edicion": "20260815",
+          "codigoPublicacion": "110606",
+          "cantidad": 12,
+          "monto": 18528,
+          "fechaItem": "2026-08-15"
+        }
+      ],
+      "cargadaEl": "2026-08-19T21:15:13.782Z"
+    },
+    {
+      "id": "f_1787174118197_0rl06",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00584231",
+      "referenciaFactura": null,
+      "fecha": "2026-08-13",
+      "vencimiento": "2026-10-08",
+      "monto": 86932,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "DINOSAURIOS 2 ALBERTOSAURO + FASCÍCULO",
+          "edicion": "0000004",
+          "codigoPublicacion": "200219",
+          "cantidad": 5,
+          "monto": 43466,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "DINOSAURIOS 2 ALBERTOSAURO + FASCÍCULO",
+          "edicion": "0000010",
+          "codigoPublicacion": "200219",
+          "cantidad": 5,
+          "monto": 43466,
+          "fechaItem": null
+        }
+      ],
+      "cargadaEl": "2026-08-19T21:15:18.197Z"
+    },
+    {
+      "id": "f_1787174326725_k5uou",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00584131",
+      "referenciaFactura": null,
+      "fecha": "2026-08-13",
+      "vencimiento": "2026-08-27",
+      "monto": 58416,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "LA NACION JUE",
+          "edicion": "20260813",
+          "codigoPublicacion": "000004",
+          "cantidad": 12,
+          "monto": 39888,
+          "fechaItem": "2026-08-13"
+        },
+        {
+          "descripcion": "POPULAR JUE",
+          "edicion": "20260813",
+          "codigoPublicacion": "110604",
+          "cantidad": 12,
+          "monto": 18528,
+          "fechaItem": "2026-08-13"
+        }
+      ],
+      "cargadaEl": "2026-08-19T21:18:46.725Z"
+    },
+    {
+      "id": "f_1787273841420_9z8kl",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00585064",
+      "referenciaFactura": null,
+      "fecha": "2026-08-19",
+      "vencimiento": "2026-09-02",
+      "monto": 58416,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "LA NACION MIE",
+          "edicion": "20260819",
+          "codigoPublicacion": "000003",
+          "cantidad": 12,
+          "monto": 39888,
+          "fechaItem": "2026-08-19"
+        },
+        {
+          "descripcion": "POPULAR MIE",
+          "edicion": "20260819",
+          "codigoPublicacion": "110603",
+          "cantidad": 12,
+          "monto": 18528,
+          "fechaItem": "2026-08-19"
+        }
+      ],
+      "cargadaEl": "2026-08-21T00:57:21.420Z"
+    },
+    {
+      "id": "f_1787273845134_2sjdt",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00585169",
+      "referenciaFactura": null,
+      "fecha": "2026-08-19",
+      "vencimiento": "2026-10-28",
+      "monto": 23522.4,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "COLORES Y JUE DISNEY JUNIOR",
+          "edicion": "0000020",
+          "codigoPublicacion": "120384",
+          "cantidad": 1,
+          "monto": 5303.2,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "ACTIVITY ESPE DISNEY JUNIOR",
+          "edicion": "0000030",
+          "codigoPublicacion": "120462",
+          "cantidad": 1,
+          "monto": 3263.2,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "ACTIVITY ESPE DISNEY JUNIOR",
+          "edicion": "0000031",
+          "codigoPublicacion": "120462",
+          "cantidad": 1,
+          "monto": 3943.2,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "ACTIVITY COLO DISNEY JUNIOR",
+          "edicion": "0000002",
+          "codigoPublicacion": "120484",
+          "cantidad": 1,
+          "monto": 2583.2,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "ACTIVITY COLO DISNEY JUNIOR",
+          "edicion": "0000008",
+          "codigoPublicacion": "120485",
+          "cantidad": 1,
+          "monto": 2583.2,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "ACTIVITY COLO DISNEY JUNIOR",
+          "edicion": "0000010",
+          "codigoPublicacion": "120485",
+          "cantidad": 1,
+          "monto": 2583.2,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "COL.PINTA Y B DISNEY JUNIOR",
+          "edicion": "0000002",
+          "codigoPublicacion": "120487",
+          "cantidad": 1,
+          "monto": 3263.2,
+          "fechaItem": null
+        }
+      ],
+      "cargadaEl": "2026-08-21T00:57:25.134Z"
+    },
+    {
+      "id": "f_1787273850260_69rds",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00585170",
+      "referenciaFactura": null,
+      "fecha": "2026-08-19",
+      "vencimiento": "2026-09-23",
+      "monto": 11590,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "HOLA",
+          "edicion": "0000823",
+          "codigoPublicacion": "110203",
+          "cantidad": 2,
+          "monto": 11590,
+          "fechaItem": null
+        }
+      ],
+      "cargadaEl": "2026-08-21T00:57:30.260Z"
     }
   ],
   "preciosProveedores": {
@@ -7275,6 +7859,338 @@
         "tipoProducto": "diario",
         "precioUnico": 0,
         "recargoUnico": 0
+      },
+      {
+        "id": "mt2zr0bcfy1t76",
+        "nombre": "FIESTAS 2025 - FASC RUTAS + VINO + 2 COP",
+        "alias": "FIESTAS",
+        "historial": [
+          {
+            "desde": "2026-08-01",
+            "tapa": [
+              21999,
+              21999,
+              21999,
+              21999,
+              21999,
+              21999,
+              21999
+            ],
+            "recargo": [
+              2500,
+              2500,
+              2500,
+              2500,
+              2500,
+              2500,
+              2500
+            ]
+          }
+        ],
+        "feriadoTapa": 0,
+        "feriadoRecargo": 0,
+        "tipoProducto": "periodico",
+        "precioUnico": 21999,
+        "recargoUnico": 2500
+      }
+    ],
+    "silmar": [
+      {
+        "id": "mt0mnycqocm0uf",
+        "nombre": "CONSTRUYE LA PERLITA (",
+        "alias": "CONSTRUYE LA PERLITA",
+        "historial": [
+          {
+            "desde": "2026-08-01",
+            "tapa": [
+              20500,
+              20500,
+              20500,
+              20500,
+              20500,
+              20500,
+              20500
+            ],
+            "recargo": [
+              1600,
+              1600,
+              1600,
+              1600,
+              1600,
+              1600,
+              1600
+            ]
+          }
+        ],
+        "feriadoTapa": 0,
+        "feriadoRecargo": 0,
+        "tipoProducto": "periodico",
+        "precioUnico": 20500,
+        "recargoUnico": 1600
+      },
+      {
+        "id": "mt0mpi6ne07hxj",
+        "nombre": "SEMANARIO (PERFIL)",
+        "alias": "SEMANARIO",
+        "historial": [
+          {
+            "desde": "2026-08-01",
+            "tapa": [
+              3100,
+              3100,
+              3100,
+              3100,
+              3100,
+              3100,
+              3100
+            ],
+            "recargo": [
+              1300,
+              1300,
+              1300,
+              1300,
+              1300,
+              1300,
+              1300
+            ]
+          }
+        ],
+        "feriadoTapa": 0,
+        "feriadoRecargo": 0,
+        "tipoProducto": "periodico",
+        "precioUnico": 3100,
+        "recargoUnico": 1300
+      },
+      {
+        "id": "mt0ms1ew43plx9",
+        "nombre": "NOTICIAS (11)",
+        "alias": "NOTICIAS",
+        "historial": [
+          {
+            "desde": "2026-08-01",
+            "tapa": [
+              9900,
+              9900,
+              9900,
+              9900,
+              9900,
+              9900,
+              9900
+            ],
+            "recargo": [
+              1500,
+              1500,
+              1500,
+              1500,
+              1500,
+              1500,
+              1500
+            ]
+          }
+        ],
+        "feriadoTapa": 0,
+        "feriadoRecargo": 0,
+        "tipoProducto": "periodico",
+        "precioUnico": 9900,
+        "recargoUnico": 1500
+      },
+      {
+        "id": "mt0mu6dyg4rii3",
+        "nombre": "AUDIOCUENTOS MAGICOS D",
+        "alias": "AUDIOCUENTOS MAGICOS",
+        "historial": [
+          {
+            "desde": "2026-08-01",
+            "tapa": [
+              21500,
+              21500,
+              21500,
+              21500,
+              21500,
+              21500,
+              21500
+            ],
+            "recargo": [
+              1600,
+              1600,
+              1600,
+              1600,
+              1600,
+              1600,
+              1600
+            ]
+          }
+        ],
+        "feriadoTapa": 0,
+        "feriadoRecargo": 0,
+        "tipoProducto": "periodico",
+        "precioUnico": 21500,
+        "recargoUnico": 1600
+      },
+      {
+        "id": "mt0mvefje515b3",
+        "nombre": "BIBLIOTECA DE PSICOLOG",
+        "alias": "",
+        "historial": [
+          {
+            "desde": "2026-08-01",
+            "tapa": [
+              13900,
+              13900,
+              13900,
+              13900,
+              13900,
+              13900,
+              13900
+            ],
+            "recargo": [
+              1600,
+              1600,
+              1600,
+              1600,
+              1608,
+              1600,
+              1600
+            ]
+          }
+        ],
+        "feriadoTapa": 0,
+        "feriadoRecargo": 0,
+        "tipoProducto": "periodico",
+        "precioUnico": 13900,
+        "recargoUnico": 1600
+      },
+      {
+        "id": "mt0mwsgi02m3bb",
+        "nombre": "AUTOS INOLV ARGENTINOS",
+        "alias": "AUTOS INOLVIDABLES",
+        "historial": [
+          {
+            "desde": "2026-08-01",
+            "tapa": [
+              30000,
+              30000,
+              30000,
+              30000,
+              30000,
+              30000,
+              30000
+            ],
+            "recargo": [
+              1608,
+              1600,
+              1600,
+              1600,
+              1600,
+              1600,
+              1600
+            ]
+          }
+        ],
+        "feriadoTapa": 0,
+        "feriadoRecargo": 0,
+        "tipoProducto": "periodico",
+        "precioUnico": 30000,
+        "recargoUnico": 1600
+      },
+      {
+        "id": "mt0my0c6ebrpky",
+        "nombre": "RACING CARS (DGP) McLa",
+        "alias": "",
+        "historial": [
+          {
+            "desde": "2026-08-01",
+            "tapa": [
+              28500,
+              28500,
+              28500,
+              28500,
+              28500,
+              28500,
+              28500
+            ],
+            "recargo": [
+              1400,
+              1400,
+              1400,
+              1400,
+              1400,
+              1400,
+              1400
+            ]
+          }
+        ],
+        "feriadoTapa": 0,
+        "feriadoRecargo": 0,
+        "tipoProducto": "periodico",
+        "precioUnico": 28500,
+        "recargoUnico": 1400
+      },
+      {
+        "id": "mt0n001uvltq4q",
+        "nombre": "CONSTRUYE TU COMBI (DG",
+        "alias": "",
+        "historial": [
+          {
+            "desde": "2026-08-01",
+            "tapa": [
+              19000,
+              19000,
+              19000,
+              19000,
+              19000,
+              19000,
+              19000
+            ],
+            "recargo": [
+              1400,
+              1400,
+              1400,
+              1400,
+              1400,
+              1400,
+              1400
+            ]
+          }
+        ],
+        "feriadoTapa": 0,
+        "feriadoRecargo": 0,
+        "tipoProducto": "periodico",
+        "precioUnico": 19000,
+        "recargoUnico": 1400
+      },
+      {
+        "id": "mt2zsz4jaevgzy",
+        "nombre": "AUDI QUATTRO (DGP)",
+        "alias": "",
+        "historial": [
+          {
+            "desde": "2026-08-01",
+            "tapa": [
+              20500,
+              20500,
+              20500,
+              20500,
+              20500,
+              20500,
+              20500
+            ],
+            "recargo": [
+              1600,
+              1600,
+              1600,
+              1600,
+              1600,
+              1600,
+              1600
+            ]
+          }
+        ],
+        "feriadoTapa": 0,
+        "feriadoRecargo": 0,
+        "tipoProducto": "periodico",
+        "precioUnico": 20500,
+        "recargoUnico": 1600
       }
     ],
     "lanacion": [
@@ -7508,9 +8424,140 @@
         "tipoProducto": "diario",
         "precioUnico": 0,
         "recargoUnico": 0
+      },
+      {
+        "id": "mt216mx44uh52g",
+        "nombre": "POP CULTURE Bugs Bunny + Fascículo",
+        "alias": "POP CULTURE",
+        "historial": [
+          {
+            "desde": "2026-08-01",
+            "tapa": [
+              20000,
+              20000,
+              20000,
+              20000,
+              20000,
+              20000,
+              20000
+            ],
+            "recargo": [
+              1600,
+              1600,
+              1600,
+              1600,
+              1600,
+              1600,
+              1600
+            ]
+          }
+        ],
+        "feriadoTapa": 0,
+        "feriadoRecargo": 0,
+        "tipoProducto": "periodico",
+        "precioUnico": 20000,
+        "recargoUnico": 1600
+      },
+      {
+        "id": "mt21awzyy6bxai",
+        "nombre": "MADONNA The Immaculate Collection - doble + Fascículo",
+        "alias": "",
+        "historial": [
+          {
+            "desde": "2026-08-20",
+            "tapa": [
+              60000,
+              6000,
+              60000,
+              60000,
+              60000,
+              60000,
+              60000
+            ],
+            "recargo": [
+              1600,
+              1600,
+              1600,
+              1600,
+              1600,
+              1600,
+              1600
+            ]
+          }
+        ],
+        "feriadoTapa": 0,
+        "feriadoRecargo": 0,
+        "tipoProducto": "diario",
+        "precioUnico": 0,
+        "recargoUnico": 0
+      },
+      {
+        "id": "mt21d62f7c9eui",
+        "nombre": "DEADPOOLDeadpool: Todo en familia",
+        "alias": "DEADPOOL",
+        "historial": [
+          {
+            "desde": "2026-08-20",
+            "tapa": [
+              13550,
+              13550,
+              13550,
+              13550,
+              13550,
+              13550,
+              13550
+            ],
+            "recargo": [
+              1900,
+              1900,
+              1900,
+              1900,
+              1900,
+              1900,
+              1900
+            ]
+          }
+        ],
+        "feriadoTapa": 0,
+        "feriadoRecargo": 0,
+        "tipoProducto": "periodico",
+        "precioUnico": 13550,
+        "recargoUnico": 1900
+      },
+      {
+        "id": "mt21f3g35mayxw",
+        "nombre": "200426 GREEN PAN 0000002 Reposición SARTÉN 28CM CHEF GREENPAN",
+        "alias": "GREEN PAN",
+        "historial": [
+          {
+            "desde": "2026-08-01",
+            "tapa": [
+              70000,
+              70000,
+              70000,
+              70000,
+              70000,
+              70000,
+              70000
+            ],
+            "recargo": [
+              1600,
+              1600,
+              1600,
+              1600,
+              1600,
+              1600,
+              1600
+            ]
+          }
+        ],
+        "feriadoTapa": 0,
+        "feriadoRecargo": 0,
+        "tipoProducto": "periodico",
+        "precioUnico": 70000,
+        "recargoUnico": 1600
       }
-    ],
-    "silmar": []
+    ]
   },
   "devolucionesProveedores": [
     {
@@ -7878,6 +8925,780 @@
       "estado": "pendiente",
       "acreditadaEl": null,
       "cargadaEl": "2026-08-19T14:08:43.198Z"
+    },
+    {
+      "id": "dev_1787233567382_wy3gh",
+      "proveedorKey": "lanacion",
+      "fecha": "2026-08-20",
+      "numeroRemito": "378502",
+      "modo": "item",
+      "items": [
+        {
+          "descripcion": "POP CULTURE",
+          "edicion": "8",
+          "codigoPublicacion": "200427",
+          "cantidad": 1,
+          "monto": 15493.2,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
+        },
+        {
+          "descripcion": "AMERICANAS 4X4",
+          "edicion": "1",
+          "codigoPublicacion": "200429",
+          "cantidad": 6,
+          "monto": null,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 6
+        },
+        {
+          "descripcion": "DINOSAURIOS 2025",
+          "edicion": "10",
+          "codigoPublicacion": "200219",
+          "cantidad": 5,
+          "monto": 43466,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 5
+        },
+        {
+          "descripcion": "DINOSAURIOS 2025",
+          "edicion": "4",
+          "codigoPublicacion": "200219",
+          "cantidad": 5,
+          "monto": 43466,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 5
+        },
+        {
+          "descripcion": "DINOSAURIOS 2025",
+          "edicion": "3",
+          "codigoPublicacion": "200219",
+          "cantidad": 5,
+          "monto": 43466,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 5
+        },
+        {
+          "descripcion": "DINOSAURIOS 2025",
+          "edicion": "8",
+          "codigoPublicacion": "200219",
+          "cantidad": 5,
+          "monto": 43466,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 5
+        },
+        {
+          "descripcion": "MON Y BILL 2025",
+          "edicion": "38",
+          "codigoPublicacion": "200236",
+          "cantidad": 3,
+          "monto": 40359.6,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 3
+        },
+        {
+          "descripcion": "AUTOS ALEMANES",
+          "edicion": "11",
+          "codigoPublicacion": "200423",
+          "cantidad": 2,
+          "monto": 37786.4,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 2
+        },
+        {
+          "descripcion": "DINOSAURIOS 2025",
+          "edicion": "6",
+          "codigoPublicacion": "200219",
+          "cantidad": 5,
+          "monto": null,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 5
+        },
+        {
+          "descripcion": "ACTIVITY COLOURING",
+          "edicion": "1",
+          "codigoPublicacion": "120496",
+          "cantidad": 1,
+          "monto": null,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
+        },
+        {
+          "descripcion": "ACTIVITY COLOURING",
+          "edicion": "2",
+          "codigoPublicacion": "120496",
+          "cantidad": 1,
+          "monto": null,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
+        },
+        {
+          "descripcion": "ACTIVITY COLOURING",
+          "edicion": "3",
+          "codigoPublicacion": "120496",
+          "cantidad": 1,
+          "monto": null,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
+        },
+        {
+          "descripcion": "ACTIVITY COLOURING",
+          "edicion": "3",
+          "codigoPublicacion": "120497",
+          "cantidad": 1,
+          "monto": null,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
+        },
+        {
+          "descripcion": "ACTIVITY COLOURING",
+          "edicion": "1",
+          "codigoPublicacion": "120497",
+          "cantidad": 1,
+          "monto": null,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
+        },
+        {
+          "descripcion": "LIBROS PRH",
+          "edicion": "1",
+          "codigoPublicacion": "500551",
+          "cantidad": 1,
+          "monto": 20600,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
+        },
+        {
+          "descripcion": "LIBROS PRH",
+          "edicion": "1",
+          "codigoPublicacion": "500552",
+          "cantidad": 1,
+          "monto": 20600,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
+        },
+        {
+          "descripcion": "LIBROS PRH",
+          "edicion": "1",
+          "codigoPublicacion": "500554",
+          "cantidad": 1,
+          "monto": 20600,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
+        },
+        {
+          "descripcion": "LIBROS PRH",
+          "edicion": "1",
+          "codigoPublicacion": "500555",
+          "cantidad": 1,
+          "monto": 20600,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
+        },
+        {
+          "descripcion": "LIBROS PRH",
+          "edicion": "1",
+          "codigoPublicacion": "500553",
+          "cantidad": 1,
+          "monto": 20600,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
+        },
+        {
+          "descripcion": "LIBROS PRH",
+          "edicion": "1",
+          "codigoPublicacion": "500548",
+          "cantidad": 1,
+          "monto": 20600,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
+        },
+        {
+          "descripcion": "LIBROS PRH",
+          "edicion": "1",
+          "codigoPublicacion": "500549",
+          "cantidad": 1,
+          "monto": 20600,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
+        },
+        {
+          "descripcion": "LIBROS PRH",
+          "edicion": "1",
+          "codigoPublicacion": "500550",
+          "cantidad": 1,
+          "monto": 20600,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
+        },
+        {
+          "descripcion": "ACTIVITY COLOURING",
+          "edicion": "7",
+          "codigoPublicacion": "120478",
+          "cantidad": 1,
+          "monto": 5303.2,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
+        },
+        {
+          "descripcion": "ACTIVITY COLOURING",
+          "edicion": "8",
+          "codigoPublicacion": "120478",
+          "cantidad": 1,
+          "monto": 5303.2,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
+        },
+        {
+          "descripcion": "LIBROS INFANTILES",
+          "edicion": "4",
+          "codigoPublicacion": "120460",
+          "cantidad": 1,
+          "monto": 3603.2,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
+        },
+        {
+          "descripcion": "LIBROS INFANTILES",
+          "edicion": "91",
+          "codigoPublicacion": "120467",
+          "cantidad": 1,
+          "monto": 3263.2,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
+        },
+        {
+          "descripcion": "LIBROS INFANTILES",
+          "edicion": "91",
+          "codigoPublicacion": "120466",
+          "cantidad": 1,
+          "monto": 3263.2,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
+        },
+        {
+          "descripcion": "LIBROS INFANTILES",
+          "edicion": "91",
+          "codigoPublicacion": "120465",
+          "cantidad": 1,
+          "monto": 3263.2,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
+        },
+        {
+          "descripcion": "ACTIVITY COLOURING",
+          "edicion": "1",
+          "codigoPublicacion": "120477",
+          "cantidad": 1,
+          "monto": 5303.2,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
+        },
+        {
+          "descripcion": "COLORING CON POSTE",
+          "edicion": "7",
+          "codigoPublicacion": "120387",
+          "cantidad": 1,
+          "monto": 3535.2,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
+        },
+        {
+          "descripcion": "COLORES Y JUEGOS",
+          "edicion": "40",
+          "codigoPublicacion": "120377",
+          "cantidad": 1,
+          "monto": 2583.2,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
+        },
+        {
+          "descripcion": "MEGA COLOR",
+          "edicion": "1",
+          "codigoPublicacion": "120461",
+          "cantidad": 1,
+          "monto": 7343.2,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
+        },
+        {
+          "descripcion": "COL PINTA Y BRILLA",
+          "edicion": "8",
+          "codigoPublicacion": "120476",
+          "cantidad": 1,
+          "monto": 4623.2,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
+        },
+        {
+          "descripcion": "ACTIVITY COLOURING",
+          "edicion": "5",
+          "codigoPublicacion": "120477",
+          "cantidad": 1,
+          "monto": 5303.2,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
+        },
+        {
+          "descripcion": "ACTIVITY COLOURING",
+          "edicion": "4",
+          "codigoPublicacion": "120478",
+          "cantidad": 1,
+          "monto": 5303.2,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
+        }
+      ],
+      "adjuntos": [
+        {
+          "id": "dev_1787233567382_wy3gh_a0",
+          "nombre": "1000825753.jpg",
+          "mime": "image/jpeg",
+          "bytes": 678477
+        }
+      ],
+      "estado": "pendiente",
+      "acreditadaEl": null,
+      "cargadaEl": "2026-08-20T13:46:07.430Z"
+    },
+    {
+      "id": "dev_1787233569685_t42zi",
+      "proveedorKey": "lanacion",
+      "fecha": "2026-08-20",
+      "numeroRemito": "378509",
+      "modo": "item",
+      "items": [
+        {
+          "descripcion": "LA NACION MARTES",
+          "edicion": "1359",
+          "codigoPublicacion": "2",
+          "cantidad": 4,
+          "monto": 13296,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 4
+        },
+        {
+          "descripcion": "LA NACION MIERC.",
+          "edicion": "1360",
+          "codigoPublicacion": "3",
+          "cantidad": 4,
+          "monto": 13296,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 4
+        },
+        {
+          "descripcion": "LA NACION JUEVES",
+          "edicion": "1353",
+          "codigoPublicacion": "4",
+          "cantidad": 4,
+          "monto": 13296,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 4
+        },
+        {
+          "descripcion": "LA NACION VIERNES",
+          "edicion": "1346",
+          "codigoPublicacion": "5",
+          "cantidad": 2,
+          "monto": 6648,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 2
+        },
+        {
+          "descripcion": "LA NACION SABADO",
+          "edicion": "1363",
+          "codigoPublicacion": "6",
+          "cantidad": 6,
+          "monto": 19944,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 6
+        },
+        {
+          "descripcion": "LA NACION DOMINGO",
+          "edicion": "1361",
+          "codigoPublicacion": "7",
+          "cantidad": 3,
+          "monto": 9972,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 3
+        },
+        {
+          "descripcion": "LA NACION LUNES",
+          "edicion": "1360",
+          "codigoPublicacion": "1",
+          "cantidad": 7,
+          "monto": 23268,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 7
+        },
+        {
+          "descripcion": "LA NACION MARTES",
+          "edicion": "1360",
+          "codigoPublicacion": "2",
+          "cantidad": 3,
+          "monto": 9972,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 3
+        }
+      ],
+      "adjuntos": [
+        {
+          "id": "dev_1787233569685_t42zi_a0",
+          "nombre": "1000825754.jpg",
+          "mime": "image/jpeg",
+          "bytes": 373460
+        }
+      ],
+      "estado": "pendiente",
+      "acreditadaEl": null,
+      "cargadaEl": "2026-08-20T13:46:09.720Z"
+    },
+    {
+      "id": "dev_1787233571459_4aqho",
+      "proveedorKey": "lanacion",
+      "fecha": "2026-08-20",
+      "numeroRemito": "378513",
+      "modo": "item",
+      "items": [
+        {
+          "descripcion": "POPULAR MAR",
+          "edicion": "732",
+          "codigoPublicacion": "110602",
+          "cantidad": 5,
+          "monto": 7720,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 5
+        },
+        {
+          "descripcion": "POPULAR MIE",
+          "edicion": "736",
+          "codigoPublicacion": "110603",
+          "cantidad": 5,
+          "monto": 7720,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 5
+        },
+        {
+          "descripcion": "POPULAR JUE",
+          "edicion": "733",
+          "codigoPublicacion": "110604",
+          "cantidad": 6,
+          "monto": 9264,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 6
+        },
+        {
+          "descripcion": "POPULAR VIE",
+          "edicion": "725",
+          "codigoPublicacion": "110605",
+          "cantidad": 3,
+          "monto": 4632,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 3
+        },
+        {
+          "descripcion": "POPULAR SAB",
+          "edicion": "738",
+          "codigoPublicacion": "110606",
+          "cantidad": 2,
+          "monto": 3088,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 2
+        },
+        {
+          "descripcion": "POPULAR DOM",
+          "edicion": "738",
+          "codigoPublicacion": "110607",
+          "cantidad": 3,
+          "monto": 4632,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 3
+        },
+        {
+          "descripcion": "POPULAR LUN",
+          "edicion": "738",
+          "codigoPublicacion": "110601",
+          "cantidad": 5,
+          "monto": 7720,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 5
+        },
+        {
+          "descripcion": "POPULAR MAR",
+          "edicion": "733",
+          "codigoPublicacion": "110602",
+          "cantidad": 2,
+          "monto": 3088,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 2
+        }
+      ],
+      "adjuntos": [
+        {
+          "id": "dev_1787233571459_4aqho_a0",
+          "nombre": "1000825755.jpg",
+          "mime": "image/jpeg",
+          "bytes": 406770
+        }
+      ],
+      "estado": "pendiente",
+      "acreditadaEl": null,
+      "cargadaEl": "2026-08-20T13:46:11.516Z"
     }
   ]
 }
