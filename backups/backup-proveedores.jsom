@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup-proveedores",
   "version": 1,
-  "exportadoEl": "2026-08-21T14:47:46.591Z",
+  "exportadoEl": "2026-08-21T14:51:34.704Z",
   "facturasProveedores": [
     {
       "id": "f_1786288479789_g5a9h",
@@ -8556,6 +8556,39 @@
         "tipoProducto": "periodico",
         "precioUnico": 70000,
         "recargoUnico": 1600
+      },
+      {
+        "id": "mt32h6y5v8kpug",
+        "nombre": "200444 F1 EXTENSION\nAlpine - Entrega 6 + Fascículo",
+        "alias": "ALPINE",
+        "historial": [
+          {
+            "desde": "2026-08-01",
+            "tapa": [
+              20000,
+              20000,
+              20000,
+              20000,
+              20000,
+              20000,
+              20000
+            ],
+            "recargo": [
+              1900,
+              1900,
+              1900,
+              1900,
+              1900,
+              1900,
+              1900
+            ]
+          }
+        ],
+        "feriadoTapa": 0,
+        "feriadoRecargo": 0,
+        "tipoProducto": "periodico",
+        "precioUnico": 20000,
+        "recargoUnico": 1900
       }
     ]
   },
