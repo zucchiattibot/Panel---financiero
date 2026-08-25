@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup-proveedores",
   "version": 1,
-  "exportadoEl": "2026-08-22T23:29:51.139Z",
+  "exportadoEl": "2026-08-25T19:22:39.536Z",
   "facturasProveedores": [
     {
       "id": "f_1786288479789_g5a9h",
@@ -5825,13 +5825,16 @@
       "estado": "pendiente",
       "items": [
         {
-          "descripcion": "200429 AMERICANAS 4X\n1973 Ford Bronco + Fascículo",
+          "descripcion": "AMERICANAS 4X1973 Ford Bronco + Fascículo",
           "edicion": "0000001",
+          "codigoPublicacion": "200429",
           "cantidad": 6,
-          "monto": 113359.2
+          "monto": 113359.2,
+          "fechaItem": null
         }
       ],
-      "cargadaEl": "2026-08-16T13:20:43.873Z"
+      "cargadaEl": "2026-08-16T13:20:43.873Z",
+      "referenciaFactura": null
     },
     {
       "id": "f_1786886444698_tggnz",
@@ -7715,6 +7718,3153 @@
         }
       ],
       "cargadaEl": "2026-08-21T16:14:11.000Z"
+    },
+    {
+      "id": "f_1787570476692_vszhg",
+      "proveedorKey": "clarin",
+      "tipo": "factura",
+      "numeroFactura": "0132-01343583",
+      "referenciaFactura": null,
+      "fecha": "2026-08-21",
+      "vencimiento": "2026-08-28",
+      "monto": 665136,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "CLARIN BASE 10 - 15.08.2026 - 28991/2026",
+          "edicion": "28991/2026",
+          "codigoPublicacion": "CBAS150826",
+          "cantidad": 18,
+          "monto": 81216,
+          "fechaItem": "2026-08-15"
+        },
+        {
+          "descripcion": "CLARIN BASE 11 - 16.08.2026 - 28992/2026",
+          "edicion": "28992/2026",
+          "codigoPublicacion": "CBAS160826",
+          "cantidad": 45,
+          "monto": 223920,
+          "fechaItem": "2026-08-16"
+        },
+        {
+          "descripcion": "CLARIN BASE 05 - 17.08.2026 - 28993/2026",
+          "edicion": "28993/2026",
+          "codigoPublicacion": "CBAS170826",
+          "cantidad": 15,
+          "monto": 49410,
+          "fechaItem": "2026-08-17"
+        },
+        {
+          "descripcion": "CLARIN BASE 06 - 18.08.2026 - 28994/2026",
+          "edicion": "28994/2026",
+          "codigoPublicacion": "CBAS180826",
+          "cantidad": 15,
+          "monto": 49410,
+          "fechaItem": "2026-08-18"
+        },
+        {
+          "descripcion": "CLARIN BASE 07 - 19.08.2026 - 28995/2026",
+          "edicion": "28995/2026",
+          "codigoPublicacion": "CBAS190826",
+          "cantidad": 15,
+          "monto": 49410,
+          "fechaItem": "2026-08-19"
+        },
+        {
+          "descripcion": "CLARIN BASE 08 - 20.08.2026 - 28996/2026",
+          "edicion": "28996/2026",
+          "codigoPublicacion": "CBAS200826",
+          "cantidad": 20,
+          "monto": 65880,
+          "fechaItem": "2026-08-20"
+        },
+        {
+          "descripcion": "CLARIN BASE 09 - 21.08.2026 - 28997/2026",
+          "edicion": "28997/2026",
+          "codigoPublicacion": "CBAS210826",
+          "cantidad": 15,
+          "monto": 49410,
+          "fechaItem": "2026-08-21"
+        },
+        {
+          "descripcion": "OLE NACIONAL - 15.08.2026 - 10913/2026",
+          "edicion": "10913/2026",
+          "codigoPublicacion": "ONAC150826",
+          "cantidad": 10,
+          "monto": 19180,
+          "fechaItem": "2026-08-15"
+        },
+        {
+          "descripcion": "OLE NACIONAL - 16.08.2026 - 10914/2026",
+          "edicion": "10914/2026",
+          "codigoPublicacion": "ONAC160826",
+          "cantidad": 5,
+          "monto": 9880,
+          "fechaItem": "2026-08-16"
+        },
+        {
+          "descripcion": "OLE NACIONAL - 17.08.2026 - 10915/2026",
+          "edicion": "10915/2026",
+          "codigoPublicacion": "ONAC170826",
+          "cantidad": 5,
+          "monto": 9880,
+          "fechaItem": "2026-08-17"
+        },
+        {
+          "descripcion": "OLE NACIONAL - 18.08.2026 - 10916/2026",
+          "edicion": "10916/2026",
+          "codigoPublicacion": "ONAC180826",
+          "cantidad": 5,
+          "monto": 9590,
+          "fechaItem": "2026-08-18"
+        },
+        {
+          "descripcion": "OLE NACIONAL - 19.08.2026 - 10917/2026",
+          "edicion": "10917/2026",
+          "codigoPublicacion": "ONAC190826",
+          "cantidad": 5,
+          "monto": 9590,
+          "fechaItem": "2026-08-19"
+        },
+        {
+          "descripcion": "OLE NACIONAL - 20.08.2026 - 10918/2026",
+          "edicion": "10918/2026",
+          "codigoPublicacion": "ONAC200826",
+          "cantidad": 10,
+          "monto": 19180,
+          "fechaItem": "2026-08-20"
+        },
+        {
+          "descripcion": "OLE NACIONAL - 21.08.2026 - 10919/2026",
+          "edicion": "10919/2026",
+          "codigoPublicacion": "ONAC210826",
+          "cantidad": 10,
+          "monto": 19180,
+          "fechaItem": "2026-08-21"
+        }
+      ],
+      "cargadaEl": "2026-08-24T11:21:16.694Z"
+    },
+    {
+      "id": "f_1787570480054_p3chf",
+      "proveedorKey": "clarin",
+      "tipo": "factura",
+      "numeroFactura": "0132-01343586",
+      "referenciaFactura": null,
+      "fecha": "2026-08-21",
+      "vencimiento": "2026-08-31",
+      "monto": 112000.32,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "HELLO KITTY 2026 - KITTY JARDINERA",
+          "edicion": null,
+          "codigoPublicacion": "HKJARDINER",
+          "cantidad": 10,
+          "monto": 112000.32,
+          "fechaItem": null
+        }
+      ],
+      "cargadaEl": "2026-08-24T11:21:20.054Z"
+    },
+    {
+      "id": "f_1787570482837_tf2dg",
+      "proveedorKey": "clarin",
+      "tipo": "factura",
+      "numeroFactura": "0132-01343585",
+      "referenciaFactura": null,
+      "fecha": "2026-08-21",
+      "vencimiento": "2026-08-31",
+      "monto": 61897.1,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "LA ASISTENTA",
+          "edicion": null,
+          "codigoPublicacion": "LAASISTEN1",
+          "cantidad": 5,
+          "monto": 61897.1,
+          "fechaItem": null
+        }
+      ],
+      "cargadaEl": "2026-08-24T11:21:22.837Z"
+    },
+    {
+      "id": "f_1787570485151_14d0h",
+      "proveedorKey": "clarin",
+      "tipo": "factura",
+      "numeroFactura": "0132-01343584",
+      "referenciaFactura": null,
+      "fecha": "2026-08-21",
+      "vencimiento": "2026-08-31",
+      "monto": 40704.92,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "GENIOS CON LIB - 17.08.2026 - 1481/2026",
+          "edicion": "1481/2026",
+          "codigoPublicacion": "GCLI170826",
+          "cantidad": 10,
+          "monto": 23555.56,
+          "fechaItem": "2026-08-17"
+        },
+        {
+          "descripcion": "PACK GENIOS - 17.08.2026 - 1481/2026",
+          "edicion": "1481/2026",
+          "codigoPublicacion": "GLIC170826",
+          "cantidad": 10,
+          "monto": 17149.36,
+          "fechaItem": "2026-08-17"
+        }
+      ],
+      "cargadaEl": "2026-08-24T11:21:25.151Z"
+    },
+    {
+      "id": "f_1787570489768_5e03w",
+      "proveedorKey": "clarin",
+      "tipo": "factura",
+      "numeroFactura": "0132-01343660",
+      "referenciaFactura": null,
+      "fecha": "2026-08-21",
+      "vencimiento": "2026-09-10",
+      "monto": 56960.18,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "AUDIOCUENTOS DE LGZ - BARTOLITO",
+          "edicion": null,
+          "codigoPublicacion": "AUBARTOLIT",
+          "cantidad": 1,
+          "monto": 11840.03,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "TOY STORY 5 - BUZZ LIGHTYEAR",
+          "edicion": null,
+          "codigoPublicacion": "TSBUZZ",
+          "cantidad": 1,
+          "monto": 11200.03,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "TOY STORY 5 - FORKY",
+          "edicion": null,
+          "codigoPublicacion": "TSFORKY",
+          "cantidad": 2,
+          "monto": 11520.06,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "TOY STORY 5 - LILY PAD",
+          "edicion": null,
+          "codigoPublicacion": "TSLILYPAD",
+          "cantidad": 1,
+          "monto": 11200.03,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "TOY STORY 5 - WOODY",
+          "edicion": null,
+          "codigoPublicacion": "TSWOODY",
+          "cantidad": 1,
+          "monto": 11200.03,
+          "fechaItem": null
+        }
+      ],
+      "cargadaEl": "2026-08-24T11:21:29.768Z"
+    },
+    {
+      "id": "f_1787578403513_4rrkb",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00585259",
+      "referenciaFactura": null,
+      "fecha": "2026-08-20",
+      "vencimiento": "2026-09-03",
+      "monto": 58416,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "LA NACION JUE",
+          "edicion": "20260820",
+          "codigoPublicacion": "000004",
+          "cantidad": 12,
+          "monto": 39888,
+          "fechaItem": "2026-08-20"
+        },
+        {
+          "descripcion": "POPULAR JUE",
+          "edicion": "20260820",
+          "codigoPublicacion": "110604",
+          "cantidad": 12,
+          "monto": 18528,
+          "fechaItem": "2026-08-20"
+        }
+      ],
+      "cargadaEl": "2026-08-24T13:33:23.514Z"
+    },
+    {
+      "id": "f_1787578405840_07s4m",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00585324",
+      "referenciaFactura": null,
+      "fecha": "2026-08-20",
+      "vencimiento": "2026-10-01",
+      "monto": 30986.4,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "POP CULTURE 0000009 Carga 2 13.593,20 1.900,00 30.986,40Pato Lucas + Fascículo",
+          "edicion": "0000009",
+          "codigoPublicacion": "200427",
+          "cantidad": 2,
+          "monto": 30986.4,
+          "fechaItem": null
+        }
+      ],
+      "cargadaEl": "2026-08-24T13:33:25.840Z"
+    },
+    {
+      "id": "f_1787578408043_l51z3",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00585420",
+      "referenciaFactura": null,
+      "fecha": "2026-08-20",
+      "vencimiento": "2026-10-01",
+      "monto": 40207.2,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "DEADPOOL\nWolverine: Primera generación",
+          "edicion": "0000004",
+          "codigoPublicacion": "200430",
+          "cantidad": 1,
+          "monto": 11114,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "MADONNA\nWolverine: Primera generación",
+          "edicion": "0000002",
+          "codigoPublicacion": "200442",
+          "cantidad": 1,
+          "monto": 29093.2,
+          "fechaItem": null
+        }
+      ],
+      "cargadaEl": "2026-08-24T13:33:28.043Z"
+    },
+    {
+      "id": "f_1787578409998_0nb48",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450-00962654",
+      "referenciaFactura": "00450A00580067",
+      "fecha": "2026-08-20",
+      "vencimiento": "2026-08-30",
+      "monto": 94466,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "ORGULLO ARGEN Nero-Santoku + Fascículo",
+          "edicion": "0000003",
+          "codigoPublicacion": "200440",
+          "cantidad": 5,
+          "monto": 94466,
+          "fechaItem": null
+        }
+      ],
+      "cargadaEl": "2026-08-24T13:33:29.998Z"
+    },
+    {
+      "id": "f_1787578411967_8cm3h",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450-00962655",
+      "referenciaFactura": "00450A00581104",
+      "fecha": "2026-08-20",
+      "vencimiento": "2026-08-30",
+      "monto": 15493.2,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "KAWAII Panda + Fascículo",
+          "edicion": "0000014",
+          "codigoPublicacion": "200428",
+          "cantidad": 1,
+          "monto": 15493.2,
+          "fechaItem": null
+        }
+      ],
+      "cargadaEl": "2026-08-24T13:33:31.967Z"
+    },
+    {
+      "id": "f_1787578413641_z30qd",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450-00962656",
+      "referenciaFactura": "00450A00581584",
+      "fecha": "2026-08-20",
+      "vencimiento": "2026-08-30",
+      "monto": 46479.6,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "DESCAPOTABLES Devolución Mercedes-Benz 280 SE (1967) Entrega 2 + Fascículo",
+          "edicion": "0000002",
+          "codigoPublicacion": "200443",
+          "cantidad": 3,
+          "monto": 46479.6,
+          "fechaItem": null
+        }
+      ],
+      "cargadaEl": "2026-08-24T13:33:33.641Z"
+    },
+    {
+      "id": "f_1787578589278_5gbn5",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450-00962657",
+      "referenciaFactura": "00450A00580696",
+      "fecha": "2026-08-20",
+      "vencimiento": "2026-08-30",
+      "monto": 5303.2,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "ACTIVITY COLO FROZEN",
+          "edicion": "0000002",
+          "codigoPublicacion": "120477",
+          "cantidad": 1,
+          "monto": 5303.2,
+          "fechaItem": null
+        }
+      ],
+      "cargadaEl": "2026-08-24T13:36:29.278Z"
+    },
+    {
+      "id": "f_1787578592310_2q0rj",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450-00962658",
+      "referenciaFactura": "00450A00580696",
+      "fecha": "2026-08-20",
+      "vencimiento": "2026-08-30",
+      "monto": 2583.2,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "ACTIVITY COLO SPIDEY",
+          "edicion": "0000004",
+          "codigoPublicacion": "120484",
+          "cantidad": 1,
+          "monto": 2583.2,
+          "fechaItem": null
+        }
+      ],
+      "cargadaEl": "2026-08-24T13:36:32.310Z"
+    },
+    {
+      "id": "f_1787578606124_w8z1l",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450-00962660",
+      "referenciaFactura": "00450A00582060",
+      "fecha": "2026-08-20",
+      "vencimiento": "2026-08-30",
+      "monto": 101152,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "LUGARES BKZ",
+          "edicion": "0000033",
+          "codigoPublicacion": "110538",
+          "cantidad": 8,
+          "monto": 101152,
+          "fechaItem": null
+        }
+      ],
+      "cargadaEl": "2026-08-24T13:36:46.124Z"
+    },
+    {
+      "id": "f_1787578610753_jf2gz",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450-00962662",
+      "referenciaFactura": "00450A00582308",
+      "fecha": "2026-08-20",
+      "vencimiento": "2026-08-30",
+      "monto": 18893.2,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "200423 AUTOS ALEMANE \nBMW M1 (E26) + Fascículo",
+          "edicion": "0000010",
+          "codigoPublicacion": "200423",
+          "cantidad": 1,
+          "monto": 18893.2,
+          "fechaItem": null
+        }
+      ],
+      "cargadaEl": "2026-08-24T13:36:50.753Z"
+    },
+    {
+      "id": "f_1787578696039_sufqe",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450-00962659",
+      "referenciaFactura": "00450A00580696",
+      "fecha": "2026-08-20",
+      "vencimiento": "2026-08-30",
+      "monto": 2583.2,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "ACTIVITY COLO BLUEY",
+          "edicion": "0000004",
+          "codigoPublicacion": "120485",
+          "cantidad": 1,
+          "monto": 2583.2,
+          "fechaItem": null
+        }
+      ],
+      "cargadaEl": "2026-08-24T13:38:16.039Z"
+    },
+    {
+      "id": "f_1787578816662_3w1hc",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450-00962668",
+      "referenciaFactura": "00450A00583544",
+      "fecha": "2026-08-20",
+      "vencimiento": "2026-08-30",
+      "monto": 40359.6,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "MON Y BILL 20Monedas Spain - Folio",
+          "edicion": "0000037",
+          "codigoPublicacion": "200236",
+          "cantidad": 3,
+          "monto": 40359.6,
+          "fechaItem": null
+        }
+      ],
+      "cargadaEl": "2026-08-24T13:40:16.662Z"
+    },
+    {
+      "id": "f_1787578836432_rmare",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450-00962663",
+      "referenciaFactura": "00450A00582308",
+      "fecha": "2026-08-20",
+      "vencimiento": "2026-08-30",
+      "monto": 113359.2,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "ORGULLO ARGEN Nero-Nakiri + Fascículo",
+          "edicion": "0000004",
+          "codigoPublicacion": "200440",
+          "cantidad": 6,
+          "monto": 113359.2,
+          "fechaItem": null
+        }
+      ],
+      "cargadaEl": "2026-08-24T13:40:36.432Z"
+    },
+    {
+      "id": "f_1787578844556_wko42",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450-00962664",
+      "referenciaFactura": "00450A00582991",
+      "fecha": "2026-08-20",
+      "vencimiento": "2026-08-30",
+      "monto": 43466,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "DINOSAURIOS 2\nPTERODÁPTILO + FASCÍCULO",
+          "edicion": "0000011",
+          "codigoPublicacion": "200219",
+          "cantidad": 5,
+          "monto": 43466,
+          "fechaItem": null
+        }
+      ],
+      "cargadaEl": "2026-08-24T13:40:44.556Z"
+    },
+    {
+      "id": "f_1787578852700_chzrt",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450-00962665",
+      "referenciaFactura": "00450A00582992",
+      "fecha": "2026-08-20",
+      "vencimiento": "2026-08-30",
+      "monto": 77798,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "DEADPOOLWolverine: Primera generación",
+          "edicion": "0000004",
+          "codigoPublicacion": "200430",
+          "cantidad": 7,
+          "monto": 77798,
+          "fechaItem": null
+        }
+      ],
+      "cargadaEl": "2026-08-24T13:40:52.700Z"
+    },
+    {
+      "id": "f_1787578871474_7l94y",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450-00962666",
+      "referenciaFactura": "00450A00583343",
+      "fecha": "2026-08-20",
+      "vencimiento": "2026-08-30",
+      "monto": 43466,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "DINOSAURIOS 2 ANKILOSAURUS + FASCÍCULO",
+          "edicion": "0000007",
+          "codigoPublicacion": "200219",
+          "cantidad": 5,
+          "monto": 43466,
+          "fechaItem": null
+        }
+      ],
+      "cargadaEl": "2026-08-24T13:41:11.474Z"
+    },
+    {
+      "id": "f_1787578899724_kswzt",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450-00962667",
+      "referenciaFactura": "00450A00583513",
+      "fecha": "2026-08-20",
+      "vencimiento": "2026-08-30",
+      "monto": 40359.6,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "MON Y BILL 20 Billete - Nicaragua 2",
+          "edicion": "0000036",
+          "codigoPublicacion": "200236",
+          "cantidad": 3,
+          "monto": 40359.6,
+          "fechaItem": null
+        }
+      ],
+      "cargadaEl": "2026-08-24T13:41:39.724Z"
+    },
+    {
+      "id": "f_1787584914227_o66dz",
+      "proveedorKey": "silmar",
+      "tipo": "factura",
+      "numeroFactura": "00004-00016958",
+      "referenciaFactura": null,
+      "fecha": "2026-08-24",
+      "vencimiento": "2026-09-03",
+      "monto": 153023,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "CONTRUYE LA PERLITA",
+          "edicion": "12",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 18000,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "COSAS DE CASA (BRI)",
+          "edicion": "343",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 3720,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "NATIONAL GEOGRA/MAG",
+          "edicion": "575",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 7662,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "THE BEST OF MARVEL",
+          "edicion": "12",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 20800,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "AUDIOCUENTOS MAGICOS",
+          "edicion": "19",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 18800,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "JUEGOS LITERARIOS",
+          "edicion": "261",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 2817,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "RALLY 1:24",
+          "edicion": "55",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 40000,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "PROTAGONISTAS 2",
+          "edicion": "60",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 11920,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "CONSTR FORD MUSTANG",
+          "edicion": "37",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 18000,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "33 CRUZADAS BOLSILLO",
+          "edicion": "98",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 2379,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "NOTICIAS",
+          "edicion": "2591",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 8925,
+          "fechaItem": null
+        }
+      ],
+      "cargadaEl": "2026-08-24T15:21:54.227Z"
+    },
+    {
+      "id": "f_1787596099195_a3w7e",
+      "proveedorKey": "silmar",
+      "tipo": "nota_credito",
+      "numeroFactura": "00004-00009347",
+      "referenciaFactura": null,
+      "fecha": "2026-06-01",
+      "vencimiento": null,
+      "monto": 242329,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "AUTOS INOLV ARGENTINOS",
+          "edicion": "2",
+          "codigoPublicacion": null,
+          "cantidad": 5,
+          "monto": 59000,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "BARBIE PODER Y ESTILO",
+          "edicion": "3",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 22992,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "COSAS DE CASA (BRI) (D",
+          "edicion": "340",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 2963,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "CROCHET CREATIVO SUS (",
+          "edicion": "7",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 10600,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "MESSI/ESTRELLAS DEL FU",
+          "edicion": "1",
+          "codigoPublicacion": null,
+          "cantidad": 2,
+          "monto": 10640,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "FEDERICO GARCIA LORCA",
+          "edicion": "1",
+          "codigoPublicacion": null,
+          "cantidad": 2,
+          "monto": 10784,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "GDES TEMAS HISTORIA (D",
+          "edicion": "3",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 11720,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "NATIONAL GEOGRA/MAG (D",
+          "edicion": "572",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 5956,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "CLIP (DGP)",
+          "edicion": "903",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 3232,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "QUIJOTE SOPAS (DGP)",
+          "edicion": "10002",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 5933,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "QUIJOTE SOPITAS ESPECI",
+          "edicion": "10019",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 3597,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "BURDA EASY (DGP)",
+          "edicion": "25001",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 7562,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "CAMPEONES (DGP)",
+          "edicion": "782",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 8730,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "PROTAGONISTAS 2 (DGP)",
+          "edicion": "46",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 11720,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "WEEKEND",
+          "edicion": "644",
+          "codigoPublicacion": null,
+          "cantidad": 3,
+          "monto": 38250,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "CARAS (11)",
+          "edicion": "2313",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 7800,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "SEMANARIO (PERFIL)",
+          "edicion": "2248",
+          "codigoPublicacion": null,
+          "cantidad": 2,
+          "monto": 6950,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "SEMANARIO (PERFIL)",
+          "edicion": "2249",
+          "codigoPublicacion": null,
+          "cantidad": 4,
+          "monto": 13900,
+          "fechaItem": null
+        }
+      ],
+      "cargadaEl": "2026-08-24T18:28:19.195Z"
+    },
+    {
+      "id": "f_1787596110797_pq0wd",
+      "proveedorKey": "silmar",
+      "tipo": "factura",
+      "numeroFactura": "00004-00016384",
+      "referenciaFactura": null,
+      "fecha": "2026-06-01",
+      "vencimiento": "2026-06-11",
+      "monto": 269782,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "ASTERIX II ( DGP SA )",
+          "edicion": "5",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 16600,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "AUDI QUATTRO (DGP)",
+          "edicion": "45",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 16600,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "BIBLIOTECA CLASICA GRE",
+          "edicion": "24",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 19792,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "CONSTRUYE LA PERLITA (",
+          "edicion": "2",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 11800,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "DODGE CHARGER RYF (DGP",
+          "edicion": "6",
+          "codigoPublicacion": null,
+          "cantidad": 2,
+          "monto": 43600,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "RALLY 1:24 (DGP)",
+          "edicion": "49",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 38200,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "NOVELAS ETERNAS II (DG",
+          "edicion": "7",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 15792,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "PROTAGONISTAS 2 (DGP)",
+          "edicion": "47",
+          "codigoPublicacion": null,
+          "cantidad": 2,
+          "monto": 23440,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "HISTORIAS MARAVILLOSAS",
+          "edicion": "50",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 15792,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "MIS ANIMALES DEL ZOO (",
+          "edicion": "46",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 12592,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "PAISES DEL MUNDO (DGP)",
+          "edicion": "26",
+          "codigoPublicacion": null,
+          "cantidad": 2,
+          "monto": 17040,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "JUEGOS DE INGENIO (DGP",
+          "edicion": "30",
+          "codigoPublicacion": null,
+          "cantidad": 2,
+          "monto": 29984,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "NOTICIAS (11)",
+          "edicion": "2579",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 8550,
+          "fechaItem": null
+        }
+      ],
+      "cargadaEl": "2026-08-24T18:28:30.797Z"
+    },
+    {
+      "id": "f_1787596121357_1qtxy",
+      "proveedorKey": "silmar",
+      "tipo": "factura",
+      "numeroFactura": "00004-00016409",
+      "referenciaFactura": null,
+      "fecha": "2026-06-05",
+      "vencimiento": "2026-06-15",
+      "monto": 397643.2,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "ASTERIX II ( DGP SA )",
+          "edicion": "6",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 16600,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "BIBLIOTECA CLASICA GRE",
+          "edicion": "25",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 19792,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "EL ARTE DE TEJER (DGP)",
+          "edicion": "2026",
+          "codigoPublicacion": null,
+          "cantidad": 2,
+          "monto": 40820,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "EL ARTE DE TEJER CROCH",
+          "edicion": "2026",
+          "codigoPublicacion": null,
+          "cantidad": 2,
+          "monto": 40820,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "THE BEST OF MARVEL (DG",
+          "edicion": "6",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 20600,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "AUDIOCUENTOS MAGICOS D",
+          "edicion": "8",
+          "codigoPublicacion": null,
+          "cantidad": 5,
+          "monto": 93000,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "CRUZADAS EXTRA (DGP",
+          "edicion": "462",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 2315.5,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "SHERLOCK HOLMES COL (D",
+          "edicion": "56",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 15792,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "VIDEOJUEGOS LEGENDARIO",
+          "edicion": "55",
+          "codigoPublicacion": null,
+          "cantidad": 2,
+          "monto": 34784,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "PROTAGONISTAS 2 (DGP)",
+          "edicion": "48",
+          "codigoPublicacion": null,
+          "cantidad": 2,
+          "monto": 23440,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "LEYENDAS DE LA MODA (D",
+          "edicion": "38",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 15792,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "CRUCIGRAMA CLASICOS DE",
+          "edicion": "162",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 4785,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "JOKER EXTRA (PERFIL IN",
+          "edicion": "280",
+          "codigoPublicacion": null,
+          "cantidad": 2,
+          "monto": 14700,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "ORO SOPAS DE LETRAS (P",
+          "edicion": "23",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 9052.7,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "CARAS (11)",
+          "edicion": "2315",
+          "codigoPublicacion": null,
+          "cantidad": 2,
+          "monto": 16350,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "SEMANARIO (PERFIL)",
+          "edicion": "2251",
+          "codigoPublicacion": null,
+          "cantidad": 8,
+          "monto": 29000,
+          "fechaItem": null
+        }
+      ],
+      "cargadaEl": "2026-08-24T18:28:41.358Z"
+    },
+    {
+      "id": "f_1787596132840_8o937",
+      "proveedorKey": "silmar",
+      "tipo": "nota_credito",
+      "numeroFactura": "00004-00009373",
+      "referenciaFactura": null,
+      "fecha": "2026-06-08",
+      "vencimiento": "2026-06-18",
+      "monto": 84795.5,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "BARBIE PODER Y ESTILO",
+          "edicion": "1",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 10192,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "33 CRUZADAS EXTRA (DGP",
+          "edicion": "461",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 2315.5,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "PAISES DEL MUNDO (DGP)",
+          "edicion": "24",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 8520,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "CRUCIGRAMA (PERFIL INT",
+          "edicion": "1258",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 4125,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "CRUCIGRAMA CLASICOS (P",
+          "edicion": "292",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 3450,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "CRUCIGRAMA EXTRA (PERF",
+          "edicion": "280",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 6675,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "JOKER (PERFIL INT)",
+          "edicion": "1350",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 4125,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "JOKER CRUZADEX ORO (PE",
+          "edicion": "198",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 4266,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "JOKER CRUZADEX ORO (PE",
+          "edicion": "199",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 4266,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "JOKER SUDOKU POCKET (P",
+          "edicion": "102",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 3244,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "SEMANARIO (PERFIL)",
+          "edicion": "2249",
+          "codigoPublicacion": null,
+          "cantidad": 2,
+          "monto": 6950,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "CRUCIGRAMA REVUELTOS O",
+          "edicion": "124",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 5223,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "CRUCIGRAMA MASTER 100",
+          "edicion": "174",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 6091,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "CRUCIGRAMA MASTER 100",
+          "edicion": "175",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 6529,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "JOKER CRUZADEX (PERFIL",
+          "edicion": "291",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 4047,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "JOKER ORO (PERFIL INT)",
+          "edicion": "189",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 4777,
+          "fechaItem": null
+        }
+      ],
+      "cargadaEl": "2026-08-24T18:28:52.840Z"
+    },
+    {
+      "id": "f_1787596147531_mdhuf",
+      "proveedorKey": "silmar",
+      "tipo": "factura",
+      "numeroFactura": "00004-00016434",
+      "referenciaFactura": null,
+      "fecha": "2026-06-08",
+      "vencimiento": "2026-06-18",
+      "monto": 258844,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "AUDI QUATTRO (DGP)",
+          "edicion": "46",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 16600,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "AVIONES II GUERRA MUND",
+          "edicion": "17",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 21800,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "DODGE CHARGER RYF (DGP",
+          "edicion": "7",
+          "codigoPublicacion": null,
+          "cantidad": 2,
+          "monto": 43600,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "33 CRUZADAS EXTRA ESP",
+          "edicion": "406",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 2315.5,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "33 CRUZADAS PUEBLOS ES",
+          "edicion": "392",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 2169.5,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "RAPIDO Y FURIOSO (DGP)",
+          "edicion": "30",
+          "codigoPublicacion": null,
+          "cantidad": 2,
+          "monto": 48400,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "RACING CARS (DGP)",
+          "edicion": "19",
+          "codigoPublicacion": null,
+          "cantidad": 3,
+          "monto": 72600,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "JUEGOS DE INGENIO (DGP",
+          "edicion": "31",
+          "codigoPublicacion": null,
+          "cantidad": 2,
+          "monto": 29984,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "ESP SECCION ARGENTIN",
+          "edicion": "71",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 12450,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "NOTICIAS (11)",
+          "edicion": "2580",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 8925,
+          "fechaItem": null
+        }
+      ],
+      "cargadaEl": "2026-08-24T18:29:07.532Z"
+    },
+    {
+      "id": "f_1787596163127_72r5v",
+      "proveedorKey": "silmar",
+      "tipo": "nota_credito",
+      "numeroFactura": "00004-00009386",
+      "referenciaFactura": null,
+      "fecha": "2026-06-12",
+      "vencimiento": "2026-06-22",
+      "monto": 113019,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "PROTAGONISTAS 2 (DGP)",
+          "edicion": "47",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 11720,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "PROTAGONISTAS 2 (DGP)",
+          "edicion": "48",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 11720,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "JOKER EXTRA (PERFIL IN",
+          "edicion": "280",
+          "codigoPublicacion": null,
+          "cantidad": 2,
+          "monto": 14700,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "CARAS (11)",
+          "edicion": "2314",
+          "codigoPublicacion": null,
+          "cantidad": 2,
+          "monto": 15600,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "CARAS (11)",
+          "edicion": "2315",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 8175,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "SEMANARIO (PERFIL)",
+          "edicion": "2250",
+          "codigoPublicacion": null,
+          "cantidad": 6,
+          "monto": 20850,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "SEMANARIO (PERFIL)",
+          "edicion": "2251",
+          "codigoPublicacion": null,
+          "cantidad": 4,
+          "monto": 14500,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "CRUCIGRAMA MASTER 100",
+          "edicion": "176",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 6829,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "NOTICIAS (11)",
+          "edicion": "2580",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 8925,
+          "fechaItem": null
+        }
+      ],
+      "cargadaEl": "2026-08-24T18:29:23.127Z"
+    },
+    {
+      "id": "f_1787596628690_h0tqz",
+      "proveedorKey": "silmar",
+      "tipo": "factura",
+      "numeroFactura": "00004-00016459",
+      "referenciaFactura": null,
+      "fecha": "2026-06-12",
+      "vencimiento": "2026-06-22",
+      "monto": 951904.7,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "ANUARIO SOPITAS QUIJOT",
+          "edicion": "10000",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 4692,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "ASTERIX II ( DGP SA )",
+          "edicion": "7",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 16600,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "AUDI QUATTRO (DGP)",
+          "edicion": "47",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 16600,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "AUTOS INOLV ARGENTINOS",
+          "edicion": "4",
+          "codigoPublicacion": null,
+          "cantidad": 13,
+          "monto": 330200,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "BIBLIOTECA CLASICA GRE",
+          "edicion": "26",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 19792,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "CONSTRUYE LA PERLITA (",
+          "edicion": "3",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 17800,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "AUDIOCUENTOS MAGICOS D",
+          "edicion": "9",
+          "codigoPublicacion": null,
+          "cantidad": 5,
+          "monto": 93000,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "CLIP (DGP)",
+          "edicion": "904",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 3378,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "BIBLIOTECA DE PSICOLOG",
+          "edicion": "20",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 12520,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "QUIJOTE AUTODEFINIDOS",
+          "edicion": "56",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 8488,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "SOPARAMA SUPER -A (DGP",
+          "edicion": "316",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 2425,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "SOPAS DE LETRAS OPALO",
+          "edicion": "172",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 3100,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "RALLY 1:24 (DGP)",
+          "edicion": "50",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 38200,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "CONSTRUYE TU COMBI (DG",
+          "edicion": "56",
+          "codigoPublicacion": null,
+          "cantidad": 3,
+          "monto": 49800,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "CONSTRUYE TU COMBI (DG",
+          "edicion": "57",
+          "codigoPublicacion": null,
+          "cantidad": 3,
+          "monto": 49800,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "SHERLOCK HOLMES COL (D",
+          "edicion": "57",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 15792,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "VIDEOJUEGOS LEGENDARIO",
+          "edicion": "56",
+          "codigoPublicacion": null,
+          "cantidad": 2,
+          "monto": 34784,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "PROTAGONISTAS 2 (DGP)",
+          "edicion": "49",
+          "codigoPublicacion": null,
+          "cantidad": 2,
+          "monto": 23440,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "MIS ANIMALES DEL ZOO (",
+          "edicion": "48",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 12592,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "PAISES DEL MUNDO (DGP)",
+          "edicion": "27",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 8520,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "LEYENDAS DE LA MODA (D",
+          "edicion": "39",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 15792,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "LEYENDAS DE LA MODA (D",
+          "edicion": "40",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 15792,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "JUEGOS DE INGENIO (DGP",
+          "edicion": "32",
+          "codigoPublicacion": null,
+          "cantidad": 2,
+          "monto": 29984,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "CONSTR FORD MUSTANG (",
+          "edicion": "27",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 16600,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "CRUCIGRAMA DE ORO (PER",
+          "edicion": "264",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 6099,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "HACHA DE COCINA/CUCHIL",
+          "edicion": "1",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 15820,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "JOKER (PERFIL INT)",
+          "edicion": "1353",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 4350,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "JOKER CRUZADEX ORO (PE",
+          "edicion": "198",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 4266,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "MEGA SOPAS DE LETRAS (",
+          "edicion": "62",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 3796.7,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "INDIO SOLARI 1949-2026",
+          "edicion": "87",
+          "codigoPublicacion": null,
+          "cantidad": 2,
+          "monto": 14000,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "CARAS (11)",
+          "edicion": "2316",
+          "codigoPublicacion": null,
+          "cantidad": 2,
+          "monto": 16350,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "SEMANARIO (PERFIL)",
+          "edicion": "2252",
+          "codigoPublicacion": null,
+          "cantidad": 8,
+          "monto": 29000,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "CRUCIGRAMA MASTER 100",
+          "edicion": "174",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 6091,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "JOKER CRUZADEX (PERFIL",
+          "edicion": "293",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 4566,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "NOTICIAS (11)",
+          "edicion": "2580",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 8550,
+          "fechaItem": null
+        }
+      ],
+      "cargadaEl": "2026-08-24T18:37:08.690Z"
+    },
+    {
+      "id": "f_1787596658257_q5a9l",
+      "proveedorKey": "silmar",
+      "tipo": "factura",
+      "numeroFactura": "00004-00016508",
+      "referenciaFactura": null,
+      "fecha": "2026-06-19",
+      "vencimiento": "2026-06-29",
+      "monto": 444155,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "ARCHIVADOR RACING CARS",
+          "edicion": "201",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 10025,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "ASTERIX II ( DGP SA )",
+          "edicion": "8",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 16600,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "BIBLIOTECA CLASICA GRE",
+          "edicion": "27",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 19792,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "DODGE CHARGER RYF (DGP",
+          "edicion": "8",
+          "codigoPublicacion": null,
+          "cantidad": 2,
+          "monto": 43600,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "THE BEST OF MARVEL (DG",
+          "edicion": "7",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 20600,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "QUIJOTE PLATINO EXTRA",
+          "edicion": "10077",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 7612,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "CAMPEONES (DGP)",
+          "edicion": "783",
+          "codigoPublicacion": null,
+          "cantidad": 2,
+          "monto": 21840,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "AUTOS INO. COLECTIVOS",
+          "edicion": "10708",
+          "codigoPublicacion": null,
+          "cantidad": 2,
+          "monto": 79600,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "CONSTRUYE TU COMBI (DG",
+          "edicion": "58",
+          "codigoPublicacion": null,
+          "cantidad": 3,
+          "monto": 49800,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "SHERLOCK HOLMES COL (D",
+          "edicion": "58",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 15792,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "PROTAGONISTAS 2 (DGP)",
+          "edicion": "50",
+          "codigoPublicacion": null,
+          "cantidad": 2,
+          "monto": 23440,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "MIS ANIMALES DEL ZOO (",
+          "edicion": "49",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 12592,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "JUEGOS DE INGENIO (DGP",
+          "edicion": "33",
+          "codigoPublicacion": null,
+          "cantidad": 3,
+          "monto": 29984,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "CONSTR FORD MUSTANG (",
+          "edicion": "28",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 16600,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "CRUCIGRAMA (PERFIL INT",
+          "edicion": "1261",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 4350,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "JOKER SUDOKU POCKET (P",
+          "edicion": "107",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 3244,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "CARAS (11)",
+          "edicion": "2317",
+          "codigoPublicacion": null,
+          "cantidad": 2,
+          "monto": 16350,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "SEMANARIO (PERFIL)",
+          "edicion": "2253",
+          "codigoPublicacion": null,
+          "cantidad": 8,
+          "monto": 29000,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "PARABRISAS (1)",
+          "edicion": "572",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 12450,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "CRUCIGRAMA REVUELTOS O",
+          "edicion": "125",
+          "codigoPublicacion": null,
+          "cantidad": 2,
+          "monto": 10884,
+          "fechaItem": null
+        }
+      ],
+      "cargadaEl": "2026-08-24T18:37:38.257Z"
+    },
+    {
+      "id": "f_1787596681967_9qt1t",
+      "proveedorKey": "silmar",
+      "tipo": "nota_credito",
+      "numeroFactura": "00004-00009432",
+      "referenciaFactura": null,
+      "fecha": "2026-06-22",
+      "vencimiento": null,
+      "monto": 155382.4,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "250 SUDOKUS EDI (DGP)",
+          "edicion": "34",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 2461.5,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "ANUARIO SOPITAS QUIJOT",
+          "edicion": "10000",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 4692,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "SELECCIONES (DGP)",
+          "edicion": "1027",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 6750,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "CLIP (DGP)",
+          "edicion": "904",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 3378,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "SOPARAMA SUPER -A (DGP",
+          "edicion": "316",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 2425,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "33 CRUZADAS PUEBLOS ES",
+          "edicion": "390",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 2169.5,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "PROTAGONISTAS 2 (DGP)",
+          "edicion": "49",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 11720,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "PAISES DEL MUNDO (DGP)",
+          "edicion": "26",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 8520,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "AUTODEFINIDOS 220 (PER",
+          "edicion": "92",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 5748.7,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "CRUCIGRAMA DE ORO (PER",
+          "edicion": "263",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 5807,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "CRUCIGRAMA EXTRA (PERF",
+          "edicion": "281",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 7350,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "JOKER (PERFIL INT)",
+          "edicion": "1349",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 4125,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "JOKER CRUZADEX ORO (PE",
+          "edicion": "200",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 4566,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "JOKER SUDOKU POCKET (P",
+          "edicion": "103",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 3244,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "JOKER SUDOKU POCKET (P",
+          "edicion": "104",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 3244,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "JOKER SUDOKU POCKET (P",
+          "edicion": "105",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 3244,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "JOKER SUDOKU POCKET (P",
+          "edicion": "106",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 3244,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "MEGA SOPAS DE LETRAS (",
+          "edicion": "61",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 3796.7,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "ESP SELECCION ARGENTIN",
+          "edicion": "71",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 12450,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "INDIO SOLARI 1949-2026",
+          "edicion": "87",
+          "codigoPublicacion": null,
+          "cantidad": 2,
+          "monto": 14000,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "CARAS (11)",
+          "edicion": "2315",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 8175,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "CARAS (11)",
+          "edicion": "2316",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 8175,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "SEMANARIO (PERFIL)",
+          "edicion": "2251",
+          "codigoPublicacion": null,
+          "cantidad": 2,
+          "monto": 7250,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "SEMANARIO (PERFIL)",
+          "edicion": "2252",
+          "codigoPublicacion": null,
+          "cantidad": 4,
+          "monto": 14500,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "JOKER CRUZADEX (PERFIL",
+          "edicion": "292",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 4347,
+          "fechaItem": null
+        }
+      ],
+      "cargadaEl": "2026-08-24T18:38:01.967Z"
+    },
+    {
+      "id": "f_1787596713238_mvf1k",
+      "proveedorKey": "silmar",
+      "tipo": "factura",
+      "numeroFactura": "00004-00016484",
+      "referenciaFactura": null,
+      "fecha": "2026-06-15",
+      "vencimiento": "2026-06-25",
+      "monto": 37195,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "DEL CHEF/CUCHILLO ORO",
+          "edicion": "2",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 15820,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "INDIO SOLARI NOTICIAS",
+          "edicion": "72",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 12450,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "NOTICIAS (11)",
+          "edicion": "2581",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 8925,
+          "fechaItem": null
+        }
+      ],
+      "cargadaEl": "2026-08-24T18:38:33.238Z"
+    },
+    {
+      "id": "f_1787596753681_ig8a9",
+      "proveedorKey": "silmar",
+      "tipo": "factura",
+      "numeroFactura": "00004-00016533",
+      "referenciaFactura": null,
+      "fecha": "2026-06-22",
+      "vencimiento": "2026-07-02",
+      "monto": 289356,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "AUDI QUATTRO (DGP)",
+          "edicion": "48",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 16600,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "AVIONES II GUERRA MUND",
+          "edicion": "18",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 21800,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "COL GIMNASIA PARA LA M",
+          "edicion": "5",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 7466,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "ESTRELLAS DEL FUTBOL (",
+          "edicion": "3",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 11720,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "CLIP EXTRA (DGP)",
+          "edicion": "367",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 4400,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "BIBLIOTECA DE PSICOLOG",
+          "edicion": "21",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 12520,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "QUIJOTE SOPAS (DGP)",
+          "edicion": "11024",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 5933,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "CONSTRUYE TU COMBI (DG",
+          "edicion": "59",
+          "codigoPublicacion": null,
+          "cantidad": 3,
+          "monto": 49800,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "RAPIDO Y FURIOSO (DGP)",
+          "edicion": "31",
+          "codigoPublicacion": null,
+          "cantidad": 2,
+          "monto": 48400,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "MIS ANIMALES DEL ZOO (",
+          "edicion": "47",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 12592,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "RACING CARS (DGP)",
+          "edicion": "20",
+          "codigoPublicacion": null,
+          "cantidad": 3,
+          "monto": 72600,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "CONSTR FORD MUSTANG (",
+          "edicion": "29",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 16600,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "NOTICIAS (11)",
+          "edicion": "2582",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 8925,
+          "fechaItem": null
+        }
+      ],
+      "cargadaEl": "2026-08-24T18:39:13.681Z"
+    },
+    {
+      "id": "f_1787596795574_1863m",
+      "proveedorKey": "silmar",
+      "tipo": "factura",
+      "numeroFactura": "00004-00016583",
+      "referenciaFactura": null,
+      "fecha": "2026-06-29",
+      "vencimiento": "2026-07-09",
+      "monto": 301898.5,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "AUDI QUATTRO (DGP)",
+          "edicion": "49",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 16600,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "DODGE CHARGER RYF (DGP",
+          "edicion": "9",
+          "codigoPublicacion": null,
+          "cantidad": 2,
+          "monto": 43600,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "UN MAR DE SOPAS (DGP)",
+          "edicion": "396",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 2644,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "VIP SOPAS SUPERSOPEX (",
+          "edicion": "346",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 2498,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "AUDIOCUENTOS MAGICOS D",
+          "edicion": "11",
+          "codigoPublicacion": null,
+          "cantidad": 4,
+          "monto": 74400,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "SELECCIONES (DGP)",
+          "edicion": "1028",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 6850,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "SOPITAS EXTRA (DGP)",
+          "edicion": "323",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 2379,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "33 CRUZADAS EXTRA (DGP",
+          "edicion": "463",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 2498,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "ALBUM SOPAS EXTRA (DGP",
+          "edicion": "105",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 2534.5,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "RALLY 1:24 (DGP)",
+          "edicion": "51",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 38200,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "MIS ANIMALES DEL ZOO (",
+          "edicion": "50",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 12592,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "JUEGOS DE INGENIO (DGP",
+          "edicion": "34",
+          "codigoPublicacion": null,
+          "cantidad": 2,
+          "monto": 29984,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "WEEKEND",
+          "edicion": "646",
+          "codigoPublicacion": null,
+          "cantidad": 4,
+          "monto": 51000,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "NOTICIAS (11)",
+          "edicion": "2583",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 8925,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "CRUCIGRAMA MASTER 100",
+          "edicion": "177",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 7194,
+          "fechaItem": null
+        }
+      ],
+      "cargadaEl": "2026-08-24T18:39:55.574Z"
+    },
+    {
+      "id": "f_1787596833486_rg4go",
+      "proveedorKey": "silmar",
+      "tipo": "factura",
+      "numeroFactura": "00004-00016558",
+      "referenciaFactura": null,
+      "fecha": "2026-06-26",
+      "vencimiento": "2026-07-06",
+      "monto": 596426,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "ASTERIX II ( DGP SA )",
+          "edicion": "9",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 16600,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "AUTOS INOLV ARGENTINOS",
+          "edicion": "5",
+          "codigoPublicacion": null,
+          "cantidad": 10,
+          "monto": 254000,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "BIBLIOTECA CLASICA GRE",
+          "edicion": "28",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 19792,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "CONSTRUYE LA PERLITA (",
+          "edicion": "4",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 17800,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "EL MUEBLE (BRI) (DGP)4",
+          "edicion": "757",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 5080,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "EL MUEBLE MINI (BRI) (",
+          "edicion": "757",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 2963,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "EXTRA SOPAS NEW GAMES",
+          "edicion": "259",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 2137,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "NATIONAL GEOGRA/MAG (D",
+          "edicion": "573",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 5956,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "AUDIOCUENTOS MAGICOS D",
+          "edicion": "10",
+          "codigoPublicacion": null,
+          "cantidad": 5,
+          "monto": 93000,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "QUIJOTE AUTODEFINIDOS",
+          "edicion": "10055",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 7758,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "JUEGOS LITERARIOS (DGP",
+          "edicion": "257",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 2498,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "SOPITAS SUPER (DGP)",
+          "edicion": "300",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 2133,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "SHERLOCK HOLMES COL (D",
+          "edicion": "59",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 15792,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "PROTAGONISTAS 2 (DGP)",
+          "edicion": "51",
+          "codigoPublicacion": null,
+          "cantidad": 2,
+          "monto": 23440,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "PAISES DEL MUNDO (DGP)",
+          "edicion": "28",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 8520,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "LEYENDAS DE LA MODA (D",
+          "edicion": "41",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 15792,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "CONSTR FORD MUSTANG (",
+          "edicion": "30",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 16600,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "CRUCIGRAMA EXTRA (PERF",
+          "edicion": "282",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 7350,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "CUCHILLO ORO (ROSADO)",
+          "edicion": "3",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 15820,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "JOKER (PERFIL INT)",
+          "edicion": "1349",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 4125,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "JOKER (PERFIL INT)",
+          "edicion": "1354",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 4350,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "JOKER CRUZADEX ORO (PE",
+          "edicion": "201",
+          "codigoPublicacion": null,
+          "cantidad": 2,
+          "monto": 9570,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "CARAS (11)",
+          "edicion": "2318",
+          "codigoPublicacion": null,
+          "cantidad": 2,
+          "monto": 16350,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "SEMANARIO (PERFIL)",
+          "edicion": "2254",
+          "codigoPublicacion": null,
+          "cantidad": 8,
+          "monto": 29000,
+          "fechaItem": null
+        }
+      ],
+      "cargadaEl": "2026-08-24T18:40:33.486Z"
+    },
+    {
+      "id": "f_1787604869942_k5v0p",
+      "proveedorKey": "clarin",
+      "tipo": "nota_credito",
+      "numeroFactura": "0132-01363087",
+      "referenciaFactura": "0132A01341841",
+      "fecha": "2026-08-21",
+      "vencimiento": "2026-08-28",
+      "monto": 84476,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "CLARIN BASE 07 - 29.07.2026",
+          "edicion": "28974",
+          "codigoPublicacion": "CBAS290726",
+          "cantidad": 4,
+          "monto": 13176,
+          "fechaItem": "2026-07-29"
+        },
+        {
+          "descripcion": "CLARIN BASE 08 - 30.07.2026",
+          "edicion": "28975",
+          "codigoPublicacion": "CBAS300726",
+          "cantidad": 8,
+          "monto": 26352,
+          "fechaItem": "2026-07-30"
+        },
+        {
+          "descripcion": "CLARIN BASE 09 - 31.07.2026",
+          "edicion": "28976",
+          "codigoPublicacion": "CBAS310726",
+          "cantidad": 2,
+          "monto": 6588,
+          "fechaItem": "2026-07-31"
+        },
+        {
+          "descripcion": "OLE NACIONAL - 29.07.2026",
+          "edicion": "10896",
+          "codigoPublicacion": "ONAC290726",
+          "cantidad": 3,
+          "monto": 5754,
+          "fechaItem": "2026-07-29"
+        },
+        {
+          "descripcion": "OLE NACIONAL - 30.07.2026",
+          "edicion": "10897",
+          "codigoPublicacion": "ONAC300726",
+          "cantidad": 9,
+          "monto": 17262,
+          "fechaItem": "2026-07-30"
+        },
+        {
+          "descripcion": "OLE NACIONAL - 31.07.2026",
+          "edicion": "10898",
+          "codigoPublicacion": "ONAC310726",
+          "cantidad": 8,
+          "monto": 15344,
+          "fechaItem": "2026-07-31"
+        }
+      ],
+      "cargadaEl": "2026-08-24T20:54:29.943Z"
+    },
+    {
+      "id": "f_1787604872099_8dugm",
+      "proveedorKey": "clarin",
+      "tipo": "nota_credito",
+      "numeroFactura": "0132-01363086",
+      "referenciaFactura": "0132A01342597",
+      "fecha": "2026-08-21",
+      "vencimiento": "2026-08-28",
+      "monto": 246396,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "CLARIN BASE 10 - 01.08.2026 - 28977/2026",
+          "edicion": null,
+          "codigoPublicacion": "CBAS010826",
+          "cantidad": 7,
+          "monto": 31584,
+          "fechaItem": "2026-08-01"
+        },
+        {
+          "descripcion": "CLARIN BASE 11 - 02.08.2026 - 28978/2026",
+          "edicion": null,
+          "codigoPublicacion": "CBAS020826",
+          "cantidad": 11,
+          "monto": 54736,
+          "fechaItem": "2026-08-02"
+        },
+        {
+          "descripcion": "CLARIN BASE 05 - 03.08.2026 - 28979/2026",
+          "edicion": null,
+          "codigoPublicacion": "CBAS030826",
+          "cantidad": 2,
+          "monto": 6588,
+          "fechaItem": "2026-08-03"
+        },
+        {
+          "descripcion": "CLARIN BASE 06 - 04.08.2026 - 28980/2026",
+          "edicion": null,
+          "codigoPublicacion": "CBAS040826",
+          "cantidad": 5,
+          "monto": 16470,
+          "fechaItem": "2026-08-04"
+        },
+        {
+          "descripcion": "CLARIN BASE 07 - 05.08.2026 - 28981/2026",
+          "edicion": null,
+          "codigoPublicacion": "CBAS050826",
+          "cantidad": 5,
+          "monto": 16470,
+          "fechaItem": "2026-08-05"
+        },
+        {
+          "descripcion": "CLARIN BASE 08 - 06.08.2026 - 28982/2026",
+          "edicion": null,
+          "codigoPublicacion": "CBAS060826",
+          "cantidad": 9,
+          "monto": 29646,
+          "fechaItem": "2026-08-06"
+        },
+        {
+          "descripcion": "CLARIN BASE 09 - 07.08.2026 - 28983/2026",
+          "edicion": null,
+          "codigoPublicacion": "CBAS070826",
+          "cantidad": 3,
+          "monto": 9882,
+          "fechaItem": "2026-08-07"
+        },
+        {
+          "descripcion": "OLE NACIONAL - 01.08.2026 - 10899/2026",
+          "edicion": null,
+          "codigoPublicacion": "ONAC010826",
+          "cantidad": 9,
+          "monto": 17262,
+          "fechaItem": "2026-08-01"
+        },
+        {
+          "descripcion": "OLE NACIONAL - 02.08.2026 - 10900/2026",
+          "edicion": null,
+          "codigoPublicacion": "ONAC020826",
+          "cantidad": 4,
+          "monto": 7904,
+          "fechaItem": "2026-08-02"
+        },
+        {
+          "descripcion": "OLE NACIONAL - 03.08.2026 - 10901/2026",
+          "edicion": null,
+          "codigoPublicacion": "ONAC030826",
+          "cantidad": 4,
+          "monto": 7904,
+          "fechaItem": "2026-08-03"
+        },
+        {
+          "descripcion": "OLE NACIONAL - 04.08.2026 - 10902/2026",
+          "edicion": null,
+          "codigoPublicacion": "ONAC040826",
+          "cantidad": 4,
+          "monto": 7672,
+          "fechaItem": "2026-08-04"
+        },
+        {
+          "descripcion": "OLE NACIONAL - 05.08.2026 - 10903/2026",
+          "edicion": null,
+          "codigoPublicacion": "ONAC050826",
+          "cantidad": 3,
+          "monto": 5754,
+          "fechaItem": "2026-08-05"
+        },
+        {
+          "descripcion": "OLE NACIONAL - 06.08.2026 - 10904/2026",
+          "edicion": null,
+          "codigoPublicacion": "ONAC060826",
+          "cantidad": 9,
+          "monto": 17262,
+          "fechaItem": "2026-08-06"
+        },
+        {
+          "descripcion": "OLE NACIONAL - 07.08.2026 - 10905/2026",
+          "edicion": null,
+          "codigoPublicacion": "ONAC070826",
+          "cantidad": 9,
+          "monto": 17262,
+          "fechaItem": "2026-08-07"
+        }
+      ],
+      "cargadaEl": "2026-08-24T20:54:32.099Z"
+    },
+    {
+      "id": "f_1787604880751_y3yt3",
+      "proveedorKey": "clarin",
+      "tipo": "factura",
+      "numeroFactura": "0132-01343710",
+      "referenciaFactura": null,
+      "fecha": "2026-08-21",
+      "vencimiento": "2026-09-10",
+      "monto": 76780.16,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "CAMP DE MUNDO - PABLO AIMAR",
+          "edicion": null,
+          "codigoPublicacion": "CMAIMAR",
+          "cantidad": 1,
+          "monto": 12200.03,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "CAMP DE MUNDO - NICOLÁS OTAMENDI",
+          "edicion": null,
+          "codigoPublicacion": "CMOTAMENDI",
+          "cantidad": 1,
+          "monto": 12200.03,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "FIESTAS 2025 - FASC RUTAS + VINO + 2 COP",
+          "edicion": null,
+          "codigoPublicacion": "FIESTA06OS",
+          "cantidad": 3,
+          "monto": 52380.1,
+          "fechaItem": null
+        }
+      ],
+      "cargadaEl": "2026-08-24T20:54:40.751Z"
+    },
+    {
+      "id": "f_1787605044613_ppii7",
+      "proveedorKey": "clarin",
+      "tipo": "nota_credito",
+      "numeroFactura": "0132-01363085",
+      "referenciaFactura": "0132A01343103",
+      "fecha": "2026-08-21",
+      "vencimiento": "2026-08-28",
+      "monto": 126472,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "CLARIN BASE 10 - 08.08.2026 - 28984/2026",
+          "edicion": null,
+          "codigoPublicacion": "CBAS080826",
+          "cantidad": 5,
+          "monto": 22560,
+          "fechaItem": "2026-08-08"
+        },
+        {
+          "descripcion": "CLARIN BASE 11 - 09.08.2026 - 28985/2026",
+          "edicion": null,
+          "codigoPublicacion": "CBAS090826",
+          "cantidad": 10,
+          "monto": 49760,
+          "fechaItem": "2026-08-09"
+        },
+        {
+          "descripcion": "CLARIN BASE 05 - 10.08.2026 - 28986/2026",
+          "edicion": null,
+          "codigoPublicacion": "CBAS100826",
+          "cantidad": 4,
+          "monto": 13176,
+          "fechaItem": "2026-08-10"
+        },
+        {
+          "descripcion": "CLARIN BASE 06 - 11.08.2026 - 28987/2026",
+          "edicion": null,
+          "codigoPublicacion": "CBAS110826",
+          "cantidad": 3,
+          "monto": 9882,
+          "fechaItem": "2026-08-11"
+        },
+        {
+          "descripcion": "OLE NACIONAL - 08.08.2026 - 10906/2026",
+          "edicion": null,
+          "codigoPublicacion": "ONAC080826",
+          "cantidad": 9,
+          "monto": 17262,
+          "fechaItem": "2026-08-08"
+        },
+        {
+          "descripcion": "OLE NACIONAL - 09.08.2026 - 10907/2026",
+          "edicion": null,
+          "codigoPublicacion": "ONAC090826",
+          "cantidad": 3,
+          "monto": 5928,
+          "fechaItem": "2026-08-09"
+        },
+        {
+          "descripcion": "OLE NACIONAL - 10.08.2026 - 10908/2026",
+          "edicion": null,
+          "codigoPublicacion": "ONAC100826",
+          "cantidad": 4,
+          "monto": 7904,
+          "fechaItem": "2026-08-10"
+        }
+      ],
+      "cargadaEl": "2026-08-24T20:57:24.613Z"
+    },
+    {
+      "id": "f_1787658862826_sz9iq",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00585751",
+      "referenciaFactura": null,
+      "fecha": "2026-08-23",
+      "vencimiento": "2026-09-06",
+      "monto": 74960,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "LA NACION DOM",
+          "edicion": "20260823",
+          "codigoPublicacion": "000007",
+          "cantidad": 10,
+          "monto": 50060,
+          "fechaItem": "2026-08-23"
+        },
+        {
+          "descripcion": "POPULAR DOM",
+          "edicion": "20260823",
+          "codigoPublicacion": "110607",
+          "cantidad": 15,
+          "monto": 24900,
+          "fechaItem": "2026-08-23"
+        }
+      ],
+      "cargadaEl": "2026-08-25T11:54:22.826Z"
+    },
+    {
+      "id": "f_1787658864367_ozdbz",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00585611",
+      "referenciaFactura": null,
+      "fecha": "2026-08-22",
+      "vencimiento": "2026-09-05",
+      "monto": 95742,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "LA NACION SAB",
+          "edicion": "20260822",
+          "codigoPublicacion": "000006",
+          "cantidad": 17,
+          "monto": 77214,
+          "fechaItem": "2026-08-22"
+        },
+        {
+          "descripcion": "POPULAR SAB",
+          "edicion": "20260822",
+          "codigoPublicacion": "110606",
+          "cantidad": 12,
+          "monto": 18528,
+          "fechaItem": "2026-08-22"
+        }
+      ],
+      "cargadaEl": "2026-08-25T11:54:24.367Z"
+    },
+    {
+      "id": "f_1787658865369_p9ayp",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00585686",
+      "referenciaFactura": null,
+      "fecha": "2026-08-22",
+      "vencimiento": "2026-10-03",
+      "monto": 59252.8,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "MON Y BILL 20\nMonedas Mexico - Folio",
+          "edicion": "0000039",
+          "codigoPublicacion": "200236",
+          "cantidad": 3,
+          "monto": 40359.6,
+          "fechaItem": null
+        },
+        {
+          "descripcion": "STITCH",
+          "edicion": "0000014",
+          "codigoPublicacion": "200424",
+          "cantidad": 1,
+          "monto": 18893.2,
+          "fechaItem": null
+        }
+      ],
+      "cargadaEl": "2026-08-25T11:54:25.369Z"
+    },
+    {
+      "id": "f_1787658866203_p137d",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00585484",
+      "referenciaFactura": null,
+      "fecha": "2026-08-21",
+      "vencimiento": "2026-09-04",
+      "monto": 51768,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "LA NACION VIE",
+          "edicion": "20260821",
+          "codigoPublicacion": "000005",
+          "cantidad": 10,
+          "monto": 33240,
+          "fechaItem": "2026-08-21"
+        },
+        {
+          "descripcion": "POPULAR VIE",
+          "edicion": "20260821",
+          "codigoPublicacion": "110605",
+          "cantidad": 12,
+          "monto": 18528,
+          "fechaItem": "2026-08-21"
+        }
+      ],
+      "cargadaEl": "2026-08-25T11:54:26.203Z"
+    },
+    {
+      "id": "f_1787658867594_s4erz",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00585548",
+      "referenciaFactura": null,
+      "fecha": "2026-08-21",
+      "vencimiento": "2026-10-02",
+      "monto": 35066.4,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "F1 EXTENSION\nAlpine - Entrega 8 + Fascículo",
+          "edicion": "0000008",
+          "codigoPublicacion": "200444",
+          "cantidad": 2,
+          "monto": 35066.4,
+          "fechaItem": null
+        }
+      ],
+      "cargadaEl": "2026-08-25T11:54:27.594Z"
     }
   ],
   "preciosProveedores": {
@@ -7788,14 +10938,14 @@
         ],
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
-        "tipoProducto": "diario",
-        "precioUnico": 0,
-        "recargoUnico": 0,
+        "tipoProducto": "periodico",
+        "precioUnico": 14000,
+        "recargoUnico": 3000,
         "historialUnico": [
           {
             "desde": "2026-08-01",
-            "tapa": 0,
-            "recargo": 0
+            "tapa": 14000,
+            "recargo": 3000
           }
         ]
       },
@@ -7828,14 +10978,14 @@
         ],
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
-        "tipoProducto": "diario",
-        "precioUnico": 0,
-        "recargoUnico": 0,
+        "tipoProducto": "periodico",
+        "precioUnico": 15000,
+        "recargoUnico": 1000,
         "historialUnico": [
           {
             "desde": "2026-08-01",
-            "tapa": 0,
-            "recargo": 0
+            "tapa": 15000,
+            "recargo": 1000
           }
         ]
       },
@@ -7868,14 +11018,14 @@
         ],
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
-        "tipoProducto": "diario",
-        "precioUnico": 0,
-        "recargoUnico": 0,
+        "tipoProducto": "periodico",
+        "precioUnico": 15000,
+        "recargoUnico": 1000,
         "historialUnico": [
           {
             "desde": "2026-08-01",
-            "tapa": 0,
-            "recargo": 0
+            "tapa": 15000,
+            "recargo": 1000
           }
         ]
       },
@@ -8238,6 +11388,126 @@
             "recargo": 2500
           }
         ]
+      },
+      {
+        "id": "mt769vxxngutm3",
+        "nombre": "LA ASISTENTA",
+        "alias": "",
+        "tipoProducto": "periodico",
+        "precioUnico": 15999,
+        "recargoUnico": 1500,
+        "historialUnico": [
+          {
+            "desde": "2026-08-24",
+            "tapa": 15999,
+            "recargo": 1500
+          }
+        ],
+        "historial": [
+          {
+            "desde": "2026-08-24",
+            "tapa": [
+              15999,
+              15999,
+              15999,
+              15999,
+              15999,
+              15999,
+              15999
+            ],
+            "recargo": [
+              1500,
+              1500,
+              1500,
+              1500,
+              1500,
+              1500,
+              1500
+            ]
+          }
+        ],
+        "feriadoTapa": 0,
+        "feriadoRecargo": 0
+      },
+      {
+        "id": "mt76bikzncz5gz",
+        "nombre": "TOY STORY 5 - WOODY",
+        "alias": "TOY STORY 5",
+        "tipoProducto": "periodico",
+        "precioUnico": 15000,
+        "recargoUnico": 1000,
+        "historialUnico": [
+          {
+            "desde": "2026-08-01",
+            "tapa": 15000,
+            "recargo": 1000
+          }
+        ],
+        "historial": [
+          {
+            "desde": "2026-08-01",
+            "tapa": [
+              15000,
+              15000,
+              15000,
+              15000,
+              15000,
+              15000,
+              15000
+            ],
+            "recargo": [
+              1000,
+              1000,
+              1000,
+              1000,
+              1000,
+              1000,
+              1000
+            ]
+          }
+        ],
+        "feriadoTapa": 0,
+        "feriadoRecargo": 0
+      },
+      {
+        "id": "mt76c4qdbfz9a7",
+        "nombre": "AUDIOCUENTOS DE LGZ - BARTOLITO",
+        "alias": "AUDIOCUENTOS",
+        "tipoProducto": "periodico",
+        "precioUnico": 15000,
+        "recargoUnico": 1000,
+        "historialUnico": [
+          {
+            "desde": "2026-08-01",
+            "tapa": 15000,
+            "recargo": 1000
+          }
+        ],
+        "historial": [
+          {
+            "desde": "2026-08-01",
+            "tapa": [
+              15000,
+              15000,
+              15000,
+              15000,
+              15000,
+              15000,
+              15000
+            ],
+            "recargo": [
+              1000,
+              1000,
+              1000,
+              1000,
+              1000,
+              1000,
+              1000
+            ]
+          }
+        ],
+        "feriadoTapa": 0,
+        "feriadoRecargo": 0
       }
     ],
     "silmar": [
@@ -9080,6 +12350,46 @@
         ],
         "feriadoTapa": 0,
         "feriadoRecargo": 0
+      },
+      {
+        "id": "mt5tk8dumx1yji",
+        "nombre": "PROTAGONISTAS 2 (DGP)",
+        "alias": "PROTAGONISTAS 2",
+        "tipoProducto": "periodico",
+        "precioUnico": 12900,
+        "recargoUnico": 1600,
+        "historialUnico": [
+          {
+            "desde": "2026-08-01",
+            "tapa": 12900,
+            "recargo": 1600
+          }
+        ],
+        "historial": [
+          {
+            "desde": "2026-08-01",
+            "tapa": [
+              12900,
+              12900,
+              12900,
+              12900,
+              12900,
+              12900,
+              12900
+            ],
+            "recargo": [
+              1600,
+              1600,
+              1600,
+              1600,
+              1600,
+              1600,
+              1600
+            ]
+          }
+        ],
+        "feriadoTapa": 0,
+        "feriadoRecargo": 0
       }
     ],
     "lanacion": [
@@ -9567,8 +12877,91 @@
             "recargo": 1900
           }
         ]
+      },
+      {
+        "id": "mt7h2iqmoc44m3",
+        "nombre": "MADONNA\nWolverine: Primera generación",
+        "alias": "",
+        "tipoProducto": "periodico",
+        "precioUnico": 31600,
+        "recargoUnico": 31600,
+        "historialUnico": [
+          {
+            "desde": "2026-08-01",
+            "tapa": 31600,
+            "recargo": 31600
+          }
+        ],
+        "historial": [
+          {
+            "desde": "2026-08-01",
+            "tapa": [
+              31600,
+              31600,
+              31600,
+              31600,
+              31600,
+              31600,
+              31600
+            ],
+            "recargo": [
+              31600,
+              31600,
+              31600,
+              31600,
+              31600,
+              31600,
+              31600
+            ]
+          }
+        ],
+        "feriadoTapa": 0,
+        "feriadoRecargo": 0
+      },
+      {
+        "id": "mt7h3n9ot7q48n",
+        "nombre": "ORGULLO ARGEN Nero-Nakiri + Fascículo",
+        "alias": "ORGULLO ARGEN",
+        "tipoProducto": "periodico",
+        "precioUnico": 25000,
+        "recargoUnico": 1900,
+        "historialUnico": [
+          {
+            "desde": "2026-08-01",
+            "tapa": 25000,
+            "recargo": 1900
+          }
+        ],
+        "historial": [
+          {
+            "desde": "2026-08-01",
+            "tapa": [
+              25000,
+              25000,
+              25000,
+              25000,
+              25000,
+              25000,
+              25000
+            ],
+            "recargo": [
+              1900,
+              1900,
+              1900,
+              1900,
+              1900,
+              1900,
+              1900
+            ]
+          }
+        ],
+        "feriadoTapa": 0,
+        "feriadoRecargo": 0
       }
-    ]
+    ],
+    "ambito": [],
+    "pagina12": [],
+    "perfil": []
   },
   "devolucionesProveedores": [
     {
@@ -9585,12 +12978,18 @@
           "cantidad": 7,
           "monto": 23058,
           "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 7
+          "ncFacturaId": "f_1787604872099_8dugm",
+          "ncNumero": "0132-01363086",
+          "faltante": false,
+          "ncDetalle": [
+            {
+              "facturaId": "f_1787604872099_8dugm",
+              "numero": "0132-01363086",
+              "cantidad": 7
+            }
+          ],
+          "cantidadAcreditada": 7,
+          "cantidadFaltante": 0
         },
         {
           "descripcion": "CLARIN BASE 06 - 18.08.2026 - 28994/2026",
@@ -9599,12 +12998,18 @@
           "cantidad": 2,
           "monto": 6588,
           "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 2
+          "ncFacturaId": "f_1787604872099_8dugm",
+          "ncNumero": "0132-01363086",
+          "faltante": false,
+          "ncDetalle": [
+            {
+              "facturaId": "f_1787604872099_8dugm",
+              "numero": "0132-01363086",
+              "cantidad": 2
+            }
+          ],
+          "cantidadAcreditada": 2,
+          "cantidadFaltante": 0
         },
         {
           "descripcion": "CLARIN BASE 07 - 12.08.2026 - 28988/2026",
@@ -9613,12 +13018,18 @@
           "cantidad": 5,
           "monto": 16470,
           "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 5
+          "ncFacturaId": "f_1787604872099_8dugm",
+          "ncNumero": "0132-01363086",
+          "faltante": false,
+          "ncDetalle": [
+            {
+              "facturaId": "f_1787604872099_8dugm",
+              "numero": "0132-01363086",
+              "cantidad": 5
+            }
+          ],
+          "cantidadAcreditada": 5,
+          "cantidadFaltante": 0
         },
         {
           "descripcion": "CLARIN BASE 08 - 13.08.2026 - 28989/2026",
@@ -9627,12 +13038,28 @@
           "cantidad": 7,
           "monto": 23058,
           "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 7
+          "ncFacturaId": "f_1787604872099_8dugm",
+          "ncNumero": "0132-01363086, 0132-01363086, 0132-01363086",
+          "faltante": false,
+          "ncDetalle": [
+            {
+              "facturaId": "f_1787604872099_8dugm",
+              "numero": "0132-01363086",
+              "cantidad": 4
+            },
+            {
+              "facturaId": "f_1787604872099_8dugm",
+              "numero": "0132-01363086",
+              "cantidad": 2
+            },
+            {
+              "facturaId": "f_1787604872099_8dugm",
+              "numero": "0132-01363086",
+              "cantidad": 1
+            }
+          ],
+          "cantidadAcreditada": 7,
+          "cantidadFaltante": 0
         },
         {
           "descripcion": "CLARIN BASE 09 - 14.08.2026 - 28990/2026",
@@ -9641,12 +13068,18 @@
           "cantidad": 2,
           "monto": 6588,
           "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 2
+          "ncFacturaId": "f_1787604872099_8dugm",
+          "ncNumero": "0132-01363086",
+          "faltante": false,
+          "ncDetalle": [
+            {
+              "facturaId": "f_1787604872099_8dugm",
+              "numero": "0132-01363086",
+              "cantidad": 2
+            }
+          ],
+          "cantidadAcreditada": 2,
+          "cantidadFaltante": 0
         },
         {
           "descripcion": "CLARIN BASE 10 - 15.08.2026 - 28991/2026",
@@ -9655,12 +13088,23 @@
           "cantidad": 4,
           "monto": 13176,
           "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 4
+          "ncFacturaId": "f_1787604872099_8dugm",
+          "ncNumero": "0132-01363086, 0132-01363086",
+          "faltante": false,
+          "ncDetalle": [
+            {
+              "facturaId": "f_1787604872099_8dugm",
+              "numero": "0132-01363086",
+              "cantidad": 2
+            },
+            {
+              "facturaId": "f_1787604872099_8dugm",
+              "numero": "0132-01363086",
+              "cantidad": 2
+            }
+          ],
+          "cantidadAcreditada": 4,
+          "cantidadFaltante": 0
         }
       ],
       "adjuntos": [
@@ -9671,8 +13115,8 @@
           "bytes": 258355
         }
       ],
-      "estado": "pendiente",
-      "acreditadaEl": null,
+      "estado": "aceptada",
+      "acreditadaEl": "2026-08-24T20:54:32.193Z",
       "cargadaEl": "2026-08-19T14:08:00.929Z"
     },
     {
@@ -9689,12 +13133,23 @@
           "cantidad": 11,
           "monto": 36234,
           "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 11
+          "ncFacturaId": "f_1787604872099_8dugm",
+          "ncNumero": "0132-01363086, 0132-01363086",
+          "faltante": false,
+          "ncDetalle": [
+            {
+              "facturaId": "f_1787604872099_8dugm",
+              "numero": "0132-01363086",
+              "cantidad": 3
+            },
+            {
+              "facturaId": "f_1787604872099_8dugm",
+              "numero": "0132-01363086",
+              "cantidad": 8
+            }
+          ],
+          "cantidadAcreditada": 11,
+          "cantidadFaltante": 0
         },
         {
           "descripcion": "OLE NACIONAL - 12.08.2026 - 10910/2026",
@@ -9703,12 +13158,18 @@
           "cantidad": 3,
           "monto": 5754,
           "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 3
+          "ncFacturaId": "f_1787604872099_8dugm",
+          "ncNumero": "0132-01363086",
+          "faltante": false,
+          "ncDetalle": [
+            {
+              "facturaId": "f_1787604872099_8dugm",
+              "numero": "0132-01363086",
+              "cantidad": 3
+            }
+          ],
+          "cantidadAcreditada": 3,
+          "cantidadFaltante": 0
         },
         {
           "descripcion": "OLE NACIONAL - 13.08.2026 - 10911/2026",
@@ -9717,12 +13178,23 @@
           "cantidad": 9,
           "monto": 17262,
           "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 9
+          "ncFacturaId": "f_1787604872099_8dugm",
+          "ncNumero": "0132-01363086, 0132-01363086",
+          "faltante": false,
+          "ncDetalle": [
+            {
+              "facturaId": "f_1787604872099_8dugm",
+              "numero": "0132-01363086",
+              "cantidad": 6
+            },
+            {
+              "facturaId": "f_1787604872099_8dugm",
+              "numero": "0132-01363086",
+              "cantidad": 3
+            }
+          ],
+          "cantidadAcreditada": 9,
+          "cantidadFaltante": 0
         },
         {
           "descripcion": "OLE NACIONAL - 14.08.2026 - 10912/2026",
@@ -9731,12 +13203,28 @@
           "cantidad": 9,
           "monto": 17262,
           "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 9
+          "ncFacturaId": "f_1787604872099_8dugm",
+          "ncNumero": "0132-01363086, 0132-01363086, 0132-01363086",
+          "faltante": false,
+          "ncDetalle": [
+            {
+              "facturaId": "f_1787604872099_8dugm",
+              "numero": "0132-01363086",
+              "cantidad": 1
+            },
+            {
+              "facturaId": "f_1787604872099_8dugm",
+              "numero": "0132-01363086",
+              "cantidad": 4
+            },
+            {
+              "facturaId": "f_1787604872099_8dugm",
+              "numero": "0132-01363086",
+              "cantidad": 4
+            }
+          ],
+          "cantidadAcreditada": 9,
+          "cantidadFaltante": 0
         },
         {
           "descripcion": "OLE NACIONAL - 15.08.2026 - 10913/2026",
@@ -9745,12 +13233,23 @@
           "cantidad": 9,
           "monto": 17262,
           "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 9
+          "ncFacturaId": "f_1787604872099_8dugm",
+          "ncNumero": "0132-01363086, 0132-01363086",
+          "faltante": false,
+          "ncDetalle": [
+            {
+              "facturaId": "f_1787604872099_8dugm",
+              "numero": "0132-01363086",
+              "cantidad": 3
+            },
+            {
+              "facturaId": "f_1787604872099_8dugm",
+              "numero": "0132-01363086",
+              "cantidad": 6
+            }
+          ],
+          "cantidadAcreditada": 9,
+          "cantidadFaltante": 0
         },
         {
           "descripcion": "OLE NACIONAL - 16.08.2026 - 10914/2026",
@@ -9759,12 +13258,23 @@
           "cantidad": 5,
           "monto": 9590,
           "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 5
+          "ncFacturaId": "f_1787604872099_8dugm",
+          "ncNumero": "0132-01363086, 0132-01363086",
+          "faltante": false,
+          "ncDetalle": [
+            {
+              "facturaId": "f_1787604872099_8dugm",
+              "numero": "0132-01363086",
+              "cantidad": 3
+            },
+            {
+              "facturaId": "f_1787604872099_8dugm",
+              "numero": "0132-01363086",
+              "cantidad": 2
+            }
+          ],
+          "cantidadAcreditada": 5,
+          "cantidadFaltante": 0
         },
         {
           "descripcion": "OLE NACIONAL - 17.08.2026 - 10915/2026",
@@ -9773,12 +13283,18 @@
           "cantidad": 3,
           "monto": 5754,
           "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 3
+          "ncFacturaId": "f_1787604872099_8dugm",
+          "ncNumero": "0132-01363086",
+          "faltante": false,
+          "ncDetalle": [
+            {
+              "facturaId": "f_1787604872099_8dugm",
+              "numero": "0132-01363086",
+              "cantidad": 3
+            }
+          ],
+          "cantidadAcreditada": 3,
+          "cantidadFaltante": 0
         }
       ],
       "adjuntos": [
@@ -9789,8 +13305,8 @@
           "bytes": 262735
         }
       ],
-      "estado": "pendiente",
-      "acreditadaEl": null,
+      "estado": "aceptada",
+      "acreditadaEl": "2026-08-24T20:54:32.194Z",
       "cargadaEl": "2026-08-19T14:08:10.197Z"
     },
     {
@@ -9963,7 +13479,7 @@
           "edicion": "1",
           "codigoPublicacion": "200429",
           "cantidad": 6,
-          "monto": null,
+          "monto": 113359.2,
           "motivo": null,
           "ncFacturaId": null,
           "ncNumero": null,
