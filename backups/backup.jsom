@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 5,
-  "exportadoEl": "2026-08-27T11:40:51.629Z",
+  "exportadoEl": "2026-08-27T19:17:20.775Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -2230,6 +2230,26 @@
       "account": "alquileres",
       "id": "m_mtbg6mx8z3pyu8",
       "modificadoEl": "2026-08-27T11:36:49.292Z"
+    },
+    {
+      "date": "2026-08-27",
+      "type": "ingreso",
+      "amount": 20000,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "efectivo",
+      "id": "m_mtbi0s5vhol5pk",
+      "modificadoEl": "2026-08-27T12:28:15.380Z"
+    },
+    {
+      "date": "2026-08-27",
+      "type": "egreso",
+      "amount": 585000,
+      "category": "Clarin",
+      "account": "agencia",
+      "detalle": "Clarín",
+      "id": "m_mtbr38wcti0lnb",
+      "modificadoEl": "2026-08-27T16:42:06.924Z"
     }
   ],
   "categoriasCustom": [
@@ -20040,6 +20060,46 @@
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
         "excluirGanSem": true
+      },
+      {
+        "id": "mtbmx9t7shk3j3",
+        "nombre": "DEADPOOLWolverine: Primera generación",
+        "alias": "DEADPOOL",
+        "tipoProducto": "periodico",
+        "precioUnico": 13550,
+        "recargoUnico": 1900,
+        "historialUnico": [
+          {
+            "desde": "2026-08-27",
+            "tapa": 13550,
+            "recargo": 1900
+          }
+        ],
+        "historial": [
+          {
+            "desde": "2026-08-27",
+            "tapa": [
+              13550,
+              13550,
+              13550,
+              13550,
+              13550,
+              13550,
+              13550
+            ],
+            "recargo": [
+              1900,
+              1900,
+              1900,
+              1900,
+              1900,
+              1900,
+              1900
+            ]
+          }
+        ],
+        "feriadoTapa": 0,
+        "feriadoRecargo": 0
       }
     ],
     "ambito": [],
@@ -21661,6 +21721,388 @@
       "estado": "pendiente",
       "acreditadaEl": null,
       "cargadaEl": "2026-08-26T14:44:53.606Z"
+    },
+    {
+      "id": "dev_1787836197193_vklw1",
+      "proveedorKey": "lanacion",
+      "fecha": "2026-08-27",
+      "numeroRemito": "379046",
+      "modo": "item",
+      "items": [
+        {
+          "descripcion": "HOLA",
+          "edicion": "822",
+          "codigoPublicacion": "110203",
+          "cantidad": 2,
+          "monto": 11590,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 2
+        },
+        {
+          "descripcion": "LIVING",
+          "edicion": "220",
+          "codigoPublicacion": "79",
+          "cantidad": 1,
+          "monto": 9518,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
+        },
+        {
+          "descripcion": "LUGARES",
+          "edicion": "364",
+          "codigoPublicacion": "65",
+          "cantidad": 1,
+          "monto": 9518,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
+        },
+        {
+          "descripcion": "POP CULTURE",
+          "edicion": "9",
+          "codigoPublicacion": "200427",
+          "cantidad": 1,
+          "monto": 15493.2,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
+        },
+        {
+          "descripcion": "JARDÍN",
+          "edicion": "169",
+          "codigoPublicacion": "110593",
+          "cantidad": 3,
+          "monto": 28554,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 3
+        },
+        {
+          "descripcion": "OHLALÁ",
+          "edicion": "221",
+          "codigoPublicacion": "527",
+          "cantidad": 3,
+          "monto": 28554,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 3
+        },
+        {
+          "descripcion": "MON Y BILL 2025",
+          "edicion": "39",
+          "codigoPublicacion": "200236",
+          "cantidad": 3,
+          "monto": 40359.6,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 3
+        },
+        {
+          "descripcion": "LIBROS PRH",
+          "edicion": "1",
+          "codigoPublicacion": "500546",
+          "cantidad": 1,
+          "monto": 20600,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
+        },
+        {
+          "descripcion": "LIBROS PRH",
+          "edicion": "1",
+          "codigoPublicacion": "500547",
+          "cantidad": 1,
+          "monto": 20600,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
+        },
+        {
+          "descripcion": "ACTIVITY COLOURING",
+          "edicion": "10",
+          "codigoPublicacion": "120485",
+          "cantidad": 1,
+          "monto": 2583.2,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
+        },
+        {
+          "descripcion": "ACTIVITY COLOURING",
+          "edicion": "2",
+          "codigoPublicacion": "120484",
+          "cantidad": 1,
+          "monto": 2583.2,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
+        },
+        {
+          "descripcion": "COLORES Y JUEGOS",
+          "edicion": "20",
+          "codigoPublicacion": "120384",
+          "cantidad": 1,
+          "monto": 5303.2,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
+        },
+        {
+          "descripcion": "COL. PINTA Y BRILLA",
+          "edicion": "2",
+          "codigoPublicacion": "120487",
+          "cantidad": 1,
+          "monto": 3263.2,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
+        },
+        {
+          "descripcion": "ACTIVITY ESPECIALE",
+          "edicion": "31",
+          "codigoPublicacion": "120462",
+          "cantidad": 1,
+          "monto": 3943.2,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
+        },
+        {
+          "descripcion": "ACTIVITY ESPECIALE",
+          "edicion": "30",
+          "codigoPublicacion": "120462",
+          "cantidad": 1,
+          "monto": 3263.2,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
+        },
+        {
+          "descripcion": "ACTIVITY COLOURING",
+          "edicion": "8",
+          "codigoPublicacion": "120485",
+          "cantidad": 1,
+          "monto": 2583.2,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
+        }
+      ],
+      "adjuntos": [
+        {
+          "id": "dev_1787836197193_vklw1_a0",
+          "nombre": "1000832268.jpg",
+          "mime": "image/jpeg",
+          "bytes": 445179
+        }
+      ],
+      "estado": "pendiente",
+      "acreditadaEl": null,
+      "cargadaEl": "2026-08-27T13:09:57.260Z"
+    },
+    {
+      "id": "dev_1787836200951_ijccw",
+      "proveedorKey": "lanacion",
+      "fecha": "2026-08-27",
+      "numeroRemito": "379049",
+      "modo": "item",
+      "items": [
+        {
+          "descripcion": "LA NACION SABADO",
+          "edicion": "1364",
+          "codigoPublicacion": "6",
+          "cantidad": 6,
+          "monto": 30036,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 6
+        },
+        {
+          "descripcion": "LA NACION DOMINGO",
+          "edicion": "1362",
+          "codigoPublicacion": "7",
+          "cantidad": 3,
+          "monto": 15018,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 3
+        }
+      ],
+      "adjuntos": [
+        {
+          "id": "dev_1787836200951_ijccw_a0",
+          "nombre": "1000832269.jpg",
+          "mime": "image/jpeg",
+          "bytes": 338848
+        }
+      ],
+      "estado": "pendiente",
+      "acreditadaEl": null,
+      "cargadaEl": "2026-08-27T13:10:00.991Z"
+    },
+    {
+      "id": "dev_1787836203634_geq9n",
+      "proveedorKey": "lanacion",
+      "fecha": "2026-08-27",
+      "numeroRemito": "379050",
+      "modo": "item",
+      "items": [
+        {
+          "descripcion": "POPULAR MIE",
+          "edicion": "737",
+          "codigoPublicacion": "110603",
+          "cantidad": 3,
+          "monto": 4632,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 3
+        },
+        {
+          "descripcion": "POPULAR JUE",
+          "edicion": "734",
+          "codigoPublicacion": "110604",
+          "cantidad": 3,
+          "monto": 4632,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 3
+        },
+        {
+          "descripcion": "POPULAR VIE",
+          "edicion": "726",
+          "codigoPublicacion": "110605",
+          "cantidad": 4,
+          "monto": 6176,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 4
+        },
+        {
+          "descripcion": "POPULAR SAB",
+          "edicion": "739",
+          "codigoPublicacion": "110606",
+          "cantidad": 4,
+          "monto": 6176,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 4
+        },
+        {
+          "descripcion": "POPULAR LUN",
+          "edicion": "739",
+          "codigoPublicacion": "110601",
+          "cantidad": 3,
+          "monto": 4632,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 3
+        }
+      ],
+      "adjuntos": [
+        {
+          "id": "dev_1787836203634_geq9n_a0",
+          "nombre": "1000832270.jpg",
+          "mime": "image/jpeg",
+          "bytes": 370066
+        }
+      ],
+      "estado": "pendiente",
+      "acreditadaEl": null,
+      "cargadaEl": "2026-08-27T13:10:03.685Z"
     }
   ],
   "clientesReparto": {
@@ -21781,12 +22223,13 @@
   },
   "proveedoresPorcentajes": {
     "clarin": {
-      "diario": 63,
+      "diario": 58,
       "periodico": 68,
       "recargoIntegrado": true,
       "recargoIncluidoFactura": true,
       "reventaDiario": 70,
-      "reventaPeriodico": 80
+      "reventaPeriodico": 80,
+      "titulosPeriodico": {}
     },
     "lanacion": {
       "diario": 63,
@@ -21794,7 +22237,8 @@
       "recargoIntegrado": false,
       "recargoIncluidoFactura": true,
       "reventaDiario": 70,
-      "reventaPeriodico": 80
+      "reventaPeriodico": 80,
+      "titulosPeriodico": {}
     },
     "silmar": {
       "diario": 80,
@@ -21802,7 +22246,8 @@
       "recargoIntegrado": false,
       "recargoIncluidoFactura": true,
       "reventaDiario": 0,
-      "reventaPeriodico": 0
+      "reventaPeriodico": 0,
+      "titulosPeriodico": {}
     },
     "ambito": {
       "diario": 0,
@@ -21810,7 +22255,8 @@
       "recargoIntegrado": false,
       "recargoIncluidoFactura": true,
       "reventaDiario": 0,
-      "reventaPeriodico": 0
+      "reventaPeriodico": 0,
+      "titulosPeriodico": {}
     },
     "pagina12": {
       "diario": 0,
@@ -21818,7 +22264,8 @@
       "recargoIntegrado": false,
       "recargoIncluidoFactura": true,
       "reventaDiario": 0,
-      "reventaPeriodico": 0
+      "reventaPeriodico": 0,
+      "titulosPeriodico": {}
     },
     "perfil": {
       "diario": 0,
@@ -21826,10 +22273,25 @@
       "recargoIntegrado": false,
       "recargoIncluidoFactura": true,
       "reventaDiario": 0,
-      "reventaPeriodico": 0
+      "reventaPeriodico": 0,
+      "titulosPeriodico": {}
     }
   },
-  "inversiones": [],
+  "inversiones": [
+    {
+      "id": "1787844537017-7je2s2",
+      "fecha": "2026-08-27",
+      "activo": "BTC",
+      "ticker": "",
+      "tipo": "compra",
+      "cantidad": 0.0037232854270608383,
+      "precio": 80574,
+      "montoOriginal": 300,
+      "monedaOriginal": "USD",
+      "cotizacionUsada": null,
+      "notas": ""
+    }
+  ],
   "materialPublicitarioColecciones": {
     "items": [
       {
