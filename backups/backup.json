@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 5,
-  "exportadoEl": "2026-08-27T19:43:46.412Z",
+  "exportadoEl": "2026-08-28T11:16:14.531Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -2250,6 +2250,54 @@
       "detalle": "Clarín",
       "id": "m_mtbr38wcti0lnb",
       "modificadoEl": "2026-08-27T16:42:06.924Z"
+    },
+    {
+      "date": "2026-08-27",
+      "type": "ingreso",
+      "amount": 50000,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "transferencia",
+      "id": "m_mtc3r05j2m0ciq",
+      "modificadoEl": "2026-08-27T22:36:30.727Z"
+    },
+    {
+      "date": "2026-08-27",
+      "type": "egreso",
+      "amount": 90000,
+      "category": "Varios",
+      "account": "alquileres",
+      "detalle": "Plantillas",
+      "id": "m_mtc3r8yd9p412r",
+      "modificadoEl": "2026-08-27T22:36:42.133Z"
+    },
+    {
+      "date": "2026-08-27",
+      "type": "ingreso",
+      "amount": 64000,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "efectivo",
+      "id": "m_mtc3wbb7l2jz1c",
+      "modificadoEl": "2026-08-27T22:40:38.467Z"
+    },
+    {
+      "date": "2026-08-27",
+      "type": "egreso",
+      "amount": 38900,
+      "category": "Sueldo",
+      "account": "alquileres",
+      "id": "m_mtc57rr5s7h39o",
+      "modificadoEl": "2026-08-27T23:17:32.609Z"
+    },
+    {
+      "date": "2026-08-28",
+      "type": "egreso",
+      "amount": 10000,
+      "category": "Chiara",
+      "account": "alquileres",
+      "id": "m_mtcszf76wdlppg",
+      "modificadoEl": "2026-08-28T10:22:53.875Z"
     }
   ],
   "categoriasCustom": [
@@ -23278,6 +23326,11 @@
         "fecha": "2026-09-08",
         "monto": 163347
       }
+    ],
+    "impuestosOcultos": [
+      "casares-servurb-4",
+      "casares-redvial-4",
+      "casares-seghig-4"
     ],
     "mailReglas": [],
     "mailUltimaActualizacion": null,
