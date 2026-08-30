@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 5,
-  "exportadoEl": "2026-08-29T22:59:30.409Z",
+  "exportadoEl": "2026-08-30T12:45:43.443Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -2475,6 +2475,35 @@
       "account": "alquileres",
       "id": "m_mtestw9zvoqkq2",
       "modificadoEl": "2026-08-29T19:54:08.423Z"
+    },
+    {
+      "date": "2026-08-29",
+      "type": "egreso",
+      "amount": 10000,
+      "category": "Donato",
+      "account": "alquileres",
+      "id": "m_mtezjd7z2d07n3",
+      "modificadoEl": "2026-08-29T23:01:54.479Z"
+    },
+    {
+      "date": "2026-08-29",
+      "type": "egreso",
+      "amount": 75000,
+      "category": "Varios",
+      "account": "alquileres",
+      "detalle": "Parrilla guanaco sábado",
+      "id": "m_mtf7wvodzp2o8c",
+      "modificadoEl": "2026-08-30T02:56:21.853Z"
+    },
+    {
+      "date": "2026-08-30",
+      "type": "egreso",
+      "amount": 10000,
+      "category": "Empleado mandado javi",
+      "account": "agencia",
+      "detalle": "Día domingo",
+      "id": "m_mtfsls751hyllk",
+      "modificadoEl": "2026-08-30T12:35:36.065Z"
     }
   ],
   "categoriasCustom": [
@@ -2758,7 +2787,7 @@
       "vencimiento": null,
       "monto": 101152,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.290Z"
     },
     {
@@ -2794,7 +2823,7 @@
       "vencimiento": null,
       "monto": 56679.6,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.290Z"
     },
     {
@@ -2806,7 +2835,7 @@
       "vencimiento": null,
       "monto": 51768,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.290Z"
     },
     {
@@ -2818,7 +2847,7 @@
       "vencimiento": null,
       "monto": 51768,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.290Z"
     },
     {
@@ -2830,7 +2859,7 @@
       "vencimiento": null,
       "monto": 11590,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.290Z"
     },
     {
@@ -2842,7 +2871,7 @@
       "vencimiento": null,
       "monto": 94466,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.290Z"
     },
     {
@@ -2854,7 +2883,7 @@
       "vencimiento": null,
       "monto": 58416,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.290Z"
     },
     {
@@ -3694,7 +3723,7 @@
       "vencimiento": null,
       "monto": 92959.2,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.291Z"
     },
     {
@@ -3706,7 +3735,7 @@
       "vencimiento": null,
       "monto": 58416,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.291Z"
     },
     {
@@ -3718,7 +3747,7 @@
       "vencimiento": null,
       "monto": 69804,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.291Z"
     },
     {
@@ -3730,7 +3759,7 @@
       "vencimiento": null,
       "monto": 40359.6,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.291Z"
     },
     {
@@ -3742,7 +3771,7 @@
       "vencimiento": null,
       "monto": 37786.4,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.291Z"
     },
     {
@@ -3754,7 +3783,7 @@
       "vencimiento": null,
       "monto": 65064,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.291Z"
     },
     {
@@ -3766,7 +3795,7 @@
       "vencimiento": null,
       "monto": 89978,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.291Z"
     },
     {
@@ -3778,7 +3807,7 @@
       "vencimiento": null,
       "monto": 9789.6,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.291Z"
     },
     {
@@ -3790,7 +3819,7 @@
       "vencimiento": null,
       "monto": 49879.6,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.291Z"
     },
     {
@@ -3802,7 +3831,7 @@
       "vencimiento": null,
       "monto": 95742,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.291Z"
     },
     {
@@ -3814,7 +3843,7 @@
       "vencimiento": null,
       "monto": 30986.4,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.291Z"
     },
     {
@@ -3826,7 +3855,7 @@
       "vencimiento": null,
       "monto": 58745.6,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.291Z"
     },
     {
@@ -3838,7 +3867,7 @@
       "vencimiento": null,
       "monto": 51768,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.291Z"
     },
     {
@@ -3874,7 +3903,7 @@
       "vencimiento": null,
       "monto": 28266.4,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.292Z"
     },
     {
@@ -4210,7 +4239,7 @@
       "vencimiento": null,
       "monto": 18893.2,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.292Z"
     },
     {
@@ -4222,7 +4251,7 @@
       "vencimiento": null,
       "monto": 42091.32,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.292Z"
     },
     {
@@ -4234,7 +4263,7 @@
       "vencimiento": null,
       "monto": 55328,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.292Z"
     },
     {
@@ -4246,7 +4275,7 @@
       "vencimiento": null,
       "monto": 15440,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.292Z"
     },
     {
@@ -4258,7 +4287,7 @@
       "vencimiento": null,
       "monto": 40359.6,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.292Z"
     },
     {
@@ -4270,7 +4299,7 @@
       "vencimiento": null,
       "monto": 81678,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.292Z"
     },
     {
@@ -4282,7 +4311,7 @@
       "vencimiento": null,
       "monto": 219918.4,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.292Z"
     },
     {
@@ -4294,7 +4323,7 @@
       "vencimiento": null,
       "monto": 92654,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.292Z"
     },
     {
@@ -4306,7 +4335,7 @@
       "vencimiento": null,
       "monto": 48680,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.292Z"
     },
     {
@@ -4318,7 +4347,7 @@
       "vencimiento": null,
       "monto": 82372.8,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.292Z"
     },
     {
@@ -4330,7 +4359,7 @@
       "vencimiento": null,
       "monto": 46479.6,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.292Z"
     },
     {
@@ -4342,7 +4371,7 @@
       "vencimiento": null,
       "monto": 20739.32,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.292Z"
     },
     {
@@ -4354,7 +4383,7 @@
       "vencimiento": null,
       "monto": 40359.6,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.292Z"
     },
     {
@@ -4366,7 +4395,7 @@
       "vencimiento": null,
       "monto": 48680,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.292Z"
     },
     {
@@ -4378,7 +4407,7 @@
       "vencimiento": null,
       "monto": 11590,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.292Z"
     },
     {
@@ -4390,7 +4419,7 @@
       "vencimiento": null,
       "monto": 58652,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.292Z"
     },
     {
@@ -4402,7 +4431,7 @@
       "vencimiento": null,
       "monto": 94466,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.292Z"
     },
     {
@@ -4414,7 +4443,7 @@
       "vencimiento": null,
       "monto": 115295.92,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.292Z"
     },
     {
@@ -4594,7 +4623,7 @@
       "vencimiento": null,
       "monto": 28819.32,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.292Z"
     },
     {
@@ -4606,7 +4635,7 @@
       "vencimiento": null,
       "monto": 90092.4,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.292Z"
     },
     {
@@ -4618,7 +4647,7 @@
       "vencimiento": null,
       "monto": 17533.2,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.292Z"
     },
     {
@@ -4630,7 +4659,7 @@
       "vencimiento": null,
       "monto": 55328,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.292Z"
     },
     {
@@ -4702,7 +4731,7 @@
       "vencimiento": null,
       "monto": 40359.6,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.292Z"
     },
     {
@@ -4714,7 +4743,7 @@
       "vencimiento": null,
       "monto": 92426,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.292Z"
     },
     {
@@ -4726,7 +4755,7 @@
       "vencimiento": null,
       "monto": 61976,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.292Z"
     },
     {
@@ -4774,7 +4803,7 @@
       "vencimiento": null,
       "monto": 88912,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.292Z"
     },
     {
@@ -4786,7 +4815,7 @@
       "vencimiento": null,
       "monto": 10469.6,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.292Z"
     },
     {
@@ -4798,7 +4827,7 @@
       "vencimiento": null,
       "monto": 51768,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.292Z"
     },
     {
@@ -4810,7 +4839,7 @@
       "vencimiento": null,
       "monto": 11590,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.292Z"
     },
     {
@@ -4822,7 +4851,7 @@
       "vencimiento": null,
       "monto": 58416,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.292Z"
     },
     {
@@ -4894,7 +4923,7 @@
       "vencimiento": null,
       "monto": 81678,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.293Z"
     },
     {
@@ -4906,7 +4935,7 @@
       "vencimiento": null,
       "monto": 12099.32,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.293Z"
     },
     {
@@ -4918,7 +4947,7 @@
       "vencimiento": null,
       "monto": 18893.2,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.293Z"
     },
     {
@@ -4930,7 +4959,7 @@
       "vencimiento": null,
       "monto": 30986.4,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.293Z"
     },
     {
@@ -4942,7 +4971,7 @@
       "vencimiento": null,
       "monto": 12099.32,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.293Z"
     },
     {
@@ -4954,7 +4983,7 @@
       "vencimiento": null,
       "monto": 88912,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.293Z"
     },
     {
@@ -4966,7 +4995,7 @@
       "vencimiento": null,
       "monto": 30986.4,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.293Z"
     },
     {
@@ -4978,7 +5007,7 @@
       "vencimiento": null,
       "monto": 17533.2,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.293Z"
     },
     {
@@ -4990,7 +5019,7 @@
       "vencimiento": null,
       "monto": 17533.2,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.293Z"
     },
     {
@@ -5002,7 +5031,7 @@
       "vencimiento": null,
       "monto": 92654,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.293Z"
     },
     {
@@ -5014,7 +5043,7 @@
       "vencimiento": null,
       "monto": 48680,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.293Z"
     },
     {
@@ -5026,7 +5055,7 @@
       "vencimiento": null,
       "monto": 48680,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.293Z"
     },
     {
@@ -5038,7 +5067,7 @@
       "vencimiento": null,
       "monto": 11590,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.293Z"
     },
     {
@@ -5050,7 +5079,7 @@
       "vencimiento": null,
       "monto": 65300,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.293Z"
     },
     {
@@ -5758,7 +5787,7 @@
       "vencimiento": null,
       "monto": 17533.2,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.294Z"
     },
     {
@@ -5770,7 +5799,7 @@
       "vencimiento": null,
       "monto": 55328,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.294Z"
     },
     {
@@ -5782,7 +5811,7 @@
       "vencimiento": null,
       "monto": 17385,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.294Z"
     },
     {
@@ -5794,7 +5823,7 @@
       "vencimiento": null,
       "monto": 61976,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.294Z"
     },
     {
@@ -5806,7 +5835,7 @@
       "vencimiento": null,
       "monto": 81678,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.294Z"
     },
     {
@@ -5818,7 +5847,7 @@
       "vencimiento": null,
       "monto": 219918.4,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.294Z"
     },
     {
@@ -5830,7 +5859,7 @@
       "vencimiento": null,
       "monto": 182846,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.294Z"
     },
     {
@@ -5842,7 +5871,7 @@
       "vencimiento": null,
       "monto": 92654,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.294Z"
     },
     {
@@ -5854,7 +5883,7 @@
       "vencimiento": null,
       "monto": 30986.4,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.294Z"
     },
     {
@@ -5866,7 +5895,7 @@
       "vencimiento": null,
       "monto": 38072,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.294Z"
     },
     {
@@ -5878,7 +5907,7 @@
       "vencimiento": null,
       "monto": 51386.4,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.294Z"
     },
     {
@@ -5890,7 +5919,7 @@
       "vencimiento": null,
       "monto": 48680,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.294Z"
     },
     {
@@ -5902,7 +5931,7 @@
       "vencimiento": null,
       "monto": 67208,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.294Z"
     },
     {
@@ -5914,7 +5943,7 @@
       "vencimiento": null,
       "monto": 80740,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.294Z"
     },
     {
@@ -5926,7 +5955,7 @@
       "vencimiento": null,
       "monto": 113359.2,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T01:18:59.294Z"
     },
     {
@@ -5938,7 +5967,7 @@
       "vencimiento": "2026-08-11",
       "monto": 75931.61,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T11:36:22.432Z"
     },
     {
@@ -6070,7 +6099,7 @@
       "vencimiento": "2026-08-21",
       "monto": 50621.08,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T11:36:22.440Z"
     },
     {
@@ -6082,7 +6111,7 @@
       "vencimiento": "2026-07-21",
       "monto": 680480,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T11:36:22.440Z"
     },
     {
@@ -6094,7 +6123,7 @@
       "vencimiento": "2026-08-03",
       "monto": 106800.29,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T11:36:22.440Z"
     },
     {
@@ -6106,7 +6135,7 @@
       "vencimiento": "2026-08-13",
       "monto": 71200.19,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T11:36:22.440Z"
     },
     {
@@ -6118,7 +6147,7 @@
       "vencimiento": "2026-08-13",
       "monto": 27800,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T11:36:22.440Z"
     },
     {
@@ -6130,7 +6159,7 @@
       "vencimiento": "2026-07-24",
       "monto": 22460.66,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T11:36:22.440Z"
     },
     {
@@ -6142,7 +6171,7 @@
       "vencimiento": "2026-08-08",
       "monto": 14973.77,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T11:36:22.440Z"
     },
     {
@@ -6154,7 +6183,7 @@
       "vencimiento": "2026-08-10",
       "monto": 49000.16,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T11:36:22.440Z"
     },
     {
@@ -6166,7 +6195,7 @@
       "vencimiento": "2026-08-03",
       "monto": 12200.03,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T11:36:22.440Z"
     },
     {
@@ -6178,7 +6207,7 @@
       "vencimiento": "2026-07-28",
       "monto": 784918,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T11:36:22.440Z"
     },
     {
@@ -6190,7 +6219,7 @@
       "vencimiento": "2026-08-10",
       "monto": 161280.46,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T11:36:22.440Z"
     },
     {
@@ -6202,7 +6231,7 @@
       "vencimiento": "2026-07-14",
       "monto": 622074,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T11:36:22.440Z"
     },
     {
@@ -6214,7 +6243,7 @@
       "vencimiento": "2026-08-20",
       "monto": 107520.3,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T11:36:22.440Z"
     },
     {
@@ -6226,7 +6255,7 @@
       "vencimiento": "2026-07-31",
       "monto": 22460.66,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T11:36:22.440Z"
     },
     {
@@ -6238,7 +6267,7 @@
       "vencimiento": "2026-08-15",
       "monto": 14973.77,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T11:36:22.440Z"
     },
     {
@@ -6250,7 +6279,7 @@
       "vencimiento": "2026-08-17",
       "monto": 49000.16,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T11:36:22.440Z"
     },
     {
@@ -6322,7 +6351,7 @@
       "vencimiento": "2026-08-07",
       "monto": 877786,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T11:36:22.440Z"
     },
     {
@@ -6334,7 +6363,7 @@
       "vencimiento": "2026-07-27",
       "monto": 191232.54,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T11:36:22.440Z"
     },
     {
@@ -6346,7 +6375,7 @@
       "vencimiento": "2026-09-04",
       "monto": 79200,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T11:36:22.440Z"
     },
     {
@@ -6358,7 +6387,7 @@
       "vencimiento": "2026-09-14",
       "monto": 52800,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T11:36:22.440Z"
     },
     {
@@ -6370,7 +6399,7 @@
       "vencimiento": "2026-08-20",
       "monto": 69240.19,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T11:36:22.440Z"
     },
     {
@@ -6382,7 +6411,7 @@
       "vencimiento": "2026-08-30",
       "monto": 46160.13,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T11:36:22.440Z"
     },
     {
@@ -6394,7 +6423,7 @@
       "vencimiento": "2026-08-10",
       "monto": 22460.66,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T11:36:22.440Z"
     },
     {
@@ -6406,7 +6435,7 @@
       "vencimiento": "2026-08-25",
       "monto": 14973.77,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T11:36:22.440Z"
     },
     {
@@ -6418,7 +6447,7 @@
       "vencimiento": "2026-08-27",
       "monto": 98000.32,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T11:36:22.440Z"
     },
     {
@@ -6430,7 +6459,7 @@
       "vencimiento": "2026-08-20",
       "monto": 100800.29,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T11:36:22.440Z"
     },
     {
@@ -6442,7 +6471,7 @@
       "vencimiento": "2026-08-30",
       "monto": 67200.19,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T11:36:22.440Z"
     },
     {
@@ -6454,7 +6483,7 @@
       "vencimiento": "2026-08-20",
       "monto": 194680.39,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T11:36:22.440Z"
     },
     {
@@ -6466,7 +6495,7 @@
       "vencimiento": "2026-08-06",
       "monto": 127488.36,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T11:36:22.440Z"
     },
     {
@@ -6550,7 +6579,7 @@
       "vencimiento": "2026-07-17",
       "monto": 22460.66,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T11:36:22.440Z"
     },
     {
@@ -6562,7 +6591,7 @@
       "vencimiento": "2026-08-01",
       "monto": 14973.77,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T11:36:22.440Z"
     },
     {
@@ -6574,7 +6603,7 @@
       "vencimiento": "2026-07-27",
       "monto": 54000.1,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T11:36:22.440Z"
     },
     {
@@ -6586,7 +6615,7 @@
       "vencimiento": "2026-08-06",
       "monto": 36000.06,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T11:36:22.440Z"
     },
     {
@@ -6598,7 +6627,7 @@
       "vencimiento": "2026-08-03",
       "monto": 49000.16,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "cargadaEl": "2026-08-10T11:36:22.440Z"
     },
     {
@@ -7276,7 +7305,7 @@
       "vencimiento": "2026-08-16",
       "monto": 74960,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "items": [
         {
           "descripcion": "LA NACION DOM",
@@ -7302,7 +7331,7 @@
       "vencimiento": "2026-08-17",
       "monto": 65064,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "items": [
         {
           "descripcion": "LA NACION LUN",
@@ -7328,7 +7357,7 @@
       "vencimiento": "2026-09-29",
       "monto": 43466,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "items": [
         {
           "descripcion": "200219 DINOSAURIOS 2\nSTEGOSAURUS + FASCÍCULO",
@@ -7388,7 +7417,7 @@
       "vencimiento": "2026-09-12",
       "monto": 188932,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "items": [
         {
           "descripcion": "200423 AUTOS ALEMANE\nNero-Nakiri + Fascículo",
@@ -7414,7 +7443,7 @@
       "vencimiento": "2026-09-26",
       "monto": 43466,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "items": [
         {
           "descripcion": "200219 DINOSAURIOS 2 \nVELOCIRAPTOR + FASCÍCULO",
@@ -7434,7 +7463,7 @@
       "vencimiento": "2026-08-15",
       "monto": 95742,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "items": [
         {
           "descripcion": "LA NACION SAB",
@@ -7460,7 +7489,7 @@
       "vencimiento": "2026-08-18",
       "monto": 58416,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "items": [
         {
           "descripcion": "LA NACION MAR",
@@ -7786,7 +7815,7 @@
       "vencimiento": "2026-09-09",
       "monto": 11590,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "items": [
         {
           "descripcion": "HOLA",
@@ -7806,7 +7835,7 @@
       "vencimiento": "2026-09-30",
       "monto": 123734,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "items": [
         {
           "descripcion": "JARDÍN",
@@ -7844,7 +7873,7 @@
       "vencimiento": "2026-08-19",
       "monto": 58416,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "items": [
         {
           "descripcion": "000003 LA NACION MIE",
@@ -7870,7 +7899,7 @@
       "vencimiento": "2026-09-17",
       "monto": 119898.4,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "items": [
         {
           "descripcion": "POP CULTURE Bugs Bunny + Fascículo",
@@ -7896,7 +7925,7 @@
       "vencimiento": "2026-10-01",
       "monto": 43466,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "items": [
         {
           "descripcion": "200219 DINOSAURIOS 2 PTERODÁPTILO + FASCÍCULO",
@@ -7916,7 +7945,7 @@
       "vencimiento": "2026-08-20",
       "monto": 51768,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "items": [
         {
           "descripcion": "LA NACION JUE",
@@ -7942,7 +7971,7 @@
       "vencimiento": "2026-09-11",
       "monto": 35066.4,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "items": [
         {
           "descripcion": "200444 F1 EXTENSION\nAlpine - Entrega 6 + Fascículo",
@@ -7962,7 +7991,7 @@
       "vencimiento": "2026-08-21",
       "monto": 51768,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "items": [
         {
           "descripcion": "LA NACION VIE",
@@ -7988,7 +8017,7 @@
       "vencimiento": "2026-10-03",
       "monto": 43466,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "items": [
         {
           "descripcion": "200219 DINOSAURIOS 2 ANKILOSAURUS + FASCÍCULO",
@@ -8008,7 +8037,7 @@
       "vencimiento": "2026-10-17",
       "monto": 75456.6,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "items": [
         {
           "descripcion": "LIBROS PRH EL LIBRO DE LOS RETOS",
@@ -8052,7 +8081,7 @@
       "vencimiento": "2026-09-19",
       "monto": 18893.2,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "items": [
         {
           "descripcion": "200424 STITCH\nStitch Halloween",
@@ -8072,7 +8101,7 @@
       "vencimiento": "2022-08-22",
       "monto": 95742,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "items": [
         {
           "descripcion": "LA NACION SAB",
@@ -8098,7 +8127,7 @@
       "vencimiento": "2026-09-20",
       "monto": 40359.6,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "items": [
         {
           "descripcion": "200236 MON Y BILL 20",
@@ -8589,7 +8618,7 @@
       "vencimiento": "2026-08-17",
       "monto": 124696.1,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "items": [
         {
           "descripcion": "ELLE MODA 388 - 08/2026",
