@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 6,
-  "exportadoEl": "2026-09-02T20:54:15.427Z",
+  "exportadoEl": "2026-09-03T17:10:50.075Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -2803,6 +2803,87 @@
       "detalle": "Básquet",
       "id": "m_mtk7k7nvg6vmv6",
       "modificadoEl": "2026-09-02T14:45:21.739Z"
+    },
+    {
+      "date": "2026-09-02",
+      "type": "ingreso",
+      "amount": 110000,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "efectivo",
+      "id": "m_mtknnnpegmxdrx",
+      "modificadoEl": "2026-09-02T22:15:56.354Z"
+    },
+    {
+      "date": "2026-09-02",
+      "type": "ingreso",
+      "amount": 53700,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "transferencia",
+      "id": "m_mtkq74ss9h4leq",
+      "modificadoEl": "2026-09-02T23:27:04.204Z"
+    },
+    {
+      "date": "2026-09-02",
+      "type": "egreso",
+      "amount": 36000,
+      "category": "Varios",
+      "account": "alquileres",
+      "detalle": "Empanadas en casa",
+      "id": "m_mtksybjz0dlodo",
+      "modificadoEl": "2026-09-03T00:44:11.903Z"
+    },
+    {
+      "date": "2026-09-03",
+      "type": "ingreso",
+      "amount": 37700,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "efectivo",
+      "detalle": "Entradas Pablo benedicto",
+      "id": "m_mtlhfw6bnm76eg",
+      "modificadoEl": "2026-09-03T12:09:42.563Z"
+    },
+    {
+      "date": "2026-09-03",
+      "type": "ingreso",
+      "amount": 64500,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "transferencia",
+      "id": "m_mtlhhizmi8mtbm",
+      "modificadoEl": "2026-09-03T12:10:58.786Z"
+    },
+    {
+      "date": "2026-09-03",
+      "type": "ingreso",
+      "amount": 10000,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "transferencia",
+      "id": "m_mtljuj29r50dgj",
+      "modificadoEl": "2026-09-03T13:17:04.641Z"
+    },
+    {
+      "date": "2026-09-03",
+      "type": "ingreso",
+      "amount": 33000,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "transferencia",
+      "id": "m_mtlk60qknjnwxv",
+      "modificadoEl": "2026-09-03T13:26:00.765Z"
+    },
+    {
+      "date": "2026-09-03",
+      "type": "egreso",
+      "amount": 600000,
+      "category": "Silmar",
+      "account": "agencia",
+      "detalle": "Tranferencia silmar",
+      "id": "m_mtlkyixtcfojgp",
+      "modificadoEl": "2026-09-03T13:48:10.721Z"
     }
   ],
   "categoriasCustom": [
@@ -16069,7 +16150,15 @@
           "ventaEspecialTapa": null
         }
       ],
-      "cargadaEl": "2026-09-02T12:15:41.933Z"
+      "cargadaEl": "2026-09-02T12:15:41.933Z",
+      "comprobantesPago": [
+        {
+          "id": "mtll0d11ga9684",
+          "nombre": "1000839377.jpg",
+          "tipo": "image/jpeg",
+          "agregadoEl": "2026-09-03T13:49:36.435Z"
+        }
+      ]
     },
     {
       "id": "f_1788351344597_pmz4x",
@@ -16373,6 +16462,72 @@
         }
       ],
       "cargadaEl": "2026-09-02T12:15:55.873Z"
+    },
+    {
+      "id": "f_1788441818114_1git0",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00587094",
+      "referenciaFactura": null,
+      "fecha": "2026-08-31",
+      "vencimiento": "2026-10-12",
+      "monto": 309864,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "Moana + Fascículo",
+          "edicion": "0000001",
+          "codigoPublicacion": "200446",
+          "cantidad": 10,
+          "monto": 154932,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "Moana + Fascículo",
+          "edicion": "0000002",
+          "codigoPublicacion": "200446",
+          "cantidad": 10,
+          "monto": 154932,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        }
+      ],
+      "cargadaEl": "2026-09-03T13:23:38.114Z"
+    },
+    {
+      "id": "f_1788441821956_76ptk",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00587027",
+      "referenciaFactura": null,
+      "fecha": "2026-08-31",
+      "vencimiento": "2026-09-14",
+      "monto": 65064,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "LA NACION LUN",
+          "edicion": "20260831",
+          "codigoPublicacion": "000001",
+          "cantidad": 14,
+          "monto": 46536,
+          "fechaItem": "2026-08-31",
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "POPULAR LUN",
+          "edicion": "20260831",
+          "codigoPublicacion": "110601",
+          "cantidad": 12,
+          "monto": 18528,
+          "fechaItem": "2026-08-31",
+          "ventaEspecialTapa": null
+        }
+      ],
+      "cargadaEl": "2026-09-03T13:23:41.956Z"
     }
   ],
   "preciosProveedores": {
@@ -20395,7 +20550,8 @@
         ],
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
-        "excluirGanSem": true
+        "excluirGanSem": true,
+        "archivado": true
       },
       {
         "id": "mtai6vjrg13z3j",
@@ -21848,12 +22004,12 @@
         "feriadoRecargo": 0,
         "tipoProducto": "periodico",
         "precioUnico": 20000,
-        "recargoUnico": 1600,
+        "recargoUnico": 1900,
         "historialUnico": [
           {
             "desde": "2026-08-01",
             "tapa": 20000,
-            "recargo": 1600
+            "recargo": 1900
           }
         ]
       },
@@ -23002,6 +23158,48 @@
         ],
         "feriadoTapa": 0,
         "feriadoRecargo": 0
+      },
+      {
+        "id": "mtlkcy0cwgvc6j",
+        "nombre": "Moana + Fascículo",
+        "alias": "",
+        "tipoProducto": "periodico",
+        "precioUnico": 22784.12,
+        "recargoUnico": 0,
+        "pctCalculoPeriodico": 68,
+        "historialUnico": [
+          {
+            "desde": "2026-08-31",
+            "tapa": 22784.12,
+            "recargo": 0
+          }
+        ],
+        "historial": [
+          {
+            "desde": "2026-08-31",
+            "tapa": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "recargo": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          }
+        ],
+        "feriadoTapa": 0,
+        "feriadoRecargo": 0,
+        "excluirGanSem": true
       }
     ],
     "ambito": [],
@@ -23512,18 +23710,12 @@
           "cantidad": 1,
           "monto": 15493.2,
           "motivo": null,
-          "ncFacturaId": "f_1787969957498_muaky",
-          "ncNumero": "00450-00966071",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1787969957498_muaky",
-              "numero": "00450-00966071",
-              "cantidad": 1
-            }
-          ],
-          "cantidadAcreditada": 1,
-          "cantidadFaltante": 0
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
         },
         {
           "descripcion": "AMERICANAS 4X4",
@@ -23532,18 +23724,12 @@
           "cantidad": 6,
           "monto": 113359.2,
           "motivo": null,
-          "ncFacturaId": "f_1787969968045_i3ybs",
-          "ncNumero": "00450-00966072",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1787969968045_i3ybs",
-              "numero": "00450-00966072",
-              "cantidad": 6
-            }
-          ],
-          "cantidadAcreditada": 6,
-          "cantidadFaltante": 0
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 6
         },
         {
           "descripcion": "DINOSAURIOS 2025",
@@ -23552,18 +23738,12 @@
           "cantidad": 5,
           "monto": 43466,
           "motivo": null,
-          "ncFacturaId": "f_1787969887800_sgysd",
-          "ncNumero": "00450-00966074",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1787969887800_sgysd",
-              "numero": "00450-00966074",
-              "cantidad": 5
-            }
-          ],
-          "cantidadAcreditada": 5,
-          "cantidadFaltante": 0
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 5
         },
         {
           "descripcion": "DINOSAURIOS 2025",
@@ -23572,18 +23752,12 @@
           "cantidad": 5,
           "monto": 43466,
           "motivo": null,
-          "ncFacturaId": "f_1787969837108_9jgov",
-          "ncNumero": "00450-00966073",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1787969837108_9jgov",
-              "numero": "00450-00966073",
-              "cantidad": 5
-            }
-          ],
-          "cantidadAcreditada": 5,
-          "cantidadFaltante": 0
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 5
         },
         {
           "descripcion": "DINOSAURIOS 2025",
@@ -23592,18 +23766,12 @@
           "cantidad": 5,
           "monto": 43466,
           "motivo": null,
-          "ncFacturaId": "f_1787969682081_dgln6",
-          "ncNumero": "00450-00966078",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1787969682081_dgln6",
-              "numero": "00450-00966078",
-              "cantidad": 5
-            }
-          ],
-          "cantidadAcreditada": 5,
-          "cantidadFaltante": 0
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 5
         },
         {
           "descripcion": "DINOSAURIOS 2025",
@@ -23612,18 +23780,12 @@
           "cantidad": 5,
           "monto": 43466,
           "motivo": null,
-          "ncFacturaId": "f_1787969434591_g4xgi",
-          "ncNumero": "00450-00966079",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1787969434591_g4xgi",
-              "numero": "00450-00966079",
-              "cantidad": 5
-            }
-          ],
-          "cantidadAcreditada": 5,
-          "cantidadFaltante": 0
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 5
         },
         {
           "descripcion": "MON Y BILL 2025",
@@ -23632,18 +23794,12 @@
           "cantidad": 3,
           "monto": 40359.6,
           "motivo": null,
-          "ncFacturaId": "f_1787969335700_fat6c",
-          "ncNumero": "00450-00966083",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1787969335700_fat6c",
-              "numero": "00450-00966083",
-              "cantidad": 3
-            }
-          ],
-          "cantidadAcreditada": 3,
-          "cantidadFaltante": 0
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 3
         },
         {
           "descripcion": "AUTOS ALEMANES",
@@ -23652,18 +23808,12 @@
           "cantidad": 2,
           "monto": 37786.4,
           "motivo": null,
-          "ncFacturaId": "f_1787969439181_yg8as",
-          "ncNumero": "00450-00966080",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1787969439181_yg8as",
-              "numero": "00450-00966080",
-              "cantidad": 2
-            }
-          ],
-          "cantidadAcreditada": 2,
-          "cantidadFaltante": 0
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 2
         },
         {
           "descripcion": "DINOSAURIOS 2025",
@@ -23672,18 +23822,12 @@
           "cantidad": 5,
           "monto": 43466,
           "motivo": null,
-          "ncFacturaId": "f_1787968843015_djbdo",
-          "ncNumero": "00450-00966084",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1787968843015_djbdo",
-              "numero": "00450-00966084",
-              "cantidad": 5
-            }
-          ],
-          "cantidadAcreditada": 5,
-          "cantidadFaltante": 0
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 5
         },
         {
           "descripcion": "ACTIVITY COLOURING",
@@ -23874,18 +24018,12 @@
           "cantidad": 1,
           "monto": 5303.2,
           "motivo": null,
-          "ncFacturaId": "f_1787969603161_vkfe7",
-          "ncNumero": "00450-00966075",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1787969603161_vkfe7",
-              "numero": "00450-00966075",
-              "cantidad": 1
-            }
-          ],
-          "cantidadAcreditada": 1,
-          "cantidadFaltante": 0
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
         },
         {
           "descripcion": "ACTIVITY COLOURING",
@@ -23894,18 +24032,12 @@
           "cantidad": 1,
           "monto": 5303.2,
           "motivo": null,
-          "ncFacturaId": "f_1787969679452_vrfb4",
-          "ncNumero": "00450-00966076",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1787969679452_vrfb4",
-              "numero": "00450-00966076",
-              "cantidad": 1
-            }
-          ],
-          "cantidadAcreditada": 1,
-          "cantidadFaltante": 0
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
         },
         {
           "descripcion": "LIBROS INFANTILES",
@@ -23914,18 +24046,12 @@
           "cantidad": 1,
           "monto": 3603.2,
           "motivo": null,
-          "ncFacturaId": "f_1787969560392_9zov9",
-          "ncNumero": "00450-00966077",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1787969560392_9zov9",
-              "numero": "00450-00966077",
-              "cantidad": 1
-            }
-          ],
-          "cantidadAcreditada": 1,
-          "cantidadFaltante": 0
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
         },
         {
           "descripcion": "LIBROS INFANTILES",
@@ -24046,18 +24172,12 @@
           "cantidad": 1,
           "monto": 5303.2,
           "motivo": null,
-          "ncFacturaId": "f_1787969443662_qr8t2",
-          "ncNumero": "00450-00966081",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1787969443662_qr8t2",
-              "numero": "00450-00966081",
-              "cantidad": 1
-            }
-          ],
-          "cantidadAcreditada": 1,
-          "cantidadFaltante": 0
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
         },
         {
           "descripcion": "ACTIVITY COLOURING",
@@ -24066,18 +24186,12 @@
           "cantidad": 1,
           "monto": 5303.2,
           "motivo": null,
-          "ncFacturaId": "f_1787969273808_2qxw8",
-          "ncNumero": "00450-00966082",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1787969273808_2qxw8",
-              "numero": "00450-00966082",
-              "cantidad": 1
-            }
-          ],
-          "cantidadAcreditada": 1,
-          "cantidadFaltante": 0
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
         }
       ],
       "adjuntos": [
@@ -24088,7 +24202,7 @@
           "bytes": 678477
         }
       ],
-      "estado": "parcial",
+      "estado": "pendiente",
       "acreditadaEl": null,
       "cargadaEl": "2026-08-20T13:46:07.430Z"
     },
@@ -24322,18 +24436,12 @@
           "cantidad": 5,
           "monto": 7720,
           "motivo": null,
-          "ncFacturaId": "f_1787920453721_qd5mu",
-          "ncNumero": "00450-00965687",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1787920453721_qd5mu",
-              "numero": "00450-00965687",
-              "cantidad": 5
-            }
-          ],
-          "cantidadAcreditada": 5,
-          "cantidadFaltante": 0
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 5
         },
         {
           "descripcion": "POPULAR MAR",
@@ -24358,7 +24466,7 @@
           "bytes": 406770
         }
       ],
-      "estado": "parcial",
+      "estado": "pendiente",
       "acreditadaEl": null,
       "cargadaEl": "2026-08-20T13:46:11.516Z"
     },
@@ -24854,18 +24962,12 @@
           "cantidad": 1,
           "monto": 2583.2,
           "motivo": null,
-          "ncFacturaId": "f_1787968715389_sdt59",
-          "ncNumero": "00450-00966089",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1787968715389_sdt59",
-              "numero": "00450-00966089",
-              "cantidad": 1
-            }
-          ],
-          "cantidadAcreditada": 1,
-          "cantidadFaltante": 0
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
         },
         {
           "descripcion": "ACTIVITY COLOURING",
@@ -24874,18 +24976,12 @@
           "cantidad": 1,
           "monto": 2583.2,
           "motivo": null,
-          "ncFacturaId": "f_1787968612429_95azs",
-          "ncNumero": "00450-00966090",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1787968612429_95azs",
-              "numero": "00450-00966090",
-              "cantidad": 1
-            }
-          ],
-          "cantidadAcreditada": 1,
-          "cantidadFaltante": 0
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
         },
         {
           "descripcion": "COLORES Y JUEGOS",
@@ -24894,18 +24990,12 @@
           "cantidad": 1,
           "monto": 5303.2,
           "motivo": null,
-          "ncFacturaId": "f_1787968608812_5m1xd",
-          "ncNumero": "00450-00966091",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1787968608812_5m1xd",
-              "numero": "00450-00966091",
-              "cantidad": 1
-            }
-          ],
-          "cantidadAcreditada": 1,
-          "cantidadFaltante": 0
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
         },
         {
           "descripcion": "COL. PINTA Y BRILLA",
@@ -24914,18 +25004,12 @@
           "cantidad": 1,
           "monto": 3263.2,
           "motivo": null,
-          "ncFacturaId": "f_1787968933642_v7jum",
-          "ncNumero": "00450-00966085",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1787968933642_v7jum",
-              "numero": "00450-00966085",
-              "cantidad": 1
-            }
-          ],
-          "cantidadAcreditada": 1,
-          "cantidadFaltante": 0
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
         },
         {
           "descripcion": "ACTIVITY ESPECIALE",
@@ -24934,18 +25018,12 @@
           "cantidad": 1,
           "monto": 3943.2,
           "motivo": null,
-          "ncFacturaId": "f_1787968621199_wbrte",
-          "ncNumero": "00450-00966086",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1787968621199_wbrte",
-              "numero": "00450-00966086",
-              "cantidad": 1
-            }
-          ],
-          "cantidadAcreditada": 1,
-          "cantidadFaltante": 0
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
         },
         {
           "descripcion": "ACTIVITY ESPECIALE",
@@ -24954,18 +25032,12 @@
           "cantidad": 1,
           "monto": 3263.2,
           "motivo": null,
-          "ncFacturaId": "f_1787968615893_f6aj2",
-          "ncNumero": "00450-00966087",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1787968615893_f6aj2",
-              "numero": "00450-00966087",
-              "cantidad": 1
-            }
-          ],
-          "cantidadAcreditada": 1,
-          "cantidadFaltante": 0
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
         },
         {
           "descripcion": "ACTIVITY COLOURING",
@@ -24974,18 +25046,12 @@
           "cantidad": 1,
           "monto": 2583.2,
           "motivo": null,
-          "ncFacturaId": "f_1787969070536_gbsi9",
-          "ncNumero": "00450-00966088",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1787969070536_gbsi9",
-              "numero": "00450-00966088",
-              "cantidad": 1
-            }
-          ],
-          "cantidadAcreditada": 1,
-          "cantidadFaltante": 0
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
         }
       ],
       "adjuntos": [
@@ -24996,7 +25062,7 @@
           "bytes": 445179
         }
       ],
-      "estado": "parcial",
+      "estado": "pendiente",
       "acreditadaEl": null,
       "cargadaEl": "2026-08-27T13:09:57.260Z"
     },
@@ -25503,6 +25569,332 @@
       "estado": "pendiente",
       "acreditadaEl": null,
       "cargadaEl": "2026-09-02T13:19:25.416Z"
+    },
+    {
+      "id": "dev_1788441676135_1bbgl",
+      "proveedorKey": "lanacion",
+      "fecha": "2026-09-03",
+      "numeroRemito": "379546",
+      "modo": "completa",
+      "items": [
+        {
+          "descripcion": "DEADPOOL",
+          "edicion": "5",
+          "codigoPublicacion": "200430",
+          "cantidad": 7,
+          "monto": 77798,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 7
+        },
+        {
+          "descripcion": "HOLA",
+          "edicion": "823",
+          "codigoPublicacion": "110203",
+          "cantidad": 1,
+          "monto": 5795,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
+        },
+        {
+          "descripcion": "MOANA",
+          "edicion": "1",
+          "codigoPublicacion": "200446",
+          "cantidad": 9,
+          "monto": 139438.8,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 9
+        },
+        {
+          "descripcion": "AMERICANAS 4X4",
+          "edicion": "8",
+          "codigoPublicacion": "200429",
+          "cantidad": 2,
+          "monto": 37786.4,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 2
+        },
+        {
+          "descripcion": "ORGULLO ARGENTINO",
+          "edicion": "5",
+          "codigoPublicacion": "200440",
+          "cantidad": 5,
+          "monto": 94466,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 5
+        }
+      ],
+      "adjuntos": [
+        {
+          "id": "dev_1788441676135_1bbgl_a0",
+          "nombre": "1000839356.jpg",
+          "mime": "image/jpeg",
+          "bytes": 363097
+        }
+      ],
+      "estado": "pendiente",
+      "acreditadaEl": null,
+      "cargadaEl": "2026-09-03T13:21:16.241Z"
+    },
+    {
+      "id": "dev_1788441678966_kgede",
+      "proveedorKey": "lanacion",
+      "fecha": "2026-09-03",
+      "numeroRemito": "379552",
+      "modo": "completa",
+      "items": [
+        {
+          "descripcion": "POPULAR MAR",
+          "edicion": "734",
+          "codigoPublicacion": "110602",
+          "cantidad": 4,
+          "monto": 6640,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 4
+        },
+        {
+          "descripcion": "POPULAR MIE",
+          "edicion": "738",
+          "codigoPublicacion": "110603",
+          "cantidad": 3,
+          "monto": 4980,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 3
+        },
+        {
+          "descripcion": "POPULAR JUE",
+          "edicion": "735",
+          "codigoPublicacion": "110604",
+          "cantidad": 3,
+          "monto": 4980,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 3
+        },
+        {
+          "descripcion": "POPULAR VIE",
+          "edicion": "727",
+          "codigoPublicacion": "110605",
+          "cantidad": 2,
+          "monto": 3320,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 2
+        },
+        {
+          "descripcion": "POPULAR SAB",
+          "edicion": "740",
+          "codigoPublicacion": "110606",
+          "cantidad": 2,
+          "monto": 3320,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 2
+        },
+        {
+          "descripcion": "POPULAR LUN",
+          "edicion": "740",
+          "codigoPublicacion": "110601",
+          "cantidad": 4,
+          "monto": 6640,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 4
+        }
+      ],
+      "adjuntos": [
+        {
+          "id": "dev_1788441678966_kgede_a0",
+          "nombre": "1000839358.jpg",
+          "mime": "image/jpeg",
+          "bytes": 384184
+        }
+      ],
+      "estado": "pendiente",
+      "acreditadaEl": null,
+      "cargadaEl": "2026-09-03T13:21:19.013Z"
+    },
+    {
+      "id": "dev_1788441681890_70prx",
+      "proveedorKey": "lanacion",
+      "fecha": "2026-09-03",
+      "numeroRemito": "379551",
+      "modo": "completa",
+      "items": [
+        {
+          "descripcion": "LA NACION LUNES",
+          "edicion": "1361",
+          "codigoPublicacion": null,
+          "cantidad": 5,
+          "monto": 25030,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 5
+        },
+        {
+          "descripcion": "LA NACION MARTES",
+          "edicion": "1361",
+          "codigoPublicacion": null,
+          "cantidad": 3,
+          "monto": 15018,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 3
+        },
+        {
+          "descripcion": "LA NACION MIERC.",
+          "edicion": "1362",
+          "codigoPublicacion": null,
+          "cantidad": 4,
+          "monto": 20024,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 4
+        },
+        {
+          "descripcion": "LA NACION JUEVES",
+          "edicion": "1355",
+          "codigoPublicacion": null,
+          "cantidad": 4,
+          "monto": 20024,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 4
+        },
+        {
+          "descripcion": "LA NACION VIERNES",
+          "edicion": "1348",
+          "codigoPublicacion": null,
+          "cantidad": 2,
+          "monto": 10012,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 2
+        },
+        {
+          "descripcion": "LA NACION SABADO",
+          "edicion": "1365",
+          "codigoPublicacion": null,
+          "cantidad": 6,
+          "monto": 30036,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 6
+        },
+        {
+          "descripcion": "LA NACION DOMINGO",
+          "edicion": "1363",
+          "codigoPublicacion": null,
+          "cantidad": 3,
+          "monto": 15018,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 3
+        },
+        {
+          "descripcion": "LA NACION LUNES",
+          "edicion": "1362",
+          "codigoPublicacion": null,
+          "cantidad": 5,
+          "monto": 25030,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 5
+        }
+      ],
+      "adjuntos": [
+        {
+          "id": "dev_1788441681890_70prx_a0",
+          "nombre": "1000839357.jpg",
+          "mime": "image/jpeg",
+          "bytes": 400668
+        }
+      ],
+      "estado": "pendiente",
+      "acreditadaEl": null,
+      "cargadaEl": "2026-09-03T13:21:21.944Z"
     }
   ],
   "clientesReparto": {
@@ -25511,2771 +25903,12 @@
       "direccion": "Maipú 175",
       "telefono": "2395417834"
     },
-    "diarios": [
-      {
-        "id": "msnrypbde41dta",
-        "nombre": "Clarin",
-        "precios": [
-          8000,
-          5100,
-          5100,
-          5100,
-          5100,
-          5100,
-          7200
-        ],
-        "precioFeriado": 5350
-      },
-      {
-        "id": "msnrzksq1xnw9w",
-        "nombre": "La nación",
-        "precios": [
-          8030,
-          5130,
-          5130,
-          5130,
-          5130,
-          5130,
-          7230
-        ],
-        "precioFeriado": 5450,
-        "aumentos": [
-          {
-            "id": "mth7o5jpzrepjj",
-            "desde": "2026-09-01",
-            "precios": [
-              8830,
-              5730,
-              5730,
-              5730,
-              5730,
-              5730,
-              8130
-            ],
-            "precioFeriado": 5450
-          }
-        ]
-      },
-      {
-        "id": "msns0l33nw70t4",
-        "nombre": "Popular",
-        "precios": [
-          2500,
-          2300,
-          2300,
-          2300,
-          2300,
-          2300,
-          2300
-        ],
-        "precioFeriado": 2500
-      },
-      {
-        "id": "msnsksp57a8bns",
-        "nombre": "Diario ole",
-        "precios": [
-          2900,
-          2900,
-          2800,
-          2800,
-          2800,
-          2800,
-          2800
-        ],
-        "precioFeriado": 3100
-      }
-    ],
-    "nextFacturaNum": 68,
-    "clientes": [
-      {
-        "id": "msnrvzg8wadclt",
-        "nombre": "Puppies",
-        "telefono": "2395417834",
-        "direccion": "",
-        "fechaAlta": "2026-08-01",
-        "categoria": "semanal",
-        "diariosCliente": [
-          {
-            "diarioId": "msnrypbde41dta",
-            "dias": [
-              1,
-              2,
-              3,
-              4,
-              5,
-              6,
-              0
-            ]
-          },
-          {
-            "diarioId": "msns0l33nw70t4",
-            "dias": [
-              1,
-              2,
-              3,
-              4,
-              5,
-              6,
-              0
-            ]
-          },
-          {
-            "diarioId": "msnsksp57a8bns",
-            "dias": [
-              1,
-              2,
-              3,
-              4,
-              5,
-              6,
-              0
-            ]
-          }
-        ],
-        "revistas": [
-          {
-            "id": "msnslgbw5uacdj",
-            "nombre": "El oeste",
-            "precio": 1500,
-            "frecuencia": "semanal",
-            "dia": 0
-          }
-        ],
-        "suspensiones": [],
-        "facturas": [
-          {
-            "id": "mth6q1q86l2kfj",
-            "numero": 43,
-            "fechaEmision": "2026-08-31",
-            "tipo": "rango",
-            "desde": "2026-07-28",
-            "hasta": "2026-08-31",
-            "items": [
-              {
-                "fecha": "2026-07-28",
-                "concepto": "Clarin",
-                "cantidad": 1,
-                "precio": 5100,
-                "subtotal": 5100
-              },
-              {
-                "fecha": "2026-07-28",
-                "concepto": "Diario ole",
-                "cantidad": 1,
-                "precio": 2800,
-                "subtotal": 2800
-              },
-              {
-                "fecha": "2026-07-28",
-                "concepto": "Popular",
-                "cantidad": 1,
-                "precio": 2300,
-                "subtotal": 2300
-              },
-              {
-                "fecha": "2026-07-29",
-                "concepto": "Clarin",
-                "cantidad": 1,
-                "precio": 5100,
-                "subtotal": 5100
-              },
-              {
-                "fecha": "2026-07-29",
-                "concepto": "Diario ole",
-                "cantidad": 1,
-                "precio": 2800,
-                "subtotal": 2800
-              },
-              {
-                "fecha": "2026-07-29",
-                "concepto": "Popular",
-                "cantidad": 1,
-                "precio": 2300,
-                "subtotal": 2300
-              },
-              {
-                "fecha": "2026-07-30",
-                "concepto": "Clarin",
-                "cantidad": 1,
-                "precio": 5100,
-                "subtotal": 5100
-              },
-              {
-                "fecha": "2026-07-30",
-                "concepto": "Diario ole",
-                "cantidad": 1,
-                "precio": 2800,
-                "subtotal": 2800
-              },
-              {
-                "fecha": "2026-07-30",
-                "concepto": "Popular",
-                "cantidad": 1,
-                "precio": 2300,
-                "subtotal": 2300
-              },
-              {
-                "fecha": "2026-07-31",
-                "concepto": "Clarin",
-                "cantidad": 1,
-                "precio": 5100,
-                "subtotal": 5100
-              },
-              {
-                "fecha": "2026-07-31",
-                "concepto": "Diario ole",
-                "cantidad": 1,
-                "precio": 2800,
-                "subtotal": 2800
-              },
-              {
-                "fecha": "2026-07-31",
-                "concepto": "Popular",
-                "cantidad": 1,
-                "precio": 2300,
-                "subtotal": 2300
-              },
-              {
-                "fecha": "2026-08-01",
-                "concepto": "Clarin",
-                "cantidad": 1,
-                "precio": 7200,
-                "subtotal": 7200
-              },
-              {
-                "fecha": "2026-08-01",
-                "concepto": "Diario ole",
-                "cantidad": 1,
-                "precio": 2800,
-                "subtotal": 2800
-              },
-              {
-                "fecha": "2026-08-01",
-                "concepto": "Popular",
-                "cantidad": 1,
-                "precio": 2300,
-                "subtotal": 2300
-              },
-              {
-                "fecha": "2026-08-02",
-                "concepto": "Clarin",
-                "cantidad": 1,
-                "precio": 8000,
-                "subtotal": 8000
-              },
-              {
-                "fecha": "2026-08-02",
-                "concepto": "Diario ole",
-                "cantidad": 1,
-                "precio": 2900,
-                "subtotal": 2900
-              },
-              {
-                "fecha": "2026-08-02",
-                "concepto": "El oeste",
-                "cantidad": 1,
-                "precio": 1500,
-                "subtotal": 1500
-              },
-              {
-                "fecha": "2026-08-02",
-                "concepto": "Popular",
-                "cantidad": 1,
-                "precio": 2500,
-                "subtotal": 2500
-              },
-              {
-                "fecha": "2026-08-03",
-                "concepto": "Clarin",
-                "cantidad": 1,
-                "precio": 5100,
-                "subtotal": 5100
-              },
-              {
-                "fecha": "2026-08-03",
-                "concepto": "Diario ole",
-                "cantidad": 1,
-                "precio": 2900,
-                "subtotal": 2900
-              },
-              {
-                "fecha": "2026-08-03",
-                "concepto": "Popular",
-                "cantidad": 1,
-                "precio": 2300,
-                "subtotal": 2300
-              },
-              {
-                "fecha": "2026-08-04",
-                "concepto": "Clarin",
-                "cantidad": 1,
-                "precio": 5100,
-                "subtotal": 5100
-              },
-              {
-                "fecha": "2026-08-04",
-                "concepto": "Diario ole",
-                "cantidad": 1,
-                "precio": 2800,
-                "subtotal": 2800
-              },
-              {
-                "fecha": "2026-08-04",
-                "concepto": "Popular",
-                "cantidad": 1,
-                "precio": 2300,
-                "subtotal": 2300
-              },
-              {
-                "fecha": "2026-08-05",
-                "concepto": "Clarin",
-                "cantidad": 1,
-                "precio": 5100,
-                "subtotal": 5100
-              },
-              {
-                "fecha": "2026-08-05",
-                "concepto": "Diario ole",
-                "cantidad": 1,
-                "precio": 2800,
-                "subtotal": 2800
-              },
-              {
-                "fecha": "2026-08-05",
-                "concepto": "Popular",
-                "cantidad": 1,
-                "precio": 2300,
-                "subtotal": 2300
-              },
-              {
-                "fecha": "2026-08-06",
-                "concepto": "Clarin",
-                "cantidad": 1,
-                "precio": 5100,
-                "subtotal": 5100
-              },
-              {
-                "fecha": "2026-08-06",
-                "concepto": "Diario ole",
-                "cantidad": 1,
-                "precio": 2800,
-                "subtotal": 2800
-              },
-              {
-                "fecha": "2026-08-06",
-                "concepto": "Popular",
-                "cantidad": 1,
-                "precio": 2300,
-                "subtotal": 2300
-              },
-              {
-                "fecha": "2026-08-07",
-                "concepto": "Clarin",
-                "cantidad": 1,
-                "precio": 5100,
-                "subtotal": 5100
-              },
-              {
-                "fecha": "2026-08-07",
-                "concepto": "Diario ole",
-                "cantidad": 1,
-                "precio": 2800,
-                "subtotal": 2800
-              },
-              {
-                "fecha": "2026-08-07",
-                "concepto": "Popular",
-                "cantidad": 1,
-                "precio": 2300,
-                "subtotal": 2300
-              },
-              {
-                "fecha": "2026-08-08",
-                "concepto": "Clarin",
-                "cantidad": 1,
-                "precio": 7200,
-                "subtotal": 7200
-              },
-              {
-                "fecha": "2026-08-08",
-                "concepto": "Diario ole",
-                "cantidad": 1,
-                "precio": 2800,
-                "subtotal": 2800
-              },
-              {
-                "fecha": "2026-08-08",
-                "concepto": "Popular",
-                "cantidad": 1,
-                "precio": 2300,
-                "subtotal": 2300
-              },
-              {
-                "fecha": "2026-08-09",
-                "concepto": "Clarin",
-                "cantidad": 1,
-                "precio": 8000,
-                "subtotal": 8000
-              },
-              {
-                "fecha": "2026-08-09",
-                "concepto": "Diario ole",
-                "cantidad": 1,
-                "precio": 2900,
-                "subtotal": 2900
-              },
-              {
-                "fecha": "2026-08-09",
-                "concepto": "El oeste",
-                "cantidad": 1,
-                "precio": 1500,
-                "subtotal": 1500
-              },
-              {
-                "fecha": "2026-08-09",
-                "concepto": "Popular",
-                "cantidad": 1,
-                "precio": 2500,
-                "subtotal": 2500
-              },
-              {
-                "fecha": "2026-08-10",
-                "concepto": "Clarin",
-                "cantidad": 1,
-                "precio": 5100,
-                "subtotal": 5100
-              },
-              {
-                "fecha": "2026-08-10",
-                "concepto": "Diario ole",
-                "cantidad": 1,
-                "precio": 2900,
-                "subtotal": 2900
-              },
-              {
-                "fecha": "2026-08-10",
-                "concepto": "Popular",
-                "cantidad": 1,
-                "precio": 2300,
-                "subtotal": 2300
-              },
-              {
-                "fecha": "2026-08-11",
-                "concepto": "Clarin",
-                "cantidad": 1,
-                "precio": 5100,
-                "subtotal": 5100
-              },
-              {
-                "fecha": "2026-08-11",
-                "concepto": "Diario ole",
-                "cantidad": 1,
-                "precio": 2800,
-                "subtotal": 2800
-              },
-              {
-                "fecha": "2026-08-11",
-                "concepto": "Popular",
-                "cantidad": 1,
-                "precio": 2300,
-                "subtotal": 2300
-              },
-              {
-                "fecha": "2026-08-12",
-                "concepto": "Clarin",
-                "cantidad": 1,
-                "precio": 5100,
-                "subtotal": 5100
-              },
-              {
-                "fecha": "2026-08-12",
-                "concepto": "Diario ole",
-                "cantidad": 1,
-                "precio": 2800,
-                "subtotal": 2800
-              },
-              {
-                "fecha": "2026-08-12",
-                "concepto": "Popular",
-                "cantidad": 1,
-                "precio": 2300,
-                "subtotal": 2300
-              },
-              {
-                "fecha": "2026-08-13",
-                "concepto": "Clarin",
-                "cantidad": 1,
-                "precio": 5100,
-                "subtotal": 5100
-              },
-              {
-                "fecha": "2026-08-13",
-                "concepto": "Diario ole",
-                "cantidad": 1,
-                "precio": 2800,
-                "subtotal": 2800
-              },
-              {
-                "fecha": "2026-08-13",
-                "concepto": "Popular",
-                "cantidad": 1,
-                "precio": 2300,
-                "subtotal": 2300
-              },
-              {
-                "fecha": "2026-08-14",
-                "concepto": "Clarin",
-                "cantidad": 1,
-                "precio": 5100,
-                "subtotal": 5100
-              },
-              {
-                "fecha": "2026-08-14",
-                "concepto": "Diario ole",
-                "cantidad": 1,
-                "precio": 2800,
-                "subtotal": 2800
-              },
-              {
-                "fecha": "2026-08-14",
-                "concepto": "Popular",
-                "cantidad": 1,
-                "precio": 2300,
-                "subtotal": 2300
-              },
-              {
-                "fecha": "2026-08-15",
-                "concepto": "Clarin",
-                "cantidad": 1,
-                "precio": 7200,
-                "subtotal": 7200
-              },
-              {
-                "fecha": "2026-08-15",
-                "concepto": "Diario ole",
-                "cantidad": 1,
-                "precio": 2800,
-                "subtotal": 2800
-              },
-              {
-                "fecha": "2026-08-15",
-                "concepto": "Popular",
-                "cantidad": 1,
-                "precio": 2300,
-                "subtotal": 2300
-              },
-              {
-                "fecha": "2026-08-16",
-                "concepto": "Clarin",
-                "cantidad": 1,
-                "precio": 8000,
-                "subtotal": 8000
-              },
-              {
-                "fecha": "2026-08-16",
-                "concepto": "Diario ole",
-                "cantidad": 1,
-                "precio": 2900,
-                "subtotal": 2900
-              },
-              {
-                "fecha": "2026-08-16",
-                "concepto": "El oeste",
-                "cantidad": 1,
-                "precio": 1500,
-                "subtotal": 1500
-              },
-              {
-                "fecha": "2026-08-16",
-                "concepto": "Popular",
-                "cantidad": 1,
-                "precio": 2500,
-                "subtotal": 2500
-              },
-              {
-                "fecha": "2026-08-17",
-                "concepto": "Clarin (feriado)",
-                "cantidad": 1,
-                "precio": 5350,
-                "subtotal": 5350
-              },
-              {
-                "fecha": "2026-08-17",
-                "concepto": "Diario ole (feriado)",
-                "cantidad": 1,
-                "precio": 3100,
-                "subtotal": 3100
-              },
-              {
-                "fecha": "2026-08-17",
-                "concepto": "Popular (feriado)",
-                "cantidad": 1,
-                "precio": 2500,
-                "subtotal": 2500
-              },
-              {
-                "fecha": "2026-08-18",
-                "concepto": "Clarin",
-                "cantidad": 1,
-                "precio": 5100,
-                "subtotal": 5100
-              },
-              {
-                "fecha": "2026-08-18",
-                "concepto": "Diario ole",
-                "cantidad": 1,
-                "precio": 2800,
-                "subtotal": 2800
-              },
-              {
-                "fecha": "2026-08-18",
-                "concepto": "Popular",
-                "cantidad": 1,
-                "precio": 2300,
-                "subtotal": 2300
-              },
-              {
-                "fecha": "2026-08-19",
-                "concepto": "Clarin",
-                "cantidad": 1,
-                "precio": 5100,
-                "subtotal": 5100
-              },
-              {
-                "fecha": "2026-08-19",
-                "concepto": "Diario ole",
-                "cantidad": 1,
-                "precio": 2800,
-                "subtotal": 2800
-              },
-              {
-                "fecha": "2026-08-19",
-                "concepto": "Popular",
-                "cantidad": 1,
-                "precio": 2300,
-                "subtotal": 2300
-              },
-              {
-                "fecha": "2026-08-20",
-                "concepto": "Clarin",
-                "cantidad": 1,
-                "precio": 5100,
-                "subtotal": 5100
-              },
-              {
-                "fecha": "2026-08-20",
-                "concepto": "Diario ole",
-                "cantidad": 1,
-                "precio": 2800,
-                "subtotal": 2800
-              },
-              {
-                "fecha": "2026-08-20",
-                "concepto": "Popular",
-                "cantidad": 1,
-                "precio": 2300,
-                "subtotal": 2300
-              },
-              {
-                "fecha": "2026-08-21",
-                "concepto": "Clarin",
-                "cantidad": 1,
-                "precio": 5100,
-                "subtotal": 5100
-              },
-              {
-                "fecha": "2026-08-21",
-                "concepto": "Diario ole",
-                "cantidad": 1,
-                "precio": 2800,
-                "subtotal": 2800
-              },
-              {
-                "fecha": "2026-08-21",
-                "concepto": "Popular",
-                "cantidad": 1,
-                "precio": 2300,
-                "subtotal": 2300
-              },
-              {
-                "fecha": "2026-08-22",
-                "concepto": "Clarin",
-                "cantidad": 1,
-                "precio": 7200,
-                "subtotal": 7200
-              },
-              {
-                "fecha": "2026-08-22",
-                "concepto": "Diario ole",
-                "cantidad": 1,
-                "precio": 2800,
-                "subtotal": 2800
-              },
-              {
-                "fecha": "2026-08-22",
-                "concepto": "Popular",
-                "cantidad": 1,
-                "precio": 2300,
-                "subtotal": 2300
-              },
-              {
-                "fecha": "2026-08-23",
-                "concepto": "Clarin",
-                "cantidad": 1,
-                "precio": 8000,
-                "subtotal": 8000
-              },
-              {
-                "fecha": "2026-08-23",
-                "concepto": "Diario ole",
-                "cantidad": 1,
-                "precio": 2900,
-                "subtotal": 2900
-              },
-              {
-                "fecha": "2026-08-23",
-                "concepto": "El oeste",
-                "cantidad": 1,
-                "precio": 1500,
-                "subtotal": 1500
-              },
-              {
-                "fecha": "2026-08-23",
-                "concepto": "Popular",
-                "cantidad": 1,
-                "precio": 2500,
-                "subtotal": 2500
-              },
-              {
-                "fecha": "2026-08-24",
-                "concepto": "Clarin",
-                "cantidad": 1,
-                "precio": 5100,
-                "subtotal": 5100
-              },
-              {
-                "fecha": "2026-08-24",
-                "concepto": "Diario ole",
-                "cantidad": 1,
-                "precio": 2900,
-                "subtotal": 2900
-              },
-              {
-                "fecha": "2026-08-24",
-                "concepto": "Popular",
-                "cantidad": 1,
-                "precio": 2300,
-                "subtotal": 2300
-              },
-              {
-                "fecha": "2026-08-25",
-                "concepto": "Clarin",
-                "cantidad": 1,
-                "precio": 5100,
-                "subtotal": 5100
-              },
-              {
-                "fecha": "2026-08-25",
-                "concepto": "Diario ole",
-                "cantidad": 1,
-                "precio": 2800,
-                "subtotal": 2800
-              },
-              {
-                "fecha": "2026-08-25",
-                "concepto": "Popular",
-                "cantidad": 1,
-                "precio": 2300,
-                "subtotal": 2300
-              },
-              {
-                "fecha": "2026-08-26",
-                "concepto": "Clarin",
-                "cantidad": 1,
-                "precio": 5100,
-                "subtotal": 5100
-              },
-              {
-                "fecha": "2026-08-26",
-                "concepto": "Diario ole",
-                "cantidad": 1,
-                "precio": 2800,
-                "subtotal": 2800
-              },
-              {
-                "fecha": "2026-08-26",
-                "concepto": "Popular",
-                "cantidad": 1,
-                "precio": 2300,
-                "subtotal": 2300
-              },
-              {
-                "fecha": "2026-08-27",
-                "concepto": "Clarin",
-                "cantidad": 1,
-                "precio": 5100,
-                "subtotal": 5100
-              },
-              {
-                "fecha": "2026-08-27",
-                "concepto": "Diario ole",
-                "cantidad": 1,
-                "precio": 2800,
-                "subtotal": 2800
-              },
-              {
-                "fecha": "2026-08-27",
-                "concepto": "Popular",
-                "cantidad": 1,
-                "precio": 2300,
-                "subtotal": 2300
-              },
-              {
-                "fecha": "2026-08-28",
-                "concepto": "Clarin",
-                "cantidad": 1,
-                "precio": 5100,
-                "subtotal": 5100
-              },
-              {
-                "fecha": "2026-08-28",
-                "concepto": "Diario ole",
-                "cantidad": 1,
-                "precio": 2800,
-                "subtotal": 2800
-              },
-              {
-                "fecha": "2026-08-28",
-                "concepto": "Popular",
-                "cantidad": 1,
-                "precio": 2300,
-                "subtotal": 2300
-              },
-              {
-                "fecha": "2026-08-29",
-                "concepto": "Clarin",
-                "cantidad": 1,
-                "precio": 7200,
-                "subtotal": 7200
-              },
-              {
-                "fecha": "2026-08-29",
-                "concepto": "Diario ole",
-                "cantidad": 1,
-                "precio": 2800,
-                "subtotal": 2800
-              },
-              {
-                "fecha": "2026-08-29",
-                "concepto": "Popular",
-                "cantidad": 1,
-                "precio": 2300,
-                "subtotal": 2300
-              },
-              {
-                "fecha": "2026-08-30",
-                "concepto": "Clarin",
-                "cantidad": 1,
-                "precio": 8000,
-                "subtotal": 8000
-              },
-              {
-                "fecha": "2026-08-30",
-                "concepto": "Diario ole",
-                "cantidad": 1,
-                "precio": 2900,
-                "subtotal": 2900
-              },
-              {
-                "fecha": "2026-08-30",
-                "concepto": "El oeste",
-                "cantidad": 1,
-                "precio": 1500,
-                "subtotal": 1500
-              },
-              {
-                "fecha": "2026-08-30",
-                "concepto": "Popular",
-                "cantidad": 1,
-                "precio": 2500,
-                "subtotal": 2500
-              },
-              {
-                "fecha": "2026-08-31",
-                "concepto": "Clarin",
-                "cantidad": 1,
-                "precio": 5100,
-                "subtotal": 5100
-              },
-              {
-                "fecha": "2026-08-31",
-                "concepto": "Diario ole",
-                "cantidad": 1,
-                "precio": 2900,
-                "subtotal": 2900
-              },
-              {
-                "fecha": "2026-08-31",
-                "concepto": "Popular",
-                "cantidad": 1,
-                "precio": 2300,
-                "subtotal": 2300
-              }
-            ],
-            "total": 392150,
-            "detallado": true
-          }
-        ],
-        "proximoDesde": "2026-09-01",
-        "pagos": []
-      },
-      {
-        "id": "msnxz83xwkwf50",
-        "nombre": "Oroño julio",
-        "telefono": "",
-        "direccion": "",
-        "fechaAlta": "",
-        "categoria": "mensual",
-        "diariosCliente": [
-          {
-            "diarioId": "msnrypbde41dta",
-            "dias": [
-              1,
-              2,
-              3,
-              4,
-              5,
-              6,
-              0
-            ]
-          }
-        ],
-        "revistas": [],
-        "suspensiones": [],
-        "facturas": [
-          {
-            "id": "mtilohq3138dsv",
-            "numero": 60,
-            "fechaEmision": "2026-09-01",
-            "tipo": "mensual",
-            "year": 2026,
-            "month": 8,
-            "items": [
-              {
-                "concepto": "Clarin (Sábado)",
-                "cantidad": 5,
-                "precio": 7200,
-                "subtotal": 36000
-              },
-              {
-                "concepto": "Clarin (Domingo)",
-                "cantidad": 5,
-                "precio": 8000,
-                "subtotal": 40000
-              },
-              {
-                "concepto": "Clarin (Lunes, Martes, Miércoles, Jueves, Viernes)",
-                "cantidad": 20,
-                "precio": 5100,
-                "subtotal": 102000
-              },
-              {
-                "concepto": "Clarin (Lunes feriado)",
-                "cantidad": 1,
-                "precio": 5350,
-                "subtotal": 5350
-              }
-            ],
-            "total": 183350,
-            "detallado": false
-          }
-        ],
-        "proximoDesde": "",
-        "pagos": [
-          {
-            "id": "mtimbu3lfv6kif",
-            "fecha": "2026-09-01",
-            "monto": 183350,
-            "nota": ""
-          }
-        ]
-      },
-      {
-        "id": "msnxzua28sqfsj",
-        "nombre": "Banco Creedicop",
-        "telefono": "",
-        "direccion": "",
-        "fechaAlta": "",
-        "categoria": "mensual",
-        "diariosCliente": [
-          {
-            "diarioId": "msnrypbde41dta",
-            "dias": [
-              1
-            ]
-          }
-        ],
-        "revistas": [],
-        "suspensiones": [],
-        "facturas": [
-          {
-            "id": "mtilmyd7g8s8rh",
-            "numero": 59,
-            "fechaEmision": "2026-09-01",
-            "tipo": "mensual",
-            "year": 2026,
-            "month": 9,
-            "items": [
-              {
-                "concepto": "Clarin",
-                "cantidad": 4,
-                "precio": 5100,
-                "subtotal": 20400
-              }
-            ],
-            "total": 20400,
-            "detallado": false
-          }
-        ],
-        "proximoDesde": "",
-        "pagos": [
-          {
-            "id": "mtimc1v5exd060",
-            "fecha": "2026-09-01",
-            "monto": 20400,
-            "nota": ""
-          }
-        ]
-      },
-      {
-        "id": "msny0ss1xyofv7",
-        "nombre": "Dr. Pinciaroli J. Luis",
-        "telefono": "",
-        "direccion": "",
-        "fechaAlta": "",
-        "categoria": "mensual",
-        "diariosCliente": [
-          {
-            "diarioId": "msnrypbde41dta",
-            "dias": [
-              1,
-              2,
-              3,
-              4,
-              5,
-              6,
-              0
-            ]
-          }
-        ],
-        "revistas": [
-          {
-            "id": "msny0x3kpkd2s4",
-            "nombre": "El oeste",
-            "precio": 1500,
-            "frecuencia": "semanal",
-            "dia": 6
-          }
-        ],
-        "suspensiones": [],
-        "facturas": [
-          {
-            "id": "mtilsq8nmel8ev",
-            "numero": 64,
-            "fechaEmision": "2026-09-01",
-            "tipo": "mensual",
-            "year": 2026,
-            "month": 8,
-            "items": [
-              {
-                "concepto": "Clarin (Sábado)",
-                "cantidad": 5,
-                "precio": 7200,
-                "subtotal": 36000
-              },
-              {
-                "concepto": "Clarin (Domingo)",
-                "cantidad": 5,
-                "precio": 8000,
-                "subtotal": 40000
-              },
-              {
-                "concepto": "Clarin (Lunes, Martes, Miércoles, Jueves, Viernes)",
-                "cantidad": 20,
-                "precio": 5100,
-                "subtotal": 102000
-              },
-              {
-                "concepto": "Clarin (Lunes feriado)",
-                "cantidad": 1,
-                "precio": 5350,
-                "subtotal": 5350
-              },
-              {
-                "concepto": "El oeste",
-                "cantidad": 5,
-                "precio": 1500,
-                "subtotal": 7500
-              }
-            ],
-            "total": 190850,
-            "detallado": false
-          }
-        ],
-        "proximoDesde": "",
-        "pagos": [
-          {
-            "id": "mtimc9jyyqp1hr",
-            "fecha": "2026-09-01",
-            "monto": 190850,
-            "nota": ""
-          }
-        ]
-      },
-      {
-        "id": "msokpdwksc5o1a",
-        "nombre": "Ferrero",
-        "telefono": "",
-        "direccion": "",
-        "fechaAlta": "2026-06-01",
-        "categoria": "semanal",
-        "diariosCliente": [
-          {
-            "diarioId": "msns0l33nw70t4",
-            "dias": [
-              1,
-              6,
-              0
-            ]
-          }
-        ],
-        "revistas": [],
-        "suspensiones": [],
-        "facturas": [],
-        "proximoDesde": "2026-08-21",
-        "pagos": []
-      },
-      {
-        "id": "msopqyth7oj11q",
-        "nombre": "Las Lagunas",
-        "telefono": "",
-        "direccion": "",
-        "fechaAlta": "2026-08-01",
-        "categoria": "mensual",
-        "diariosCliente": [
-          {
-            "diarioId": "msnrzksq1xnw9w",
-            "dias": [
-              1,
-              2,
-              3,
-              4,
-              5,
-              6
-            ]
-          }
-        ],
-        "revistas": [
-          {
-            "id": "msopqxq0ymhgpc",
-            "nombre": "El Oeste",
-            "precio": 1500,
-            "frecuencia": "semanal",
-            "dia": 6
-          }
-        ],
-        "suspensiones": [],
-        "facturas": [
-          {
-            "id": "mtilta4iv8djx9",
-            "numero": 65,
-            "fechaEmision": "2026-09-01",
-            "tipo": "mensual",
-            "year": 2026,
-            "month": 8,
-            "items": [
-              {
-                "concepto": "La nación (Sábado)",
-                "cantidad": 5,
-                "precio": 7230,
-                "subtotal": 36150
-              },
-              {
-                "concepto": "La nación (Lunes, Martes, Miércoles, Jueves, Viernes)",
-                "cantidad": 20,
-                "precio": 5130,
-                "subtotal": 102600
-              },
-              {
-                "concepto": "La nación (Lunes feriado)",
-                "cantidad": 1,
-                "precio": 5450,
-                "subtotal": 5450
-              },
-              {
-                "concepto": "El Oeste",
-                "cantidad": 5,
-                "precio": 1500,
-                "subtotal": 7500
-              }
-            ],
-            "total": 151700,
-            "detallado": false
-          }
-        ],
-        "proximoDesde": "",
-        "pagos": [
-          {
-            "id": "mtimcgik0c971q",
-            "fecha": "2026-09-01",
-            "monto": 151700,
-            "nota": ""
-          }
-        ]
-      },
-      {
-        "id": "msoprhsjs8e54i",
-        "nombre": "Gemelli emanuel",
-        "telefono": "",
-        "direccion": "",
-        "fechaAlta": "2026-08-01",
-        "categoria": "semanal",
-        "diariosCliente": [
-          {
-            "diarioId": "msns0l33nw70t4",
-            "dias": [
-              1,
-              2,
-              3,
-              4,
-              5,
-              6,
-              0
-            ]
-          }
-        ],
-        "revistas": [],
-        "suspensiones": [],
-        "facturas": [
-          {
-            "id": "mtillhznnp0vmh",
-            "numero": 57,
-            "fechaEmision": "2026-09-01",
-            "tipo": "rango",
-            "desde": "2026-08-04",
-            "hasta": "2026-08-31",
-            "items": [
-              {
-                "fecha": "2026-08-04",
-                "concepto": "Popular",
-                "cantidad": 1,
-                "precio": 2300,
-                "subtotal": 2300
-              },
-              {
-                "fecha": "2026-08-05",
-                "concepto": "Popular",
-                "cantidad": 1,
-                "precio": 2300,
-                "subtotal": 2300
-              },
-              {
-                "fecha": "2026-08-06",
-                "concepto": "Popular",
-                "cantidad": 1,
-                "precio": 2300,
-                "subtotal": 2300
-              },
-              {
-                "fecha": "2026-08-07",
-                "concepto": "Popular",
-                "cantidad": 1,
-                "precio": 2300,
-                "subtotal": 2300
-              },
-              {
-                "fecha": "2026-08-08",
-                "concepto": "Popular",
-                "cantidad": 1,
-                "precio": 2300,
-                "subtotal": 2300
-              },
-              {
-                "fecha": "2026-08-09",
-                "concepto": "Popular",
-                "cantidad": 1,
-                "precio": 2500,
-                "subtotal": 2500
-              },
-              {
-                "fecha": "2026-08-10",
-                "concepto": "Popular",
-                "cantidad": 1,
-                "precio": 2300,
-                "subtotal": 2300
-              },
-              {
-                "fecha": "2026-08-11",
-                "concepto": "Popular",
-                "cantidad": 1,
-                "precio": 2300,
-                "subtotal": 2300
-              },
-              {
-                "fecha": "2026-08-12",
-                "concepto": "Popular",
-                "cantidad": 1,
-                "precio": 2300,
-                "subtotal": 2300
-              },
-              {
-                "fecha": "2026-08-13",
-                "concepto": "Popular",
-                "cantidad": 1,
-                "precio": 2300,
-                "subtotal": 2300
-              },
-              {
-                "fecha": "2026-08-14",
-                "concepto": "Popular",
-                "cantidad": 1,
-                "precio": 2300,
-                "subtotal": 2300
-              },
-              {
-                "fecha": "2026-08-15",
-                "concepto": "Popular",
-                "cantidad": 1,
-                "precio": 2300,
-                "subtotal": 2300
-              },
-              {
-                "fecha": "2026-08-16",
-                "concepto": "Popular",
-                "cantidad": 1,
-                "precio": 2500,
-                "subtotal": 2500
-              },
-              {
-                "fecha": "2026-08-17",
-                "concepto": "Popular (feriado)",
-                "cantidad": 1,
-                "precio": 2500,
-                "subtotal": 2500
-              },
-              {
-                "fecha": "2026-08-18",
-                "concepto": "Popular",
-                "cantidad": 1,
-                "precio": 2300,
-                "subtotal": 2300
-              },
-              {
-                "fecha": "2026-08-19",
-                "concepto": "Popular",
-                "cantidad": 1,
-                "precio": 2300,
-                "subtotal": 2300
-              },
-              {
-                "fecha": "2026-08-20",
-                "concepto": "Popular",
-                "cantidad": 1,
-                "precio": 2300,
-                "subtotal": 2300
-              },
-              {
-                "fecha": "2026-08-21",
-                "concepto": "Popular",
-                "cantidad": 1,
-                "precio": 2300,
-                "subtotal": 2300
-              },
-              {
-                "fecha": "2026-08-22",
-                "concepto": "Popular",
-                "cantidad": 1,
-                "precio": 2300,
-                "subtotal": 2300
-              },
-              {
-                "fecha": "2026-08-23",
-                "concepto": "Popular",
-                "cantidad": 1,
-                "precio": 2500,
-                "subtotal": 2500
-              },
-              {
-                "fecha": "2026-08-24",
-                "concepto": "Popular",
-                "cantidad": 1,
-                "precio": 2300,
-                "subtotal": 2300
-              },
-              {
-                "fecha": "2026-08-25",
-                "concepto": "Popular",
-                "cantidad": 1,
-                "precio": 2300,
-                "subtotal": 2300
-              },
-              {
-                "fecha": "2026-08-26",
-                "concepto": "Popular",
-                "cantidad": 1,
-                "precio": 2300,
-                "subtotal": 2300
-              },
-              {
-                "fecha": "2026-08-27",
-                "concepto": "Popular",
-                "cantidad": 1,
-                "precio": 2300,
-                "subtotal": 2300
-              },
-              {
-                "fecha": "2026-08-28",
-                "concepto": "Popular",
-                "cantidad": 1,
-                "precio": 2300,
-                "subtotal": 2300
-              },
-              {
-                "fecha": "2026-08-29",
-                "concepto": "Popular",
-                "cantidad": 1,
-                "precio": 2300,
-                "subtotal": 2300
-              },
-              {
-                "fecha": "2026-08-30",
-                "concepto": "Popular",
-                "cantidad": 1,
-                "precio": 2500,
-                "subtotal": 2500
-              },
-              {
-                "fecha": "2026-08-31",
-                "concepto": "Popular",
-                "cantidad": 1,
-                "precio": 2300,
-                "subtotal": 2300
-              }
-            ],
-            "total": 65400,
-            "detallado": true
-          }
-        ],
-        "proximoDesde": "2026-09-01",
-        "pagos": []
-      },
-      {
-        "id": "msops0emrd9cde",
-        "nombre": "Quiniela Sanchez",
-        "telefono": "",
-        "direccion": "",
-        "fechaAlta": "2026-08-01",
-        "categoria": "semanal",
-        "diariosCliente": [
-          {
-            "diarioId": "msns0l33nw70t4",
-            "dias": [
-              1,
-              2,
-              3,
-              4,
-              5,
-              6
-            ]
-          }
-        ],
-        "revistas": [],
-        "suspensiones": [],
-        "facturas": [
-          {
-            "id": "msymr39t1dpc1r",
-            "numero": 36,
-            "fechaEmision": "2026-08-18",
-            "tipo": "rango",
-            "desde": "2026-08-11",
-            "hasta": "2026-08-17",
-            "items": [
-              {
-                "fecha": "2026-08-11",
-                "concepto": "Popular",
-                "cantidad": 1,
-                "precio": 2300,
-                "subtotal": 2300
-              },
-              {
-                "fecha": "2026-08-12",
-                "concepto": "Popular",
-                "cantidad": 1,
-                "precio": 2300,
-                "subtotal": 2300
-              },
-              {
-                "fecha": "2026-08-13",
-                "concepto": "Popular",
-                "cantidad": 1,
-                "precio": 2300,
-                "subtotal": 2300
-              },
-              {
-                "fecha": "2026-08-14",
-                "concepto": "Popular",
-                "cantidad": 1,
-                "precio": 2300,
-                "subtotal": 2300
-              },
-              {
-                "fecha": "2026-08-15",
-                "concepto": "Popular",
-                "cantidad": 1,
-                "precio": 2300,
-                "subtotal": 2300
-              },
-              {
-                "fecha": "2026-08-17",
-                "concepto": "Popular (feriado)",
-                "cantidad": 1,
-                "precio": 2500,
-                "subtotal": 2500
-              }
-            ],
-            "total": 14000,
-            "detallado": true
-          },
-          {
-            "id": "mt75yewjqtc53j",
-            "numero": 41,
-            "fechaEmision": "2026-08-24",
-            "tipo": "rango",
-            "desde": "2026-08-18",
-            "hasta": "2026-08-24",
-            "items": [
-              {
-                "fecha": "2026-08-18",
-                "concepto": "Popular",
-                "cantidad": 1,
-                "precio": 2300,
-                "subtotal": 2300
-              },
-              {
-                "fecha": "2026-08-19",
-                "concepto": "Popular",
-                "cantidad": 1,
-                "precio": 2300,
-                "subtotal": 2300
-              },
-              {
-                "fecha": "2026-08-20",
-                "concepto": "Popular",
-                "cantidad": 1,
-                "precio": 2300,
-                "subtotal": 2300
-              },
-              {
-                "fecha": "2026-08-21",
-                "concepto": "Popular",
-                "cantidad": 1,
-                "precio": 2300,
-                "subtotal": 2300
-              },
-              {
-                "fecha": "2026-08-22",
-                "concepto": "Popular",
-                "cantidad": 1,
-                "precio": 2300,
-                "subtotal": 2300
-              },
-              {
-                "fecha": "2026-08-24",
-                "concepto": "Popular",
-                "cantidad": 1,
-                "precio": 2300,
-                "subtotal": 2300
-              }
-            ],
-            "total": 13800,
-            "detallado": true
-          },
-          {
-            "id": "mtili4zmqclazm",
-            "numero": 52,
-            "fechaEmision": "2026-09-01",
-            "tipo": "rango",
-            "desde": "2026-08-25",
-            "hasta": "2026-08-31",
-            "items": [
-              {
-                "fecha": "2026-08-25",
-                "concepto": "Popular",
-                "cantidad": 1,
-                "precio": 2300,
-                "subtotal": 2300
-              },
-              {
-                "fecha": "2026-08-26",
-                "concepto": "Popular",
-                "cantidad": 1,
-                "precio": 2300,
-                "subtotal": 2300
-              },
-              {
-                "fecha": "2026-08-27",
-                "concepto": "Popular",
-                "cantidad": 1,
-                "precio": 2300,
-                "subtotal": 2300
-              },
-              {
-                "fecha": "2026-08-28",
-                "concepto": "Popular",
-                "cantidad": 1,
-                "precio": 2300,
-                "subtotal": 2300
-              },
-              {
-                "fecha": "2026-08-29",
-                "concepto": "Popular",
-                "cantidad": 1,
-                "precio": 2300,
-                "subtotal": 2300
-              },
-              {
-                "fecha": "2026-08-31",
-                "concepto": "Popular",
-                "cantidad": 1,
-                "precio": 2300,
-                "subtotal": 2300
-              }
-            ],
-            "total": 13800,
-            "detallado": true
-          }
-        ],
-        "pagos": [
-          {
-            "id": "mt29276iwmyzan",
-            "fecha": "2026-08-21",
-            "monto": 14000,
-            "nota": ""
-          },
-          {
-            "id": "mt75zdk2in45zh",
-            "fecha": "2026-08-24",
-            "monto": 13800,
-            "nota": ""
-          }
-        ],
-        "proximoDesde": "2026-09-01"
-      },
-      {
-        "id": "msopstv7i0xdvh",
-        "nombre": "Tomas Hnos",
-        "telefono": "",
-        "direccion": "",
-        "fechaAlta": "2026-08-01",
-        "categoria": "mensual",
-        "diariosCliente": [
-          {
-            "diarioId": "msnrzksq1xnw9w",
-            "dias": [
-              1,
-              2,
-              3,
-              4,
-              5,
-              6
-            ]
-          }
-        ],
-        "revistas": [
-          {
-            "id": "msopstbgawhclt",
-            "nombre": "El Oeste",
-            "precio": 1500,
-            "frecuencia": "semanal",
-            "dia": 6
-          }
-        ],
-        "suspensiones": [],
-        "facturas": [],
-        "proximoDesde": "",
-        "pagos": []
-      },
-      {
-        "id": "msoptbwrobqtiz",
-        "nombre": "Angelica Carlos Arroyo 131",
-        "telefono": "",
-        "direccion": "",
-        "fechaAlta": "2026-08-01",
-        "categoria": "semanal",
-        "diariosCliente": [
-          {
-            "diarioId": "msnrypbde41dta",
-            "dias": [
-              0
-            ]
-          }
-        ],
-        "revistas": [],
-        "suspensiones": [],
-        "facturas": [],
-        "proximoDesde": "2026-08-03",
-        "pagos": []
-      },
-      {
-        "id": "msoptqjurmo6rw",
-        "nombre": "Tauro",
-        "telefono": "",
-        "direccion": "",
-        "fechaAlta": "2026-08-01",
-        "categoria": "mensual",
-        "diariosCliente": [
-          {
-            "diarioId": "msnrzksq1xnw9w",
-            "dias": [
-              1,
-              2,
-              3,
-              4,
-              5,
-              6
-            ]
-          }
-        ],
-        "revistas": [
-          {
-            "id": "msq2yivs8n22od",
-            "nombre": "INFOAUTO",
-            "precio": 16800,
-            "cantidad": 8,
-            "frecuencia": "mensual",
-            "dia": 3
-          }
-        ],
-        "suspensiones": [],
-        "facturas": [],
-        "proximoDesde": "",
-        "pagos": []
-      },
-      {
-        "id": "msopum04yzba1w",
-        "nombre": "Cereales Casares",
-        "telefono": "",
-        "direccion": "",
-        "cuit": "",
-        "facturaTipo": "A",
-        "fechaAlta": "2026-08-01",
-        "categoria": "mensual",
-        "diariosCliente": [
-          {
-            "diarioId": "msnrzksq1xnw9w",
-            "dias": [
-              1,
-              2,
-              3,
-              4,
-              5,
-              6,
-              0
-            ]
-          }
-        ],
-        "revistas": [],
-        "suspensiones": [],
-        "facturas": [
-          {
-            "id": "mtilr57d43sp4t",
-            "numero": 62,
-            "fechaEmision": "2026-09-01",
-            "tipo": "mensual",
-            "year": 2026,
-            "month": 8,
-            "items": [
-              {
-                "concepto": "La nación (Sábado)",
-                "cantidad": 5,
-                "precio": 7230,
-                "subtotal": 36150
-              },
-              {
-                "concepto": "La nación (Domingo)",
-                "cantidad": 5,
-                "precio": 8030,
-                "subtotal": 40150
-              },
-              {
-                "concepto": "La nación (Lunes, Martes, Miércoles, Jueves, Viernes)",
-                "cantidad": 20,
-                "precio": 5130,
-                "subtotal": 102600
-              },
-              {
-                "concepto": "La nación (Lunes feriado)",
-                "cantidad": 1,
-                "precio": 5450,
-                "subtotal": 5450
-              }
-            ],
-            "total": 184350,
-            "detallado": false
-          }
-        ],
-        "proximoDesde": "",
-        "pagos": [
-          {
-            "id": "mtimd3chg2unyf",
-            "fecha": "2026-09-01",
-            "monto": 184350,
-            "nota": ""
-          }
-        ]
-      },
-      {
-        "id": "msq0w50kijwcht",
-        "nombre": "Borla",
-        "telefono": "",
-        "direccion": "",
-        "fechaAlta": "2026-08-12",
-        "categoria": "mensual",
-        "diariosCliente": [
-          {
-            "diarioId": "msnrzksq1xnw9w",
-            "dias": [
-              0
-            ]
-          }
-        ],
-        "revistas": [],
-        "suspensiones": [],
-        "facturas": [
-          {
-            "id": "mtilqu95fkvb60",
-            "numero": 61,
-            "fechaEmision": "2026-09-01",
-            "tipo": "mensual",
-            "year": 2026,
-            "month": 8,
-            "items": [
-              {
-                "concepto": "La nación",
-                "cantidad": 5,
-                "precio": 8030,
-                "subtotal": 40150
-              }
-            ],
-            "total": 40150,
-            "detallado": false
-          }
-        ],
-        "proximoDesde": "",
-        "pagos": [
-          {
-            "id": "mtimedtr6cek35",
-            "fecha": "2026-09-01",
-            "monto": 40150,
-            "nota": ""
-          }
-        ]
-      },
-      {
-        "id": "msq0wkwm53iy22",
-        "nombre": "Borsani maxy",
-        "telefono": "",
-        "direccion": "",
-        "fechaAlta": "2026-08-12",
-        "categoria": "semanal",
-        "diariosCliente": [
-          {
-            "diarioId": "msnrypbde41dta",
-            "dias": [
-              0
-            ]
-          }
-        ],
-        "revistas": [],
-        "suspensiones": [],
-        "facturas": [],
-        "proximoDesde": "2026-08-12",
-        "pagos": []
-      },
-      {
-        "id": "msq13p3qkkwl2p",
-        "nombre": "Viejo Adolfo",
-        "telefono": "",
-        "direccion": "",
-        "fechaAlta": "2026-08-01",
-        "categoria": "mensual",
-        "diariosCliente": [
-          {
-            "diarioId": "msnrypbde41dta",
-            "dias": [
-              1,
-              2,
-              3,
-              4,
-              5,
-              6,
-              0
-            ]
-          },
-          {
-            "diarioId": "msnrzksq1xnw9w",
-            "dias": [
-              1,
-              2,
-              3,
-              4,
-              5,
-              6,
-              0
-            ]
-          }
-        ],
-        "revistas": [
-          {
-            "id": "msq13nszuvbkw6",
-            "nombre": "Oeste",
-            "precio": 1500,
-            "frecuencia": "semanal",
-            "dia": 6
-          }
-        ],
-        "suspensiones": [],
-        "facturas": [
-          {
-            "id": "mtilu7nr8khwfl",
-            "numero": 66,
-            "fechaEmision": "2026-09-01",
-            "tipo": "mensual",
-            "year": 2026,
-            "month": 8,
-            "items": [
-              {
-                "concepto": "Clarin (Sábado)",
-                "cantidad": 5,
-                "precio": 7200,
-                "subtotal": 36000
-              },
-              {
-                "concepto": "Clarin (Domingo)",
-                "cantidad": 5,
-                "precio": 8000,
-                "subtotal": 40000
-              },
-              {
-                "concepto": "Clarin (Lunes, Martes, Miércoles, Jueves, Viernes)",
-                "cantidad": 20,
-                "precio": 5100,
-                "subtotal": 102000
-              },
-              {
-                "concepto": "Clarin (Lunes feriado)",
-                "cantidad": 1,
-                "precio": 5350,
-                "subtotal": 5350
-              },
-              {
-                "concepto": "La nación (Sábado)",
-                "cantidad": 5,
-                "precio": 7230,
-                "subtotal": 36150
-              },
-              {
-                "concepto": "La nación (Domingo)",
-                "cantidad": 5,
-                "precio": 8030,
-                "subtotal": 40150
-              },
-              {
-                "concepto": "La nación (Lunes, Martes, Miércoles, Jueves, Viernes)",
-                "cantidad": 20,
-                "precio": 5130,
-                "subtotal": 102600
-              },
-              {
-                "concepto": "La nación (Lunes feriado)",
-                "cantidad": 1,
-                "precio": 5450,
-                "subtotal": 5450
-              },
-              {
-                "concepto": "Oeste",
-                "cantidad": 5,
-                "precio": 1500,
-                "subtotal": 7500
-              }
-            ],
-            "total": 375200,
-            "detallado": false
-          }
-        ],
-        "proximoDesde": "",
-        "pagos": [
-          {
-            "id": "mtimexab2vc49v",
-            "fecha": "2026-09-01",
-            "monto": 375200,
-            "nota": ""
-          }
-        ]
-      },
-      {
-        "id": "msq14bf1flguu3",
-        "nombre": "Todo gomas",
-        "telefono": "",
-        "direccion": "",
-        "fechaAlta": "2026-08-01",
-        "categoria": "semanal",
-        "diariosCliente": [
-          {
-            "diarioId": "msnrypbde41dta",
-            "dias": [
-              0
-            ]
-          }
-        ],
-        "revistas": [],
-        "suspensiones": [],
-        "facturas": [
-          {
-            "id": "mtdci4bxflaew1",
-            "numero": 42,
-            "fechaEmision": "2026-08-28",
-            "tipo": "rango",
-            "desde": "2026-08-09",
-            "hasta": "2026-08-24",
-            "items": [
-              {
-                "fecha": "2026-08-09",
-                "concepto": "Clarin",
-                "cantidad": 1,
-                "precio": 8000,
-                "subtotal": 8000
-              },
-              {
-                "fecha": "2026-08-16",
-                "concepto": "Clarin",
-                "cantidad": 1,
-                "precio": 8000,
-                "subtotal": 8000
-              },
-              {
-                "fecha": "2026-08-23",
-                "concepto": "Clarin",
-                "cantidad": 1,
-                "precio": 8000,
-                "subtotal": 8000
-              }
-            ],
-            "total": 24000,
-            "detallado": true
-          }
-        ],
-        "proximoDesde": "2026-08-25",
-        "pagos": [
-          {
-            "id": "mtdcislfttfmm6",
-            "fecha": "2026-08-24",
-            "monto": 24000,
-            "nota": ""
-          }
-        ]
-      },
-      {
-        "id": "msq14vr7qrmz37",
-        "nombre": "Tito guiñazu",
-        "telefono": "",
-        "direccion": "",
-        "fechaAlta": "2026-08-01",
-        "diariosCliente": [
-          {
-            "diarioId": "msns0l33nw70t4",
-            "dias": [
-              0
-            ]
-          }
-        ],
-        "revistas": [],
-        "suspensiones": [],
-        "pagos": []
-      },
-      {
-        "id": "msq15cnbozt46q",
-        "nombre": "Ricardo Agradi",
-        "telefono": "",
-        "direccion": "",
-        "fechaAlta": "2026-08-01",
-        "categoria": "mensual",
-        "diariosCliente": [
-          {
-            "diarioId": "msnrzksq1xnw9w",
-            "dias": [
-              6
-            ]
-          }
-        ],
-        "revistas": [],
-        "suspensiones": [],
-        "facturas": [],
-        "proximoDesde": "",
-        "pagos": []
-      },
-      {
-        "id": "msq15qdmiiv486",
-        "nombre": "Villarino R",
-        "telefono": "",
-        "direccion": "",
-        "fechaAlta": "2026-08-01",
-        "categoria": "mensual",
-        "diariosCliente": [
-          {
-            "diarioId": "msnrypbde41dta",
-            "dias": [
-              0
-            ]
-          }
-        ],
-        "revistas": [],
-        "suspensiones": [],
-        "facturas": [
-          {
-            "id": "mtilril19ehtvs",
-            "numero": 63,
-            "fechaEmision": "2026-09-01",
-            "tipo": "mensual",
-            "year": 2026,
-            "month": 8,
-            "items": [
-              {
-                "concepto": "Clarin",
-                "cantidad": 5,
-                "precio": 8000,
-                "subtotal": 40000
-              }
-            ],
-            "total": 40000,
-            "detallado": false
-          }
-        ],
-        "proximoDesde": "",
-        "pagos": [
-          {
-            "id": "mtimde6e66zve4",
-            "fecha": "2026-09-01",
-            "monto": 40000,
-            "nota": ""
-          }
-        ]
-      },
-      {
-        "id": "msq16ad7zc6wqa",
-        "nombre": "Pacheco",
-        "telefono": "",
-        "direccion": "",
-        "fechaAlta": "2026-08-01",
-        "categoria": "semanal",
-        "diariosCliente": [],
-        "revistas": [
-          {
-            "id": "msq169su9iferu",
-            "nombre": "Hola",
-            "precio": 9500,
-            "frecuencia": "semanal",
-            "dia": 6
-          }
-        ],
-        "suspensiones": [],
-        "facturas": [
-          {
-            "id": "mtiliopz5xj6km",
-            "numero": 53,
-            "fechaEmision": "2026-09-01",
-            "tipo": "rango",
-            "desde": "2026-08-03",
-            "hasta": "2026-08-31",
-            "items": [
-              {
-                "fecha": "2026-08-08",
-                "concepto": "Hola",
-                "cantidad": 1,
-                "precio": 9500,
-                "subtotal": 9500
-              },
-              {
-                "fecha": "2026-08-15",
-                "concepto": "Hola",
-                "cantidad": 1,
-                "precio": 9500,
-                "subtotal": 9500
-              },
-              {
-                "fecha": "2026-08-22",
-                "concepto": "Hola",
-                "cantidad": 1,
-                "precio": 9500,
-                "subtotal": 9500
-              },
-              {
-                "fecha": "2026-08-29",
-                "concepto": "Hola",
-                "cantidad": 1,
-                "precio": 9500,
-                "subtotal": 9500
-              }
-            ],
-            "total": 38000,
-            "detallado": true
-          }
-        ],
-        "proximoDesde": "2026-09-01",
-        "pagos": []
-      },
-      {
-        "id": "msq16m26mbuxri",
-        "nombre": "Las Chapitas",
-        "telefono": "",
-        "direccion": "",
-        "fechaAlta": "2026-08-01",
-        "categoria": "semanal",
-        "diariosCliente": [
-          {
-            "diarioId": "msnrypbde41dta",
-            "dias": [
-              0
-            ]
-          }
-        ],
-        "revistas": [],
-        "suspensiones": [],
-        "facturas": [
-          {
-            "id": "mtilkwz603q2o3",
-            "numero": 56,
-            "fechaEmision": "2026-09-01",
-            "tipo": "rango",
-            "desde": "2026-08-08",
-            "hasta": "2026-08-31",
-            "items": [
-              {
-                "fecha": "2026-08-09",
-                "concepto": "Clarin",
-                "cantidad": 1,
-                "precio": 8000,
-                "subtotal": 8000
-              },
-              {
-                "fecha": "2026-08-16",
-                "concepto": "Clarin",
-                "cantidad": 1,
-                "precio": 8000,
-                "subtotal": 8000
-              },
-              {
-                "fecha": "2026-08-23",
-                "concepto": "Clarin",
-                "cantidad": 1,
-                "precio": 8000,
-                "subtotal": 8000
-              },
-              {
-                "fecha": "2026-08-30",
-                "concepto": "Clarin",
-                "cantidad": 1,
-                "precio": 8000,
-                "subtotal": 8000
-              }
-            ],
-            "total": 32000,
-            "detallado": true
-          }
-        ],
-        "proximoDesde": "2026-09-01",
-        "pagos": []
-      },
-      {
-        "id": "msq1736gqdojm0",
-        "nombre": "Fossati",
-        "telefono": "",
-        "direccion": "",
-        "fechaAlta": "2026-08-01",
-        "categoria": "semanal",
-        "diariosCliente": [
-          {
-            "diarioId": "msnrypbde41dta",
-            "dias": [
-              0
-            ]
-          }
-        ],
-        "revistas": [],
-        "suspensiones": [],
-        "facturas": [
-          {
-            "id": "msrlftnn1o2uo8",
-            "numero": 34,
-            "fechaEmision": "2026-08-13",
-            "tipo": "rango",
-            "desde": "2026-07-05",
-            "hasta": "2026-08-13",
-            "items": [
-              {
-                "fecha": "2026-07-05",
-                "concepto": "Clarin",
-                "cantidad": 1,
-                "precio": 8000,
-                "subtotal": 8000
-              },
-              {
-                "fecha": "2026-07-12",
-                "concepto": "Clarin",
-                "cantidad": 1,
-                "precio": 8000,
-                "subtotal": 8000
-              },
-              {
-                "fecha": "2026-07-19",
-                "concepto": "Clarin",
-                "cantidad": 1,
-                "precio": 8000,
-                "subtotal": 8000
-              },
-              {
-                "fecha": "2026-07-26",
-                "concepto": "Clarin",
-                "cantidad": 1,
-                "precio": 8000,
-                "subtotal": 8000
-              },
-              {
-                "fecha": "2026-08-02",
-                "concepto": "Clarin",
-                "cantidad": 1,
-                "precio": 8000,
-                "subtotal": 8000
-              },
-              {
-                "fecha": "2026-08-09",
-                "concepto": "Clarin",
-                "cantidad": 1,
-                "precio": 8000,
-                "subtotal": 8000
-              }
-            ],
-            "total": 48000,
-            "detallado": true
-          }
-        ],
-        "proximoDesde": "2026-08-14",
-        "pagos": [
-          {
-            "id": "msrlg9imq8t0ul",
-            "fecha": "2026-08-13",
-            "monto": 48000,
-            "nota": ""
-          }
-        ]
-      },
-      {
-        "id": "msq18wqdtl09av",
-        "nombre": "Estudio Arietti",
-        "telefono": "",
-        "direccion": "",
-        "fechaAlta": "2026-08-01",
-        "categoria": "mensual",
-        "diariosCliente": [
-          {
-            "diarioId": "msnrzksq1xnw9w",
-            "dias": [
-              1,
-              3
-            ]
-          },
-          {
-            "diarioId": "msnrypbde41dta",
-            "dias": [
-              2,
-              4
-            ]
-          },
-          {
-            "diarioId": "msnsksp57a8bns",
-            "dias": [
-              5
-            ]
-          }
-        ],
-        "revistas": [
-          {
-            "id": "msq18vw6vr1eme",
-            "nombre": "Oeste",
-            "precio": 1500,
-            "frecuencia": "semanal",
-            "dia": 6
-          }
-        ],
-        "suspensiones": [],
-        "facturas": [
-          {
-            "id": "mtilurwyf5r0gg",
-            "numero": 67,
-            "fechaEmision": "2026-09-01",
-            "tipo": "mensual",
-            "year": 2026,
-            "month": 8,
-            "items": [
-              {
-                "concepto": "La nación (Lunes, Miércoles)",
-                "cantidad": 8,
-                "precio": 5130,
-                "subtotal": 41040
-              },
-              {
-                "concepto": "La nación (Lunes feriado)",
-                "cantidad": 1,
-                "precio": 5450,
-                "subtotal": 5450
-              },
-              {
-                "concepto": "Clarin",
-                "cantidad": 8,
-                "precio": 5100,
-                "subtotal": 40800
-              },
-              {
-                "concepto": "Diario ole",
-                "cantidad": 4,
-                "precio": 2800,
-                "subtotal": 11200
-              },
-              {
-                "concepto": "Oeste",
-                "cantidad": 5,
-                "precio": 1500,
-                "subtotal": 7500
-              }
-            ],
-            "total": 105990,
-            "detallado": false
-          }
-        ],
-        "proximoDesde": "",
-        "pagos": [
-          {
-            "id": "mtimdli1i25rtr",
-            "fecha": "2026-09-01",
-            "monto": 105990,
-            "nota": ""
-          }
-        ]
-      },
-      {
-        "id": "msq19fi8m0uj4s",
-        "nombre": "Esconfianza",
-        "telefono": "",
-        "direccion": "",
-        "fechaAlta": "2026-08-01",
-        "categoria": "semanal",
-        "diariosCliente": [
-          {
-            "diarioId": "msnrypbde41dta",
-            "dias": [
-              0
-            ]
-          }
-        ],
-        "revistas": [],
-        "suspensiones": [],
-        "facturas": [
-          {
-            "id": "mtiljndiixaf53",
-            "numero": 54,
-            "fechaEmision": "2026-09-01",
-            "tipo": "rango",
-            "desde": "2026-08-10",
-            "hasta": "2026-08-31",
-            "items": [
-              {
-                "fecha": "2026-08-16",
-                "concepto": "Clarin",
-                "cantidad": 1,
-                "precio": 8000,
-                "subtotal": 8000
-              },
-              {
-                "fecha": "2026-08-23",
-                "concepto": "Clarin",
-                "cantidad": 1,
-                "precio": 8000,
-                "subtotal": 8000
-              },
-              {
-                "fecha": "2026-08-30",
-                "concepto": "Clarin",
-                "cantidad": 1,
-                "precio": 8000,
-                "subtotal": 8000
-              }
-            ],
-            "total": 24000,
-            "detallado": true
-          }
-        ],
-        "proximoDesde": "2026-09-01",
-        "pagos": []
-      },
-      {
-        "id": "msq1by4wwr9kkl",
-        "nombre": "Todo suelto",
-        "telefono": "",
-        "direccion": "",
-        "fechaAlta": "2026-08-01",
-        "categoria": "semanal",
-        "diariosCliente": [],
-        "revistas": [
-          {
-            "id": "msq1bwipjhrwa7",
-            "nombre": "Oeste",
-            "precio": 1500,
-            "frecuencia": "semanal",
-            "dia": 6
-          }
-        ],
-        "suspensiones": [],
-        "facturas": [
-          {
-            "id": "mtilkig32425u5",
-            "numero": 55,
-            "fechaEmision": "2026-09-01",
-            "tipo": "rango",
-            "desde": "2026-07-18",
-            "hasta": "2026-08-31",
-            "items": [
-              {
-                "fecha": "2026-07-18",
-                "concepto": "Oeste",
-                "cantidad": 1,
-                "precio": 1500,
-                "subtotal": 1500
-              },
-              {
-                "fecha": "2026-07-25",
-                "concepto": "Oeste",
-                "cantidad": 1,
-                "precio": 1500,
-                "subtotal": 1500
-              },
-              {
-                "fecha": "2026-08-01",
-                "concepto": "Oeste",
-                "cantidad": 1,
-                "precio": 1500,
-                "subtotal": 1500
-              },
-              {
-                "fecha": "2026-08-08",
-                "concepto": "Oeste",
-                "cantidad": 1,
-                "precio": 1500,
-                "subtotal": 1500
-              },
-              {
-                "fecha": "2026-08-15",
-                "concepto": "Oeste",
-                "cantidad": 1,
-                "precio": 1500,
-                "subtotal": 1500
-              },
-              {
-                "fecha": "2026-08-22",
-                "concepto": "Oeste",
-                "cantidad": 1,
-                "precio": 1500,
-                "subtotal": 1500
-              },
-              {
-                "fecha": "2026-08-29",
-                "concepto": "Oeste",
-                "cantidad": 1,
-                "precio": 1500,
-                "subtotal": 1500
-              }
-            ],
-            "total": 10500,
-            "detallado": true
-          }
-        ],
-        "proximoDesde": "2026-09-01",
-        "pagos": []
-      },
-      {
-        "id": "msq1j48wsff1vq",
-        "nombre": "Brizuela",
-        "telefono": "",
-        "direccion": "",
-        "fechaAlta": "2026-07-17",
-        "diariosCliente": [],
-        "revistas": [
-          {
-            "id": "msq1j2psqchcpf",
-            "nombre": "Oeste",
-            "precio": 1500,
-            "frecuencia": "semanal",
-            "dia": 6
-          }
-        ],
-        "suspensiones": [],
-        "facturas": [
-          {
-            "id": "mtillwkla3nqlc",
-            "numero": 58,
-            "fechaEmision": "2026-09-01",
-            "tipo": "rango",
-            "desde": "2026-07-17",
-            "hasta": "2026-08-31",
-            "items": [
-              {
-                "fecha": "2026-07-18",
-                "concepto": "Oeste",
-                "cantidad": 1,
-                "precio": 1500,
-                "subtotal": 1500
-              },
-              {
-                "fecha": "2026-07-25",
-                "concepto": "Oeste",
-                "cantidad": 1,
-                "precio": 1500,
-                "subtotal": 1500
-              },
-              {
-                "fecha": "2026-08-01",
-                "concepto": "Oeste",
-                "cantidad": 1,
-                "precio": 1500,
-                "subtotal": 1500
-              },
-              {
-                "fecha": "2026-08-08",
-                "concepto": "Oeste",
-                "cantidad": 1,
-                "precio": 1500,
-                "subtotal": 1500
-              },
-              {
-                "fecha": "2026-08-15",
-                "concepto": "Oeste",
-                "cantidad": 1,
-                "precio": 1500,
-                "subtotal": 1500
-              },
-              {
-                "fecha": "2026-08-22",
-                "concepto": "Oeste",
-                "cantidad": 1,
-                "precio": 1500,
-                "subtotal": 1500
-              },
-              {
-                "fecha": "2026-08-29",
-                "concepto": "Oeste",
-                "cantidad": 1,
-                "precio": 1500,
-                "subtotal": 1500
-              }
-            ],
-            "total": 10500,
-            "detallado": true
-          }
-        ],
-        "pagos": [],
-        "proximoDesde": "2026-09-01"
-      }
-    ],
-    "extras": [
-      {
-        "id": "mt0bdw7fodbe48",
-        "clienteId": "msokpdwksc5o1a",
-        "fecha": "2026-08-20",
-        "descripcion": "Popular jueves",
-        "monto": 2300
-      },
-      {
-        "id": "mt2twbwdnssd14",
-        "clienteId": "msokpdwksc5o1a",
-        "fecha": "2026-08-21",
-        "descripcion": "Popular",
-        "monto": 2300
-      },
-      {
-        "id": "mt8qsqwp428xai",
-        "clienteId": "msokpdwksc5o1a",
-        "fecha": "2026-08-25",
-        "descripcion": "Popular",
-        "monto": 2300
-      },
-      {
-        "id": "mt8qt40ibi29v4",
-        "clienteId": "msokpdwksc5o1a",
-        "fecha": "2026-08-26",
-        "descripcion": "Popular",
-        "monto": 2300
-      },
-      {
-        "id": "mt8qtfvvhvvy7x",
-        "clienteId": "msokpdwksc5o1a",
-        "fecha": "2026-08-27",
-        "descripcion": "Popular",
-        "monto": 2300
-      },
-      {
-        "id": "mt8qtouu3ycex3",
-        "clienteId": "msokpdwksc5o1a",
-        "fecha": "2026-08-28",
-        "descripcion": "Popular",
-        "monto": 2300
-      },
-      {
-        "id": "mtilzhq7ne5tm2",
-        "clienteId": "msq13p3qkkwl2p",
-        "fecha": "2026-09-01",
-        "descripcion": "INFOAUTO",
-        "monto": 17300
-      }
-    ],
-    "diasSinReparto": [
-      {
-        "id": "msqgdh644wsd1x",
-        "fecha": "2026-11-07",
-        "motivo": "Día canillita"
-      },
-      {
-        "id": "msqw826xhbh0ij",
-        "fecha": "2026-05-01",
-        "motivo": "Día del trabajador"
-      },
-      {
-        "id": "msqw8fspyy5k5o",
-        "fecha": "2026-12-25",
-        "motivo": "Navidad"
-      },
-      {
-        "id": "msqw95ryp5kg0a",
-        "fecha": "2027-01-01",
-        "motivo": "Año nuevo"
-      }
-    ],
-    "feriados": [
-      {
-        "id": "msqgdrsgozqci2",
-        "fecha": "2026-08-17",
-        "motivo": "San Martin"
-      }
-    ],
-    "ccInit": true
+    "diarios": [],
+    "nextFacturaNum": 1,
+    "clientes": [],
+    "extras": [],
+    "diasSinReparto": [],
+    "feriados": []
   },
   "vencimientos": {
     "diasAviso": 3,
@@ -28371,73 +26004,10 @@
         "nota": "Municipalidad de Carlos Casares."
       }
     ],
-    "servicios": [
-      {
-        "id": "vzmsrwkqajfvlnqq",
-        "nombre": "EDEN",
-        "referencia": "130265701",
-        "fecha": "2026-09-07",
-        "monto": 76573.77
-      },
-      {
-        "id": "vzmsrwkqajpxtvlg",
-        "nombre": "EDEN",
-        "referencia": "130265801",
-        "fecha": "2026-09-07",
-        "monto": 86912.85
-      },
-      {
-        "id": "vzmsrx26sx6nt247",
-        "nombre": "Gym",
-        "fecha": "2026-09-15",
-        "monto": 43000,
-        "recurrente": true,
-        "diaMes": 15
-      },
-      {
-        "id": "vzmsrx3l9m5o3w5z",
-        "nombre": "ID River",
-        "fecha": "2026-09-14",
-        "monto": 15000,
-        "recurrente": true,
-        "diaMes": 14
-      },
-      {
-        "id": "vzmt8xl9kako1gmi",
-        "nombre": "ARBA Inmobiliari...",
-        "fecha": "2026-09-08",
-        "monto": 163347
-      },
-      {
-        "id": "vzmthkha41zqs93o",
-        "nombre": "Camuzzi Gas Pampe...",
-        "referencia": "65300000500038771",
-        "fecha": "2026-09-01",
-        "monto": 113231.76
-      },
-      {
-        "id": "vzmthkha41gt6etf",
-        "nombre": "Personal",
-        "referencia": "1003226109510001",
-        "fecha": "2026-09-10",
-        "monto": 38643.56
-      },
-      {
-        "id": "vzmthkha41lvbry4",
-        "nombre": "Camuzzi Gas Pampe...",
-        "referencia": "65300000500038771",
-        "fecha": "2026-10-01",
-        "monto": 113231.76
-      }
-    ],
-    "impuestosOcultos": [
-      "casares-servurb-4",
-      "casares-redvial-4",
-      "casares-seghig-4"
-    ],
+    "servicios": [],
+    "impuestosOcultos": [],
     "mailReglas": [],
-    "mailUltimaActualizacion": null,
-    "mailIgnorados": []
+    "mailUltimaActualizacion": null
   },
   "reservasColecciones": {
     "clientes": [
@@ -37752,7 +35322,9 @@
       "recargoIncluidoFactura": true,
       "reventaDiario": 70,
       "reventaPeriodico": 80,
-      "titulosPeriodico": {}
+      "titulosPeriodico": {
+        "mtlkcy0cwgvc6j": 68
+      }
     },
     "silmar": {
       "diario": 80,
