@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 6,
-  "exportadoEl": "2026-09-03T17:10:50.075Z",
+  "exportadoEl": "2026-09-04T19:41:40.887Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -2884,6 +2884,196 @@
       "detalle": "Tranferencia silmar",
       "id": "m_mtlkyixtcfojgp",
       "modificadoEl": "2026-09-03T13:48:10.721Z"
+    },
+    {
+      "date": "2026-09-03",
+      "type": "egreso",
+      "amount": 14000,
+      "category": "Varios",
+      "account": "alquileres",
+      "detalle": "Baño manchi",
+      "id": "m_mtlwgshk76hqrd",
+      "modificadoEl": "2026-09-03T19:10:18.680Z"
+    },
+    {
+      "date": "2026-09-03",
+      "type": "ingreso",
+      "amount": 15450,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "transferencia",
+      "id": "m_mtlx4lhjgfqav7",
+      "modificadoEl": "2026-09-03T19:28:49.351Z"
+    },
+    {
+      "date": "2026-09-03",
+      "type": "egreso",
+      "amount": 600000,
+      "category": "Edificación",
+      "account": "alquileres",
+      "detalle": "Pintor casa nuestra abajo mano obra",
+      "id": "m_mtlxfqkd78fkva",
+      "modificadoEl": "2026-09-03T19:37:29.149Z"
+    },
+    {
+      "date": "2026-09-03",
+      "type": "ingreso",
+      "amount": 122000,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "efectivo",
+      "id": "m_mtm35tw0oigp9v",
+      "modificadoEl": "2026-09-03T22:17:44.592Z"
+    },
+    {
+      "date": "2026-09-03",
+      "type": "egreso",
+      "amount": 24000,
+      "category": "Peña",
+      "account": "alquileres",
+      "detalle": "Jueves donza",
+      "id": "m_mtm8bvxax90gz2",
+      "modificadoEl": "2026-09-04T00:42:25.246Z"
+    },
+    {
+      "date": "2026-09-04",
+      "type": "ingreso",
+      "amount": 372176,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "efectivo",
+      "detalle": "Viejo Adolfo pago cheque",
+      "id": "m_mtmvi9fx0dlic7",
+      "modificadoEl": "2026-09-04T11:31:13.869Z"
+    },
+    {
+      "date": "2026-09-04",
+      "type": "ingreso",
+      "amount": 30200,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "efectivo",
+      "detalle": "Entradas Pablo benedicto",
+      "id": "m_mtmw1r1zibopgd",
+      "modificadoEl": "2026-09-04T11:46:23.159Z"
+    },
+    {
+      "date": "2026-09-04",
+      "type": "ingreso",
+      "amount": 31600,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "transferencia",
+      "id": "m_mtmyu89vh8viac",
+      "modificadoEl": "2026-09-04T13:04:31.075Z"
+    },
+    {
+      "date": "2026-09-04",
+      "type": "egreso",
+      "amount": 5000,
+      "category": "Empleado mandado javi",
+      "account": "agencia",
+      "detalle": "Mandados",
+      "id": "m_mtmzrjg6jq45tf",
+      "modificadoEl": "2026-09-04T13:30:25.206Z"
+    },
+    {
+      "date": "2026-09-04",
+      "type": "ingreso",
+      "amount": 5100,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "transferencia",
+      "id": "m_mtn1j1djyu5dka",
+      "modificadoEl": "2026-09-04T14:19:47.767Z"
+    },
+    {
+      "date": "2026-09-04",
+      "type": "egreso",
+      "amount": 2500,
+      "category": "Empleado mandado javi",
+      "account": "agencia",
+      "id": "m_mtn1thyjqdul0o",
+      "modificadoEl": "2026-09-04T14:27:55.819Z"
+    },
+    {
+      "date": "2026-09-04",
+      "type": "ingreso",
+      "amount": 24000,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "efectivo",
+      "id": "m_mtn26cb0o4525h",
+      "modificadoEl": "2026-09-04T14:37:55.020Z"
+    },
+    {
+      "date": "2026-09-04",
+      "type": "egreso",
+      "amount": 40000,
+      "category": "Varios",
+      "account": "alquileres",
+      "detalle": "Fm 105.1",
+      "id": "m_mtn26q8njmrmag",
+      "modificadoEl": "2026-09-04T14:38:13.079Z"
+    },
+    {
+      "date": "2026-09-04",
+      "type": "ingreso",
+      "amount": 400000,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "efectivo",
+      "detalle": "Entradas puppies",
+      "id": "m_mtn29u2p3s015w",
+      "modificadoEl": "2026-09-04T14:40:38.017Z"
+    },
+    {
+      "date": "2026-09-04",
+      "type": "ingreso",
+      "amount": 67000,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "efectivo",
+      "id": "m_mtn2apmvqsz7sv",
+      "modificadoEl": "2026-09-04T14:41:18.919Z"
+    },
+    {
+      "date": "2026-09-04",
+      "type": "egreso",
+      "amount": 7200,
+      "category": "Varios",
+      "account": "alquileres",
+      "detalle": "Personal caro",
+      "id": "m_mtn4e0el7egsd1",
+      "modificadoEl": "2026-09-04T15:39:52.077Z"
+    },
+    {
+      "date": "2026-09-04",
+      "type": "egreso",
+      "amount": 10000,
+      "category": "Chiara",
+      "account": "alquileres",
+      "detalle": "Prode juego",
+      "id": "m_mtn4ecy6jb2fso",
+      "modificadoEl": "2026-09-04T15:40:08.334Z"
+    },
+    {
+      "date": "2026-09-04",
+      "type": "egreso",
+      "amount": 500000,
+      "category": "La nacion",
+      "account": "agencia",
+      "id": "m_mtn564l3jf3vdz",
+      "modificadoEl": "2026-09-04T16:01:43.863Z"
+    },
+    {
+      "date": "2026-09-04",
+      "type": "egreso",
+      "amount": 600000,
+      "category": "Clarin",
+      "account": "agencia",
+      "id": "m_mtn5bohq3ryenz",
+      "modificadoEl": "2026-09-04T16:06:02.942Z"
     }
   ],
   "categoriasCustom": [
@@ -8528,7 +8718,7 @@
       "vencimiento": "2026-09-20",
       "monto": 40359.6,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "items": [
         {
           "descripcion": "MON Y BILL 20 Billete - Nicaragua 2",
@@ -8608,7 +8798,7 @@
       "vencimiento": "2026-08-23",
       "monto": 74960,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "items": [
         {
           "descripcion": "LA NACION DOM",
@@ -8634,7 +8824,7 @@
       "vencimiento": "2026-10-05",
       "monto": 49493.2,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "items": [
         {
           "descripcion": "200426 GREEN PAN 0000002 Reposición SARTÉN 28CM CHEF GREENPAN",
@@ -8654,7 +8844,7 @@
       "vencimiento": "2026-09-21",
       "monto": 61586.4,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "items": [
         {
           "descripcion": "AMERICANAS 4X The Immaculate Collection - doble + Fascículo",
@@ -8680,7 +8870,7 @@
       "vencimiento": "2026-08-24",
       "monto": 65064,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "items": [
         {
           "descripcion": "LA NACION LUN",
@@ -8775,7 +8965,7 @@
       "vencimiento": "2026-08-25",
       "monto": 58416,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "items": [
         {
           "descripcion": "LA NACION MAR",
@@ -8801,7 +8991,7 @@
       "vencimiento": "2026-10-20",
       "monto": 95859.32,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "items": [
         {
           "descripcion": "500546 LIBROS PRH UNICORNIO",
@@ -8845,7 +9035,7 @@
       "vencimiento": "2026-09-22",
       "monto": 46479.6,
       "moneda": "ARS",
-      "estado": "pendiente",
+      "estado": "pagada",
       "items": [
         {
           "descripcion": "200443 DESCAPOTABLES\nMercedes-Benz 280 SE (1967) Entrega 3 + Fascículo",
@@ -16157,6 +16347,12 @@
           "nombre": "1000839377.jpg",
           "tipo": "image/jpeg",
           "agregadoEl": "2026-09-03T13:49:36.435Z"
+        },
+        {
+          "id": "mtn5dvbemhe6g7",
+          "nombre": "1000840458.jpg",
+          "tipo": "image/jpeg",
+          "agregadoEl": "2026-09-04T16:07:45.160Z"
         }
       ]
     },
@@ -16528,6 +16724,926 @@
         }
       ],
       "cargadaEl": "2026-09-03T13:23:41.956Z"
+    },
+    {
+      "id": "f_1788474905676_zgr4n",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450-00967951",
+      "referenciaFactura": "00450A00584444",
+      "fecha": "2026-09-02",
+      "vencimiento": "2026-09-12",
+      "monto": 3263.2,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "LIBROS INFANT",
+          "edicion": "0000091",
+          "codigoPublicacion": "120465",
+          "cantidad": 1,
+          "monto": 2713.2,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "AVENGERS OFICIAL",
+          "edicion": null,
+          "codigoPublicacion": null,
+          "cantidad": null,
+          "monto": 550,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        }
+      ],
+      "cargadaEl": "2026-09-03T22:35:05.676Z",
+      "comprobantesPago": [
+        {
+          "id": "mtn5q69xv9vw5u",
+          "nombre": "1000840468.jpg",
+          "tipo": "image/jpeg",
+          "agregadoEl": "2026-09-04T16:17:19.260Z"
+        }
+      ]
+    },
+    {
+      "id": "f_1788474908063_q6bi9",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450-00967952",
+      "referenciaFactura": "00450A00584444",
+      "fecha": "2026-09-02",
+      "vencimiento": "2026-09-12",
+      "monto": 7343.2,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "MEGA COLOR",
+          "edicion": "1",
+          "codigoPublicacion": "120461",
+          "cantidad": 1,
+          "monto": 7343.2,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        }
+      ],
+      "cargadaEl": "2026-09-03T22:35:08.064Z"
+    },
+    {
+      "id": "f_1788474910878_tb04l",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450-00967953",
+      "referenciaFactura": "00450A00584444",
+      "fecha": "2026-09-02",
+      "vencimiento": "2026-09-12",
+      "monto": 5303.2,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "ACTIVITY COLO",
+          "edicion": null,
+          "codigoPublicacion": "120477",
+          "cantidad": 1,
+          "monto": 4753.2,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "CAPIBARA",
+          "edicion": null,
+          "codigoPublicacion": null,
+          "cantidad": null,
+          "monto": 550,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        }
+      ],
+      "cargadaEl": "2026-09-03T22:35:10.878Z"
+    },
+    {
+      "id": "f_1788474915689_ay8w2",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450-00967954",
+      "referenciaFactura": "00450A00584444",
+      "fecha": "2026-09-02",
+      "vencimiento": "2026-09-12",
+      "monto": 3535.2,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "COLORING CON ANIMALES DE LA GRANJA",
+          "edicion": "7",
+          "codigoPublicacion": "120387",
+          "cantidad": 1,
+          "monto": 3535.2,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        }
+      ],
+      "cargadaEl": "2026-09-03T22:35:15.689Z"
+    },
+    {
+      "id": "f_1788474918383_4dax1",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450-00967955",
+      "referenciaFactura": "00450A00584444",
+      "fecha": "2026-09-02",
+      "vencimiento": "2026-09-12",
+      "monto": 2583.2,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "COLORES Y JUE PEPPA PIG Write some Text here.....",
+          "edicion": "0000040",
+          "codigoPublicacion": "120377",
+          "cantidad": 1,
+          "monto": 2583.2,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        }
+      ],
+      "cargadaEl": "2026-09-03T22:35:18.384Z"
+    },
+    {
+      "id": "f_1788474921366_u2fqx",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450-00967956",
+      "referenciaFactura": "00450A00584444",
+      "fecha": "2026-09-02",
+      "vencimiento": "2026-09-12",
+      "monto": 4623.2,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "COL.PINTA Y B",
+          "edicion": "0000008",
+          "codigoPublicacion": "120476",
+          "cantidad": 1,
+          "monto": 4073.2,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "PAW PATROL",
+          "edicion": null,
+          "codigoPublicacion": null,
+          "cantidad": null,
+          "monto": 550,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        }
+      ],
+      "cargadaEl": "2026-09-03T22:35:21.366Z"
+    },
+    {
+      "id": "f_1788474923320_8gda4",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450-00967957",
+      "referenciaFactura": "00450A00584444",
+      "fecha": "2026-09-02",
+      "vencimiento": "2026-09-12",
+      "monto": 3263.2,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "LIBROS INFANT PRINCESAS",
+          "edicion": null,
+          "codigoPublicacion": "120467",
+          "cantidad": 1,
+          "monto": 3263.2,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        }
+      ],
+      "cargadaEl": "2026-09-03T22:35:23.320Z"
+    },
+    {
+      "id": "f_1788474926552_v1b3c",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450-00967958",
+      "referenciaFactura": "00450A00584444",
+      "fecha": "2026-09-02",
+      "vencimiento": "2026-09-12",
+      "monto": 3263.2,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "LIBROS INFANT DISNEY JUNIOR Devolución",
+          "edicion": "0000091",
+          "codigoPublicacion": "120466",
+          "cantidad": 1,
+          "monto": 3263.2,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        }
+      ],
+      "cargadaEl": "2026-09-03T22:35:26.552Z"
+    },
+    {
+      "id": "f_1788474928309_r4dys",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450-00968142",
+      "referenciaFactura": "00450A00585751",
+      "fecha": "2026-09-02",
+      "vencimiento": "2026-09-12",
+      "monto": 15018,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "LA NACION   DOM",
+          "edicion": "20260823",
+          "codigoPublicacion": "000007",
+          "cantidad": 3,
+          "monto": 15018,
+          "fechaItem": "2026-08-23",
+          "ventaEspecialTapa": null
+        }
+      ],
+      "cargadaEl": "2026-09-03T22:35:28.309Z"
+    },
+    {
+      "id": "f_1788474930096_mc7wh",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450-00968271",
+      "referenciaFactura": "00450A00585064",
+      "fecha": "2026-09-02",
+      "vencimiento": "2026-09-12",
+      "monto": 4632,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "POPULAR MIE",
+          "edicion": "20260819",
+          "codigoPublicacion": "110603",
+          "cantidad": 3,
+          "monto": 4632,
+          "fechaItem": "2026-08-19",
+          "ventaEspecialTapa": null
+        }
+      ],
+      "cargadaEl": "2026-09-03T22:35:30.096Z"
+    },
+    {
+      "id": "f_1788474933758_pcrhv",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450-00968272",
+      "referenciaFactura": "00450A00585259",
+      "fecha": "2026-09-02",
+      "vencimiento": "2026-09-12",
+      "monto": 4632,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "POPULAR JUE",
+          "edicion": "20260820",
+          "codigoPublicacion": "110604",
+          "cantidad": 3,
+          "monto": 4632,
+          "fechaItem": "2026-08-20",
+          "ventaEspecialTapa": null
+        }
+      ],
+      "cargadaEl": "2026-09-03T22:35:33.758Z"
+    },
+    {
+      "id": "f_1788474936931_z1h7p",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450-00968273",
+      "referenciaFactura": "00450A00585484",
+      "fecha": "2026-09-02",
+      "vencimiento": "2026-09-12",
+      "monto": 6176,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "POPULAR VIE",
+          "edicion": "20260821",
+          "codigoPublicacion": "110605",
+          "cantidad": 4,
+          "monto": 6176,
+          "fechaItem": "2026-08-21",
+          "ventaEspecialTapa": null
+        }
+      ],
+      "cargadaEl": "2026-09-03T22:35:36.931Z"
+    },
+    {
+      "id": "f_1788474940154_zwbiz",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450-00968274",
+      "referenciaFactura": "00450A00585611",
+      "fecha": "2026-09-02",
+      "vencimiento": "2026-09-12",
+      "monto": 6176,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "POPULAR SAB",
+          "edicion": "20260822",
+          "codigoPublicacion": "110606",
+          "cantidad": 4,
+          "monto": 6176,
+          "fechaItem": "2026-08-22",
+          "ventaEspecialTapa": null
+        }
+      ],
+      "cargadaEl": "2026-09-03T22:35:40.154Z"
+    },
+    {
+      "id": "f_1788474943501_7fg8u",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450-00968275",
+      "referenciaFactura": "00450A00585813",
+      "fecha": "2026-09-02",
+      "vencimiento": "2026-09-12",
+      "monto": 4632,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "POPULAR LUN",
+          "edicion": "20260824",
+          "codigoPublicacion": "110601",
+          "cantidad": 3,
+          "monto": 4632,
+          "fechaItem": "2026-08-24",
+          "ventaEspecialTapa": null
+        }
+      ],
+      "cargadaEl": "2026-09-03T22:35:43.501Z"
+    },
+    {
+      "id": "f_1788474997094_wxqen",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450-00968141",
+      "referenciaFactura": "00450A00585611",
+      "fecha": "2026-09-02",
+      "vencimiento": "2026-09-12",
+      "monto": 27252,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "LA NACION SAB",
+          "edicion": "20260822",
+          "codigoPublicacion": "000006",
+          "cantidad": 6,
+          "monto": 27252,
+          "fechaItem": "2026-08-22",
+          "ventaEspecialTapa": null
+        }
+      ],
+      "cargadaEl": "2026-09-03T22:36:37.094Z"
+    },
+    {
+      "id": "f_1788475124293_8gfji",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00587294",
+      "referenciaFactura": null,
+      "fecha": "2026-09-02",
+      "vencimiento": "2026-09-12",
+      "monto": 59616,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "LA NACION MIE Carga",
+          "edicion": "20260902",
+          "codigoPublicacion": "000003",
+          "cantidad": 12,
+          "monto": 41088,
+          "fechaItem": "2026-09-02",
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "POPULAR MIE Carga",
+          "edicion": "20260902",
+          "codigoPublicacion": "110603",
+          "cantidad": 12,
+          "monto": 18528,
+          "fechaItem": "2026-09-02",
+          "ventaEspecialTapa": null
+        }
+      ],
+      "cargadaEl": "2026-09-03T22:38:44.293Z"
+    },
+    {
+      "id": "f_1788475127003_plngs",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00587363",
+      "referenciaFactura": null,
+      "fecha": "2026-09-02",
+      "vencimiento": "2026-09-12",
+      "monto": 12932,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "HOLA",
+          "edicion": "0000825",
+          "codigoPublicacion": "110203",
+          "cantidad": 2,
+          "monto": 12932,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        }
+      ],
+      "cargadaEl": "2026-09-03T22:38:47.003Z"
+    },
+    {
+      "id": "f_1788475130533_kg0jp",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00587227",
+      "referenciaFactura": null,
+      "fecha": "2026-09-01",
+      "vencimiento": "2026-09-15",
+      "monto": 59616,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "LA NACION MAR Carga",
+          "edicion": null,
+          "codigoPublicacion": "20260901",
+          "cantidad": 12,
+          "monto": 41088,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "POPULAR MAR Carga",
+          "edicion": null,
+          "codigoPublicacion": "110602",
+          "cantidad": 12,
+          "monto": 18528,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        }
+      ],
+      "cargadaEl": "2026-09-03T22:38:50.534Z"
+    },
+    {
+      "id": "f_1788475133310_vr8e8",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450-00967500",
+      "referenciaFactura": "00450A00582798",
+      "fecha": "2026-09-01",
+      "vencimiento": "2026-09-11",
+      "monto": 9518,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "LIVING",
+          "edicion": "220",
+          "codigoPublicacion": "000079",
+          "cantidad": 1,
+          "monto": 9518,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        }
+      ],
+      "cargadaEl": "2026-09-03T22:38:53.310Z"
+    },
+    {
+      "id": "f_1788475136505_a6uh9",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450-00967501",
+      "referenciaFactura": "00450A00582798",
+      "fecha": "2026-09-01",
+      "vencimiento": "2026-09-11",
+      "monto": 28554,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "JARDÍN",
+          "edicion": "0000169",
+          "codigoPublicacion": "110593",
+          "cantidad": 3,
+          "monto": 28554,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        }
+      ],
+      "cargadaEl": "2026-09-03T22:38:56.505Z"
+    },
+    {
+      "id": "f_1788475140806_5ni7k",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450-00967502",
+      "referenciaFactura": "00450A00582798",
+      "fecha": "2026-09-01",
+      "vencimiento": "2026-09-11",
+      "monto": 9518,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "LUGARES",
+          "edicion": "0000364",
+          "codigoPublicacion": "000065",
+          "cantidad": 1,
+          "monto": 9518,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        }
+      ],
+      "cargadaEl": "2026-09-03T22:39:00.806Z"
+    },
+    {
+      "id": "f_1788475145103_gwjb7",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450-00967503",
+      "referenciaFactura": "00450A00582798",
+      "fecha": "2026-09-01",
+      "vencimiento": "2026-09-11",
+      "monto": 28554,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "OHLALÁ",
+          "edicion": "0000221",
+          "codigoPublicacion": "000527",
+          "cantidad": 3,
+          "monto": 28554,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        }
+      ],
+      "cargadaEl": "2026-09-03T22:39:05.103Z"
+    },
+    {
+      "id": "f_1788475149092_stq0b",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450-00967504",
+      "referenciaFactura": "00450A00584043",
+      "fecha": "2026-09-01",
+      "vencimiento": "2026-09-11",
+      "monto": 11590,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "HOLA",
+          "edicion": "0000822",
+          "codigoPublicacion": "110203",
+          "cantidad": 2,
+          "monto": 11590,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        }
+      ],
+      "cargadaEl": "2026-09-03T22:39:09.092Z"
+    },
+    {
+      "id": "f_1788475151306_sajs1",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450-00967505",
+      "referenciaFactura": "00450A00585324",
+      "fecha": "2026-09-01",
+      "vencimiento": "2026-09-11",
+      "monto": 15493.2,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "Pato Lucas + Fascículo",
+          "edicion": "0000009",
+          "codigoPublicacion": "200427",
+          "cantidad": 1,
+          "monto": 15493.2,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        }
+      ],
+      "cargadaEl": "2026-09-03T22:39:11.306Z"
+    },
+    {
+      "id": "f_1788475154600_oahrd",
+      "proveedorKey": "lanacion",
+      "tipo": "nota_credito",
+      "numeroFactura": "00450-00967506",
+      "referenciaFactura": "00450A00585686",
+      "fecha": "2026-09-01",
+      "vencimiento": "2026-09-11",
+      "monto": 40359.6,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "Monedas Mexico",
+          "edicion": "3",
+          "codigoPublicacion": "200236",
+          "cantidad": 20,
+          "monto": 40359.6,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        }
+      ],
+      "cargadaEl": "2026-09-03T22:39:14.600Z"
+    },
+    {
+      "id": "f_1788527438363_pwuaw",
+      "proveedorKey": "silmar",
+      "tipo": "factura",
+      "numeroFactura": "00004-00017030",
+      "referenciaFactura": null,
+      "fecha": "2026-09-04",
+      "vencimiento": "2026-09-14",
+      "monto": 609079.5,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "AUDI QUATTRO (DGP)",
+          "edicion": "58",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 18000,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "AUTOS INOLV ARGENTINOS",
+          "edicion": "9",
+          "codigoPublicacion": null,
+          "cantidad": 6,
+          "monto": 153600,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "AVIONES II GUERRA MUND",
+          "edicion": "23",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 23200,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "BIBLIOTECA CLASICA GRE",
+          "edicion": "37",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 21592,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "BIBLIOTECA CLASICA GRE",
+          "edicion": "38",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 21592,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "CONSTRUSE LA PERLITA (",
+          "edicion": "13",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 18000,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "CONSTRUYE LA PERLITA (",
+          "edicion": "14",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 18000,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "DODGE CHARGER RYF (DGP",
+          "edicion": "19",
+          "codigoPublicacion": null,
+          "cantidad": 2,
+          "monto": 44000,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "MUNDO MANGANIMB (DGP",
+          "edicion": "1",
+          "codigoPublicacion": null,
+          "cantidad": 2,
+          "monto": 15984,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "SOPARAMA / BOLSILLO -",
+          "edicion": "340",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 2488.5,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "SOPAS C/ CLAVE EXTRA (",
+          "edicion": "176",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 2744,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "SOPAS DE VACACIONES (D",
+          "edicion": "304",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 2744,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "TACHAPALABRAS EXTRA SO",
+          "edicion": "406",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 2598,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "UN MAR DE SOPAS (DGP)",
+          "edicion": "397",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 2744,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "VIP SOPAS SUPERSOPEX (",
+          "edicion": "351",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 2598,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "CRUZADAS EXTRA (DGP",
+          "edicion": "466",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 2598,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "SOPAS DE LETRAS FENIX",
+          "edicion": "139",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 3447,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "CONSTRUYE TU COMBI (DG",
+          "edicion": "69",
+          "codigoPublicacion": null,
+          "cantidad": 3,
+          "monto": 54000,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "RACING CARS (DGP) Mich",
+          "edicion": "25",
+          "codigoPublicacion": null,
+          "cantidad": 3,
+          "monto": 76800,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "JUEGOS DE INGENIO (DGP",
+          "edicion": "44",
+          "codigoPublicacion": null,
+          "cantidad": 2,
+          "monto": 30384,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "CONSTR FORD MUSTANG (",
+          "edicion": "38",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 18000,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "CRUCIGRAMA (PERFIL INT",
+          "edicion": "1255",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 4125,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "CRUCIGRAMA EXTRA (PERF",
+          "edicion": "284",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 8150,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "CRUCIGRAMA REVUELTOS (",
+          "edicion": "231",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 4047,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "JOKER EXTRA (PERFIL IN",
+          "edicion": "283",
+          "codigoPublicacion": null,
+          "cantidad": 2,
+          "monto": 16300,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "CARAS (11)",
+          "edicion": "2328",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 9875,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "SEMANARIO (PERFIL)",
+          "edicion": "2264",
+          "codigoPublicacion": null,
+          "cantidad": 6,
+          "monto": 26100,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "JOKER ORO (PERFIL INT)",
+          "edicion": "194",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 5369,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        }
+      ],
+      "cargadaEl": "2026-09-04T13:10:38.363Z"
     }
   ],
   "preciosProveedores": {
@@ -17216,7 +18332,8 @@
         ],
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
-        "excluirGanSem": true
+        "excluirGanSem": true,
+        "archivado": true
       },
       {
         "id": "mt92rvr54rqf06",
@@ -17264,13 +18381,13 @@
         "nombre": "Ñ REVISTA CULT - 01.08.2026 - 1119/2026",
         "alias": "",
         "tipoProducto": "periodico",
-        "precioUnico": 0,
-        "recargoUnico": 0,
+        "precioUnico": 15000,
+        "recargoUnico": 1000,
         "historialUnico": [
           {
             "desde": "2026-08-25",
-            "tapa": 0,
-            "recargo": 0
+            "tapa": 15000,
+            "recargo": 1000
           }
         ],
         "historial": [
@@ -17298,8 +18415,8 @@
         ],
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
-        "excluirGanSem": true,
-        "archivado": true
+        "excluirGanSem": false,
+        "archivado": false
       },
       {
         "id": "mtaamjtg1fclt5",
@@ -17576,13 +18693,18 @@
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
         "tipoProducto": "periodico",
-        "precioUnico": 3100,
-        "recargoUnico": 1300,
+        "precioUnico": 3800,
+        "recargoUnico": 1500,
         "historialUnico": [
           {
             "desde": "2026-08-01",
             "tapa": 3100,
             "recargo": 1300
+          },
+          {
+            "desde": "2026-09-01",
+            "tapa": 3800,
+            "recargo": 1500
           }
         ]
       },
@@ -18121,13 +19243,18 @@
         "nombre": "CARAS (11)",
         "alias": "CARAS",
         "tipoProducto": "periodico",
-        "precioUnico": 8900,
-        "recargoUnico": 1500,
+        "precioUnico": 10900,
+        "recargoUnico": 1700,
         "historialUnico": [
           {
             "desde": "2026-08-01",
             "tapa": 8900,
             "recargo": 1500
+          },
+          {
+            "desde": "2026-09-01",
+            "tapa": 10900,
+            "recargo": 1700
           }
         ],
         "historial": [
@@ -18693,13 +19820,13 @@
         "nombre": "33 CRUZADAS EXTRA (DGP",
         "alias": "",
         "tipoProducto": "periodico",
-        "precioUnico": 0,
-        "recargoUnico": 0,
+        "precioUnico": 2600,
+        "recargoUnico": 700,
         "historialUnico": [
           {
             "desde": "2026-08-26",
-            "tapa": 0,
-            "recargo": 0
+            "tapa": 2600,
+            "recargo": 700
           }
         ],
         "historial": [
@@ -18727,7 +19854,7 @@
         ],
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
-        "excluirGanSem": true
+        "excluirGanSem": false
       },
       {
         "id": "mtai0czielp4u8",
@@ -21668,6 +22795,381 @@
         ],
         "feriadoTapa": 0,
         "feriadoRecargo": 0
+      },
+      {
+        "id": "mtmzdxswi5aur8",
+        "nombre": "AUTOS INO. COLECTIVOS",
+        "alias": "",
+        "tipoProducto": "periodico",
+        "precioUnico": 48000,
+        "recargoUnico": 1400,
+        "pctCalculoPeriodico": 80,
+        "historialUnico": [
+          {
+            "desde": "2026-09-03",
+            "tapa": 48000,
+            "recargo": 1400
+          }
+        ],
+        "historial": [
+          {
+            "desde": "2026-09-03",
+            "tapa": [
+              48000,
+              48000,
+              48000,
+              48000,
+              48000,
+              48000,
+              48000
+            ],
+            "recargo": [
+              1400,
+              1400,
+              1400,
+              1400,
+              1400,
+              1400,
+              1400
+            ]
+          }
+        ],
+        "feriadoTapa": 0,
+        "feriadoRecargo": 0
+      },
+      {
+        "id": "mtmzen1m1tp7la",
+        "nombre": "RACING CARS (DGP) Mich",
+        "alias": "RACING CARS",
+        "tipoProducto": "periodico",
+        "precioUnico": 30000,
+        "recargoUnico": 1600,
+        "pctCalculoPeriodico": 80,
+        "historialUnico": [
+          {
+            "desde": "2026-09-03",
+            "tapa": 30000,
+            "recargo": 1600
+          }
+        ],
+        "historial": [
+          {
+            "desde": "2026-09-03",
+            "tapa": [
+              30000,
+              30000,
+              30000,
+              30000,
+              30000,
+              30000,
+              30000
+            ],
+            "recargo": [
+              1600,
+              1600,
+              1600,
+              1600,
+              1600,
+              1600,
+              1600
+            ]
+          }
+        ],
+        "feriadoTapa": 0,
+        "feriadoRecargo": 0
+      },
+      {
+        "id": "mtmzfk0zilg2yt",
+        "nombre": "CONSTRUSE LA PERLITA (",
+        "alias": "CONSTRUJE LA PERLITA",
+        "tipoProducto": "periodico",
+        "precioUnico": 20500,
+        "recargoUnico": 1600,
+        "pctCalculoPeriodico": 80,
+        "historialUnico": [
+          {
+            "desde": "2026-09-03",
+            "tapa": 20500,
+            "recargo": 1600
+          }
+        ],
+        "historial": [
+          {
+            "desde": "2026-09-03",
+            "tapa": [
+              20500,
+              20500,
+              20500,
+              20500,
+              20500,
+              20500,
+              20500
+            ],
+            "recargo": [
+              1600,
+              1600,
+              1600,
+              1600,
+              1600,
+              1600,
+              1600
+            ]
+          }
+        ],
+        "feriadoTapa": 0,
+        "feriadoRecargo": 0
+      },
+      {
+        "id": "mtmzfqleq4etg3",
+        "nombre": "MUNDO MANGANIMB (DGP",
+        "alias": "",
+        "tipoProducto": "periodico",
+        "precioUnico": 0,
+        "recargoUnico": 0,
+        "pctCalculoPeriodico": 80,
+        "historialUnico": [
+          {
+            "desde": "2026-09-03",
+            "tapa": 0,
+            "recargo": 0
+          }
+        ],
+        "historial": [
+          {
+            "desde": "2026-09-03",
+            "tapa": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "recargo": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          }
+        ],
+        "feriadoTapa": 0,
+        "feriadoRecargo": 0,
+        "excluirGanSem": true
+      },
+      {
+        "id": "mtmzgaqk48teir",
+        "nombre": "SOPAS C/ CLAVE EXTRA (",
+        "alias": "",
+        "tipoProducto": "periodico",
+        "precioUnico": 0,
+        "recargoUnico": 0,
+        "pctCalculoPeriodico": 80,
+        "historialUnico": [
+          {
+            "desde": "2026-09-03",
+            "tapa": 0,
+            "recargo": 0
+          }
+        ],
+        "historial": [
+          {
+            "desde": "2026-09-03",
+            "tapa": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "recargo": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          }
+        ],
+        "feriadoTapa": 0,
+        "feriadoRecargo": 0,
+        "excluirGanSem": true
+      },
+      {
+        "id": "mtmzgk5d9tjjh9",
+        "nombre": "SOPAS DE LETRAS FENIX",
+        "alias": "",
+        "tipoProducto": "periodico",
+        "precioUnico": 0,
+        "recargoUnico": 0,
+        "pctCalculoPeriodico": 80,
+        "historialUnico": [
+          {
+            "desde": "2026-09-03",
+            "tapa": 0,
+            "recargo": 0
+          }
+        ],
+        "historial": [
+          {
+            "desde": "2026-09-03",
+            "tapa": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "recargo": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          }
+        ],
+        "feriadoTapa": 0,
+        "feriadoRecargo": 0,
+        "excluirGanSem": true
+      },
+      {
+        "id": "mtmzgv83ddzvgb",
+        "nombre": "SOPARAMA / BOLSILLO -",
+        "alias": "",
+        "tipoProducto": "periodico",
+        "precioUnico": 0,
+        "recargoUnico": 0,
+        "pctCalculoPeriodico": 80,
+        "historialUnico": [
+          {
+            "desde": "2026-09-03",
+            "tapa": 0,
+            "recargo": 0
+          }
+        ],
+        "historial": [
+          {
+            "desde": "2026-09-03",
+            "tapa": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "recargo": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          }
+        ],
+        "feriadoTapa": 0,
+        "feriadoRecargo": 0,
+        "excluirGanSem": true
+      },
+      {
+        "id": "mtmzh4pgdkb8i3",
+        "nombre": "SOPAS DE VACACIONES (D",
+        "alias": "",
+        "tipoProducto": "periodico",
+        "precioUnico": 0,
+        "recargoUnico": 0,
+        "pctCalculoPeriodico": 80,
+        "historialUnico": [
+          {
+            "desde": "2026-09-03",
+            "tapa": 0,
+            "recargo": 0
+          }
+        ],
+        "historial": [
+          {
+            "desde": "2026-09-03",
+            "tapa": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "recargo": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          }
+        ],
+        "feriadoTapa": 0,
+        "feriadoRecargo": 0,
+        "excluirGanSem": true
+      },
+      {
+        "id": "mtmzh928h7s12l",
+        "nombre": "TACHAPALABRAS EXTRA SO",
+        "alias": "",
+        "tipoProducto": "periodico",
+        "precioUnico": 0,
+        "recargoUnico": 0,
+        "pctCalculoPeriodico": 80,
+        "historialUnico": [
+          {
+            "desde": "2026-09-03",
+            "tapa": 0,
+            "recargo": 0
+          }
+        ],
+        "historial": [
+          {
+            "desde": "2026-09-03",
+            "tapa": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "recargo": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          }
+        ],
+        "feriadoTapa": 0,
+        "feriadoRecargo": 0,
+        "excluirGanSem": true
       }
     ],
     "lanacion": [
@@ -21843,12 +23345,17 @@
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
         "tipoProducto": "periodico",
-        "precioUnico": 9500,
+        "precioUnico": 10600,
         "recargoUnico": 0,
         "historialUnico": [
           {
             "desde": "2026-08-01",
             "tapa": 9500,
+            "recargo": 0
+          },
+          {
+            "desde": "2026-09-01",
+            "tapa": 10600,
             "recargo": 0
           }
         ]
@@ -21883,13 +23390,18 @@
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
         "tipoProducto": "periodico",
-        "precioUnico": 13800,
-        "recargoUnico": 1100,
+        "precioUnico": 15400,
+        "recargoUnico": 1200,
         "historialUnico": [
           {
             "desde": "2026-08-19",
             "tapa": 13800,
             "recargo": 1100
+          },
+          {
+            "desde": "2026-09-01",
+            "tapa": 15400,
+            "recargo": 1200
           }
         ]
       },
@@ -21923,13 +23435,18 @@
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
         "tipoProducto": "periodico",
-        "precioUnico": 13800,
-        "recargoUnico": 1100,
+        "precioUnico": 15400,
+        "recargoUnico": 1200,
         "historialUnico": [
           {
             "desde": "2026-08-19",
             "tapa": 13800,
             "recargo": 1100
+          },
+          {
+            "desde": "2026-09-01",
+            "tapa": 15400,
+            "recargo": 1200
           }
         ]
       },
@@ -21963,13 +23480,18 @@
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
         "tipoProducto": "periodico",
-        "precioUnico": 13800,
-        "recargoUnico": 1100,
+        "precioUnico": 15400,
+        "recargoUnico": 1200,
         "historialUnico": [
           {
             "desde": "2026-08-19",
             "tapa": 13800,
             "recargo": 1100
+          },
+          {
+            "desde": "2026-09-01",
+            "tapa": 15400,
+            "recargo": 1200
           }
         ]
       },
@@ -22338,7 +23860,8 @@
         ],
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
-        "excluirGanSem": true
+        "excluirGanSem": true,
+        "archivado": true
       },
       {
         "id": "mt92edf78qdni6",
@@ -23710,12 +25233,18 @@
           "cantidad": 1,
           "monto": 15493.2,
           "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 1
+          "ncFacturaId": "f_1787969957498_muaky",
+          "ncNumero": "00450-00966071",
+          "faltante": false,
+          "ncDetalle": [
+            {
+              "facturaId": "f_1787969957498_muaky",
+              "numero": "00450-00966071",
+              "cantidad": 1
+            }
+          ],
+          "cantidadAcreditada": 1,
+          "cantidadFaltante": 0
         },
         {
           "descripcion": "AMERICANAS 4X4",
@@ -23724,12 +25253,18 @@
           "cantidad": 6,
           "monto": 113359.2,
           "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 6
+          "ncFacturaId": "f_1787969968045_i3ybs",
+          "ncNumero": "00450-00966072",
+          "faltante": false,
+          "ncDetalle": [
+            {
+              "facturaId": "f_1787969968045_i3ybs",
+              "numero": "00450-00966072",
+              "cantidad": 6
+            }
+          ],
+          "cantidadAcreditada": 6,
+          "cantidadFaltante": 0
         },
         {
           "descripcion": "DINOSAURIOS 2025",
@@ -23738,12 +25273,18 @@
           "cantidad": 5,
           "monto": 43466,
           "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 5
+          "ncFacturaId": "f_1787969887800_sgysd",
+          "ncNumero": "00450-00966074",
+          "faltante": false,
+          "ncDetalle": [
+            {
+              "facturaId": "f_1787969887800_sgysd",
+              "numero": "00450-00966074",
+              "cantidad": 5
+            }
+          ],
+          "cantidadAcreditada": 5,
+          "cantidadFaltante": 0
         },
         {
           "descripcion": "DINOSAURIOS 2025",
@@ -23752,12 +25293,18 @@
           "cantidad": 5,
           "monto": 43466,
           "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 5
+          "ncFacturaId": "f_1787969837108_9jgov",
+          "ncNumero": "00450-00966073",
+          "faltante": false,
+          "ncDetalle": [
+            {
+              "facturaId": "f_1787969837108_9jgov",
+              "numero": "00450-00966073",
+              "cantidad": 5
+            }
+          ],
+          "cantidadAcreditada": 5,
+          "cantidadFaltante": 0
         },
         {
           "descripcion": "DINOSAURIOS 2025",
@@ -23766,12 +25313,18 @@
           "cantidad": 5,
           "monto": 43466,
           "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 5
+          "ncFacturaId": "f_1787969682081_dgln6",
+          "ncNumero": "00450-00966078",
+          "faltante": false,
+          "ncDetalle": [
+            {
+              "facturaId": "f_1787969682081_dgln6",
+              "numero": "00450-00966078",
+              "cantidad": 5
+            }
+          ],
+          "cantidadAcreditada": 5,
+          "cantidadFaltante": 0
         },
         {
           "descripcion": "DINOSAURIOS 2025",
@@ -23780,12 +25333,18 @@
           "cantidad": 5,
           "monto": 43466,
           "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 5
+          "ncFacturaId": "f_1787969434591_g4xgi",
+          "ncNumero": "00450-00966079",
+          "faltante": false,
+          "ncDetalle": [
+            {
+              "facturaId": "f_1787969434591_g4xgi",
+              "numero": "00450-00966079",
+              "cantidad": 5
+            }
+          ],
+          "cantidadAcreditada": 5,
+          "cantidadFaltante": 0
         },
         {
           "descripcion": "MON Y BILL 2025",
@@ -23794,12 +25353,18 @@
           "cantidad": 3,
           "monto": 40359.6,
           "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 3
+          "ncFacturaId": "f_1787969335700_fat6c",
+          "ncNumero": "00450-00966083",
+          "faltante": false,
+          "ncDetalle": [
+            {
+              "facturaId": "f_1787969335700_fat6c",
+              "numero": "00450-00966083",
+              "cantidad": 3
+            }
+          ],
+          "cantidadAcreditada": 3,
+          "cantidadFaltante": 0
         },
         {
           "descripcion": "AUTOS ALEMANES",
@@ -23808,12 +25373,18 @@
           "cantidad": 2,
           "monto": 37786.4,
           "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 2
+          "ncFacturaId": "f_1787969439181_yg8as",
+          "ncNumero": "00450-00966080",
+          "faltante": false,
+          "ncDetalle": [
+            {
+              "facturaId": "f_1787969439181_yg8as",
+              "numero": "00450-00966080",
+              "cantidad": 2
+            }
+          ],
+          "cantidadAcreditada": 2,
+          "cantidadFaltante": 0
         },
         {
           "descripcion": "DINOSAURIOS 2025",
@@ -23822,12 +25393,18 @@
           "cantidad": 5,
           "monto": 43466,
           "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 5
+          "ncFacturaId": "f_1787968843015_djbdo",
+          "ncNumero": "00450-00966084",
+          "faltante": false,
+          "ncDetalle": [
+            {
+              "facturaId": "f_1787968843015_djbdo",
+              "numero": "00450-00966084",
+              "cantidad": 5
+            }
+          ],
+          "cantidadAcreditada": 5,
+          "cantidadFaltante": 0
         },
         {
           "descripcion": "ACTIVITY COLOURING",
@@ -24018,12 +25595,18 @@
           "cantidad": 1,
           "monto": 5303.2,
           "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 1
+          "ncFacturaId": "f_1787969603161_vkfe7",
+          "ncNumero": "00450-00966075",
+          "faltante": false,
+          "ncDetalle": [
+            {
+              "facturaId": "f_1787969603161_vkfe7",
+              "numero": "00450-00966075",
+              "cantidad": 1
+            }
+          ],
+          "cantidadAcreditada": 1,
+          "cantidadFaltante": 0
         },
         {
           "descripcion": "ACTIVITY COLOURING",
@@ -24032,12 +25615,18 @@
           "cantidad": 1,
           "monto": 5303.2,
           "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 1
+          "ncFacturaId": "f_1787969679452_vrfb4",
+          "ncNumero": "00450-00966076",
+          "faltante": false,
+          "ncDetalle": [
+            {
+              "facturaId": "f_1787969679452_vrfb4",
+              "numero": "00450-00966076",
+              "cantidad": 1
+            }
+          ],
+          "cantidadAcreditada": 1,
+          "cantidadFaltante": 0
         },
         {
           "descripcion": "LIBROS INFANTILES",
@@ -24046,12 +25635,18 @@
           "cantidad": 1,
           "monto": 3603.2,
           "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 1
+          "ncFacturaId": "f_1787969560392_9zov9",
+          "ncNumero": "00450-00966077",
+          "faltante": false,
+          "ncDetalle": [
+            {
+              "facturaId": "f_1787969560392_9zov9",
+              "numero": "00450-00966077",
+              "cantidad": 1
+            }
+          ],
+          "cantidadAcreditada": 1,
+          "cantidadFaltante": 0
         },
         {
           "descripcion": "LIBROS INFANTILES",
@@ -24060,12 +25655,18 @@
           "cantidad": 1,
           "monto": 3263.2,
           "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 1
+          "ncFacturaId": "f_1788474923320_8gda4",
+          "ncNumero": "00450-00967957",
+          "faltante": false,
+          "ncDetalle": [
+            {
+              "facturaId": "f_1788474923320_8gda4",
+              "numero": "00450-00967957",
+              "cantidad": 1
+            }
+          ],
+          "cantidadAcreditada": 1,
+          "cantidadFaltante": 0
         },
         {
           "descripcion": "LIBROS INFANTILES",
@@ -24074,12 +25675,18 @@
           "cantidad": 1,
           "monto": 3263.2,
           "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 1
+          "ncFacturaId": "f_1788474926552_v1b3c",
+          "ncNumero": "00450-00967958",
+          "faltante": false,
+          "ncDetalle": [
+            {
+              "facturaId": "f_1788474926552_v1b3c",
+              "numero": "00450-00967958",
+              "cantidad": 1
+            }
+          ],
+          "cantidadAcreditada": 1,
+          "cantidadFaltante": 0
         },
         {
           "descripcion": "LIBROS INFANTILES",
@@ -24088,12 +25695,18 @@
           "cantidad": 1,
           "monto": 3263.2,
           "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 1
+          "ncFacturaId": "f_1788474905676_zgr4n",
+          "ncNumero": "00450-00967951",
+          "faltante": false,
+          "ncDetalle": [
+            {
+              "facturaId": "f_1788474905676_zgr4n",
+              "numero": "00450-00967951",
+              "cantidad": 1
+            }
+          ],
+          "cantidadAcreditada": 1,
+          "cantidadFaltante": 0
         },
         {
           "descripcion": "ACTIVITY COLOURING",
@@ -24102,12 +25715,18 @@
           "cantidad": 1,
           "monto": 5303.2,
           "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 1
+          "ncFacturaId": "f_1788474910878_tb04l",
+          "ncNumero": "00450-00967953",
+          "faltante": false,
+          "ncDetalle": [
+            {
+              "facturaId": "f_1788474910878_tb04l",
+              "numero": "00450-00967953",
+              "cantidad": 1
+            }
+          ],
+          "cantidadAcreditada": 1,
+          "cantidadFaltante": 0
         },
         {
           "descripcion": "COLORING CON POSTE",
@@ -24116,12 +25735,18 @@
           "cantidad": 1,
           "monto": 3535.2,
           "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 1
+          "ncFacturaId": "f_1788474915689_ay8w2",
+          "ncNumero": "00450-00967954",
+          "faltante": false,
+          "ncDetalle": [
+            {
+              "facturaId": "f_1788474915689_ay8w2",
+              "numero": "00450-00967954",
+              "cantidad": 1
+            }
+          ],
+          "cantidadAcreditada": 1,
+          "cantidadFaltante": 0
         },
         {
           "descripcion": "COLORES Y JUEGOS",
@@ -24130,12 +25755,18 @@
           "cantidad": 1,
           "monto": 2583.2,
           "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 1
+          "ncFacturaId": "f_1788474918383_4dax1",
+          "ncNumero": "00450-00967955",
+          "faltante": false,
+          "ncDetalle": [
+            {
+              "facturaId": "f_1788474918383_4dax1",
+              "numero": "00450-00967955",
+              "cantidad": 1
+            }
+          ],
+          "cantidadAcreditada": 1,
+          "cantidadFaltante": 0
         },
         {
           "descripcion": "MEGA COLOR",
@@ -24144,12 +25775,18 @@
           "cantidad": 1,
           "monto": 7343.2,
           "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 1
+          "ncFacturaId": "f_1788474908063_q6bi9",
+          "ncNumero": "00450-00967952",
+          "faltante": false,
+          "ncDetalle": [
+            {
+              "facturaId": "f_1788474908063_q6bi9",
+              "numero": "00450-00967952",
+              "cantidad": 1
+            }
+          ],
+          "cantidadAcreditada": 1,
+          "cantidadFaltante": 0
         },
         {
           "descripcion": "COL PINTA Y BRILLA",
@@ -24158,12 +25795,18 @@
           "cantidad": 1,
           "monto": 4623.2,
           "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 1
+          "ncFacturaId": "f_1788474921366_u2fqx",
+          "ncNumero": "00450-00967956",
+          "faltante": false,
+          "ncDetalle": [
+            {
+              "facturaId": "f_1788474921366_u2fqx",
+              "numero": "00450-00967956",
+              "cantidad": 1
+            }
+          ],
+          "cantidadAcreditada": 1,
+          "cantidadFaltante": 0
         },
         {
           "descripcion": "ACTIVITY COLOURING",
@@ -24172,12 +25815,18 @@
           "cantidad": 1,
           "monto": 5303.2,
           "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 1
+          "ncFacturaId": "f_1787969443662_qr8t2",
+          "ncNumero": "00450-00966081",
+          "faltante": false,
+          "ncDetalle": [
+            {
+              "facturaId": "f_1787969443662_qr8t2",
+              "numero": "00450-00966081",
+              "cantidad": 1
+            }
+          ],
+          "cantidadAcreditada": 1,
+          "cantidadFaltante": 0
         },
         {
           "descripcion": "ACTIVITY COLOURING",
@@ -24186,12 +25835,18 @@
           "cantidad": 1,
           "monto": 5303.2,
           "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 1
+          "ncFacturaId": "f_1787969273808_2qxw8",
+          "ncNumero": "00450-00966082",
+          "faltante": false,
+          "ncDetalle": [
+            {
+              "facturaId": "f_1787969273808_2qxw8",
+              "numero": "00450-00966082",
+              "cantidad": 1
+            }
+          ],
+          "cantidadAcreditada": 1,
+          "cantidadFaltante": 0
         }
       ],
       "adjuntos": [
@@ -24202,7 +25857,7 @@
           "bytes": 678477
         }
       ],
-      "estado": "pendiente",
+      "estado": "parcial",
       "acreditadaEl": null,
       "cargadaEl": "2026-08-20T13:46:07.430Z"
     },
@@ -24436,12 +26091,18 @@
           "cantidad": 5,
           "monto": 7720,
           "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 5
+          "ncFacturaId": "f_1787920453721_qd5mu",
+          "ncNumero": "00450-00965687",
+          "faltante": false,
+          "ncDetalle": [
+            {
+              "facturaId": "f_1787920453721_qd5mu",
+              "numero": "00450-00965687",
+              "cantidad": 5
+            }
+          ],
+          "cantidadAcreditada": 5,
+          "cantidadFaltante": 0
         },
         {
           "descripcion": "POPULAR MAR",
@@ -24466,7 +26127,7 @@
           "bytes": 406770
         }
       ],
-      "estado": "pendiente",
+      "estado": "parcial",
       "acreditadaEl": null,
       "cargadaEl": "2026-08-20T13:46:11.516Z"
     },
@@ -24836,12 +26497,18 @@
           "cantidad": 2,
           "monto": 11590,
           "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 2
+          "ncFacturaId": "f_1788475149092_stq0b",
+          "ncNumero": "00450-00967504",
+          "faltante": false,
+          "ncDetalle": [
+            {
+              "facturaId": "f_1788475149092_stq0b",
+              "numero": "00450-00967504",
+              "cantidad": 2
+            }
+          ],
+          "cantidadAcreditada": 2,
+          "cantidadFaltante": 0
         },
         {
           "descripcion": "LIVING",
@@ -24878,12 +26545,18 @@
           "cantidad": 1,
           "monto": 15493.2,
           "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 1
+          "ncFacturaId": "f_1788475151306_sajs1",
+          "ncNumero": "00450-00967505",
+          "faltante": false,
+          "ncDetalle": [
+            {
+              "facturaId": "f_1788475151306_sajs1",
+              "numero": "00450-00967505",
+              "cantidad": 1
+            }
+          ],
+          "cantidadAcreditada": 1,
+          "cantidadFaltante": 0
         },
         {
           "descripcion": "JARDÍN",
@@ -24892,12 +26565,18 @@
           "cantidad": 3,
           "monto": 28554,
           "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 3
+          "ncFacturaId": "f_1788475136505_a6uh9",
+          "ncNumero": "00450-00967501",
+          "faltante": false,
+          "ncDetalle": [
+            {
+              "facturaId": "f_1788475136505_a6uh9",
+              "numero": "00450-00967501",
+              "cantidad": 3
+            }
+          ],
+          "cantidadAcreditada": 3,
+          "cantidadFaltante": 0
         },
         {
           "descripcion": "OHLALÁ",
@@ -24962,12 +26641,18 @@
           "cantidad": 1,
           "monto": 2583.2,
           "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 1
+          "ncFacturaId": "f_1787968715389_sdt59",
+          "ncNumero": "00450-00966089",
+          "faltante": false,
+          "ncDetalle": [
+            {
+              "facturaId": "f_1787968715389_sdt59",
+              "numero": "00450-00966089",
+              "cantidad": 1
+            }
+          ],
+          "cantidadAcreditada": 1,
+          "cantidadFaltante": 0
         },
         {
           "descripcion": "ACTIVITY COLOURING",
@@ -24976,12 +26661,18 @@
           "cantidad": 1,
           "monto": 2583.2,
           "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 1
+          "ncFacturaId": "f_1787968612429_95azs",
+          "ncNumero": "00450-00966090",
+          "faltante": false,
+          "ncDetalle": [
+            {
+              "facturaId": "f_1787968612429_95azs",
+              "numero": "00450-00966090",
+              "cantidad": 1
+            }
+          ],
+          "cantidadAcreditada": 1,
+          "cantidadFaltante": 0
         },
         {
           "descripcion": "COLORES Y JUEGOS",
@@ -24990,12 +26681,18 @@
           "cantidad": 1,
           "monto": 5303.2,
           "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 1
+          "ncFacturaId": "f_1787968608812_5m1xd",
+          "ncNumero": "00450-00966091",
+          "faltante": false,
+          "ncDetalle": [
+            {
+              "facturaId": "f_1787968608812_5m1xd",
+              "numero": "00450-00966091",
+              "cantidad": 1
+            }
+          ],
+          "cantidadAcreditada": 1,
+          "cantidadFaltante": 0
         },
         {
           "descripcion": "COL. PINTA Y BRILLA",
@@ -25004,12 +26701,18 @@
           "cantidad": 1,
           "monto": 3263.2,
           "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 1
+          "ncFacturaId": "f_1787968933642_v7jum",
+          "ncNumero": "00450-00966085",
+          "faltante": false,
+          "ncDetalle": [
+            {
+              "facturaId": "f_1787968933642_v7jum",
+              "numero": "00450-00966085",
+              "cantidad": 1
+            }
+          ],
+          "cantidadAcreditada": 1,
+          "cantidadFaltante": 0
         },
         {
           "descripcion": "ACTIVITY ESPECIALE",
@@ -25018,12 +26721,18 @@
           "cantidad": 1,
           "monto": 3943.2,
           "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 1
+          "ncFacturaId": "f_1787968621199_wbrte",
+          "ncNumero": "00450-00966086",
+          "faltante": false,
+          "ncDetalle": [
+            {
+              "facturaId": "f_1787968621199_wbrte",
+              "numero": "00450-00966086",
+              "cantidad": 1
+            }
+          ],
+          "cantidadAcreditada": 1,
+          "cantidadFaltante": 0
         },
         {
           "descripcion": "ACTIVITY ESPECIALE",
@@ -25032,12 +26741,18 @@
           "cantidad": 1,
           "monto": 3263.2,
           "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 1
+          "ncFacturaId": "f_1787968615893_f6aj2",
+          "ncNumero": "00450-00966087",
+          "faltante": false,
+          "ncDetalle": [
+            {
+              "facturaId": "f_1787968615893_f6aj2",
+              "numero": "00450-00966087",
+              "cantidad": 1
+            }
+          ],
+          "cantidadAcreditada": 1,
+          "cantidadFaltante": 0
         },
         {
           "descripcion": "ACTIVITY COLOURING",
@@ -25046,12 +26761,18 @@
           "cantidad": 1,
           "monto": 2583.2,
           "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 1
+          "ncFacturaId": "f_1787969070536_gbsi9",
+          "ncNumero": "00450-00966088",
+          "faltante": false,
+          "ncDetalle": [
+            {
+              "facturaId": "f_1787969070536_gbsi9",
+              "numero": "00450-00966088",
+              "cantidad": 1
+            }
+          ],
+          "cantidadAcreditada": 1,
+          "cantidadFaltante": 0
         }
       ],
       "adjuntos": [
@@ -25062,7 +26783,7 @@
           "bytes": 445179
         }
       ],
-      "estado": "pendiente",
+      "estado": "parcial",
       "acreditadaEl": null,
       "cargadaEl": "2026-08-27T13:09:57.260Z"
     },
@@ -35341,7 +37062,16 @@
         "mtd14wetwth8z2": 80,
         "mtd4ohmo447ngl": 80,
         "mtd4ouds363rvr": 80,
-        "mthbihw2fdeele": 80
+        "mthbihw2fdeele": 80,
+        "mtmzdxswi5aur8": 80,
+        "mtmzen1m1tp7la": 80,
+        "mtmzfk0zilg2yt": 80,
+        "mtmzfqleq4etg3": 80,
+        "mtmzgaqk48teir": 80,
+        "mtmzgk5d9tjjh9": 80,
+        "mtmzgv83ddzvgb": 80,
+        "mtmzh4pgdkb8i3": 80,
+        "mtmzh928h7s12l": 80
       }
     },
     "ambito": {
