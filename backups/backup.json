@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 6,
-  "exportadoEl": "2026-09-05T17:31:46.582Z",
+  "exportadoEl": "2026-09-06T02:08:54.324Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -3183,6 +3183,76 @@
       "medio": "transferencia",
       "id": "m_mtokbtc9igzlgg",
       "modificadoEl": "2026-09-05T15:53:49.641Z"
+    },
+    {
+      "date": "2026-09-05",
+      "type": "ingreso",
+      "amount": 68000,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "transferencia",
+      "id": "m_mtorcnkc47dj30",
+      "modificadoEl": "2026-09-05T19:10:26.124Z"
+    },
+    {
+      "date": "2026-09-05",
+      "type": "egreso",
+      "amount": 5900,
+      "category": "Sueldo",
+      "account": "alquileres",
+      "detalle": "Verdulería",
+      "id": "m_mtou17uncbsai7",
+      "modificadoEl": "2026-09-05T20:25:31.391Z"
+    },
+    {
+      "date": "2026-09-05",
+      "type": "egreso",
+      "amount": 42900,
+      "category": "Sueldo",
+      "account": "alquileres",
+      "detalle": "Pollería",
+      "id": "m_mtoud6afevttzz",
+      "modificadoEl": "2026-09-05T20:34:49.239Z"
+    },
+    {
+      "date": "2026-09-05",
+      "type": "egreso",
+      "amount": 29700,
+      "category": "Sueldo",
+      "account": "alquileres",
+      "detalle": "Carniceria",
+      "id": "m_mtouh7q1jxtj75",
+      "modificadoEl": "2026-09-05T20:37:57.721Z"
+    },
+    {
+      "date": "2026-09-05",
+      "type": "egreso",
+      "amount": 14900,
+      "category": "Sueldo",
+      "account": "alquileres",
+      "detalle": "Pollería y alimento gato",
+      "id": "m_mtoxoej1cirrwv",
+      "modificadoEl": "2026-09-05T22:07:31.981Z"
+    },
+    {
+      "date": "2026-09-05",
+      "type": "egreso",
+      "amount": 20800,
+      "category": "Varios",
+      "account": "alquileres",
+      "detalle": "Mundo express",
+      "id": "m_mtp1p4mrmo6vjt",
+      "modificadoEl": "2026-09-06T00:00:04.275Z"
+    },
+    {
+      "date": "2026-09-06",
+      "type": "egreso",
+      "amount": 16000,
+      "category": "Chiara",
+      "account": "alquileres",
+      "detalle": "Sábado",
+      "id": "m_mtp66pmxwgfjtc",
+      "modificadoEl": "2026-09-06T02:05:43.113Z"
     }
   ],
   "categoriasCustom": [
