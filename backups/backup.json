@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 6,
-  "exportadoEl": "2026-09-06T19:49:25.982Z",
+  "exportadoEl": "2026-09-08T01:06:19.803Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -3291,6 +3291,135 @@
       "account": "alquileres",
       "id": "m_mtq7xf2boop2r9",
       "modificadoEl": "2026-09-06T19:42:14.916Z"
+    },
+    {
+      "date": "2026-09-07",
+      "type": "egreso",
+      "amount": 16000,
+      "category": "Varios",
+      "account": "alquileres",
+      "detalle": "Heladería",
+      "id": "m_mtqkup7ssb31b6",
+      "modificadoEl": "2026-09-07T01:44:03.112Z"
+    },
+    {
+      "date": "2026-09-07",
+      "type": "egreso",
+      "amount": 50000,
+      "category": "Nafta",
+      "account": "alquileres",
+      "id": "m_mtr4awzmtkxe54",
+      "modificadoEl": "2026-09-07T10:48:32.386Z"
+    },
+    {
+      "date": "2026-09-07",
+      "type": "ingreso",
+      "amount": 68000,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "efectivo",
+      "detalle": "Pablo Benedicto",
+      "id": "m_mtr76vdw7chgh4",
+      "modificadoEl": "2026-09-07T12:09:22.532Z"
+    },
+    {
+      "date": "2026-09-07",
+      "type": "egreso",
+      "amount": 86912.85,
+      "category": "Servicios",
+      "account": "alquileres",
+      "detalle": "1 eden",
+      "id": "m_mtr7foxya9i88t",
+      "modificadoEl": "2026-09-07T12:16:14.086Z"
+    },
+    {
+      "date": "2026-09-07",
+      "type": "ingreso",
+      "amount": 189350,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "efectivo",
+      "detalle": "Entradas pinciaroli cheque",
+      "id": "m_mtr8c04fl2r9gu",
+      "modificadoEl": "2026-09-07T12:41:21.567Z"
+    },
+    {
+      "date": "2026-09-07",
+      "type": "egreso",
+      "amount": 2000,
+      "category": "Chiara",
+      "account": "alquileres",
+      "id": "m_mtr8voaqyqeq5v",
+      "modificadoEl": "2026-09-07T12:56:39.362Z"
+    },
+    {
+      "date": "2026-09-07",
+      "type": "egreso",
+      "amount": 2000,
+      "category": "Donato",
+      "account": "alquileres",
+      "id": "m_mtr8vy939jhl5o",
+      "modificadoEl": "2026-09-07T12:56:52.263Z"
+    },
+    {
+      "date": "2026-09-07",
+      "type": "ingreso",
+      "amount": 87800,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "efectivo",
+      "id": "m_mtr9w29zovdbok",
+      "modificadoEl": "2026-09-07T13:24:57.095Z"
+    },
+    {
+      "date": "2026-09-07",
+      "type": "egreso",
+      "amount": 76573.77,
+      "category": "Servicios",
+      "account": "alquileres",
+      "detalle": "Eden 1",
+      "id": "m_mtr9yvoki8vyth",
+      "modificadoEl": "2026-09-07T13:27:08.516Z"
+    },
+    {
+      "date": "2026-09-07",
+      "type": "egreso",
+      "amount": 15000,
+      "category": "Varios",
+      "account": "alquileres",
+      "detalle": "Radio 94.1",
+      "id": "m_mtrb6nae4bpv4d",
+      "modificadoEl": "2026-09-07T14:01:10.502Z"
+    },
+    {
+      "date": "2026-09-07",
+      "type": "egreso",
+      "amount": 104500,
+      "category": "Oeste",
+      "account": "agencia",
+      "detalle": "El oeste",
+      "id": "m_mtrc2kyhxmexss",
+      "modificadoEl": "2026-09-07T14:26:00.473Z"
+    },
+    {
+      "date": "2026-09-07",
+      "type": "ingreso",
+      "amount": 22000,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "transferencia",
+      "id": "m_mtrqd0zzbmmm9z",
+      "modificadoEl": "2026-09-07T21:06:02.448Z"
+    },
+    {
+      "date": "2026-09-07",
+      "type": "egreso",
+      "amount": 33000,
+      "category": "Varios",
+      "account": "alquileres",
+      "detalle": "Pizzas colaboración y alimento manchi",
+      "id": "m_mtrv8ozwmu4bsw",
+      "modificadoEl": "2026-09-07T23:22:38.348Z"
     }
   ],
   "categoriasCustom": [
@@ -17861,6 +17990,126 @@
         }
       ],
       "cargadaEl": "2026-09-04T13:10:38.363Z"
+    },
+    {
+      "id": "f_1788791393948_fdq00",
+      "proveedorKey": "silmar",
+      "tipo": "nota_credito",
+      "numeroFactura": "00004-00009744",
+      "referenciaFactura": null,
+      "fecha": "2026-09-07",
+      "vencimiento": null,
+      "monto": 79131,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "COSAS DE CASA (BRI) (D",
+          "edicion": "343",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 3720,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "NATIONAL GEOGRA/MAG (D",
+          "edicion": "575",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 7662,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "CAMPEONES (DGP)",
+          "edicion": "785",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 10920,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "MIS ANIMALES DEL ZOO (",
+          "edicion": "55",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 12792,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "MIS ANIMALES DEL ZOO (",
+          "edicion": "56",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 12792,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "CUCHILLO ORO (ROSADO)",
+          "edicion": "7",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 15820,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "CARAS (11)",
+          "edicion": "2326",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 8175,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "SEMANARIO (PERFIL)",
+          "edicion": "2263",
+          "codigoPublicacion": null,
+          "cantidad": 2,
+          "monto": 7250,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        }
+      ],
+      "cargadaEl": "2026-09-07T14:29:53.948Z"
+    },
+    {
+      "id": "f_1788791480318_yinm5",
+      "proveedorKey": "silmar",
+      "tipo": "factura",
+      "numeroFactura": "00004-00017053",
+      "referenciaFactura": null,
+      "fecha": "2026-09-07",
+      "vencimiento": "2026-09-17",
+      "monto": 48800,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "INFO AUTO",
+          "edicion": "366",
+          "codigoPublicacion": null,
+          "cantidad": 3,
+          "monto": 38925,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "NOTICIAS",
+          "edicion": "2593",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 9875,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        }
+      ],
+      "cargadaEl": "2026-09-07T14:31:20.318Z"
     }
   ],
   "preciosProveedores": {
@@ -21812,7 +22061,8 @@
         ],
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
-        "excluirGanSem": true
+        "excluirGanSem": true,
+        "archivado": true
       },
       {
         "id": "mtai6r349p0zhq",
@@ -27915,7 +28165,7 @@
         "precioFeriado": 3100
       }
     ],
-    "nextFacturaNum": 68,
+    "nextFacturaNum": 69,
     "clientes": [
       {
         "id": "msnrvzg8wadclt",
@@ -29497,6 +29747,60 @@
             ],
             "total": 13800,
             "detallado": true
+          },
+          {
+            "id": "mtr5zgncowijfn",
+            "numero": 68,
+            "fechaEmision": "2026-09-07",
+            "tipo": "rango",
+            "desde": "2026-09-01",
+            "hasta": "2026-09-07",
+            "items": [
+              {
+                "fecha": "2026-09-01",
+                "concepto": "Popular",
+                "cantidad": 1,
+                "precio": 2300,
+                "subtotal": 2300
+              },
+              {
+                "fecha": "2026-09-02",
+                "concepto": "Popular",
+                "cantidad": 1,
+                "precio": 2300,
+                "subtotal": 2300
+              },
+              {
+                "fecha": "2026-09-03",
+                "concepto": "Popular",
+                "cantidad": 1,
+                "precio": 2300,
+                "subtotal": 2300
+              },
+              {
+                "fecha": "2026-09-04",
+                "concepto": "Popular",
+                "cantidad": 1,
+                "precio": 2300,
+                "subtotal": 2300
+              },
+              {
+                "fecha": "2026-09-05",
+                "concepto": "Popular",
+                "cantidad": 1,
+                "precio": 2300,
+                "subtotal": 2300
+              },
+              {
+                "fecha": "2026-09-07",
+                "concepto": "Popular",
+                "cantidad": 1,
+                "precio": 2300,
+                "subtotal": 2300
+              }
+            ],
+            "total": 13800,
+            "detallado": true
           }
         ],
         "pagos": [
@@ -29519,7 +29823,7 @@
             "nota": ""
           }
         ],
-        "proximoDesde": "2026-09-01"
+        "proximoDesde": "2026-09-08"
       },
       {
         "id": "msopstv7i0xdvh",
@@ -30764,20 +31068,6 @@
       }
     ],
     "servicios": [
-      {
-        "id": "vzmsrwkqajfvlnqq",
-        "nombre": "EDEN",
-        "referencia": "130265701",
-        "fecha": "2026-09-07",
-        "monto": 76573.77
-      },
-      {
-        "id": "vzmsrwkqajpxtvlg",
-        "nombre": "EDEN",
-        "referencia": "130265801",
-        "fecha": "2026-09-07",
-        "monto": 86912.85
-      },
       {
         "id": "vzmsrx26sx6nt247",
         "nombre": "Gym",
@@ -40215,6 +40505,18 @@
   ],
   "materialPublicitarioColecciones": {
     "items": [
+      {
+        "id": "rcmtrl999pknj8za",
+        "proveedor": "Clarín",
+        "tipo": "video",
+        "thumbDataUrl": "data:image/jpeg;base64,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",
+        "dataUrl": null,
+        "nombreArchivo": "1000843417.mp4",
+        "nota": "",
+        "fecha": "2026-09-07",
+        "videoGuardado": true,
+        "bytes": 10595
+      },
       {
         "id": "rcmtnjj0nttvejkx",
         "proveedor": "Silmar",
