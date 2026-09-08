@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 6,
-  "exportadoEl": "2026-09-08T01:06:19.803Z",
+  "exportadoEl": "2026-09-08T17:04:25.320Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -3420,6 +3420,57 @@
       "detalle": "Pizzas colaboración y alimento manchi",
       "id": "m_mtrv8ozwmu4bsw",
       "modificadoEl": "2026-09-07T23:22:38.348Z"
+    },
+    {
+      "date": "2026-09-07",
+      "type": "ingreso",
+      "amount": 132000,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "efectivo",
+      "id": "m_mtsko3voo8vyd2",
+      "modificadoEl": "2026-09-08T11:14:27.876Z"
+    },
+    {
+      "date": "2026-09-08",
+      "type": "ingreso",
+      "amount": 50000,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "transferencia",
+      "detalle": "Chacha tomasin",
+      "id": "m_mtsq8eclfdigwu",
+      "modificadoEl": "2026-09-08T13:50:12.645Z"
+    },
+    {
+      "date": "2026-09-08",
+      "type": "ingreso",
+      "amount": 124000,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "efectivo",
+      "id": "m_mtssjo8256oj8f",
+      "modificadoEl": "2026-09-08T14:54:57.890Z"
+    },
+    {
+      "date": "2026-09-08",
+      "type": "ingreso",
+      "amount": 49600,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "transferencia",
+      "id": "m_mtsvp4mcg4mqnp",
+      "modificadoEl": "2026-09-08T16:23:11.268Z"
+    },
+    {
+      "date": "2026-09-08",
+      "type": "egreso",
+      "amount": 122511,
+      "category": "Impuestos",
+      "account": "alquileres",
+      "detalle": "Impuesto rural campo",
+      "id": "m_mtsvypg1x7xpzw",
+      "modificadoEl": "2026-09-08T17:02:50.651Z"
     }
   ],
   "categoriasCustom": [
@@ -18110,6 +18161,570 @@
         }
       ],
       "cargadaEl": "2026-09-07T14:31:20.318Z"
+    },
+    {
+      "id": "f_1788876465998_yfyos",
+      "proveedorKey": "clarin",
+      "tipo": "nota_credito",
+      "numeroFactura": "0132-01363619",
+      "referenciaFactura": "0132A01342598",
+      "fecha": "2026-08-31",
+      "vencimiento": "2026-09-10",
+      "monto": 36634.43,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "GENIOS CON LIB - 03.08.2026",
+          "edicion": "1479/2026",
+          "codigoPublicacion": "GCLI030826",
+          "cantidad": 9,
+          "monto": 21200,
+          "fechaItem": "2026-08-03",
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "PACK GENIOS - 03.08.2026",
+          "edicion": "1479/2026",
+          "codigoPublicacion": "GLIC030826",
+          "cantidad": 9,
+          "monto": 15434.43,
+          "fechaItem": "2026-08-03",
+          "ventaEspecialTapa": null
+        }
+      ],
+      "cargadaEl": "2026-09-08T14:07:45.998Z"
+    },
+    {
+      "id": "f_1788876468981_cam7w",
+      "proveedorKey": "clarin",
+      "tipo": "nota_credito",
+      "numeroFactura": "0132-01363620",
+      "referenciaFactura": "0132A01342596",
+      "fecha": "2026-08-31",
+      "vencimiento": "2026-10-10",
+      "monto": 44680,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "ARQUITECTURA - 04.08.2026 - 1217/2026",
+          "edicion": null,
+          "codigoPublicacion": "SCAR040826",
+          "cantidad": 4,
+          "monto": 44680,
+          "fechaItem": "2026-08-04",
+          "ventaEspecialTapa": null
+        }
+      ],
+      "cargadaEl": "2026-09-08T14:07:48.981Z"
+    },
+    {
+      "id": "f_1788876472146_1npnt",
+      "proveedorKey": "clarin",
+      "tipo": "nota_credito",
+      "numeroFactura": "0132-01363621",
+      "referenciaFactura": "0132A01341147",
+      "fecha": "2026-08-31",
+      "vencimiento": null,
+      "monto": 89600.26,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "HELLO KITTY 2026 - KITTY MAESTRA",
+          "edicion": null,
+          "codigoPublicacion": "HKMAESTRA",
+          "cantidad": 8,
+          "monto": 89600.26,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        }
+      ],
+      "cargadaEl": "2026-09-08T14:07:52.146Z"
+    },
+    {
+      "id": "f_1788876474174_13hu6",
+      "proveedorKey": "clarin",
+      "tipo": "nota_credito",
+      "numeroFactura": "0132-01363622",
+      "referenciaFactura": "0132A01343106",
+      "fecha": "2026-08-31",
+      "vencimiento": null,
+      "monto": 112000.32,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "HELLO KITTY 2026 - KITTY CANTANTE",
+          "edicion": null,
+          "codigoPublicacion": "HKCANTANTE",
+          "cantidad": 10,
+          "monto": 112000.32,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        }
+      ],
+      "cargadaEl": "2026-09-08T14:07:54.174Z"
+    },
+    {
+      "id": "f_1788876478245_egfr3",
+      "proveedorKey": "clarin",
+      "tipo": "nota_credito",
+      "numeroFactura": "0132-01363623",
+      "referenciaFactura": "0132A01340435",
+      "fecha": "2026-08-31",
+      "vencimiento": null,
+      "monto": 22240,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "GENIOS PREES + UTIL ESOL",
+          "edicion": "24",
+          "codigoPublicacion": "GENPREE24",
+          "cantidad": 4,
+          "monto": 22240,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        }
+      ],
+      "cargadaEl": "2026-09-08T14:07:58.245Z"
+    },
+    {
+      "id": "f_1788876482573_37nk9",
+      "proveedorKey": "clarin",
+      "tipo": "nota_credito",
+      "numeroFactura": "0132-01363624",
+      "referenciaFactura": "0132A01318063",
+      "fecha": "2026-08-31",
+      "vencimiento": "2026-09-10",
+      "monto": 168000.48,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "HELLO KITTY 01 - HELLO KITTY",
+          "edicion": "1",
+          "codigoPublicacion": "HKHELLOKIT",
+          "cantidad": 15,
+          "monto": 168000.48,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        }
+      ],
+      "cargadaEl": "2026-09-08T14:08:02.573Z"
+    },
+    {
+      "id": "f_1788876485124_lutlp",
+      "proveedorKey": "clarin",
+      "tipo": "nota_credito",
+      "numeroFactura": "0132-01363625",
+      "referenciaFactura": "0132A01343583",
+      "fecha": "2026-08-31",
+      "vencimiento": "2026-09-07",
+      "monto": 141254,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "CLARIN BASE 10 - 15.08.2026 - 28991/2026",
+          "edicion": null,
+          "codigoPublicacion": "CBAS150826",
+          "cantidad": 4,
+          "monto": 18048,
+          "fechaItem": "2026-08-15",
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "CLARIN BASE 11 - 16.08.2026 - 28992/2026",
+          "edicion": null,
+          "codigoPublicacion": "CBAS160826",
+          "cantidad": 11,
+          "monto": 54736,
+          "fechaItem": "2026-08-16",
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "CLARIN BASE 05 - 17.08.2026 - 28993/2026",
+          "edicion": null,
+          "codigoPublicacion": "CBAS170826",
+          "cantidad": 7,
+          "monto": 23058,
+          "fechaItem": "2026-08-17",
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "CLARIN BASE 06 - 18.08.2026 - 28994/2026",
+          "edicion": null,
+          "codigoPublicacion": "CBAS180826",
+          "cantidad": 2,
+          "monto": 6588,
+          "fechaItem": "2026-08-18",
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "OLE NACIONAL - 15.08.2026 - 10913/2026",
+          "edicion": null,
+          "codigoPublicacion": "ONAC150826",
+          "cantidad": 9,
+          "monto": 17262,
+          "fechaItem": "2026-08-15",
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "OLE NACIONAL - 16.08.2026 - 10914/2026",
+          "edicion": null,
+          "codigoPublicacion": "ONAC160826",
+          "cantidad": 5,
+          "monto": 9880,
+          "fechaItem": "2026-08-16",
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "OLE NACIONAL - 17.08.2026 - 10915/2026",
+          "edicion": null,
+          "codigoPublicacion": "ONAC170826",
+          "cantidad": 3,
+          "monto": 5928,
+          "fechaItem": "2026-08-17",
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "OLE NACIONAL - 18.08.2026 - 10916/2026",
+          "edicion": null,
+          "codigoPublicacion": "ONAC180826",
+          "cantidad": 3,
+          "monto": 5754,
+          "fechaItem": "2026-08-18",
+          "ventaEspecialTapa": null
+        }
+      ],
+      "cargadaEl": "2026-09-08T14:08:05.125Z"
+    },
+    {
+      "id": "f_1788876487518_ovink",
+      "proveedorKey": "clarin",
+      "tipo": "nota_credito",
+      "numeroFactura": "0132-01363626",
+      "referenciaFactura": "0132A01343103",
+      "fecha": "2026-08-31",
+      "vencimiento": "2026-09-07",
+      "monto": 86394,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "CLARIN BASE 07 - 12.08.2026",
+          "edicion": "28988",
+          "codigoPublicacion": "CBAS120826",
+          "cantidad": 5,
+          "monto": 16470,
+          "fechaItem": "2026-08-12",
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "CLARIN BASE 08 - 13.08.2026",
+          "edicion": "28989",
+          "codigoPublicacion": "CBAS130826",
+          "cantidad": 7,
+          "monto": 23058,
+          "fechaItem": "2026-08-13",
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "CLARIN BASE 09 - 14.08.2026",
+          "edicion": "28990",
+          "codigoPublicacion": "CBAS140826",
+          "cantidad": 2,
+          "monto": 6588,
+          "fechaItem": "2026-08-14",
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "OLE NACIONAL - 12.08.2026",
+          "edicion": "10910",
+          "codigoPublicacion": "ONAC120826",
+          "cantidad": 3,
+          "monto": 5754,
+          "fechaItem": "2026-08-12",
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "OLE NACIONAL - 13.08.2026",
+          "edicion": "10911",
+          "codigoPublicacion": "ONAC130826",
+          "cantidad": 9,
+          "monto": 17262,
+          "fechaItem": "2026-08-13",
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "OLE NACIONAL - 14.08.2026",
+          "edicion": "10912",
+          "codigoPublicacion": "ONAC140826",
+          "cantidad": 9,
+          "monto": 17262,
+          "fechaItem": "2026-08-14",
+          "ventaEspecialTapa": null
+        }
+      ],
+      "cargadaEl": "2026-09-08T14:08:07.518Z"
+    },
+    {
+      "id": "f_1788877389843_4p79n",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00587911",
+      "referenciaFactura": null,
+      "fecha": "2026-09-06",
+      "vencimiento": "2026-09-16",
+      "monto": 75960,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "LA NACION DOM",
+          "edicion": "20260906",
+          "codigoPublicacion": "000007",
+          "cantidad": 10,
+          "monto": 51060,
+          "fechaItem": "2026-09-06",
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "POPULAR DOM",
+          "edicion": "20260906",
+          "codigoPublicacion": "110607",
+          "cantidad": 15,
+          "monto": 24900,
+          "fechaItem": "2026-09-06",
+          "ventaEspecialTapa": null
+        }
+      ],
+      "cargadaEl": "2026-09-08T14:23:09.843Z"
+    },
+    {
+      "id": "f_1788877393999_toy0j",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00587775",
+      "referenciaFactura": null,
+      "fecha": "2026-09-05",
+      "vencimiento": "2026-09-15",
+      "monto": 97442,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "LA NACION SAB",
+          "edicion": "20260905",
+          "codigoPublicacion": "000006",
+          "cantidad": 17,
+          "monto": 78914,
+          "fechaItem": "2026-09-05",
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "POPULAR SAB",
+          "edicion": "20260905",
+          "codigoPublicacion": "110606",
+          "cantidad": 12,
+          "monto": 18528,
+          "fechaItem": "2026-09-05",
+          "ventaEspecialTapa": null
+        }
+      ],
+      "cargadaEl": "2026-09-08T14:23:13.999Z"
+    },
+    {
+      "id": "f_1788877399576_vhmhs",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00587848",
+      "referenciaFactura": null,
+      "fecha": "2026-09-05",
+      "vencimiento": "2026-09-15",
+      "monto": 108452.4,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "MOANA Maui + Fascículo",
+          "edicion": "0000003",
+          "codigoPublicacion": "200446",
+          "cantidad": 7,
+          "monto": 108452.4,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        }
+      ],
+      "cargadaEl": "2026-09-08T14:23:19.576Z"
+    },
+    {
+      "id": "f_1788877403428_l5pgf",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00587636",
+      "referenciaFactura": null,
+      "fecha": "2026-09-04",
+      "vencimiento": "2026-09-14",
+      "monto": 52768,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "LA NACION VIE 20260904 Carga",
+          "edicion": null,
+          "codigoPublicacion": "000005",
+          "cantidad": 10,
+          "monto": 34240,
+          "fechaItem": "2026-09-04",
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "POPULAR VIE 20260904 Carga",
+          "edicion": null,
+          "codigoPublicacion": "110605",
+          "cantidad": 12,
+          "monto": 18528,
+          "fechaItem": "2026-09-04",
+          "ventaEspecialTapa": null
+        }
+      ],
+      "cargadaEl": "2026-09-08T14:23:23.428Z"
+    },
+    {
+      "id": "f_1788877407911_a1hf6",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00587702",
+      "referenciaFactura": null,
+      "fecha": "2026-09-04",
+      "vencimiento": "2026-10-30",
+      "monto": 137722,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "JARDÍN",
+          "edicion": "0000170",
+          "codigoPublicacion": "110593",
+          "cantidad": 4,
+          "monto": 42376,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "LIVING",
+          "edicion": "0000221",
+          "codigoPublicacion": "000079",
+          "cantidad": 5,
+          "monto": 52970,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "LUGARES",
+          "edicion": "0000365",
+          "codigoPublicacion": "000065",
+          "cantidad": 1,
+          "monto": 10594,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "OHLALÁ",
+          "edicion": "0000222",
+          "codigoPublicacion": "000527",
+          "cantidad": 3,
+          "monto": 31782,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        }
+      ],
+      "cargadaEl": "2026-09-08T14:23:27.911Z"
+    },
+    {
+      "id": "f_1788877413028_aej5s",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00587431",
+      "referenciaFactura": null,
+      "fecha": "2026-09-03",
+      "vencimiento": "2026-09-17",
+      "monto": 59616,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "LA NACION",
+          "edicion": null,
+          "codigoPublicacion": "000004",
+          "cantidad": 12,
+          "monto": 41088,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "POPULAR",
+          "edicion": null,
+          "codigoPublicacion": "110604",
+          "cantidad": 12,
+          "monto": 18528,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        }
+      ],
+      "cargadaEl": "2026-09-08T14:23:33.028Z"
+    },
+    {
+      "id": "f_1788877417337_iypav",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00587497",
+      "referenciaFactura": null,
+      "fecha": "2026-09-03",
+      "vencimiento": "2026-09-13",
+      "monto": 88912,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "DEADPOOL",
+          "edicion": "0000006",
+          "codigoPublicacion": "200430",
+          "cantidad": 8,
+          "monto": 88912,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        }
+      ],
+      "cargadaEl": "2026-09-08T14:23:37.337Z"
+    },
+    {
+      "id": "f_1788877419914_vkqi8",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00587581",
+      "referenciaFactura": null,
+      "fecha": "2026-09-03",
+      "vencimiento": "2026-09-13",
+      "monto": 30986.4,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "POP CULTURE Tazz + Fascículo",
+          "edicion": "0000010",
+          "codigoPublicacion": "200427",
+          "cantidad": 2,
+          "monto": 30986.4,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        }
+      ],
+      "cargadaEl": "2026-09-08T14:23:39.914Z"
     }
   ],
   "preciosProveedores": {
@@ -19081,6 +19696,47 @@
               3000,
               3000,
               3000
+            ]
+          }
+        ],
+        "feriadoTapa": 0,
+        "feriadoRecargo": 0
+      },
+      {
+        "id": "mtsqwgfy09c5ep",
+        "nombre": "GENIOS PREES + UTIL ESOL",
+        "alias": "",
+        "tipoProducto": "periodico",
+        "precioUnico": 7000,
+        "recargoUnico": 800,
+        "pctCalculoPeriodico": 68,
+        "historialUnico": [
+          {
+            "desde": "2026-08-01",
+            "tapa": 7000,
+            "recargo": 800
+          }
+        ],
+        "historial": [
+          {
+            "desde": "2026-08-01",
+            "tapa": [
+              7000,
+              7000,
+              7000,
+              7000,
+              7000,
+              7000,
+              7000
+            ],
+            "recargo": [
+              800,
+              800,
+              800,
+              800,
+              800,
+              800,
+              800
             ]
           }
         ],
@@ -24704,12 +25360,17 @@
         "nombre": "200443 DESCAPOTABLES\nMercedes-Benz 280 SE (1967) Entrega 3 + Fascículo",
         "alias": "DESCAPOTABLES",
         "tipoProducto": "periodico",
-        "precioUnico": 19990,
+        "precioUnico": 24990,
         "recargoUnico": 1900,
         "historialUnico": [
           {
             "desde": "2026-08-01",
             "tapa": 19990,
+            "recargo": 1900
+          },
+          {
+            "desde": "2026-09-08",
+            "tapa": 24990,
             "recargo": 1900
           }
         ],
@@ -25190,6 +25851,216 @@
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
         "excluirGanSem": true
+      },
+      {
+        "id": "mtsrg9yokyt3s8",
+        "nombre": "MOANA Maui + Fascículo",
+        "alias": "",
+        "tipoProducto": "periodico",
+        "precioUnico": 0,
+        "recargoUnico": 0,
+        "pctCalculoPeriodico": 68,
+        "historialUnico": [
+          {
+            "desde": "2026-09-08",
+            "tapa": 0,
+            "recargo": 0
+          }
+        ],
+        "historial": [
+          {
+            "desde": "2026-09-08",
+            "tapa": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "recargo": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          }
+        ],
+        "feriadoTapa": 0,
+        "feriadoRecargo": 0,
+        "excluirGanSem": true
+      },
+      {
+        "id": "mtsrgiacjei3cb",
+        "nombre": "Monedas Mexico",
+        "alias": "",
+        "tipoProducto": "periodico",
+        "precioUnico": 0,
+        "recargoUnico": 0,
+        "pctCalculoPeriodico": 68,
+        "historialUnico": [
+          {
+            "desde": "2026-09-08",
+            "tapa": 0,
+            "recargo": 0
+          }
+        ],
+        "historial": [
+          {
+            "desde": "2026-09-08",
+            "tapa": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "recargo": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          }
+        ],
+        "feriadoTapa": 0,
+        "feriadoRecargo": 0,
+        "excluirGanSem": true
+      },
+      {
+        "id": "mtsrgsfer5931m",
+        "nombre": "CAPIBARA",
+        "alias": "",
+        "tipoProducto": "periodico",
+        "precioUnico": 0,
+        "recargoUnico": 0,
+        "pctCalculoPeriodico": 68,
+        "historialUnico": [
+          {
+            "desde": "2026-09-08",
+            "tapa": 0,
+            "recargo": 0
+          }
+        ],
+        "historial": [
+          {
+            "desde": "2026-09-08",
+            "tapa": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "recargo": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          }
+        ],
+        "feriadoTapa": 0,
+        "feriadoRecargo": 0,
+        "excluirGanSem": true
+      },
+      {
+        "id": "mtsrh1kr50akll",
+        "nombre": "AVENGERS OFICIAL",
+        "alias": "",
+        "tipoProducto": "periodico",
+        "precioUnico": 0,
+        "recargoUnico": 0,
+        "pctCalculoPeriodico": 68,
+        "historialUnico": [
+          {
+            "desde": "2026-09-08",
+            "tapa": 0,
+            "recargo": 0
+          }
+        ],
+        "historial": [
+          {
+            "desde": "2026-09-08",
+            "tapa": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "recargo": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          }
+        ],
+        "feriadoTapa": 0,
+        "feriadoRecargo": 0,
+        "excluirGanSem": true
+      },
+      {
+        "id": "mtsrh8szab6u6r",
+        "nombre": "Pato Lucas + Fascículo",
+        "alias": "",
+        "tipoProducto": "periodico",
+        "precioUnico": 0,
+        "recargoUnico": 0,
+        "pctCalculoPeriodico": 68,
+        "historialUnico": [
+          {
+            "desde": "2026-09-08",
+            "tapa": 0,
+            "recargo": 0
+          }
+        ],
+        "historial": [
+          {
+            "desde": "2026-09-08",
+            "tapa": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "recargo": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          }
+        ],
+        "feriadoTapa": 0,
+        "feriadoRecargo": 0,
+        "excluirGanSem": true
       }
     ],
     "ambito": [],
@@ -25197,351 +26068,6 @@
     "perfil": []
   },
   "devolucionesProveedores": [
-    {
-      "id": "dev_1787148480862_1qggb",
-      "proveedorKey": "clarin",
-      "fecha": "2026-08-19",
-      "numeroRemito": "545307",
-      "modo": "item",
-      "items": [
-        {
-          "descripcion": "CLARIN BASE 05 - 17.08.2026 - 28993/2026",
-          "edicion": "28993",
-          "codigoPublicacion": null,
-          "cantidad": 7,
-          "monto": 23058,
-          "motivo": null,
-          "ncFacturaId": "f_1787604872099_8dugm",
-          "ncNumero": "0132-01363086",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1787604872099_8dugm",
-              "numero": "0132-01363086",
-              "cantidad": 7
-            }
-          ],
-          "cantidadAcreditada": 7,
-          "cantidadFaltante": 0
-        },
-        {
-          "descripcion": "CLARIN BASE 06 - 18.08.2026 - 28994/2026",
-          "edicion": "28994",
-          "codigoPublicacion": null,
-          "cantidad": 2,
-          "monto": 6588,
-          "motivo": null,
-          "ncFacturaId": "f_1787604872099_8dugm",
-          "ncNumero": "0132-01363086",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1787604872099_8dugm",
-              "numero": "0132-01363086",
-              "cantidad": 2
-            }
-          ],
-          "cantidadAcreditada": 2,
-          "cantidadFaltante": 0
-        },
-        {
-          "descripcion": "CLARIN BASE 07 - 12.08.2026 - 28988/2026",
-          "edicion": "28988",
-          "codigoPublicacion": null,
-          "cantidad": 5,
-          "monto": 16470,
-          "motivo": null,
-          "ncFacturaId": "f_1787604872099_8dugm",
-          "ncNumero": "0132-01363086",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1787604872099_8dugm",
-              "numero": "0132-01363086",
-              "cantidad": 5
-            }
-          ],
-          "cantidadAcreditada": 5,
-          "cantidadFaltante": 0
-        },
-        {
-          "descripcion": "CLARIN BASE 08 - 13.08.2026 - 28989/2026",
-          "edicion": "28989",
-          "codigoPublicacion": null,
-          "cantidad": 7,
-          "monto": 23058,
-          "motivo": null,
-          "ncFacturaId": "f_1787604872099_8dugm",
-          "ncNumero": "0132-01363086, 0132-01363086, 0132-01363086",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1787604872099_8dugm",
-              "numero": "0132-01363086",
-              "cantidad": 4
-            },
-            {
-              "facturaId": "f_1787604872099_8dugm",
-              "numero": "0132-01363086",
-              "cantidad": 2
-            },
-            {
-              "facturaId": "f_1787604872099_8dugm",
-              "numero": "0132-01363086",
-              "cantidad": 1
-            }
-          ],
-          "cantidadAcreditada": 7,
-          "cantidadFaltante": 0
-        },
-        {
-          "descripcion": "CLARIN BASE 09 - 14.08.2026 - 28990/2026",
-          "edicion": "28990",
-          "codigoPublicacion": null,
-          "cantidad": 2,
-          "monto": 6588,
-          "motivo": null,
-          "ncFacturaId": "f_1787604872099_8dugm",
-          "ncNumero": "0132-01363086",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1787604872099_8dugm",
-              "numero": "0132-01363086",
-              "cantidad": 2
-            }
-          ],
-          "cantidadAcreditada": 2,
-          "cantidadFaltante": 0
-        },
-        {
-          "descripcion": "CLARIN BASE 10 - 15.08.2026 - 28991/2026",
-          "edicion": "28991",
-          "codigoPublicacion": null,
-          "cantidad": 4,
-          "monto": 13176,
-          "motivo": null,
-          "ncFacturaId": "f_1787604872099_8dugm",
-          "ncNumero": "0132-01363086, 0132-01363086",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1787604872099_8dugm",
-              "numero": "0132-01363086",
-              "cantidad": 2
-            },
-            {
-              "facturaId": "f_1787604872099_8dugm",
-              "numero": "0132-01363086",
-              "cantidad": 2
-            }
-          ],
-          "cantidadAcreditada": 4,
-          "cantidadFaltante": 0
-        }
-      ],
-      "adjuntos": [
-        {
-          "id": "dev_1787148480862_1qggb_a0",
-          "nombre": "1000824826.jpg",
-          "mime": "image/jpeg",
-          "bytes": 258355
-        }
-      ],
-      "estado": "aceptada",
-      "acreditadaEl": "2026-08-24T20:54:32.193Z",
-      "cargadaEl": "2026-08-19T14:08:00.929Z"
-    },
-    {
-      "id": "dev_1787148490161_59wsp",
-      "proveedorKey": "clarin",
-      "fecha": "2026-08-19",
-      "numeroRemito": "545307",
-      "modo": "item",
-      "items": [
-        {
-          "descripcion": "CLARIN BASE 11 - 16.08.2026 - 28992/2026",
-          "edicion": "28992",
-          "codigoPublicacion": null,
-          "cantidad": 11,
-          "monto": 36234,
-          "motivo": null,
-          "ncFacturaId": "f_1787604872099_8dugm",
-          "ncNumero": "0132-01363086, 0132-01363086",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1787604872099_8dugm",
-              "numero": "0132-01363086",
-              "cantidad": 3
-            },
-            {
-              "facturaId": "f_1787604872099_8dugm",
-              "numero": "0132-01363086",
-              "cantidad": 8
-            }
-          ],
-          "cantidadAcreditada": 11,
-          "cantidadFaltante": 0
-        },
-        {
-          "descripcion": "OLE NACIONAL - 12.08.2026 - 10910/2026",
-          "edicion": "10910",
-          "codigoPublicacion": null,
-          "cantidad": 3,
-          "monto": 5754,
-          "motivo": null,
-          "ncFacturaId": "f_1787604872099_8dugm",
-          "ncNumero": "0132-01363086",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1787604872099_8dugm",
-              "numero": "0132-01363086",
-              "cantidad": 3
-            }
-          ],
-          "cantidadAcreditada": 3,
-          "cantidadFaltante": 0
-        },
-        {
-          "descripcion": "OLE NACIONAL - 13.08.2026 - 10911/2026",
-          "edicion": "10911",
-          "codigoPublicacion": null,
-          "cantidad": 9,
-          "monto": 17262,
-          "motivo": null,
-          "ncFacturaId": "f_1787604872099_8dugm",
-          "ncNumero": "0132-01363086, 0132-01363086",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1787604872099_8dugm",
-              "numero": "0132-01363086",
-              "cantidad": 6
-            },
-            {
-              "facturaId": "f_1787604872099_8dugm",
-              "numero": "0132-01363086",
-              "cantidad": 3
-            }
-          ],
-          "cantidadAcreditada": 9,
-          "cantidadFaltante": 0
-        },
-        {
-          "descripcion": "OLE NACIONAL - 14.08.2026 - 10912/2026",
-          "edicion": "10912",
-          "codigoPublicacion": null,
-          "cantidad": 9,
-          "monto": 17262,
-          "motivo": null,
-          "ncFacturaId": "f_1787604872099_8dugm",
-          "ncNumero": "0132-01363086, 0132-01363086, 0132-01363086",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1787604872099_8dugm",
-              "numero": "0132-01363086",
-              "cantidad": 1
-            },
-            {
-              "facturaId": "f_1787604872099_8dugm",
-              "numero": "0132-01363086",
-              "cantidad": 4
-            },
-            {
-              "facturaId": "f_1787604872099_8dugm",
-              "numero": "0132-01363086",
-              "cantidad": 4
-            }
-          ],
-          "cantidadAcreditada": 9,
-          "cantidadFaltante": 0
-        },
-        {
-          "descripcion": "OLE NACIONAL - 15.08.2026 - 10913/2026",
-          "edicion": "10913",
-          "codigoPublicacion": null,
-          "cantidad": 9,
-          "monto": 17262,
-          "motivo": null,
-          "ncFacturaId": "f_1787604872099_8dugm",
-          "ncNumero": "0132-01363086, 0132-01363086",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1787604872099_8dugm",
-              "numero": "0132-01363086",
-              "cantidad": 3
-            },
-            {
-              "facturaId": "f_1787604872099_8dugm",
-              "numero": "0132-01363086",
-              "cantidad": 6
-            }
-          ],
-          "cantidadAcreditada": 9,
-          "cantidadFaltante": 0
-        },
-        {
-          "descripcion": "OLE NACIONAL - 16.08.2026 - 10914/2026",
-          "edicion": "10914",
-          "codigoPublicacion": null,
-          "cantidad": 5,
-          "monto": 9590,
-          "motivo": null,
-          "ncFacturaId": "f_1787604872099_8dugm",
-          "ncNumero": "0132-01363086, 0132-01363086",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1787604872099_8dugm",
-              "numero": "0132-01363086",
-              "cantidad": 3
-            },
-            {
-              "facturaId": "f_1787604872099_8dugm",
-              "numero": "0132-01363086",
-              "cantidad": 2
-            }
-          ],
-          "cantidadAcreditada": 5,
-          "cantidadFaltante": 0
-        },
-        {
-          "descripcion": "OLE NACIONAL - 17.08.2026 - 10915/2026",
-          "edicion": "10915",
-          "codigoPublicacion": null,
-          "cantidad": 3,
-          "monto": 5754,
-          "motivo": null,
-          "ncFacturaId": "f_1787604872099_8dugm",
-          "ncNumero": "0132-01363086",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1787604872099_8dugm",
-              "numero": "0132-01363086",
-              "cantidad": 3
-            }
-          ],
-          "cantidadAcreditada": 3,
-          "cantidadFaltante": 0
-        }
-      ],
-      "adjuntos": [
-        {
-          "id": "dev_1787148490161_59wsp_a0",
-          "nombre": "1000824827.jpg",
-          "mime": "image/jpeg",
-          "bytes": 262735
-        }
-      ],
-      "estado": "aceptada",
-      "acreditadaEl": "2026-08-24T20:54:32.194Z",
-      "cargadaEl": "2026-08-19T14:08:10.197Z"
-    },
     {
       "id": "dev_1787148505154_t4e0h",
       "proveedorKey": "clarin",
@@ -25624,12 +26150,23 @@
           "cantidad": 9,
           "monto": 100800.29,
           "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 9
+          "ncFacturaId": "f_1788876472146_1npnt",
+          "ncNumero": "0132-01363621, 0132-01363622",
+          "faltante": false,
+          "ncDetalle": [
+            {
+              "facturaId": "f_1788876472146_1npnt",
+              "numero": "0132-01363621",
+              "cantidad": 8
+            },
+            {
+              "facturaId": "f_1788876474174_13hu6",
+              "numero": "0132-01363622",
+              "cantidad": 1
+            }
+          ],
+          "cantidadAcreditada": 9,
+          "cantidadFaltante": 0
         },
         {
           "descripcion": "HELLO KITTY 2026 - KITTY MARINERA",
@@ -25638,12 +26175,18 @@
           "cantidad": 9,
           "monto": 100800.29,
           "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 9
+          "ncFacturaId": "f_1788876474174_13hu6",
+          "ncNumero": "0132-01363622",
+          "faltante": false,
+          "ncDetalle": [
+            {
+              "facturaId": "f_1788876474174_13hu6",
+              "numero": "0132-01363622",
+              "cantidad": 9
+            }
+          ],
+          "cantidadAcreditada": 9,
+          "cantidadFaltante": 0
         },
         {
           "descripcion": "PEQ ORQUESTA 11 - EL RAKATAK",
@@ -25682,7 +26225,7 @@
           "bytes": 246413
         }
       ],
-      "estado": "pendiente",
+      "estado": "parcial",
       "acreditadaEl": null,
       "cargadaEl": "2026-08-19T14:08:43.198Z"
     },
@@ -25700,18 +26243,12 @@
           "cantidad": 1,
           "monto": 15493.2,
           "motivo": null,
-          "ncFacturaId": "f_1787969957498_muaky",
-          "ncNumero": "00450-00966071",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1787969957498_muaky",
-              "numero": "00450-00966071",
-              "cantidad": 1
-            }
-          ],
-          "cantidadAcreditada": 1,
-          "cantidadFaltante": 0
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
         },
         {
           "descripcion": "AMERICANAS 4X4",
@@ -25720,18 +26257,12 @@
           "cantidad": 6,
           "monto": 113359.2,
           "motivo": null,
-          "ncFacturaId": "f_1787969968045_i3ybs",
-          "ncNumero": "00450-00966072",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1787969968045_i3ybs",
-              "numero": "00450-00966072",
-              "cantidad": 6
-            }
-          ],
-          "cantidadAcreditada": 6,
-          "cantidadFaltante": 0
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 6
         },
         {
           "descripcion": "DINOSAURIOS 2025",
@@ -25740,18 +26271,12 @@
           "cantidad": 5,
           "monto": 43466,
           "motivo": null,
-          "ncFacturaId": "f_1787969887800_sgysd",
-          "ncNumero": "00450-00966074",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1787969887800_sgysd",
-              "numero": "00450-00966074",
-              "cantidad": 5
-            }
-          ],
-          "cantidadAcreditada": 5,
-          "cantidadFaltante": 0
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 5
         },
         {
           "descripcion": "DINOSAURIOS 2025",
@@ -25760,18 +26285,12 @@
           "cantidad": 5,
           "monto": 43466,
           "motivo": null,
-          "ncFacturaId": "f_1787969837108_9jgov",
-          "ncNumero": "00450-00966073",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1787969837108_9jgov",
-              "numero": "00450-00966073",
-              "cantidad": 5
-            }
-          ],
-          "cantidadAcreditada": 5,
-          "cantidadFaltante": 0
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 5
         },
         {
           "descripcion": "DINOSAURIOS 2025",
@@ -25780,18 +26299,12 @@
           "cantidad": 5,
           "monto": 43466,
           "motivo": null,
-          "ncFacturaId": "f_1787969682081_dgln6",
-          "ncNumero": "00450-00966078",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1787969682081_dgln6",
-              "numero": "00450-00966078",
-              "cantidad": 5
-            }
-          ],
-          "cantidadAcreditada": 5,
-          "cantidadFaltante": 0
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 5
         },
         {
           "descripcion": "DINOSAURIOS 2025",
@@ -25800,18 +26313,12 @@
           "cantidad": 5,
           "monto": 43466,
           "motivo": null,
-          "ncFacturaId": "f_1787969434591_g4xgi",
-          "ncNumero": "00450-00966079",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1787969434591_g4xgi",
-              "numero": "00450-00966079",
-              "cantidad": 5
-            }
-          ],
-          "cantidadAcreditada": 5,
-          "cantidadFaltante": 0
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 5
         },
         {
           "descripcion": "MON Y BILL 2025",
@@ -25820,18 +26327,12 @@
           "cantidad": 3,
           "monto": 40359.6,
           "motivo": null,
-          "ncFacturaId": "f_1787969335700_fat6c",
-          "ncNumero": "00450-00966083",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1787969335700_fat6c",
-              "numero": "00450-00966083",
-              "cantidad": 3
-            }
-          ],
-          "cantidadAcreditada": 3,
-          "cantidadFaltante": 0
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 3
         },
         {
           "descripcion": "AUTOS ALEMANES",
@@ -25840,18 +26341,12 @@
           "cantidad": 2,
           "monto": 37786.4,
           "motivo": null,
-          "ncFacturaId": "f_1787969439181_yg8as",
-          "ncNumero": "00450-00966080",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1787969439181_yg8as",
-              "numero": "00450-00966080",
-              "cantidad": 2
-            }
-          ],
-          "cantidadAcreditada": 2,
-          "cantidadFaltante": 0
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 2
         },
         {
           "descripcion": "DINOSAURIOS 2025",
@@ -25860,18 +26355,12 @@
           "cantidad": 5,
           "monto": 43466,
           "motivo": null,
-          "ncFacturaId": "f_1787968843015_djbdo",
-          "ncNumero": "00450-00966084",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1787968843015_djbdo",
-              "numero": "00450-00966084",
-              "cantidad": 5
-            }
-          ],
-          "cantidadAcreditada": 5,
-          "cantidadFaltante": 0
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 5
         },
         {
           "descripcion": "ACTIVITY COLOURING",
@@ -26062,18 +26551,12 @@
           "cantidad": 1,
           "monto": 5303.2,
           "motivo": null,
-          "ncFacturaId": "f_1787969603161_vkfe7",
-          "ncNumero": "00450-00966075",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1787969603161_vkfe7",
-              "numero": "00450-00966075",
-              "cantidad": 1
-            }
-          ],
-          "cantidadAcreditada": 1,
-          "cantidadFaltante": 0
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
         },
         {
           "descripcion": "ACTIVITY COLOURING",
@@ -26082,18 +26565,12 @@
           "cantidad": 1,
           "monto": 5303.2,
           "motivo": null,
-          "ncFacturaId": "f_1787969679452_vrfb4",
-          "ncNumero": "00450-00966076",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1787969679452_vrfb4",
-              "numero": "00450-00966076",
-              "cantidad": 1
-            }
-          ],
-          "cantidadAcreditada": 1,
-          "cantidadFaltante": 0
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
         },
         {
           "descripcion": "LIBROS INFANTILES",
@@ -26102,18 +26579,12 @@
           "cantidad": 1,
           "monto": 3603.2,
           "motivo": null,
-          "ncFacturaId": "f_1787969560392_9zov9",
-          "ncNumero": "00450-00966077",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1787969560392_9zov9",
-              "numero": "00450-00966077",
-              "cantidad": 1
-            }
-          ],
-          "cantidadAcreditada": 1,
-          "cantidadFaltante": 0
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
         },
         {
           "descripcion": "LIBROS INFANTILES",
@@ -26122,18 +26593,12 @@
           "cantidad": 1,
           "monto": 3263.2,
           "motivo": null,
-          "ncFacturaId": "f_1788474923320_8gda4",
-          "ncNumero": "00450-00967957",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1788474923320_8gda4",
-              "numero": "00450-00967957",
-              "cantidad": 1
-            }
-          ],
-          "cantidadAcreditada": 1,
-          "cantidadFaltante": 0
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
         },
         {
           "descripcion": "LIBROS INFANTILES",
@@ -26142,18 +26607,12 @@
           "cantidad": 1,
           "monto": 3263.2,
           "motivo": null,
-          "ncFacturaId": "f_1788474926552_v1b3c",
-          "ncNumero": "00450-00967958",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1788474926552_v1b3c",
-              "numero": "00450-00967958",
-              "cantidad": 1
-            }
-          ],
-          "cantidadAcreditada": 1,
-          "cantidadFaltante": 0
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
         },
         {
           "descripcion": "LIBROS INFANTILES",
@@ -26162,18 +26621,12 @@
           "cantidad": 1,
           "monto": 3263.2,
           "motivo": null,
-          "ncFacturaId": "f_1788474905676_zgr4n",
-          "ncNumero": "00450-00967951",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1788474905676_zgr4n",
-              "numero": "00450-00967951",
-              "cantidad": 1
-            }
-          ],
-          "cantidadAcreditada": 1,
-          "cantidadFaltante": 0
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
         },
         {
           "descripcion": "ACTIVITY COLOURING",
@@ -26182,18 +26635,12 @@
           "cantidad": 1,
           "monto": 5303.2,
           "motivo": null,
-          "ncFacturaId": "f_1788474910878_tb04l",
-          "ncNumero": "00450-00967953",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1788474910878_tb04l",
-              "numero": "00450-00967953",
-              "cantidad": 1
-            }
-          ],
-          "cantidadAcreditada": 1,
-          "cantidadFaltante": 0
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
         },
         {
           "descripcion": "COLORING CON POSTE",
@@ -26202,18 +26649,12 @@
           "cantidad": 1,
           "monto": 3535.2,
           "motivo": null,
-          "ncFacturaId": "f_1788474915689_ay8w2",
-          "ncNumero": "00450-00967954",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1788474915689_ay8w2",
-              "numero": "00450-00967954",
-              "cantidad": 1
-            }
-          ],
-          "cantidadAcreditada": 1,
-          "cantidadFaltante": 0
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
         },
         {
           "descripcion": "COLORES Y JUEGOS",
@@ -26222,18 +26663,12 @@
           "cantidad": 1,
           "monto": 2583.2,
           "motivo": null,
-          "ncFacturaId": "f_1788474918383_4dax1",
-          "ncNumero": "00450-00967955",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1788474918383_4dax1",
-              "numero": "00450-00967955",
-              "cantidad": 1
-            }
-          ],
-          "cantidadAcreditada": 1,
-          "cantidadFaltante": 0
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
         },
         {
           "descripcion": "MEGA COLOR",
@@ -26242,18 +26677,12 @@
           "cantidad": 1,
           "monto": 7343.2,
           "motivo": null,
-          "ncFacturaId": "f_1788474908063_q6bi9",
-          "ncNumero": "00450-00967952",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1788474908063_q6bi9",
-              "numero": "00450-00967952",
-              "cantidad": 1
-            }
-          ],
-          "cantidadAcreditada": 1,
-          "cantidadFaltante": 0
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
         },
         {
           "descripcion": "COL PINTA Y BRILLA",
@@ -26262,18 +26691,12 @@
           "cantidad": 1,
           "monto": 4623.2,
           "motivo": null,
-          "ncFacturaId": "f_1788474921366_u2fqx",
-          "ncNumero": "00450-00967956",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1788474921366_u2fqx",
-              "numero": "00450-00967956",
-              "cantidad": 1
-            }
-          ],
-          "cantidadAcreditada": 1,
-          "cantidadFaltante": 0
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
         },
         {
           "descripcion": "ACTIVITY COLOURING",
@@ -26282,18 +26705,12 @@
           "cantidad": 1,
           "monto": 5303.2,
           "motivo": null,
-          "ncFacturaId": "f_1787969443662_qr8t2",
-          "ncNumero": "00450-00966081",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1787969443662_qr8t2",
-              "numero": "00450-00966081",
-              "cantidad": 1
-            }
-          ],
-          "cantidadAcreditada": 1,
-          "cantidadFaltante": 0
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
         },
         {
           "descripcion": "ACTIVITY COLOURING",
@@ -26302,18 +26719,12 @@
           "cantidad": 1,
           "monto": 5303.2,
           "motivo": null,
-          "ncFacturaId": "f_1787969273808_2qxw8",
-          "ncNumero": "00450-00966082",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1787969273808_2qxw8",
-              "numero": "00450-00966082",
-              "cantidad": 1
-            }
-          ],
-          "cantidadAcreditada": 1,
-          "cantidadFaltante": 0
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
         }
       ],
       "adjuntos": [
@@ -26324,7 +26735,7 @@
           "bytes": 678477
         }
       ],
-      "estado": "parcial",
+      "estado": "pendiente",
       "acreditadaEl": null,
       "cargadaEl": "2026-08-20T13:46:07.430Z"
     },
@@ -26558,18 +26969,12 @@
           "cantidad": 5,
           "monto": 7720,
           "motivo": null,
-          "ncFacturaId": "f_1787920453721_qd5mu",
-          "ncNumero": "00450-00965687",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1787920453721_qd5mu",
-              "numero": "00450-00965687",
-              "cantidad": 5
-            }
-          ],
-          "cantidadAcreditada": 5,
-          "cantidadFaltante": 0
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 5
         },
         {
           "descripcion": "POPULAR MAR",
@@ -26594,43 +26999,9 @@
           "bytes": 406770
         }
       ],
-      "estado": "parcial",
-      "acreditadaEl": null,
-      "cargadaEl": "2026-08-20T13:46:11.516Z"
-    },
-    {
-      "id": "dev_1787755297945_0iams",
-      "proveedorKey": "clarin",
-      "fecha": "2026-08-25",
-      "numeroRemito": "9167",
-      "modo": "item",
-      "items": [
-        {
-          "descripcion": "OLE NACIONAL",
-          "edicion": null,
-          "codigoPublicacion": null,
-          "cantidad": 3,
-          "monto": 5754,
-          "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 3
-        }
-      ],
-      "adjuntos": [
-        {
-          "id": "dev_1787755297945_0iams_a0",
-          "nombre": "1000831241.jpg",
-          "mime": "image/jpeg",
-          "bytes": 51472
-        }
-      ],
       "estado": "pendiente",
       "acreditadaEl": null,
-      "cargadaEl": "2026-08-26T14:41:38.008Z"
+      "cargadaEl": "2026-08-20T13:46:11.516Z"
     },
     {
       "id": "dev_1787755301708_van7z",
@@ -26646,12 +27017,23 @@
           "cantidad": 10,
           "monto": 32940,
           "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 10
+          "ncFacturaId": "f_1788876485124_lutlp",
+          "ncNumero": "0132-01363625, 0132-01363625",
+          "faltante": false,
+          "ncDetalle": [
+            {
+              "facturaId": "f_1788876485124_lutlp",
+              "numero": "0132-01363625",
+              "cantidad": 4
+            },
+            {
+              "facturaId": "f_1788876485124_lutlp",
+              "numero": "0132-01363625",
+              "cantidad": 6
+            }
+          ],
+          "cantidadAcreditada": 10,
+          "cantidadFaltante": 0
         },
         {
           "descripcion": "OLE NACIONAL",
@@ -26660,12 +27042,18 @@
           "cantidad": 3,
           "monto": 5754,
           "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 3
+          "ncFacturaId": "f_1788876485124_lutlp",
+          "ncNumero": "0132-01363625",
+          "faltante": false,
+          "ncDetalle": [
+            {
+              "facturaId": "f_1788876485124_lutlp",
+              "numero": "0132-01363625",
+              "cantidad": 3
+            }
+          ],
+          "cantidadAcreditada": 3,
+          "cantidadFaltante": 0
         },
         {
           "descripcion": "OLE NACIONAL",
@@ -26674,12 +27062,23 @@
           "cantidad": 9,
           "monto": 17262,
           "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 9
+          "ncFacturaId": "f_1788876485124_lutlp",
+          "ncNumero": "0132-01363625, 0132-01363625",
+          "faltante": false,
+          "ncDetalle": [
+            {
+              "facturaId": "f_1788876485124_lutlp",
+              "numero": "0132-01363625",
+              "cantidad": 6
+            },
+            {
+              "facturaId": "f_1788876485124_lutlp",
+              "numero": "0132-01363625",
+              "cantidad": 3
+            }
+          ],
+          "cantidadAcreditada": 9,
+          "cantidadFaltante": 0
         },
         {
           "descripcion": "OLE NACIONAL",
@@ -26688,12 +27087,28 @@
           "cantidad": 9,
           "monto": 17262,
           "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
+          "ncFacturaId": "f_1788876485124_lutlp",
+          "ncNumero": "0132-01363625, 0132-01363625, 0132-01363625",
           "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 9
+          "ncDetalle": [
+            {
+              "facturaId": "f_1788876485124_lutlp",
+              "numero": "0132-01363625",
+              "cantidad": 2
+            },
+            {
+              "facturaId": "f_1788876485124_lutlp",
+              "numero": "0132-01363625",
+              "cantidad": 3
+            },
+            {
+              "facturaId": "f_1788876485124_lutlp",
+              "numero": "0132-01363625",
+              "cantidad": 3
+            }
+          ],
+          "cantidadAcreditada": 8,
+          "cantidadFaltante": 1
         },
         {
           "descripcion": "OLE NACIONAL",
@@ -26746,7 +27161,7 @@
           "bytes": 277487
         }
       ],
-      "estado": "pendiente",
+      "estado": "parcial",
       "acreditadaEl": null,
       "cargadaEl": "2026-08-26T14:41:41.760Z"
     },
@@ -26764,12 +27179,18 @@
           "cantidad": 4,
           "monto": 13176,
           "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 4
+          "ncFacturaId": "f_1788876485124_lutlp",
+          "ncNumero": "0132-01363625",
+          "faltante": false,
+          "ncDetalle": [
+            {
+              "facturaId": "f_1788876485124_lutlp",
+              "numero": "0132-01363625",
+              "cantidad": 4
+            }
+          ],
+          "cantidadAcreditada": 4,
+          "cantidadFaltante": 0
         },
         {
           "descripcion": "CLARIN BASE 06 - 25.08.2026",
@@ -26778,12 +27199,23 @@
           "cantidad": 4,
           "monto": 13176,
           "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 4
+          "ncFacturaId": "f_1788876485124_lutlp",
+          "ncNumero": "0132-01363625, 0132-01363625",
+          "faltante": false,
+          "ncDetalle": [
+            {
+              "facturaId": "f_1788876485124_lutlp",
+              "numero": "0132-01363625",
+              "cantidad": 1
+            },
+            {
+              "facturaId": "f_1788876485124_lutlp",
+              "numero": "0132-01363625",
+              "cantidad": 3
+            }
+          ],
+          "cantidadAcreditada": 4,
+          "cantidadFaltante": 0
         },
         {
           "descripcion": "CLARIN BASE 07 - 19.08.2026",
@@ -26792,12 +27224,18 @@
           "cantidad": 4,
           "monto": 13176,
           "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 4
+          "ncFacturaId": "f_1788876485124_lutlp",
+          "ncNumero": "0132-01363625",
+          "faltante": false,
+          "ncDetalle": [
+            {
+              "facturaId": "f_1788876485124_lutlp",
+              "numero": "0132-01363625",
+              "cantidad": 4
+            }
+          ],
+          "cantidadAcreditada": 4,
+          "cantidadFaltante": 0
         },
         {
           "descripcion": "CLARIN BASE 08 - 20.08.2026",
@@ -26806,12 +27244,18 @@
           "cantidad": 8,
           "monto": 26352,
           "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
+          "ncFacturaId": "f_1788876485124_lutlp",
+          "ncNumero": "0132-01363625",
           "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 8
+          "ncDetalle": [
+            {
+              "facturaId": "f_1788876485124_lutlp",
+              "numero": "0132-01363625",
+              "cantidad": 2
+            }
+          ],
+          "cantidadAcreditada": 2,
+          "cantidadFaltante": 6
         },
         {
           "descripcion": "CLARIN BASE 09 - 21.08.2026",
@@ -26850,7 +27294,7 @@
           "bytes": 268528
         }
       ],
-      "estado": "pendiente",
+      "estado": "parcial",
       "acreditadaEl": null,
       "cargadaEl": "2026-08-26T14:41:43.680Z"
     },
@@ -26964,18 +27408,12 @@
           "cantidad": 2,
           "monto": 11590,
           "motivo": null,
-          "ncFacturaId": "f_1788475149092_stq0b",
-          "ncNumero": "00450-00967504",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1788475149092_stq0b",
-              "numero": "00450-00967504",
-              "cantidad": 2
-            }
-          ],
-          "cantidadAcreditada": 2,
-          "cantidadFaltante": 0
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 2
         },
         {
           "descripcion": "LIVING",
@@ -27012,18 +27450,12 @@
           "cantidad": 1,
           "monto": 15493.2,
           "motivo": null,
-          "ncFacturaId": "f_1788475151306_sajs1",
-          "ncNumero": "00450-00967505",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1788475151306_sajs1",
-              "numero": "00450-00967505",
-              "cantidad": 1
-            }
-          ],
-          "cantidadAcreditada": 1,
-          "cantidadFaltante": 0
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
         },
         {
           "descripcion": "JARDÍN",
@@ -27032,18 +27464,12 @@
           "cantidad": 3,
           "monto": 28554,
           "motivo": null,
-          "ncFacturaId": "f_1788475136505_a6uh9",
-          "ncNumero": "00450-00967501",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1788475136505_a6uh9",
-              "numero": "00450-00967501",
-              "cantidad": 3
-            }
-          ],
-          "cantidadAcreditada": 3,
-          "cantidadFaltante": 0
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 3
         },
         {
           "descripcion": "OHLALÁ",
@@ -27108,18 +27534,12 @@
           "cantidad": 1,
           "monto": 2583.2,
           "motivo": null,
-          "ncFacturaId": "f_1787968715389_sdt59",
-          "ncNumero": "00450-00966089",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1787968715389_sdt59",
-              "numero": "00450-00966089",
-              "cantidad": 1
-            }
-          ],
-          "cantidadAcreditada": 1,
-          "cantidadFaltante": 0
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
         },
         {
           "descripcion": "ACTIVITY COLOURING",
@@ -27128,18 +27548,12 @@
           "cantidad": 1,
           "monto": 2583.2,
           "motivo": null,
-          "ncFacturaId": "f_1787968612429_95azs",
-          "ncNumero": "00450-00966090",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1787968612429_95azs",
-              "numero": "00450-00966090",
-              "cantidad": 1
-            }
-          ],
-          "cantidadAcreditada": 1,
-          "cantidadFaltante": 0
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
         },
         {
           "descripcion": "COLORES Y JUEGOS",
@@ -27148,18 +27562,12 @@
           "cantidad": 1,
           "monto": 5303.2,
           "motivo": null,
-          "ncFacturaId": "f_1787968608812_5m1xd",
-          "ncNumero": "00450-00966091",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1787968608812_5m1xd",
-              "numero": "00450-00966091",
-              "cantidad": 1
-            }
-          ],
-          "cantidadAcreditada": 1,
-          "cantidadFaltante": 0
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
         },
         {
           "descripcion": "COL. PINTA Y BRILLA",
@@ -27168,18 +27576,12 @@
           "cantidad": 1,
           "monto": 3263.2,
           "motivo": null,
-          "ncFacturaId": "f_1787968933642_v7jum",
-          "ncNumero": "00450-00966085",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1787968933642_v7jum",
-              "numero": "00450-00966085",
-              "cantidad": 1
-            }
-          ],
-          "cantidadAcreditada": 1,
-          "cantidadFaltante": 0
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
         },
         {
           "descripcion": "ACTIVITY ESPECIALE",
@@ -27188,18 +27590,12 @@
           "cantidad": 1,
           "monto": 3943.2,
           "motivo": null,
-          "ncFacturaId": "f_1787968621199_wbrte",
-          "ncNumero": "00450-00966086",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1787968621199_wbrte",
-              "numero": "00450-00966086",
-              "cantidad": 1
-            }
-          ],
-          "cantidadAcreditada": 1,
-          "cantidadFaltante": 0
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
         },
         {
           "descripcion": "ACTIVITY ESPECIALE",
@@ -27208,18 +27604,12 @@
           "cantidad": 1,
           "monto": 3263.2,
           "motivo": null,
-          "ncFacturaId": "f_1787968615893_f6aj2",
-          "ncNumero": "00450-00966087",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1787968615893_f6aj2",
-              "numero": "00450-00966087",
-              "cantidad": 1
-            }
-          ],
-          "cantidadAcreditada": 1,
-          "cantidadFaltante": 0
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
         },
         {
           "descripcion": "ACTIVITY COLOURING",
@@ -27228,18 +27618,12 @@
           "cantidad": 1,
           "monto": 2583.2,
           "motivo": null,
-          "ncFacturaId": "f_1787969070536_gbsi9",
-          "ncNumero": "00450-00966088",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1787969070536_gbsi9",
-              "numero": "00450-00966088",
-              "cantidad": 1
-            }
-          ],
-          "cantidadAcreditada": 1,
-          "cantidadFaltante": 0
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
         }
       ],
       "adjuntos": [
@@ -27250,7 +27634,7 @@
           "bytes": 445179
         }
       ],
-      "estado": "parcial",
+      "estado": "pendiente",
       "acreditadaEl": null,
       "cargadaEl": "2026-08-27T13:09:57.260Z"
     },
@@ -40419,7 +40803,8 @@
       "titulosPeriodico": {
         "mtk293dh98lr2u": 68,
         "mtk29ku9obsivn": 68,
-        "mtk2a24kxuvfda": 68
+        "mtk2a24kxuvfda": 68,
+        "mtsqwgfy09c5ep": 68
       }
     },
     "lanacion": {
@@ -40430,7 +40815,12 @@
       "reventaDiario": 70,
       "reventaPeriodico": 80,
       "titulosPeriodico": {
-        "mtlkcy0cwgvc6j": 68
+        "mtlkcy0cwgvc6j": 68,
+        "mtsrg9yokyt3s8": 68,
+        "mtsrgiacjei3cb": 68,
+        "mtsrgsfer5931m": 68,
+        "mtsrh1kr50akll": 68,
+        "mtsrh8szab6u6r": 68
       }
     },
     "silmar": {
@@ -41077,28 +41467,32 @@
         "producto": "PELOTA DE FUTBOL N°5 ARGENTINA 3 MODELOS",
         "vencimiento": "10/09/2026",
         "pdv": 7560,
-        "pvp": 9700
+        "pvp": 9700,
+        "cantidad": 0
       },
       {
         "sku": "57513",
         "producto": "PELOTA PVC N°4 AFA SELECCION ARGENTINA",
         "vencimiento": "10/09/2026",
         "pdv": 2499.84,
-        "pvp": 3200
+        "pvp": 3200,
+        "cantidad": 0
       },
       {
         "sku": "57192",
         "producto": "PELOTA DE FUTBOL N°5 ARGENTINA 3 MODELOS",
         "vencimiento": "10/09/2026",
         "pdv": 7560,
-        "pvp": 9700
+        "pvp": 9700,
+        "cantidad": 0
       },
       {
         "sku": "57189",
         "producto": "PELOTA DE FUTBOL N°5 PAISES MUNDIAL 5 MODELOS",
         "vencimiento": "10/09/2026",
         "pdv": 7560,
-        "pvp": 9700
+        "pvp": 9700,
+        "cantidad": 0
       },
       {
         "sku": "57107",
@@ -41112,28 +41506,32 @@
         "producto": "PELOTA DE FUTBOL N°5 ARGENTINA 3 MODELOS",
         "vencimiento": "10/09/2026",
         "pdv": 7560,
-        "pvp": 9700
+        "pvp": 9700,
+        "cantidad": 0
       },
       {
         "sku": "56136",
         "producto": "PELOTA DE FUTBOL MARVEL LOGOS N°2 4 MODELOS",
         "vencimiento": "10/09/2026",
         "pdv": 2928.01,
-        "pvp": 4800
+        "pvp": 4800,
+        "cantidad": 0
       },
       {
         "sku": "57195",
         "producto": "PELOTA DE FUTBOL N°2 ARGENTINA 4 MODELOS",
         "vencimiento": "10/09/2026",
         "pdv": 3977.17,
-        "pvp": 5478.2
+        "pvp": 5478.2,
+        "cantidad": 0
       },
       {
         "sku": "57499",
         "producto": "PELOTA SOFT AFA LICENCIA OFICIAL 12 PCS / DISPLAY",
         "vencimiento": "10/09/2026",
         "pdv": 2439.36,
-        "pvp": 3200
+        "pvp": 3200,
+        "cantidad": 0
       },
       {
         "sku": "57500",
@@ -41288,213 +41686,66 @@
     "ventasMostrador": [],
     "devolucionesMercaderia": [
       {
-        "fecha": "1/9/2026 01:39 p. m.",
-        "sku": "55759",
-        "producto": "CAMION DE CONSTRUCCION A FRICCION 9 PZAS / DISPLAY",
-        "cantidad": 7,
-        "costo": 0
-      },
-      {
-        "fecha": "1/9/2026 01:38 p. m.",
-        "sku": "56599",
-        "producto": "BEBOTE TINY CON MAMADERA 22CM (CUERPO DURO)",
-        "cantidad": 5,
-        "costo": 0
-      },
-      {
-        "fecha": "1/9/2026 01:37 p. m.",
-        "sku": "57502",
-        "producto": "SET JUEGO DE FUTBOL PUNTERIA CON PELOTA AFA LICENCIA OFICIAL",
-        "cantidad": 3,
-        "costo": 0
-      },
-      {
-        "fecha": "1/9/2026 01:37 p. m.",
-        "sku": "FI-CONJU001",
-        "producto": "CONSOLA PORTATIL DE JUEGOS",
+        "fecha": "8/9/2026 10:47 a. m.",
+        "sku": "56136",
+        "producto": "PELOTA DE FUTBOL MARVEL LOGOS N°2 4 MODELOS",
         "cantidad": 2,
         "costo": 0
       },
       {
-        "fecha": "1/9/2026 01:37 p. m.",
-        "sku": "55155",
-        "producto": "MASA PLASTI KIDS POTE 20 PZAS/DISPLAY",
+        "fecha": "8/9/2026 10:47 a. m.",
+        "sku": "57195",
+        "producto": "PELOTA DE FUTBOL N°2 ARGENTINA 4 MODELOS",
         "cantidad": 20,
         "costo": 0
       },
       {
-        "fecha": "1/9/2026 01:37 p. m.",
-        "sku": "55244",
-        "producto": "PELOTAS ANTIESTRES EMOJI FUN PLAY 6 COLORES 26X20X14CM",
-        "cantidad": 12,
-        "costo": 0
-      },
-      {
-        "fecha": "1/9/2026 01:36 p. m.",
-        "sku": "55984",
-        "producto": "ANIMALES DE GRANJA",
-        "cantidad": 5,
-        "costo": 0
-      },
-      {
-        "fecha": "1/9/2026 01:36 p. m.",
-        "sku": "55983",
-        "producto": "ANIMALES MARINOS",
-        "cantidad": 5,
-        "costo": 0
-      },
-      {
-        "fecha": "1/9/2026 01:36 p. m.",
-        "sku": "56137",
-        "producto": "PELOTA DE FUTBOL N°2 STARS 6 MODELOS",
-        "cantidad": 5,
-        "costo": 0
-      },
-      {
-        "fecha": "1/9/2026 01:36 p. m.",
-        "sku": "54775",
-        "producto": "LIBRO MAGICO AGUA PARA PINTAR BABYGUS (2 MODELOS)",
-        "cantidad": 3,
-        "costo": 0
-      },
-      {
-        "fecha": "1/9/2026 01:36 p. m.",
-        "sku": "54313",
-        "producto": "HUEVO DINOSAURIO PARA ARMAR 12 PIEZAS / DISPLAY BOX",
-        "cantidad": 12,
-        "costo": 0
-      },
-      {
-        "fecha": "1/9/2026 01:35 p. m.",
-        "sku": "57065",
-        "producto": "SQUISHY CAPIBARA 12 PCS/DISPLAY",
-        "cantidad": 4,
-        "costo": 0
-      },
-      {
-        "fecha": "1/9/2026 01:35 p. m.",
-        "sku": "55652",
-        "producto": "MINI MUÑECA LUCY POP HADA",
-        "cantidad": 16,
-        "costo": 0
-      },
-      {
-        "fecha": "1/9/2026 01:33 p. m.",
-        "sku": "54712",
-        "producto": "AUTITOS MONSTER METALICOS RUEDAS DE GOMA 12 COLORES GO SPEED",
-        "cantidad": 16,
-        "costo": 0
-      },
-      {
-        "fecha": "1/9/2026 01:33 p. m.",
-        "sku": "57161",
-        "producto": "AUTITOS METALICOS AVENGERS 12PZAS/DISPLAY",
-        "cantidad": 10,
-        "costo": 0
-      },
-      {
-        "fecha": "1/9/2026 01:32 p. m.",
-        "sku": "54795",
-        "producto": "HUEVO DINOSAURIO TRANSPARENTE PARA ARMAR (12 PZAS / DISPLAY)",
-        "cantidad": 24,
-        "costo": 0
-      },
-      {
-        "fecha": "1/9/2026 12:33 p. m.",
-        "sku": "55703",
-        "producto": "JUEGO DE AGUA UNICORNIO 4 MODELOS 24 PZAS / DISPLAY",
-        "cantidad": 2,
-        "costo": 0
-      },
-      {
-        "fecha": "1/9/2026 09:49 a. m.",
-        "sku": "54455",
-        "producto": "MUÑECA TINY HADA",
-        "cantidad": 6,
-        "costo": 0
-      },
-      {
-        "fecha": "1/9/2026 09:49 a. m.",
-        "sku": "55238",
-        "producto": "AUTITOS DE CONSTRUCCION A FRICCION BABYGUS 12 PZAS / DISPLAY",
-        "cantidad": 12,
-        "costo": 0
-      },
-      {
-        "fecha": "1/9/2026 09:49 a. m.",
-        "sku": "57163",
-        "producto": "CAPIBARA SALTARIN INFLABLE 2 MODELOS 1300 GRS 60X55X30CM",
-        "cantidad": 3,
-        "costo": 0
-      },
-      {
-        "fecha": "1/9/2026 09:48 a. m.",
-        "sku": "12000",
-        "producto": "SKATE SPIDERMAN",
-        "cantidad": 1,
-        "costo": 0
-      },
-      {
-        "fecha": "1/9/2026 09:48 a. m.",
-        "sku": "57506",
-        "producto": "ARCO DE FUTBOL CON PELOTA AFA LICENCIA OFICIAL",
-        "cantidad": 10,
-        "costo": 0
-      },
-      {
-        "fecha": "1/9/2026 09:48 a. m.",
-        "sku": "57518",
-        "producto": "AUTITOS METALICOS AFA LICENCIA OFICIAL 8 MODELOS",
-        "cantidad": 50,
-        "costo": 0
-      },
-      {
-        "fecha": "1/9/2026 09:48 a. m.",
-        "sku": "FI-HUEC001",
-        "producto": "HUEVO CAMPEONES",
+        "fecha": "8/9/2026 10:47 a. m.",
+        "sku": "57499",
+        "producto": "PELOTA SOFT AFA LICENCIA OFICIAL 12 PCS / DISPLAY",
         "cantidad": 36,
         "costo": 0
       },
       {
-        "fecha": "1/9/2026 09:48 a. m.",
-        "sku": "57702",
-        "producto": "JUEGO DE MEMORIA AFA LICENCIA OFICIAL",
-        "cantidad": 1,
+        "fecha": "8/9/2026 10:47 a. m.",
+        "sku": "FI-MUNDIAL",
+        "producto": "PELOTA MUNDIAL 2026 N°5",
+        "cantidad": 6,
         "costo": 0
       },
       {
-        "fecha": "1/9/2026 09:48 a. m.",
-        "sku": "FI-NAEC001",
-        "producto": "NAIPE ECONOMICO",
-        "cantidad": 10,
+        "fecha": "8/9/2026 10:46 a. m.",
+        "sku": "57188",
+        "producto": "PELOTA DE FUTBOL N°5 ARGENTINA 3 MODELOS",
+        "cantidad": 6,
         "costo": 0
       },
       {
-        "fecha": "1/9/2026 09:48 a. m.",
-        "sku": "EP-40331",
-        "producto": "WALKIE TALKIE BOMBEROS EN BLISTER",
-        "cantidad": 2,
+        "fecha": "8/9/2026 10:46 a. m.",
+        "sku": "57187",
+        "producto": "PELOTA DE FUTBOL N°5 ARGENTINA 3 MODELOS",
+        "cantidad": 12,
         "costo": 0
       },
       {
-        "fecha": "1/9/2026 09:47 a. m.",
-        "sku": "FI-MUNO001",
-        "producto": "UNO 26",
-        "cantidad": 13,
+        "fecha": "8/9/2026 10:46 a. m.",
+        "sku": "57192",
+        "producto": "PELOTA DE FUTBOL N°5 ARGENTINA 3 MODELOS",
+        "cantidad": 18,
         "costo": 0
       },
       {
-        "fecha": "1/9/2026 09:47 a. m.",
-        "sku": "57498",
-        "producto": "YO-YO AFA LICENCIA OFICIAL",
-        "cantidad": 25,
+        "fecha": "8/9/2026 10:45 a. m.",
+        "sku": "57189",
+        "producto": "PELOTA DE FUTBOL N°5 PAISES MUNDIAL 5 MODELOS",
+        "cantidad": 5,
         "costo": 0
       },
       {
-        "fecha": "1/9/2026 09:47 a. m.",
-        "sku": "55026",
-        "producto": "MUÑECA TINY FANTASY",
-        "cantidad": 11,
+        "fecha": "8/9/2026 10:45 a. m.",
+        "sku": "57513",
+        "producto": "PELOTA PVC N°4 AFA SELECCION ARGENTINA",
+        "cantidad": 22,
         "costo": 0
       }
     ]
