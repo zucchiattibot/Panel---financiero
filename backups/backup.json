@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 6,
-  "exportadoEl": "2026-09-10T11:01:36.273Z",
+  "exportadoEl": "2026-09-11T13:33:23.652Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -3589,6 +3589,127 @@
       "detalle": "Miercoles",
       "id": "m_mtve4ghwqqlfo4",
       "modificadoEl": "2026-09-10T10:34:31.940Z"
+    },
+    {
+      "date": "2026-09-09",
+      "type": "ingreso",
+      "amount": 106000,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "efectivo",
+      "id": "m_mtvhqbvb70x2sp",
+      "modificadoEl": "2026-09-10T12:15:31.223Z"
+    },
+    {
+      "date": "2026-09-10",
+      "type": "ingreso",
+      "amount": 573870,
+      "category": "Sueldo",
+      "account": "alquileres",
+      "medio": "efectivo",
+      "detalle": "Alquiler casa maya",
+      "id": "m_mtvmsoa0cftrq0",
+      "modificadoEl": "2026-09-10T14:37:18.696Z"
+    },
+    {
+      "date": "2026-09-10",
+      "type": "egreso",
+      "amount": 300000,
+      "category": "Varios",
+      "account": "alquileres",
+      "detalle": "Caro para vivir comer",
+      "id": "m_mtvmvi16av2t3z",
+      "modificadoEl": "2026-09-10T14:39:30.570Z"
+    },
+    {
+      "date": "2026-09-10",
+      "type": "egreso",
+      "amount": 38609.4,
+      "category": "Vehículo",
+      "account": "alquileres",
+      "detalle": "Patente",
+      "id": "m_mtvwof8asqirat",
+      "modificadoEl": "2026-09-10T19:13:56.506Z"
+    },
+    {
+      "date": "2026-09-10",
+      "type": "egreso",
+      "amount": 31643.56,
+      "category": "Servicios",
+      "account": "alquileres",
+      "detalle": "Personal internet casa",
+      "id": "m_mtvwrf3yij5e8v",
+      "modificadoEl": "2026-09-10T19:16:16.318Z"
+    },
+    {
+      "date": "2026-09-10",
+      "type": "ingreso",
+      "amount": 66000,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "efectivo",
+      "id": "m_mtw2b81deb2fm3",
+      "modificadoEl": "2026-09-10T21:51:38.353Z"
+    },
+    {
+      "date": "2026-09-11",
+      "type": "egreso",
+      "amount": 11000,
+      "category": "Vehículo",
+      "account": "alquileres",
+      "detalle": "Foco auto",
+      "id": "m_mtwaqi0fes7d7t",
+      "modificadoEl": "2026-09-11T01:47:28.047Z"
+    },
+    {
+      "date": "2026-09-11",
+      "type": "egreso",
+      "amount": 12800,
+      "category": "Peña",
+      "account": "alquileres",
+      "detalle": "Jueves",
+      "id": "m_mtwbkmwro9fs6b",
+      "modificadoEl": "2026-09-11T02:10:54.075Z"
+    },
+    {
+      "date": "2026-09-11",
+      "type": "ingreso",
+      "amount": 99800,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "transferencia",
+      "detalle": "Entradas san juan",
+      "id": "m_mtwbla8167ppii",
+      "modificadoEl": "2026-09-11T02:11:24.289Z"
+    },
+    {
+      "date": "2026-09-11",
+      "type": "ingreso",
+      "amount": 82000,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "efectivo",
+      "id": "m_mtww7ylgs56dib",
+      "modificadoEl": "2026-09-11T11:48:54.628Z"
+    },
+    {
+      "date": "2026-09-11",
+      "type": "egreso",
+      "amount": 561526,
+      "category": "Silmar",
+      "account": "agencia",
+      "detalle": "2 cheques",
+      "id": "m_mtwwikr4ac2z11",
+      "modificadoEl": "2026-09-11T11:57:09.905Z"
+    },
+    {
+      "date": "2026-09-11",
+      "type": "egreso",
+      "amount": 280000,
+      "category": "Sapito",
+      "account": "agencia",
+      "id": "m_mtwyfh0p68vpwc",
+      "modificadoEl": "2026-09-11T12:50:44.329Z"
     }
   ],
   "categoriasCustom": [
@@ -26321,13 +26442,13 @@
         "nombre": "ROCK DE ACA DIVIDIDOS",
         "alias": "",
         "tipoProducto": "periodico",
-        "precioUnico": 0,
-        "recargoUnico": 0,
+        "precioUnico": 44990,
+        "recargoUnico": 1900,
         "historialUnico": [
           {
             "desde": "2026-08-01",
-            "tapa": 0,
-            "recargo": 0
+            "tapa": 44990,
+            "recargo": 1900
           }
         ],
         "historial": [
@@ -26355,7 +26476,7 @@
         ],
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
-        "excluirGanSem": true
+        "excluirGanSem": false
       },
       {
         "id": "mt95wweq2zgxc6",
@@ -26812,6 +26933,48 @@
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
         "excluirGanSem": true
+      },
+      {
+        "id": "mtvw1eqtq6qnzk",
+        "nombre": "Nero-Cuchillo Trinchante + Fascículo",
+        "alias": "",
+        "tipoProducto": "periodico",
+        "precioUnico": 0,
+        "recargoUnico": 0,
+        "pctCalculoPeriodico": 68,
+        "historialUnico": [
+          {
+            "desde": "2026-09-01",
+            "tapa": 0,
+            "recargo": 0
+          }
+        ],
+        "historial": [
+          {
+            "desde": "2026-09-01",
+            "tapa": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "recargo": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          }
+        ],
+        "feriadoTapa": 0,
+        "feriadoRecargo": 0,
+        "excluirGanSem": true
       }
     ],
     "ambito": [],
@@ -26981,918 +27144,6 @@
       "cargadaEl": "2026-08-19T14:08:43.198Z"
     },
     {
-      "id": "dev_1787233567382_wy3gh",
-      "proveedorKey": "lanacion",
-      "fecha": "2026-08-20",
-      "numeroRemito": "378502",
-      "modo": "item",
-      "items": [
-        {
-          "descripcion": "POP CULTURE",
-          "edicion": "8",
-          "codigoPublicacion": "200427",
-          "cantidad": 1,
-          "monto": 15493.2,
-          "motivo": null,
-          "ncFacturaId": "f_1787969957498_muaky",
-          "ncNumero": "00450-00966071",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1787969957498_muaky",
-              "numero": "00450-00966071",
-              "cantidad": 1
-            }
-          ],
-          "cantidadAcreditada": 1,
-          "cantidadFaltante": 0
-        },
-        {
-          "descripcion": "AMERICANAS 4X4",
-          "edicion": "1",
-          "codigoPublicacion": "200429",
-          "cantidad": 6,
-          "monto": 113359.2,
-          "motivo": null,
-          "ncFacturaId": "f_1787969968045_i3ybs",
-          "ncNumero": "00450-00966072",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1787969968045_i3ybs",
-              "numero": "00450-00966072",
-              "cantidad": 6
-            }
-          ],
-          "cantidadAcreditada": 6,
-          "cantidadFaltante": 0
-        },
-        {
-          "descripcion": "DINOSAURIOS 2025",
-          "edicion": "10",
-          "codigoPublicacion": "200219",
-          "cantidad": 5,
-          "monto": 43466,
-          "motivo": null,
-          "ncFacturaId": "f_1787969887800_sgysd",
-          "ncNumero": "00450-00966074",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1787969887800_sgysd",
-              "numero": "00450-00966074",
-              "cantidad": 5
-            }
-          ],
-          "cantidadAcreditada": 5,
-          "cantidadFaltante": 0
-        },
-        {
-          "descripcion": "DINOSAURIOS 2025",
-          "edicion": "4",
-          "codigoPublicacion": "200219",
-          "cantidad": 5,
-          "monto": 43466,
-          "motivo": null,
-          "ncFacturaId": "f_1787969837108_9jgov",
-          "ncNumero": "00450-00966073",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1787969837108_9jgov",
-              "numero": "00450-00966073",
-              "cantidad": 5
-            }
-          ],
-          "cantidadAcreditada": 5,
-          "cantidadFaltante": 0
-        },
-        {
-          "descripcion": "DINOSAURIOS 2025",
-          "edicion": "3",
-          "codigoPublicacion": "200219",
-          "cantidad": 5,
-          "monto": 43466,
-          "motivo": null,
-          "ncFacturaId": "f_1787969682081_dgln6",
-          "ncNumero": "00450-00966078",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1787969682081_dgln6",
-              "numero": "00450-00966078",
-              "cantidad": 5
-            }
-          ],
-          "cantidadAcreditada": 5,
-          "cantidadFaltante": 0
-        },
-        {
-          "descripcion": "DINOSAURIOS 2025",
-          "edicion": "8",
-          "codigoPublicacion": "200219",
-          "cantidad": 5,
-          "monto": 43466,
-          "motivo": null,
-          "ncFacturaId": "f_1787969434591_g4xgi",
-          "ncNumero": "00450-00966079",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1787969434591_g4xgi",
-              "numero": "00450-00966079",
-              "cantidad": 5
-            }
-          ],
-          "cantidadAcreditada": 5,
-          "cantidadFaltante": 0
-        },
-        {
-          "descripcion": "MON Y BILL 2025",
-          "edicion": "38",
-          "codigoPublicacion": "200236",
-          "cantidad": 3,
-          "monto": 40359.6,
-          "motivo": null,
-          "ncFacturaId": "f_1787969335700_fat6c",
-          "ncNumero": "00450-00966083",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1787969335700_fat6c",
-              "numero": "00450-00966083",
-              "cantidad": 3
-            }
-          ],
-          "cantidadAcreditada": 3,
-          "cantidadFaltante": 0
-        },
-        {
-          "descripcion": "AUTOS ALEMANES",
-          "edicion": "11",
-          "codigoPublicacion": "200423",
-          "cantidad": 2,
-          "monto": 37786.4,
-          "motivo": null,
-          "ncFacturaId": "f_1787969439181_yg8as",
-          "ncNumero": "00450-00966080",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1787969439181_yg8as",
-              "numero": "00450-00966080",
-              "cantidad": 2
-            }
-          ],
-          "cantidadAcreditada": 2,
-          "cantidadFaltante": 0
-        },
-        {
-          "descripcion": "DINOSAURIOS 2025",
-          "edicion": "6",
-          "codigoPublicacion": "200219",
-          "cantidad": 5,
-          "monto": 43466,
-          "motivo": null,
-          "ncFacturaId": "f_1787968843015_djbdo",
-          "ncNumero": "00450-00966084",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1787968843015_djbdo",
-              "numero": "00450-00966084",
-              "cantidad": 5
-            }
-          ],
-          "cantidadAcreditada": 5,
-          "cantidadFaltante": 0
-        },
-        {
-          "descripcion": "ACTIVITY COLOURING",
-          "edicion": "1",
-          "codigoPublicacion": "120496",
-          "cantidad": 1,
-          "monto": 3263.2,
-          "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 1
-        },
-        {
-          "descripcion": "ACTIVITY COLOURING",
-          "edicion": "2",
-          "codigoPublicacion": "120496",
-          "cantidad": 1,
-          "monto": 3263.2,
-          "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 1
-        },
-        {
-          "descripcion": "ACTIVITY COLOURING",
-          "edicion": "3",
-          "codigoPublicacion": "120496",
-          "cantidad": 1,
-          "monto": 3263.2,
-          "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 1
-        },
-        {
-          "descripcion": "ACTIVITY COLOURING",
-          "edicion": "3",
-          "codigoPublicacion": "120497",
-          "cantidad": 1,
-          "monto": 3263.2,
-          "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 1
-        },
-        {
-          "descripcion": "ACTIVITY COLOURING",
-          "edicion": "1",
-          "codigoPublicacion": "120497",
-          "cantidad": 1,
-          "monto": 3263.2,
-          "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 1
-        },
-        {
-          "descripcion": "LIBROS PRH",
-          "edicion": "1",
-          "codigoPublicacion": "500551",
-          "cantidad": 1,
-          "monto": 20600,
-          "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 1
-        },
-        {
-          "descripcion": "LIBROS PRH",
-          "edicion": "1",
-          "codigoPublicacion": "500552",
-          "cantidad": 1,
-          "monto": 20600,
-          "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 1
-        },
-        {
-          "descripcion": "LIBROS PRH",
-          "edicion": "1",
-          "codigoPublicacion": "500554",
-          "cantidad": 1,
-          "monto": 20600,
-          "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 1
-        },
-        {
-          "descripcion": "LIBROS PRH",
-          "edicion": "1",
-          "codigoPublicacion": "500555",
-          "cantidad": 1,
-          "monto": 20600,
-          "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 1
-        },
-        {
-          "descripcion": "LIBROS PRH",
-          "edicion": "1",
-          "codigoPublicacion": "500553",
-          "cantidad": 1,
-          "monto": 20600,
-          "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 1
-        },
-        {
-          "descripcion": "LIBROS PRH",
-          "edicion": "1",
-          "codigoPublicacion": "500548",
-          "cantidad": 1,
-          "monto": 20600,
-          "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 1
-        },
-        {
-          "descripcion": "LIBROS PRH",
-          "edicion": "1",
-          "codigoPublicacion": "500549",
-          "cantidad": 1,
-          "monto": 20600,
-          "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 1
-        },
-        {
-          "descripcion": "LIBROS PRH",
-          "edicion": "1",
-          "codigoPublicacion": "500550",
-          "cantidad": 1,
-          "monto": 20600,
-          "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 1
-        },
-        {
-          "descripcion": "ACTIVITY COLOURING",
-          "edicion": "7",
-          "codigoPublicacion": "120478",
-          "cantidad": 1,
-          "monto": 5303.2,
-          "motivo": null,
-          "ncFacturaId": "f_1787969603161_vkfe7",
-          "ncNumero": "00450-00966075",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1787969603161_vkfe7",
-              "numero": "00450-00966075",
-              "cantidad": 1
-            }
-          ],
-          "cantidadAcreditada": 1,
-          "cantidadFaltante": 0
-        },
-        {
-          "descripcion": "ACTIVITY COLOURING",
-          "edicion": "8",
-          "codigoPublicacion": "120478",
-          "cantidad": 1,
-          "monto": 5303.2,
-          "motivo": null,
-          "ncFacturaId": "f_1787969679452_vrfb4",
-          "ncNumero": "00450-00966076",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1787969679452_vrfb4",
-              "numero": "00450-00966076",
-              "cantidad": 1
-            }
-          ],
-          "cantidadAcreditada": 1,
-          "cantidadFaltante": 0
-        },
-        {
-          "descripcion": "LIBROS INFANTILES",
-          "edicion": "4",
-          "codigoPublicacion": "120460",
-          "cantidad": 1,
-          "monto": 3603.2,
-          "motivo": null,
-          "ncFacturaId": "f_1787969560392_9zov9",
-          "ncNumero": "00450-00966077",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1787969560392_9zov9",
-              "numero": "00450-00966077",
-              "cantidad": 1
-            }
-          ],
-          "cantidadAcreditada": 1,
-          "cantidadFaltante": 0
-        },
-        {
-          "descripcion": "LIBROS INFANTILES",
-          "edicion": "91",
-          "codigoPublicacion": "120467",
-          "cantidad": 1,
-          "monto": 3263.2,
-          "motivo": null,
-          "ncFacturaId": "f_1788474923320_8gda4",
-          "ncNumero": "00450-00967957",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1788474923320_8gda4",
-              "numero": "00450-00967957",
-              "cantidad": 1
-            }
-          ],
-          "cantidadAcreditada": 1,
-          "cantidadFaltante": 0
-        },
-        {
-          "descripcion": "LIBROS INFANTILES",
-          "edicion": "91",
-          "codigoPublicacion": "120466",
-          "cantidad": 1,
-          "monto": 3263.2,
-          "motivo": null,
-          "ncFacturaId": "f_1788474926552_v1b3c",
-          "ncNumero": "00450-00967958",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1788474926552_v1b3c",
-              "numero": "00450-00967958",
-              "cantidad": 1
-            }
-          ],
-          "cantidadAcreditada": 1,
-          "cantidadFaltante": 0
-        },
-        {
-          "descripcion": "LIBROS INFANTILES",
-          "edicion": "91",
-          "codigoPublicacion": "120465",
-          "cantidad": 1,
-          "monto": 3263.2,
-          "motivo": null,
-          "ncFacturaId": "f_1788474905676_zgr4n",
-          "ncNumero": "00450-00967951",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1788474905676_zgr4n",
-              "numero": "00450-00967951",
-              "cantidad": 1
-            }
-          ],
-          "cantidadAcreditada": 1,
-          "cantidadFaltante": 0
-        },
-        {
-          "descripcion": "ACTIVITY COLOURING",
-          "edicion": "1",
-          "codigoPublicacion": "120477",
-          "cantidad": 1,
-          "monto": 5303.2,
-          "motivo": null,
-          "ncFacturaId": "f_1788474910878_tb04l",
-          "ncNumero": "00450-00967953",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1788474910878_tb04l",
-              "numero": "00450-00967953",
-              "cantidad": 1
-            }
-          ],
-          "cantidadAcreditada": 1,
-          "cantidadFaltante": 0
-        },
-        {
-          "descripcion": "COLORING CON POSTE",
-          "edicion": "7",
-          "codigoPublicacion": "120387",
-          "cantidad": 1,
-          "monto": 3535.2,
-          "motivo": null,
-          "ncFacturaId": "f_1788474915689_ay8w2",
-          "ncNumero": "00450-00967954",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1788474915689_ay8w2",
-              "numero": "00450-00967954",
-              "cantidad": 1
-            }
-          ],
-          "cantidadAcreditada": 1,
-          "cantidadFaltante": 0
-        },
-        {
-          "descripcion": "COLORES Y JUEGOS",
-          "edicion": "40",
-          "codigoPublicacion": "120377",
-          "cantidad": 1,
-          "monto": 2583.2,
-          "motivo": null,
-          "ncFacturaId": "f_1788474918383_4dax1",
-          "ncNumero": "00450-00967955",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1788474918383_4dax1",
-              "numero": "00450-00967955",
-              "cantidad": 1
-            }
-          ],
-          "cantidadAcreditada": 1,
-          "cantidadFaltante": 0
-        },
-        {
-          "descripcion": "MEGA COLOR",
-          "edicion": "1",
-          "codigoPublicacion": "120461",
-          "cantidad": 1,
-          "monto": 7343.2,
-          "motivo": null,
-          "ncFacturaId": "f_1788474908063_q6bi9",
-          "ncNumero": "00450-00967952",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1788474908063_q6bi9",
-              "numero": "00450-00967952",
-              "cantidad": 1
-            }
-          ],
-          "cantidadAcreditada": 1,
-          "cantidadFaltante": 0
-        },
-        {
-          "descripcion": "COL PINTA Y BRILLA",
-          "edicion": "8",
-          "codigoPublicacion": "120476",
-          "cantidad": 1,
-          "monto": 4623.2,
-          "motivo": null,
-          "ncFacturaId": "f_1788474921366_u2fqx",
-          "ncNumero": "00450-00967956",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1788474921366_u2fqx",
-              "numero": "00450-00967956",
-              "cantidad": 1
-            }
-          ],
-          "cantidadAcreditada": 1,
-          "cantidadFaltante": 0
-        },
-        {
-          "descripcion": "ACTIVITY COLOURING",
-          "edicion": "5",
-          "codigoPublicacion": "120477",
-          "cantidad": 1,
-          "monto": 5303.2,
-          "motivo": null,
-          "ncFacturaId": "f_1787969443662_qr8t2",
-          "ncNumero": "00450-00966081",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1787969443662_qr8t2",
-              "numero": "00450-00966081",
-              "cantidad": 1
-            }
-          ],
-          "cantidadAcreditada": 1,
-          "cantidadFaltante": 0
-        },
-        {
-          "descripcion": "ACTIVITY COLOURING",
-          "edicion": "4",
-          "codigoPublicacion": "120478",
-          "cantidad": 1,
-          "monto": 5303.2,
-          "motivo": null,
-          "ncFacturaId": "f_1787969273808_2qxw8",
-          "ncNumero": "00450-00966082",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1787969273808_2qxw8",
-              "numero": "00450-00966082",
-              "cantidad": 1
-            }
-          ],
-          "cantidadAcreditada": 1,
-          "cantidadFaltante": 0
-        }
-      ],
-      "adjuntos": [
-        {
-          "id": "dev_1787233567382_wy3gh_a0",
-          "nombre": "1000825753.jpg",
-          "mime": "image/jpeg",
-          "bytes": 678477
-        }
-      ],
-      "estado": "parcial",
-      "acreditadaEl": null,
-      "cargadaEl": "2026-08-20T13:46:07.430Z"
-    },
-    {
-      "id": "dev_1787233569685_t42zi",
-      "proveedorKey": "lanacion",
-      "fecha": "2026-08-20",
-      "numeroRemito": "378509",
-      "modo": "item",
-      "items": [
-        {
-          "descripcion": "LA NACION MARTES",
-          "edicion": "1359",
-          "codigoPublicacion": "2",
-          "cantidad": 4,
-          "monto": 13296,
-          "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 4
-        },
-        {
-          "descripcion": "LA NACION MIERC.",
-          "edicion": "1360",
-          "codigoPublicacion": "3",
-          "cantidad": 4,
-          "monto": 13296,
-          "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 4
-        },
-        {
-          "descripcion": "LA NACION JUEVES",
-          "edicion": "1353",
-          "codigoPublicacion": "4",
-          "cantidad": 4,
-          "monto": 13296,
-          "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 4
-        },
-        {
-          "descripcion": "LA NACION VIERNES",
-          "edicion": "1346",
-          "codigoPublicacion": "5",
-          "cantidad": 2,
-          "monto": 6648,
-          "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 2
-        },
-        {
-          "descripcion": "LA NACION SABADO",
-          "edicion": "1363",
-          "codigoPublicacion": "6",
-          "cantidad": 6,
-          "monto": 19944,
-          "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 6
-        },
-        {
-          "descripcion": "LA NACION DOMINGO",
-          "edicion": "1361",
-          "codigoPublicacion": "7",
-          "cantidad": 3,
-          "monto": 9972,
-          "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 3
-        },
-        {
-          "descripcion": "LA NACION LUNES",
-          "edicion": "1360",
-          "codigoPublicacion": "1",
-          "cantidad": 7,
-          "monto": 23268,
-          "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 7
-        },
-        {
-          "descripcion": "LA NACION MARTES",
-          "edicion": "1360",
-          "codigoPublicacion": "2",
-          "cantidad": 3,
-          "monto": 9972,
-          "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 3
-        }
-      ],
-      "adjuntos": [
-        {
-          "id": "dev_1787233569685_t42zi_a0",
-          "nombre": "1000825754.jpg",
-          "mime": "image/jpeg",
-          "bytes": 373460
-        }
-      ],
-      "estado": "pendiente",
-      "acreditadaEl": null,
-      "cargadaEl": "2026-08-20T13:46:09.720Z"
-    },
-    {
-      "id": "dev_1787233571459_4aqho",
-      "proveedorKey": "lanacion",
-      "fecha": "2026-08-20",
-      "numeroRemito": "378513",
-      "modo": "item",
-      "items": [
-        {
-          "descripcion": "POPULAR MAR",
-          "edicion": "732",
-          "codigoPublicacion": "110602",
-          "cantidad": 5,
-          "monto": 7720,
-          "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 5
-        },
-        {
-          "descripcion": "POPULAR MIE",
-          "edicion": "736",
-          "codigoPublicacion": "110603",
-          "cantidad": 5,
-          "monto": 7720,
-          "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 5
-        },
-        {
-          "descripcion": "POPULAR JUE",
-          "edicion": "733",
-          "codigoPublicacion": "110604",
-          "cantidad": 6,
-          "monto": 9264,
-          "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 6
-        },
-        {
-          "descripcion": "POPULAR VIE",
-          "edicion": "725",
-          "codigoPublicacion": "110605",
-          "cantidad": 3,
-          "monto": 4632,
-          "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 3
-        },
-        {
-          "descripcion": "POPULAR SAB",
-          "edicion": "738",
-          "codigoPublicacion": "110606",
-          "cantidad": 2,
-          "monto": 3088,
-          "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 2
-        },
-        {
-          "descripcion": "POPULAR DOM",
-          "edicion": "738",
-          "codigoPublicacion": "110607",
-          "cantidad": 3,
-          "monto": 4632,
-          "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 3
-        },
-        {
-          "descripcion": "POPULAR LUN",
-          "edicion": "738",
-          "codigoPublicacion": "110601",
-          "cantidad": 5,
-          "monto": 7720,
-          "motivo": null,
-          "ncFacturaId": "f_1787920453721_qd5mu",
-          "ncNumero": "00450-00965687",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1787920453721_qd5mu",
-              "numero": "00450-00965687",
-              "cantidad": 5
-            }
-          ],
-          "cantidadAcreditada": 5,
-          "cantidadFaltante": 0
-        },
-        {
-          "descripcion": "POPULAR MAR",
-          "edicion": "733",
-          "codigoPublicacion": "110602",
-          "cantidad": 2,
-          "monto": 3088,
-          "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 2
-        }
-      ],
-      "adjuntos": [
-        {
-          "id": "dev_1787233571459_4aqho_a0",
-          "nombre": "1000825755.jpg",
-          "mime": "image/jpeg",
-          "bytes": 406770
-        }
-      ],
-      "estado": "parcial",
-      "acreditadaEl": null,
-      "cargadaEl": "2026-08-20T13:46:11.516Z"
-    },
-    {
       "id": "dev_1787755301708_van7z",
       "proveedorKey": "clarin",
       "fecha": "2026-08-26",
@@ -27907,18 +27158,23 @@
           "monto": 32940,
           "motivo": null,
           "ncFacturaId": "f_1788876485124_lutlp",
-          "ncNumero": "0132-01363625, 0132-01363625",
+          "ncNumero": "0132-01363625, 0132-01363625, 0132-01363625",
           "faltante": false,
           "ncDetalle": [
             {
               "facturaId": "f_1788876485124_lutlp",
               "numero": "0132-01363625",
-              "cantidad": 4
+              "cantidad": 2
             },
             {
               "facturaId": "f_1788876485124_lutlp",
               "numero": "0132-01363625",
-              "cantidad": 6
+              "cantidad": 7
+            },
+            {
+              "facturaId": "f_1788876485124_lutlp",
+              "numero": "0132-01363625",
+              "cantidad": 1
             }
           ],
           "cantidadAcreditada": 10,
@@ -27952,18 +27208,23 @@
           "monto": 17262,
           "motivo": null,
           "ncFacturaId": "f_1788876485124_lutlp",
-          "ncNumero": "0132-01363625, 0132-01363625",
+          "ncNumero": "0132-01363625, 0132-01363625, 0132-01363625",
           "faltante": false,
           "ncDetalle": [
             {
               "facturaId": "f_1788876485124_lutlp",
               "numero": "0132-01363625",
-              "cantidad": 6
+              "cantidad": 3
             },
             {
               "facturaId": "f_1788876485124_lutlp",
               "numero": "0132-01363625",
-              "cantidad": 3
+              "cantidad": 5
+            },
+            {
+              "facturaId": "f_1788876485124_lutlp",
+              "numero": "0132-01363625",
+              "cantidad": 1
             }
           ],
           "cantidadAcreditada": 9,
@@ -27977,23 +27238,13 @@
           "monto": 17262,
           "motivo": null,
           "ncFacturaId": "f_1788876485124_lutlp",
-          "ncNumero": "0132-01363625, 0132-01363625, 0132-01363625",
+          "ncNumero": "0132-01363625",
           "faltante": true,
           "ncDetalle": [
             {
               "facturaId": "f_1788876485124_lutlp",
               "numero": "0132-01363625",
-              "cantidad": 2
-            },
-            {
-              "facturaId": "f_1788876485124_lutlp",
-              "numero": "0132-01363625",
-              "cantidad": 3
-            },
-            {
-              "facturaId": "f_1788876485124_lutlp",
-              "numero": "0132-01363625",
-              "cantidad": 3
+              "cantidad": 8
             }
           ],
           "cantidadAcreditada": 8,
@@ -28089,18 +27340,13 @@
           "monto": 13176,
           "motivo": null,
           "ncFacturaId": "f_1788876485124_lutlp",
-          "ncNumero": "0132-01363625, 0132-01363625",
+          "ncNumero": "0132-01363625",
           "faltante": false,
           "ncDetalle": [
             {
               "facturaId": "f_1788876485124_lutlp",
               "numero": "0132-01363625",
-              "cantidad": 1
-            },
-            {
-              "facturaId": "f_1788876485124_lutlp",
-              "numero": "0132-01363625",
-              "cantidad": 3
+              "cantidad": 4
             }
           ],
           "cantidadAcreditada": 4,
@@ -28114,13 +27360,18 @@
           "monto": 13176,
           "motivo": null,
           "ncFacturaId": "f_1788876485124_lutlp",
-          "ncNumero": "0132-01363625",
+          "ncNumero": "0132-01363625, 0132-01363625",
           "faltante": false,
           "ncDetalle": [
             {
               "facturaId": "f_1788876485124_lutlp",
               "numero": "0132-01363625",
-              "cantidad": 4
+              "cantidad": 2
+            },
+            {
+              "facturaId": "f_1788876485124_lutlp",
+              "numero": "0132-01363625",
+              "cantidad": 2
             }
           ],
           "cantidadAcreditada": 4,
@@ -28248,482 +27499,6 @@
       "estado": "pendiente",
       "acreditadaEl": null,
       "cargadaEl": "2026-08-26T14:44:52.461Z"
-    },
-    {
-      "id": "dev_1787755493572_3qz8t",
-      "proveedorKey": "clarin",
-      "fecha": "2026-08-26",
-      "numeroRemito": "545525",
-      "modo": "item",
-      "items": [
-        {
-          "descripcion": "HELLO KITTY 2026 - KITTY JARDINERA",
-          "edicion": "9",
-          "codigoPublicacion": null,
-          "cantidad": 9,
-          "monto": 100800.29,
-          "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 9
-        }
-      ],
-      "adjuntos": [
-        {
-          "id": "dev_1787755493572_3qz8t_a0",
-          "nombre": "1000831243.jpg",
-          "mime": "image/jpeg",
-          "bytes": 191215
-        }
-      ],
-      "estado": "pendiente",
-      "acreditadaEl": null,
-      "cargadaEl": "2026-08-26T14:44:53.606Z"
-    },
-    {
-      "id": "dev_1787836197193_vklw1",
-      "proveedorKey": "lanacion",
-      "fecha": "2026-08-27",
-      "numeroRemito": "379046",
-      "modo": "item",
-      "items": [
-        {
-          "descripcion": "HOLA",
-          "edicion": "822",
-          "codigoPublicacion": "110203",
-          "cantidad": 2,
-          "monto": 11590,
-          "motivo": null,
-          "ncFacturaId": "f_1788475149092_stq0b",
-          "ncNumero": "00450-00967504",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1788475149092_stq0b",
-              "numero": "00450-00967504",
-              "cantidad": 2
-            }
-          ],
-          "cantidadAcreditada": 2,
-          "cantidadFaltante": 0
-        },
-        {
-          "descripcion": "LIVING",
-          "edicion": "220",
-          "codigoPublicacion": "79",
-          "cantidad": 1,
-          "monto": 9518,
-          "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 1
-        },
-        {
-          "descripcion": "LUGARES",
-          "edicion": "364",
-          "codigoPublicacion": "65",
-          "cantidad": 1,
-          "monto": 9518,
-          "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 1
-        },
-        {
-          "descripcion": "POP CULTURE",
-          "edicion": "9",
-          "codigoPublicacion": "200427",
-          "cantidad": 1,
-          "monto": 15493.2,
-          "motivo": null,
-          "ncFacturaId": "f_1788475151306_sajs1",
-          "ncNumero": "00450-00967505",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1788475151306_sajs1",
-              "numero": "00450-00967505",
-              "cantidad": 1
-            }
-          ],
-          "cantidadAcreditada": 1,
-          "cantidadFaltante": 0
-        },
-        {
-          "descripcion": "JARDÍN",
-          "edicion": "169",
-          "codigoPublicacion": "110593",
-          "cantidad": 3,
-          "monto": 28554,
-          "motivo": null,
-          "ncFacturaId": "f_1788475136505_a6uh9",
-          "ncNumero": "00450-00967501",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1788475136505_a6uh9",
-              "numero": "00450-00967501",
-              "cantidad": 3
-            }
-          ],
-          "cantidadAcreditada": 3,
-          "cantidadFaltante": 0
-        },
-        {
-          "descripcion": "OHLALÁ",
-          "edicion": "221",
-          "codigoPublicacion": "527",
-          "cantidad": 3,
-          "monto": 28554,
-          "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 3
-        },
-        {
-          "descripcion": "MON Y BILL 2025",
-          "edicion": "39",
-          "codigoPublicacion": "200236",
-          "cantidad": 3,
-          "monto": 40359.6,
-          "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 3
-        },
-        {
-          "descripcion": "LIBROS PRH",
-          "edicion": "1",
-          "codigoPublicacion": "500546",
-          "cantidad": 1,
-          "monto": 20600,
-          "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 1
-        },
-        {
-          "descripcion": "LIBROS PRH",
-          "edicion": "1",
-          "codigoPublicacion": "500547",
-          "cantidad": 1,
-          "monto": 20600,
-          "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 1
-        },
-        {
-          "descripcion": "ACTIVITY COLOURING",
-          "edicion": "10",
-          "codigoPublicacion": "120485",
-          "cantidad": 1,
-          "monto": 2583.2,
-          "motivo": null,
-          "ncFacturaId": "f_1787968715389_sdt59",
-          "ncNumero": "00450-00966089",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1787968715389_sdt59",
-              "numero": "00450-00966089",
-              "cantidad": 1
-            }
-          ],
-          "cantidadAcreditada": 1,
-          "cantidadFaltante": 0
-        },
-        {
-          "descripcion": "ACTIVITY COLOURING",
-          "edicion": "2",
-          "codigoPublicacion": "120484",
-          "cantidad": 1,
-          "monto": 2583.2,
-          "motivo": null,
-          "ncFacturaId": "f_1787968612429_95azs",
-          "ncNumero": "00450-00966090",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1787968612429_95azs",
-              "numero": "00450-00966090",
-              "cantidad": 1
-            }
-          ],
-          "cantidadAcreditada": 1,
-          "cantidadFaltante": 0
-        },
-        {
-          "descripcion": "COLORES Y JUEGOS",
-          "edicion": "20",
-          "codigoPublicacion": "120384",
-          "cantidad": 1,
-          "monto": 5303.2,
-          "motivo": null,
-          "ncFacturaId": "f_1787968608812_5m1xd",
-          "ncNumero": "00450-00966091",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1787968608812_5m1xd",
-              "numero": "00450-00966091",
-              "cantidad": 1
-            }
-          ],
-          "cantidadAcreditada": 1,
-          "cantidadFaltante": 0
-        },
-        {
-          "descripcion": "COL. PINTA Y BRILLA",
-          "edicion": "2",
-          "codigoPublicacion": "120487",
-          "cantidad": 1,
-          "monto": 3263.2,
-          "motivo": null,
-          "ncFacturaId": "f_1787968933642_v7jum",
-          "ncNumero": "00450-00966085",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1787968933642_v7jum",
-              "numero": "00450-00966085",
-              "cantidad": 1
-            }
-          ],
-          "cantidadAcreditada": 1,
-          "cantidadFaltante": 0
-        },
-        {
-          "descripcion": "ACTIVITY ESPECIALE",
-          "edicion": "31",
-          "codigoPublicacion": "120462",
-          "cantidad": 1,
-          "monto": 3943.2,
-          "motivo": null,
-          "ncFacturaId": "f_1787968621199_wbrte",
-          "ncNumero": "00450-00966086",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1787968621199_wbrte",
-              "numero": "00450-00966086",
-              "cantidad": 1
-            }
-          ],
-          "cantidadAcreditada": 1,
-          "cantidadFaltante": 0
-        },
-        {
-          "descripcion": "ACTIVITY ESPECIALE",
-          "edicion": "30",
-          "codigoPublicacion": "120462",
-          "cantidad": 1,
-          "monto": 3263.2,
-          "motivo": null,
-          "ncFacturaId": "f_1787968615893_f6aj2",
-          "ncNumero": "00450-00966087",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1787968615893_f6aj2",
-              "numero": "00450-00966087",
-              "cantidad": 1
-            }
-          ],
-          "cantidadAcreditada": 1,
-          "cantidadFaltante": 0
-        },
-        {
-          "descripcion": "ACTIVITY COLOURING",
-          "edicion": "8",
-          "codigoPublicacion": "120485",
-          "cantidad": 1,
-          "monto": 2583.2,
-          "motivo": null,
-          "ncFacturaId": "f_1787969070536_gbsi9",
-          "ncNumero": "00450-00966088",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1787969070536_gbsi9",
-              "numero": "00450-00966088",
-              "cantidad": 1
-            }
-          ],
-          "cantidadAcreditada": 1,
-          "cantidadFaltante": 0
-        }
-      ],
-      "adjuntos": [
-        {
-          "id": "dev_1787836197193_vklw1_a0",
-          "nombre": "1000832268.jpg",
-          "mime": "image/jpeg",
-          "bytes": 445179
-        }
-      ],
-      "estado": "parcial",
-      "acreditadaEl": null,
-      "cargadaEl": "2026-08-27T13:09:57.260Z"
-    },
-    {
-      "id": "dev_1787836200951_ijccw",
-      "proveedorKey": "lanacion",
-      "fecha": "2026-08-27",
-      "numeroRemito": "379049",
-      "modo": "item",
-      "items": [
-        {
-          "descripcion": "LA NACION SABADO",
-          "edicion": "1364",
-          "codigoPublicacion": "6",
-          "cantidad": 6,
-          "monto": 30036,
-          "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 6
-        },
-        {
-          "descripcion": "LA NACION DOMINGO",
-          "edicion": "1362",
-          "codigoPublicacion": "7",
-          "cantidad": 3,
-          "monto": 15018,
-          "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 3
-        }
-      ],
-      "adjuntos": [
-        {
-          "id": "dev_1787836200951_ijccw_a0",
-          "nombre": "1000832269.jpg",
-          "mime": "image/jpeg",
-          "bytes": 338848
-        }
-      ],
-      "estado": "pendiente",
-      "acreditadaEl": null,
-      "cargadaEl": "2026-08-27T13:10:00.991Z"
-    },
-    {
-      "id": "dev_1787836203634_geq9n",
-      "proveedorKey": "lanacion",
-      "fecha": "2026-08-27",
-      "numeroRemito": "379050",
-      "modo": "item",
-      "items": [
-        {
-          "descripcion": "POPULAR MIE",
-          "edicion": "737",
-          "codigoPublicacion": "110603",
-          "cantidad": 3,
-          "monto": 4632,
-          "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 3
-        },
-        {
-          "descripcion": "POPULAR JUE",
-          "edicion": "734",
-          "codigoPublicacion": "110604",
-          "cantidad": 3,
-          "monto": 4632,
-          "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 3
-        },
-        {
-          "descripcion": "POPULAR VIE",
-          "edicion": "726",
-          "codigoPublicacion": "110605",
-          "cantidad": 4,
-          "monto": 6176,
-          "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 4
-        },
-        {
-          "descripcion": "POPULAR SAB",
-          "edicion": "739",
-          "codigoPublicacion": "110606",
-          "cantidad": 4,
-          "monto": 6176,
-          "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 4
-        },
-        {
-          "descripcion": "POPULAR LUN",
-          "edicion": "739",
-          "codigoPublicacion": "110601",
-          "cantidad": 3,
-          "monto": 4632,
-          "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 3
-        }
-      ],
-      "adjuntos": [
-        {
-          "id": "dev_1787836203634_geq9n_a0",
-          "nombre": "1000832270.jpg",
-          "mime": "image/jpeg",
-          "bytes": 370066
-        }
-      ],
-      "estado": "pendiente",
-      "acreditadaEl": null,
-      "cargadaEl": "2026-08-27T13:10:03.685Z"
     },
     {
       "id": "dev_1788355134502_wp8y6",
@@ -29092,362 +27867,6 @@
       "cargadaEl": "2026-09-02T13:19:25.416Z"
     },
     {
-      "id": "dev_1788441676135_1bbgl",
-      "proveedorKey": "lanacion",
-      "fecha": "2026-09-03",
-      "numeroRemito": "379546",
-      "modo": "completa",
-      "items": [
-        {
-          "descripcion": "DEADPOOL",
-          "edicion": "5",
-          "codigoPublicacion": "200430",
-          "cantidad": 7,
-          "monto": 77798,
-          "motivo": null,
-          "ncFacturaId": "f_1788999533016_if0nw",
-          "ncNumero": "00450-00969251",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1788999533016_if0nw",
-              "numero": "00450-00969251",
-              "cantidad": 7
-            }
-          ],
-          "cantidadAcreditada": 7,
-          "cantidadFaltante": 0
-        },
-        {
-          "descripcion": "HOLA",
-          "edicion": "823",
-          "codigoPublicacion": "110203",
-          "cantidad": 1,
-          "monto": 5795,
-          "motivo": null,
-          "ncFacturaId": "f_1788999540728_euumu",
-          "ncNumero": "00450-00969249",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1788999540728_euumu",
-              "numero": "00450-00969249",
-              "cantidad": 1
-            }
-          ],
-          "cantidadAcreditada": 1,
-          "cantidadFaltante": 0
-        },
-        {
-          "descripcion": "MOANA",
-          "edicion": "1",
-          "codigoPublicacion": "200446",
-          "cantidad": 9,
-          "monto": 139438.8,
-          "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 9
-        },
-        {
-          "descripcion": "AMERICANAS 4X4",
-          "edicion": "8",
-          "codigoPublicacion": "200429",
-          "cantidad": 2,
-          "monto": 37786.4,
-          "motivo": null,
-          "ncFacturaId": "f_1788999537484_5fwyk",
-          "ncNumero": "00450-00969250",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1788999537484_5fwyk",
-              "numero": "00450-00969250",
-              "cantidad": 2
-            }
-          ],
-          "cantidadAcreditada": 2,
-          "cantidadFaltante": 0
-        },
-        {
-          "descripcion": "ORGULLO ARGENTINO",
-          "edicion": "5",
-          "codigoPublicacion": "200440",
-          "cantidad": 5,
-          "monto": 94466,
-          "motivo": null,
-          "ncFacturaId": "f_1788999544342_6um7j",
-          "ncNumero": "00450-00969248",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1788999544342_6um7j",
-              "numero": "00450-00969248",
-              "cantidad": 5
-            }
-          ],
-          "cantidadAcreditada": 5,
-          "cantidadFaltante": 0
-        }
-      ],
-      "adjuntos": [
-        {
-          "id": "dev_1788441676135_1bbgl_a0",
-          "nombre": "1000839356.jpg",
-          "mime": "image/jpeg",
-          "bytes": 363097
-        }
-      ],
-      "estado": "parcial",
-      "acreditadaEl": null,
-      "cargadaEl": "2026-09-03T13:21:16.241Z"
-    },
-    {
-      "id": "dev_1788441678966_kgede",
-      "proveedorKey": "lanacion",
-      "fecha": "2026-09-03",
-      "numeroRemito": "379552",
-      "modo": "completa",
-      "items": [
-        {
-          "descripcion": "POPULAR MAR",
-          "edicion": "734",
-          "codigoPublicacion": "110602",
-          "cantidad": 4,
-          "monto": 6640,
-          "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 4
-        },
-        {
-          "descripcion": "POPULAR MIE",
-          "edicion": "738",
-          "codigoPublicacion": "110603",
-          "cantidad": 3,
-          "monto": 4980,
-          "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 3
-        },
-        {
-          "descripcion": "POPULAR JUE",
-          "edicion": "735",
-          "codigoPublicacion": "110604",
-          "cantidad": 3,
-          "monto": 4980,
-          "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 3
-        },
-        {
-          "descripcion": "POPULAR VIE",
-          "edicion": "727",
-          "codigoPublicacion": "110605",
-          "cantidad": 2,
-          "monto": 3320,
-          "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 2
-        },
-        {
-          "descripcion": "POPULAR SAB",
-          "edicion": "740",
-          "codigoPublicacion": "110606",
-          "cantidad": 2,
-          "monto": 3320,
-          "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 2
-        },
-        {
-          "descripcion": "POPULAR LUN",
-          "edicion": "740",
-          "codigoPublicacion": "110601",
-          "cantidad": 4,
-          "monto": 6640,
-          "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 4
-        }
-      ],
-      "adjuntos": [
-        {
-          "id": "dev_1788441678966_kgede_a0",
-          "nombre": "1000839358.jpg",
-          "mime": "image/jpeg",
-          "bytes": 384184
-        }
-      ],
-      "estado": "pendiente",
-      "acreditadaEl": null,
-      "cargadaEl": "2026-09-03T13:21:19.013Z"
-    },
-    {
-      "id": "dev_1788441681890_70prx",
-      "proveedorKey": "lanacion",
-      "fecha": "2026-09-03",
-      "numeroRemito": "379551",
-      "modo": "completa",
-      "items": [
-        {
-          "descripcion": "LA NACION LUNES",
-          "edicion": "1361",
-          "codigoPublicacion": null,
-          "cantidad": 5,
-          "monto": 25030,
-          "motivo": null,
-          "ncFacturaId": "f_1788999317668_nzj0m",
-          "ncNumero": "00450-00969558",
-          "faltante": true,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1788999317668_nzj0m",
-              "numero": "00450-00969558",
-              "cantidad": 3
-            }
-          ],
-          "cantidadAcreditada": 3,
-          "cantidadFaltante": 2
-        },
-        {
-          "descripcion": "LA NACION MARTES",
-          "edicion": "1361",
-          "codigoPublicacion": null,
-          "cantidad": 3,
-          "monto": 15018,
-          "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 3
-        },
-        {
-          "descripcion": "LA NACION MIERC.",
-          "edicion": "1362",
-          "codigoPublicacion": null,
-          "cantidad": 4,
-          "monto": 20024,
-          "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 4
-        },
-        {
-          "descripcion": "LA NACION JUEVES",
-          "edicion": "1355",
-          "codigoPublicacion": null,
-          "cantidad": 4,
-          "monto": 20024,
-          "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 4
-        },
-        {
-          "descripcion": "LA NACION VIERNES",
-          "edicion": "1348",
-          "codigoPublicacion": null,
-          "cantidad": 2,
-          "monto": 10012,
-          "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 2
-        },
-        {
-          "descripcion": "LA NACION SABADO",
-          "edicion": "1365",
-          "codigoPublicacion": null,
-          "cantidad": 6,
-          "monto": 30036,
-          "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 6
-        },
-        {
-          "descripcion": "LA NACION DOMINGO",
-          "edicion": "1363",
-          "codigoPublicacion": null,
-          "cantidad": 3,
-          "monto": 15018,
-          "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 3
-        },
-        {
-          "descripcion": "LA NACION LUNES",
-          "edicion": "1362",
-          "codigoPublicacion": null,
-          "cantidad": 5,
-          "monto": 25030,
-          "motivo": null,
-          "ncFacturaId": null,
-          "ncNumero": null,
-          "faltante": true,
-          "ncDetalle": [],
-          "cantidadAcreditada": 0,
-          "cantidadFaltante": 5
-        }
-      ],
-      "adjuntos": [
-        {
-          "id": "dev_1788441681890_70prx_a0",
-          "nombre": "1000839357.jpg",
-          "mime": "image/jpeg",
-          "bytes": 400668
-        }
-      ],
-      "estado": "parcial",
-      "acreditadaEl": null,
-      "cargadaEl": "2026-09-03T13:21:21.944Z"
-    },
-    {
       "id": "dev_1788959909622_q88so",
       "proveedorKey": "clarin",
       "fecha": "2026-09-09",
@@ -29736,6 +28155,472 @@
       "estado": "pendiente",
       "acreditadaEl": null,
       "cargadaEl": "2026-09-09T13:18:35.086Z"
+    },
+    {
+      "id": "dev_1789048066673_38gk4",
+      "proveedorKey": "lanacion",
+      "fecha": "2026-09-10",
+      "numeroRemito": "380039",
+      "modo": "completa",
+      "items": [
+        {
+          "descripcion": "DINOSAURIOS 2025",
+          "edicion": "9",
+          "codigoPublicacion": "200219",
+          "cantidad": 5,
+          "monto": 43466,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 5
+        },
+        {
+          "descripcion": "AUTOS ALEMANES",
+          "edicion": "12",
+          "codigoPublicacion": "200423",
+          "cantidad": 2,
+          "monto": 37786.4,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 2
+        },
+        {
+          "descripcion": "MON Y BILL 2025",
+          "edicion": "40",
+          "codigoPublicacion": "200236",
+          "cantidad": 3,
+          "monto": 40359.6,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 3
+        },
+        {
+          "descripcion": "ORGULLO ARGENTINO",
+          "edicion": "6",
+          "codigoPublicacion": "200440",
+          "cantidad": 6,
+          "monto": 113359.2,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 6
+        },
+        {
+          "descripcion": "POP CULTURE",
+          "edicion": "10",
+          "codigoPublicacion": "200427",
+          "cantidad": 1,
+          "monto": 15493.2,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
+        },
+        {
+          "descripcion": "DEADPOOL",
+          "edicion": "6",
+          "codigoPublicacion": "200430",
+          "cantidad": 7,
+          "monto": 77798,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 7
+        },
+        {
+          "descripcion": "COLORES Y JUEGOS",
+          "edicion": "121",
+          "codigoPublicacion": "120377",
+          "cantidad": 1,
+          "monto": null,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
+        },
+        {
+          "descripcion": "ACTIVITY COLOURING",
+          "edicion": "2",
+          "codigoPublicacion": "120488",
+          "cantidad": 1,
+          "monto": 3263.2,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
+        },
+        {
+          "descripcion": "COLORES Y JUEGOS",
+          "edicion": "6",
+          "codigoPublicacion": "120426",
+          "cantidad": 1,
+          "monto": null,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
+        },
+        {
+          "descripcion": "LIBROS INFANTILES",
+          "edicion": "12",
+          "codigoPublicacion": "120460",
+          "cantidad": 1,
+          "monto": null,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
+        },
+        {
+          "descripcion": "COL PINTA Y BRILLA",
+          "edicion": "1",
+          "codigoPublicacion": "120476",
+          "cantidad": 1,
+          "monto": null,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
+        },
+        {
+          "descripcion": "ACTIVITY COLOURING",
+          "edicion": "7",
+          "codigoPublicacion": "120477",
+          "cantidad": 1,
+          "monto": 3263.2,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
+        },
+        {
+          "descripcion": "ACTIVITY COLOURING",
+          "edicion": "3",
+          "codigoPublicacion": "120477",
+          "cantidad": 1,
+          "monto": 3263.2,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
+        }
+      ],
+      "adjuntos": [
+        {
+          "id": "dev_1789048066673_38gk4_a0",
+          "nombre": "1000846024.jpg",
+          "mime": "image/jpeg",
+          "bytes": 454769
+        }
+      ],
+      "estado": "pendiente",
+      "acreditadaEl": null,
+      "cargadaEl": "2026-09-10T13:47:46.731Z"
+    },
+    {
+      "id": "dev_1789048069900_p5tau",
+      "proveedorKey": "lanacion",
+      "fecha": "2026-09-10",
+      "numeroRemito": "380042",
+      "modo": "completa",
+      "items": [
+        {
+          "descripcion": "LA NACION MARTES",
+          "edicion": "1362",
+          "codigoPublicacion": "2",
+          "cantidad": 5,
+          "monto": 18570,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 5
+        },
+        {
+          "descripcion": "LA NACION MIERC.",
+          "edicion": "1363",
+          "codigoPublicacion": "3",
+          "cantidad": 4,
+          "monto": 14856,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 4
+        },
+        {
+          "descripcion": "LA NACION JUEVES",
+          "edicion": "1356",
+          "codigoPublicacion": "4",
+          "cantidad": 3,
+          "monto": 10272,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 3
+        },
+        {
+          "descripcion": "LA NACION VIERNES",
+          "edicion": "1349",
+          "codigoPublicacion": "5",
+          "cantidad": 2,
+          "monto": 6848,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 2
+        },
+        {
+          "descripcion": "LA NACION SABADO",
+          "edicion": "1366",
+          "codigoPublicacion": "6",
+          "cantidad": 7,
+          "monto": 25998,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 7
+        },
+        {
+          "descripcion": "LA NACION DOMINGO",
+          "edicion": "1364",
+          "codigoPublicacion": "7",
+          "cantidad": 3,
+          "monto": 11142,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 3
+        },
+        {
+          "descripcion": "LA NACION LUNES",
+          "edicion": "1363",
+          "codigoPublicacion": "1",
+          "cantidad": 3,
+          "monto": 11142,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 3
+        },
+        {
+          "descripcion": "LA NACION MARTES",
+          "edicion": "1363",
+          "codigoPublicacion": "2",
+          "cantidad": 3,
+          "monto": 11142,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 3
+        }
+      ],
+      "adjuntos": [
+        {
+          "id": "dev_1789048069900_p5tau_a0",
+          "nombre": "1000846025.jpg",
+          "mime": "image/jpeg",
+          "bytes": 400492
+        }
+      ],
+      "estado": "pendiente",
+      "acreditadaEl": null,
+      "cargadaEl": "2026-09-10T13:47:49.957Z"
+    },
+    {
+      "id": "dev_1789048073285_1tw9b",
+      "proveedorKey": "lanacion",
+      "fecha": "2026-09-10",
+      "numeroRemito": "380045",
+      "modo": "completa",
+      "items": [
+        {
+          "descripcion": "POPULAR MAR",
+          "edicion": "735",
+          "codigoPublicacion": "110602",
+          "cantidad": 3,
+          "monto": 4632,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 3
+        },
+        {
+          "descripcion": "POPULAR MIE",
+          "edicion": "739",
+          "codigoPublicacion": "110603",
+          "cantidad": 4,
+          "monto": 6176,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 4
+        },
+        {
+          "descripcion": "POPULAR JUE",
+          "edicion": "736",
+          "codigoPublicacion": "110604",
+          "cantidad": 4,
+          "monto": 6176,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 4
+        },
+        {
+          "descripcion": "POPULAR VIE",
+          "edicion": "728",
+          "codigoPublicacion": "110605",
+          "cantidad": 4,
+          "monto": 6176,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 4
+        },
+        {
+          "descripcion": "POPULAR SAB",
+          "edicion": "741",
+          "codigoPublicacion": "110606",
+          "cantidad": 1,
+          "monto": 1544,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 1
+        },
+        {
+          "descripcion": "POPULAR DOM",
+          "edicion": "741",
+          "codigoPublicacion": "110607",
+          "cantidad": 3,
+          "monto": 4632,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 3
+        },
+        {
+          "descripcion": "POPULAR LUN",
+          "edicion": "741",
+          "codigoPublicacion": "110601",
+          "cantidad": 2,
+          "monto": 3088,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 2
+        },
+        {
+          "descripcion": "POPULAR MAR",
+          "edicion": "736",
+          "codigoPublicacion": "110602",
+          "cantidad": 4,
+          "monto": 6176,
+          "motivo": null,
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 4
+        }
+      ],
+      "adjuntos": [
+        {
+          "id": "dev_1789048073285_1tw9b_a0",
+          "nombre": "1000846026.jpg",
+          "mime": "image/jpeg",
+          "bytes": 405379
+        }
+      ],
+      "estado": "pendiente",
+      "acreditadaEl": null,
+      "cargadaEl": "2026-09-10T13:47:53.332Z"
     }
   ],
   "clientesReparto": {
@@ -32600,6 +31485,20 @@
         "fecha": "2026-09-04",
         "descripcion": "Popular",
         "monto": 2300
+      },
+      {
+        "id": "mtvxxnif3fqx88",
+        "clienteId": "msokpdwksc5o1a",
+        "fecha": "2026-09-10",
+        "descripcion": "Popular",
+        "monto": 2300
+      },
+      {
+        "id": "mtvxxyo9mxcyi2",
+        "clienteId": "msokpdwksc5o1a",
+        "fecha": "2026-09-11",
+        "descripcion": "Popular",
+        "monto": 2300
       }
     ],
     "diasSinReparto": [
@@ -32743,12 +31642,6 @@
         "monto": 15000,
         "recurrente": true,
         "diaMes": 14
-      },
-      {
-        "id": "vzmt8xl9kako1gmi",
-        "nombre": "ARBA Inmobiliari...",
-        "fecha": "2026-09-08",
-        "monto": 163347
       },
       {
         "id": "vzmthkha41gt6etf",
@@ -42096,7 +40989,8 @@
         "mtsrgiacjei3cb": 68,
         "mtsrgsfer5931m": 68,
         "mtsrh1kr50akll": 68,
-        "mtsrh8szab6u6r": 68
+        "mtsrh8szab6u6r": 68,
+        "mtvw1eqtq6qnzk": 68
       }
     },
     "silmar": {
@@ -42167,10 +41061,47 @@
       "monedaOriginal": "USD",
       "cotizacionUsada": null,
       "notas": ""
+    },
+    {
+      "id": "1789049902025-mhsq84",
+      "fecha": "2026-09-10",
+      "activo": "BTC",
+      "ticker": "",
+      "tipo": "compra",
+      "cantidad": 0.006492578982223319,
+      "precio": 77011,
+      "montoOriginal": 500,
+      "monedaOriginal": "USD",
+      "cotizacionUsada": null,
+      "notas": ""
     }
   ],
   "materialPublicitarioColecciones": {
     "items": [
+      {
+        "id": "rcmtwx48xxiienzr",
+        "proveedor": "Silmar",
+        "tipo": "video",
+        "thumbDataUrl": "data:image/jpeg;base64,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",
+        "dataUrl": null,
+        "nombreArchivo": "1000847201.mp4",
+        "nota": "",
+        "fecha": "2026-09-11",
+        "videoGuardado": true,
+        "bytes": 8852
+      },
+      {
+        "id": "rcmtvqkbcv0n02yt",
+        "proveedor": "Clarín",
+        "tipo": "video",
+        "thumbDataUrl": "data:image/jpeg;base64,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",
+        "dataUrl": null,
+        "nombreArchivo": "1000846191.mp4",
+        "nota": "",
+        "fecha": "2026-09-10",
+        "videoGuardado": true,
+        "bytes": 9329
+      },
       {
         "id": "rcmtuhpmspae48a9",
         "proveedor": "Clarín",
@@ -42856,33 +41787,33 @@
         "esKiosco": true,
         "pedidos": [
           {
-            "fecha": "6/9/2026 11:32 a. m.",
+            "fecha": "11/9/2026 09:02 a. m.",
             "items": [
               {
-                "sku": "TIT-msxizh04i7r5gc-D6",
-                "producto": "CLARIN BASE 05 - 10.08.2026 - 28986/2026 — Sábado (Clarín)",
-                "cantidad": 6,
-                "pdv": 5280,
-                "pdvPublico": 5280,
-                "total": 31680,
+                "sku": "TIT-msxizh04i7r5gc-D1",
+                "producto": "CLARIN BASE 05 - 10.08.2026 - 28986/2026 — Lunes (Clarín)",
+                "cantidad": 4,
+                "pdv": 3294,
+                "pdvPublico": 3810,
+                "total": 13176,
                 "esTitulo": true,
-                "margenKioscoUnit": 768,
+                "margenKioscoUnit": 0,
                 "costo": 0
               },
               {
-                "sku": "TIT-mswjajxusycfvw-D6",
-                "producto": "Nacion — Sábado (La Nación)",
-                "cantidad": 2,
-                "pdv": 5970,
-                "pdvPublico": 5970,
-                "total": 11940,
+                "sku": "TIT-mswjajxusycfvw-D5",
+                "producto": "Nacion — Viernes (La Nación)",
+                "cantidad": 1,
+                "pdv": 4290,
+                "pdvPublico": 4290,
+                "total": 4290,
                 "esTitulo": true,
-                "margenKioscoUnit": 504,
+                "margenKioscoUnit": 336,
                 "costo": 0
               },
               {
-                "sku": "TIT-mswk1p6nmht3i6-D6",
-                "producto": "POPULAR — Sábado (La Nación)",
+                "sku": "TIT-mswk1p6nmht3i6-D5",
+                "producto": "POPULAR — Viernes (La Nación)",
                 "cantidad": 1,
                 "pdv": 1760,
                 "pdvPublico": 1760,
@@ -42892,13 +41823,22 @@
                 "costo": 0
               }
             ],
-            "totalGeneral": 45380,
-            "totalUnidades": 9,
+            "totalGeneral": 19226,
+            "totalUnidades": 6,
             "stockDescontado": false,
             "estado": "firme",
             "original": []
           }
-        ]
+        ],
+        "pctPorProveedor": {
+          "clarin": {
+            "diario": 58,
+            "periodico": 75
+          },
+          "lanacion": {
+            "periodico": 75
+          }
+        }
       },
       {
         "nombre": "Valguarnera",
