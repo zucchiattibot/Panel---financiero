@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 6,
-  "exportadoEl": "2026-09-25T21:54:06.655Z",
+  "exportadoEl": "2026-09-27T14:07:06.778Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -5239,6 +5239,86 @@
       "detalle": "Viernes",
       "id": "m_muhflfwuqcq0rm",
       "modificadoEl": "2026-09-25T20:46:39.822Z"
+    },
+    {
+      "date": "2026-09-25",
+      "type": "ingreso",
+      "amount": 30000,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "transferencia",
+      "id": "m_muhj1kz3423i8d",
+      "modificadoEl": "2026-09-25T22:23:11.727Z"
+    },
+    {
+      "date": "2026-09-26",
+      "type": "ingreso",
+      "amount": 53900,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "transferencia",
+      "detalle": "Pablo Benedicto",
+      "id": "m_muic44326nf2m3",
+      "modificadoEl": "2026-09-26T11:56:58.670Z"
+    },
+    {
+      "date": "2026-09-26",
+      "type": "ingreso",
+      "amount": 86000,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "transferencia",
+      "id": "m_muiehrasbrbbrg",
+      "modificadoEl": "2026-09-26T13:03:34.516Z"
+    },
+    {
+      "date": "2026-09-26",
+      "type": "egreso",
+      "amount": 15000,
+      "category": "Sueldo",
+      "account": "alquileres",
+      "detalle": "Frutos secos",
+      "id": "m_muigj130yz2qr5",
+      "modificadoEl": "2026-09-26T14:00:33.084Z"
+    },
+    {
+      "date": "2026-09-26",
+      "type": "ingreso",
+      "amount": 218000,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "efectivo",
+      "id": "m_muihshmuqsb9to",
+      "modificadoEl": "2026-09-26T14:35:54.054Z"
+    },
+    {
+      "date": "2026-09-26",
+      "type": "egreso",
+      "amount": 10000,
+      "category": "Chiara",
+      "account": "alquileres",
+      "id": "m_muiuax7gwjqh7l",
+      "modificadoEl": "2026-09-26T20:26:09.436Z"
+    },
+    {
+      "date": "2026-09-27",
+      "type": "egreso",
+      "amount": 8000,
+      "category": "Empleado mandado javi",
+      "account": "agencia",
+      "detalle": "Día domingo",
+      "id": "m_mujt4g5857tj8p",
+      "modificadoEl": "2026-09-27T12:40:53.948Z"
+    },
+    {
+      "date": "2026-09-27",
+      "type": "ingreso",
+      "amount": 69300,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "transferencia",
+      "id": "m_mujw6v6u4ie1qf",
+      "modificadoEl": "2026-09-27T14:06:45.606Z"
     }
   ],
   "categoriasCustom": [
@@ -32786,13 +32866,13 @@
         "nombre": "CAMPEONES (DGP)",
         "alias": "",
         "tipoProducto": "periodico",
-        "precioUnico": 0,
-        "recargoUnico": 0,
+        "precioUnico": 14000,
+        "recargoUnico": 800,
         "historialUnico": [
           {
             "desde": "2026-08-26",
-            "tapa": 0,
-            "recargo": 0
+            "tapa": 14000,
+            "recargo": 800
           }
         ],
         "historial": [
@@ -32820,7 +32900,7 @@
         ],
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
-        "excluirGanSem": true
+        "excluirGanSem": false
       },
       {
         "id": "mtai83sa77fhk1",
@@ -38943,6 +39023,96 @@
         "esKiosco": true,
         "pedidos": [
           {
+            "fecha": "27/9/2026 09:52 a. m.",
+            "items": [
+              {
+                "sku": "TIT-msxizh04i7r5gc-D0",
+                "producto": "CLARIN BASE 05 — Domingo (Clarín)",
+                "cantidad": 15,
+                "pdv": 4976,
+                "pdvPublico": 5840,
+                "pvp": 8000,
+                "total": 74640,
+                "esTitulo": true,
+                "recargoUnit": 800,
+                "margenKioscoUnit": 0,
+                "margenCedidoUnit": 3024,
+                "costo": 0
+              },
+              {
+                "sku": "TIT-mswk1p6nmht3i6-D0",
+                "producto": "POPULAR — Domingo (La Nación)",
+                "cantidad": 5,
+                "pdv": 1970,
+                "pdvPublico": 1970,
+                "pvp": 2600,
+                "total": 9850,
+                "esTitulo": true,
+                "recargoUnit": 500,
+                "margenKioscoUnit": 147,
+                "margenCedidoUnit": 630,
+                "costo": 0
+              },
+              {
+                "sku": "TIT-mswjajxusycfvw-D0",
+                "producto": "Nacion — Domingo (La Nación)",
+                "cantidad": 2,
+                "pdv": 6460,
+                "pdvPublico": 6460,
+                "pvp": 8830,
+                "total": 12920,
+                "esTitulo": true,
+                "recargoUnit": 930,
+                "margenKioscoUnit": 553,
+                "margenCedidoUnit": 2370,
+                "costo": 0
+              }
+            ],
+            "totalGeneral": 97410,
+            "totalUnidades": 22,
+            "stockDescontado": false,
+            "estado": "firme",
+            "original": []
+          },
+          {
+            "fecha": "26/9/2026 08:55 a. m.",
+            "items": [
+              {
+                "sku": "TIT-msxizh04i7r5gc-D6",
+                "producto": "CLARIN BASE 05 — Sábado (Clarín)",
+                "cantidad": 6,
+                "pdv": 4512,
+                "pdvPublico": 5280,
+                "pvp": 7200,
+                "total": 27072,
+                "esTitulo": true,
+                "recargoUnit": 800,
+                "margenKioscoUnit": 0,
+                "margenCedidoUnit": 2688,
+                "costo": 0
+              },
+              {
+                "sku": "TIT-mswjajxusycfvw-D6",
+                "producto": "Nacion — Sábado (La Nación)",
+                "cantidad": 2,
+                "pdv": 5970,
+                "pdvPublico": 5970,
+                "pvp": 8130,
+                "total": 11940,
+                "esTitulo": true,
+                "recargoUnit": 930,
+                "margenKioscoUnit": 504,
+                "margenCedidoUnit": 2160,
+                "costo": 0
+              }
+            ],
+            "totalGeneral": 39012,
+            "totalUnidades": 8,
+            "stockDescontado": false,
+            "estado": "firme",
+            "original": []
+          },
+          {
             "fecha": "25/9/2026 08:23 a. m.",
             "items": [
               {
@@ -38962,11 +39132,11 @@
               {
                 "sku": "TIT-msxizh04i7r5gc-D5",
                 "producto": "CLARIN BASE 05 — Viernes (Clarín)",
-                "cantidad": 4,
+                "cantidad": 3,
                 "pdv": 3294,
                 "pdvPublico": 3810,
                 "pvp": 5100,
-                "total": 13176,
+                "total": 9882,
                 "esTitulo": true,
                 "recargoUnit": 800,
                 "margenKioscoUnit": 0,
@@ -38988,8 +39158,8 @@
                 "costo": 0
               }
             ],
-            "totalGeneral": 21456,
-            "totalUnidades": 6,
+            "totalGeneral": 18162,
+            "totalUnidades": 5,
             "stockDescontado": false,
             "estado": "firme",
             "original": [],
@@ -38999,7 +39169,9 @@
                 "monto": 21456,
                 "nota": ""
               }
-            ]
+            ],
+            "editado": true,
+            "fechaEdicion": "26/9/2026 08:56 a. m."
           },
           {
             "fecha": "25/9/2026 07:59 a. m.",
@@ -40285,9 +40457,20 @@
     ]
   },
   "metaIngresos": {
-    "fechaInicio": "20260919",
-    "fechaObjetivo": "2026-09-26",
-    "monto": 2006097.0370691956
+    "fechaInicio": "20260926",
+    "fechaObjetivo": "2026-10-03",
+    "monto": 2952029.402938154
   },
-  "metaAhorroCombinado": null
+  "metaAhorroCombinado": null,
+  "metasMultiples": [
+    {
+      "id": "ingresos-1790443077258-xxak2",
+      "type": "ingresos",
+      "fechaInicio": "20260926",
+      "fechaObjetivo": "20261003",
+      "monto": 2980689.4663064983,
+      "createdAt": 1790443077258
+    }
+  ],
+  "metasHistorial": null
 }
