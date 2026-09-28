@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 6,
-  "exportadoEl": "2026-09-27T14:07:06.778Z",
+  "exportadoEl": "2026-09-28T19:13:13.460Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -5319,6 +5319,101 @@
       "medio": "transferencia",
       "id": "m_mujw6v6u4ie1qf",
       "modificadoEl": "2026-09-27T14:06:45.606Z"
+    },
+    {
+      "date": "2026-09-27",
+      "type": "ingreso",
+      "amount": 111000,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "efectivo",
+      "id": "m_mujwfvolv84cvb",
+      "modificadoEl": "2026-09-27T14:13:46.149Z"
+    },
+    {
+      "date": "2026-09-27",
+      "type": "egreso",
+      "amount": 22760,
+      "category": "Varios",
+      "account": "alquileres",
+      "detalle": "Cuota river Donato pocho",
+      "id": "m_muk99borwoq7jy",
+      "modificadoEl": "2026-09-27T20:12:35.307Z"
+    },
+    {
+      "date": "2026-09-28",
+      "type": "egreso",
+      "amount": 33900,
+      "category": "Varios",
+      "account": "alquileres",
+      "detalle": "Empanadas domingo",
+      "id": "m_mukio6vbdzotca",
+      "modificadoEl": "2026-09-28T00:36:05.447Z"
+    },
+    {
+      "date": "2026-09-28",
+      "type": "ingreso",
+      "amount": 39500,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "transferencia",
+      "detalle": "Pablo benedicto",
+      "id": "m_mul7afyf2pt3nc",
+      "modificadoEl": "2026-09-28T12:05:14.439Z"
+    },
+    {
+      "date": "2026-09-28",
+      "type": "egreso",
+      "amount": 238000,
+      "category": "Silmar",
+      "account": "agencia",
+      "detalle": "Silmar infoauto",
+      "id": "m_mul7ewc7x0sn1p",
+      "modificadoEl": "2026-09-28T12:08:42.295Z"
+    },
+    {
+      "date": "2026-09-28",
+      "type": "egreso",
+      "amount": 4000,
+      "category": "Empleado mandado javi",
+      "account": "agencia",
+      "detalle": "Mandado",
+      "id": "m_mulay44y7dox4c",
+      "modificadoEl": "2026-09-28T13:47:37.714Z"
+    },
+    {
+      "date": "2026-09-28",
+      "type": "ingreso",
+      "amount": 211000,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "efectivo",
+      "id": "m_mulbsrnfkrgakd",
+      "modificadoEl": "2026-09-28T14:11:27.867Z"
+    },
+    {
+      "date": "2026-08-31",
+      "amount": 2000000,
+      "category": "Retiro Agencia → Alquileres",
+      "traspaso": "retiro",
+      "pairId": "r_m_mulmkbcpm2i9fw",
+      "modificadoEl": "2026-09-28T19:12:49.274Z",
+      "type": "egreso",
+      "account": "agencia",
+      "detalle": "Retiro de Agencia a Alquileres",
+      "id": "m_mulmkbcqwys8jx"
+    },
+    {
+      "date": "2026-08-31",
+      "amount": 2000000,
+      "category": "Retiro Agencia → Alquileres",
+      "traspaso": "retiro",
+      "pairId": "r_m_mulmkbcpm2i9fw",
+      "modificadoEl": "2026-09-28T19:12:49.274Z",
+      "type": "ingreso",
+      "account": "alquileres",
+      "detalle": "Retiro desde Agencia",
+      "id": "m_mulmkbcqzm67s1"
     }
   ],
   "categoriasCustom": [
@@ -39023,16 +39118,75 @@
         "esKiosco": true,
         "pedidos": [
           {
+            "fecha": "28/9/2026 09:03 a. m.",
+            "items": [
+              {
+                "sku": "TIT-msxizh04i7r5gc-D1",
+                "producto": "CLARIN BASE 05 — Lunes (Clarín)",
+                "cantidad": 3,
+                "pdv": 3294,
+                "pdvPublico": 3810,
+                "pvp": 5100,
+                "total": 9882,
+                "esTitulo": true,
+                "recargoUnit": 800,
+                "margenKioscoUnit": 0,
+                "margenCedidoUnit": 1806,
+                "costo": 0
+              },
+              {
+                "sku": "TIT-mswjajxusycfvw-D1",
+                "producto": "Nacion — Lunes (La Nación)",
+                "cantidad": 1,
+                "pdv": 4290,
+                "pdvPublico": 4290,
+                "pvp": 5730,
+                "total": 4290,
+                "esTitulo": true,
+                "recargoUnit": 930,
+                "margenKioscoUnit": 336,
+                "margenCedidoUnit": 1440,
+                "costo": 0
+              },
+              {
+                "sku": "TIT-mswk1p6nmht3i6-D1",
+                "producto": "POPULAR — Lunes (La Nación)",
+                "cantidad": 1,
+                "pdv": 1830,
+                "pdvPublico": 1830,
+                "pvp": 2400,
+                "total": 1830,
+                "esTitulo": true,
+                "recargoUnit": 500,
+                "margenKioscoUnit": 133,
+                "margenCedidoUnit": 570,
+                "costo": 0
+              }
+            ],
+            "totalGeneral": 16002,
+            "totalUnidades": 5,
+            "stockDescontado": false,
+            "estado": "firme",
+            "original": [],
+            "pagos": [
+              {
+                "fecha": "2026-09-28",
+                "monto": 16002,
+                "nota": ""
+              }
+            ]
+          },
+          {
             "fecha": "27/9/2026 09:52 a. m.",
             "items": [
               {
                 "sku": "TIT-msxizh04i7r5gc-D0",
                 "producto": "CLARIN BASE 05 — Domingo (Clarín)",
-                "cantidad": 15,
+                "cantidad": 12,
                 "pdv": 4976,
                 "pdvPublico": 5840,
                 "pvp": 8000,
-                "total": 74640,
+                "total": 59712,
                 "esTitulo": true,
                 "recargoUnit": 800,
                 "margenKioscoUnit": 0,
@@ -39042,11 +39196,11 @@
               {
                 "sku": "TIT-mswk1p6nmht3i6-D0",
                 "producto": "POPULAR — Domingo (La Nación)",
-                "cantidad": 5,
+                "cantidad": 4,
                 "pdv": 1970,
                 "pdvPublico": 1970,
                 "pvp": 2600,
-                "total": 9850,
+                "total": 7880,
                 "esTitulo": true,
                 "recargoUnit": 500,
                 "margenKioscoUnit": 147,
@@ -39068,11 +39222,20 @@
                 "costo": 0
               }
             ],
-            "totalGeneral": 97410,
-            "totalUnidades": 22,
+            "totalGeneral": 80512,
+            "totalUnidades": 18,
             "stockDescontado": false,
             "estado": "firme",
-            "original": []
+            "original": [],
+            "editado": true,
+            "fechaEdicion": "28/9/2026 09:02 a. m.",
+            "pagos": [
+              {
+                "fecha": "2026-09-28",
+                "monto": 80512,
+                "nota": ""
+              }
+            ]
           },
           {
             "fecha": "26/9/2026 08:55 a. m.",
@@ -39110,7 +39273,14 @@
             "totalUnidades": 8,
             "stockDescontado": false,
             "estado": "firme",
-            "original": []
+            "original": [],
+            "pagos": [
+              {
+                "fecha": "2026-09-28",
+                "monto": 39012,
+                "nota": "Pago combinado (reparto automático)"
+              }
+            ]
           },
           {
             "fecha": "25/9/2026 08:23 a. m.",
@@ -39165,8 +39335,8 @@
             "original": [],
             "pagos": [
               {
-                "fecha": "2026-09-25",
-                "monto": 21456,
+                "fecha": "2026-09-28",
+                "monto": 18162,
                 "nota": ""
               }
             ],
@@ -39826,6 +39996,44 @@
         "telefono": "",
         "pedidos": [
           {
+            "fecha": "28/9/2026 10:10 a. m.",
+            "items": [
+              {
+                "sku": "PROV-prov_1790600987152_2vver",
+                "producto": "Triciclo (Clarín) · provisorio, sin factura",
+                "cantidad": 1,
+                "pdv": 47200,
+                "pdvPublico": 47200,
+                "pvp": 59000,
+                "total": 47200,
+                "esTitulo": true,
+                "recargoUnit": 0,
+                "margenKioscoUnit": null,
+                "margenCedidoUnit": 11800,
+                "costo": 0
+              },
+              {
+                "sku": "TIT-mt2zr0bcfy1t76",
+                "producto": "FIESTAS 2025 - FASC RUTAS + VINO + 2 COP (Clarín)",
+                "cantidad": 2,
+                "pdv": 20099.2,
+                "pdvPublico": 20099.2,
+                "pvp": 24499,
+                "total": 40198.4,
+                "esTitulo": true,
+                "recargoUnit": 2500,
+                "margenKioscoUnit": 2639.88,
+                "margenCedidoUnit": 4399.8,
+                "costo": 0
+              }
+            ],
+            "totalGeneral": 87398.4,
+            "totalUnidades": 3,
+            "stockDescontado": false,
+            "estado": "firme",
+            "original": []
+          },
+          {
             "fecha": "21/9/2026 10:54 a. m.",
             "items": [
               {
@@ -39871,20 +40079,6 @@
                 "costo": 0
               },
               {
-                "sku": "PROV-prov_1790162310941_9jctp",
-                "producto": "Brazero (Clarín) · provisorio, sin factura",
-                "cantidad": 1,
-                "pdv": 16400,
-                "pdvPublico": 16400,
-                "pvp": 20000,
-                "total": 16400,
-                "esTitulo": true,
-                "recargoUnit": 2000,
-                "margenKioscoUnit": null,
-                "margenCedidoUnit": 3600,
-                "costo": 0
-              },
-              {
                 "sku": "TIT-mt2zr0bcfy1t76",
                 "producto": "FIESTAS 2025 - FASC RUTAS + VINO + 2 COP (Clarín)",
                 "cantidad": 1,
@@ -39899,13 +40093,13 @@
                 "costo": 0
               }
             ],
-            "totalGeneral": 139799.2,
-            "totalUnidades": 9,
+            "totalGeneral": 123399.2,
+            "totalUnidades": 8,
             "stockDescontado": false,
             "estado": "firme",
             "original": [],
             "editado": true,
-            "fechaEdicion": "23/9/2026 10:27 a. m."
+            "fechaEdicion": "28/9/2026 10:49 a. m."
           },
           {
             "fecha": "15/9/2026 11:00 a. m.",
@@ -39913,12 +40107,15 @@
               {
                 "sku": "TIT-mtx24bjxn8ikun",
                 "producto": "HORNO FACIL - PAPAS / MOLDE CUADRADO (Clarín)",
-                "cantidad": 4,
+                "cantidad": 3,
                 "pdv": 13500,
                 "pdvPublico": 13500,
-                "total": 54000,
+                "pvp": 16500,
+                "total": 40500,
                 "esTitulo": true,
+                "recargoUnit": 1500,
                 "margenKioscoUnit": 1800,
+                "margenCedidoUnit": 3000,
                 "costo": 0
               },
               {
@@ -39927,9 +40124,12 @@
                 "cantidad": 1,
                 "pdv": 23000,
                 "pdvPublico": 23000,
+                "pvp": 28000,
                 "total": 23000,
                 "esTitulo": true,
+                "recargoUnit": 3000,
                 "margenKioscoUnit": 3000,
+                "margenCedidoUnit": 5000,
                 "costo": 0
               },
               {
@@ -39938,17 +40138,22 @@
                 "cantidad": 2,
                 "pdv": 15600,
                 "pdvPublico": 15600,
+                "pvp": 19500,
                 "total": 31200,
                 "esTitulo": true,
+                "recargoUnit": 0,
                 "margenKioscoUnit": null,
+                "margenCedidoUnit": 3900,
                 "costo": 0
               }
             ],
-            "totalGeneral": 108200,
-            "totalUnidades": 7,
+            "totalGeneral": 94700,
+            "totalUnidades": 6,
             "stockDescontado": false,
             "estado": "firme",
-            "original": []
+            "original": [],
+            "editado": true,
+            "fechaEdicion": "28/9/2026 10:48 a. m."
           }
         ],
         "esKiosco": true
@@ -40452,6 +40657,23 @@
         "estado": "provisorio",
         "facturaId": null,
         "fechaAlta": "2026-09-23T12:20:02.740Z",
+        "fechaConfirmado": null
+      },
+      {
+        "id": "prov_1790600987152_2vver",
+        "titulo": "Triciclo",
+        "tipoProducto": "revista",
+        "provKey": "clarin",
+        "provLabel": "Clarín",
+        "provNuevo": false,
+        "cantidadEsperada": 1,
+        "fechaEstimada": "2026-09-21",
+        "costoEstimado": 59000,
+        "pctReventa": 80,
+        "recargoInterior": 0,
+        "estado": "provisorio",
+        "facturaId": null,
+        "fechaAlta": "2026-09-28T13:09:47.152Z",
         "fechaConfirmado": null
       }
     ]
