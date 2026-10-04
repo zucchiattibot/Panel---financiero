@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 6,
-  "exportadoEl": "2026-10-03T11:51:11.839Z",
+  "exportadoEl": "2026-10-04T12:22:42.767Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -5914,6 +5914,148 @@
       "detalle": "Pablo Benedicto",
       "id": "m_musby7507xwik5",
       "modificadoEl": "2026-10-03T11:50:04.452Z"
+    },
+    {
+      "date": "2026-10-03",
+      "type": "ingreso",
+      "amount": 160000,
+      "category": "Chacha tomasin",
+      "account": "agencia",
+      "medio": "transferencia",
+      "detalle": "Chacha tomasin",
+      "id": "m_musfy9ltvmhj4s",
+      "modificadoEl": "2026-10-03T13:42:06.113Z"
+    },
+    {
+      "date": "2026-10-03",
+      "type": "ingreso",
+      "amount": 137000,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "efectivo",
+      "id": "m_musg7sckrzxzib",
+      "modificadoEl": "2026-10-03T13:49:30.308Z"
+    },
+    {
+      "date": "2026-10-03",
+      "type": "ingreso",
+      "amount": 138000,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "efectivo",
+      "detalle": "Entradas",
+      "id": "m_musgok6x00w8nx",
+      "modificadoEl": "2026-10-03T14:02:32.889Z"
+    },
+    {
+      "date": "2026-10-03",
+      "type": "ingreso",
+      "amount": 15000,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "efectivo",
+      "id": "m_musgz16nocg3uy",
+      "modificadoEl": "2026-10-03T14:10:41.471Z"
+    },
+    {
+      "date": "2026-10-03",
+      "type": "ingreso",
+      "amount": 13000,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "transferencia",
+      "id": "m_musgz54sv73xpf",
+      "modificadoEl": "2026-10-03T14:10:46.588Z"
+    },
+    {
+      "date": "2026-10-03",
+      "type": "ingreso",
+      "amount": 44400,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "transferencia",
+      "id": "m_mushi5rznxnybc",
+      "modificadoEl": "2026-10-03T14:25:33.887Z"
+    },
+    {
+      "date": "2026-10-03",
+      "type": "ingreso",
+      "amount": 60900,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "transferencia",
+      "id": "m_musi0mmia5elmm",
+      "modificadoEl": "2026-10-03T14:39:55.530Z"
+    },
+    {
+      "date": "2026-10-03",
+      "type": "ingreso",
+      "amount": 57000,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "transferencia",
+      "id": "m_musi136chz9tx3",
+      "modificadoEl": "2026-10-03T14:40:16.980Z"
+    },
+    {
+      "date": "2026-10-03",
+      "type": "ingreso",
+      "amount": 80000,
+      "category": "San juan",
+      "account": "agencia",
+      "medio": "transferencia",
+      "id": "m_musxa8piqvd3r0",
+      "modificadoEl": "2026-10-03T21:47:18.294Z"
+    },
+    {
+      "date": "2026-10-03",
+      "type": "egreso",
+      "amount": 40000,
+      "category": "Nafta",
+      "account": "alquileres",
+      "detalle": "Viaje Bragado",
+      "id": "m_musxfpzxe8oxsy",
+      "modificadoEl": "2026-10-03T21:51:33.981Z"
+    },
+    {
+      "date": "2026-10-03",
+      "type": "egreso",
+      "amount": 40000,
+      "category": "Varios",
+      "account": "alquileres",
+      "detalle": "Viaje Bragado multishop",
+      "id": "m_musxg4ujhu1uri",
+      "modificadoEl": "2026-10-03T21:51:53.227Z"
+    },
+    {
+      "date": "2026-10-03",
+      "type": "egreso",
+      "amount": 12000,
+      "category": "Sueldo",
+      "account": "alquileres",
+      "detalle": "Heladería",
+      "id": "m_musxgldu5pzxxq",
+      "modificadoEl": "2026-10-03T21:52:14.658Z"
+    },
+    {
+      "date": "2026-10-03",
+      "type": "egreso",
+      "amount": 20000,
+      "category": "Chiara",
+      "account": "alquileres",
+      "detalle": "Sábado",
+      "id": "m_mut0uqe5cozkm5",
+      "modificadoEl": "2026-10-03T23:27:13.181Z"
+    },
+    {
+      "date": "2026-10-03",
+      "type": "egreso",
+      "amount": 20000,
+      "category": "Donato",
+      "account": "alquileres",
+      "detalle": "Sábado",
+      "id": "m_mut0uw4ylrdbi5",
+      "modificadoEl": "2026-10-03T23:27:20.626Z"
     }
   ],
   "categoriasCustom": [
@@ -42726,6 +42868,81 @@
         "esKiosco": true,
         "pedidos": [
           {
+            "fecha": "3/10/2026 08:53 a. m.",
+            "items": [
+              {
+                "sku": "TIT-msxizh04i7r5gc-D6",
+                "producto": "CLARIN BASE 05 — Sábado (Clarín)",
+                "cantidad": 6,
+                "pdv": 4512,
+                "pdvPublico": 5280,
+                "pvp": 7200,
+                "total": 27072,
+                "esTitulo": true,
+                "recargoUnit": 800,
+                "margenKioscoUnit": 0,
+                "margenCedidoUnit": 2688,
+                "costo": 0
+              },
+              {
+                "sku": "TIT-mswjajxusycfvw-D6",
+                "producto": "Nacion — Sábado (La Nación)",
+                "cantidad": 2,
+                "pdv": 5970,
+                "pdvPublico": 5970,
+                "pvp": 8130,
+                "total": 11940,
+                "esTitulo": true,
+                "recargoUnit": 930,
+                "margenKioscoUnit": 504,
+                "margenCedidoUnit": 2160,
+                "costo": 0
+              },
+              {
+                "sku": "TIT-mt95v0doyfaako",
+                "producto": "200443 DESCAPOTABLES\nMercedes-Benz 280 SE (1967) Entrega 3 + Fascículo (La Nación)",
+                "cantidad": 1,
+                "pdv": 20642.5,
+                "pdvPublico": 21892,
+                "pvp": 26890,
+                "total": 20642.5,
+                "esTitulo": true,
+                "recargoUnit": 1900,
+                "margenKioscoUnit": 1749.3,
+                "margenCedidoUnit": 6247.5,
+                "costo": 0
+              }
+            ],
+            "totalGeneral": 59654.5,
+            "totalUnidades": 9,
+            "stockDescontado": false,
+            "estado": "firme",
+            "original": [
+              {
+                "textoOriginal": "CLARIN BASE 05 — Viernes (Clarín)",
+                "cantidad": 2
+              },
+              {
+                "textoOriginal": "Nacion — Viernes (La Nación)",
+                "cantidad": 1
+              },
+              {
+                "textoOriginal": "CLARIN BASE 05 — Sábado (Clarín)",
+                "cantidad": 6
+              },
+              {
+                "textoOriginal": "Nacion — Sábado (La Nación)",
+                "cantidad": 2
+              },
+              {
+                "textoOriginal": "200443 DESCAPOTABLES\nMercedes-Benz 280 SE (1967) Entrega 3 + Fascículo (La Nación)",
+                "cantidad": 1
+              }
+            ],
+            "editado": true,
+            "fechaEdicion": "3/10/2026 08:54 a. m."
+          },
+          {
             "fecha": "3/10/2026 08:19 a. m.",
             "items": [
               {
@@ -44002,7 +44219,8 @@
             "totalUnidades": 8,
             "stockDescontado": false,
             "estado": "firme",
-            "original": []
+            "original": [],
+            "pagos": []
           },
           {
             "fecha": "12/9/2026 09:12 a. m.",
@@ -44106,19 +44324,9 @@
             "fechaEdicion": "2/10/2026 01:19 p. m.",
             "pagos": [
               {
-                "fecha": "2026-09-23",
-                "monto": 100000,
+                "fecha": "2026-10-03",
+                "monto": 180000,
                 "nota": "Pago combinado (reparto automático)"
-              },
-              {
-                "fecha": "2026-10-02",
-                "monto": 23144,
-                "nota": ""
-              },
-              {
-                "fecha": "2026-10-02",
-                "monto": 61672.5,
-                "nota": ""
               }
             ]
           }
@@ -44648,13 +44856,29 @@
   "metaAhorroCombinado": null,
   "metasMultiples": [
     {
+      "id": "ingresos-1791039591886-1ocin",
+      "type": "ingresos",
+      "fechaInicio": "20261003",
+      "desde": "manana",
+      "fechaObjetivo": "20261010",
+      "monto": 3070214.385150175,
+      "createdAt": 1791039591886
+    }
+  ],
+  "metasHistorial": [
+    {
       "id": "ingresos-1790443077258-xxak2",
       "type": "ingresos",
       "fechaInicio": "20260926",
       "fechaObjetivo": "20261003",
       "monto": 2980689.4663064983,
-      "createdAt": 1790443077258
+      "createdAt": 1790443077258,
+      "finalizadoEn": "20261003",
+      "real": 2940630,
+      "desvio": -40059.466306498274,
+      "desvioPct": -1.3439664466670422,
+      "cumplida": false,
+      "rev2": true
     }
-  ],
-  "metasHistorial": null
+  ]
 }
