@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 6,
-  "exportadoEl": "2026-10-04T12:22:42.767Z",
+  "exportadoEl": "2026-10-05T13:38:44.960Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -6056,6 +6056,135 @@
       "detalle": "Sábado",
       "id": "m_mut0uw4ylrdbi5",
       "modificadoEl": "2026-10-03T23:27:20.626Z"
+    },
+    {
+      "date": "2026-10-03",
+      "type": "egreso",
+      "amount": 41000,
+      "category": "Varios",
+      "account": "alquileres",
+      "detalle": "Cena pizzería",
+      "id": "m_mutsrx028jv9oe",
+      "modificadoEl": "2026-10-04T12:28:51.026Z"
+    },
+    {
+      "date": "2026-10-04",
+      "type": "ingreso",
+      "amount": 8000,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "efectivo",
+      "id": "m_mutt6b86b373q7",
+      "modificadoEl": "2026-10-04T12:40:02.646Z"
+    },
+    {
+      "date": "2026-10-04",
+      "type": "egreso",
+      "amount": 8000,
+      "category": "Empleado mandado javi",
+      "account": "agencia",
+      "detalle": "Día domingo",
+      "id": "m_mutt6jqhovbs9q",
+      "modificadoEl": "2026-10-04T12:40:13.673Z"
+    },
+    {
+      "date": "2026-10-04",
+      "type": "ingreso",
+      "amount": 47000,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "transferencia",
+      "id": "m_mutuwrkscmvi01",
+      "modificadoEl": "2026-10-04T13:28:36.508Z"
+    },
+    {
+      "date": "2026-10-04",
+      "type": "ingreso",
+      "amount": 15450,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "transferencia",
+      "id": "m_mutvucebuhtxcx",
+      "modificadoEl": "2026-10-04T13:54:43.139Z"
+    },
+    {
+      "date": "2026-10-04",
+      "type": "ingreso",
+      "amount": 20000,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "efectivo",
+      "id": "m_mutxj8gtimcdv1",
+      "modificadoEl": "2026-10-04T14:42:04.061Z"
+    },
+    {
+      "date": "2026-10-04",
+      "type": "egreso",
+      "amount": 20000,
+      "category": "Sueldo",
+      "account": "alquileres",
+      "detalle": "Día compras súper",
+      "id": "m_mutxjpiaqp0tdy",
+      "modificadoEl": "2026-10-04T14:42:26.146Z"
+    },
+    {
+      "date": "2026-10-04",
+      "type": "egreso",
+      "amount": 7200,
+      "category": "Sueldo",
+      "account": "alquileres",
+      "detalle": "Helados",
+      "id": "m_muu4fnij23glee",
+      "modificadoEl": "2026-10-04T17:55:14.251Z"
+    },
+    {
+      "date": "2026-10-04",
+      "type": "egreso",
+      "amount": 7200,
+      "category": "Servicios",
+      "account": "alquileres",
+      "detalle": "Personal caro",
+      "id": "m_muu8mfarpe8owk",
+      "modificadoEl": "2026-10-04T19:52:28.659Z"
+    },
+    {
+      "date": "2026-10-05",
+      "type": "ingreso",
+      "amount": 39600,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "transferencia",
+      "detalle": "Pablo benedicto",
+      "id": "m_muv7f952dn68pp",
+      "modificadoEl": "2026-10-05T12:06:40.646Z"
+    },
+    {
+      "date": "2026-10-05",
+      "type": "egreso",
+      "amount": 2000,
+      "category": "Chiara",
+      "account": "alquileres",
+      "id": "m_muv8l51qx97c36",
+      "modificadoEl": "2026-10-05T12:39:14.894Z"
+    },
+    {
+      "date": "2026-10-05",
+      "type": "egreso",
+      "amount": 2000,
+      "category": "Donato",
+      "account": "alquileres",
+      "id": "m_muv8l9mi2hhjom",
+      "modificadoEl": "2026-10-05T12:39:20.826Z"
+    },
+    {
+      "date": "2026-10-05",
+      "type": "ingreso",
+      "amount": 2900,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "transferencia",
+      "id": "m_muv8lk43mb7x2d",
+      "modificadoEl": "2026-10-05T12:39:34.419Z"
     }
   ],
   "categoriasCustom": [
@@ -30426,7 +30555,8 @@
             "recargo": 3000
           }
         ],
-        "archivado": true
+        "archivado": true,
+        "pctCalculoPeriodico": 68
       },
       {
         "id": "msxmp4yquqqodw",
@@ -30467,7 +30597,8 @@
             "recargo": 1000
           }
         ],
-        "excepciones": "HELLO KITTY FRIENDS"
+        "excepciones": "HELLO KITTY FRIENDS",
+        "pctCalculoPeriodico": 68
       },
       {
         "id": "msxmrgiup5vaue",
@@ -30508,7 +30639,8 @@
             "recargo": 1000
           }
         ],
-        "archivado": true
+        "archivado": true,
+        "pctCalculoPeriodico": 68
       },
       {
         "id": "msxmsoalxmowlz",
@@ -30548,7 +30680,8 @@
             "tapa": 9990,
             "recargo": 3000
           }
-        ]
+        ],
+        "pctCalculoPeriodico": 68
       },
       {
         "id": "msxmwxobt2t0qa",
@@ -30629,7 +30762,8 @@
             "recargo": 1000
           }
         ],
-        "excluirGanSem": true
+        "excluirGanSem": true,
+        "pctCalculoPeriodico": 68
       },
       {
         "id": "msxmzfjk2aa0yz",
@@ -30711,7 +30845,8 @@
             "recargo": 1000
           }
         ],
-        "componenteDe": "msxmy7q6gmrhvv"
+        "componenteDe": "msxmy7q6gmrhvv",
+        "pctCalculoPeriodico": 68
       },
       {
         "id": "msxn1pkpyshk2b",
@@ -30756,7 +30891,8 @@
             "tapa": 11000,
             "recargo": 1000
           }
-        ]
+        ],
+        "pctCalculoPeriodico": 68
       },
       {
         "id": "mt07f84tnoyy8z",
@@ -30797,7 +30933,8 @@
             "recargo": 800
           }
         ],
-        "componenteDe": null
+        "componenteDe": null,
+        "pctCalculoPeriodico": 68
       },
       {
         "id": "mt07hi2wau94el",
@@ -30838,7 +30975,8 @@
             "recargo": 800
           }
         ],
-        "archivado": true
+        "archivado": true,
+        "pctCalculoPeriodico": 68
       },
       {
         "id": "mt2zr0bcfy1t76",
@@ -30878,7 +31016,8 @@
             "tapa": 21999,
             "recargo": 2500
           }
-        ]
+        ],
+        "pctCalculoPeriodico": 68
       },
       {
         "id": "mt769vxxngutm3",
@@ -30918,7 +31057,8 @@
           }
         ],
         "feriadoTapa": 0,
-        "feriadoRecargo": 0
+        "feriadoRecargo": 0,
+        "pctCalculoPeriodico": 68
       },
       {
         "id": "mt76bikzncz5gz",
@@ -30958,7 +31098,8 @@
           }
         ],
         "feriadoTapa": 0,
-        "feriadoRecargo": 0
+        "feriadoRecargo": 0,
+        "pctCalculoPeriodico": 68
       },
       {
         "id": "mt76c4qdbfz9a7",
@@ -30998,7 +31139,8 @@
           }
         ],
         "feriadoTapa": 0,
-        "feriadoRecargo": 0
+        "feriadoRecargo": 0,
+        "pctCalculoPeriodico": 68
       },
       {
         "id": "mt92rm0we9zyf4",
@@ -31040,7 +31182,8 @@
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
         "excluirGanSem": true,
-        "archivado": true
+        "archivado": true,
+        "pctCalculoPeriodico": 68
       },
       {
         "id": "mt92rvr54rqf06",
@@ -31082,7 +31225,8 @@
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
         "excluirGanSem": true,
-        "archivado": true
+        "archivado": true,
+        "pctCalculoPeriodico": 68
       },
       {
         "id": "mt92s33b9pea9u",
@@ -31124,7 +31268,8 @@
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
         "excluirGanSem": false,
-        "archivado": false
+        "archivado": false,
+        "pctCalculoPeriodico": 68
       },
       {
         "id": "mtaamjtg1fclt5",
@@ -31165,7 +31310,8 @@
         ],
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
-        "archivado": true
+        "archivado": true,
+        "pctCalculoPeriodico": 68
       },
       {
         "id": "mtaan12hstsx2w",
@@ -31205,7 +31351,8 @@
           }
         ],
         "feriadoTapa": 0,
-        "feriadoRecargo": 0
+        "feriadoRecargo": 0,
+        "pctCalculoPeriodico": 68
       },
       {
         "id": "mtk293dh98lr2u",
@@ -32161,7 +32308,8 @@
             "tapa": 21500,
             "recargo": 1600
           }
-        ]
+        ],
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mt0mpi6ne07hxj",
@@ -32206,7 +32354,8 @@
             "tapa": 3800,
             "recargo": 1500
           }
-        ]
+        ],
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mt0ms1ew43plx9",
@@ -32251,7 +32400,8 @@
             "tapa": 10900,
             "recargo": 1700
           }
-        ]
+        ],
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mt0mu6dyg4rii3",
@@ -32291,7 +32441,8 @@
             "tapa": 21500,
             "recargo": 1600
           }
-        ]
+        ],
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mt0mvefje515b3",
@@ -32331,7 +32482,8 @@
             "tapa": 13900,
             "recargo": 1600
           }
-        ]
+        ],
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mt0mwsgi02m3bb",
@@ -32371,7 +32523,8 @@
             "tapa": 30000,
             "recargo": 1600
           }
-        ]
+        ],
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mt0my0c6ebrpky",
@@ -32411,7 +32564,8 @@
             "tapa": 28500,
             "recargo": 1400
           }
-        ]
+        ],
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mt0n001uvltq4q",
@@ -32456,7 +32610,8 @@
             "tapa": 20500,
             "recargo": 1600
           }
-        ]
+        ],
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mt2zsz4jaevgzy",
@@ -32496,7 +32651,8 @@
             "tapa": 20500,
             "recargo": 1600
           }
-        ]
+        ],
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mt3lpk6d7rjajc",
@@ -32536,7 +32692,8 @@
             "tapa": 30000,
             "recargo": 1600
           }
-        ]
+        ],
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mt3lrvshpo77in",
@@ -32581,7 +32738,8 @@
             "tapa": 20500,
             "recargo": 1600
           }
-        ]
+        ],
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mt3m1a9veib7qi",
@@ -32621,7 +32779,8 @@
             "tapa": 20500,
             "recargo": 1600
           }
-        ]
+        ],
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mt3m2u2yhgwgid",
@@ -32661,7 +32820,8 @@
             "tapa": 27000,
             "recargo": 1600
           }
-        ]
+        ],
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mt3mn91nwa96mk",
@@ -32746,7 +32906,8 @@
             "tapa": 16000,
             "recargo": 1700
           }
-        ]
+        ],
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mt4cp7fzl0wx24",
@@ -32791,7 +32952,8 @@
           }
         ],
         "feriadoTapa": 0,
-        "feriadoRecargo": 0
+        "feriadoRecargo": 0,
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mt4cq2qmk8anmh",
@@ -32831,7 +32993,8 @@
           }
         ],
         "feriadoTapa": 0,
-        "feriadoRecargo": 0
+        "feriadoRecargo": 0,
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mt4dhoygvq7m4s",
@@ -32871,7 +33034,8 @@
           }
         ],
         "feriadoTapa": 0,
-        "feriadoRecargo": 0
+        "feriadoRecargo": 0,
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mt4dqop4x1lclk",
@@ -32911,7 +33075,8 @@
           }
         ],
         "feriadoTapa": 0,
-        "feriadoRecargo": 0
+        "feriadoRecargo": 0,
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mt4ds6tscq0uhh",
@@ -32956,7 +33121,8 @@
           }
         ],
         "feriadoTapa": 0,
-        "feriadoRecargo": 0
+        "feriadoRecargo": 0,
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mt4dv1udzv2kav",
@@ -32996,7 +33162,8 @@
           }
         ],
         "feriadoTapa": 0,
-        "feriadoRecargo": 0
+        "feriadoRecargo": 0,
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mt5tk8dumx1yji",
@@ -33036,7 +33203,8 @@
           }
         ],
         "feriadoTapa": 0,
-        "feriadoRecargo": 0
+        "feriadoRecargo": 0,
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mtahysqtvhrayn",
@@ -33078,7 +33246,8 @@
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
         "excluirGanSem": true,
-        "archivado": true
+        "archivado": true,
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mtahz0y0nts9eq",
@@ -33119,7 +33288,8 @@
         ],
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
-        "excluirGanSem": true
+        "excluirGanSem": true,
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mtahzdn4e9pm3y",
@@ -33161,7 +33331,8 @@
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
         "excluirGanSem": true,
-        "archivado": true
+        "archivado": true,
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mtahzjy5nrcf5v",
@@ -33203,7 +33374,8 @@
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
         "excluirGanSem": true,
-        "archivado": true
+        "archivado": true,
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mtahzr4jfpal4j",
@@ -33245,7 +33417,8 @@
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
         "excluirGanSem": true,
-        "archivado": true
+        "archivado": true,
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mtahzzpk911qrt",
@@ -33287,7 +33460,8 @@
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
         "excluirGanSem": true,
-        "archivado": true
+        "archivado": true,
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mtai06uf7s49q8",
@@ -33329,7 +33503,8 @@
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
         "excluirGanSem": true,
-        "archivado": true
+        "archivado": true,
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mtai09ybeaou5o",
@@ -33370,7 +33545,8 @@
         ],
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
-        "excluirGanSem": false
+        "excluirGanSem": false,
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mtai0czielp4u8",
@@ -33411,7 +33587,8 @@
         ],
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
-        "excluirGanSem": true
+        "excluirGanSem": true,
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mtai0g1qyyscjs",
@@ -33453,7 +33630,8 @@
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
         "excluirGanSem": true,
-        "archivado": true
+        "archivado": true,
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mtai0iifmqbhwa",
@@ -33495,7 +33673,8 @@
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
         "excluirGanSem": true,
-        "archivado": true
+        "archivado": true,
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mtai0lmsfhls2k",
@@ -33536,7 +33715,8 @@
         ],
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
-        "excluirGanSem": true
+        "excluirGanSem": true,
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mtai0q96z8v9w1",
@@ -33577,7 +33757,8 @@
         ],
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
-        "excluirGanSem": true
+        "excluirGanSem": true,
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mtai0t1tkjm80p",
@@ -33618,7 +33799,8 @@
         ],
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
-        "excluirGanSem": true
+        "excluirGanSem": true,
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mtai0wk3rpgjlr",
@@ -33659,7 +33841,8 @@
         ],
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
-        "excluirGanSem": true
+        "excluirGanSem": true,
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mtai1w2vowo4pq",
@@ -33700,7 +33883,8 @@
         ],
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
-        "excluirGanSem": true
+        "excluirGanSem": true,
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mtai215nym7vli",
@@ -33741,7 +33925,8 @@
         ],
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
-        "excluirGanSem": true
+        "excluirGanSem": true,
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mtai24ygy3hl5i",
@@ -33782,7 +33967,8 @@
         ],
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
-        "excluirGanSem": true
+        "excluirGanSem": true,
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mtai285lvphd3o",
@@ -33824,7 +34010,8 @@
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
         "excluirGanSem": true,
-        "archivado": true
+        "archivado": true,
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mtai2herf7o79y",
@@ -33865,7 +34052,8 @@
         ],
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
-        "excluirGanSem": true
+        "excluirGanSem": true,
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mtai32wuv8oqxq",
@@ -33907,7 +34095,8 @@
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
         "excluirGanSem": true,
-        "archivado": true
+        "archivado": true,
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mtai3cg01zaibn",
@@ -33949,7 +34138,8 @@
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
         "excluirGanSem": true,
-        "archivado": true
+        "archivado": true,
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mtai3gkefqd4cm",
@@ -33990,7 +34180,8 @@
         ],
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
-        "excluirGanSem": true
+        "excluirGanSem": true,
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mtai3jo8xqk1na",
@@ -34031,7 +34222,8 @@
         ],
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
-        "excluirGanSem": true
+        "excluirGanSem": true,
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mtai3mzdupgy85",
@@ -34073,7 +34265,8 @@
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
         "excluirGanSem": true,
-        "archivado": true
+        "archivado": true,
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mtai3pg2g8am50",
@@ -34115,7 +34308,8 @@
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
         "excluirGanSem": true,
-        "archivado": true
+        "archivado": true,
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mtai3s9lziksui",
@@ -34157,7 +34351,8 @@
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
         "excluirGanSem": true,
-        "archivado": true
+        "archivado": true,
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mtai3v2n7c5jia",
@@ -34199,7 +34394,8 @@
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
         "excluirGanSem": true,
-        "archivado": true
+        "archivado": true,
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mtai3xmpoek13b",
@@ -34241,7 +34437,8 @@
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
         "excluirGanSem": false,
-        "archivado": false
+        "archivado": false,
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mtai3zr25lxz92",
@@ -34283,7 +34480,8 @@
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
         "excluirGanSem": true,
-        "archivado": true
+        "archivado": true,
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mtai41vsrdfu5k",
@@ -34325,7 +34523,8 @@
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
         "excluirGanSem": true,
-        "archivado": true
+        "archivado": true,
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mtai443gr9cvq6",
@@ -34367,7 +34566,8 @@
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
         "excluirGanSem": true,
-        "archivado": true
+        "archivado": true,
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mtai47q7g6mfg9",
@@ -34409,7 +34609,8 @@
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
         "excluirGanSem": true,
-        "archivado": true
+        "archivado": true,
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mtai49nlftkkx2",
@@ -34450,7 +34651,8 @@
         ],
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
-        "excluirGanSem": true
+        "excluirGanSem": true,
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mtai4bgx197cee",
@@ -34492,7 +34694,8 @@
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
         "excluirGanSem": true,
-        "archivado": true
+        "archivado": true,
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mtai5j4yu4jufg",
@@ -34534,7 +34737,8 @@
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
         "excluirGanSem": true,
-        "archivado": true
+        "archivado": true,
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mtai5lv3exu5vr",
@@ -34575,7 +34779,8 @@
         ],
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
-        "excluirGanSem": true
+        "excluirGanSem": true,
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mtai5olt4gbyn1",
@@ -34616,7 +34821,8 @@
         ],
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
-        "excluirGanSem": true
+        "excluirGanSem": true,
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mtai5qrl5vdi7t",
@@ -34657,7 +34863,8 @@
         ],
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
-        "excluirGanSem": true
+        "excluirGanSem": true,
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mtai5wzmc3qq4z",
@@ -34698,7 +34905,8 @@
         ],
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
-        "excluirGanSem": true
+        "excluirGanSem": true,
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mtai61suytvf6g",
@@ -34740,7 +34948,8 @@
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
         "excluirGanSem": true,
-        "archivado": true
+        "archivado": true,
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mtai64fan1x05b",
@@ -34782,7 +34991,8 @@
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
         "excluirGanSem": true,
-        "archivado": true
+        "archivado": true,
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mtai66i6wd5swl",
@@ -34824,7 +35034,8 @@
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
         "excluirGanSem": true,
-        "archivado": true
+        "archivado": true,
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mtai695nfx8fnz",
@@ -34865,7 +35076,8 @@
         ],
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
-        "excluirGanSem": true
+        "excluirGanSem": true,
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mtai6bu49hyxps",
@@ -34907,7 +35119,8 @@
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
         "excluirGanSem": true,
-        "archivado": true
+        "archivado": true,
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mtai6e0uivc6v3",
@@ -34949,7 +35162,8 @@
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
         "excluirGanSem": true,
-        "archivado": true
+        "archivado": true,
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mtai6hy6j77v0u",
@@ -34990,7 +35204,8 @@
         ],
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
-        "excluirGanSem": true
+        "excluirGanSem": true,
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mtai6knlarfque",
@@ -35031,7 +35246,8 @@
         ],
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
-        "excluirGanSem": true
+        "excluirGanSem": true,
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mtai6mwkirzgfg",
@@ -35073,7 +35289,8 @@
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
         "excluirGanSem": true,
-        "archivado": true
+        "archivado": true,
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mtai6oyfoeptpp",
@@ -35115,7 +35332,8 @@
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
         "excluirGanSem": true,
-        "archivado": true
+        "archivado": true,
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mtai6r349p0zhq",
@@ -35157,7 +35375,8 @@
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
         "excluirGanSem": true,
-        "archivado": true
+        "archivado": true,
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mtai6swe9cc84f",
@@ -35199,7 +35418,8 @@
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
         "excluirGanSem": true,
-        "archivado": true
+        "archivado": true,
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mtai6vjrg13z3j",
@@ -35240,7 +35460,8 @@
         ],
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
-        "excluirGanSem": true
+        "excluirGanSem": true,
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mtai6y5cw877oj",
@@ -35281,7 +35502,8 @@
         ],
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
-        "excluirGanSem": true
+        "excluirGanSem": true,
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mtai70wj3yj6j2",
@@ -35322,7 +35544,8 @@
         ],
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
-        "excluirGanSem": false
+        "excluirGanSem": false,
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mtai73eq4zu9tf",
@@ -35363,7 +35586,8 @@
         ],
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
-        "excluirGanSem": true
+        "excluirGanSem": true,
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mtai75zt54e58v",
@@ -35405,7 +35629,8 @@
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
         "excluirGanSem": true,
-        "archivado": true
+        "archivado": true,
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mtai78p9b4kpja",
@@ -35447,7 +35672,8 @@
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
         "excluirGanSem": true,
-        "archivado": true
+        "archivado": true,
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mtai7bhqyyzqjv",
@@ -35488,7 +35714,8 @@
         ],
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
-        "excluirGanSem": true
+        "excluirGanSem": true,
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mtai7en0od227l",
@@ -35530,7 +35757,8 @@
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
         "excluirGanSem": true,
-        "archivado": true
+        "archivado": true,
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mtai7hzvli73ag",
@@ -35572,7 +35800,8 @@
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
         "excluirGanSem": true,
-        "archivado": true
+        "archivado": true,
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mtai7kd4pr29vh",
@@ -35613,7 +35842,8 @@
         ],
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
-        "excluirGanSem": true
+        "excluirGanSem": true,
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mtai7mpwzi07c0",
@@ -35654,7 +35884,8 @@
         ],
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
-        "excluirGanSem": true
+        "excluirGanSem": true,
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mtai7p7pg1q3xi",
@@ -35695,7 +35926,8 @@
         ],
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
-        "excluirGanSem": true
+        "excluirGanSem": true,
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mtai7spr5fmkh7",
@@ -35737,7 +35969,8 @@
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
         "excluirGanSem": true,
-        "archivado": true
+        "archivado": true,
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mtai7uzwzbit4r",
@@ -35778,7 +36011,8 @@
         ],
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
-        "excluirGanSem": true
+        "excluirGanSem": true,
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mtai7xtw7h4okg",
@@ -35820,7 +36054,8 @@
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
         "excluirGanSem": true,
-        "archivado": true
+        "archivado": true,
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mtai80u1jgt8rn",
@@ -35861,7 +36096,8 @@
         ],
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
-        "excluirGanSem": false
+        "excluirGanSem": false,
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mtai83sa77fhk1",
@@ -35903,7 +36139,8 @@
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
         "excluirGanSem": true,
-        "archivado": true
+        "archivado": true,
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mtaiatf6a2xvmm",
@@ -35945,7 +36182,8 @@
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
         "excluirGanSem": true,
-        "archivado": true
+        "archivado": true,
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mtaiaxgjr5lfay",
@@ -35986,7 +36224,8 @@
         ],
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
-        "excluirGanSem": true
+        "excluirGanSem": true,
+        "pctCalculoPeriodico": 80
       },
       {
         "id": "mtd0yfjp4sjrmb",
@@ -37601,7 +37840,8 @@
             "recargo": 1600
           }
         ],
-        "archivado": true
+        "archivado": true,
+        "pctCalculoPeriodico": 68
       },
       {
         "id": "msx9hlmiab4auu",
@@ -37646,7 +37886,8 @@
             "tapa": 10600,
             "recargo": 0
           }
-        ]
+        ],
+        "pctCalculoPeriodico": 68
       },
       {
         "id": "mt07latuufolp1",
@@ -37691,7 +37932,8 @@
             "tapa": 15400,
             "recargo": 1200
           }
-        ]
+        ],
+        "pctCalculoPeriodico": 68
       },
       {
         "id": "mt07mlddya1rum",
@@ -37736,7 +37978,8 @@
             "tapa": 15400,
             "recargo": 1200
           }
-        ]
+        ],
+        "pctCalculoPeriodico": 68
       },
       {
         "id": "mt07nj3pmah0o2",
@@ -37781,7 +38024,8 @@
             "tapa": 15400,
             "recargo": 1200
           }
-        ]
+        ],
+        "pctCalculoPeriodico": 68
       },
       {
         "id": "mt216mx44uh52g",
@@ -37826,7 +38070,8 @@
             "tapa": 20000,
             "recargo": 3000
           }
-        ]
+        ],
+        "pctCalculoPeriodico": 68
       },
       {
         "id": "mt21awzyy6bxai",
@@ -37867,7 +38112,8 @@
             "recargo": 1100
           }
         ],
-        "archivado": true
+        "archivado": true,
+        "pctCalculoPeriodico": 68
       },
       {
         "id": "mt21d62f7c9eui",
@@ -37907,7 +38153,8 @@
             "tapa": 13550,
             "recargo": 1900
           }
-        ]
+        ],
+        "pctCalculoPeriodico": 68
       },
       {
         "id": "mt21f3g35mayxw",
@@ -37948,7 +38195,8 @@
             "recargo": 1600
           }
         ],
-        "archivado": true
+        "archivado": true,
+        "pctCalculoPeriodico": 68
       },
       {
         "id": "mt32h6y5v8kpug",
@@ -37993,7 +38241,8 @@
             "tapa": 22990,
             "recargo": 1900
           }
-        ]
+        ],
+        "pctCalculoPeriodico": 68
       },
       {
         "id": "mt7h2iqmoc44m3",
@@ -38033,7 +38282,8 @@
           }
         ],
         "feriadoTapa": 0,
-        "feriadoRecargo": 0
+        "feriadoRecargo": 0,
+        "pctCalculoPeriodico": 68
       },
       {
         "id": "mt7h3n9ot7q48n",
@@ -38078,7 +38328,8 @@
           }
         ],
         "feriadoTapa": 0,
-        "feriadoRecargo": 0
+        "feriadoRecargo": 0,
+        "pctCalculoPeriodico": 68
       },
       {
         "id": "mt92djhbusq39p",
@@ -38119,7 +38370,8 @@
         ],
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
-        "excluirGanSem": true
+        "excluirGanSem": true,
+        "pctCalculoPeriodico": 68
       },
       {
         "id": "mt92dxr7aso7oe",
@@ -38161,7 +38413,8 @@
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
         "excluirGanSem": true,
-        "archivado": true
+        "archivado": true,
+        "pctCalculoPeriodico": 68
       },
       {
         "id": "mt92edf78qdni6",
@@ -38202,7 +38455,8 @@
         ],
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
-        "excluirGanSem": true
+        "excluirGanSem": true,
+        "pctCalculoPeriodico": 68
       },
       {
         "id": "mt92euzxpv6h27",
@@ -38243,7 +38497,8 @@
         ],
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
-        "excluirGanSem": true
+        "excluirGanSem": true,
+        "pctCalculoPeriodico": 68
       },
       {
         "id": "mt92fkzap61evm",
@@ -38285,7 +38540,8 @@
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
         "excluirGanSem": true,
-        "archivado": true
+        "archivado": true,
+        "pctCalculoPeriodico": 68
       },
       {
         "id": "mt92g90e277pwv",
@@ -38326,7 +38582,8 @@
         ],
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
-        "excluirGanSem": true
+        "excluirGanSem": true,
+        "pctCalculoPeriodico": 68
       },
       {
         "id": "mt92go31vvqt77",
@@ -38367,7 +38624,8 @@
         ],
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
-        "excluirGanSem": true
+        "excluirGanSem": true,
+        "pctCalculoPeriodico": 68
       },
       {
         "id": "mt92h7itfuww05",
@@ -38408,7 +38666,8 @@
         ],
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
-        "excluirGanSem": true
+        "excluirGanSem": true,
+        "pctCalculoPeriodico": 68
       },
       {
         "id": "mt92hv380m9igq",
@@ -38449,7 +38708,8 @@
         ],
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
-        "excluirGanSem": true
+        "excluirGanSem": true,
+        "pctCalculoPeriodico": 68
       },
       {
         "id": "mt92ib6k0b8w5y",
@@ -38490,7 +38750,8 @@
         ],
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
-        "excluirGanSem": true
+        "excluirGanSem": true,
+        "pctCalculoPeriodico": 68
       },
       {
         "id": "mt92ipn0defld5",
@@ -38531,7 +38792,8 @@
         ],
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
-        "excluirGanSem": true
+        "excluirGanSem": true,
+        "pctCalculoPeriodico": 68
       },
       {
         "id": "mt95v0doyfaako",
@@ -38576,7 +38838,8 @@
           }
         ],
         "feriadoTapa": 0,
-        "feriadoRecargo": 0
+        "feriadoRecargo": 0,
+        "pctCalculoPeriodico": 68
       },
       {
         "id": "mt95vbaw9tb1n4",
@@ -38618,7 +38881,8 @@
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
         "excluirGanSem": true,
-        "archivado": true
+        "archivado": true,
+        "pctCalculoPeriodico": 68
       },
       {
         "id": "mt95vnxxxwjumt",
@@ -38659,7 +38923,8 @@
         ],
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
-        "excluirGanSem": true
+        "excluirGanSem": true,
+        "pctCalculoPeriodico": 68
       },
       {
         "id": "mt95vz5krytpm3",
@@ -38700,7 +38965,8 @@
         ],
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
-        "excluirGanSem": true
+        "excluirGanSem": true,
+        "pctCalculoPeriodico": 68
       },
       {
         "id": "mt95w7khohv9lh",
@@ -38741,7 +39007,8 @@
         ],
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
-        "excluirGanSem": true
+        "excluirGanSem": true,
+        "pctCalculoPeriodico": 68
       },
       {
         "id": "mt95wg90hhqg62",
@@ -38782,7 +39049,8 @@
         ],
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
-        "excluirGanSem": false
+        "excluirGanSem": false,
+        "pctCalculoPeriodico": 68
       },
       {
         "id": "mt95wweq2zgxc6",
@@ -38823,7 +39091,8 @@
         ],
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
-        "excluirGanSem": true
+        "excluirGanSem": true,
+        "pctCalculoPeriodico": 68
       },
       {
         "id": "mt95x7px626yjh",
@@ -38864,7 +39133,8 @@
         ],
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
-        "excluirGanSem": false
+        "excluirGanSem": false,
+        "pctCalculoPeriodico": 68
       },
       {
         "id": "mt95xlp4vm0gdq",
@@ -38905,7 +39175,8 @@
         ],
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
-        "excluirGanSem": true
+        "excluirGanSem": true,
+        "pctCalculoPeriodico": 68
       },
       {
         "id": "mt95xz4fpc9o6h",
@@ -38946,7 +39217,8 @@
         ],
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
-        "excluirGanSem": true
+        "excluirGanSem": true,
+        "pctCalculoPeriodico": 68
       },
       {
         "id": "mtbmx9t7shk3j3",
@@ -38986,7 +39258,8 @@
           }
         ],
         "feriadoTapa": 0,
-        "feriadoRecargo": 0
+        "feriadoRecargo": 0,
+        "pctCalculoPeriodico": 68
       },
       {
         "id": "mtlkcy0cwgvc6j",
@@ -42706,6 +42979,24 @@
       "reventaDiario": 70,
       "reventaPeriodico": 80,
       "titulosPeriodico": {
+        "msxmkdbibcwqqz": 68,
+        "msxmp4yquqqodw": 68,
+        "msxmrgiup5vaue": 68,
+        "msxmsoalxmowlz": 68,
+        "msxmy7q6gmrhvv": 68,
+        "msxn0k3mg7gadp": 68,
+        "msxn1pkpyshk2b": 68,
+        "mt07f84tnoyy8z": 68,
+        "mt07hi2wau94el": 68,
+        "mt2zr0bcfy1t76": 68,
+        "mt769vxxngutm3": 68,
+        "mt76bikzncz5gz": 68,
+        "mt76c4qdbfz9a7": 68,
+        "mt92rm0we9zyf4": 68,
+        "mt92rvr54rqf06": 68,
+        "mt92s33b9pea9u": 68,
+        "mtaamjtg1fclt5": 68,
+        "mtaan12hstsx2w": 68,
         "mtk293dh98lr2u": 68,
         "mtk29ku9obsivn": 68,
         "mtk2a24kxuvfda": 68,
@@ -42738,6 +43029,40 @@
       "reventaDiario": 70,
       "reventaPeriodico": 80,
       "titulosPeriodico": {
+        "mswkgeog025cfd": 68,
+        "msx9hlmiab4auu": 68,
+        "mt07latuufolp1": 68,
+        "mt07mlddya1rum": 68,
+        "mt07nj3pmah0o2": 68,
+        "mt216mx44uh52g": 68,
+        "mt21awzyy6bxai": 68,
+        "mt21d62f7c9eui": 68,
+        "mt21f3g35mayxw": 68,
+        "mt32h6y5v8kpug": 68,
+        "mt7h2iqmoc44m3": 68,
+        "mt7h3n9ot7q48n": 68,
+        "mt92djhbusq39p": 68,
+        "mt92dxr7aso7oe": 68,
+        "mt92edf78qdni6": 68,
+        "mt92euzxpv6h27": 68,
+        "mt92fkzap61evm": 68,
+        "mt92g90e277pwv": 68,
+        "mt92go31vvqt77": 68,
+        "mt92h7itfuww05": 68,
+        "mt92hv380m9igq": 68,
+        "mt92ib6k0b8w5y": 68,
+        "mt92ipn0defld5": 68,
+        "mt95v0doyfaako": 68,
+        "mt95vbaw9tb1n4": 68,
+        "mt95vnxxxwjumt": 68,
+        "mt95vz5krytpm3": 68,
+        "mt95w7khohv9lh": 68,
+        "mt95wg90hhqg62": 68,
+        "mt95wweq2zgxc6": 68,
+        "mt95x7px626yjh": 68,
+        "mt95xlp4vm0gdq": 68,
+        "mt95xz4fpc9o6h": 68,
+        "mtbmx9t7shk3j3": 68,
         "mtlkcy0cwgvc6j": 68,
         "mtsrg9yokyt3s8": 68,
         "mtsrgiacjei3cb": 68,
@@ -42792,6 +43117,98 @@
       "reventaDiario": 0,
       "reventaPeriodico": 0,
       "titulosPeriodico": {
+        "mt0mnycqocm0uf": 80,
+        "mt0mpi6ne07hxj": 80,
+        "mt0ms1ew43plx9": 80,
+        "mt0mu6dyg4rii3": 80,
+        "mt0mvefje515b3": 80,
+        "mt0mwsgi02m3bb": 80,
+        "mt0my0c6ebrpky": 80,
+        "mt0n001uvltq4q": 80,
+        "mt2zsz4jaevgzy": 80,
+        "mt3lpk6d7rjajc": 80,
+        "mt3lrvshpo77in": 80,
+        "mt3m1a9veib7qi": 80,
+        "mt3m2u2yhgwgid": 80,
+        "mt3mowleq2u0iq": 80,
+        "mt4cp7fzl0wx24": 80,
+        "mt4cq2qmk8anmh": 80,
+        "mt4dhoygvq7m4s": 80,
+        "mt4dqop4x1lclk": 80,
+        "mt4ds6tscq0uhh": 80,
+        "mt4dv1udzv2kav": 80,
+        "mt5tk8dumx1yji": 80,
+        "mtahysqtvhrayn": 80,
+        "mtahz0y0nts9eq": 80,
+        "mtahzdn4e9pm3y": 80,
+        "mtahzjy5nrcf5v": 80,
+        "mtahzr4jfpal4j": 80,
+        "mtahzzpk911qrt": 80,
+        "mtai06uf7s49q8": 80,
+        "mtai09ybeaou5o": 80,
+        "mtai0czielp4u8": 80,
+        "mtai0g1qyyscjs": 80,
+        "mtai0iifmqbhwa": 80,
+        "mtai0lmsfhls2k": 80,
+        "mtai0q96z8v9w1": 80,
+        "mtai0t1tkjm80p": 80,
+        "mtai0wk3rpgjlr": 80,
+        "mtai1w2vowo4pq": 80,
+        "mtai215nym7vli": 80,
+        "mtai24ygy3hl5i": 80,
+        "mtai285lvphd3o": 80,
+        "mtai2herf7o79y": 80,
+        "mtai32wuv8oqxq": 80,
+        "mtai3cg01zaibn": 80,
+        "mtai3gkefqd4cm": 80,
+        "mtai3jo8xqk1na": 80,
+        "mtai3mzdupgy85": 80,
+        "mtai3pg2g8am50": 80,
+        "mtai3s9lziksui": 80,
+        "mtai3v2n7c5jia": 80,
+        "mtai3xmpoek13b": 80,
+        "mtai3zr25lxz92": 80,
+        "mtai41vsrdfu5k": 80,
+        "mtai443gr9cvq6": 80,
+        "mtai47q7g6mfg9": 80,
+        "mtai49nlftkkx2": 80,
+        "mtai4bgx197cee": 80,
+        "mtai5j4yu4jufg": 80,
+        "mtai5lv3exu5vr": 80,
+        "mtai5olt4gbyn1": 80,
+        "mtai5qrl5vdi7t": 80,
+        "mtai5wzmc3qq4z": 80,
+        "mtai61suytvf6g": 80,
+        "mtai64fan1x05b": 80,
+        "mtai66i6wd5swl": 80,
+        "mtai695nfx8fnz": 80,
+        "mtai6bu49hyxps": 80,
+        "mtai6e0uivc6v3": 80,
+        "mtai6hy6j77v0u": 80,
+        "mtai6knlarfque": 80,
+        "mtai6mwkirzgfg": 80,
+        "mtai6oyfoeptpp": 80,
+        "mtai6r349p0zhq": 80,
+        "mtai6swe9cc84f": 80,
+        "mtai6vjrg13z3j": 80,
+        "mtai6y5cw877oj": 80,
+        "mtai70wj3yj6j2": 80,
+        "mtai73eq4zu9tf": 80,
+        "mtai75zt54e58v": 80,
+        "mtai78p9b4kpja": 80,
+        "mtai7bhqyyzqjv": 80,
+        "mtai7en0od227l": 80,
+        "mtai7hzvli73ag": 80,
+        "mtai7kd4pr29vh": 80,
+        "mtai7mpwzi07c0": 80,
+        "mtai7p7pg1q3xi": 80,
+        "mtai7spr5fmkh7": 80,
+        "mtai7uzwzbit4r": 80,
+        "mtai7xtw7h4okg": 80,
+        "mtai80u1jgt8rn": 80,
+        "mtai83sa77fhk1": 80,
+        "mtaiatf6a2xvmm": 80,
+        "mtaiaxgjr5lfay": 80,
         "mtd0yfjp4sjrmb": 80,
         "mtd0z7lxe8a2b2": 80,
         "mtd140av7k841u": 80,
@@ -42867,6 +43284,86 @@
         "telefono": "",
         "esKiosco": true,
         "pedidos": [
+          {
+            "fecha": "5/10/2026 09:08 a. m.",
+            "items": [
+              {
+                "sku": "TIT-msxizh04i7r5gc-D0",
+                "producto": "CLARIN BASE 05 — Domingo (Clarín)",
+                "cantidad": 13,
+                "pdv": 4976,
+                "pdvPublico": 5840,
+                "pvp": 8000,
+                "total": 64688,
+                "esTitulo": true,
+                "recargoUnit": 800,
+                "margenKioscoUnit": 0,
+                "margenCedidoUnit": 3024,
+                "costo": 0
+              },
+              {
+                "sku": "TIT-mswjajxusycfvw-D0",
+                "producto": "Nacion — Domingo (La Nación)",
+                "cantidad": 2,
+                "pdv": 6460,
+                "pdvPublico": 6460,
+                "pvp": 8830,
+                "total": 12920,
+                "esTitulo": true,
+                "recargoUnit": 930,
+                "margenKioscoUnit": 553,
+                "margenCedidoUnit": 2370,
+                "costo": 0
+              },
+              {
+                "sku": "TIT-mswk1p6nmht3i6-D0",
+                "producto": "POPULAR — Domingo (La Nación)",
+                "cantidad": 5,
+                "pdv": 1970,
+                "pdvPublico": 1970,
+                "pvp": 2600,
+                "total": 9850,
+                "esTitulo": true,
+                "recargoUnit": 500,
+                "margenKioscoUnit": 147,
+                "margenCedidoUnit": 630,
+                "costo": 0
+              },
+              {
+                "sku": "TIT-msxizh04i7r5gc-D1",
+                "producto": "CLARIN BASE 05 — Lunes (Clarín)",
+                "cantidad": 3,
+                "pdv": 3294,
+                "pdvPublico": 3810,
+                "pvp": 5100,
+                "total": 9882,
+                "esTitulo": true,
+                "recargoUnit": 800,
+                "margenKioscoUnit": 0,
+                "margenCedidoUnit": 1806,
+                "costo": 0
+              },
+              {
+                "sku": "TIT-mswjajxusycfvw-D1",
+                "producto": "Nacion — Lunes (La Nación)",
+                "cantidad": 1,
+                "pdv": 4290,
+                "pdvPublico": 4290,
+                "pvp": 5730,
+                "total": 4290,
+                "esTitulo": true,
+                "recargoUnit": 930,
+                "margenKioscoUnit": 336,
+                "margenCedidoUnit": 1440,
+                "costo": 0
+              }
+            ],
+            "totalGeneral": 101630,
+            "totalUnidades": 24,
+            "stockDescontado": false,
+            "estado": "firme",
+            "original": []
+          },
           {
             "fecha": "3/10/2026 08:53 a. m.",
             "items": [
