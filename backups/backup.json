@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 6,
-  "exportadoEl": "2026-10-05T13:38:44.960Z",
+  "exportadoEl": "2026-10-05T13:49:24.528Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -6185,6 +6185,16 @@
       "medio": "transferencia",
       "id": "m_muv8lk43mb7x2d",
       "modificadoEl": "2026-10-05T12:39:34.419Z"
+    },
+    {
+      "date": "2026-10-05",
+      "type": "ingreso",
+      "amount": 175000,
+      "category": "",
+      "account": "agencia",
+      "medio": "efectivo",
+      "id": "m_muvb2lic4elztw",
+      "modificadoEl": "2026-10-05T13:48:48.612Z"
     }
   ],
   "categoriasCustom": [
