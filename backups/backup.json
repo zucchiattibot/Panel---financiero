@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 6,
-  "exportadoEl": "2026-10-05T13:49:24.528Z",
+  "exportadoEl": "2026-10-06T14:16:06.079Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -6195,6 +6195,147 @@
       "medio": "efectivo",
       "id": "m_muvb2lic4elztw",
       "modificadoEl": "2026-10-05T13:48:48.612Z"
+    },
+    {
+      "date": "2026-10-05",
+      "type": "egreso",
+      "amount": 20000,
+      "category": "Varios",
+      "account": "alquileres",
+      "detalle": "Rifa 501",
+      "id": "m_muvb8u93sk942q",
+      "modificadoEl": "2026-10-05T13:53:39.879Z"
+    },
+    {
+      "date": "2026-10-05",
+      "type": "egreso",
+      "amount": 702000,
+      "category": "Clarin",
+      "account": "agencia",
+      "id": "m_muvio4t2973spk",
+      "modificadoEl": "2026-10-05T17:21:30.710Z"
+    },
+    {
+      "date": "2026-10-05",
+      "type": "egreso",
+      "amount": 4000,
+      "category": "Chiara",
+      "account": "alquileres",
+      "id": "m_muvosqndrf1kl4",
+      "modificadoEl": "2026-10-05T20:13:03.337Z"
+    },
+    {
+      "date": "2026-10-05",
+      "type": "ingreso",
+      "amount": 73790,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "transferencia",
+      "id": "m_muvsswngaa37uw",
+      "modificadoEl": "2026-10-05T22:05:09.580Z"
+    },
+    {
+      "date": "2026-10-05",
+      "type": "ingreso",
+      "amount": 33900,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "transferencia",
+      "id": "m_muvstsmiafydux",
+      "modificadoEl": "2026-10-05T22:05:51.018Z"
+    },
+    {
+      "date": "2026-10-05",
+      "type": "egreso",
+      "amount": 13500,
+      "category": "Varios",
+      "account": "alquileres",
+      "detalle": "Cumple tío Tito",
+      "id": "m_muvveoa7bimeot",
+      "modificadoEl": "2026-10-05T23:18:04.399Z"
+    },
+    {
+      "date": "2026-10-05",
+      "type": "egreso",
+      "amount": 5000,
+      "category": "Varios",
+      "account": "alquileres",
+      "detalle": "Alimento gato",
+      "id": "m_muvveyd36elge0",
+      "modificadoEl": "2026-10-05T23:18:17.463Z"
+    },
+    {
+      "date": "2026-10-05",
+      "type": "egreso",
+      "amount": 5500,
+      "category": "Sueldo",
+      "account": "alquileres",
+      "detalle": "Los chinos supermercado",
+      "id": "m_muvw8a54b3tctm",
+      "modificadoEl": "2026-10-05T23:41:05.752Z"
+    },
+    {
+      "date": "2026-10-05",
+      "type": "egreso",
+      "amount": 197686,
+      "category": "Vehículo",
+      "account": "alquileres",
+      "detalle": "Seguro auto",
+      "id": "m_muvwvgtzo09kmd",
+      "modificadoEl": "2026-10-05T23:59:07.511Z"
+    },
+    {
+      "date": "2026-10-06",
+      "type": "egreso",
+      "amount": 80000,
+      "category": "Agencia",
+      "account": "agencia",
+      "detalle": "Libros fiesta girasol",
+      "id": "m_muvyu6p9fmdyil",
+      "modificadoEl": "2026-10-06T00:54:06.957Z"
+    },
+    {
+      "date": "2026-10-06",
+      "type": "ingreso",
+      "amount": 12600,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "transferencia",
+      "detalle": "Pablo Benedicto",
+      "id": "m_muwmgpo8qsm5jl",
+      "modificadoEl": "2026-10-06T11:55:29.144Z"
+    },
+    {
+      "date": "2026-10-06",
+      "type": "egreso",
+      "amount": 17900,
+      "category": "Sueldo",
+      "account": "alquileres",
+      "detalle": "Carniceria cerdo",
+      "id": "m_muwmv5bvi0tqny",
+      "modificadoEl": "2026-10-06T12:06:42.619Z"
+    },
+    {
+      "date": "2026-10-06",
+      "type": "ingreso",
+      "amount": 100000,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "transferencia",
+      "detalle": "Mauro Suipacha",
+      "id": "m_muwp9c9b2vv5gq",
+      "modificadoEl": "2026-10-06T13:13:44.015Z"
+    },
+    {
+      "date": "2026-10-06",
+      "type": "ingreso",
+      "amount": 12530,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "transferencia",
+      "detalle": "Las lagunas",
+      "id": "m_muwqmokq4478gl",
+      "modificadoEl": "2026-10-06T13:52:06.122Z"
     }
   ],
   "categoriasCustom": [
@@ -29521,7 +29662,15 @@
         "tipo": "application/pdf",
         "agregadoEl": "2026-10-01T16:46:30.047Z"
       },
-      "textoExtraido": "HFABANDEJA   HORNO FACIL - MILANESAS / BANDEJA   5 UN   11700,03200x   1UN   58.500,16 $ HFARUSTIDO   HORNO FACIL - PARA PICAR / RUSTIDORA   5 UN   11700,03200x   1UN   58.500,16 $ HFMUFFINS   HORNO FACIL - MUF SALADOS / MUFFINS X 12   4 UN   11700,03250x   1UN   46.800,13 $ HKFKUMURCI   HELLO KITTY FRIENDS - KUROMI MURCIELAGO   5 UN   13740,03200x   1UN   68.700,16 $  Remitos : 0002-R-13415034/ 0002-R-13412058/ 0002-R-13412789/ 0002-R-13415837  CLIENTE   JULIO JOSE ZUCCHIATTI  DOMICILIO   Maipu 171 6530 Carlos Casares Buenos Aires - Argentina  IVA   Responsable Inscripto  CAE   N° 86395380483572  Vencimiento   10/10/2026  CODIGO   DESCRIPCION   CANTIDAD UM   PRECIO UNITARIO   IMPORTE TOTAL  ________________________________________________________________________  DOMICILIO DE PAGO   Tacuarí 1846 - 1° Piso,   SECTOR   Cobranzas Horario de   12.00 a 17.30 hs. La factura impaga al vencimiento, devengará un recargo por mora del 3% mensual más 1% de gastos administrativos  IMPORTANTE   Cualquier observación a la presente Factura / Nota de Crédito / Nota de Débito deberá efectuarse dentro de los 15 días de la fecha de la misma, caso contrario se dará por conforme. Los cheques deberán extenderse a nombre de   Arte Grafico Editorial Argentino S.A. No a la orden.   No es válido ningún recibo extendido sobre esta factura. Unicamente reconoceremos nuestro recibo oficial.  FACTURA  N° 0132-01346204  Buenos Aires , 30/09/2026   HOJA   1 /   1  CUIT   30-50012415-2  INGRESOS BRUTOS   Exento  INICIO ACTIVIDADES   Original  CLIENTE NRO.   9167  CUIT   20-28142013-6  COND.PAGO:   20 DIAS FECHA DE FACTURA  VENCIM:   20/10/26  N°DOC.INTERNO   403790115  Tipo de cambio  __________________________________________________________________________  Referencia:  __________________________________________________________________________  __________________________________________________________________________  Tacuarí 1842 ( 1139 ) Ciudad Autónoma de Buenos Aires  A  Código N° 001  SubTotal   IVA   R.N.I.   Percep   Percep   Percep   TOTAL $   IVA   IVA   Perc. IIBB*   IIBB Bs.As   $  232.500,61   232.500,61\n"
+      "textoExtraido": "HFABANDEJA   HORNO FACIL - MILANESAS / BANDEJA   5 UN   11700,03200x   1UN   58.500,16 $ HFARUSTIDO   HORNO FACIL - PARA PICAR / RUSTIDORA   5 UN   11700,03200x   1UN   58.500,16 $ HFMUFFINS   HORNO FACIL - MUF SALADOS / MUFFINS X 12   4 UN   11700,03250x   1UN   46.800,13 $ HKFKUMURCI   HELLO KITTY FRIENDS - KUROMI MURCIELAGO   5 UN   13740,03200x   1UN   68.700,16 $  Remitos : 0002-R-13415034/ 0002-R-13412058/ 0002-R-13412789/ 0002-R-13415837  CLIENTE   JULIO JOSE ZUCCHIATTI  DOMICILIO   Maipu 171 6530 Carlos Casares Buenos Aires - Argentina  IVA   Responsable Inscripto  CAE   N° 86395380483572  Vencimiento   10/10/2026  CODIGO   DESCRIPCION   CANTIDAD UM   PRECIO UNITARIO   IMPORTE TOTAL  ________________________________________________________________________  DOMICILIO DE PAGO   Tacuarí 1846 - 1° Piso,   SECTOR   Cobranzas Horario de   12.00 a 17.30 hs. La factura impaga al vencimiento, devengará un recargo por mora del 3% mensual más 1% de gastos administrativos  IMPORTANTE   Cualquier observación a la presente Factura / Nota de Crédito / Nota de Débito deberá efectuarse dentro de los 15 días de la fecha de la misma, caso contrario se dará por conforme. Los cheques deberán extenderse a nombre de   Arte Grafico Editorial Argentino S.A. No a la orden.   No es válido ningún recibo extendido sobre esta factura. Unicamente reconoceremos nuestro recibo oficial.  FACTURA  N° 0132-01346204  Buenos Aires , 30/09/2026   HOJA   1 /   1  CUIT   30-50012415-2  INGRESOS BRUTOS   Exento  INICIO ACTIVIDADES   Original  CLIENTE NRO.   9167  CUIT   20-28142013-6  COND.PAGO:   20 DIAS FECHA DE FACTURA  VENCIM:   20/10/26  N°DOC.INTERNO   403790115  Tipo de cambio  __________________________________________________________________________  Referencia:  __________________________________________________________________________  __________________________________________________________________________  Tacuarí 1842 ( 1139 ) Ciudad Autónoma de Buenos Aires  A  Código N° 001  SubTotal   IVA   R.N.I.   Percep   Percep   Percep   TOTAL $   IVA   IVA   Perc. IIBB*   IIBB Bs.As   $  232.500,61   232.500,61\n",
+      "comprobantesPago": [
+        {
+          "id": "muvipqpb3yoxox",
+          "nombre": "Screenshot_2026-10-05-14-21-45-055_com.astropaycard.android.jpg",
+          "tipo": "image/jpeg",
+          "agregadoEl": "2026-10-05T17:22:45.850Z"
+        }
+      ]
     },
     {
       "id": "f_1790873193581_8gnz8",
@@ -30482,6 +30631,316 @@
         "tipo": "image/jpeg",
         "agregadoEl": "2026-10-02T14:30:49.603Z"
       }
+    },
+    {
+      "id": "f_1791209513149_8j77b",
+      "proveedorKey": "silmar",
+      "tipo": "nota_credito",
+      "numeroFactura": "00004-00009854",
+      "referenciaFactura": null,
+      "fecha": "2026-10-05",
+      "vencimiento": "2026-10-15",
+      "monto": 28420,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "CAMPEONES (DGP)",
+          "edicion": "786",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 11020,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "SEMANARIO (PERFIL)",
+          "edicion": "2267",
+          "codigoPublicacion": null,
+          "cantidad": 4,
+          "monto": 17400,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        }
+      ],
+      "cargadaEl": "2026-10-05T14:11:53.149Z",
+      "comprobanteOriginal": {
+        "id": "muvbw9tpdljcjc",
+        "nombre": "1000869799.jpg",
+        "tipo": "image/jpeg",
+        "agregadoEl": "2026-10-05T14:11:53.212Z"
+      }
+    },
+    {
+      "id": "f_1791209519200_zcuub",
+      "proveedorKey": "silmar",
+      "tipo": "factura",
+      "numeroFactura": "00004-00017238",
+      "referenciaFactura": null,
+      "fecha": "2026-10-05",
+      "vencimiento": "2026-10-15",
+      "monto": 274119.26,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "AUTOS INOLV ARGENTINOS",
+          "edicion": "11",
+          "codigoPublicacion": null,
+          "cantidad": 6,
+          "monto": 158400,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "CONSTRUYE LA PERLITA",
+          "edicion": "18",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 18800,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "COSAS DE CASA (BRI)",
+          "edicion": "344",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 3720,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "EL ARTE DE TEJER",
+          "edicion": "2026",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 20410,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "UNE LOS PUNTOS",
+          "edicion": "56",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 4158,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "SUPER ZINGS",
+          "edicion": "45",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 5429.86,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "RALLY",
+          "edicion": "58",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 40000,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "CRUCIGRAMAS CIEN",
+          "edicion": "109",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 3996.7,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "SOPAS",
+          "edicion": "257",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 5533,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "SOPAS CIEN",
+          "edicion": "121",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 3796.7,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "NOTICIAS",
+          "edicion": "2597",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 9875,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        }
+      ],
+      "cargadaEl": "2026-10-05T14:11:59.200Z",
+      "comprobanteOriginal": {
+        "id": "muvbwehsqg10f2",
+        "nombre": "1000869800.jpg",
+        "tipo": "image/jpeg",
+        "agregadoEl": "2026-10-05T14:11:59.258Z"
+      }
+    },
+    {
+      "id": "f_1791239689549_cehwl",
+      "proveedorKey": "clarin",
+      "tipo": "factura",
+      "numeroFactura": "0132-01346468",
+      "referenciaFactura": null,
+      "fecha": "2026-09-30",
+      "vencimiento": "2026-10-20",
+      "monto": 11840.03,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "AUDIOCU LGZ 2026 - PEPE",
+          "edicion": "PEPE",
+          "codigoPublicacion": "AUPEPE",
+          "cantidad": 1,
+          "monto": 11840.03,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        }
+      ],
+      "cargadaEl": "2026-10-05T22:34:49.550Z",
+      "comprobanteOriginal": {
+        "id": "muvtv2324hgdhd",
+        "nombre": "0100 _ 0132 _ A _ A _ 01346468 _ 30-09-2026 _ ....pdf",
+        "tipo": "application/pdf",
+        "agregadoEl": "2026-10-05T22:34:49.579Z"
+      },
+      "textoExtraido": "AUPEPE   AUDIOCU LGZ 2026 - PEPE   1 EJ   11840,03000x   1EJ   11.840,03 $  Remitos : 0002-R-13418333  CLIENTE   JULIO JOSE ZUCCHIATTI  DOMICILIO   Maipu 171 6530 Carlos Casares Buenos Aires - Argentina  IVA   Responsable Inscripto  CAE   N° 86405624984024  Vencimiento   10/10/2026  CODIGO   DESCRIPCION   CANTIDAD UM   PRECIO UNITARIO   IMPORTE TOTAL  ________________________________________________________________________  DOMICILIO DE PAGO   Tacuarí 1846 - 1° Piso,   SECTOR   Cobranzas Horario de   12.00 a 17.30 hs. La factura impaga al vencimiento, devengará un recargo por mora del 3% mensual más 1% de gastos administrativos  IMPORTANTE   Cualquier observación a la presente Factura / Nota de Crédito / Nota de Débito deberá efectuarse dentro de los 15 días de la fecha de la misma, caso contrario se dará por conforme. Los cheques deberán extenderse a nombre de   Arte Grafico Editorial Argentino S.A. No a la orden.   No es válido ningún recibo extendido sobre esta factura. Unicamente reconoceremos nuestro recibo oficial.  FACTURA  N° 0132-01346468  Buenos Aires , 30/09/2026   HOJA   1 /   1  CUIT   30-50012415-2  INGRESOS BRUTOS   Exento  INICIO ACTIVIDADES   Original  CLIENTE NRO.   9167  CUIT   20-28142013-6  COND.PAGO:   20 DIAS FECHA DE FACTURA  VENCIM:   20/10/26  N°DOC.INTERNO   403790343  Tipo de cambio  __________________________________________________________________________  Referencia:   1014976  __________________________________________________________________________  __________________________________________________________________________  Tacuarí 1842 ( 1139 ) Ciudad Autónoma de Buenos Aires  A  Código N° 001  SubTotal   IVA   R.N.I.   Percep   Percep   Percep   TOTAL $   IVA   IVA   Perc. IIBB*   IIBB Bs.As   $  11.840,03   11.840,03\n"
+    },
+    {
+      "id": "f_1791239695538_jv9al",
+      "proveedorKey": "clarin",
+      "tipo": "nota_credito",
+      "numeroFactura": "0132-01365112",
+      "referenciaFactura": "0132A01344278",
+      "fecha": "2026-09-21",
+      "vencimiento": "2026-10-01",
+      "monto": 73268.86,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "GENIOS CON LIB - 24.08.2026",
+          "edicion": "1482/2026",
+          "codigoPublicacion": "GCLI240826",
+          "cantidad": 9,
+          "monto": 21200,
+          "fechaItem": "2026-08-24",
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "GENIOS CON LIB - 31.08.2026",
+          "edicion": "1483/2026",
+          "codigoPublicacion": "GCLI310826",
+          "cantidad": 9,
+          "monto": 21200,
+          "fechaItem": "2026-08-31",
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "PACK GENIOS - 24.08.2026",
+          "edicion": "1482/2026",
+          "codigoPublicacion": "GLIC240826",
+          "cantidad": 9,
+          "monto": 15434.43,
+          "fechaItem": "2026-08-24",
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "PACK GENIOS - 31.08.2026",
+          "edicion": "1483/2026",
+          "codigoPublicacion": "GLIC310826",
+          "cantidad": 9,
+          "monto": 15434.43,
+          "fechaItem": "2026-08-31",
+          "ventaEspecialTapa": null
+        }
+      ],
+      "cargadaEl": "2026-10-05T22:34:55.538Z",
+      "comprobanteOriginal": {
+        "id": "muvtv6pewpf0vx",
+        "nombre": "0100 _ 0132 _ C _ A _ 01365112 _ 21-09-2026 _ ....pdf",
+        "tipo": "application/pdf",
+        "agregadoEl": "2026-10-05T22:34:55.550Z"
+      },
+      "textoExtraido": "GCLI240826   GENIOS CON LIB - 24.08.2026 - 1482/2026   9 UN   2.355,55556x   1UN   21.200,00 $ GCLI310826   GENIOS CON LIB - 31.08.2026 - 1483/2026   9 UN   2.355,55556x   1UN   21.200,00 $ GLIC240826   PACK GENIOS - 24.08.2026 - 1482/2026   9 EJ   1.714,93667x   1EJ   15.434,43 $ GLIC310826   PACK GENIOS - 31.08.2026 - 1483/2026   9 EJ   1.714,93667x   1EJ   15.434,43 $  CLIENTE   JULIO JOSE ZUCCHIATTI  DOMICILIO   Maipu 171 6530 Carlos Casares Buenos Aires - Argentina  IVA   Responsable Inscripto  CAE   N° 86384236267718  Vencimiento   01/10/2026  CODIGO   DESCRIPCION   CANTIDAD UM   PRECIO UNITARIO   IMPORTE TOTAL  ________________________________________________________________________  DOMICILIO DE PAGO   Tacuarí 1846 - 1° Piso,   SECTOR   Cobranzas Horario de   12.00 a 17.30 hs.  IMPORTANTE   Cualquier observación a la presente Factura / Nota de Crédito / Nota de Débito deberá efectuarse dentro de los 15 días de la fecha de la misma, caso contrario se dará por conforme. Los cheques deberán extenderse a nombre de   Arte Grafico Editorial Argentino S.A. No a la orden.   No es válido ningún recibo extendido sobre esta factura. Unicamente reconoceremos nuestro recibo oficial.  NOTA DE CREDITO  N° 0132-01365112  Buenos Aires , 21/09/2026   HOJA   1 /   1  CUIT   30-50012415-2  INGRESOS BRUTOS   Exento  INICIO ACTIVIDADES   Original  CLIENTE NRO.   9167  CUIT\\DNI   20-28142013-6  COND.PAGO:   60% 10FF - 40% 25FF  VENCIM:   01/10/26 -16/10/26 -  N°DOC.INTERNO   502457273  Tipo de cambio N°REF.   0132A01344278  Referencia:   545733  __________________________________________________________________________  __________________________________________________________________________ __________________________________________________________________________  Tacuarí 1842 ( 1139 ) Ciudad Autónoma de Buenos Aires  A  Código N° 003  SubTotal   IVA   R.N.I.   Percep   Percep   Percep   TOTAL $   IVA   IVA   Perc. IIBB*   IIBB Bs.As   $  73.268,86   73.268,86\n"
+    },
+    {
+      "id": "f_1791239697910_mow9t",
+      "proveedorKey": "clarin",
+      "tipo": "nota_credito",
+      "numeroFactura": "0132-01365113",
+      "referenciaFactura": "0132A01344863",
+      "fecha": "2026-09-21",
+      "vencimiento": "2026-10-01",
+      "monto": 45480,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "ARQUITECTURA - 01.09.2026 - 1218/2026",
+          "edicion": null,
+          "codigoPublicacion": "SCAR010926",
+          "cantidad": 4,
+          "monto": 45480,
+          "fechaItem": "2026-09-01",
+          "ventaEspecialTapa": null
+        }
+      ],
+      "cargadaEl": "2026-10-05T22:34:57.910Z",
+      "comprobanteOriginal": {
+        "id": "muvtv8javyaws0",
+        "nombre": "0100 _ 0132 _ C _ A _ 01365113 _ 21-09-2026 _ ....pdf",
+        "tipo": "application/pdf",
+        "agregadoEl": "2026-10-05T22:34:57.919Z"
+      },
+      "textoExtraido": "SCAR010926   ARQUITECTURA - 01.09.2026 - 1218/2026   4 UN   11370,00000x   1UN   45.480,00 $  CLIENTE   JULIO JOSE ZUCCHIATTI  DOMICILIO   Maipu 171 6530 Carlos Casares Buenos Aires - Argentina  IVA   Responsable Inscripto  CAE   N° 86384236267807  Vencimiento   01/10/2026  CODIGO   DESCRIPCION   CANTIDAD UM   PRECIO UNITARIO   IMPORTE TOTAL  ________________________________________________________________________  DOMICILIO DE PAGO   Tacuarí 1846 - 1° Piso,   SECTOR   Cobranzas Horario de   12.00 a 17.30 hs.  IMPORTANTE   Cualquier observación a la presente Factura / Nota de Crédito / Nota de Débito deberá efectuarse dentro de los 15 días de la fecha de la misma, caso contrario se dará por conforme. Los cheques deberán extenderse a nombre de   Arte Grafico Editorial Argentino S.A. No a la orden.   No es válido ningún recibo extendido sobre esta factura. Unicamente reconoceremos nuestro recibo oficial.  NOTA DE CREDITO  N° 0132-01365113  Buenos Aires , 21/09/2026   HOJA   1 /   1  CUIT   30-50012415-2  INGRESOS BRUTOS   Exento  INICIO ACTIVIDADES   Original  CLIENTE NRO.   9167  CUIT\\DNI   20-28142013-6  COND.PAGO:   60% 35FF - 40% 45FF  VENCIM:   26/10/26 -05/11/26 -  N°DOC.INTERNO   502457274  Tipo de cambio N°REF.   0132A01344863  Referencia:   545733  __________________________________________________________________________  __________________________________________________________________________ __________________________________________________________________________  Tacuarí 1842 ( 1139 ) Ciudad Autónoma de Buenos Aires  A  Código N° 003  SubTotal   IVA   R.N.I.   Percep   Percep   Percep   TOTAL $   IVA   IVA   Perc. IIBB*   IIBB Bs.As   $  45.480,00   45.480,00\n"
+    },
+    {
+      "id": "f_1791239718659_lw3tw",
+      "proveedorKey": "clarin",
+      "tipo": "nota_credito",
+      "numeroFactura": "0132-01365114",
+      "referenciaFactura": "0132A01344279",
+      "fecha": "2026-09-21",
+      "vencimiento": "2026-10-11",
+      "monto": 78400.22,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "HELLO KITTY 2026 - KITTY GUARDAVIDA",
+          "edicion": null,
+          "codigoPublicacion": "HKGUARDAVI",
+          "cantidad": 7,
+          "monto": 78400.22,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        }
+      ],
+      "cargadaEl": "2026-10-05T22:35:18.659Z",
+      "comprobanteOriginal": {
+        "id": "muvtvojny3vy5j",
+        "nombre": "0100 _ 0132 _ C _ A _ 01365114 _ 21-09-2026 _ ....pdf",
+        "tipo": "application/pdf",
+        "agregadoEl": "2026-10-05T22:35:18.669Z"
+      },
+      "textoExtraido": "HKGUARDAVI   HELLO KITTY 2026 -   KITTY GUARDAVIDA   7 EJ   11200,03143x   1EJ   78.400,22 $  CLIENTE   JULIO JOSE ZUCCHIATTI  DOMICILIO   Maipu 171 6530 Carlos Casares Buenos Aires - Argentina  IVA   Responsable Inscripto  CAE   N° 86384236267849  Vencimiento   01/10/2026  CODIGO   DESCRIPCION   CANTIDAD UM   PRECIO UNITARIO   IMPORTE TOTAL  ________________________________________________________________________  DOMICILIO DE PAGO   Tacuarí 1846 - 1° Piso,   SECTOR   Cobranzas Horario de   12.00 a 17.30 hs.  IMPORTANTE   Cualquier observación a la presente Factura / Nota de Crédito / Nota de Débito deberá efectuarse dentro de los 15 días de la fecha de la misma, caso contrario se dará por conforme. Los cheques deberán extenderse a nombre de   Arte Grafico Editorial Argentino S.A. No a la orden.   No es válido ningún recibo extendido sobre esta factura. Unicamente reconoceremos nuestro recibo oficial.  NOTA DE CREDITO  N° 0132-01365114  Buenos Aires , 21/09/2026   HOJA   1 /   1  CUIT   30-50012415-2  INGRESOS BRUTOS   Exento  INICIO ACTIVIDADES   Original  CLIENTE NRO.   9167  CUIT\\DNI   20-28142013-6  COND.PAGO:   60% 20FF - 40% 30FF  VENCIM:   11/10/26 -21/10/26 -  N°DOC.INTERNO   502457275  Tipo de cambio N°REF.   0132A01344279  Referencia:   545734  __________________________________________________________________________  __________________________________________________________________________ __________________________________________________________________________  Tacuarí 1842 ( 1139 ) Ciudad Autónoma de Buenos Aires  A  Código N° 003  SubTotal   IVA   R.N.I.   Percep   Percep   Percep   TOTAL $   IVA   IVA   Perc. IIBB*   IIBB Bs.As   $  78.400,22   78.400,22\n"
     }
   ],
   "preciosProveedores": {
@@ -38301,7 +38760,7 @@
         "alias": "ORGULLO ARGEN",
         "tipoProducto": "periodico",
         "precioUnico": 25000,
-        "recargoUnico": 3000,
+        "recargoUnico": 1900,
         "historialUnico": [
           {
             "desde": "2026-08-01",
@@ -38311,7 +38770,7 @@
           {
             "desde": "2026-10-01",
             "tapa": 25000,
-            "recargo": 3000
+            "recargo": 1900
           }
         ],
         "historial": [
@@ -38811,7 +39270,7 @@
         "alias": "DESCAPOTABLES",
         "tipoProducto": "periodico",
         "precioUnico": 24990,
-        "recargoUnico": 1900,
+        "recargoUnico": 2000,
         "historialUnico": [
           {
             "desde": "2026-08-01",
@@ -38822,6 +39281,11 @@
             "desde": "2026-09-08",
             "tapa": 24990,
             "recargo": 1900
+          },
+          {
+            "desde": "2026-10-06",
+            "tapa": 24990,
+            "recargo": 2000
           }
         ],
         "historial": [
@@ -39311,7 +39775,8 @@
         ],
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
-        "excluirGanSem": true
+        "excluirGanSem": true,
+        "coleccion": "MOANA"
       },
       {
         "id": "mtsrg9yokyt3s8",
@@ -39353,7 +39818,8 @@
         ],
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
-        "excluirGanSem": true
+        "excluirGanSem": true,
+        "coleccion": "MOANA"
       },
       {
         "id": "mtsrgiacjei3cb",
@@ -40068,7 +40534,8 @@
           }
         ],
         "feriadoTapa": 0,
-        "feriadoRecargo": 0
+        "feriadoRecargo": 0,
+        "coleccion": "MOANA"
       },
       {
         "id": "mu7rl4b2yngn9g",
@@ -42202,18 +42669,12 @@
           "cantidad": 3,
           "monto": 5754,
           "motivo": null,
-          "ncFacturaId": "f_1790950913721_jf19n",
-          "ncNumero": "0132-01365764",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1790950913721_jf19n",
-              "numero": "0132-01365764",
-              "cantidad": 3
-            }
-          ],
-          "cantidadAcreditada": 3,
-          "cantidadFaltante": 0
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 3
         },
         {
           "descripcion": "OLE NACIONAL",
@@ -42222,33 +42683,12 @@
           "cantidad": 9,
           "monto": 17262,
           "motivo": null,
-          "ncFacturaId": "f_1790950913721_jf19n",
-          "ncNumero": "0132-01365764, 0132-01365764, 0132-01365764, 0132-01365764",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1790950913721_jf19n",
-              "numero": "0132-01365764",
-              "cantidad": 1
-            },
-            {
-              "facturaId": "f_1790950913721_jf19n",
-              "numero": "0132-01365764",
-              "cantidad": 2
-            },
-            {
-              "facturaId": "f_1790950913721_jf19n",
-              "numero": "0132-01365764",
-              "cantidad": 4
-            },
-            {
-              "facturaId": "f_1790950913721_jf19n",
-              "numero": "0132-01365764",
-              "cantidad": 2
-            }
-          ],
-          "cantidadAcreditada": 9,
-          "cantidadFaltante": 0
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 9
         },
         {
           "descripcion": "OLE NACIONAL",
@@ -42257,23 +42697,12 @@
           "cantidad": 9,
           "monto": 17262,
           "motivo": null,
-          "ncFacturaId": "f_1790950913721_jf19n",
-          "ncNumero": "0132-01365764, 0132-01365764",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1790950913721_jf19n",
-              "numero": "0132-01365764",
-              "cantidad": 7
-            },
-            {
-              "facturaId": "f_1790950913721_jf19n",
-              "numero": "0132-01365764",
-              "cantidad": 2
-            }
-          ],
-          "cantidadAcreditada": 9,
-          "cantidadFaltante": 0
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 9
         },
         {
           "descripcion": "OLE NACIONAL",
@@ -42282,23 +42711,12 @@
           "cantidad": 9,
           "monto": 17262,
           "motivo": null,
-          "ncFacturaId": "f_1790950913721_jf19n",
-          "ncNumero": "0132-01365764, 0132-01365764",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1790950913721_jf19n",
-              "numero": "0132-01365764",
-              "cantidad": 6
-            },
-            {
-              "facturaId": "f_1790950913721_jf19n",
-              "numero": "0132-01365764",
-              "cantidad": 3
-            }
-          ],
-          "cantidadAcreditada": 9,
-          "cantidadFaltante": 0
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 9
         },
         {
           "descripcion": "OLE NACIONAL",
@@ -42307,18 +42725,12 @@
           "cantidad": 3,
           "monto": 5754,
           "motivo": null,
-          "ncFacturaId": "f_1790950913721_jf19n",
-          "ncNumero": "0132-01365764",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1790950913721_jf19n",
-              "numero": "0132-01365764",
-              "cantidad": 3
-            }
-          ],
-          "cantidadAcreditada": 3,
-          "cantidadFaltante": 0
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 3
         },
         {
           "descripcion": "OLE NACIONAL",
@@ -42327,18 +42739,12 @@
           "cantidad": 3,
           "monto": 5754,
           "motivo": null,
-          "ncFacturaId": "f_1790950913721_jf19n",
-          "ncNumero": "0132-01365764",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1790950913721_jf19n",
-              "numero": "0132-01365764",
-              "cantidad": 3
-            }
-          ],
-          "cantidadAcreditada": 3,
-          "cantidadFaltante": 0
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 3
         },
         {
           "descripcion": "OLE NACIONAL",
@@ -42347,23 +42753,12 @@
           "cantidad": 4,
           "monto": 7672,
           "motivo": null,
-          "ncFacturaId": "f_1790950913721_jf19n",
-          "ncNumero": "0132-01365764, 0132-01365765",
-          "faltante": false,
-          "ncDetalle": [
-            {
-              "facturaId": "f_1790950913721_jf19n",
-              "numero": "0132-01365764",
-              "cantidad": 3
-            },
-            {
-              "facturaId": "f_1790950915372_t356g",
-              "numero": "0132-01365765",
-              "cantidad": 1
-            }
-          ],
-          "cantidadAcreditada": 4,
-          "cantidadFaltante": 0
+          "ncFacturaId": null,
+          "ncNumero": null,
+          "faltante": true,
+          "ncDetalle": [],
+          "cantidadAcreditada": 0,
+          "cantidadFaltante": 4
         }
       ],
       "adjuntos": [
@@ -42374,8 +42769,8 @@
           "bytes": 273582
         }
       ],
-      "estado": "aceptada",
-      "acreditadaEl": "2026-10-02T14:30:52.137Z",
+      "estado": "pendiente",
+      "acreditadaEl": null,
       "cargadaEl": "2026-09-30T13:58:54.028Z"
     },
     {
@@ -43294,6 +43689,86 @@
         "telefono": "",
         "esKiosco": true,
         "pedidos": [
+          {
+            "fecha": "6/10/2026 09:00 a. m.",
+            "items": [
+              {
+                "sku": "TIT-msxizh04i7r5gc-D0",
+                "producto": "CLARIN BASE 05 — Domingo (Clarín)",
+                "cantidad": 1,
+                "pdv": 4976,
+                "pdvPublico": 5840,
+                "pvp": 8000,
+                "total": 4976,
+                "esTitulo": true,
+                "recargoUnit": 800,
+                "margenKioscoUnit": 0,
+                "margenCedidoUnit": 3024,
+                "costo": 0
+              },
+              {
+                "sku": "TIT-msxizh04i7r5gc-D2",
+                "producto": "CLARIN BASE 05 — Martes (Clarín)",
+                "cantidad": 3,
+                "pdv": 3294,
+                "pdvPublico": 3810,
+                "pvp": 5100,
+                "total": 9882,
+                "esTitulo": true,
+                "recargoUnit": 800,
+                "margenKioscoUnit": 0,
+                "margenCedidoUnit": 1806,
+                "costo": 0
+              },
+              {
+                "sku": "TIT-mswjajxusycfvw-D2",
+                "producto": "Nacion — Martes (La Nación)",
+                "cantidad": 1,
+                "pdv": 4290,
+                "pdvPublico": 4290,
+                "pvp": 5730,
+                "total": 4290,
+                "esTitulo": true,
+                "recargoUnit": 930,
+                "margenKioscoUnit": 336,
+                "margenCedidoUnit": 1440,
+                "costo": 0
+              },
+              {
+                "sku": "TIT-mswk1p6nmht3i6-D2",
+                "producto": "POPULAR — Martes (La Nación)",
+                "cantidad": 1,
+                "pdv": 1830,
+                "pdvPublico": 1830,
+                "pvp": 2400,
+                "total": 1830,
+                "esTitulo": true,
+                "recargoUnit": 500,
+                "margenKioscoUnit": 133,
+                "margenCedidoUnit": 570,
+                "costo": 0
+              },
+              {
+                "sku": "TIT-mt07mlddya1rum",
+                "producto": "LIVING (La Nación)",
+                "cantidad": 1,
+                "pdv": 12750,
+                "pdvPublico": 13520,
+                "pvp": 16600,
+                "total": 12750,
+                "esTitulo": true,
+                "recargoUnit": 1200,
+                "margenKioscoUnit": 1078,
+                "margenCedidoUnit": 3850,
+                "costo": 0
+              }
+            ],
+            "totalGeneral": 33728,
+            "totalUnidades": 7,
+            "stockDescontado": false,
+            "estado": "firme",
+            "original": []
+          },
           {
             "fecha": "5/10/2026 09:08 a. m.",
             "items": [
@@ -44720,14 +45195,30 @@
                 "margenKioscoUnit": 2998.8,
                 "margenCedidoUnit": 4998,
                 "costo": 0
+              },
+              {
+                "sku": "TIT-mu7n06weu3k4mq",
+                "producto": "ORGULLO ARGENNero-Nakiri + Fascículo (La Nación)",
+                "cantidad": 2,
+                "pdv": 21900,
+                "pdvPublico": 21900,
+                "pvp": 26900,
+                "total": 43800,
+                "esTitulo": true,
+                "recargoUnit": 1900,
+                "margenKioscoUnit": 3000,
+                "margenCedidoUnit": 5000,
+                "costo": 0
               }
             ],
-            "totalGeneral": 89033,
-            "totalUnidades": 8,
+            "totalGeneral": 132833,
+            "totalUnidades": 10,
             "stockDescontado": false,
             "estado": "firme",
             "original": [],
-            "pagos": []
+            "pagos": [],
+            "editado": true,
+            "fechaEdicion": "6/10/2026 08:28 a. m."
           },
           {
             "fecha": "12/9/2026 09:12 a. m.",
