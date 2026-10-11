@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 6,
-  "exportadoEl": "2026-10-11T17:08:57.373Z",
+  "exportadoEl": "2026-10-11T23:25:19.931Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -6778,6 +6778,15 @@
       "detalle": "Bragado fiesta caballo",
       "id": "m_mv3x8uos9ybo5h",
       "modificadoEl": "2026-10-11T14:31:41.404Z"
+    },
+    {
+      "date": "2026-10-11",
+      "type": "egreso",
+      "amount": 12000,
+      "category": "Sueldo",
+      "account": "alquileres",
+      "id": "m_mv46xdns51wnxe",
+      "modificadoEl": "2026-10-11T19:02:42.280Z"
     }
   ],
   "categoriasCustom": [
@@ -48147,7 +48156,14 @@
             "totalUnidades": 7,
             "stockDescontado": false,
             "estado": "firme",
-            "original": []
+            "original": [],
+            "pagos": [
+              {
+                "fecha": "2026-10-11",
+                "monto": 34500,
+                "nota": "Pago combinado (reparto automático)"
+              }
+            ]
           },
           {
             "fecha": "9/10/2026 09:30 a. m.",
@@ -48201,7 +48217,14 @@
             "estado": "firme",
             "original": [],
             "editado": true,
-            "fechaEdicion": "10/10/2026 08:56 a. m."
+            "fechaEdicion": "10/10/2026 08:56 a. m.",
+            "pagos": [
+              {
+                "fecha": "2026-10-11",
+                "monto": 31620.5,
+                "nota": "Pago combinado (reparto automático)"
+              }
+            ]
           },
           {
             "fecha": "8/10/2026 09:35 a. m.",
@@ -48253,7 +48276,14 @@
             "totalUnidades": 5,
             "stockDescontado": false,
             "estado": "firme",
-            "original": []
+            "original": [],
+            "pagos": [
+              {
+                "fecha": "2026-10-11",
+                "monto": 26922,
+                "nota": "Pago combinado (reparto automático)"
+              }
+            ]
           },
           {
             "fecha": "7/10/2026 09:44 a. m.",
@@ -48319,7 +48349,14 @@
             "totalUnidades": 8,
             "stockDescontado": false,
             "estado": "firme",
-            "original": []
+            "original": [],
+            "pagos": [
+              {
+                "fecha": "2026-10-11",
+                "monto": 86001,
+                "nota": "Pago combinado (reparto automático)"
+              }
+            ]
           },
           {
             "fecha": "6/10/2026 09:00 a. m.",
@@ -48399,7 +48436,14 @@
             "totalUnidades": 7,
             "stockDescontado": false,
             "estado": "firme",
-            "original": []
+            "original": [],
+            "pagos": [
+              {
+                "fecha": "2026-10-11",
+                "monto": 33728,
+                "nota": "Pago combinado (reparto automático)"
+              }
+            ]
           },
           {
             "fecha": "5/10/2026 09:08 a. m.",
@@ -48479,7 +48523,14 @@
             "totalUnidades": 24,
             "stockDescontado": false,
             "estado": "firme",
-            "original": []
+            "original": [],
+            "pagos": [
+              {
+                "fecha": "2026-10-11",
+                "monto": 101630,
+                "nota": "Pago combinado (reparto automático)"
+              }
+            ]
           },
           {
             "fecha": "3/10/2026 08:53 a. m.",
@@ -48554,7 +48605,14 @@
               }
             ],
             "editado": true,
-            "fechaEdicion": "3/10/2026 08:54 a. m."
+            "fechaEdicion": "3/10/2026 08:54 a. m.",
+            "pagos": [
+              {
+                "fecha": "2026-10-11",
+                "monto": 59654.5,
+                "nota": "Pago combinado (reparto automático)"
+              }
+            ]
           },
           {
             "fecha": "3/10/2026 08:19 a. m.",
@@ -48594,7 +48652,14 @@
             "estado": "firme",
             "original": [],
             "editado": true,
-            "fechaEdicion": "3/10/2026 08:50 a. m."
+            "fechaEdicion": "3/10/2026 08:50 a. m.",
+            "pagos": [
+              {
+                "fecha": "2026-10-11",
+                "monto": 10878,
+                "nota": "Pago combinado (reparto automático)"
+              }
+            ]
           },
           {
             "fecha": "1/10/2026 09:23 a. m.",
@@ -50602,13 +50667,13 @@
   "metaAhorroCombinado": null,
   "metasMultiples": [
     {
-      "id": "ingresos-1791039591886-1ocin",
+      "id": "ingresos-1791750184801-e0c1h",
       "type": "ingresos",
-      "fechaInicio": "20261003",
-      "desde": "manana",
-      "fechaObjetivo": "20261010",
-      "monto": 3070214.385150175,
-      "createdAt": 1791039591886
+      "fechaInicio": "20261010",
+      "desde": "hoy",
+      "fechaObjetivo": "20261017",
+      "monto": 2290435.5880471696,
+      "createdAt": 1791750184801
     }
   ],
   "metasHistorial": [
@@ -50625,6 +50690,21 @@
       "desvioPct": -1.3439664466670422,
       "cumplida": false,
       "rev2": true
+    },
+    {
+      "id": "ingresos-1791039591886-1ocin",
+      "type": "ingresos",
+      "fechaInicio": "20261003",
+      "desde": "manana",
+      "fechaObjetivo": "20261010",
+      "monto": 3070214.385150175,
+      "createdAt": 1791039591886,
+      "rev2": true,
+      "finalizadoEn": "20261011",
+      "real": 3018381.85,
+      "desvio": -51832.53515017498,
+      "desvioPct": -1.6882383002592722,
+      "cumplida": false
     }
   ],
   "estadisticasInstagram": null,
