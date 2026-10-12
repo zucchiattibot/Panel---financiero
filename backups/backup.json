@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 6,
-  "exportadoEl": "2026-10-11T23:25:19.931Z",
+  "exportadoEl": "2026-10-12T17:04:44.973Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -6787,6 +6787,55 @@
       "account": "alquileres",
       "id": "m_mv46xdns51wnxe",
       "modificadoEl": "2026-10-11T19:02:42.280Z"
+    },
+    {
+      "date": "2026-10-12",
+      "type": "egreso",
+      "amount": 20000,
+      "category": "Empleado mandado javi",
+      "account": "agencia",
+      "detalle": "Día domingo y mandados",
+      "id": "m_mv581xlmyovlrf",
+      "modificadoEl": "2026-10-12T12:22:00.538Z"
+    },
+    {
+      "date": "2026-10-12",
+      "type": "egreso",
+      "amount": 20000,
+      "category": "Sueldo",
+      "account": "alquileres",
+      "id": "m_mv5826537erm00",
+      "modificadoEl": "2026-10-12T12:22:11.607Z"
+    },
+    {
+      "date": "2026-10-12",
+      "type": "ingreso",
+      "amount": 86000,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "transferencia",
+      "id": "m_mv5aevzapklcpy",
+      "modificadoEl": "2026-10-12T13:28:04.198Z"
+    },
+    {
+      "date": "2026-10-12",
+      "type": "ingreso",
+      "amount": 104000,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "efectivo",
+      "id": "m_mv5c495zw5ak0t",
+      "modificadoEl": "2026-10-12T14:24:22.775Z"
+    },
+    {
+      "date": "2026-10-12",
+      "type": "ingreso",
+      "amount": 40600,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "transferencia",
+      "id": "m_mv5cw4a2plezpy",
+      "modificadoEl": "2026-10-12T14:37:27.338Z"
     }
   ],
   "categoriasCustom": [
@@ -34578,6 +34627,120 @@
         "agregadoEl": "2026-10-10T11:25:16.050Z"
       },
       "textoExtraido": "GCLI051026   GENIOS CON LIB - 05.10.2026 - 1488/2026   10 UN   2.555,55600x   1UN   25.555,56 $ GLIC051026   PACK GENIOS - 05.10.2026 - 1488/2026   10 EJ   1.714,93600x   1EJ   17.149,36 $  Remitos : 0002-R-13419423/ 0002-R-13419385  CLIENTE   JULIO JOSE ZUCCHIATTI  DOMICILIO   Maipu 171 6530 Carlos Casares Buenos Aires - Argentina  IVA   Responsable Inscripto  CAE   N° 86416836110922  Vencimiento   17/10/2026  CODIGO   DESCRIPCION   CANTIDAD UM   PRECIO UNITARIO   IMPORTE TOTAL  ________________________________________________________________________  DOMICILIO DE PAGO   Tacuarí 1846 - 1° Piso,   SECTOR   Cobranzas Horario de   12.00 a 17.30 hs. La factura impaga al vencimiento, devengará un recargo por mora del 3% mensual más 1% de gastos administrativos  IMPORTANTE   Cualquier observación a la presente Factura / Nota de Crédito / Nota de Débito deberá efectuarse dentro de los 15 días de la fecha de la misma, caso contrario se dará por conforme. Los cheques deberán extenderse a nombre de   Arte Grafico Editorial Argentino S.A. No a la orden.   No es válido ningún recibo extendido sobre esta factura. Unicamente reconoceremos nuestro recibo oficial.  FACTURA  N° 0132-01346840  Buenos Aires , 07/10/2026   HOJA   1 /   1  CUIT   30-50012415-2  INGRESOS BRUTOS   Exento  INICIO ACTIVIDADES   Original  CLIENTE NRO.   9167  CUIT   20-28142013-6  COND.PAGO:   60% 10FF - 40% 25FF  VENCIM:   17/10/26 -01/11/26 -  N°DOC.INTERNO   403792095  Tipo de cambio  __________________________________________________________________________  Referencia:  __________________________________________________________________________  __________________________________________________________________________  Tacuarí 1842 ( 1139 ) Ciudad Autónoma de Buenos Aires  A  Código N° 001  SubTotal   IVA   R.N.I.   Percep   Percep   Percep   TOTAL $   IVA   IVA   Perc. IIBB*   IIBB Bs.As   $  42.704,92   42.704,92\n"
+    },
+    {
+      "id": "f_1791813964994_10w6g",
+      "proveedorKey": "silmar",
+      "tipo": "nota_credito",
+      "numeroFactura": "00004-00009881",
+      "referenciaFactura": null,
+      "fecha": "2026-10-12",
+      "vencimiento": "2026-10-22",
+      "monto": 15045,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "FORD FALCON SPR (DGP)",
+          "edicion": "1",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 5200,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "QUIJOTE AUTEDEFINIDOS",
+          "edicion": "10126",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 5495,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "SEMANARIO (PERFIL)",
+          "edicion": "2268",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 4350,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        }
+      ],
+      "cargadaEl": "2026-10-12T14:06:04.994Z",
+      "comprobanteOriginal": {
+        "id": "mv5brruqpu2vji",
+        "nombre": "1000876419.jpg",
+        "tipo": "image/jpeg",
+        "agregadoEl": "2026-10-12T14:06:05.063Z"
+      }
+    },
+    {
+      "id": "f_1791813972440_k7xe2",
+      "proveedorKey": "silmar",
+      "tipo": "factura",
+      "numeroFactura": "00004-00017286",
+      "referenciaFactura": null,
+      "fecha": "2026-10-12",
+      "vencimiento": "2026-10-22",
+      "monto": 40629.7,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "AUTODEFINIDOS 220 (PER",
+          "edicion": "89",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 5748.7,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "CRUCIGRAMA CLASICOS DE",
+          "edicion": "166",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 5350,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "PELADOR/CUCHILLOS ORO",
+          "edicion": "10",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 15820,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "JOKER SUDOKU POCKET (P",
+          "edicion": "114",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 3836,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "NOTICIAS (11)",
+          "edicion": "2598",
+          "codigoPublicacion": null,
+          "cantidad": 1,
+          "monto": 9875,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        }
+      ],
+      "cargadaEl": "2026-10-12T14:06:12.440Z",
+      "comprobanteOriginal": {
+        "id": "mv5brxlkhwqi6z",
+        "nombre": "1000876420.jpg",
+        "tipo": "image/jpeg",
+        "agregadoEl": "2026-10-12T14:06:12.471Z"
+      }
     }
   ],
   "preciosProveedores": {
@@ -51330,7 +51493,21 @@
       "f_1791631456192_y58w7::4": "descartada",
       "f_1791631459300_284dx::12": "descartada",
       "f_1791631459300_284dx::13": "descartada",
-      "f_1791631463568_k7ngj::0": "descartada"
+      "f_1791631463568_k7ngj::0": "descartada",
+      "f_1789565229420_lnwdw::0": "descartada",
+      "f_1790873193581_8gnz8::0": "descartada",
+      "f_1790873243742_33p0e::7": "descartada",
+      "f_1790873190020_kb6e0::3": "descartada",
+      "f_1790873243742_33p0e::8": "descartada",
+      "f_1790873243742_33p0e::17": "descartada",
+      "f_1791631459300_284dx::0": "descartada",
+      "f_1791631459300_284dx::1": "descartada",
+      "f_1791631459300_284dx::2": "descartada",
+      "f_1791631459300_284dx::3": "descartada",
+      "f_1791631459300_284dx::4": "descartada",
+      "f_1791631459300_284dx::5": "descartada",
+      "f_1791631459300_284dx::6": "descartada",
+      "f_1791631516002_cb1f3::1": "descartada"
     },
     "proveedores-nc-vinculos-v1": {
       "links": {
@@ -52416,6 +52593,9 @@
       "f_1786361782441_71_i0m6x|f_1786361782441_72_844v9",
       "f_1786291422569_2ll5f|f_1786363537245_12_slbka"
     ],
+    "prov-cambiocosto-ign-v1": [
+      "f_1791813972440_k7xe2|3|3836"
+    ],
     "agencia-config-v1": {
       "decimales": 0,
       "formatoMiles": "es-AR",
@@ -52467,5 +52647,6 @@
         "cuerpo": "652"
       }
     }
-  }
+  },
+  "credenciales": null
 }
