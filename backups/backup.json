@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 6,
-  "exportadoEl": "2026-10-17T11:29:22.650Z",
+  "exportadoEl": "2026-10-17T12:44:40.790Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -7315,6 +7315,27 @@
       "detalle": "Jueves",
       "id": "m_mvbs7he3u3p7lx",
       "modificadoEl": "2026-10-17T02:32:48.843Z"
+    },
+    {
+      "date": "2026-10-17",
+      "type": "ingreso",
+      "amount": 18500,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "transferencia",
+      "detalle": "Pablo benedicto",
+      "id": "m_mvcciz88ctr375",
+      "modificadoEl": "2026-10-17T12:01:37.496Z"
+    },
+    {
+      "date": "2026-10-17",
+      "type": "ingreso",
+      "amount": 87400,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "transferencia",
+      "id": "m_mvcd6xlqvj5pl6",
+      "modificadoEl": "2026-10-17T12:20:15.134Z"
     }
   ],
   "categoriasCustom": [
@@ -37605,7 +37626,7 @@
           }
         ],
         "pctCalculoPeriodico": 68,
-        "archivado": true
+        "archivado": false
       },
       {
         "id": "mt769vxxngutm3",
@@ -50475,6 +50496,46 @@
         "esKiosco": true,
         "pedidos": [
           {
+            "fecha": "17/10/2026 09:19 a. m.",
+            "items": [
+              {
+                "etiqueta": "",
+                "sku": "TIT-msxizh04i7r5gc-D6",
+                "producto": "CLARIN BASE 05 — Sábado (Clarín)",
+                "cantidad": 6,
+                "pdv": 4512,
+                "pdvPublico": 5280,
+                "pvp": 7200,
+                "total": 27072,
+                "esTitulo": true,
+                "recargoUnit": 800,
+                "margenKioscoUnit": 0,
+                "margenCedidoUnit": 2688,
+                "costo": 0
+              },
+              {
+                "etiqueta": "",
+                "sku": "TIT-mswjajxusycfvw-D6",
+                "producto": "Nacion — Sábado (La Nación)",
+                "cantidad": 2,
+                "pdv": 5970,
+                "pdvPublico": 5970,
+                "pvp": 8130,
+                "total": 11940,
+                "esTitulo": true,
+                "recargoUnit": 930,
+                "margenKioscoUnit": 504,
+                "margenCedidoUnit": 2160,
+                "costo": 0
+              }
+            ],
+            "totalGeneral": 39012,
+            "totalUnidades": 8,
+            "stockDescontado": false,
+            "estado": "firme",
+            "original": []
+          },
+          {
             "fecha": "16/10/2026 08:41 a. m.",
             "items": [
               {
@@ -52314,7 +52375,7 @@
               {
                 "etiqueta": "",
                 "sku": "PROV-prov_1790857536552_v3us3",
-                "producto": "OLLAS Y SARTENES (Clarín) · provisorio, sin factura",
+                "producto": "OLLAS Y SARTENES (Clarín) · provisorio confirmado",
                 "cantidad": 10,
                 "pdv": 35000,
                 "pdvPublico": 35000,
@@ -52329,7 +52390,7 @@
               {
                 "etiqueta": "BIFERA",
                 "sku": "PROV-prov_1790857536552_v3us3",
-                "producto": "OLLAS Y SARTENES (Clarín) · provisorio, sin factura",
+                "producto": "OLLAS Y SARTENES (Clarín) · provisorio confirmado",
                 "cantidad": 3,
                 "pdv": 35000,
                 "pdvPublico": 35000,
@@ -52359,7 +52420,7 @@
               {
                 "etiqueta": "",
                 "sku": "PROV-prov_1791629835239_ub7qq",
-                "producto": "46 MILLONES DE GRACIAS MESSI OLE (Clarín) · provisorio, sin factura",
+                "producto": "46 MILLONES DE GRACIAS MESSI OLE (Clarín) · provisorio confirmado",
                 "cantidad": 3,
                 "pdv": 19000,
                 "pdvPublico": 19000,
@@ -52370,15 +52431,30 @@
                 "margenKioscoUnit": null,
                 "margenCedidoUnit": 4000,
                 "costo": 0
+              },
+              {
+                "etiqueta": "",
+                "sku": "TIT-mt2zr0bcfy1t76",
+                "producto": "FIESTAS 2025 - FASC RUTAS + VINO + 2 COP (Clarín)",
+                "cantidad": 2,
+                "pdv": 20099.2,
+                "pdvPublico": 20099.2,
+                "pvp": 24499,
+                "total": 40198.4,
+                "esTitulo": true,
+                "recargoUnit": 2500,
+                "margenKioscoUnit": 2639.88,
+                "margenCedidoUnit": 4399.8,
+                "costo": 0
               }
             ],
-            "totalGeneral": 529876.12,
-            "totalUnidades": 17,
+            "totalGeneral": 570074.52,
+            "totalUnidades": 19,
             "stockDescontado": false,
             "estado": "firme",
             "original": [],
             "editado": true,
-            "fechaEdicion": "16/10/2026 08:52 a. m."
+            "fechaEdicion": "17/10/2026 08:31 a. m."
           },
           {
             "fecha": "9/10/2026 08:44 a. m.",
