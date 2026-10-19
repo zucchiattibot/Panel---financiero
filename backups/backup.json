@@ -1,7 +1,7 @@
 {
   "tipo": "panel-agencia-backup",
   "version": 6,
-  "exportadoEl": "2026-10-18T21:09:45.172Z",
+  "exportadoEl": "2026-10-19T12:00:44.482Z",
   "manualEntries": [
     {
       "date": "2026-08-03",
@@ -7485,6 +7485,44 @@
       "detalle": "Almuerzo guanaco parrilla día madre",
       "id": "m_mvebjfv84kk6j4",
       "modificadoEl": "2026-10-18T21:09:31.796Z"
+    },
+    {
+      "date": "2026-10-18",
+      "type": "egreso",
+      "amount": 20000,
+      "category": "Donato",
+      "account": "alquileres",
+      "id": "m_mvegls5tgesfvj",
+      "modificadoEl": "2026-10-18T23:31:19.121Z"
+    },
+    {
+      "date": "2026-10-18",
+      "type": "egreso",
+      "amount": 20000,
+      "category": "Chiara",
+      "account": "alquileres",
+      "id": "m_mvegly2ochkli4",
+      "modificadoEl": "2026-10-18T23:31:26.784Z"
+    },
+    {
+      "date": "2026-10-18",
+      "type": "ingreso",
+      "amount": 62000,
+      "category": "Sueldo",
+      "account": "agencia",
+      "medio": "efectivo",
+      "id": "m_mvf6vtxl97sk4d",
+      "modificadoEl": "2026-10-19T11:46:57.993Z"
+    },
+    {
+      "date": "2026-10-18",
+      "type": "egreso",
+      "amount": 12000,
+      "category": "Empleado mandado javi",
+      "account": "agencia",
+      "detalle": "Diandomingo y mandados",
+      "id": "m_mvf6wbdly0ml3k",
+      "modificadoEl": "2026-10-19T11:47:20.601Z"
     }
   ],
   "categoriasCustom": [
@@ -37227,6 +37265,241 @@
         "agregadoEl": "2026-10-16T21:40:06.046Z"
       },
       "textoExtraido": "HFAREDONDO   HORNO FACIL - TARTAS / MOLDE REDONDO   3 UN   11700,03333x   1UN   35.100,10 $  CLIENTE   JULIO JOSE ZUCCHIATTI  DOMICILIO   Maipu 171 6530 Carlos Casares Buenos Aires - Argentina  IVA   Responsable Inscripto  CAE   N° 86427851564483  Vencimiento   24/10/2026  CODIGO   DESCRIPCION   CANTIDAD UM   PRECIO UNITARIO   IMPORTE TOTAL  ________________________________________________________________________  DOMICILIO DE PAGO   Tacuarí 1846 - 1° Piso,   SECTOR   Cobranzas Horario de   12.00 a 17.30 hs.  IMPORTANTE   Cualquier observación a la presente Factura / Nota de Crédito / Nota de Débito deberá efectuarse dentro de los 15 días de la fecha de la misma, caso contrario se dará por conforme. Los cheques deberán extenderse a nombre de   Arte Grafico Editorial Argentino S.A. No a la orden.   No es válido ningún recibo extendido sobre esta factura. Unicamente reconoceremos nuestro recibo oficial.  NOTA DE CREDITO  N° 0132-01366639  Buenos Aires , 14/10/2026   HOJA   1 /   1  CUIT   30-50012415-2  INGRESOS BRUTOS   Exento  INICIO ACTIVIDADES   Original  CLIENTE NRO.   9167  CUIT\\DNI   20-28142013-6  COND.PAGO:   20 DIAS FECHA DE FACTURA  VENCIM:   03/11/26  N°DOC.INTERNO   502459084  Tipo de cambio N°REF.   0132A01345672  Referencia:   546473  __________________________________________________________________________  __________________________________________________________________________ __________________________________________________________________________  Tacuarí 1842 ( 1139 ) Ciudad Autónoma de Buenos Aires  A  Código N° 003  SubTotal   IVA   R.N.I.   Percep   Percep   Percep   TOTAL $   IVA   IVA   Perc. IIBB*   IIBB Bs.As   $  35.100,10   35.100,10\n"
+    },
+    {
+      "id": "f_1792371760865_nwbvs",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00594462",
+      "referenciaFactura": null,
+      "fecha": "2026-10-15",
+      "vencimiento": "2026-10-25",
+      "monto": 63792,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "LA NACION JUE 20261015 Carga",
+          "edicion": "000004",
+          "codigoPublicacion": null,
+          "cantidad": 12,
+          "monto": 44568,
+          "fechaItem": "2026-10-15",
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "POPULAR JUE 20261015 Carga",
+          "edicion": null,
+          "codigoPublicacion": "110604",
+          "cantidad": 12,
+          "monto": 19224,
+          "fechaItem": "2026-10-15",
+          "ventaEspecialTapa": null
+        }
+      ],
+      "cargadaEl": "2026-10-19T01:02:40.865Z",
+      "comprobanteOriginal": {
+        "id": "mvejv9wh1uha3i",
+        "nombre": "FC0450A00594462 _ C.U.I.T. _ 20281420136 _ 0450 _ 15_10_2026 _ Factura A _ A0000.pdf",
+        "tipo": "application/pdf",
+        "agregadoEl": "2026-10-19T01:02:40.909Z"
+      },
+      "textoExtraido": "A00000652   CARLOS   CASARES Cuenta A00000652   -   CARLOS CASARES  000004 LA NACION   JUE   20261015   Carga   12   2.784,00   930,00   44.568,00 110604 POPULAR JUE   20261015   Carga   12   1.102,00   500,00   19.224,00  Total   cuenta   A00000652   63.792,00 Subtotal   63.792,00 Total   Neto   63.792,00  Son Peso   argentino   SESENTA   Y TRES   MIL   SETECIENTOS   NOVENTA   Y DOS Cliente: ZUCCIATTI JULIO   JULIO MAIPU 171 6530   CARLOS   CASARES  Sociedad Anónima LA NACION  Zepita 3251 C1285ABG   Capital   Federal Número de teléfono:   6090-5000  C.A.E.   N°:   86428065733628 Fecha   de   Vto.:   25.10.2026  A  Código   N°   01  IVA   responsable   inscripto CUIT   /   N°   DNI:   20-28142013-6 N°   de   Cliente:   A00000652 Buenos   Aires,   15.10.2026 C.U.I.T:   30-50008962-4 Ingresos   brutos:   EXENTO Fecha   inicio   actividades: 11/2009  Los   pagos   deben   efectuarse   únicamente a través del Banco   Galicia por cobranza integrada,   N°Convenio: 3240 indicando   su N° CUIT   o   por   transferencia al CBU   N° 0070999020000013039004. Recargo   por   mora   mensual de   Badlar + 4% capitalizable Únicamente   serán   válidos los   reclamos ingresados mediante la   web de   Circulación   (circulación.lanacion.com.ar)  Factura de Ejemplares   Hoja: 1 de   1  Nº   00450-00594462  Documento Impreso por S.A. La Nación  Este Documento   vence   el 29.10.2026   Nro.   Interno   4300451063 Cod.   Publicación   Edición   Concepto   Cantidad   Precio   Recargo   Importe\n"
+    },
+    {
+      "id": "f_1792371766870_91nup",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00594538",
+      "referenciaFactura": null,
+      "fecha": "2026-10-15",
+      "vencimiento": "2026-11-26",
+      "monto": 89712,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "DEADPOOL Wolverine: Para Rusia con amor",
+          "edicion": "0000009",
+          "codigoPublicacion": "200430",
+          "cantidad": 8,
+          "monto": 89712,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        }
+      ],
+      "cargadaEl": "2026-10-19T01:02:46.870Z",
+      "comprobanteOriginal": {
+        "id": "mvejveja38hhrq",
+        "nombre": "FC0450A00594538 _ C.U.I.T. _ 20281420136 _ 0450 _ 15_10_2026 _ Factura A _ A0000.pdf",
+        "tipo": "application/pdf",
+        "agregadoEl": "2026-10-19T01:02:46.884Z"
+      },
+      "textoExtraido": "A00000652   CARLOS   CASARES Cuenta A00000652   -   CARLOS CASARES  200430 DEADPOOL   0000009   Carga   8   9.214,00   2.000,00   89.712,00 Wolverine: Para Rusia   con   amor  Total   cuenta   A00000652   89.712,00 Subtotal   89.712,00 Total   Neto   89.712,00  Son Peso   argentino   OCHENTA   Y NUEVE   MIL   SETECIENTOS   DOCE Cliente: ZUCCIATTI JULIO   JULIO MAIPU 171 6530   CARLOS   CASARES  Sociedad Anónima LA NACION  Zepita 3251 C1285ABG   Capital   Federal Número de teléfono:   6090-5000  C.A.E.   N°:   86428066004135 Fecha   de   Vto.:   25.10.2026  A  Código   N°   01  IVA   responsable   inscripto CUIT   /   N°   DNI:   20-28142013-6 N°   de   Cliente:   A00000652 Buenos   Aires,   15.10.2026 C.U.I.T:   30-50008962-4 Ingresos   brutos:   EXENTO Fecha   inicio   actividades: 11/2009  Los   pagos   deben   efectuarse   únicamente a través del Banco   Galicia por cobranza integrada,   N°Convenio: 3240 indicando   su N° CUIT   o   por   transferencia al CBU   N° 0070999020000013039004. Recargo   por   mora   mensual de   Badlar + 4% capitalizable Únicamente   serán   válidos los   reclamos ingresados mediante la   web de   Circulación   (circulación.lanacion.com.ar)  Factura de Ejemplares   Hoja: 1 de   1  Nº   00450-00594538  Documento Impreso por S.A. La Nación  Este Documento   vence   el 26.11.2026   Nro.   Interno   4300451141 Cod.   Publicación   Edición   Concepto   Cantidad   Precio   Recargo   Importe\n"
+    },
+    {
+      "id": "f_1792371799298_93tr9",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00594610",
+      "referenciaFactura": null,
+      "fecha": "2026-10-15",
+      "vencimiento": "2026-11-26",
+      "monto": 19000,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "JANE AUSTEN",
+          "edicion": "0000001",
+          "codigoPublicacion": "200450",
+          "cantidad": 1,
+          "monto": 19000,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        }
+      ],
+      "cargadaEl": "2026-10-19T01:03:19.298Z",
+      "comprobanteOriginal": {
+        "id": "mvejw3k2nxd5gd",
+        "nombre": "FC0450A00594610 _ C.U.I.T. _ 20281420136 _ 0450 _ 15_10_2026 _ Factura A _ A0000.pdf",
+        "tipo": "application/pdf",
+        "agregadoEl": "2026-10-19T01:03:19.314Z"
+      },
+      "textoExtraido": "A00000652   CARLOS   CASARES Cuenta A00000652   -   CARLOS CASARES  200450 JANE AUSTEN   0000001   Reposición   1   17.000,00   2.000,00   19.000,00 Orgullo y Prejuicio  Total   cuenta   A00000652   19.000,00 Subtotal   19.000,00 Total   Neto   19.000,00  Son Peso   argentino   DIECINUEVE MIL Cliente: ZUCCIATTI JULIO   JULIO MAIPU 171 6530   CARLOS   CASARES  Sociedad Anónima LA NACION  Zepita 3251 C1285ABG   Capital   Federal Número de teléfono:   6090-5000  C.A.E.   N°:   86428068937035 Fecha   de   Vto.:   25.10.2026  A  Código   N°   01  IVA   responsable   inscripto CUIT   /   N°   DNI:   20-28142013-6 N°   de   Cliente:   A00000652 Buenos   Aires,   15.10.2026 C.U.I.T:   30-50008962-4 Ingresos   brutos:   EXENTO Fecha   inicio   actividades: 11/2009  Los   pagos   deben   efectuarse   únicamente a través del Banco   Galicia por cobranza integrada,   N°Convenio: 3240 indicando   su N° CUIT   o   por   transferencia al CBU   N° 0070999020000013039004. Recargo   por   mora   mensual de   Badlar + 4% capitalizable Únicamente   serán   válidos los   reclamos ingresados mediante la   web de   Circulación   (circulación.lanacion.com.ar)  Factura de Ejemplares   Hoja: 1 de   1  Nº   00450-00594610  Documento Impreso por S.A. La Nación  Este Documento   vence   el 26.11.2026   Nro.   Interno   4300451214 Cod.   Publicación   Edición   Concepto   Cantidad   Precio   Recargo   Importe\n"
+    },
+    {
+      "id": "f_1792371801461_y39qs",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00594225",
+      "referenciaFactura": null,
+      "fecha": "2026-10-14",
+      "vencimiento": "2026-10-24",
+      "monto": 56364,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "LA NACION MIE",
+          "edicion": "20261014",
+          "codigoPublicacion": "000003",
+          "cantidad": 10,
+          "monto": 37140,
+          "fechaItem": "2026-10-14",
+          "ventaEspecialTapa": null
+        },
+        {
+          "descripcion": "POPULAR MIE",
+          "edicion": "20261014",
+          "codigoPublicacion": "110603",
+          "cantidad": 12,
+          "monto": 19224,
+          "fechaItem": "2026-10-14",
+          "ventaEspecialTapa": null
+        }
+      ],
+      "cargadaEl": "2026-10-19T01:03:21.461Z",
+      "comprobanteOriginal": {
+        "id": "mvejw5856mtovd",
+        "nombre": "FC0450A00594225 _ C.U.I.T. _ 20281420136 _ 0450 _ 14_10_2026 _ Factura A _ A0000.pdf",
+        "tipo": "application/pdf",
+        "agregadoEl": "2026-10-19T01:03:21.477Z"
+      },
+      "textoExtraido": "A00000652   CARLOS   CASARES Cuenta A00000652   -   CARLOS CASARES  000003 LA NACION   MIE   20261014   Carga   10   2.784,00   930,00   37.140,00 110603 POPULAR MIE   20261014   Carga   12   1.102,00   500,00   19.224,00  Total   cuenta   A00000652   56.364,00 Subtotal   56.364,00 Total   Neto   56.364,00  Son Peso   argentino   CINCUENTA   Y SEIS   MIL   TRESCIENTOS   SESENTA   Y CUATRO Cliente: ZUCCIATTI JULIO   JULIO MAIPU 171 6530   CARLOS   CASARES  Sociedad Anónima LA NACION  Zepita 3251 C1285ABG   Capital   Federal Número de teléfono:   6090-5000  C.A.E.   N°:   86428061620406 Fecha   de   Vto.:   24.10.2026  A  Código   N°   01  IVA   responsable   inscripto CUIT   /   N°   DNI:   20-28142013-6 N°   de   Cliente:   A00000652 Buenos   Aires,   14.10.2026 C.U.I.T:   30-50008962-4 Ingresos   brutos:   EXENTO Fecha   inicio   actividades: 11/2009  Los   pagos   deben   efectuarse   únicamente a través del Banco   Galicia por cobranza integrada,   N°Convenio: 3240 indicando   su N° CUIT   o   por   transferencia al CBU   N° 0070999020000013039004. Recargo   por   mora   mensual de   Badlar + 4% capitalizable Únicamente   serán   válidos los   reclamos ingresados mediante la   web de   Circulación   (circulación.lanacion.com.ar)  Factura de Ejemplares   Hoja: 1 de   1  Nº   00450-00594225  Documento Impreso por S.A. La Nación  Este Documento   vence   el 28.10.2026   Nro.   Interno   4300450822 Cod.   Publicación   Edición   Concepto   Cantidad   Precio   Recargo   Importe\n"
+    },
+    {
+      "id": "f_1792371832672_lkkd2",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00594362",
+      "referenciaFactura": null,
+      "fecha": "2026-10-14",
+      "vencimiento": "2026-12-09",
+      "monto": 80150,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "AGENDA JARDIN",
+          "edicion": "0000010",
+          "codigoPublicacion": "110214",
+          "cantidad": 5,
+          "monto": 80150,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        }
+      ],
+      "cargadaEl": "2026-10-19T01:03:52.672Z",
+      "comprobanteOriginal": {
+        "id": "mvejwtb4jmo0qe",
+        "nombre": "FC0450A00594362 _ C.U.I.T. _ 20281420136 _ 0450 _ 14_10_2026 _ Factura A _ A0000.pdf",
+        "tipo": "application/pdf",
+        "agregadoEl": "2026-10-19T01:03:52.685Z"
+      },
+      "textoExtraido": "A00000652   CARLOS   CASARES Cuenta A00000652   -   CARLOS CASARES  110214 AGENDA JARDIN   0000010   Carga   5   14.030,00   2.000,00   80.150,00  Total   cuenta   A00000652   80.150,00 Subtotal   80.150,00 Total   Neto   80.150,00  Son Peso   argentino   OCHENTA   MIL CIENTO   CINCUENTA Cliente: ZUCCIATTI JULIO   JULIO MAIPU 171 6530   CARLOS   CASARES  Sociedad Anónima LA NACION  Zepita 3251 C1285ABG   Capital   Federal Número de teléfono:   6090-5000  C.A.E.   N°:   86428062042733 Fecha   de   Vto.:   24.10.2026  A  Código   N°   01  IVA   responsable   inscripto CUIT   /   N°   DNI:   20-28142013-6 N°   de   Cliente:   A00000652 Buenos   Aires,   14.10.2026 C.U.I.T:   30-50008962-4 Ingresos   brutos:   EXENTO Fecha   inicio   actividades: 11/2009  Los   pagos   deben   efectuarse   únicamente a través del Banco   Galicia por cobranza integrada,   N°Convenio: 3240 indicando   su N° CUIT   o   por   transferencia al CBU   N° 0070999020000013039004. Recargo   por   mora   mensual de   Badlar + 4% capitalizable Únicamente   serán   válidos los   reclamos ingresados mediante la   web de   Circulación   (circulación.lanacion.com.ar)  Factura de Ejemplares   Hoja: 1 de   1  Nº   00450-00594362  Documento Impreso por S.A. La Nación  Este Documento   vence   el 09.12.2026   Nro.   Interno   4300450961 Cod.   Publicación   Edición   Concepto   Cantidad   Precio   Recargo   Importe\n"
+    },
+    {
+      "id": "f_1792371839671_79tbj",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00594363",
+      "referenciaFactura": null,
+      "fecha": "2026-10-14",
+      "vencimiento": "2026-11-25",
+      "monto": 257932,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "THUNDERCATS Panthro + Fascículo",
+          "edicion": "0000004",
+          "codigoPublicacion": "200448",
+          "cantidad": 10,
+          "monto": 257932,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        }
+      ],
+      "cargadaEl": "2026-10-19T01:03:59.671Z",
+      "comprobanteOriginal": {
+        "id": "mvejwypjsqdixk",
+        "nombre": "FC0450A00594363 _ C.U.I.T. _ 20281420136 _ 0450 _ 14_10_2026 _ Factura A _ A0000.pdf",
+        "tipo": "application/pdf",
+        "agregadoEl": "2026-10-19T01:03:59.681Z"
+      },
+      "textoExtraido": "A00000652   CARLOS   CASARES Cuenta A00000652   -   CARLOS CASARES  200448 THUNDERCATS   0000004   Carga   10   23.793,20   2.000,00   257.932,00 Panthro + Fascículo  Total   cuenta   A00000652   257.932,00 Subtotal   257.932,00 Total   Neto   257.932,00  Son Peso   argentino   DOSCIENTOS CINCUENTA   Y   SIETE   MIL NOVECIENTOS   TREINTA   Y   DOS Cliente: ZUCCIATTI JULIO   JULIO MAIPU 171 6530   CARLOS   CASARES  Sociedad Anónima LA NACION  Zepita 3251 C1285ABG   Capital   Federal Número de teléfono:   6090-5000  C.A.E.   N°:   86428062042762 Fecha   de   Vto.:   24.10.2026  A  Código   N°   01  IVA   responsable   inscripto CUIT   /   N°   DNI:   20-28142013-6 N°   de   Cliente:   A00000652 Buenos   Aires,   14.10.2026 C.U.I.T:   30-50008962-4 Ingresos   brutos:   EXENTO Fecha   inicio   actividades: 11/2009  Los   pagos   deben   efectuarse   únicamente a través del Banco   Galicia por cobranza integrada,   N°Convenio: 3240 indicando   su N° CUIT   o   por   transferencia al CBU   N° 0070999020000013039004. Recargo   por   mora   mensual de   Badlar + 4% capitalizable Únicamente   serán   válidos los   reclamos ingresados mediante la   web de   Circulación   (circulación.lanacion.com.ar)  Factura de Ejemplares   Hoja: 1 de   1  Nº   00450-00594363  Documento Impreso por S.A. La Nación  Este Documento   vence   el 25.11.2026   Nro.   Interno   4300450962 Cod.   Publicación   Edición   Concepto   Cantidad   Precio   Recargo   Importe\n"
+    },
+    {
+      "id": "f_1792371842911_tdzjt",
+      "proveedorKey": "lanacion",
+      "tipo": "factura",
+      "numeroFactura": "00450-00594364",
+      "referenciaFactura": null,
+      "fecha": "2026-10-14",
+      "vencimiento": "2026-10-24",
+      "monto": 12932,
+      "moneda": "ARS",
+      "estado": "pendiente",
+      "items": [
+        {
+          "descripcion": "HOLA",
+          "edicion": "0000831",
+          "codigoPublicacion": "110203",
+          "cantidad": 2,
+          "monto": 12932,
+          "fechaItem": null,
+          "ventaEspecialTapa": null
+        }
+      ],
+      "cargadaEl": "2026-10-19T01:04:02.911Z",
+      "comprobanteOriginal": {
+        "id": "mvejx17jqb5s00",
+        "nombre": "FC0450A00594364 _ C.U.I.T. _ 20281420136 _ 0450 _ 14_10_2026 _ Factura A _ A0000.pdf",
+        "tipo": "application/pdf",
+        "agregadoEl": "2026-10-19T01:04:02.930Z"
+      },
+      "textoExtraido": "A00000652   CARLOS   CASARES Cuenta A00000652   -   CARLOS CASARES  110203 HOLA   0000831   Carga   2   6.466,00   0,00   12.932,00  Total   cuenta   A00000652   12.932,00 Subtotal   12.932,00 Total   Neto   12.932,00  Son Peso   argentino   DOCE   MIL NOVECIENTOS   TREINTA   Y   DOS Cliente: ZUCCIATTI JULIO   JULIO MAIPU 171 6530   CARLOS   CASARES  Sociedad Anónima LA NACION  Zepita 3251 C1285ABG   Capital   Federal Número de teléfono:   6090-5000  C.A.E.   N°:   86428062042835 Fecha   de   Vto.:   24.10.2026  A  Código   N°   01  IVA   responsable   inscripto CUIT   /   N°   DNI:   20-28142013-6 N°   de   Cliente:   A00000652 Buenos   Aires,   14.10.2026 C.U.I.T:   30-50008962-4 Ingresos   brutos:   EXENTO Fecha   inicio   actividades: 11/2009  Los   pagos   deben   efectuarse   únicamente a través del Banco   Galicia por cobranza integrada,   N°Convenio: 3240 indicando   su N° CUIT   o   por   transferencia al CBU   N° 0070999020000013039004. Recargo   por   mora   mensual de   Badlar + 4% capitalizable Únicamente   serán   válidos los   reclamos ingresados mediante la   web de   Circulación   (circulación.lanacion.com.ar)  Factura de Ejemplares   Hoja: 1 de   1  Nº   00450-00594364  Documento Impreso por S.A. La Nación  Este Documento   vence   el 18.11.2026   Nro.   Interno   4300450963 Cod.   Publicación   Edición   Concepto   Cantidad   Precio   Recargo   Importe\n"
     }
   ],
   "preciosProveedores": {
@@ -48921,7 +49194,8 @@
           }
         ],
         "feriadoTapa": 0,
-        "feriadoRecargo": 0
+        "feriadoRecargo": 0,
+        "coleccion": "THUNDERCATS"
       },
       {
         "id": "mv0wobmhvdhyk1",
@@ -49174,6 +49448,89 @@
         "feriadoTapa": 0,
         "feriadoRecargo": 0,
         "excluirGanSem": true
+      },
+      {
+        "id": "mvejy0lqq49eii",
+        "nombre": "AGENDA JARDIN",
+        "alias": "",
+        "tipoProducto": "periodico",
+        "precioUnico": 20779.41,
+        "recargoUnico": 1900,
+        "pctCalculoPeriodico": 68,
+        "historialUnico": [
+          {
+            "desde": "2026-10-19",
+            "tapa": 20779.41,
+            "recargo": 1900
+          }
+        ],
+        "historial": [
+          {
+            "desde": "2026-10-19",
+            "tapa": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "recargo": [
+              1900,
+              1900,
+              1900,
+              1900,
+              1900,
+              1900,
+              1900
+            ]
+          }
+        ],
+        "feriadoTapa": 0,
+        "feriadoRecargo": 0
+      },
+      {
+        "id": "mvejyloof36jnr",
+        "nombre": "THUNDERCATS Panthro + Fascículo",
+        "alias": "",
+        "tipoProducto": "periodico",
+        "precioUnico": 34990,
+        "recargoUnico": 2000,
+        "pctCalculoPeriodico": 68,
+        "historialUnico": [
+          {
+            "desde": "2026-10-19",
+            "tapa": 34990,
+            "recargo": 2000
+          }
+        ],
+        "historial": [
+          {
+            "desde": "2026-10-19",
+            "tapa": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "recargo": [
+              2000,
+              2000,
+              2000,
+              2000,
+              2000,
+              2000,
+              2000
+            ]
+          }
+        ],
+        "feriadoTapa": 0,
+        "feriadoRecargo": 0,
+        "coleccion": "THUNDERCATS"
       }
     ],
     "ambito": [],
@@ -50455,7 +50812,9 @@
         "mv10hlhrsbyq8c": 68,
         "mv10irit3ydsum": 68,
         "mv10j9jxr03zb6": 68,
-        "mv10jqqpikl65e": 68
+        "mv10jqqpikl65e": 68,
+        "mvejy0lqq49eii": 68,
+        "mvejyloof36jnr": 68
       }
     },
     "silmar": {
@@ -53719,13 +54078,13 @@
   "metaAhorroCombinado": null,
   "metasMultiples": [
     {
-      "id": "ingresos-1791750184801-e0c1h",
+      "id": "ingresos-1792410468018-hn6x7",
       "type": "ingresos",
-      "fechaInicio": "20261010",
+      "fechaInicio": "20261018",
       "desde": "hoy",
-      "fechaObjetivo": "20261017",
-      "monto": 2290435.5880471696,
-      "createdAt": 1791750184801
+      "fechaObjetivo": "20261024",
+      "monto": 2053702.2986814065,
+      "createdAt": 1792410468018
     }
   ],
   "metasHistorial": [
@@ -53757,6 +54116,21 @@
       "desvio": -51832.53515017498,
       "desvioPct": -1.6882383002592722,
       "cumplida": false
+    },
+    {
+      "id": "ingresos-1791750184801-e0c1h",
+      "type": "ingresos",
+      "fechaInicio": "20261010",
+      "desde": "hoy",
+      "fechaObjetivo": "20261017",
+      "monto": 2290435.5880471696,
+      "createdAt": 1791750184801,
+      "rev2": true,
+      "finalizadoEn": "20261019",
+      "real": 2392250,
+      "desvio": 101814.41195283039,
+      "desvioPct": 4.445198654970148,
+      "cumplida": true
     }
   ],
   "estadisticasInstagram": null,
@@ -54462,7 +54836,12 @@
       "f_1792186777234_5xmak::0": "descartada",
       "f_1792186777234_5xmak::1": "descartada",
       "f_1790950449926_b8gmy::1": "descartada",
-      "f_1791552594784_goowh::1": "descartada"
+      "f_1791552594784_goowh::1": "descartada",
+      "f_1792371801461_y39qs::0": "descartada",
+      "f_1792371801461_y39qs::1": "descartada",
+      "f_1792371832672_lkkd2::0": "descartada",
+      "f_1792371839671_79tbj::0": "descartada",
+      "f_1792371760865_nwbvs::0": "descartada"
     },
     "proveedores-nc-vinculos-v1": {
       "links": {
@@ -55157,7 +55536,15 @@
       "margen::f_1792160658126_dxywx::30": true,
       "margen::f_1792160658126_dxywx::37": true,
       "margen::f_1792003891520_184tx::0": true,
-      "margen::f_1791813972440_k7xe2::2": true
+      "margen::f_1791813972440_k7xe2::2": true,
+      "precio::f_1792160658126_dxywx::9": true,
+      "precio::f_1792160658126_dxywx::11": true,
+      "precio::f_1792160658126_dxywx::23": true,
+      "precio::f_1792160658126_dxywx::24": true,
+      "precio::f_1792160658126_dxywx::37": true,
+      "precio::f_1791550082978_8c13i::3": true,
+      "precio::f_1791209519200_zcuub::8": true,
+      "precio::f_1790951449510_askl6::19": true
     },
     "proveedores-faltantes-nc-descartados-v1": {
       "f_1786994204428_5f0kn::3": true,
@@ -55521,7 +55908,9 @@
       "f_1791313677714_t5tsx::2": true,
       "f_1791313681151_ude68::0": true,
       "f_1791313681151_ude68::1": true,
-      "f_1791313719181_a9n7q::0": true
+      "f_1791313719181_a9n7q::0": true,
+      "f_1791631459300_284dx::3": true,
+      "f_1791631459300_284dx::10": true
     },
     "proveedores-nc-sin-factura-descartadas-v1": {
       "f_1790680711429_r5g2q::13": "2026-10-02",
@@ -55541,7 +55930,8 @@
       "lanacion::kawaii erizo + fasciculo",
       "lanacion::jane austen orgullo y prejuicio",
       "lanacion::deadpool deadpool: juegos mentales",
-      "lanacion::libros prh carga ludovica squirru"
+      "lanacion::libros prh carga ludovica squirru",
+      "lanacion::deadpool wolverine: para rusia con amor"
     ],
     "agencia-facdup-ignorados-v1": [
       "f_1787767979703_yqn76|f_1787768013886_qwhzb",
